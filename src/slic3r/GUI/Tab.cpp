@@ -1155,7 +1155,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         return;
     }
 
-    update();
+    update(opt_key, value);
 }
 
 // Show/hide the 'purging volumes' button
@@ -1824,7 +1824,7 @@ void TabPrint::toggle_options()
     m_config_manipulation.toggle_print_fff_options(m_config);
 }
 
-void TabPrint::update()
+void TabPrint::update(const std::string &opt_key, const boost::any &value)
 {
     if (m_preset_bundle->printers.get_selected_preset().printer_technology() == ptSLA)
         return; // ys_FIXME
@@ -1845,7 +1845,7 @@ void TabPrint::update()
         m_config_manipulation.initialize_support_material_overhangs_queried(is_user_and_saved_preset && support_material_overhangs_queried);
     }
 
-    m_config_manipulation.update_print_fff_config(m_config, true);
+    m_config_manipulation.update_print_fff_config(m_config, true, opt_key, value);
 
     update_description_lines();
     Layout();
@@ -2443,7 +2443,7 @@ void TabFilament::toggle_options()
     }
 }
 
-void TabFilament::update()
+void TabFilament::update(const std::string &opt_key, const boost::any &value)
 {
     if (m_preset_bundle->printers.get_selected_preset().printer_technology() == ptSLA)
         return; // ys_FIXME
@@ -3607,7 +3607,7 @@ void TabPrinter::toggle_options()
     }
 }
 
-void TabPrinter::update()
+void TabPrinter::update(const std::string &opt_key, const boost::any &value)
 {
     m_update_cnt++;
     m_presets->get_edited_preset().printer_technology() == ptFFF ? update_fff() : update_sla();
@@ -5412,7 +5412,7 @@ void TabSLAMaterial::toggle_options()
     m_config_manipulation.toggle_field("material_print_speed", model != "SL1");
 }
 
-void TabSLAMaterial::update()
+void TabSLAMaterial::update(const std::string &opt_key, const boost::any &value)
 {
     if (m_preset_bundle->printers.get_selected_preset().printer_technology() == ptFFF)
         return;
@@ -5585,7 +5585,7 @@ void TabSLAPrint::toggle_options()
         m_config_manipulation.toggle_print_sla_options(m_config);
 }
 
-void TabSLAPrint::update()
+void TabSLAPrint::update(const std::string &opt_key, const boost::any &value)
 {
     if (m_preset_bundle->printers.get_selected_preset().printer_technology() == ptFFF)
         return;

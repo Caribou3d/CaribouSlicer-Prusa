@@ -38,7 +38,7 @@ void ConfigManipulation::toggle_field(const std::string& opt_key, const bool tog
     cb_toggle_field(opt_key, toggle, opt_index);
 }
 
-void ConfigManipulation::update_print_fff_config(DynamicPrintConfig* config, const bool is_global_config)
+void ConfigManipulation::update_print_fff_config(DynamicPrintConfig* config, const bool is_global_config, const std::string &opt_key, const boost::any &value)
 {
     // #ys_FIXME_to_delete
     //! Temporary workaround for the correct updates of the TextCtrl (like "layer_height"):
