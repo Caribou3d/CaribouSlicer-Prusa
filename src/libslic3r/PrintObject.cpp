@@ -709,6 +709,7 @@ bool PrintObject::invalidate_state_by_config_options(
             steps.emplace_back(posSupportMaterial);
         } else if (
                opt_key == "perimeters"
+            || opt_key == "extra_perimeter_on_even_layers"
             || opt_key == "extra_perimeters"
             || opt_key == "extra_perimeters_on_overhangs"
             || opt_key == "first_layer_extrusion_width"

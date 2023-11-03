@@ -213,6 +213,17 @@ void ConfigManipulation::update_print_fff_config(DynamicPrintConfig* config, con
             }
         }
     }
+    if (opt_key == "extra_perimeter_on_even_layers" && boost::any_cast<bool>(value)){
+        DynamicPrintConfig new_conf = *config;
+        new_conf.set_key_value("reduce_shell_thickness", new ConfigOptionBool(true));
+        apply(config, &new_conf);
+    }
+
+    if (opt_key == "reduce_shell_thickness" && !boost::any_cast<bool>(value)){
+        DynamicPrintConfig new_conf = *config;
+        new_conf.set_key_value("extra_perimeter_on_even_layers", new ConfigOptionBool(false));
+        apply(config, &new_conf);
+    }
 }
 
 void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig* config)
