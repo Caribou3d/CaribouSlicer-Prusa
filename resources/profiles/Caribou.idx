@@ -1,4 +1,5 @@
-min_slic3r_version = 2.3.57
+min_slic3r_version = 2.6.0
+0.1.7 added Caribou Klipper family
 0.1.6 corrected retract_lift_below
 0.1.5 corrected max layer height, added inherits for bigger nozzles
 0.1.1 corrceted inherit for ESUN ABS
