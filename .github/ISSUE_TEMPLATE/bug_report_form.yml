@@ -41,8 +41,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: Version of PrusaSlicer
-      description: What version of PrusaSlicer are you running? You can see the full version in `Help` -> `About PrusaSlicer`.
+      label: Version of CaribouSlicer
+      description: What version of CaribouSlicer are you running? You can see the full version in `Help` -> `About CaribouSlicer`.
       placeholder: e.g. 2.4.1-alpha2-win64 / 2.3.3-linux / 2.4.1-alpha0+61-win64-gcd2459455 ...
     validations:
       required: true
