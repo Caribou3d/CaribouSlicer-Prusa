@@ -1,5 +1,5 @@
 
-![CaribouSlicer logo](/resources/icons/PrusaSlicer.png?raw=true)
+![CaribouSlicer logo](/resources/icons/CaribouSlicer.png?raw=true)
 
 # CaribouSlicer
 
@@ -14,8 +14,12 @@ Prebuilt Windows and Linux binaries are available through the [git releases page
 You may want to check the [PrusaSlicer project page](https://www.prusa3d.com/prusaslicer/).
 
 
+CaribouSlicer is based on PrusaSlicer by Prusa Research 
+(https://www.prusa3d.com/prusaslicer/)
+and SuperSlicer by supermerill (https://github.com/supermerill/SuperSlicer).
 
-PrusaSlicer is based on [Slic3r](https://github.com/Slic3r/Slic3r) by Alessandro Ranellucci and the RepRap community.
+Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.
+[Slic3r](https://github.com/Slic3r/Slic3r) by Alessandro Ranellucci and the RepRap community.
 
 See the [project homepage](https://www.prusa3d.com/slic3r-prusa-edition/) and
 the [documentation directory](doc/) for more information.
@@ -26,8 +30,7 @@ All user facing code is written in C++, and some legacy code as well as unit
 tests are written in Perl. Perl is not required for either development or use
 of CaribouSlicer.
 
-The slicing core is the `libslic3r` library, which can be built and used in a standalone way.
-The command line interface is a thin wrapper over `libslic3r`.
+The slicing core is the `libslic3r` library, which can be built and used in a standalone way. The command line interface is a thin wrapper over `libslic3r`.
 
 ### What are CaribouSlicer's main features?
 
@@ -72,7 +75,15 @@ Sure! You can do the following to find things that are available to help with:
 
 ### What's CaribouSlicer license?
 
-CaribouSlicer is licensed under the _GNU Affero General Public License, version 3_.
-The PrusaSlicer is originally based on Slic3r by Alessandro Ranellucci.
+CaribouSlicer is licensed under the\ GNU Affero General Public License, version 3. 
+CaribouSlicer is based on PrusaSlicer by PrusaResearch.
 
+SuperSlicer is licensed under the GNU Affero General Public License, version 3. SuperSlicer is based on PrusaSlicer by PrusaResearch.
 
+PrusaSlicer is licensed under the GNU Affero General Public License, version 3. PrusaSlicer is owned by Prusa Research. PrusaSlicer is originally based on Slic3r by Alessandro Ranellucci.
+
+Slic3r is licensed under the GNU Affero General Public License, version 3. Slic3r was created by Alessandro Ranellucci with the help of many other contributors.
+
+The GNU Affero General Public License, version 3 ensures that if you use any part of this software in any way (even behind a web server), your software must be released under the same license.
+
+Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kr#al, David Kocik and numerous others.
