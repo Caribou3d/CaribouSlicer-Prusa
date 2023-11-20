@@ -1,0 +1,74 @@
+#!/bin/bash
+
+#
+# This script can download and compile dependencies, compile CaribouSlicer
+# and optional build a .tgz and an appimage.
+#
+# Original script from SuperSclier by supermerill https://github.com/supermerill/SuperSlicer
+#
+# Change log:
+#
+# 20 Nov 2023, wschadow, branding and minor changes
+#
+
+# Our sysctl call may be run as normal user,
+# but /sbin is not always in normal users' PATH.
+if [[ -f /sbin/sysctl && -x /sbin/sysctl ]]; then sysctl_bin=/sbin/sysctl
+else sysctl_bin=sysctl  # If not found in sbin, hope
+fi
+
+export ROOT=`pwd`
+export NCORES=`nproc`
+
+while getopts ":ih" opt; do
+  case ${opt} in
+    i )
+        export BUILD_IMAGE="1"
+        ;;
+    h ) echo "Usage: ./BuildLinuxImage.sh [-i] [-h]"
+        echo "   -i: Generate Appimage (optional)"
+        echo "    -h: help"
+        exit 0
+        ;;
+  esac
+done
+
+echo -n "[8/8] Generating Linux app..."
+#{
+    # create directory and copy into it
+    if [ -d "package" ]
+    then
+        rm -rf package/*
+        rm -rf package/.* 2&>/dev/null
+    else
+        mkdir package
+    fi
+    mkdir package/bin
+
+    # copy Resources
+    cp -rf ../resources/ package/resources
+    cp -f src/@SLIC3R_APP_NAME@ package/bin/@SLIC3R_APP_NAME@
+    # remove unneeded po from resources
+    find package/resources/localization -name "*.po" -type f -delete
+
+    # create bin
+    echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_APP_NAME@" "$@"' > package/@SLIC3R_APP_NAME@
+    chmod ug+x package/@SLIC3R_APP_NAME@
+    pushd package
+    tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLI3R_BUILD_NR@.tgz .  &>/dev/null
+    popd
+#} &> $ROOT/Build.log # Capture all command output
+echo "done"
+
+if [[ -n "$BUILD_IMAGE" ]]
+then
+echo -n "Creating Appimage for distribution..."
+#{
+    pushd package
+    chmod +x ../src/build_appimage.sh
+    ../src/build_appimage.sh
+    popd
+    mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLI3R_BUILD_NR@-linux-x64.AppImage"
+#} &> $ROOT/Build.log # Capture all command output
+echo "done"
+fi
