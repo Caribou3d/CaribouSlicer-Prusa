@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Caribou GCode viewer
-Exec=CaribouSlicer --gcodeviewer %F
-Icon=CaribouSlicer-gcodeviewer
-Terminal=false
-Type=Application
-MimeType=text/x.gcode;
-Categories=Graphics;3DGraphics;
-Keywords=3D;Printing;Slicer;
