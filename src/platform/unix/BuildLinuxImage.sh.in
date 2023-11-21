@@ -48,6 +48,7 @@ echo -n "[8/8] Generating Linux app..."
     # copy Resources
     cp -rf ../resources/ package/resources
     cp -f src/@SLIC3R_APP_NAME@ package/bin/@SLIC3R_APP_NAME@
+    ln -s package/bin/@SLIC3R_APP_NAME@ package/bin/@SLIC3R_VIEWER@
     # remove unneeded po from resources
     find package/resources/localization -name "*.po" -type f -delete
 
