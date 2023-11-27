@@ -56,7 +56,7 @@ echo -n "[8/8] Generating Linux app..."
     echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_APP_NAME@" "$@"' > package/@SLIC3R_APP_NAME@
     chmod ug+x package/@SLIC3R_APP_NAME@
     pushd package
-    tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLI3R_BUILD_NR@.tgz .  &>/dev/null
+    tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@.tgz .  &>/dev/null
     popd
 #} &> $ROOT/Build.log # Capture all command output
 echo "done"
