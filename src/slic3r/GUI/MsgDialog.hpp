@@ -17,12 +17,20 @@
 #include <wx/statline.h>
 
 class wxBoxSizer;
-class wxCheckBox;
+class CheckBox;
 class wxStaticBitmap;
 
 namespace Slic3r {
 
 namespace GUI {
+
+struct HtmlContent
+{
+	wxString                                msg{ wxEmptyString };
+	bool                                    is_monospaced_font{ false };
+	bool                                    is_marked_msg{ false };
+	std::function<void(const std::string&)> on_link_clicked{ nullptr };
+};
 
 // A message / query dialog with a bitmap on the left and any content on the right
 // with buttons underneath.
@@ -67,6 +75,7 @@ public:
 	// If monospaced_font is true, the error message is displayed using html <code><pre></pre></code> tags,
 	// so that the code formatting will be preserved. This is useful for reporting errors from the placeholder parser.
 	ErrorDialog(wxWindow *parent, const wxString &msg, bool courier_font);
+	ErrorDialog(wxWindow *parent, const wxString &msg, const std::function<void(const std::string&)>& on_link_clicked);
 	ErrorDialog(ErrorDialog &&) = delete;
 	ErrorDialog(const ErrorDialog &) = delete;
 	ErrorDialog &operator=(ErrorDialog &&) = delete;
@@ -74,7 +83,9 @@ public:
 	virtual ~ErrorDialog() = default;
 
 private:
-	wxString msg;
+	void create(const HtmlContent& content, int icon_width);
+
+	HtmlContent m_content;
 };
 
 
@@ -132,7 +143,7 @@ public:
 // Generic rich message dialog, used intead of wxRichMessageDialog
 class RichMessageDialog : public MsgDialog
 {
-	wxCheckBox* m_checkBox{ nullptr };
+	CheckBox*   m_checkBox{ nullptr };
 	wxString	m_checkBoxText;
 	bool		m_checkBoxValue{ false };
 
@@ -319,6 +330,8 @@ public:
 	InfoDialog&operator=(InfoDialog&&) = delete;
 	InfoDialog&operator=(const InfoDialog&) = delete;
 	virtual ~InfoDialog() = default;
+
+	void set_caption(const wxString& caption) { this->SetTitle(caption); }
 
 private:
 	wxString msg;

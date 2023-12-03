@@ -104,6 +104,9 @@ void AppConfig::set_defaults()
 
         if (get("tabs_as_menu").empty())
             set("tabs_as_menu", "0");
+
+        if (get("suppress_round_corners").empty())
+            set("suppress_round_corners", "1");
 #endif // _WIN32
 
         // remove old 'use_legacy_opengl' parameter from this config, if present
@@ -175,6 +178,8 @@ void AppConfig::set_defaults()
 #ifdef _WIN32
         if (get("associate_gcode").empty())
             set("associate_gcode", "0");
+        if (get("associate_bgcode").empty())
+            set("associate_bgcode", "0");
 #endif // _WIN32
     }
 
@@ -204,6 +209,9 @@ void AppConfig::set_defaults()
 
     if (get("allow_ip_resolve").empty())
         set("allow_ip_resolve", "1");
+
+    if (get("wifi_config_dialog_declined").empty())
+        set("wifi_config_dialog_declined", "0");
 
 #ifdef _WIN32
     if (get("use_legacy_3DConnexion").empty())

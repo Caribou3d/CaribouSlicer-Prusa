@@ -101,6 +101,7 @@ enum ConfigMenuIDs {
     ConfigMenuLanguage,
     ConfigMenuFlashFirmware,
     ConfigMenuCnt,
+    ConfigMenuWifiConfigFile
 };
 
 class Tab;
@@ -213,6 +214,7 @@ public:
     void            UpdateDVCDarkUI(wxDataViewCtrl* dvc, bool highlited = false);
     // update color mode for panel including all static texts controls
     void            UpdateAllStaticTextDarkUI(wxWindow* parent);
+    void            SetWindowVariantForButton(wxButton* btn);
     void            init_fonts();
 	void            update_fonts(const MainFrame *main_frame = nullptr);
     void            set_label_clr_modified(const wxColour& clr);
@@ -247,7 +249,9 @@ public:
     const wxFont&   link_font()             { return m_link_font; }
     int             em_unit() const         { return m_em_unit; }
     bool            tabs_as_menu() const;
-    wxSize          get_min_size() const;
+    bool            suppress_round_corners() const;
+    wxSize          get_min_size(wxWindow* display_win) const;
+    int             get_max_font_pt_size();
     float           toolbar_icon_scale(const bool is_limited = false) const;
     void            set_auto_toolbar_icon_scale(float scale) const;
     void            check_printer_presets();
@@ -368,12 +372,15 @@ public:
     void            associate_3mf_files();
     void            associate_stl_files();
     void            associate_gcode_files();
+    void            associate_bgcode_files();
 #endif // __WXMSW__
 
 
     // URL download - PrusaSlicer gets system call to open prusaslicer:// URL which should contain address of download
     void            start_download(std::string url);
 
+    void            open_wifi_config_dialog(bool forced, const wxString& drive_path = {});
+    bool            get_wifi_config_dialog_shown() const { return m_wifi_config_dialog_shown; }
 private:
     bool            on_init_inner();
 	void            init_app_config();
@@ -395,8 +402,9 @@ private:
     // inititate read of version file online in separate thread
     void            app_version_check(bool from_user);
 
-    bool            m_datadir_redefined { false }; 
-
+    bool                    m_datadir_redefined { false }; 
+    bool                    m_wifi_config_dialog_shown { false };
+    bool                    m_wifi_config_dialog_was_declined { false };
 };
 
 DECLARE_APP(GUI_App)

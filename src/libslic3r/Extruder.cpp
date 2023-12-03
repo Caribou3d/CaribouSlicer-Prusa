@@ -8,7 +8,7 @@
 ///|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
 ///|/
 #include "Extruder.hpp"
-#include "GCodeWriter.hpp"
+#include "GCode/GCodeWriter.hpp"
 #include "PrintConfig.hpp"
 
 namespace Slic3r {
@@ -25,6 +25,7 @@ Extruder::Extruder(unsigned int id, GCodeConfig *config) :
 
 std::pair<double, double> Extruder::extrude(double dE)
 {
+    assert(! std::isnan(dE));
     // in case of relative E distances we always reset to 0 before any output
     if (m_config->use_relative_e_distances)
         m_E = 0.;
@@ -46,7 +47,8 @@ std::pair<double, double> Extruder::extrude(double dE)
    value supplied will overwrite the previous one if any. */
 std::pair<double, double> Extruder::retract(double retract_length, double restart_extra)
 {
-    assert(restart_extra >= 0);
+    assert(! std::isnan(retract_length));
+    assert(! std::isnan(restart_extra) && restart_extra >= 0);
     // in case of relative E distances we always reset to 0 before any output
     if (m_config->use_relative_e_distances)
         m_E = 0.;
@@ -137,11 +139,6 @@ double Extruder::retract_before_wipe() const
 double Extruder::retract_length() const
 {
     return m_config->retract_length.get_at(m_id);
-}
-
-double Extruder::retract_lift() const
-{
-    return m_config->retract_lift.get_at(m_id);
 }
 
 int Extruder::retract_speed() const

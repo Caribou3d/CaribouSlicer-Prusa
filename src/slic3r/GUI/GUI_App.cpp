@@ -95,6 +95,8 @@
 #include "DesktopIntegrationDialog.hpp"
 #include "SendSystemInfoDialog.hpp"
 #include "Downloader.hpp"
+#include "PhysicalPrinterDialog.hpp"
+#include "WifiConfigDialog.hpp"
 
 #include "BitmapCache.hpp"
 #include "Notebook.hpp"
@@ -291,12 +293,10 @@ private:
             version = _L("Version") + " " + std::string(SLIC3R_VERSION);
 
             // credits infornation
-            credits = title + " " +
-                _L("is based on Slic3r by Alessandro Ranellucci and the RepRap community.") + "\n" +
+            credits = "\n" + title + " " +
+                _L("is based on Slic3r by Alessandro Ranellucci and the RepRap community.") + "\n\n" +
                 _L("Developed by Prusa Research.") + "\n\n" +
-                title + " " + _L("is licensed under the") + " " + _L("GNU Affero General Public License, version 3") + ".\n\n" +
-                _L("Contributions by Vojtech Bubnik, Enrico Turri, Oleksandra Iushchenko, Tamas Meszaros, Lukas Matena, Vojtech Kral, David Kocik and numerous others.") + "\n\n" +
-                _L("Artwork model by Creative Tools");
+                _L("Licensed under GNU AGPLv3.") + "\n\n\n\n\n\n\n";
 
             title_font = version_font = credits_font = init_font;
         }
@@ -488,8 +488,8 @@ static const FileWildcards file_wildcards_by_type[FT_SIZE] = {
     /* FT_STEP */    { "STEP files"sv,      { ".stp"sv, ".step"sv } },    
     /* FT_AMF */     { "AMF files"sv,       { ".amf"sv, ".zip.amf"sv, ".xml"sv } },
     /* FT_3MF */     { "3MF files"sv,       { ".3mf"sv } },
-    /* FT_GCODE */   { "G-code files"sv,    { ".gcode"sv, ".gco"sv, ".g"sv, ".ngc"sv } },
-    /* FT_MODEL */   { "Known files"sv,     { ".stl"sv, ".obj"sv, ".3mf"sv, ".amf"sv, ".zip.amf"sv, ".xml"sv, ".step"sv, ".stp"sv } },
+    /* FT_GCODE */   { "G-code files"sv,    { ".gcode"sv, ".gco"sv, ".bgcode"sv, ".bgc"sv, ".g"sv, ".ngc"sv } },
+    /* FT_MODEL */   { "Known files"sv,     { ".stl"sv, ".obj"sv, ".3mf"sv, ".amf"sv, ".zip.amf"sv, ".xml"sv, ".step"sv, ".stp"sv, ".svg"sv } },
     /* FT_PROJECT */ { "Project files"sv,   { ".3mf"sv, ".amf"sv, ".zip.amf"sv } },
     /* FT_FONTS */   { "Font files"sv,      { ".ttc"sv, ".ttf"sv } },
     /* FT_GALLERY */ { "Known files"sv,     { ".stl"sv, ".obj"sv } },
@@ -791,15 +791,10 @@ void GUI_App::post_init()
             this->mainframe->load_config_file(this->init_params->load_configs.back());
         // If loading a 3MF file, the config is loaded from the last one.
         if (!this->init_params->input_files.empty()) {
-#if 1 // #ysFIXME_delete_after_test_of
             wxArrayString fns;
             for (const std::string& name : this->init_params->input_files)
                 fns.Add(from_u8(name));
             if (plater()->load_files(fns) && this->init_params->input_files.size() == 1) {
-#else
-            const std::vector<size_t> res = this->plater()->load_files(this->init_params->input_files, true, true);
-            if (!res.empty() && this->init_params->input_files.size() == 1) {
-#endif
                 // Update application titlebar when opening a project file
                 const std::string& filename = this->init_params->input_files.front();
                 if (boost::algorithm::iends_with(filename, ".amf") ||
@@ -830,13 +825,16 @@ void GUI_App::post_init()
     // This is ugly but I honestly found no better way to do it.
     // Neither wxShowEvent nor wxWindowCreateEvent work reliably.
     if (this->preset_updater) { // G-Code Viewer does not initialize preset_updater.
+
+#if 0 // This code was moved to EVT_CONFIG_UPDATER_SYNC_DONE bind - after preset_updater finishes synchronization.
         if (! this->check_updates(false))
             // Configuration is not compatible and reconfigure was refused by the user. Application is closing.
             return;
+#endif
         CallAfter([this] {
             // preset_updater->sync downloads profile updates on background so it must begin after config wizard finished.
             bool cw_showed = this->config_wizard_startup();
-            this->preset_updater->sync(preset_bundle);
+            this->preset_updater->sync(preset_bundle, this);
             if (! cw_showed) {
                 // The CallAfter is needed as well, without it, GL extensions did not show.
                 // Also, we only want to show this when the wizard does not, so the new user
@@ -938,7 +936,7 @@ void GUI_App::init_app_config()
 //	SetAppDisplayName(SLIC3R_APP_NAME);
 
 	// Set the Slic3r data directory at the Slic3r XS module.
-	// Unix: ~/ .Slic3r
+	// Unix: ~/ .Slic3rP
 	// Windows : "C:\Users\username\AppData\Roaming\Slic3r" or "C:\Documents and Settings\username\Application Data\Slic3r"
 	// Mac : "~/Library/Application Support/Slic3r"
 
@@ -1096,8 +1094,21 @@ bool GUI_App::OnInit()
     }
 }
 
+static int get_app_font_pt_size(const AppConfig* app_config)
+{
+    if (!app_config->has("font_pt_size"))
+        return -1;
+    const int font_pt_size     = atoi(app_config->get("font_pt_size").c_str());
+    const int max_font_pt_size = wxGetApp().get_max_font_pt_size();
+
+    return (font_pt_size > max_font_pt_size) ? max_font_pt_size : font_pt_size;
+}
+
 bool GUI_App::on_init_inner()
 {
+    // TODO: remove this when all asserts are gone.
+    wxDisableAsserts();
+
     // Set initialization of image handlers before any UI actions - See GH issue #7469
     wxInitAllImageHandlers();
 
@@ -1247,7 +1258,6 @@ bool GUI_App::on_init_inner()
     
     if (! older_data_dir_path.empty()) {
         preset_bundle->import_newer_configs(older_data_dir_path);
-        //app_config->save(); // It looks like redundant call of save. ysFIXME delete after testing
     }
 
     if (is_editor()) {
@@ -1291,11 +1301,17 @@ bool GUI_App::on_init_inner()
             show_error(nullptr, evt.GetString());
         }); 
 
+        Bind(EVT_CONFIG_UPDATER_SYNC_DONE, [this](const wxCommandEvent& evt) {
+            this->check_updates(false);
+        });
+
     }
     else {
 #ifdef __WXMSW__ 
         if (app_config->get_bool("associate_gcode"))
             associate_gcode_files();
+        if (app_config->get_bool("associate_bgcode"))
+            associate_bgcode_files();
 #endif // __WXMSW__
     }
     
@@ -1328,7 +1344,7 @@ bool GUI_App::on_init_inner()
     if (!delayed_error_load_presets.empty())
         show_error(nullptr, delayed_error_load_presets);
 
-    mainframe = new MainFrame(app_config->has("font_size") ? atoi(app_config->get("font_size").c_str()) : -1);
+    mainframe = new MainFrame(get_app_font_pt_size(app_config));
     // hide settings tabs after first Layout
     if (is_editor())
         mainframe->select_tab(size_t(0));
@@ -1628,7 +1644,8 @@ void GUI_App::UpdateDVCDarkUI(wxDataViewCtrl* dvc, bool highlited/* = false*/)
 #ifdef _WIN32
     UpdateDarkUI(dvc, highlited ? dark_mode() : false);
 #ifdef _MSW_DARK_MODE
-    dvc->RefreshHeaderDarkMode(&m_normal_font);
+    if (!dvc->HasFlag(wxDV_NO_HEADER))
+        dvc->RefreshHeaderDarkMode(&m_normal_font);
 #endif //_MSW_DARK_MODE
     if (dvc->HasFlag(wxDV_ROW_LINES))
         dvc->SetAlternateRowColour(m_color_highlight_default);
@@ -1648,6 +1665,30 @@ void GUI_App::UpdateAllStaticTextDarkUI(wxWindow* parent)
             child->SetForegroundColour(m_color_label_default);
     }
 #endif
+}
+
+void GUI_App::SetWindowVariantForButton(wxButton* btn)
+{
+#ifdef __APPLE__
+    // This is a limit imposed by OSX. The way the native button widget is drawn only allows it to be stretched horizontally,
+    // and the vertical size is fixed. (see https://stackoverflow.com/questions/29083891/wxpython-button-size-being-ignored-on-osx)
+    // But standard height is possible to change using SetWindowVariant method (see https://docs.wxwidgets.org/3.0/window_8h.html#a879bccd2c987fedf06030a8abcbba8ac)
+    if (m_normal_font.GetPointSize() > 15) {
+        btn->SetWindowVariant(wxWINDOW_VARIANT_LARGE);
+        btn->SetFont(m_normal_font);
+    }
+#endif
+}
+
+int GUI_App::get_max_font_pt_size()
+{
+    const unsigned disp_count = wxDisplay::GetCount();
+    for (unsigned i = 0; i < disp_count; i++) {
+        const wxRect display_rect = wxDisplay(i).GetGeometry();
+        if (display_rect.width >= 2560 && display_rect.height >= 1440)
+            return 20;
+    }
+    return 15;
 }
 
 void GUI_App::init_fonts()
@@ -1757,9 +1798,26 @@ bool GUI_App::tabs_as_menu() const
     return app_config->get_bool("tabs_as_menu"); // || dark_mode();
 }
 
-wxSize GUI_App::get_min_size() const
+bool GUI_App::suppress_round_corners() const
 {
-    return wxSize(76*m_em_unit, 49 * m_em_unit);
+    return true;// app_config->get("suppress_round_corners") == "1";
+}
+
+wxSize GUI_App::get_min_size(wxWindow* display_win) const
+{
+    wxSize min_size(76*m_em_unit, 49 * m_em_unit);
+
+    const wxDisplay display = wxDisplay(display_win);
+    wxRect display_rect = display.GetGeometry();
+    display_rect.width  *= 0.75;
+    display_rect.height *= 0.75;
+
+    if (min_size.x > display_rect.GetWidth())
+        min_size.x = display_rect.GetWidth();
+    if (min_size.y > display_rect.GetHeight())
+        min_size.y = display_rect.GetHeight();
+
+    return min_size;
 }
 
 float GUI_App::toolbar_icon_scale(const bool is_limited/* = false*/) const
@@ -1834,7 +1892,7 @@ void GUI_App::recreate_GUI(const wxString& msg_name)
     dlg.Update(10, _L("Recreating") + dots);
 
     MainFrame *old_main_frame = mainframe;
-    mainframe = new MainFrame(app_config->has("font_size") ? atoi(app_config->get("font_size").c_str()) : -1);
+    mainframe = new MainFrame(get_app_font_pt_size(app_config));
     if (is_editor())
         // hide settings tabs after first Layout
         mainframe->select_tab(size_t(0));
@@ -2001,7 +2059,7 @@ void GUI_App::import_model(wxWindow *parent, wxArrayString& input_files) const
 {
     input_files.Clear();
     wxFileDialog dialog(parent ? parent : GetTopWindow(),
-        _L("Choose one or more files (STL/3MF/STEP/OBJ/AMF/PRUSA):"),
+        _L("Choose one or more files (STL/3MF/STEP/OBJ/AMF/SVG):"),
         from_u8(app_config->get_last_dir()), "",
         file_wildcards(FT_MODEL), wxFD_OPEN | wxFD_MULTIPLE | wxFD_FILE_MUST_EXIST);
 
@@ -2024,7 +2082,7 @@ void GUI_App::load_gcode(wxWindow* parent, wxString& input_file) const
 {
     input_file.Clear();
     wxFileDialog dialog(parent ? parent : GetTopWindow(),
-        _L("Choose one file (GCODE/.GCO/.G/.ngc/NGC):"),
+        _L("Choose one file (GCODE/GCO/G/BGCODE/BGC/NGC):"),
         app_config->get_last_dir(), "",
         file_wildcards(FT_GCODE), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
@@ -2125,6 +2183,9 @@ int GUI_App::GetSingleChoiceIndex(const wxString& message,
 #ifdef _WIN32
     wxSingleChoiceDialog dialog(nullptr, message, caption, choices);
     wxGetApp().UpdateDlgDarkUI(&dialog);
+    auto children = dialog.GetChildren();
+    for (auto child : children)
+        child->SetFont(normal_font());
 
     dialog.SetSelection(initialSelection);
     return dialog.ShowModal() == wxID_OK ? dialog.GetSelection() : -1;
@@ -2449,6 +2510,7 @@ void GUI_App::add_config_menu(wxMenuBar *menu)
         // TODO: for when we're able to flash dictionaries
         // local_menu->Append(config_id_base + FirmwareMenuDict,  _L("Flash Language File"),    _L("Upload a language dictionary file into a Prusa printer"));
     }
+    local_menu->Append(config_id_base + ConfigMenuWifiConfigFile, _L("Wi-Fi Configuration File"), _L("Generate a file to be loaded by a Prusa printer to configure its Wi-Fi connection."));
 
     local_menu->Bind(wxEVT_MENU, [this, config_id_base](wxEvent &event) {
         switch (event.GetId() - config_id_base) {
@@ -2547,6 +2609,19 @@ void GUI_App::add_config_menu(wxMenuBar *menu)
         case ConfigMenuFlashFirmware:
             FirmwareDialog::run(mainframe);
             break;
+        case ConfigMenuWifiConfigFile:
+        {
+            open_wifi_config_dialog(true);
+            /*
+            std::string file_path;
+            WifiConfigDialog dialog(mainframe, file_path, removable_drive_manager());
+            if (dialog.ShowModal() == wxID_OK)
+            {
+                plater_->get_notification_manager()->push_exporting_finished_notification(file_path, boost::filesystem::path(file_path).parent_path().string(), true);
+            }
+            */
+        }
+        break;
         default:
             break;
         }
@@ -2588,6 +2663,8 @@ void GUI_App::open_preferences(const std::string& highlight_option /*= std::stri
     else {
         if (app_config->get_bool("associate_gcode"))
             associate_gcode_files();
+        if (app_config->get_bool("associate_bgcode"))
+            associate_bgcode_files();
     }
 #endif // _WIN32
 
@@ -2943,7 +3020,8 @@ ObjectSettings* GUI_App::obj_settings()
 
 ObjectList* GUI_App::obj_list()
 {
-    return sidebar().obj_list();
+    // If this method is called before plater_ has been initialized, return nullptr (to avoid a crash)
+    return plater_ ? sidebar().obj_list() : nullptr;
 }
 
 ObjectLayers* GUI_App::obj_layers()
@@ -3014,9 +3092,9 @@ wxString GUI_App::current_language_code_safe() const
 		{ "ja", 	"ja_JP", },
 		{ "ko", 	"ko_KR", },
 		{ "pl", 	"pl_PL", },
-		{ "uk", 	"uk_UA", },
-		{ "zh", 	"zh_CN", },
-		{ "ru", 	"ru_RU", },
+		//{ "uk", 	"uk_UA", },
+		//{ "zh", 	"zh_CN", },
+		//{ "ru", 	"ru_RU", },
 	};
 	wxString language_code = this->current_language_code().BeforeFirst('_');
 	auto it = mapping.find(language_code);
@@ -3375,6 +3453,11 @@ void GUI_App::associate_gcode_files()
 {
     associate_file_type(L".gcode", L"PrusaSlicer.GCodeViewer.1", L"PrusaSlicerGCodeViewer", true);
 }
+
+void GUI_App::associate_bgcode_files()
+{
+    associate_file_type(L".bgcode", L"PrusaSlicer.GCodeViewer.1", L"PrusaSlicerGCodeViewer", true);
+}
 #endif // __WXMSW__
 
 void GUI_App::on_version_read(wxCommandEvent& evt)
@@ -3489,6 +3572,39 @@ void GUI_App::start_download(std::string url)
         } 
     m_downloader->init(dest_folder);
     m_downloader->start_download(url);
+}
+
+void GUI_App::open_wifi_config_dialog(bool forced, const wxString& drive_path/* = {}*/)
+{
+    if(m_wifi_config_dialog_shown)
+        return;
+
+    bool dialog_was_declined = app_config->get_bool("wifi_config_dialog_declined");
+
+    if (!forced && dialog_was_declined) {
+
+        // dialog was already declined this run, show only notification
+        notification_manager()->push_notification(NotificationType::WifiConfigFileDetected
+            , NotificationManager::NotificationLevel::ImportantNotificationLevel
+            // TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present 
+            , _u8L("Printer configuration file detected on removable media.")
+            // TRN Text of hypertext of notification when Slicer starts and usb stick with printer settings ini file is present 
+            , _u8L("Write Wi-Fi credentials."), [drive_path](wxEvtHandler* evt_hndlr) {
+                wxGetApp().open_wifi_config_dialog(true, drive_path);
+                return true; });
+        return;
+    }
+    
+    m_wifi_config_dialog_shown = true;
+    std::string file_path;
+    WifiConfigDialog dialog(mainframe, file_path, removable_drive_manager(), drive_path);
+    if (dialog.ShowModal() == wxID_OK) {
+        plater_->get_notification_manager()->push_exporting_finished_notification(file_path, boost::filesystem::path(file_path).parent_path().string(), true);
+        app_config->set("wifi_config_dialog_declined", "0");
+    } else {
+        app_config->set("wifi_config_dialog_declined", "1");
+    }
+    m_wifi_config_dialog_shown = false;
 }
 
 } // GUI

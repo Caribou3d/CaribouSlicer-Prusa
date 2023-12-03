@@ -2,8 +2,8 @@
 ///|/
 ///|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
 ///|/
-#ifndef WipeTower_
-#define WipeTower_
+#ifndef slic3r_GCode_WipeTower_hpp_
+#define slic3r_GCode_WipeTower_hpp_
 
 #include <cmath>
 #include <string>
@@ -279,6 +279,7 @@ private:
 	size_t m_max_color_changes 	= 0; 	// Maximum number of color changes per layer.
     int    m_old_temperature    = -1;   // To keep track of what was the last temp that we set (so we don't issue the command when not neccessary)
     float  m_travel_speed       = 0.f;
+    float  m_travel_speed_z     = 0.f;
 	float  m_infill_speed       = 0.f;
 	float  m_perimeter_speed    = 0.f;
     float  m_first_layer_speed  = 0.f;
@@ -415,4 +416,4 @@ private:
 
 } // namespace Slic3r
 
-#endif // WipeTowerPrusaMM_hpp_ 
+#endif // slic3r_GCode_WipeTower_hpp_ 

@@ -81,7 +81,7 @@ static inline void validate_range(const MultiPoint &mp)
     validate_range(mp.points);
 }
 
-static inline void validate_range(const Polygons &polygons) 
+[[maybe_unused]] static inline void validate_range(const Polygons &polygons) 
 {
     for (const Polygon &p : polygons)
         validate_range(p);
@@ -105,6 +105,7 @@ static inline void validate_range(const LineInformations &lines)
         validate_range(l);
 }
 
+/*
 static inline void check_self_intersections(const Polygons &polygons, const std::string_view message)
 {
 #ifdef TREE_SUPPORT_SHOW_ERRORS_WIN32
@@ -112,6 +113,7 @@ static inline void check_self_intersections(const Polygons &polygons, const std:
         ::MessageBoxA(nullptr, (std::string("TreeSupport infill self intersections: ") + std::string(message)).c_str(), "Bug detected!", MB_OK | MB_SYSTEMMODAL | MB_SETFOREGROUND | MB_ICONWARNING);
 #endif // TREE_SUPPORT_SHOW_ERRORS_WIN32
 }
+*/
 static inline void check_self_intersections(const ExPolygon &expoly, const std::string_view message)
 {
 #ifdef TREE_SUPPORT_SHOW_ERRORS_WIN32

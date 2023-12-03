@@ -10,10 +10,10 @@
 #include <wx/gdicmn.h>
 
 #include "libslic3r/Preset.hpp"
+#include "Widgets/TextInput.hpp"
 #include "GUI_Utils.hpp"
 
 class wxString;
-class wxTextCtrl;
 class wxStaticText;
 class ScalableButton;
 class wxBoxSizer;
@@ -66,8 +66,7 @@ class PhysicalPrinterDialog : public DPIDialog
     PhysicalPrinter     m_printer;
     wxString            m_default_name;
     DynamicPrintConfig* m_config            { nullptr };
-
-    wxTextCtrl*         m_printer_name      { nullptr };
+    ::TextInput*        m_printer_name      { nullptr };
     std::vector<PresetForPrinter*> m_presets;
 
     ConfigOptionsGroup* m_optgroup          { nullptr };
@@ -79,6 +78,10 @@ class PhysicalPrinterDialog : public DPIDialog
     ScalableButton*     m_printhost_port_browse_btn     {nullptr};
 
     wxBoxSizer*         m_presets_sizer                 {nullptr};
+
+    wxString            m_stored_host;
+    PrintHostType       m_last_host_type;
+    bool                m_opened_as_connect {false};
 
     void build_printhost_settings(ConfigOptionsGroup* optgroup);
     void OnOK(wxEvent& event);
@@ -104,7 +107,6 @@ protected:
     void on_sys_color_changed() override;
 
 };
-
 
 } // namespace GUI
 } // namespace Slic3r

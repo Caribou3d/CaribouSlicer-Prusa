@@ -43,8 +43,6 @@ namespace Slic3r {
 class BuildVolume;
 class Model;
 class ModelObject;
-enum class ModelObjectCutAttribute : int;
-using ModelObjectCutAttributes = enum_bitmask<ModelObjectCutAttribute>;
 class ModelInstance;
 class Print;
 class SLAPrint;
@@ -104,6 +102,8 @@ public:
     void search();
     void jump_to_option(size_t selected);
     void jump_to_option(const std::string& opt_key, Preset::Type type, const std::wstring& category);
+    // jump to option which is represented by composite key : "opt_key;tab_name"
+    void jump_to_option(const std::string& composite_key);
 
     ObjectManipulation*     obj_manipul();
     ObjectList*             obj_list();
@@ -188,6 +188,8 @@ public:
     void load_gcode();
     void load_gcode(const wxString& filename);
     void reload_gcode_from_disk();
+    void convert_gcode_to_ascii();
+    void convert_gcode_to_binary();
     void refresh_print();
 
     std::vector<size_t> load_files(const std::vector<boost::filesystem::path>& input_files, bool load_model = true, bool load_config = true, bool imperial_units = false);
@@ -195,7 +197,7 @@ public:
     std::vector<size_t> load_files(const std::vector<std::string>& input_files, bool load_model = true, bool load_config = true, bool imperial_units = false);
     // to be called on drag and drop
     bool load_files(const wxArrayString& filenames, bool delete_after_load = false);
-    void check_selected_presets_visibility(PrinterTechnology loaded_printer_technology);
+    void notify_about_installed_presets();
 
     bool preview_zip_archive(const boost::filesystem::path& input_file);
 
@@ -298,6 +300,7 @@ public:
     void clear_before_change_mesh(int obj_idx, const std::string &notification_msg);
     void changed_mesh(int obj_idx);
 
+    void changed_object(ModelObject &object);
     void changed_object(int obj_idx);
     void changed_objects(const std::vector<size_t>& object_idxs);
     void schedule_background_process(bool schedule = true);
@@ -375,7 +378,7 @@ public:
     bool can_increase_instances() const;
     bool can_decrease_instances(int obj_idx = -1) const;
     bool can_set_instance_to_object() const;
-    bool can_fix_through_netfabb() const;
+    bool can_fix_through_winsdk() const;
     bool can_simplify() const;
     bool can_split_to_objects() const;
     bool can_split_to_volumes() const;
@@ -493,6 +496,7 @@ public:
     wxMenu* object_menu();
     wxMenu* part_menu();
     wxMenu* text_part_menu();
+    wxMenu* svg_part_menu();
     wxMenu* sla_object_menu();
     wxMenu* default_menu();
     wxMenu* instance_menu();
