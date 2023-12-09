@@ -40,3 +40,6 @@ EOF
 mv @SLIC3R_APP_KEY@-x86_64.AppImage ${APP_IMAGE}
 chmod +x ${APP_IMAGE}
 rm Apprun
+rm CaribouSlicer.desktop
+rm .DirIcon
+rm -fr usr
