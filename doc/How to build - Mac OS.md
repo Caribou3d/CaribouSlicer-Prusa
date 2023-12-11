@@ -1,7 +1,7 @@
 
-# Building PrusaSlicer on Mac OS
+# Building CaribouSlicer on Mac OS
 
-To build PrusaSlicer on Mac OS, you will need the following software:
+To build CaribouSlicer on Mac OS, you will need the following software:
 
 - XCode
 - CMake
@@ -13,8 +13,8 @@ XCode is available through Apple's App Store, the other three tools are availabl
 
 ### Dependencies
 
-PrusaSlicer comes with a set of CMake scripts to build its dependencies, it lives in the `deps` directory.
-Open a terminal window and navigate to PrusaSlicer sources directory and then to `deps`.
+CaribouSlicer comes with a set of CMake scripts to build its dependencies, it lives in the `deps` directory.
+Open a terminal window and navigate to CaribouSlicer sources directory and then to `deps`.
 Use the following commands to build the dependencies:
 
     mkdir build
@@ -32,10 +32,10 @@ FIXME The Cereal serialization library needs a tiny patch on some old OSX clang 
 https://github.com/USCiLab/cereal/issues/339#issuecomment-246166717
 
 
-### Building PrusaSlicer
+### Building CaribouSlicer
 
-If dependencies are built without errors, you can proceed to build PrusaSlicer itself.
-Go back to top level PrusaSlicer sources directory and use these commands:
+If dependencies are built without errors, you can proceed to build CaribouSlicer itself.
+Go back to top level CaribouSlicer sources directory and use these commands:
 
     mkdir build
     cd build
@@ -44,7 +44,7 @@ Go back to top level PrusaSlicer sources directory and use these commands:
 The `CMAKE_PREFIX_PATH` is the path to the dependencies bundle but with `/usr/local` appended - if you set a custom path
 using the `DESTDIR` option, you will need to change this accordingly. **Warning:** the `CMAKE_PREFIX_PATH` needs to be an absolute path.
 
-The CMake command above prepares PrusaSlicer for building from the command line.
+The CMake command above prepares CaribouSlicer for building from the command line.
 To start the build, use
 
     make -jN
@@ -60,7 +60,7 @@ This should open up XCode where you can perform build using the GUI or perform o
 
 ### Note on Mac OS X SDKs
 
-By default PrusaSlicer builds against whichever SDK is the default on the current system.
+By default CaribouSlicer builds against whichever SDK is the default on the current system.
 
 This can be customized. The `CMAKE_OSX_SYSROOT` option sets the path to the SDK directory location
 and the `CMAKE_OSX_DEPLOYMENT_TARGET` option sets the target OS X system version (eg. `10.14` or similar).
@@ -69,9 +69,9 @@ In case you set both, the two settings need to agree with each other. (Building 
 is currently unsupported because some of the dependencies don't support this, most notably wxWidgets.)
 
 Please note that the `CMAKE_OSX_DEPLOYMENT_TARGET` and `CMAKE_OSX_SYSROOT` options need to be set the same
-on both the dependencies bundle as well as PrusaSlicer itself.
+on both the dependencies bundle as well as CaribouSlicer itself.
 
-Official macOS PrusaSlicer builds are currently (as of PrusaSlicer 2.5) built against SDK 10.12 to ensure compatibility with older Macs.
+Official macOS CaribouSlicer builds are currently (as of CaribouSlicer 2.5) built against SDK 10.12 to ensure compatibility with older Macs.
 
 _Warning:_ XCode may be set such that it rejects SDKs bellow some version (silently, more or less).
 This is set in the property list file
@@ -94,8 +94,8 @@ Works on a fresh installation of MacOS Catalina 10.15.6
 brew update
 brew install cmake git gettext
 brew upgrade
-git clone https://github.com/prusa3d/PrusaSlicer/
-cd PrusaSlicer/deps
+git clone https://github.com/caribou3d/CaribouSlicer/
+cd CaribouSlicer/deps
 mkdir build
 cd build
 cmake ..
@@ -105,5 +105,5 @@ mkdir build
 cd build
 cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local"
 make
-src/prusa-slicer
+src/caribou-slicer
 ```
