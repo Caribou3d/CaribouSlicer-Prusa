@@ -265,9 +265,6 @@ find $SCRIPT_PATH/src/platform/msw -type f -exec sed $SEDOPTION -i 's/caribou-gc
 sed $SEDOPTION -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' $SCRIPT_PATH/build_win.bat
 sed $SEDOPTION -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed $SEDOPTION -i 's/\.\/CaribouSlicer/\.\/prusa-slicer/g' "/home/wschadow/gittmp/CaribouSlicer/doc/How to build - Linux et al.md"
-sed $SEDOPTION -i 's/src\/CaribouSlicer/src\/prusa-slicer/g' "/home/wschadow/gittmp/CaribouSlicer/doc/How to build - Mac OS.md"
-
 mv $SCRIPT_PATH/src/platform/unix/CaribouSlicer.desktop $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
 mv $SCRIPT_PATH/src/platform/unix/CaribouGcodeviewer.desktop $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 mv $SCRIPT_PATH/src/platform/msw/CaribouSlicer.manifest.in $SCRIPT_PATH/src/platform/msw/PrusaSlicer.manifest.in
@@ -402,6 +399,32 @@ mv $SCRIPT_PATH/src/CaribouSlicer.hpp $SCRIPT_PATH/src/PrusaSlicer.hpp
 
 mv $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp $SCRIPT_PATH/src/PrusaSlicer_app_msvc.cpp
 
+sed $SEDOPTION -i 's/CaribouSlicer /PrusaSlicer /g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+sed $SEDOPTION -i 's/ CaribouSlicer/ PrusaSlicer/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+sed $SEDOPTION -i 's/caribou-slicer/prusa-slicer/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+
+sed $SEDOPTION -i 's|https://github.com/caribou3d/CaribouSlicer/releases|https://github.com/prusa3d/PrusaSlicer/releases|g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+sed $SEDOPTION -i 's|https://www.github.com/caribou3d/CaribouSlicer|https://www.github.com/prusa3d/PrusaSlicer|g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+
+sed $SEDOPTION -i 's/multi-core/multi core/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+sed $SEDOPTION -i 's/fail, and/fail and/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+
+sed $SEDOPTION -i 's|possibly run into\.|possibly run into\.\n\nInstead of compiling PrusaSlicer from source code, one may also consider to install PrusaSlicer [pre-compiled by contributors](https://github.com/prusa3d/PrusaSlicer/wiki/PrusaSlicer-on-Linux---binary-distributions)\.|' $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md
+
+sed $SEDOPTION -i 's/CaribouSlicer /PrusaSlicer /g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Mac\ OS.md
+sed $SEDOPTION -i 's/ CaribouSlicer/ PrusaSlicer/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Mac\ OS.md
+sed $SEDOPTION -i 's/caribou-slicer/prusa-slicer/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Mac\ OS.md
+sed $SEDOPTION -i 's|https://github.com/caribou3d/CaribouSlicer|https://github.com/prusa3d/PrusaSlicer|g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Mac\ OS.md
+
+sed $SEDOPTION -i 's/CaribouSlicer /PrusaSlicer /g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
+sed $SEDOPTION -i 's/ CaribouSlicer/ PrusaSlicer/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
+sed $SEDOPTION -i 's/CaribouSlicer_/PrusaSlicer_/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
+sed $SEDOPTION -i 's/src\\CaribouSlicer/src\\PrusaSlicer/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
+sed $SEDOPTION -i 's/caribou-slicer/prusa-slicer/g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
+sed $SEDOPTION -i 's|https://github.com/caribou3d/CaribouSlicer|https://github.com/prusa3d/PrusaSlicer|g' $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
+
 if [ $TARGET_OS == "windows" ]; then
    unix2dos -q $SCRIPT_PATH/src/CMakeLists.txt $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegrationDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp $SCRIPT_PATH/src/slic3r/GUI/ImGuiWrapper.cpp $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
+   unix2dos -q $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md $SCRIPT_PATH/doc/How\ to\ build\ -\ Mac\ OS.md $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
 fi
+
