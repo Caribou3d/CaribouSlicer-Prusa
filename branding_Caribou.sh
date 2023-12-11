@@ -233,6 +233,18 @@ sed $SEDOPTION -i -e 's|github.com/prusa3d/PrusaSlicer/releases|github.com/carib
 sed $SEDOPTION -i -e 's|github.com/prusa3d/PrusaSlicer/releases|github.com/caribou3d/CaribouSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/NotificationManager.hpp
 sed $SEDOPTION -i -e 's|github.com/prusa3d/PrusaSlicer/releases|github.com/caribou3d/CaribouSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
+#=====================================================================================
+
+sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/MsgDialog.cpp
+sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/InstanceCheck.cpp
+sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.hpp
+
+sed $SEDOPTION -i -e 's/g PrusaSlicer /g CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
+sed $SEDOPTION -i -e 's/o PrusaSlicer /o CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
+sed $SEDOPTION -i -e 's/n PrusaSlicer /n CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
+sed $SEDOPTION -i -e 's/t PrusaSlicer /t CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
+sed $SEDOPTION -i -e 's/f PrusaSlicer /f CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
+
 sed $SEDOPTION -n '1h; 1!H; ${ g; s/credits =.*\\n\\n";/creditsreplacement/p }' src/slic3r/GUI/GUI_App.cpp > src/slic3r/GUI/GUI_App.cpp.tmp ; mv src/slic3r/GUI/GUI_App.cpp.tmp src/slic3r/GUI/GUI_App.cpp
 sed $SEDOPTION -i "
 {/creditsreplacement/ c\
@@ -242,19 +254,6 @@ sed $SEDOPTION -i "
                 title + \" \" + _L(\"is licensed $SEDOPTION under the\") + \" \" + _L(\"GNU Affero General Public License, version 3\") + \".\\\n\\\n\" + \\
                 _L(\"Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kr#al, David Kocik and numerous others.\") + \"\\\n\\\n\";
 };" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
-
-#=====================================================================================
-
-sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/MsgDialog.cpp
-sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/InstanceCheck.cpp
-sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.hpp
-sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
-
-sed $SEDOPTION -i -e 's/g PrusaSlicer /g CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
-sed $SEDOPTION -i -e 's/o PrusaSlicer /o CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
-sed $SEDOPTION -i -e 's/n PrusaSlicer /n CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
-sed $SEDOPTION -i -e 's/t PrusaSlicer /t CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
-sed $SEDOPTION -i -e 's/f PrusaSlicer /f CaribouSlicer /g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 
 sed $SEDOPTION -i -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp

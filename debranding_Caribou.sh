@@ -245,7 +245,7 @@ sed $SEDOPTION -i "
   \   \         credits = \"\\\n\" + title + \" \" +\\
                 _L(\"is based on Slic3r by Alessandro Ranellucci and the RepRap community.\") + \"\\\n\\\n\" +\\
                 _L(\"Developed by Prusa Research.\") + \"\\\n\\\n\" +\\
-                _L(\"Licensed $SEDOPTION under GNU AGPLv3.\") + \"\\\n\\\n\\\n\\\n\\\n\\\n\\\n\";
+                _L(\"Licensed under GNU AGPLv3.\") + \"\\\n\\\n\\\n\\\n\\\n\\\n\\\n\";
 };" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 find $SCRIPT_PATH/src/slic3r/GUI -maxdepth 1 -type f ! -name "*branding*" -exec sed $SEDOPTION -i 's/caribou-slicer-console/prusa-slicer-console/g' {} \;
