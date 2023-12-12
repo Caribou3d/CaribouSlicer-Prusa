@@ -50,7 +50,7 @@ Note that `CMAKE_PREFIX_PATH` must be absolute path. A relative path will not wo
 
 ### Compile CaribouSlicer. 
 
-Double-click c:\src\CaribouSlicer\build\PrusaSlicer.sln to open in Visual Studio and select `CaribouSlicer_app_gui` as your startup project (right-click->Set as Startup Project).
+Double-click c:\src\CaribouSlicer\build\CaribouSlicer.sln to open in Visual Studio and select `CaribouSlicer_app_gui` as your startup project (right-click->Set as Startup Project).
 
 Run Build->Rebuild Solution once to populate all required dependency modules. This is NOT done automatically when you Build/Run. If you run both Debug and Release variants, you will need to do this once for each.
 
@@ -69,16 +69,16 @@ Just run the following command to get everything going with the default configs:
 
 ```
 c:\src>cd c:\src\CaribouSlicer
-c:\src\CaribouSlicer>build_win.bat -d=..\PrusaSlicer-deps -r=console
+c:\src\CaribouSlicer>build_win.bat -d=..\CaribouSlicer-deps -r=console
 ```
 
 The build script will run for a while and automatically perform the following steps:
 1. Configure and build [deps](#compile-the-dependencies) as RelWithDebInfo with `c:\src\CaribouSlicer-deps` as the destination directory
-2. Configure and build all [application targets](#compile-prusaslicer) as RelWithDebInfo
-3. Launch the resulting `prusa-slicer-console.exe` binary
+2. Configure and build all [application targets](#compile-caribouslicer) as RelWithDebInfo
+3. Launch the resulting `caribou-slicer-console.exe` binary
 
 You can change the above command line options to do things like:
-* Change the destination for the dependencies by pointing `-d` to a different directory such as: `build_win.bat -d=s:\PrusaSlicerDeps`
+* Change the destination for the dependencies by pointing `-d` to a different directory such as: `build_win.bat -d=s:\CaribouSlicerDeps`
 * Open the solution in Visual Studio after the build completes by changing the `-r` switch to `-r=ide`
 * Generate a release build without debug info by adding `-c=Release` or a full debug build with `-c=Debug`
 * Perform an incremental application build (the default) with: `build_win.bat -s=app-dirty`

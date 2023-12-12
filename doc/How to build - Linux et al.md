@@ -111,7 +111,7 @@ If you instead want CaribouSlicer installed in a structure according to the File
 
     cmake .. -DSLIC3R_FHS=1
 
-This will make CaribouSlicer look for a fixed-location `share/slic3r-prusa3d` directory instead (note that the location becomes hardcoded).
+This will make CaribouSlicer look for a fixed-location `share/slic3r-caribou3d` directory instead (note that the location becomes hardcoded).
 
 You can then use the `make install` target to install CaribouSlicer.
 

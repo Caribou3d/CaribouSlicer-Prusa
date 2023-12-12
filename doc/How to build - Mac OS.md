@@ -55,7 +55,7 @@ Alternatively, if you would like to use XCode GUI, modify the `cmake` command to
 
     cmake .. -GXcode -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local"
 
-and then open the `PrusaSlicer.xcodeproj` file.
+and then open the `CaribouSlicer.xcodeproj` file.
 This should open up XCode where you can perform build using the GUI or perform other tasks.
 
 ### Note on Mac OS X SDKs
