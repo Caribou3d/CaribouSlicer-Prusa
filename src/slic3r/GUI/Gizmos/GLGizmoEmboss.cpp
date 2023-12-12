@@ -2846,9 +2846,9 @@ void GLGizmoEmboss::draw_advanced()
     }
     m_imgui->disabled_end();  // allowe_surface_distance
 
-    // slider for Clock-wise angle in degress
+    // slider for Clock-wise angle in degrees
     // stored angle is optional CCW and in radians
-    // Convert stored value to degress
+    // Convert stored value to degrees
     // minus create clock-wise roation from CCW
     float angle = current_style.angle.value_or(0.f);
     float angle_deg = static_cast<float>(-angle * 180 / M_PI);

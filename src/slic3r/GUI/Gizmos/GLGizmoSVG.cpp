@@ -1851,9 +1851,9 @@ void GLGizmoSVG::draw_rotation()
     ImGui::SameLine(m_gui_cfg->input_offset);
     ImGui::SetNextItemWidth(m_gui_cfg->input_width);
 
-    // slider for Clock-wise angle in degress
+    // slider for Clock-wise angle in degrees
     // stored angle is optional CCW and in radians
-    // Convert stored value to degress
+    // Convert stored value to degrees
     // minus create clock-wise roation from CCW
     float angle = m_angle.value_or(0.f);
     float angle_deg = static_cast<float>(-angle * 180 / M_PI);
