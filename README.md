@@ -75,7 +75,7 @@ Sure! You can do the following to find things that are available to help with:
 
 ### What's CaribouSlicer license?
 
-CaribouSlicer is licensed under the\ GNU Affero General Public License, version 3. 
+CaribouSlicer is licensed under the GNU Affero General Public License, version 3. 
 CaribouSlicer is based on PrusaSlicer by PrusaResearch.
 
 SuperSlicer is licensed under the GNU Affero General Public License, version 3. SuperSlicer is based on PrusaSlicer by PrusaResearch.
