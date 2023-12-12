@@ -1,7 +1,7 @@
 
-# Building CaribouSlicer on Mac OS
+# Building CaribouSlicer on macOS
 
-To build CaribouSlicer on Mac OS, you will need the following software:
+To build CaribouSlicer on macOS, you will need the following software:
 
 - Xcode
 - CMake
@@ -58,7 +58,7 @@ Alternatively, if you would like to use Xcode GUI, modify the `cmake` command to
 and then open the `CaribouSlicer.xcodeproj` file.
 This should open up Xcode where you can perform build using the GUI or perform other tasks.
 
-### Note on Mac OS X SDKs
+### Note on macOS X SDKs
 
 By default CaribouSlicer builds against whichever SDK is the default on the current system.
 
