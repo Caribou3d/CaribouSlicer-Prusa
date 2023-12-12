@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24041")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24042")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
@@ -251,7 +251,7 @@ sed $SEDOPTION -i "
   \   \         credits = title + \" \" + \\
                 _L(\"is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill.\") + \"\\\n\" + \\
                 _L(\"Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.\") + \"\\\n\\\n\" + \\
-                title + \" \" + _L(\"is licensed $SEDOPTION under the\") + \" \" + _L(\"GNU Affero General Public License, version 3\") + \".\\\n\\\n\" + \\
+                title + \" \" + _L(\"is licensed under the\") + \" \" + _L(\"GNU Affero General Public License, version 3\") + \".\\\n\\\n\" + \\
                 _L(\"Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kr#al, David Kocik and numerous others.\") + \"\\\n\\\n\";
 };" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
