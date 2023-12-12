@@ -64,7 +64,7 @@ Other major features are:
 If you want to compile the source yourself, follow the instructions on one of
 these documentation pages:
 * [Linux](doc/How%20to%20build%20-%20Linux%20et%20al.md)
-* [macOS](doc/How%20to%20build%20-%20Mac%20OS.md)
+* [macOS](doc/How%20to%20build%20-%20macOS.md)
 * [Windows](doc/How%20to%20build%20-%20Windows.md)
 
 ### Can I help?
