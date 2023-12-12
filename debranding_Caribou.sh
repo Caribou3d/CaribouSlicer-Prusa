@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24044")/d' version.inc
+sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24048")/d' version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
@@ -401,5 +401,4 @@ mv $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp $SCRIPT_PATH/src/PrusaSlicer_app_
 
 if [ $TARGET_OS == "windows" ]; then
    unix2dos -q $SCRIPT_PATH/src/CMakeLists.txt $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegrationDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp $SCRIPT_PATH/src/slic3r/GUI/ImGuiWrapper.cpp $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
-   unix2dos -q $SCRIPT_PATH/doc/How\ to\ build\ -\ Linux\ et\ al.md $SCRIPT_PATH/doc/How\ to\ build\ -\ Mac\ OS.md $SCRIPT_PATH/doc/How\ to\ build\ -\ Windows.md
 fi
