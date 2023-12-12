@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24042")/d' version.inc
+sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24044")/d' version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
