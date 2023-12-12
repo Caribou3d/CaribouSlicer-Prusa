@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24048")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24056")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
@@ -115,6 +115,19 @@ sed $SEDOPTION -i 's/PrusaSlicer_\$/CaribouSlicer_\$/g' $SCRIPT_PATH/CMakeLists.
 sed $SEDOPTION -i 's/PrusaSlicer\*.po/CaribouSlicer*.po/g' $SCRIPT_PATH/CMakeLists.txt
 sed $SEDOPTION -i 's/PrusaSlicer_./CaribouSlicer_./g' $SCRIPT_PATH/CMakeLists.txt
 sed $SEDOPTION -i 's/PrusaSlicer.mo/CaribouSlicer.mo/g' $SCRIPT_PATH/CMakeLists.txt
+
+sed $SEPOPTION -i 's/Compile Prusa/Compile Caribou/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/Assume Prusa/Assume Caribou/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/project(PrusaSlicer)/project(CaribouSlicer)/g' $SCRIPT_PATH/CMakeLists.txt
+
+sed $SEPOPTION -i 's/PrusaSlicer"/CaribouSlicer"/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/PrusaSlicer is/CaribouSlicer is/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/for Prusa/for Caribou/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/running Prusa/running Caribou/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/with Prusa/with Caribou/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/PrusaSlicer GUI and the PrusaSlicer/CaribouSlicer GUI and the CaribouSlicer/g' $SCRIPT_PATH/CMakeLists.txt
+
+sed $SEDOPTION -i 's/PrusaSlicer/CaribouSlicer/g' $SCRIPT_PATH/CMakePresets.json
 
 #=====================================================================================
 #

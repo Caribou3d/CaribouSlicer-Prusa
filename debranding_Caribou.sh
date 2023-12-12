@@ -107,6 +107,19 @@ sed $SEDOPTION -i 's/CaribouSlicer\*.po/PrusaSlicer*.po/g' $SCRIPT_PATH/CMakeLis
 sed $SEDOPTION -i 's/CaribouSlicer_./PrusaSlicer_./g' $SCRIPT_PATH/CMakeLists.txt
 sed $SEDOPTION -i 's/CaribouSlicer.mo/PrusaSlicer.mo/g' $SCRIPT_PATH/CMakeLists.txt
 
+sed $SEPOPTION -i 's/Compile Caribou/Compile Prusa/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/Assume Caribou/Assume Prusa/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/project(CaribouSlicer)/project(PrusaSlicer)/g' $SCRIPT_PATH/CMakeLists.txt
+
+sed $SEPOPTION -i 's/CaribouSlicer"/PrusaSlicer"/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/CaribouSlicer is/PrusaSlicer is/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/for Caribou/for Prusa/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/running Caribou/running Prusa/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/with Caribou/with Prusa/g' $SCRIPT_PATH/CMakeLists.txt
+sed $SEPOPTION -i 's/CaribouSlicer GUI and the CaribouSlicer/PrusaSlicer GUI and the PrusaSlicer/g' $SCRIPT_PATH/CMakeLists.txt
+
+sed $SEDOPTION -i 's/CaribouSlicer/PrusaSlicer/g' $SCRIPT_PATH/CMakePresets.json
+
 #=====================================================================================
 #
 # modify icons
@@ -249,7 +262,6 @@ sed $SEDOPTION -i "
 };" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 find $SCRIPT_PATH/src/slic3r/GUI -maxdepth 1 -type f ! -name "*branding*" -exec sed $SEDOPTION -i 's/caribou-slicer-console/prusa-slicer-console/g' {} \;
-find $SCRIPT_PATH/doc -maxdepth 1 -type f ! -name "*branding*" -exec sed $SEDOPTION -i 's/caribou-slicer-console/prusa-slicer-console/g' {} \;
 find $SCRIPT_PATH/src -maxdepth 1 -type f ! -name "*branding*" -exec sed $SEDOPTION -i 's/caribou-slicer-console/prusa-slicer-console/g' {} \;
 find $SCRIPT_PATH -maxdepth 1 -type f ! -name "*branding*" -exec sed $SEDOPTION -i 's/caribou-slicer-console/prusa-slicer-console/g' {} \;
 
