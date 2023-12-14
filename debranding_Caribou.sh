@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24060")/d' version.inc
+sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24061")/d' version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
@@ -414,8 +414,23 @@ mv $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp $SCRIPT_PATH/src/PrusaSlicer_app_
 sed $SEDOPTION -i -e 's|github.com/caribou3d/CaribouSlicer|github.com/prusa3d/PrusaSlicer|g' $SCRIPT_PATH/src/PrusaSlicer.cpp
 sed $SEDOPTION -i 's/CaribouSlicer/PrusaSlicer/g' $SCRIPT_PATH/src/PrusaSlicer.cpp
 
+ 
 
-#sed $SEDOPTION -i 's/Caribou/PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/Caribou/PrusaResearch/g' $SCRIPT_PATH/src/libslic3r/PresetBundle.cpp
+#sed $SEDOPTION -i 's/d("Caribou/d("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/t("Caribou/t("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/y("Caribou/y("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/l("Caribou/l("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
+
+
+sed $SEDOPTION -i 's/"Caribou"/"Prusa"/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/"Caribou/"Prusa/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/"caribou/"prusa/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
+sed $SEDOPTION -i 's/Vendor Caribou/Vendor PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
+sed $SEDOPTION -i 's/const auto prusa_it = p->bundles.find("Prusa");/const auto prusa_it = p->bundles.find("PrusaResearch");/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 
 
 
