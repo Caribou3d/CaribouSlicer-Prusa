@@ -1613,6 +1613,8 @@ void TabPrint::build()
         optgroup->append_single_option_line("first_layer_speed_over_raft");
 
         optgroup = page->new_optgroup(L("Acceleration control (advanced)"));
+        optgroup->append_single_option_line("travel_acceleration");
+        optgroup->append_single_option_line("default_acceleration");
         optgroup->append_single_option_line("external_perimeter_acceleration");
         optgroup->append_single_option_line("perimeter_acceleration");
         optgroup->append_single_option_line("top_solid_infill_acceleration");
@@ -1621,8 +1623,6 @@ void TabPrint::build()
         optgroup->append_single_option_line("bridge_acceleration");
         optgroup->append_single_option_line("first_layer_acceleration");
         optgroup->append_single_option_line("first_layer_acceleration_over_raft");
-        optgroup->append_single_option_line("travel_acceleration");
-        optgroup->append_single_option_line("default_acceleration");
 
         optgroup = page->new_optgroup(L("Autospeed (advanced)"));
         optgroup->append_single_option_line("max_print_speed", "max-volumetric-speed_127176");
