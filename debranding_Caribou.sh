@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24064")/d' version.inc
+sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24066")/d' version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
@@ -440,6 +440,12 @@ sed $SEDOPTION -i 's/"caribou/"prusa/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard
 sed $SEDOPTION -i 's/\/\/index->add_page(page_msla);/index->add_page(page_msla);/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 
 sed $SEDOPTION -i 's/Vendor Caribou/Vendor PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/to CaribouSlicer/to PrusaSlicer/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
+sed $SEDOPTION -i 's/to CaribouSlicer/to PrusaSlicer/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
+sed $SEDOPTION -i 's/Classes\\\\caribou/Classes\\\\prusa/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
 
 sed $SEDOPTION -i 's/const auto prusa_it = p->bundles.find("Prusa");/const auto prusa_it = p->bundles.find("PrusaResearch");/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 
