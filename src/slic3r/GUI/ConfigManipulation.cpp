@@ -38,7 +38,7 @@ void ConfigManipulation::toggle_field(const std::string& opt_key, const bool tog
     cb_toggle_field(opt_key, toggle, opt_index);
 }
 
-void ConfigManipulation::update_print_fff_config(DynamicPrintConfig* config, const bool is_global_config)
+void ConfigManipulation::update_print_fff_config(DynamicPrintConfig* config, const bool is_global_config, const std::string &opt_key, const boost::any &value)
 {
     // #ys_FIXME_to_delete
     //! Temporary workaround for the correct updates of the TextCtrl (like "layer_height"):
@@ -213,6 +213,17 @@ void ConfigManipulation::update_print_fff_config(DynamicPrintConfig* config, con
             }
         }
     }
+    if (opt_key == "extra_perimeter_on_even_layers" && boost::any_cast<bool>(value)){
+        DynamicPrintConfig new_conf = *config;
+        new_conf.set_key_value("reduce_shell_thickness", new ConfigOptionBool(true));
+        apply(config, &new_conf);
+    }
+
+    if (opt_key == "reduce_shell_thickness" && !boost::any_cast<bool>(value)){
+        DynamicPrintConfig new_conf = *config;
+        new_conf.set_key_value("extra_perimeter_on_even_layers", new ConfigOptionBool(false));
+        apply(config, &new_conf);
+    }
 }
 
 void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig* config)
@@ -249,8 +260,8 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig* config)
                     "infill_speed", "bridge_speed" })
         toggle_field(el, have_infill || has_solid_infill);
 
-    toggle_field("top_solid_min_thickness", ! has_spiral_vase && has_top_solid_infill);
-    toggle_field("bottom_solid_min_thickness", ! has_spiral_vase && has_bottom_solid_infill);
+    toggle_field("top_solid_min_thickness", ! has_spiral_vase && has_top_solid_infill && config->opt_bool("reduce_shell_thickness"));
+    toggle_field("bottom_solid_min_thickness", ! has_spiral_vase && has_bottom_solid_infill && config->opt_bool("reduce_shell_thickness"));
 
     // Gap fill is newly allowed in between perimeter lines even for empty infill (see GH #1476).
     toggle_field("gap_fill_speed", have_perimeters);

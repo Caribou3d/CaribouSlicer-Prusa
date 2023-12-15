@@ -368,7 +368,7 @@ public:
 	virtual void	OnActivate();
 	virtual void	on_preset_loaded() {}
 	virtual void	build() = 0;
-	virtual void	update() = 0;
+    virtual void    update(const std::string &opt_key = "", const boost::any &value = "") = 0;
 	virtual void	toggle_options() = 0;
 	virtual void	init_options_list();
 	void			emplace_option(const std::string &opt_key, bool respect_vec_values = false);
@@ -447,7 +447,7 @@ public:
 	void		build() override;
 	void		update_description_lines() override;
 	void		toggle_options() override;
-	void		update() override;
+    void        update(const std::string &opt_key = "", const boost::any &value = "") override;
 	void		clear_pages() override;
 	bool 		supports_printer_technology(const PrinterTechnology tech) const override { return tech == ptFFF; }
 	wxSizer*	create_manage_substitution_widget(wxWindow* parent);
@@ -484,7 +484,7 @@ public:
 	void		build() override;
 	void		update_description_lines() override;
 	void		toggle_options() override;
-	void		update() override;
+	void		update(const std::string &opt_key = "", const boost::any &value = "") override;
 	void		clear_pages() override;
 	void        msw_rescale() override;
 	void		sys_color_changed() override;
@@ -546,7 +546,7 @@ public:
 	void		activate_selected_page(std::function<void()> throw_if_canceled) override;
 	void		clear_pages() override;
 	void		toggle_options() override;
-    void		update() override;
+    void		update(const std::string &opt_key = "", const boost::any &value = "") override;
     void		update_fff();
     void		update_sla();
     void        update_pages(); // update m_pages according to printer technology
@@ -572,7 +572,7 @@ public:
 
 	void		build() override;
 	void		toggle_options() override;
-	void		update() override;
+	void		update(const std::string &opt_key = "", const boost::any &value = "") override;
 	bool 		supports_printer_technology(const PrinterTechnology tech) const override { return tech == ptSLA; }
 };
 
@@ -594,7 +594,7 @@ public:
     void		build() override;
 	void		update_description_lines() override;
 	void		toggle_options() override;
-    void		update() override;
+    void        update(const std::string &opt_key = "", const boost::any &value = "") override;
 	void		clear_pages() override;
 	bool 		supports_printer_technology(const PrinterTechnology tech) const override { return tech == ptSLA; }
 };

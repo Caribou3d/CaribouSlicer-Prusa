@@ -515,6 +515,12 @@ void PrintConfigDef::init_fff_params()
     def->min = 0;
     def->set_default_value(new ConfigOptionInt(3));
 
+    def = this->add("reduce_shell_thickness", coBool);
+    def->label = L("Reduce shell thickness");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Reduce shell thickness detection threshold and amount of solid infill.");
+    def->set_default_value(new ConfigOptionBool(false));
+
     def = this->add("bottom_solid_min_thickness", coFloat);
     def->label = L_CONTEXT("Bottom", "Layers");
     def->category = L("Layers and Perimeters");
@@ -2172,6 +2178,12 @@ void PrintConfigDef::init_fff_params()
     def->min = 0;
     def->max = 10000;
     def->set_default_value(new ConfigOptionInt(3));
+
+    def = this->add("extra_perimeter_on_even_layers", coBool);
+    def->label = L("Add extra perimeter on even layers");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("It increases infill bonding to perimeter. Reduce shell thickness will be turned on.");
+    def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("post_process", coStrings);
     def->label = L("Post-processing scripts");
