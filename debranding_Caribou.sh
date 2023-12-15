@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24061")/d' version.inc
+sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24062")/d' version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
@@ -404,25 +404,35 @@ sed $SEDOPTION -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_P
 sed $SEDOPTION -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/tests/libslic3r/CMakeLists.txt
 sed $SEDOPTION -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/tests/sla_print/CMakeLists.txt
 sed $SEDOPTION -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/tests/slic3rutils/CMakeLists.txt
-
+  
 sed $SEDOPTION -i -e 's/CaribouSlicer.hpp/PrusaSlicer.hpp/g' $SCRIPT_PATH/src/CaribouSlicer.cpp
 mv $SCRIPT_PATH/src/CaribouSlicer.cpp $SCRIPT_PATH/src/PrusaSlicer.cpp
 mv $SCRIPT_PATH/src/CaribouSlicer.hpp $SCRIPT_PATH/src/PrusaSlicer.hpp
 
 mv $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp $SCRIPT_PATH/src/PrusaSlicer_app_msvc.cpp
+ 
+sed $SEDOPTION -i 's/CARIBOU_BUNDLE/PRUSA_BUNDLE/g' $SCRIPT_PATH/src/libslic3r/PresetBundle.cpp
+sed $SEDOPTION -i 's/CARIBOU_BUNDLE/PRUSA_BUNDLE/g' $SCRIPT_PATH/src/libslic3r/PresetBundle.hpp
+
+sed $SEDOPTION -i 's/CARIBOU_BUNDLE/PRUSA_BUNDLE/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard_private.hpp
+sed $SEDOPTION -i 's/caribou_bundle/prusa_bundle/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard_private.hpp
+sed $SEDOPTION -i 's/CARIBOU_BUNDLE/PRUSA_BUNDLE/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/caribou_bundle/prusa_bundle/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/caribou_it/prusa_it/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/caribou_profiles/prusa_profiles/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/caribou profiles/prusa profiles/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/vendor_caribou/vendor_prusa/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/Caribou printers/Prusa printers/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/Caribou bundle/Prusa bundle/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
 
 sed $SEDOPTION -i -e 's|github.com/caribou3d/CaribouSlicer|github.com/prusa3d/PrusaSlicer|g' $SCRIPT_PATH/src/PrusaSlicer.cpp
 sed $SEDOPTION -i 's/CaribouSlicer/PrusaSlicer/g' $SCRIPT_PATH/src/PrusaSlicer.cpp
 
- 
-
 sed $SEDOPTION -i 's/Caribou/PrusaResearch/g' $SCRIPT_PATH/src/libslic3r/PresetBundle.cpp
-#sed $SEDOPTION -i 's/d("Caribou/d("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 sed $SEDOPTION -i 's/t("Caribou/t("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 sed $SEDOPTION -i 's/y("Caribou/y("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 sed $SEDOPTION -i 's/l("Caribou/l("PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
-
-
 
 sed $SEDOPTION -i 's/"Caribou"/"Prusa"/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 sed $SEDOPTION -i 's/"Caribou/"Prusa/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
@@ -431,8 +441,6 @@ sed $SEDOPTION -i 's/"caribou/"prusa/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard
 sed $SEDOPTION -i 's/Vendor Caribou/Vendor PrusaResearch/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 
 sed $SEDOPTION -i 's/const auto prusa_it = p->bundles.find("Prusa");/const auto prusa_it = p->bundles.find("PrusaResearch");/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
-
-
 
 if [ $TARGET_OS == "windows" ]; then
    unix2dos -q $SCRIPT_PATH/src/CMakeLists.txt $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegrationDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp $SCRIPT_PATH/src/slic3r/GUI/ImGuiWrapper.cpp $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp

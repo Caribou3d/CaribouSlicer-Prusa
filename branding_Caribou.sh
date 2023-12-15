@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24061")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24062")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
@@ -400,7 +400,7 @@ sed $SEDOPTION -i -e 's/prusaslicer_copy_dll/caribouslicer_copy_dll/g' $SCRIPT_P
 sed $SEDOPTION -i -e 's/prusaslicer_copy_dll/caribouslicer_copy_dll/g' $SCRIPT_PATH/tests/libslic3r/CMakeLists.txt
 sed $SEDOPTION -i -e 's/prusaslicer_copy_dll/caribouslicer_copy_dll/g' $SCRIPT_PATH/tests/sla_print/CMakeLists.txt
 sed $SEDOPTION -i -e 's/prusaslicer_copy_dll/caribouslicer_copy_dll/g' $SCRIPT_PATH/tests/slic3rutils/CMakeLists.txt
-
+  
 sed $SEDOPTION -i -e 's/PrusaSlicer.hpp/CaribouSlicer.hpp/g' $SCRIPT_PATH/src/PrusaSlicer.cpp
 
 mv $SCRIPT_PATH/src/PrusaSlicer.cpp $SCRIPT_PATH/src/CaribouSlicer.cpp
@@ -408,11 +408,24 @@ mv $SCRIPT_PATH/src/PrusaSlicer.hpp $SCRIPT_PATH/src/CaribouSlicer.hpp
 
 mv $SCRIPT_PATH/src/PrusaSlicer_app_msvc.cpp $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp
 
+sed $SEDOPTION -i 's/PRUSA_BUNDLE/CARIBOU_BUNDLE/g' $SCRIPT_PATH/src/libslic3r/PresetBundle.cpp
+sed $SEDOPTION -i 's/PRUSA_BUNDLE/CARIBOU_BUNDLE/g' $SCRIPT_PATH/src/libslic3r/PresetBundle.hpp
+
+sed $SEDOPTION -i 's/PRUSA_BUNDLE/CARIBOU_BUNDLE/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard_private.hpp
+sed $SEDOPTION -i 's/prusa_bundle/caribou_bundle/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard_private.hpp
+sed $SEDOPTION -i 's/PRUSA_BUNDLE/CARIBOU_BUNDLE/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/prusa_bundle/caribou_bundle/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/prusa_it/caribou_it/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/prusa_profiles/caribou_profiles/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/prusa profiles/caribou profiles/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/vendor_prusa/vendor_caribou/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/Prusa printers/Caribou printers/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+sed $SEDOPTION -i 's/Prusa bundle/Caribou bundle/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
+
 
 sed $SEDOPTION -i -e 's|github.com/prusa3d/PrusaSlicer|github.com/caribou3d/CaribouSlicer|g' $SCRIPT_PATH/src/CaribouSlicer.cpp
 sed $SEDOPTION -i 's/PrusaSlicer/CaribouSlicer/g' $SCRIPT_PATH/src/CaribouSlicer.cpp
 sed $SEDOPTION -i 's/see CaribouSlicer/see PrusaSlicer/g' $SCRIPT_PATH/src/CaribouSlicer.cpp
- 
 
 sed $SEDOPTION -i 's/PrusaResearch/Caribou/g' $SCRIPT_PATH/src/libslic3r/PresetBundle.cpp
 sed $SEDOPTION -i 's/("PrusaResearch/("Caribou/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
@@ -422,8 +435,6 @@ sed $SEDOPTION -i 's/"Prusa/"Caribou/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard
 sed $SEDOPTION -i 's/"prusa/"caribou/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
 
 sed $SEDOPTION -i 's/Vendor PrusaResearch/Vendor Caribou/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
-
-
 
 if [ $TARGET_OS == "windows" ]; then
    unix2dos -q $SCRIPT_PATH/src/CMakeLists.txt $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegrationDialog.cpp $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp $SCRIPT_PATH/src/slic3r/GUI/ImGuiWrapper.cpp $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
