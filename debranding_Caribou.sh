@@ -62,10 +62,10 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24066")/d' version.inc
-sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
-sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
-sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24087")/d' version.inc
+sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.1"/SLIC3R_VERSION "2.7.1"/g' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,1,0"/SLIC3R_RC_VERSION "2,7,1,0"/g' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/g' $SCRIPT_PATH/version.inc
 
 #=================================
 
@@ -79,15 +79,12 @@ sed $SEDOPTION -i -e 's/set(SLIC3R_VIEWER_CMD "CaribouGcodeviewer")/set(SLIC3R_V
 #
 # modify profiles
 
-sed $SEDOPTION -i 's|config_update_url = https://caribou3d.com/CaribouSlicer/repository/vendors/Caribou|config_update_url =|' $SCRIPT_PATH/resources/profiles/Caribou.ini
-
-find $SCRIPT_PATH/resources/profiles -type f -name '*.ini' -exec sed $SEDOPTION -i 's/caribou3d.com\/CaribouSlicer\/repository\/vendors/files.prusa3d.com\/wp-content\/uploads\/repository\/PrusaSlicer-settings-master\/live/g' {} +
-find $SCRIPT_PATH/resources/profiles -type f -name '*.ini' -exec sed $SEDOPTION -i 's/ CaribouSlicer/ PrusaSlicer/g' {} +
+find $SCRIPT_PATH/resources/profiles -type f \( -name '*.ini' ! -name 'Caribou.ini' \) -exec sed $SEDOPTION -i 's|caribou3d.com/CaribouSlicer/repository/vendors|files.prusa3d.com/wp-content/uploads/repository/PrusaSlicer-settings-master/live|g' {} +
+find $SCRIPT_PATH/resources/profiles -type f \( -name '*.ini' ! -name 'Caribou.ini' \) -exec sed $SEDOPTION -i 's/ CaribouSlicer/ PrusaSlicer/g' {} +
 
 sed $SEDOPTION -i -e 's|"http://caribou3d.com/CaribouSlicer/repository/"|"http://files.prusa3d.com/wp-content/uploads/repository/"|g' $SCRIPT_PATH/src/slic3r/Utils/PresetUpdater.cpp
 sed $SEDOPTION -i -e 's|"https://caribou3d.com/CaribouSlicer/repository/"|"https://files.prusa3d.com/wp-content/uploads/repository/"|g' $SCRIPT_PATH/src/slic3r/Utils/PresetUpdater.cpp
 
-#sed $SEDOPTION -i 's|# changelog_url =|# changelog_url = https://files.prusa3d.com/?latest=slicer-profiles\&lng=%1%|g' $SCRIPT_PATH/resources/profiles/*.ini
 find $SCRIPT_PATH/resources/profiles -type f ! -name "Trimaker.ini" -exec sed $SEDOPTION -i 's|# changelog_url =|# changelog_url = https://files.prusa3d.com/?latest=slicer-profiles\&lng=%1%|g' {} +
 
 #=====================================================================================

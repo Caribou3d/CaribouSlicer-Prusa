@@ -62,10 +62,10 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24066")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
-sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.0"/SLIC3R_VERSION "2.7.0"/g' $SCRIPT_PATH/version.inc
-sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,0,0"/SLIC3R_RC_VERSION "2,7,0,0"/g' $SCRIPT_PATH/version.inc
-sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/SLIC3R_RC_VERSION_DOTS "2.7.0.0"/g' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24087")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.1"/SLIC3R_VERSION "2.7.1"/g' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,1,0"/SLIC3R_RC_VERSION "2,7,1,0"/g' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/g' $SCRIPT_PATH/version.inc
 
 #=================================
 
@@ -79,8 +79,6 @@ sed $SEDOPTION -i -e 's/set(SLIC3R_VIEWER_CMD "prusa-gcodeviewer")/set(SLIC3R_VI
 # modify profiles
 
 find $SCRIPT_PATH/resources/profiles -type f -name '*.ini' -exec sed $SEDOPTION -i 's/files.prusa3d.com\/wp-content\/uploads\/repository\/PrusaSlicer-settings-master\/live/caribou3d.com\/CaribouSlicer\/repository\/vendors/g' {} +
-sed $SEDOPTION -i 's/config_update_url =/config_update_url = https:\/\/caribou3d.com\/CaribouSlicer\/repository\/vendors\/Caribou/' $SCRIPT_PATH/resources/profiles/Caribou.ini
-
 find $SCRIPT_PATH/resources/profiles -type f -name '*.ini' -exec sed $SEDOPTION -i 's/ PrusaSlicer/ CaribouSlicer/g' {} +
 
 sed $SEDOPTION -i 's#http://files.prusa3d.com/wp-content/uploads/repository/#http://caribou3d.com/CaribouSlicer/repository/#g' $SCRIPT_PATH/src/slic3r/Utils/PresetUpdater.cpp
