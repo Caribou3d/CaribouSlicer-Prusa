@@ -513,7 +513,7 @@ void OtherInstanceMessageHandler::handle_message(const std::string& message)
 		boost::filesystem::path p = MessageHandlerInternal::get_path(*it);
 		if (! p.string().empty())
 			paths.emplace_back(p);
-// TODO: There is a misterious slash appearing in recieved msg on windows
+// TODO: There is a mysterious slash appearing in received msg on windows
 #ifdef _WIN32
 		else if (it->rfind("prusaslicer://open/?file=", 0) == 0)
 #else

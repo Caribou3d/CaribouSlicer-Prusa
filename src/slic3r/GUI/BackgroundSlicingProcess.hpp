@@ -182,7 +182,7 @@ private:
 	void 	thread_proc_safe() throw();
 #ifdef _WIN32
 	// Wrapper for Win32 structured exceptions. Win32 structured exception blocks and C++ exception blocks cannot be mixed in the same function.
-	// Catch a SEH exception and return its ID or zero if no SEH exception has been catched.
+	// Catch a SEH exception and return its ID or zero if no SEH exception has been caught.
 	unsigned long 	thread_proc_safe_seh() throw();
 	// Calls thread_proc_safe_seh(), rethrows a Slic3r::HardCrash exception based on SEH exception
 	// returned by thread_proc_safe_seh() and lets wxApp::OnUnhandledException() display it.
@@ -207,7 +207,7 @@ private:
 
 #ifdef _WIN32
 	// Wrapper for Win32 structured exceptions. Win32 structured exception blocks and C++ exception blocks cannot be mixed in the same function.
-	// Catch a SEH exception and return its ID or zero if no SEH exception has been catched.
+	// Catch a SEH exception and return its ID or zero if no SEH exception has been caught.
 	unsigned long call_process_seh(std::exception_ptr &ex) throw();
 	// Calls call_process_seh(), rethrows a Slic3r::HardCrash exception based on SEH exception
 	// returned by call_process_seh().

@@ -1306,7 +1306,7 @@ void Print::alert_when_supports_needed()
             return message;
         };
 
-        // TRN this translation rule is used to translate lists of uknown size on single line. The first argument is element of the list,
+        // TRN this translation rule is used to translate lists of unknown size on single line. The first argument is element of the list,
         // the second argument may be element or rest of the list. For most languages, this does not need translation, but some use different 
         // separator than comma and some use blank space in front of the separator.
         auto single_line_list_rule = L("%1%, %2%");

@@ -752,7 +752,7 @@ msgstr ""
 msgid "Thin fragile part"
 msgstr ""
 
-#. TRN this translation rule is used to translate lists of uknown size on single line. The first argument is element of the list,
+#. TRN this translation rule is used to translate lists of unknown size on single line. The first argument is element of the list,
 #. the second argument may be element or rest of the list. For most languages, this does not need translation, but some use different
 #. separator than comma and some use blank space in front of the separator.
 #: src/libslic3r/Print.cpp:1312
@@ -4798,7 +4798,7 @@ msgstr "Afveegvolume - matrix"
 
 #: src/libslic3r/PrintConfig.cpp:3272
 msgid ""
-"This matrix describes volumes (in cubic milimetres) required to purge the "
+"This matrix describes volumes (in cubic millimetres) required to purge the "
 "new filament on the wipe tower for any given pair of tools."
 msgstr ""
 "Deze matrix beschrijft volume (in mm³) dat is vereist om nieuw filament af "
@@ -5148,7 +5148,7 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:3613
 msgid ""
 "Maximum weight of sub-trees that terminate on the model instead of the print "
-"bed. The weight is the sum of the lenghts of all branches emanating from the "
+"bed. The weight is the sum of the lengths of all branches emanating from the "
 "endpoint."
 msgstr ""
 
@@ -7128,7 +7128,7 @@ msgstr "Uitvoeren van nabewerkingsscripts"
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:702
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:722
-msgid "Unknown error occured during exporting G-code."
+msgid "Unknown error occurred during exporting G-code."
 msgstr "Onbekende fout opgetreden tijdens exporteren van de G-code."
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:707
@@ -10141,7 +10141,7 @@ msgstr ""
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3107
 #, boost-format
 msgid ""
-"Can't load exactly same font(\"%1%\"). Aplication selected a similar "
+"Can't load exactly same font(\"%1%\"). Application selected a similar "
 "one(\"%2%\"). You have to specify font for enable edit text."
 msgstr ""
 
@@ -10879,7 +10879,7 @@ msgid "Operation already cancelling. Please wait few seconds."
 msgstr "Operatie wordt geannuleerd. Even geduld alstublieft."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:358
-msgid "Can't apply when proccess preview."
+msgid "Can't apply when process preview."
 msgstr "Kan niet toepassen tijdens verwerken van sliceweergave."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:365
@@ -11114,7 +11114,7 @@ msgstr ""
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:1112
 msgid ""
-"Final shape constains selfintersection or multiple points with same "
+"Final shape contains selfintersection or multiple points with same "
 "coordinate."
 msgstr ""
 
@@ -12092,7 +12092,7 @@ msgid "Restart application"
 msgstr "Herstart programma"
 
 #: src/slic3r/GUI/GUI_App.cpp:2815
-msgid "For new project all modifications will be reseted"
+msgid "For new project all modifications will be reset"
 msgstr "Voor nieuwe projecten worden alle aanpassingen gereset"
 
 #: src/slic3r/GUI/GUI_App.cpp:2853
@@ -12503,7 +12503,7 @@ msgstr "Initialisatie van PrusaSlicer GUI mislukt"
 
 #: src/slic3r/GUI/GUI_Init.cpp:71
 #, boost-format
-msgid "Fatal error, exception catched: %1%"
+msgid "Fatal error, exception caught: %1%"
 msgstr "Fatale fout, uitzondering gevonden: %1%"
 
 #: src/slic3r/GUI/GUI_ObjectLayers.cpp:33
@@ -12984,8 +12984,8 @@ msgstr[0] "Het volgende model is succesvol gerepareerd"
 msgstr[1] "De volgende modellen zijn succesvol gerepareerd"
 
 #: src/slic3r/GUI/GUI_ObjectList.cpp:4682
-msgid "Folowing model repair failed"
-msgid_plural "Folowing models repair failed"
+msgid "Following model repair failed"
+msgid_plural "Following models repair failed"
 msgstr[0] "Volgende model repareren mislukt"
 msgstr[1] "Volgende modellen repareren mislukt"
 
@@ -13238,7 +13238,7 @@ msgid "Bed filling done."
 msgstr "Bed vullen klaar."
 
 #: src/slic3r/GUI/Jobs/PlaterWorker.hpp:89
-msgid "An unexpected error occured"
+msgid "An unexpected error occurred"
 msgstr ""
 
 #: src/slic3r/GUI/Jobs/RotoptimizeJob.hpp:26
@@ -14723,7 +14723,7 @@ msgstr "Exporteren."
 
 #: src/slic3r/GUI/NotificationManager.hpp:938
 msgid ""
-"PrusaSlicer recieved a download request from Printables.com, but it's not "
+"PrusaSlicer received a download request from Printables.com, but it's not "
 "allowed. You can allow it"
 msgstr ""
 
@@ -16341,7 +16341,7 @@ msgstr "Notificaties over nieuwe versies"
 
 #: src/slic3r/GUI/Preferences.cpp:588
 msgid ""
-"You will be notified about new release after startup acordingly: All = "
+"You will be notified about new release after startup accordingly: All = "
 "Regular release and alpha / beta releases. Release only = regular release."
 msgstr ""
 "U wordt op de hoogte gebracht over nieuwe versies bij het opstarten: Alles = "
@@ -18743,7 +18743,7 @@ msgstr "Geavanceerd"
 #: src/slic3r/Utils/AppUpdater.cpp:47
 #, boost-format
 msgid ""
-"Running downloaded instaler of %1% has failed:\n"
+"Running downloaded installer of %1% has failed:\n"
 "%2%"
 msgstr ""
 
@@ -18811,7 +18811,7 @@ msgstr "Kan niet verbinden met Duet"
 #: src/slic3r/Utils/Duet.cpp:114 src/slic3r/Utils/Duet.cpp:196
 #: src/slic3r/Utils/FlashAir.cpp:129 src/slic3r/Utils/FlashAir.cpp:150
 #: src/slic3r/Utils/FlashAir.cpp:166 src/slic3r/Utils/MKS.cpp:89
-msgid "Unknown error occured"
+msgid "Unknown error occurred"
 msgstr "Onbekende fout opgetreden"
 
 #: src/slic3r/Utils/Duet.cpp:175

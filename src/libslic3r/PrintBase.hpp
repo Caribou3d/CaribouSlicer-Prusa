@@ -176,7 +176,7 @@ public:
         throw_if_canceled();
 #ifndef NDEBUG
 // The following test is not necessarily valid after the background processing thread
-// is stopped with throw_if_canceled(), as the CanceledException is not being catched
+// is stopped with throw_if_canceled(), as the CanceledException is not being caught
 // by the Print or PrintObject to update m_step_active or m_state[...].state.
 // This should not be a problem as long as the caller calls set_started() / set_done() /
 // active_step_add_warning() consistently. From the robustness point of view it would be

@@ -120,7 +120,7 @@ enum class NotificationType
 	SimplifySuggestion,
 	// Change of text will change font to similar one on.
 	UnknownFont,
-	// information that repairing model finished (blocking proccess)
+	// information that repairing model finished (blocking process)
 	RepairFinished,
 	// Short meesage to fill space between start and finish of export
 	ExportOngoing,
@@ -433,7 +433,7 @@ private:
         std::vector<size_t> m_endlines;
 		// endlines for text2
 		std::vector<size_t> m_endlines2;
-		// Gray are f.e. eorrors when its uknown if they are still valid
+		// Gray are f.e. eorrors when its unknown if they are still valid
 		bool             m_is_gray              { false };
 		//if multiline = true, notification is showing all lines(>2)
 		bool             m_multiline            { false };
@@ -935,7 +935,7 @@ private:
     {NotificationType::URLNotRegistered
 		, NotificationLevel::RegularNotificationLevel
 		, 10
-		, _u8L("PrusaSlicer recieved a download request from Printables.com, but it's not allowed. You can allow it")
+		, _u8L("PrusaSlicer received a download request from Printables.com, but it's not allowed. You can allow it")
 		, _u8L("here.")
 		,  [](wxEvtHandler* evnthndlr) {
 			wxGetApp().open_preferences("downloader_url_registered", "Other");

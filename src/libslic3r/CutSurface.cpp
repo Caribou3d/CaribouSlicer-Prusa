@@ -1241,7 +1241,7 @@ void collect_surface_data(std::queue<FI>  &process,
 /// <param name="shapes">Cutted shapes</param>
 /// <param name="face_type_map">Define Triangles of interest.
 /// Edge between inside / outside.
-/// NOTE: Not const because it need to flag proccessed faces</param>
+/// NOTE: Not const because it need to flag processed faces</param>
 /// <returns>Areas of interest from mesh</returns>
 CutAOIs create_cut_area_of_interests(const CutMesh    &mesh,
                                      const ExPolygons &shapes,

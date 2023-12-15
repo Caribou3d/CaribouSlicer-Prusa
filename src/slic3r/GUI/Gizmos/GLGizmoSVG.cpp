@@ -1109,7 +1109,7 @@ std::vector<std::string> create_shape_warnings(const EmbossShape &shape, float s
 
         // This waning is not connected to NSVGshape. It is about union of paths, but Zero index is shown first
         size_t index = 0;
-        add_warning(index, _u8L("Final shape constains selfintersection or multiple points with same coordinate."));
+        add_warning(index, _u8L("Final shape contains selfintersection or multiple points with same coordinate."));
     }
 
     size_t shape_index = 0;
@@ -1214,7 +1214,7 @@ void delete_texture(Texture& texture){
 void GLGizmoSVG::reset_volume()
 {
     if (m_volume == nullptr)
-        return; // already reseted
+        return; // already reset
 
     m_volume = nullptr;
     m_volume_id.id = 0;

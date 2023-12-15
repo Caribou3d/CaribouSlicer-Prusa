@@ -1395,7 +1395,7 @@ bool GUI_App::on_init_inner()
 
         // An ugly solution to GH #5537 in which GUI_App::init_opengl (normally called from events wxEVT_PAINT
         // and wxEVT_SET_FOCUS before GUI_App::post_init is called) wasn't called before GUI_App::post_init and OpenGL wasn't initialized.
-        // Since issue #9774 Where same problem occured on MacOS Ventura, we decided to have this check on MacOS as well.
+        // Since issue #9774 Where same problem occurred on MacOS Ventura, we decided to have this check on MacOS as well.
 
 #if defined(__linux__) || defined(__APPLE__)
         if (!m_post_initialized && m_opengl_initialized) {
@@ -2812,7 +2812,7 @@ bool GUI_App::check_and_keep_current_preset_changes(const wxString& caption, con
 
                 wxString text = dlg.msg_success_saved_modifications(preset_names_and_types.size());
                 if (!is_called_from_configwizard)
-                    text += "\n\n" + _L("For new project all modifications will be reseted");
+                    text += "\n\n" + _L("For new project all modifications will be reset");
 
                 MessageDialog(nullptr, text).ShowModal();
                 reset_modifications();
@@ -2994,7 +2994,7 @@ void GUI_App::MacOpenURL(const wxString& url)
     if (app_config && !app_config->get_bool("downloader_url_registered"))
     {
         notification_manager()->push_notification(NotificationType::URLNotRegistered);
-        BOOST_LOG_TRIVIAL(error) << "Recieved command to open URL, but it is not allowed in app configuration. URL: " << url;
+        BOOST_LOG_TRIVIAL(error) << "received command to open URL, but it is not allowed in app configuration. URL: " << url;
         return;
     }
     start_download(boost::nowide::narrow(url));

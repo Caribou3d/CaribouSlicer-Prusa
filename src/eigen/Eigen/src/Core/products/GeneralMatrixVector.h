@@ -503,7 +503,7 @@ EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,R
             Index j = alignedStart;
             if (peels>1)
             {
-              /* Here we proccess 4 rows with with two peeled iterations to hide
+              /* Here we process 4 rows with with two peeled iterations to hide
                * the overhead of unaligned loads. Moreover unaligned loads are handled
                * using special shift/move operations between the two aligned packets
                * overlaping the desired unaligned packet. This is *much* more efficient

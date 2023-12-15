@@ -3269,7 +3269,7 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("wiping_volumes_matrix", coFloats);
     def->label = L("Purging volumes - matrix");
-    def->tooltip = L("This matrix describes volumes (in cubic milimetres) required to purge the"
+    def->tooltip = L("This matrix describes volumes (in cubic millimetres) required to purge the"
                      " new filament on the wipe tower for any given pair of tools.");
     def->set_default_value(new ConfigOptionFloats {   0., 140., 140., 140., 140.,
                                                     140.,   0., 140., 140., 140.,
@@ -3610,7 +3610,7 @@ void PrintConfigDef::init_sla_support_params(const std::string &prefix)
     def->label = L("Max weight on model");
     def->category = L("Supports");
     def->tooltip  = L(
-        "Maximum weight of sub-trees that terminate on the model instead of the print bed. The weight is the sum of the lenghts of all "
+        "Maximum weight of sub-trees that terminate on the model instead of the print bed. The weight is the sum of the lengths of all "
         "branches emanating from the endpoint.");
     def->sidetext = L("mm");
     def->min = 0;

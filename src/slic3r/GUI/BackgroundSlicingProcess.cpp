@@ -271,7 +271,7 @@ void BackgroundSlicingProcess::thread_proc()
 }
 
 #ifdef _WIN32
-// Only these SEH exceptions will be catched and turned into Slic3r::HardCrash C++ exceptions.
+// Only these SEH exceptions will be caught and turned into Slic3r::HardCrash C++ exceptions.
 static bool is_win32_seh_harware_exception(unsigned long ex) throw() {
 	return
 		ex == STATUS_ACCESS_VIOLATION ||
@@ -290,25 +290,25 @@ static bool is_win32_seh_harware_exception(unsigned long ex) throw() {
 }
 
 // Rethrow some SEH exceptions as Slic3r::HardCrash C++ exceptions.
-static void rethrow_seh_exception(unsigned long win32_seh_catched)
+static void rethrow_seh_exception(unsigned long win32_seh_caught)
 {
-	if (win32_seh_catched) {
+	if (win32_seh_caught) {
 		// Rethrow SEH exception as Slicer::HardCrash.
-		if (win32_seh_catched == STATUS_ACCESS_VIOLATION || win32_seh_catched == STATUS_DATATYPE_MISALIGNMENT)
+		if (win32_seh_caught == STATUS_ACCESS_VIOLATION || win32_seh_caught == STATUS_DATATYPE_MISALIGNMENT)
 			throw Slic3r::HardCrash(_u8L("Access violation"));
-		if (win32_seh_catched == STATUS_ILLEGAL_INSTRUCTION || win32_seh_catched == STATUS_PRIVILEGED_INSTRUCTION)
+		if (win32_seh_caught == STATUS_ILLEGAL_INSTRUCTION || win32_seh_caught == STATUS_PRIVILEGED_INSTRUCTION)
 			throw Slic3r::HardCrash(_u8L("Illegal instruction"));
-		if (win32_seh_catched == STATUS_FLOAT_DIVIDE_BY_ZERO || win32_seh_catched == STATUS_INTEGER_DIVIDE_BY_ZERO)
+		if (win32_seh_caught == STATUS_FLOAT_DIVIDE_BY_ZERO || win32_seh_caught == STATUS_INTEGER_DIVIDE_BY_ZERO)
 			throw Slic3r::HardCrash(_u8L("Divide by zero"));
-		if (win32_seh_catched == STATUS_FLOAT_OVERFLOW || win32_seh_catched == STATUS_INTEGER_OVERFLOW)
+		if (win32_seh_caught == STATUS_FLOAT_OVERFLOW || win32_seh_caught == STATUS_INTEGER_OVERFLOW)
 			throw Slic3r::HardCrash(_u8L("Overflow"));
-		if (win32_seh_catched == STATUS_FLOAT_UNDERFLOW)
+		if (win32_seh_caught == STATUS_FLOAT_UNDERFLOW)
 			throw Slic3r::HardCrash(_u8L("Underflow"));
 #ifdef STATUS_FLOATING_RESEVERED_OPERAND
-		if (win32_seh_catched == STATUS_FLOATING_RESEVERED_OPERAND)
+		if (win32_seh_caught == STATUS_FLOATING_RESEVERED_OPERAND)
 			throw Slic3r::HardCrash(_u8L("Floating reserved operand"));
 #endif // STATUS_FLOATING_RESEVERED_OPERAND
-		if (win32_seh_catched == STATUS_STACK_OVERFLOW)
+		if (win32_seh_caught == STATUS_STACK_OVERFLOW)
 			throw Slic3r::HardCrash(_u8L("Stack overflow"));
 	}
 }
@@ -316,21 +316,21 @@ static void rethrow_seh_exception(unsigned long win32_seh_catched)
 // Wrapper for Win32 structured exceptions. Win32 structured exception blocks and C++ exception blocks cannot be mixed in the same function.
 unsigned long BackgroundSlicingProcess::call_process_seh(std::exception_ptr &ex) throw()
 {
-	unsigned long win32_seh_catched = 0;
+	unsigned long win32_seh_caught = 0;
 	__try {
 		this->call_process(ex);
 	} __except (is_win32_seh_harware_exception(GetExceptionCode())) {
-		win32_seh_catched = GetExceptionCode();
+		win32_seh_caught = GetExceptionCode();
 	}
-	return win32_seh_catched;
+	return win32_seh_caught;
 }
 void BackgroundSlicingProcess::call_process_seh_throw(std::exception_ptr &ex) throw()
 {
-	unsigned long win32_seh_catched = this->call_process_seh(ex);
-	if (win32_seh_catched) {
+	unsigned long win32_seh_caught = this->call_process_seh(ex);
+	if (win32_seh_caught) {
 		// Rethrow SEH exception as Slicer::HardCrash.
 		try {
-			rethrow_seh_exception(win32_seh_catched);
+			rethrow_seh_exception(win32_seh_caught);
 		} catch (...) {
 			ex = std::current_exception();
 		}
@@ -359,21 +359,21 @@ void BackgroundSlicingProcess::call_process(std::exception_ptr &ex) throw()
 #ifdef _WIN32
 unsigned long BackgroundSlicingProcess::thread_proc_safe_seh() throw()
 {
-	unsigned long win32_seh_catched = 0;
+	unsigned long win32_seh_caught = 0;
 	__try {
 		this->thread_proc_safe();
 	} __except (is_win32_seh_harware_exception(GetExceptionCode())) {
-		win32_seh_catched = GetExceptionCode();
+		win32_seh_caught = GetExceptionCode();
 	}
-	return win32_seh_catched;
+	return win32_seh_caught;
 }
 void BackgroundSlicingProcess::thread_proc_safe_seh_throw() throw()
 {
-	unsigned long win32_seh_catched = this->thread_proc_safe_seh();
-	if (win32_seh_catched) {
+	unsigned long win32_seh_caught = this->thread_proc_safe_seh();
+	if (win32_seh_caught) {
 		// Rethrow SEH exception as Slicer::HardCrash.
 		try {
-			rethrow_seh_exception(win32_seh_catched);
+			rethrow_seh_exception(win32_seh_caught);
 		} catch (...) {
 			wxTheApp->OnUnhandledException();
 		}
@@ -699,7 +699,7 @@ void BackgroundSlicingProcess::finalize_gcode()
 	catch (...)
 	{
 		remove_post_processed_temp_file();
-		throw Slic3r::ExportError(_u8L("Unknown error occured during exporting G-code."));
+		throw Slic3r::ExportError(_u8L("Unknown error occurred during exporting G-code."));
 	}
 	switch (copy_ret_val) {
 	case CopyFileResult::SUCCESS: break; // no error
@@ -719,7 +719,7 @@ void BackgroundSlicingProcess::finalize_gcode()
 		throw Slic3r::ExportError(GUI::format(_L("Copying of the temporary G-code has finished but the exported code couldn't be opened during copy check. The output G-code is at %1%.tmp."), export_path));
 		break;
 	default:
-		throw Slic3r::ExportError(_u8L("Unknown error occured during exporting G-code."));
+		throw Slic3r::ExportError(_u8L("Unknown error occurred during exporting G-code."));
 		BOOST_LOG_TRIVIAL(error) << "Unexpected fail code(" << (int)copy_ret_val << ") durring copy_file() to " << export_path << ".";
 		break;
 	}

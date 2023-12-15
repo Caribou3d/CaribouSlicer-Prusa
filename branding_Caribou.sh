@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24087")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24088")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.1"/SLIC3R_VERSION "2.7.1"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,1,0"/SLIC3R_RC_VERSION "2,7,1,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/g' $SCRIPT_PATH/version.inc
