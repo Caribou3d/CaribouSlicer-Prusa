@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24118")/d' version.inc
+sed $SEDOPTION -i '/set(SLIC3R_BUILD_NR "24119")/d' version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.1"/SLIC3R_VERSION "2.7.1"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,1,0"/SLIC3R_RC_VERSION "2,7,1,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/g' $SCRIPT_PATH/version.inc
@@ -207,6 +207,9 @@ sed $SEDOPTION -i -e 's/GREENC()/ORANGE()/g' $SCRIPT_PATH/src/slic3r/GUI/Selecti
 find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed $SEDOPTION -i 's|COL_GREENC_|COL_ORANGE_|g' {} +
 
 sed $SEDOPTION -i '/find package\/resources\/localization -name "P\*.mo" -o -name "\*.txt" -o -name "P\*.pot" -type f -delete/d' src/platform/unix/BuildLinuxImage.sh.in
+
+sed $SEDOPTION -i 's/0.00f, 1.00f, 0.01f, 1.0f/1.00f, 0.49f, 0.22f, 1.0f/g' $SCRIPT_PATH/src/slic3r/GUI/GCodeViewer.cpp
+sed $SEDOPTION -i 's/1.00f, 0.49f, 0.21f, 1.0f/0.00f, 1.00f, 0.00f, 1.0f/g' $SCRIPT_PATH/src/slic3r/GUI/GCodeViewer.cpp
 
 #=====================================================================================
 

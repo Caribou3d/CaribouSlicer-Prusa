@@ -62,7 +62,7 @@ fi
 #
 # set version
 
-sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24118")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+sed $SEDOPTION -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "24119")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_VERSION "2.7.1"/SLIC3R_VERSION "2.7.1"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION "2,7,1,0"/SLIC3R_RC_VERSION "2,7,1,0"/g' $SCRIPT_PATH/version.inc
 sed $SEDOPTION -i 's/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/SLIC3R_RC_VERSION_DOTS "2.7.1.0"/g' $SCRIPT_PATH/version.inc
@@ -203,6 +203,9 @@ sed $SEDOPTION -i -e 's/ORANGE()/GREENC()/g' $SCRIPT_PATH/src/slic3r/GUI/Selecti
 find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed $SEDOPTION -i 's|COL_ORANGE_|COL_GREENC_|g' {} +
 
 sed $SEDOPTION -i '/find package\/resources\/localization -name "\*.po" -type f -delete/c\    find package/resources/localization -name "*.po" -type f -delete\n    find package/resources/localization -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" -type f -delete' src/platform/unix/BuildLinuxImage.sh.in
+
+sed $SEDOPTION -i 's/1.00f, 0.49f, 0.22f, 1.0f/0.00f, 1.00f, 0.01f, 1.0f/g' $SCRIPT_PATH/src/slic3r/GUI/GCodeViewer.cpp
+sed $SEDOPTION -i 's/0.00f, 1.00f, 0.00f, 1.0f/1.00f, 0.49f, 0.21f, 1.0f/g' $SCRIPT_PATH/src/slic3r/GUI/GCodeViewer.cpp
 
 #=====================================================================================
 
