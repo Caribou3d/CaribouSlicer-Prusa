@@ -10,7 +10,7 @@ rc = 2.7.0-rc1
 
 [release:win64]
 url = https://github.com/caribou3d/CaribouSlicer/releases/download/Caribou-2.7.1/CaribouSlicer-Win64-2.7.1.zip
-size = 69502226
+size = 84647225
 
 [release:linux]
 url = https://github.com/caribou3d/CaribouSlicer/releases/download/Caribou-2.7.1/CaribouSlicer-2.7.1.tgz
