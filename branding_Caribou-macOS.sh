@@ -56,7 +56,7 @@ sed -i '' 's/PrusaSlicer.pot/CaribouSlicer.pot/g' $SCRIPT_PATH/CMakeLists.txt
 sed -i '' 's/prusaslicer_copy/caribouslicer_copy/g' $SCRIPT_PATH/CMakeLists.txt
 sed -i '' 's/PrusaSlicer_app/CaribouSlicer_app/g' $SCRIPT_PATH/CMakeLists.txt
 
-sed -i '' 's/PrusaSlicer_\$/CaribouSlicer_\$/g' $SCRIPT_PATH/CMakeLists.txt
+sed -i '' -e 's/PrusaSlicer_\$/CaribouSlicer_\$/g' $SCRIPT_PATH/CMakeLists.txt
 sed -i '' 's/PrusaSlicer\*.po/CaribouSlicer*.po/g' $SCRIPT_PATH/CMakeLists.txt
 sed -i '' 's/PrusaSlicer_./CaribouSlicer_./g' $SCRIPT_PATH/CMakeLists.txt
 sed -i '' 's/PrusaSlicer.mo/CaribouSlicer.mo/g' $SCRIPT_PATH/CMakeLists.txt
@@ -291,7 +291,7 @@ sed -i '' 's/show_send_system_info_dialog/\/\/show_send_system_info_dialog/g' $S
 
 sed -i '' 's/PrusaSlicer is based on Slic3r by Alessandro Ranellucci and the RepRap community.");/CaribouSlicer is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill. Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.");/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
-sed -i '' 's/"<font color=%3%>"/"<font color=%3%>"\n            "Copyright \&copy; 2023  Caribou3d Research \& Development. <br \/>"/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
+sed -i -e '' 's/"<font color=%3%>"/"<font color=%3%>"\n            "Copyright \&copy; 2023  Caribou3d Research \& Development. <br \/>"/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
 sed -i '' 's/PrusaSlicerG/CaribouSlicerG/g' $SCRIPT_PATH/src/libslic3r/libslic3r.h
 sed -i '' 's/PrusaSlicerG/CaribouSlicerG/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
@@ -314,7 +314,7 @@ sed -i '' 's/prusaslicer_config/caribouslicer_config/g' $SCRIPT_PATH/src/libslic
 
 sed -i '' 's/string(SLIC3R_VERSION);/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/g' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
-sed -i '' 's/#define SLIC3R_VERSION "@SLIC3R_VERSION@"/#define SLIC3R_VERSION "@SLIC3R_VERSION@"\n#define SLIC3R_BUILD_NR "@SLIC3R_BUILD_NR@"/' $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in
+sed -i -e '' 's/#define SLIC3R_VERSION "@SLIC3R_VERSION@"/#define SLIC3R_VERSION "@SLIC3R_VERSION@"\n#define SLIC3R_BUILD_NR "@SLIC3R_BUILD_NR@"/' $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in
 sed -i '' 's/string(SLIC3R_VERSION);/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
 sed -i '' 's/SLIC3R_BUILD_ID/SLIC3R_BUILD_NR/g' $SCRIPT_PATH/src/slic3r/GUI/SysInfoDialog.cpp
