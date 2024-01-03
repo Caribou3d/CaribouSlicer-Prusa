@@ -98,9 +98,9 @@ sed -i "s/PrusaSlicer-gcodeviewer_/CaribouGcodeviewer_/g" $SCRIPT_PATH/src/slic3
 sed -i 's|github.com/prusa3d/PrusaSlicer/releases|github.com/caribou3d/CaribouSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
 sed -i 's/github.com\/prusa3d\/slic3r\/issues\/new/github.com\/Caribou3d\/CaribouSlicer\/issues\/new\/choose/' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
 sed -i 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
-sed -i '/title += wxString(build_id);/,/SetTitle(title);/c\    title += wxString(build_id);\n    SetTitle(title);' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
 
-sed -i '/wxMenu\* helpMenu = new wxMenu();/,/append_menu_item(helpMenu, wxID_ANY, _L("Software &Releases")/ {/wxMenu\* helpMenu = new wxMenu();/!{/append_menu_item(helpMenu, wxID_ANY, _L("Software &Releases")/!d}}' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
+#sed -i '/title += wxString(build_id);/,/SetTitle(title);/c\    title += wxString(build_id);\n    SetTitle(title);' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
+#sed -i '/wxMenu\* helpMenu = new wxMenu();/,/append_menu_item(helpMenu, wxID_ANY, _L("Software &Releases")/ {/wxMenu\* helpMenu = new wxMenu();/!{/append_menu_item(helpMenu, wxID_ANY, _L("Software &Releases")/!d}}' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
 
 #exit
 #=====================================================================================
@@ -131,8 +131,8 @@ sed -i -e 's/ORANGE()/GREENC()/g' $SCRIPT_PATH/src/slic3r/GUI/Gizmos/GLGizmoBase
 sed -i -e 's/ORANGE()/GREENC()/g' $SCRIPT_PATH/src/slic3r/GUI/Selection.cpp
 
 find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's|COL_ORANGE_|COL_GREENC_|g' {} +
-
-sed -i '/find package\/resources\/localization -name "\*.po" -type f -delete/c\    find package/resources/localization -name "*.po" -type f -delete\n    find package/resources/localization -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" -type f -delete' src/platform/unix/BuildLinuxImage.sh.in
+ 
+#sed -i '/find package\/resources\/localization -name "\*.po" -type f -delete/c\    find package/resources/localization -name "*.po" -type f -delete\n    find package/resources/localization -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" -type f -delete' src/platform/unix/BuildLinuxImage.sh.in
 
 #=====================================================================================
 
@@ -175,16 +175,16 @@ sed -i -e 's|github.com/prusa3d/PrusaSlicer/releases|github.com/caribou3d/Caribo
 sed -i -e 's|github.com/prusa3d/PrusaSlicer/releases|github.com/caribou3d/CaribouSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/NotificationManager.hpp
 sed -i -e 's|github.com/prusa3d/PrusaSlicer/releases|github.com/caribou3d/CaribouSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
-sed -n '1h; 1!H; ${ g; s/credits =.*Tools");/creditsreplacement/p }' src/slic3r/GUI/GUI_App.cpp > src/slic3r/GUI/GUI_App.cpp.tmp ; mv src/slic3r/GUI/GUI_App.cpp.tmp src/slic3r/GUI/GUI_App.cpp
-sed -i "
-{/creditsreplacement/ c\
-  \   \         credits = title + \" \" + \\
-                _L(\"is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill.\") + \"\\\n\" + \\
-                _L(\"Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.\") + \"\\\n\\\n\" + \\
-                title + \" \" + _L(\"is licensed under the\") + \" \" + _L(\"GNU Affero General Public License, version 3\") + \".\\\n\\\n\" + \\
-                _L(\"Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kr#al, David Kocik and numerous others.\") + \"\\\n\\\n\" + \\
-                _L(\"Artwork model by Creative Tools\");
-};" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
+#sed -n '1h; 1!H; ${ g; s/credits =.*Tools");/creditsreplacement/p }' src/slic3r/GUI/GUI_App.cpp > src/slic3r/GUI/GUI_App.cpp.tmp ; mv src/slic3r/GUI/GUI_App.cpp.tmp src/slic3r/GUI/GUI_App.cpp
+#sed -i "
+#{/creditsreplacement/ c\
+#  \   \         credits = title + \" \" + \\
+#                _L(\"is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill.\") + \"\\\n\" + \\
+#                _L(\"Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.\") + \"\\\n\\\n\" + \\
+#                title + \" \" + _L(\"is licensed under the\") + \" \" + _L(\"GNU Affero General Public License, version 3\") + \".\\\n\\\n\" + \\
+#                _L(\"Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kr#al, David Kocik and numerous others.\") + \"\\\n\\\n\" + \\
+#                _L(\"Artwork model by Creative Tools\");
+#};" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 #exit
 #=====================================================================================

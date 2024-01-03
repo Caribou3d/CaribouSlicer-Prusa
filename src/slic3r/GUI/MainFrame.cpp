@@ -99,7 +99,7 @@ public:
     GCodeViewerTaskBarIcon(wxTaskBarIconType iconType = wxTBI_DEFAULT_TYPE) : wxTaskBarIcon(iconType) {}
     wxMenu *CreatePopupMenu() override {
         wxMenu *menu = new wxMenu;
-        append_menu_item(menu, wxID_ANY, _L("Open PrusaSlicer"), _L("Open a new PrusaSlicer instance"),
+        append_menu_item(menu, wxID_ANY, _L("Open CaribouSlicer"), _L("Open a new PrusaSlicer instance"),
             [](wxCommandEvent&) { start_new_slicer(nullptr, true); }, "", nullptr);
         append_menu_item(menu, wxID_ANY, _L("G-code preview") + dots, _L("Open new G-code viewer"),
             [](wxCommandEvent&) { start_new_gcodeviewer_open_file(); }, "", nullptr);
@@ -117,19 +117,19 @@ static wxIcon main_frame_icon(GUI_App::EAppMode app_mode)
     if (len > 0 && len < MAX_PATH) {
         path.erase(path.begin() + len, path.end());
         if (app_mode == GUI_App::EAppMode::GCodeViewer) {
-            // Only in case the slicer was started with --gcodeviewer parameter try to load the icon from prusa-gcodeviewer.exe
+            // Only in case the slicer was started with --gcodeviewer parameter try to load the icon from caribou-gcodeviewer.exe
             // Otherwise load it from the exe.
-            for (const std::wstring_view exe_name : { std::wstring_view(L"prusa-slicer.exe"), std::wstring_view(L"prusa-slicer-console.exe") })
+            for (const std::wstring_view exe_name : { std::wstring_view(L"caribou-slicer.exe"), std::wstring_view(L"caribou-slicer-console.exe") })
                 if (boost::iends_with(path, exe_name)) {
                     path.erase(path.end() - exe_name.size(), path.end());
-                    path += L"prusa-gcodeviewer.exe";
+                    path += L"caribou-gcodeviewer.exe";
                     break;
                 }
         }
     }
     return wxIcon(path, wxBITMAP_TYPE_ICO);
 #else // _WIN32
-    return wxIcon(Slic3r::var(app_mode == GUI_App::EAppMode::Editor ? "PrusaSlicer_128px.png" : "PrusaSlicer-gcodeviewer_128px.png"), wxBITMAP_TYPE_PNG);
+    return wxIcon(Slic3r::var(app_mode == GUI_App::EAppMode::Editor ? "CaribouSlicer_128px.png" : "CaribouGcodeviewer_128px.png"), wxBITMAP_TYPE_PNG);
 #endif // _WIN32
 }
 
@@ -155,11 +155,11 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_S
     default:
     case GUI_App::EAppMode::Editor:
         m_taskbar_icon = std::make_unique<PrusaSlicerTaskBarIcon>(wxTBI_DOCK);
-        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("PrusaSlicer-mac_128px.png"), wxBITMAP_TYPE_PNG), "PrusaSlicer");
+        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("CaribouSlicer-mac_128px.png"), wxBITMAP_TYPE_PNG), "CaribouSlicer");
         break;
     case GUI_App::EAppMode::GCodeViewer:
         m_taskbar_icon = std::make_unique<GCodeViewerTaskBarIcon>(wxTBI_DOCK);
-        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("PrusaSlicer-gcodeviewer-mac_128px.png"), wxBITMAP_TYPE_PNG), "G-code Viewer");
+        m_taskbar_icon->SetIcon(wxIcon(Slic3r::var("CaribouGcodeviewer-mac_128px.png"), wxBITMAP_TYPE_PNG), "G-code Viewer");
         break;
     }
 #endif // __APPLE__
@@ -174,7 +174,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_S
 //        m_statusbar->embed(this);
 //    m_statusbar->set_status_text(_L("Version") + " " +
 //        SLIC3R_VERSION + " - " +
-//       _L("Remember to check for updates at https://github.com/prusa3d/PrusaSlicer/releases"));
+//       _L("Remember to check for updates at https://github.com/caribou3d/CaribouSlicer/releases"));
 
     // initialize tabpanel and menubar
     init_tabpanel();
@@ -242,7 +242,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_S
             }
             // check unsaved changes only if project wasn't saved
             else if (plater()->is_project_dirty() && saved_project == wxID_NO && event.CanVeto() &&
-                     (plater()->is_presets_dirty() && !wxGetApp().check_and_save_current_preset_changes(_L("PrusaSlicer is closing"), _L("Closing PrusaSlicer while some presets are modified.")))) {
+                     (plater()->is_presets_dirty() && !wxGetApp().check_and_save_current_preset_changes(_L("CaribouSlicer is closing"), _L("Closing PrusaSlicer while some presets are modified.")))) {
                 event.Veto();
                 return;
             }
@@ -717,11 +717,7 @@ void MainFrame::update_title()
     }
 
     title += wxString(build_id);
-    if (wxGetApp().is_editor())
-        title += (" " + _L("based on Slic3r"));
-
-    SetTitle(title);
-}
+    SetTitle(title);}
 
 void MainFrame::init_tabpanel()
 {
@@ -1156,25 +1152,10 @@ static const wxString sep_space = "";
 #endif
 
 static wxMenu* generate_help_menu()
-{
+{ 
     wxMenu* helpMenu = new wxMenu();
-
-    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("%s &Website"), SLIC3R_APP_NAME),
-        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),
-        [](wxCommandEvent&) { wxGetApp().open_web_page_localized("https://www.prusa3d.com/slicerweb"); });
-    // TRN Item from "Help" menu
-    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("&Quick Start"), SLIC3R_APP_NAME),
-        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),
-        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://help.prusa3d.com/article/first-print-with-prusaslicer_1753", nullptr, false); });
-    // TRN Item from "Help" menu
-    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("Sample &G-codes and Models"), SLIC3R_APP_NAME),
-        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),
-        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://help.prusa3d.com/article/sample-g-codes_529630", nullptr, false); });
-    helpMenu->AppendSeparator();
-    append_menu_item(helpMenu, wxID_ANY, _L("Prusa 3D &Drivers"), _L("Open the Prusa3D drivers download page in your browser"),
-        [](wxCommandEvent&) { wxGetApp().open_web_page_localized("https://www.prusa3d.com/downloads"); });
     append_menu_item(helpMenu, wxID_ANY, _L("Software &Releases"), _L("Open the software releases page in your browser"),
-        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://github.com/prusa3d/PrusaSlicer/releases", nullptr, false); });
+        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer/releases", nullptr, false); });
 //#        my $versioncheck = $self->_append_menu_item($helpMenu, "Check for &Updates...", "Check for new Slic3r versions", sub{
 //#            wxTheApp->check_version(1);
 //#        });
@@ -1188,7 +1169,7 @@ static wxMenu* generate_help_menu()
     append_menu_item(helpMenu, wxID_ANY, _L("Show &Configuration Folder"), _L("Show user configuration folder (datadir)"),
         [](wxCommandEvent&) { Slic3r::GUI::desktop_open_datadir_folder(); });
     append_menu_item(helpMenu, wxID_ANY, _L("Report an I&ssue"), wxString::Format(_L("Report an issue on %s"), SLIC3R_APP_NAME),
-        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://github.com/prusa3d/slic3r/issues/new", nullptr, false); });
+        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://github.com/Caribou3d/CaribouSlicer/issues/new/choose", nullptr, false); });
     if (wxGetApp().is_editor())
         append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("&About %s"), SLIC3R_APP_NAME), _L("Show about dialog"),
             [](wxCommandEvent&) { Slic3r::GUI::about(); });
@@ -1646,7 +1627,7 @@ void MainFrame::init_menubar_as_gcodeviewer()
         append_menu_item(fileMenu, wxID_ANY, _L("Export &Toolpaths as OBJ") + dots, _L("Export toolpaths as OBJ"),
             [this](wxCommandEvent&) { if (m_plater != nullptr) m_plater->export_toolpaths_to_obj(); }, "export_plater", nullptr,
             [this]() {return can_export_toolpaths(); }, this);
-        append_menu_item(fileMenu, wxID_ANY, _L("Open &PrusaSlicer") + dots, _L("Open PrusaSlicer"),
+        append_menu_item(fileMenu, wxID_ANY, _L("Open &CaribouSlicer") + dots, _L("Open CaribouSlicer"),
             [](wxCommandEvent&) { start_new_slicer(); }, "", nullptr,
             []() {return true; }, this);
         fileMenu->AppendSeparator();
@@ -2285,7 +2266,7 @@ SettingsDialog::SettingsDialog(MainFrame* mainframe)
         SetIcon(wxIcon(szExeFileName, wxBITMAP_TYPE_ICO));
     }
 #else
-    SetIcon(wxIcon(var("PrusaSlicer_128px.png"), wxBITMAP_TYPE_PNG));
+    SetIcon(wxIcon(var("CaribouSlicer_128px.png"), wxBITMAP_TYPE_PNG));
 #endif // _WIN32
 
     this->Bind(wxEVT_SHOW, [this](wxShowEvent& evt) {

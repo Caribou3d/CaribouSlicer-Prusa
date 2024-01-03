@@ -78,24 +78,24 @@ sed -i "s/CaribouGcodeviewer_/PrusaSlicer-gcodeviewer_/g" $SCRIPT_PATH/src/slic3
 sed -i 's|github.com/caribou3d/CaribouSlicer/releases|github.com/prusa3d/PrusaSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
 sed -i 's/github.com\/Caribou3d\/CaribouSlicer\/issues\/new\/choose/github.com\/prusa3d\/slic3r\/issues\/new/' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
 sed -i 's/CaribouSlicer"/PrusaSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
-sed -i '/title += wxString(build_id);/a\    if (wxGetApp().is_editor())\n        title += (" " + _L("based on Slic3r"));\n' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
+#sed -i '/title += wxString(build_id);/a\    if (wxGetApp().is_editor())\n        title += (" " + _L("based on Slic3r"));\n' $SCRIPT_PATH/src/slic3r/GUI/MainFrame.cpp
 
-sed -i '/wxMenu\* helpMenu = new wxMenu();/a\
-\
-    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("%s &Website"), SLIC3R_APP_NAME),\
-        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),\
-        [](wxCommandEvent&) { wxGetApp().open_web_page_localized("https://www.prusa3d.com/slicerweb"); });\
-    // TRN Item from "Help" menu\
-    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("&Quick Start"), SLIC3R_APP_NAME),\
-        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),\
-        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://help.prusa3d.com/article/first-print-with-prusaslicer_1753", nullptr, false); });\
-    // TRN Item from "Help" menu\
-    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("Sample &G-codes and Models"), SLIC3R_APP_NAME),\
-        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),\
-        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://help.prusa3d.com/article/sample-g-codes_529630", nullptr, false); });\
-    helpMenu->AppendSeparator();\
-    append_menu_item(helpMenu, wxID_ANY, _L("Prusa 3D &Drivers"), _L("Open the Prusa3D drivers download page in your browser"),\
-        [](wxCommandEvent&) { wxGetApp().open_web_page_localized("https://www.prusa3d.com/downloads"); });' src/slic3r/GUI/MainFrame.cpp
+#sed -i '/wxMenu\* helpMenu = new wxMenu();/a\
+#\
+#    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("%s &Website"), SLIC3R_APP_NAME),\
+#        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),\
+#        [](wxCommandEvent&) { wxGetApp().open_web_page_localized("https://www.prusa3d.com/slicerweb"); });\
+#    // TRN Item from "Help" menu\
+#    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("&Quick Start"), SLIC3R_APP_NAME),\
+#        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),\
+#        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://help.prusa3d.com/article/first-print-with-prusaslicer_1753", nullptr, false); });\
+#    // TRN Item from "Help" menu\
+#    append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("Sample &G-codes and Models"), SLIC3R_APP_NAME),\
+#        wxString::Format(_L("Open the %s website in your browser"), SLIC3R_APP_NAME),\
+#        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://help.prusa3d.com/article/sample-g-codes_529630", nullptr, false); });\
+#    helpMenu->AppendSeparator();\
+#    append_menu_item(helpMenu, wxID_ANY, _L("Prusa 3D &Drivers"), _L("Open the Prusa3D drivers download page in your browser"),\
+#        [](wxCommandEvent&) { wxGetApp().open_web_page_localized("https://www.prusa3d.com/downloads"); });' src/slic3r/GUI/MainFrame.cpp
 
 #exit
 #=====================================================================================
@@ -114,7 +114,7 @@ sed -i -e "s/ImVec4 orange_color			= ImVec4(0.063f, 0.353f, 0.094f, 1.0f);/ImVec
 sed -i -e "s/return dark_mode() ? wxColour(24, 180, 36) : wxColour(16, 124, 24);/return dark_mode() ? wxColour(253, 111, 40) : wxColour(252, 77, 1);/g" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 sed -i -e "s/wxColour(16, 124, 24)/wxColour(237, 107, 33)/g"  $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
-
+ 
 sed -i -e "s/107C18/ED6B21/g" $SCRIPT_PATH/src/slic3r/GUI/BitmapCache.cpp
 sed -i -e "s/107c18/ed6b21/g" $SCRIPT_PATH/src/slic3r/GUI/UnsavedChangesDialog.cpp
 
@@ -128,7 +128,7 @@ sed -i -e 's/GREENC()/ORANGE()/g' $SCRIPT_PATH/src/slic3r/GUI/Selection.cpp
 
 find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's|COL_GREENC_|COL_ORANGE_|g' {} +
 
-sed -i '/find package\/resources\/localization -name "P\*.mo" -o -name "\*.txt" -o -name "P\*.pot" -type f -delete/d' src/platform/unix/BuildLinuxImage.sh.in
+#sed -i '/find package\/resources\/localization -name "P\*.mo" -o -name "\*.txt" -o -name "P\*.pot" -type f -delete/d' src/platform/unix/BuildLinuxImage.sh.in
 
 #exit
 #=====================================================================================
@@ -169,16 +169,16 @@ sed -i -e 's|github.com/caribou3d/CaribouSlicer/releases|github.com/prusa3d/Prus
 sed -i -e 's|github.com/caribou3d/CaribouSlicer/releases|github.com/prusa3d/PrusaSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/NotificationManager.hpp
 sed -i -e 's|github.com/caribou3d/CaribouSlicer/releases|github.com/prusa3d/PrusaSlicer/releases|g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
-sed -n '1h; 1!H; ${ g; s/credits =.*Tools");/creditsreplacement/p }' src/slic3r/GUI/GUI_App.cpp > src/slic3r/GUI/GUI_App.cpp.tmp ; mv src/slic3r/GUI/GUI_App.cpp.tmp src/slic3r/GUI/GUI_App.cpp
-sed -i "
-{/creditsreplacement/ c\
-  \   \         credits = title + \" \" +\\
-                _L(\"is based on Slic3r by Alessandro Ranellucci and the RepRap community.\") + \"\\\n\" +\\
-                _L(\"Developed by Prusa Research.\") + \"\\\n\\\n\" +\\
-                title + \" \" + _L(\"is licensed under the\") + \" \" + _L(\"GNU Affero General Public License, version 3\") + \".\\\n\\\n\" +\\
-                _L(\"Contributions by Vojtech Bubnik, Enrico Turri, Oleksandra Iushchenko, Tamas Meszaros, Lukas Matena, Vojtech Kral, David Kocik and numerous others.\") + \"\\\n\\\n\" +\\
-                _L(\"Artwork model by Creative Tools\");
-};" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
+#sed -n '1h; 1!H; ${ g; s/credits =.*Tools");/creditsreplacement/p }' src/slic3r/GUI/GUI_App.cpp > src/slic3r/GUI/GUI_App.cpp.tmp ; mv src/slic3r/GUI/GUI_App.cpp.tmp src/slic3r/GUI/GUI_App.cpp
+#sed -i "
+#{/creditsreplacement/ c\
+#  \   \         credits = title + \" \" +\\
+#                _L(\"is based on Slic3r by Alessandro Ranellucci and the RepRap community.\") + \"\\\n\" +\\
+#                _L(\"Developed by Prusa Research.\") + \"\\\n\\\n\" +\\
+#                title + \" \" + _L(\"is licensed under the\") + \" \" + _L(\"GNU Affero General Public License, version 3\") + \".\\\n\\\n\" +\\
+#                _L(\"Contributions by Vojtech Bubnik, Enrico Turri, Oleksandra Iushchenko, Tamas Meszaros, Lukas Matena, Vojtech Kral, David Kocik and numerous others.\") + \"\\\n\\\n\" +\\
+#                _L(\"Artwork model by Creative Tools\");
+#};" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 find $SCRIPT_PATH/src/slic3r/GUI -maxdepth 1 -type f ! -name "*branding*" -exec sed -i 's/caribou-slicer-console/prusa-slicer-console/g' {} \;
 find $SCRIPT_PATH/doc -maxdepth 1 -type f ! -name "*branding*" -exec sed -i 's/caribou-slicer-console/prusa-slicer-console/g' {} \;
