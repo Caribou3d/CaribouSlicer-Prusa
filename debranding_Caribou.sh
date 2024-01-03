@@ -143,7 +143,7 @@ sed -i 's/Caribou G/PrusaSlicer G/g' $SCRIPT_PATH/src/libslic3r/libslic3r.h
 #sed -i '/set(SLIC3R_VIEWER "caribou-gcodeviewer")/d' version.inc
 #sed -i 's/set(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/' $SCRIPT_PATH/version.inc
 
-sed -i -e 's/CaribouGcodeviewer/PrusaSlicer-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i -e 's/CaribouGcodeviewer/PrusaSlicer-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
 sed -i -e 's/CaribouGcodeviewer/PrusaSlicer-gcodeviewer/g' $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegrationDialog.cpp
 sed -i -e 's/CaribouGcodeviewer/PrusaSlicer-gcodeviewer/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.hpp
 
@@ -195,7 +195,7 @@ find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's/caribou-gcodeviewer/pru
 find $SCRIPT_PATH/src/slic3r/Utils -type f -exec sed -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' {} +
 find $SCRIPT_PATH/src/platform/msw -type f -exec sed -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' {} +
 sed -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' $SCRIPT_PATH/build_win.bat
-sed -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
 
 sed -i 's/\.\/CaribouSlicer/\.\/prusa-slicer/g' "/home/wschadow/gittmp/CaribouSlicer/doc/How to build - Linux et al.md"
 sed -i 's/src\/CaribouSlicer/src\/prusa-slicer/g' "/home/wschadow/gittmp/CaribouSlicer/doc/How to build - Mac OS.md"
@@ -210,7 +210,7 @@ sed -i 's/Name=CaribouSlicer/Name=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/
 sed -i 's/Icon=CaribouSlicer/Icon=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
 sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
 sed -i 's/StartupWMClass=CaribouSlicer/StartupWMClass=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
-
+ 
 sed -i 's/Name=Caribou/Name=Prusa/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 sed -i 's/Icon=CaribouSlicer-/Icon=PrusaSlicer-/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
@@ -227,7 +227,7 @@ sed -i -e 's/"CaribouSlicer.manifest"/"PrusaSlicer.manifest"/g' $SCRIPT_PATH/src
 sed -i -e 's/"Caribou3d Research"/"Prusa Research"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
 sed -i -e 's/"CaribouSlicer.manifest"/"PrusaSlicer.manifest"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
 
-sed -i -e 's/CaribouSlicer.manifest/PrusaSlicer.manifest/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i -e 's/CaribouSlicer.manifest/PrusaSlicer.manifest/g' $SCRIPT_PATH/src/CMakeLists.txt
 
 sed -i 's/Copyright \\251 2023 Caribou3d, \\251 2016/Copyright \\251 2016/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in
 sed -i 's/Copyright \\251 2023 Caribou3d, \\251 2016/Copyright \\251 2016/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
@@ -240,29 +240,29 @@ sed -i -e 's/caribou-slicer binary/prusa-slicer binary/g' $SCRIPT_PATH/src/Carib
 sed -i -e 's/Invoking caribou-slicer/Invoking prusa-slicer/g' $SCRIPT_PATH/src/CaribouSlicer.cpp
 sed -i -e 's/Usage: caribouslicer/Usage: prusa-slicer/g' $SCRIPT_PATH/src/CaribouSlicer.cpp
 
-sed -i 's/reate_symlink caribou-slicer/reate_symlink prusa-slicer/g' $SCRIPT_PATH/src/CMakeLists.txt
-sed -i 's/NAME "caribou-slicer"/NAME "prusa-slicer"/g' $SCRIPT_PATH/src/CMakeLists.txt
-sed -i 's/to caribou-slicer/to prusa-slicer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/reate_symlink caribou-slicer/reate_symlink prusa-slicer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/NAME "caribou-slicer"/NAME "prusa-slicer"/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/to caribou-slicer/to prusa-slicer/g' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i 's/ln -sf CaribouSlicer/ln -sf prusa-slicer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/ln -sf CaribouSlicer/ln -sf prusa-slicer/g' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i 's/Renaming caribou-slicer, symlinking the G-code viewer to CaribouSlicer"/Symlinking the G-code viewer to PrusaSlicer"/g' "$SCRIPT_PATH/src/CMakeLists.txt"
-sed -i 's/"Renaming caribou-slicer, symlinking the G-code viewer to CaribouSlicer, symlinking to prusa-slicer and prusa-gcodeviewer"/"Symlinking the G-code viewer to PrusaSlicer, symlinking to prusa-slicer and prusa-gcodeviewer"/g' "$SCRIPT_PATH/src/CMakeLists.txt"
+#sed -i 's/Renaming caribou-slicer, symlinking the G-code viewer to CaribouSlicer"/Symlinking the G-code viewer to PrusaSlicer"/g' "$SCRIPT_PATH/src/CMakeLists.txt"
+#sed -i 's/"Renaming caribou-slicer, symlinking the G-code viewer to CaribouSlicer, symlinking to prusa-slicer and prusa-gcodeviewer"/"Symlinking the G-code viewer to PrusaSlicer, symlinking to prusa-slicer and prusa-gcodeviewer"/g' "$SCRIPT_PATH/src/CMakeLists.txt"
 
-sed -i 's/COMMAND ln -sf CaribouSlicer caribou-gcodeviewer/COMMAND ln -sf PrusaSlicer caribou-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
-sed -i 's/COMMAND ln -sf CaribouSlicer PrusaGCodeViewer/COMMAND ln -sf PrusaSlicer PrusaGCodeViewer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/COMMAND ln -sf CaribouSlicer caribou-gcodeviewer/COMMAND ln -sf PrusaSlicer caribou-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/COMMAND ln -sf CaribouSlicer PrusaGCodeViewer/COMMAND ln -sf PrusaSlicer PrusaGCodeViewer/g' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i '/COMMAND mv caribou-slicer CaribouSlicer/d' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i '/COMMAND mv caribou-slicer CaribouSlicer/d' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i 's/CaribouSlicer.rc/PrusaSlicer.rc/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i 's/CaribouSlicer.rc/PrusaSlicer.rc/g' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i '/COMMAND ln -sf prusa-slicer caribou-slicer/d' $SCRIPT_PATH/src/CMakeLists.txt
-sed '0,/COMMAND ln -sf prusa-slicer prusa-gcodeviewer/s//COMMAND ln -sf PrusaSlicer prusa-slicer\n            COMMAND ln -sf PrusaSlicer prusa-gcodeviewer\n            COMMAND ln -sf PrusaSlicer PrusaGCodeViewer/' $SCRIPT_PATH/src/CMakeLists.txt > $SCRIPT_PATH/src/CMakeLists.txt.tmp
-mv $SCRIPT_PATH/src/CMakeLists.txt.tmp $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i '/COMMAND ln -sf prusa-slicer caribou-slicer/d' $SCRIPT_PATH/src/CMakeLists.txt
+#sed '0,/COMMAND ln -sf prusa-slicer prusa-gcodeviewer/s//COMMAND ln -sf PrusaSlicer prusa-slicer\n            COMMAND ln -sf PrusaSlicer prusa-gcodeviewer\n            COMMAND ln -sf PrusaSlicer PrusaGCodeViewer/' $SCRIPT_PATH/src/CMakeLists.txt > $SCRIPT_PATH/src/CMakeLists.txt.tmp
+#mv $SCRIPT_PATH/src/CMakeLists.txt.tmp $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i '/COMMAND ln -sf prusa-slicer CaribouGCodeViewer/d' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i '/COMMAND ln -sf prusa-slicer CaribouGCodeViewer/d' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i '/for various platforms\./,/\(configure_file(\${CMAKE_CURRENT_SOURCE_DIR}\/platform\/msw\/PrusaSlicer.rc.in\)/{//!d;}' "$SCRIPT_PATH/src/CMakeLists.txt"
+#sed -i '/for various platforms\./,/\(configure_file(\${CMAKE_CURRENT_SOURCE_DIR}\/platform\/msw\/PrusaSlicer.rc.in\)/{//!d;}' "$SCRIPT_PATH/src/CMakeLists.txt"
 
 sed -i -e 's/CaribouSlicer.desktop/PrusaSlicer.desktop/g' $SCRIPT_PATH/CMakeLists.txt
 sed -i -e 's/CaribouGcodeviewer.desktop/PrusaGcodeviewer.desktop/g' $SCRIPT_PATH/CMakeLists.txt
@@ -318,9 +318,9 @@ sed -i 's/"CaribouSlicer/"PrusaSlicer/g' $SCRIPT_PATH/src/slic3r/Config/Snapshot
 sed -i 's/"caribouslicer/"prusaslicer/g' $SCRIPT_PATH/src/slic3r/GUI/Plater.cpp
 sed -i 's/"CaribouSlicer/"PrusaSlicer/g' $SCRIPT_PATH/sandboxes/opencsg/main.cpp
 
-sed -i -e 's/caribouslicer/prusaslicer/g' $SCRIPT_PATH/src/CMakeLists.txt
-sed -i -e 's/CaribouSlicer/PrusaSlicer/g' $SCRIPT_PATH/src/CMakeLists.txt
-sed -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i -e 's/caribouslicer/prusaslicer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i -e 's/CaribouSlicer/PrusaSlicer/g' $SCRIPT_PATH/src/CMakeLists.txt
+#sed -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/src/CMakeLists.txt
 
 sed -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/sandboxes/its_neighbor_index/CMakeLists.txt
 sed -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/sandboxes/meshboolean/CMakeLists.txt
