@@ -23,7 +23,7 @@ find $SCRIPT_PATH/resources/profiles -type f ! -name "Trimaker.ini" -exec sed -i
 #
 # set version
 
-sed -i '/set(SLIC3R_BUILD_NR "23274")/d' version.inc
+sed -i '/set(SLIC3R_BUILD_NR "23279")/d' version.inc
 
 #=====================================================================================
 #
@@ -200,36 +200,36 @@ sed -i 's/caribou-gcodeviewer/prusa-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.t
 sed -i 's/\.\/CaribouSlicer/\.\/prusa-slicer/g' "/home/wschadow/gittmp/CaribouSlicer/doc/How to build - Linux et al.md"
 sed -i 's/src\/CaribouSlicer/src\/prusa-slicer/g' "/home/wschadow/gittmp/CaribouSlicer/doc/How to build - Mac OS.md"
 
-mv $SCRIPT_PATH/src/platform/unix/CaribouSlicer.desktop $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop 
-mv $SCRIPT_PATH/src/platform/unix/CaribouGcodeviewer.desktop $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop 
+mv $SCRIPT_PATH/src/platform/unix/CaribouSlicer.desktop $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
+mv $SCRIPT_PATH/src/platform/unix/CaribouGcodeviewer.desktop $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 mv $SCRIPT_PATH/src/platform/msw/CaribouSlicer.manifest.in $SCRIPT_PATH/src/platform/msw/PrusaSlicer.manifest.in
 
 sed -i -e 's/CaribouGcodeviewer/PrusaSlicer-gcodeviewer/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 
-sed -i 's/Name=CaribouSlicer/Name=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop 
-sed -i 's/Icon=CaribouSlicer/Icon=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop 
-sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop 
-sed -i 's/StartupWMClass=CaribouSlicer/StartupWMClass=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop 
+sed -i 's/Name=CaribouSlicer/Name=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
+sed -i 's/Icon=CaribouSlicer/Icon=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
+sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
+sed -i 's/StartupWMClass=CaribouSlicer/StartupWMClass=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
 
-sed -i 's/Name=Caribou/Name=Prusa/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop 
-sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop 
-sed -i 's/Icon=CaribouSlicer-/Icon=PrusaSlicer-/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop 
+sed -i 's/Name=Caribou/Name=Prusa/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
+sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
+sed -i 's/Icon=CaribouSlicer-/Icon=PrusaSlicer-/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 
-mv $SCRIPT_PATH/src/platform/msw/CaribouSlicer.rc.in $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in 
+mv $SCRIPT_PATH/src/platform/msw/CaribouSlicer.rc.in $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in
 mv $SCRIPT_PATH/src/platform/msw/CaribouGcodeviewer.rc.in $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
 
-sed -i -e 's/CaribouSlicer.ico/PrusaSlicer.ico/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in 
+sed -i -e 's/CaribouSlicer.ico/PrusaSlicer.ico/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in
 sed -i -e 's/CaribouGcodeviewer.ico/PrusaSlicer-gcodeviewer.ico/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
 
-sed -i -e 's/"Caribou3d Research"/"Prusa Research"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in 
-sed -i -e 's/"CaribouSlicer.manifest"/"PrusaSlicer.manifest"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in 
+sed -i -e 's/"Caribou3d Research"/"Prusa Research"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in
+sed -i -e 's/"CaribouSlicer.manifest"/"PrusaSlicer.manifest"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in
 
 sed -i -e 's/"Caribou3d Research"/"Prusa Research"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
-sed -i -e 's/"CaribouSlicer.manifest"/"PrusaSlicer.manifest"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in 
+sed -i -e 's/"CaribouSlicer.manifest"/"PrusaSlicer.manifest"/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
 
 sed -i -e 's/CaribouSlicer.manifest/PrusaSlicer.manifest/g' $SCRIPT_PATH/src/CMakeLists.txt
 
-sed -i 's/Copyright \\251 2023 Caribou3d, \\251 2016/Copyright \\251 2016/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in 
+sed -i 's/Copyright \\251 2023 Caribou3d, \\251 2016/Copyright \\251 2016/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer.rc.in
 sed -i 's/Copyright \\251 2023 Caribou3d, \\251 2016/Copyright \\251 2016/g' $SCRIPT_PATH/src/platform/msw/PrusaSlicer-gcodeviewer.rc.in
 
 sed -i -e 's/"CaribouSlicer" : "/"prusa-slicer" : "/g' $SCRIPT_PATH/src/slic3r/Utils/Process.cpp
@@ -301,7 +301,7 @@ find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's/CaribouSlicer is releas
 find $SCRIPT_PATH/src/libslic3r -type f -exec sed -i 's/CaribouSlicer is released/PrusaSlicer is released/g' {} +
 
 sed -i 's/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/string(SLIC3R_VERSION);/g' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
- 
+
 sed -i '/#define SLIC3R_BUILD_NR "@SLIC3R_BUILD_NR@/d' $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in
 sed -i 's/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/string(SLIC3R_VERSION);/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
