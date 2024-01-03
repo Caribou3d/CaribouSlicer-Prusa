@@ -28,7 +28,7 @@ sed -i '' 's|# changelog_url = https://files.prusa3d.com/?latest=slicer-profiles
 #
 # set version
 
-sed -i '' 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "23284")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+#sed -i '' 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "23284")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 
 #=====================================================================================
 #
@@ -194,7 +194,7 @@ sed -i '' -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/Ins
 sed -i '' -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.hpp
 sed -i '' -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 sed -i '' -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
-sed -i '' -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/version.inc
+#sed -i '' -e 's/"PrusaSlicer"/"CaribouSlicer"/g' $SCRIPT_PATH/version.inc
 
 #exit
 #=====================================================================================

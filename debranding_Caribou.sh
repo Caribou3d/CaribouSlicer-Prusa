@@ -23,7 +23,7 @@ find $SCRIPT_PATH/resources/profiles -type f ! -name "Trimaker.ini" -exec sed -i
 #
 # set version
 
-sed -i '/set(SLIC3R_BUILD_NR "23284")/d' version.inc
+#sed -i '/set(SLIC3R_BUILD_NR "23284")/d' version.inc
 
 #=====================================================================================
 #
@@ -140,8 +140,8 @@ sed -i 's/Caribou G/PrusaSlicer G/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cp
 sed -i 's/Caribou G/PrusaSlicer G/g' $SCRIPT_PATH/src/slic3r/GUI/Preferences.cpp
 sed -i 's/Caribou G/PrusaSlicer G/g' $SCRIPT_PATH/src/libslic3r/libslic3r.h
 
-sed -i '/set(SLIC3R_VIEWER "caribou-gcodeviewer")/d' version.inc
-sed -i 's/set(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/' $SCRIPT_PATH/version.inc
+#sed -i '/set(SLIC3R_VIEWER "caribou-gcodeviewer")/d' version.inc
+#sed -i 's/set(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/' $SCRIPT_PATH/version.inc
 
 sed -i -e 's/CaribouGcodeviewer/PrusaSlicer-gcodeviewer/g' $SCRIPT_PATH/src/CMakeLists.txt
 sed -i -e 's/CaribouGcodeviewer/PrusaSlicer-gcodeviewer/g' $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegrationDialog.cpp
@@ -157,7 +157,7 @@ sed -i -e 's/"CaribouSlicer"/"PrusaSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/Instan
 sed -i -e 's/"CaribouSlicer"/"PrusaSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.hpp
 sed -i -e 's/"CaribouSlicer"/"PrusaSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 sed -i -e 's/"CaribouSlicer"/"PrusaSlicer"/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
-sed -i -e 's/"CaribouSlicer"/"PrusaSlicer"/g' $SCRIPT_PATH/version.inc
+#sed -i -e 's/"CaribouSlicer"/"PrusaSlicer"/g' $SCRIPT_PATH/version.inc
 
 sed -i -e 's|URL_CHANGELOG = "https://github.com/caribou3d/CaribouSlicer/releases"|URL_CHANGELOG = "https://files.prusa3d.com/?latest=slicer-stable\&lng=\%1\%"|g' $SCRIPT_PATH/src/slic3r/GUI/UpdateDialogs.cpp
 sed -i -e 's|URL_DOWNLOAD = "https://github.com/caribou3d/CaribouSlicer/releases"|URL_DOWNLOAD = "https://www.prusa3d.com/slicerweb\&lng=\%1\%"|g' src/slic3r/GUI/UpdateDialogs.cpp
