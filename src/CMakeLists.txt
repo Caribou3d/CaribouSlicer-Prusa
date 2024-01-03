@@ -87,7 +87,7 @@ if (SLIC3R_GUI)
         list(FILTER wxWidgets_LIBRARIES EXCLUDE REGEX expat)
         list(APPEND wxWidgets_LIBRARIES libexpat)
     endif ()
-    
+
     # This is an issue in the new wxWidgets cmake build, doesn't deal with librt
     find_library(LIBRT rt)
     if(LIBRT)
@@ -98,7 +98,7 @@ if (SLIC3R_GUI)
     # wrong libs for opengl in the link line and it does not link to it by himself.
     # libslic3r_gui will link to opengl anyway, so lets override wx
     list(FILTER wxWidgets_LIBRARIES EXCLUDE REGEX OpenGL)
-    
+
     if (UNIX AND NOT APPLE)
         list(APPEND wxWidgets_LIBRARIES X11 wayland-client wayland-egl EGL)
     endif ()
@@ -126,8 +126,16 @@ if (MINGW)
     set_target_properties(PrusaSlicer PROPERTIES PREFIX "")
 endif (MINGW)
 
+if (APPLE)
+    # Binary name on unix like systems (Linux, Unix)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/osx/BuildMacOSImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildMacOSImage.sh @ONLY)
+    set_target_properties(PrusaSlicer PROPERTIES OUTPUT_NAME "prusa-slicer")
+endif ()
+
+
 if (NOT WIN32 AND NOT APPLE)
     # Binary name on unix like systems (Linux, Unix)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/unix/BuildLinuxImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildLinuxImage.sh @ONLY)
     set_target_properties(PrusaSlicer PROPERTIES OUTPUT_NAME "prusa-slicer")
 endif ()
 

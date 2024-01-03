@@ -69,7 +69,7 @@ echo -n "Creating Appimage for distribution..."
     chmod +x ../src/build_appimage.sh
     ../src/build_appimage.sh
     popd
-    mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLI3R_BUILD_NR@-linux-x64.AppImage"
+    mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-linux-x64.AppImage"
 #} &> $ROOT/Build.log # Capture all command output
 echo "done"
 fi
