@@ -275,8 +275,8 @@ sed -i 's/CaribouSlicer/PrusaSlicer/g' $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegr
 sed -i 's/\/\/show_send_system_info_dialog/show_send_system_info_dialog/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 sed -i 's/CaribouSlicer is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill. Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.");/PrusaSlicer is based on Slic3r by Alessandro Ranellucci and the RepRap community.");/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
-
-sed -i '/Copyright \&copy; 2023  Caribou3d Research \& Development. <br \/>/d' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
+ 
+#sed -i '/Copyright \&copy; 2023  Caribou3d Research \& Development. <br \/>/d' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
 sed -i 's/CaribouSlicerG/PrusaSlicerG/g' $SCRIPT_PATH/src/libslic3r/libslic3r.h
 sed -i 's/CaribouSlicerG/PrusaSlicerG/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
@@ -301,8 +301,8 @@ find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's/CaribouSlicer is releas
 find $SCRIPT_PATH/src/libslic3r -type f -exec sed -i 's/CaribouSlicer is released/PrusaSlicer is released/g' {} +
 
 sed -i 's/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/string(SLIC3R_VERSION);/g' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
-
-sed -i '/#define SLIC3R_BUILD_NR "@SLIC3R_BUILD_NR@/d' $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in
+ 
+#sed -i '/#define SLIC3R_BUILD_NR "@SLIC3R_BUILD_NR@/d' $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in
 sed -i 's/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/string(SLIC3R_VERSION);/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
 sed -i 's/SLIC3R_BUILD_NR/SLIC3R_BUILD_ID/g' $SCRIPT_PATH/src/slic3r/GUI/SysInfoDialog.cpp
