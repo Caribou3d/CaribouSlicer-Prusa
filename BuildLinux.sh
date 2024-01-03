@@ -174,14 +174,16 @@ if [[ -n "$BUILD_DEPS" ]]
 then
     if [[ -n $BUILD_WIPE ]]
     then
+       echo -e "\n wiping deps/build directory...\n"
        rm -fr deps/build
+       echo -e " ... done\n"
     fi
     # mkdir build in deps
     if [ ! -d "deps/build" ]
     then
 	mkdir deps/build
     fi
-    echo -e "[1/9] Configuring dependencies...\n"
+    echo -e "[1/9] Configuring dependencies ...\n"
     BUILD_ARGS=""
     if [[ -n "$FOUND_GTK3_DEV" ]]
     then
@@ -205,13 +207,13 @@ then
     pushd deps/build > /dev/null
     cmake .. $BUILD_ARGS
 
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 
     echo -e "\n[2/9] Building dependencies...\n"
 
     # make deps
     make -j$NCORES
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 
     # rename wxscintilla
     echo "[3/9] Renaming wxscintilla library..."
@@ -223,13 +225,13 @@ then
         cp libwxscintilla-3.2.a libwx_gtk3u_scintilla-3.2.a
     fi
     popd > /dev/null
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 
     # clean deps
     echo "[4/9] Cleaning dependencies..."
     rm -rf dep_*
     popd  > /dev/null
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 fi
 
 if [[ -n "$BUILD_PRUSASLICER" ]]
@@ -237,7 +239,9 @@ then
     echo -e "[5/9] Configuring PrusaSlicer ...\n"
     if [[ -n $BUILD_WIPE ]]
     then
+       echo -e "\n wiping build directory ...\n"
        rm -fr build
+       echo -e "\n ... done"
     fi
     # mkdir build
     if [ ! -d "build" ]
@@ -258,18 +262,18 @@ then
     # cmake
     pushd build > /dev/null
     cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
-    echo "... done"
+    echo " ... done"
     # make PrusaSlicer
     echo -e "\n[6/9] Building PrusaSlicer ...\n"
     make -j$NCORES
-	echo -e "\n... done"
+	echo -e "\n ... done"
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
     make gettext_po_to_mo
 
     popd  > /dev/null
-    echo -e "\n... done"
+    echo -e "\n ... done"
 
     # Give proper permissions to script
     chmod 755 $ROOT/build/src/BuildLinuxImage.sh

@@ -23,7 +23,7 @@ find $SCRIPT_PATH/resources/profiles -type f ! -name "Trimaker.ini" -exec sed -i
 #
 # set version
 
-sed -i '/set(SLIC3R_BUILD_NR "23279")/d' version.inc
+sed -i '/set(SLIC3R_BUILD_NR "23284")/d' version.inc
 
 #=====================================================================================
 #
@@ -114,7 +114,7 @@ sed -i -e "s/ImVec4 orange_color			= ImVec4(0.063f, 0.353f, 0.094f, 1.0f);/ImVec
 sed -i -e "s/return dark_mode() ? wxColour(24, 180, 36) : wxColour(16, 124, 24);/return dark_mode() ? wxColour(253, 111, 40) : wxColour(252, 77, 1);/g" $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 sed -i -e "s/wxColour(16, 124, 24)/wxColour(237, 107, 33)/g"  $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
- 
+
 sed -i -e "s/107C18/ED6B21/g" $SCRIPT_PATH/src/slic3r/GUI/BitmapCache.cpp
 sed -i -e "s/107c18/ed6b21/g" $SCRIPT_PATH/src/slic3r/GUI/UnsavedChangesDialog.cpp
 
@@ -275,7 +275,7 @@ sed -i 's/CaribouSlicer/PrusaSlicer/g' $SCRIPT_PATH/src/slic3r/GUI/DesktopIntegr
 sed -i 's/\/\/show_send_system_info_dialog/show_send_system_info_dialog/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_App.cpp
 
 sed -i 's/CaribouSlicer is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill. Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.");/PrusaSlicer is based on Slic3r by Alessandro Ranellucci and the RepRap community.");/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
- 
+
 #sed -i '/Copyright \&copy; 2023  Caribou3d Research \& Development. <br \/>/d' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
 sed -i 's/CaribouSlicerG/PrusaSlicerG/g' $SCRIPT_PATH/src/libslic3r/libslic3r.h
@@ -301,7 +301,7 @@ find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's/CaribouSlicer is releas
 find $SCRIPT_PATH/src/libslic3r -type f -exec sed -i 's/CaribouSlicer is released/PrusaSlicer is released/g' {} +
 
 sed -i 's/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/string(SLIC3R_VERSION);/g' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
- 
+
 #sed -i '/#define SLIC3R_BUILD_NR "@SLIC3R_BUILD_NR@/d' $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in
 sed -i 's/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/string(SLIC3R_VERSION);/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 

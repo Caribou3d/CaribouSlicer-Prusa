@@ -70,7 +70,7 @@ while getopts ":idaxbhcsw" opt; do
         ;;
     d )
         BUILD_DEPS="1"
-        ;;        
+        ;;
     a )
         export BUILD_ARCH="arm64"
         ;;
@@ -88,17 +88,17 @@ while getopts ":idaxbhcsw" opt; do
         ;;
     w )
 	    BUILD_WIPE="1"
-	;;        
+	;;
     h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-x][-b][-c][-s][-i]"
-        echo "   -h: this message"    
-	    echo "   -w: wipe build directories bfore building"        
+        echo "   -h: this message"
+	    echo "   -w: wipe build directories bfore building"
         echo "   -d: build dependencies"
         echo "   -a: Build for arm64 (Apple Silicon)"
         echo "   -x: Build for x86_64 (Intel)"
         echo "   -b: Build with debug symbols"
         echo "   -c: Build for XCode"
-        echo "   -s: build PrusaSlicer"        
-        echo "   -i: Generate DMG image (optional)\n"        
+        echo "   -s: build PrusaSlicer"
+        echo "   -i: Generate DMG image (optional)\n"
         exit 0
         ;;
   esac
@@ -107,15 +107,15 @@ done
 if [ $OPTIND -eq 1 ]
 then
     echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-x][-b][-c][-s][-i]"
-    echo "   -h: this message"   
-	echo "   -w: wipe build directories bfore building"         
+    echo "   -h: this message"
+	echo "   -w: wipe build directories bfore building"
     echo "   -d: build dependencies"
     echo "   -a: Build for arm64 (Apple Silicon)"
     echo "   -x: Build for x86_64 (Intel)"
     echo "   -b: Build with debug symbols"
     echo "   -c: Build for XCode"
-    echo "   -s: build PrusaSlicer"    
-    echo -e "   -i: Generate DMG image (optional)\n"        
+    echo "   -s: build PrusaSlicer"
+    echo -e "   -i: Generate DMG image (optional)\n"
     exit 0
 fi
 
@@ -125,7 +125,9 @@ if [[ -n "$BUILD_DEPS" ]]
 then
     if [[ -n $BUILD_WIPE ]]
     then
+       echo -e "\n wiping deps/build directory ...\n"
        rm -fr deps/build
+       echo -e " ... done\n"
     fi
     # mkdir in deps
     if [ ! -d "deps/build" ]
@@ -145,16 +147,16 @@ then
     # cmake deps
     echo "Cmake command: cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET=\"10.14\" ${BUILD_ARCH} "
     pushd deps/build > /dev/null
-    cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET="10.14" $BUILD_ARGS 
+    cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET="10.14" $BUILD_ARGS
 
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 
     echo -e "[2/9] Building dependencies ...\n"
 
     # make deps
     make -j$NCORES
 
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 
     echo -e "[3/9] Renaming wxscintilla library ...\n"
 
@@ -163,7 +165,7 @@ then
     cp libwxscintilla-3.2.a libwx_osx_cocoau_scintilla-3.2.a
 
     popd > /dev/null
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 
     echo -e "[4/9] Cleaning dependencies...\n"
 
@@ -171,7 +173,7 @@ then
     rm -rf dep_*
     popd > /dev/null
 
-    echo -e "\n... done\n"
+    echo -e "\n ... done\n"
 fi
 
 if [[ -n "$BUILD_PRUSASLICER" ]]
@@ -180,7 +182,9 @@ then
 
     if [[ -n $BUILD_WIPE ]]
     then
+       echo -e "\n wiping build directory...\n"
        rm -fr build
+       echo -e " ... done\n"
     fi
 
     # mkdir build
@@ -205,29 +209,29 @@ then
     # cmake
     pushd build > /dev/null
     cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.14" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
-    echo -e "\n... done"
+    echo -e "\n ... done"
 
     # make Slic3r
     if [[ -z "$BUILD_XCODE" ]]
     then
         echo -e "\n[6/9] Building PrusaSlicer ...\n"
         make -j$NCORES
-        echo -e "\n... done"
+        echo -e "\n ... done"
     fi
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
     make gettext_po_to_mo
-    
+
     popd  > /dev/null
-    echo -e "\n... done"
+    echo -e "\n ... done"
 
     # Give proper permissions to script
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
 
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -a 
-    popd  > /dev/null  
+    $ROOT/build/src/BuildMacOSImage.sh -a
+    popd  > /dev/null
 fi
 
 if [[ -n "$BUILD_IMAGE" ]]

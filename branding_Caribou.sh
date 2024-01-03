@@ -28,7 +28,7 @@ sed -i 's|# changelog_url = https://files.prusa3d.com/?latest=slicer-profiles&ln
 #
 # set version
 
-sed -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "23279")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
+sed -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "23284")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 
 #=====================================================================================
 #
@@ -131,7 +131,7 @@ sed -i -e 's/ORANGE()/GREENC()/g' $SCRIPT_PATH/src/slic3r/GUI/Gizmos/GLGizmoBase
 sed -i -e 's/ORANGE()/GREENC()/g' $SCRIPT_PATH/src/slic3r/GUI/Selection.cpp
 
 find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's|COL_ORANGE_|COL_GREENC_|g' {} +
- 
+
 #sed -i '/find package\/resources\/localization -name "\*.po" -type f -delete/c\    find package/resources/localization -name "*.po" -type f -delete\n    find package/resources/localization -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" -type f -delete' src/platform/unix/BuildLinuxImage.sh.in
 
 #=====================================================================================
@@ -290,7 +290,7 @@ sed -i 's/show_send_system_info_dialog/\/\/show_send_system_info_dialog/g' $SCRI
 
 
 sed -i 's/PrusaSlicer is based on Slic3r by Alessandro Ranellucci and the RepRap community.");/CaribouSlicer is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill. Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.");/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
- 
+
 #sed -i 's/"<font color=%3%>"/"<font color=%3%>"\n            "Copyright \&copy; 2023  Caribou3d Research \& Development. <br \/>"/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
 sed -i 's/PrusaSlicerG/CaribouSlicerG/g' $SCRIPT_PATH/src/libslic3r/libslic3r.h
@@ -313,7 +313,7 @@ sed -i 's/prusaslicer_config/caribouslicer_config/g' $SCRIPT_PATH/src/libslic3r/
 sed -i 's/prusaslicer_config/caribouslicer_config/g' $SCRIPT_PATH/src/libslic3r/GCode.cpp
 
 sed -i 's/string(SLIC3R_VERSION);/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/g' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
- 
+
 # sed -i 's/#define SLIC3R_VERSION "@SLIC3R_VERSION@"/#define SLIC3R_VERSION "@SLIC3R_VERSION@"\n#define SLIC3R_BUILD_NR "@SLIC3R_BUILD_NR@"/' $SCRIPT_PATH/src/libslic3r/libslic3r_version.h.in
 sed -i 's/string(SLIC3R_VERSION);/string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);/' $SCRIPT_PATH/src/slic3r/GUI/AboutDialog.cpp
 
