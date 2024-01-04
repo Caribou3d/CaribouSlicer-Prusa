@@ -4,7 +4,7 @@
 set(SLIC3R_APP_NAME "CaribouSlicer")
 set(SLIC3R_APP_KEY "CaribouSlicer")
 set(SLIC3R_VERSION "2.6.1")
-set(SLIC3R_BUILD_NR "23285")
+set(SLIC3R_BUILD_NR "23287")
 set(SLIC3R_VIEWER "caribou-gcodeviewer")
 set(SLIC3R_BUILD_ID "CaribouSlicer-${SLIC3R_VERSION} Build: ${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")
 set(SLIC3R_RC_VERSION "2,6,1,0")

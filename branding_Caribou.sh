@@ -27,7 +27,7 @@ sed -i 's|# changelog_url = https://files.prusa3d.com/?latest=slicer-profiles&ln
 #=====================================================================================
 #
 # set version
- 
+
 #sed -i 's/set(SLIC3R_BUILD_ID "PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN")/set(SLIC3R_BUILD_NR "23284")\nset(SLIC3R_VIEWER "caribou-gcodeviewer")\nset(SLIC3R_BUILD_ID "CaribouSlicer-\${SLIC3R_VERSION} Build: \${SLIC3R_BUILD_NR} flavored version of PrusaSlicer (based on SuperSlicer and Slic3r)")/' $SCRIPT_PATH/version.inc
 
 #=====================================================================================
@@ -135,7 +135,7 @@ find $SCRIPT_PATH/src/slic3r/GUI -type f -exec sed -i 's|COL_ORANGE_|COL_GREENC_
 #sed -i '/find package\/resources\/localization -name "\*.po" -type f -delete/c\    find package/resources/localization -name "*.po" -type f -delete\n    find package/resources/localization -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" -type f -delete' src/platform/unix/BuildLinuxImage.sh.in
 
 #=====================================================================================
-  
+
 sed -i 's/PrusaSlicer GU/CaribouSlicer GU/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_Init.cpp
 sed -i 's/PrusaSlicer GU/CaribouSlicer GU/g' $SCRIPT_PATH/src/slic3r/GUI/GUI_Init.cpp
 sed -i 's/PrusaSlicer GU/CaribouSlicer GU/g' $SCRIPT_PATH/src/slic3r/GUI/ConfigWizard.cpp
@@ -350,3 +350,5 @@ mv $SCRIPT_PATH/src/PrusaSlicer.hpp $SCRIPT_PATH/src/CaribouSlicer.hpp
 
 mv $SCRIPT_PATH/src/PrusaSlicer_app_msvc.cpp $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp
 
+git checkout src/slic3r/GUI/AboutDialog.cpp
+git checkout src/slic3r/GUI/MainFrame.cpp
