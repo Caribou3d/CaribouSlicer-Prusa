@@ -350,5 +350,4 @@ mv $SCRIPT_PATH/src/PrusaSlicer.hpp $SCRIPT_PATH/src/CaribouSlicer.hpp
 
 mv $SCRIPT_PATH/src/PrusaSlicer_app_msvc.cpp $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp
 
-git checkout src/slic3r/GUI/AboutDialog.cpp
-git checkout src/slic3r/GUI/MainFrame.cpp
+

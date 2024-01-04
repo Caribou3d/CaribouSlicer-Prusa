@@ -210,7 +210,7 @@ sed -i 's/Name=CaribouSlicer/Name=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/
 sed -i 's/Icon=CaribouSlicer/Icon=PrusaSlicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
 sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
 sed -i 's/StartupWMClass=CaribouSlicer/StartupWMClass=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaSlicer.desktop
- 
+
 sed -i 's/Name=Caribou/Name=Prusa/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 sed -i 's/Exec=CaribouSlicer/Exec=prusa-slicer/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
 sed -i 's/Icon=CaribouSlicer-/Icon=PrusaSlicer-/g' $SCRIPT_PATH/src/platform/unix/PrusaGcodeviewer.desktop
@@ -331,10 +331,12 @@ sed -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/tests/l
 sed -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/tests/sla_print/CMakeLists.txt
 sed -i -e 's/caribouslicer_copy_dll/prusaslicer_copy_dll/g' $SCRIPT_PATH/tests/slic3rutils/CMakeLists.txt
 
-
-
 sed -i -e 's/CaribouSlicer.hpp/PrusaSlicer.hpp/g' $SCRIPT_PATH/src/CaribouSlicer.cpp
 mv $SCRIPT_PATH/src/CaribouSlicer.cpp $SCRIPT_PATH/src/PrusaSlicer.cpp
 mv $SCRIPT_PATH/src/CaribouSlicer.hpp $SCRIPT_PATH/src/PrusaSlicer.hpp
 
 mv $SCRIPT_PATH/src/CaribouSlicer_app_msvc.cpp $SCRIPT_PATH/src/PrusaSlicer_app_msvc.cpp
+
+git checkout src/slic3r/GUI/AboutDialog.cpp
+git checkout src/slic3r/GUI/MainFrame.cpp
+git checkout src/CMakeLists.txt
