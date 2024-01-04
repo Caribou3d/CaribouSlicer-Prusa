@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script can download and compile dependencies, compile PrusauSlicer
+# This script can download and compile dependencies, compile CaribouSlicer
 # and optional build a .tgz and an appimage.
 #
 # Original script from SuperSclier by supermerill https://github.com/supermerill/SuperSlicer
@@ -75,7 +75,7 @@ while getopts ":hugbdsiw" opt; do
         BUILD_DEPS="1"
         ;;
     s )
-        BUILD_PRUSASLICER="1"
+        BUILD_CARIBOUSLICER="1"
         ;;
     b )
         BUILD_DEBUG="1"
@@ -93,7 +93,7 @@ while getopts ":hugbdsiw" opt; do
         echo "   -g: force gtk2 build"
         echo "   -b: build in debug mode"
         echo "   -d: build deps"
-        echo "   -s: build PrusaSlicer"
+        echo "   -s: build CaribouSlicer"
         echo "   -i: Generate appimage (optional)"
         echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
         echo -e "   and then './BuildLinux.sh -dsi'\n"
@@ -111,7 +111,7 @@ then
     echo "   -g: force gtk2 build"
     echo "   -b: build in debug mode"
     echo "   -d: build deps"
-    echo "   -s: build PrusaSlicer"
+    echo "   -s: build CaribouSlicer"
     echo "   -i: generate appimage (optional)"
     echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
     echo -e "   and then './BuildLinux.sh -dsi'\n"
@@ -234,9 +234,9 @@ then
     echo -e "\n ... done\n"
 fi
 
-if [[ -n "$BUILD_PRUSASLICER" ]]
+if [[ -n "$BUILD_CARIBOUSLICER" ]]
 then
-    echo -e "[5/9] Configuring PrusaSlicer ...\n"
+    echo -e "[5/9] Configuring CaribouSlicer ...\n"
     if [[ -n $BUILD_WIPE ]]
     then
        echo -e "\n wiping build directory ...\n"
@@ -263,8 +263,8 @@ then
     pushd build > /dev/null
     cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo " ... done"
-    # make PrusaSlicer
-    echo -e "\n[6/9] Building PrusaSlicer ...\n"
+    # make CaribouSlicer
+    echo -e "\n[6/9] Building CaribouSlicer ...\n"
     make -j$NCORES
 	echo -e "\n ... done"
 
