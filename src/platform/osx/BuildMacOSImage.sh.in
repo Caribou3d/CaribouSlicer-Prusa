@@ -12,20 +12,30 @@
 # 01 Jan 2024, wschadow, debranding for the Prusa version, added build options
 #
 
+BUILD_ARCH=$(uname -m)
+
 export ROOT=`pwd`
 export NCORES=`sysctl -n hw.ncpu`
 
-while getopts ":iha" opt; do
+while getopts ":ihpxa" opt; do
   case ${opt} in
     i )
         export BUILD_IMAGE="1"
         ;;
-    a )
+    p )
         export BUILD_APP="1"
+        ;;
+    a )
+        export BUILD_ARCH="arm64"
+        ;;
+    x )
+        export BUILD_ARCH="x86_64"
         ;;
     h ) echo "Usage: ./BuildMacOSImage.sh [-i][-a][-h]"
         echo "   -i: generate DMG image (optional)"
-    	echo "   -a: generate App (optional)"
+    	echo "   -p: generate App (optional)"
+        echo "   -a: Build for arm64 (Apple Silicon)"
+        echo "   -x: Build for x86_64 (Intel)"
         echo "   -h: help"
         exit 0
         ;;
@@ -66,7 +76,7 @@ then
     # copy bin and do not let it lower case
     cp -f src/@SLIC3R_APP_NAME@ pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/@SLIC3R_APP_KEY@
     chmod u+x pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/@SLIC3R_APP_KEY@
-    tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-macOS.tgz pack/@SLIC3R_APP_KEY@ &>/dev/null
+    tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-macOS-$BUILD_ARCH.tgz pack/@SLIC3R_APP_KEY@ &>/dev/null
 
     echo -e "\n... done\n"
 fi   
@@ -77,7 +87,7 @@ then
 
     # create dmg
     hdiutil create -ov -fs HFS+ -volname "@SLIC3R_APP_KEY@" -srcfolder "pack/@SLIC3R_APP_KEY@" temp.dmg
-    hdiutil convert temp.dmg -format UDZO -o @SLIC3R_APP_KEY@-@SLIC3R_VERSION@.dmg
+    hdiutil convert temp.dmg -format UDZO -o @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-macOS-$BUILD_ARCH.dmg
     rm -f temp.dmg
     echo -e "\n... done\n"
 fi

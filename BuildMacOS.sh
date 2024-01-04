@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script can download and compile dependencies, compile PrusauSlicer
+# This script can download and compile dependencies, compile CaribouSlicer
 # and optional build a .tgz and an appimage.
 #
 # Original script from SuperSclier by supermerill https://github.com/supermerill/SuperSlicer
@@ -13,7 +13,6 @@
 
 export ROOT=`pwd`
 export NCORES=`sysctl -n hw.ncpu`
-
 
 OS_FOUND=$( command -v uname)
 
@@ -63,6 +62,8 @@ then
     exit -1
 fi
 
+BUILD_ARCH=$(uname -m)
+
 while getopts ":idaxbhcsw" opt; do
   case ${opt} in
     i )
@@ -72,16 +73,18 @@ while getopts ":idaxbhcsw" opt; do
         BUILD_DEPS="1"
         ;;
     a )
-        export BUILD_ARCH="arm64"
+        BUILD_ARCH="arm64"
+        BUILD_IMG="-a"
         ;;
     x )
-        export BUILD_ARCH="x86_64"
+        BUILD_ARCH="x86_64"
+        BUILD_IMG="-x"
         ;;
     b )
         BUILD_DEBUG="1"
         ;;
     s )
-        BUILD_PRUSASLICER="1"
+        BUILD_CARIBOUSLICER="1"
         ;;
     c)
         BUILD_XCODE="1"
@@ -97,7 +100,7 @@ while getopts ":idaxbhcsw" opt; do
         echo "   -x: Build for x86_64 (Intel)"
         echo "   -b: Build with debug symbols"
         echo "   -c: Build for XCode"
-        echo "   -s: build PrusaSlicer"
+        echo "   -s: build CaribouSlicer"
         echo "   -i: Generate DMG image (optional)\n"
         exit 0
         ;;
@@ -114,12 +117,15 @@ then
     echo "   -x: Build for x86_64 (Intel)"
     echo "   -b: Build with debug symbols"
     echo "   -c: Build for XCode"
-    echo "   -s: build PrusaSlicer"
+    echo "   -s: build CaribouSlicer"
     echo -e "   -i: Generate DMG image (optional)\n"
     exit 0
 fi
 
+echo $BUILD_ARCH
+export $BUILD_ARCH
 export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix zstd)/lib/
+
 
 if [[ -n "$BUILD_DEPS" ]]
 then
@@ -176,9 +182,9 @@ then
     echo -e "\n ... done\n"
 fi
 
-if [[ -n "$BUILD_PRUSASLICER" ]]
+if [[ -n "$BUILD_CARIBOUSLICER" ]]
 then
-    echo -e "[5/9] Configuring PrusaSlicer ...\n"
+    echo -e "[5/9] Configuring CaribouSlicer ...\n"
 
     if [[ -n $BUILD_WIPE ]]
     then
@@ -214,7 +220,7 @@ then
     # make Slic3r
     if [[ -z "$BUILD_XCODE" ]]
     then
-        echo -e "\n[6/9] Building PrusaSlicer ...\n"
+        echo -e "\n[6/9] Building CaribouSlicer ...\n"
         make -j$NCORES
         echo -e "\n ... done"
     fi
@@ -230,7 +236,7 @@ then
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
 
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -a
+    $ROOT/build/src/BuildMacOSImage.sh -p $BUILD_IMG
     popd  > /dev/null
 fi
 
@@ -239,6 +245,6 @@ then
     # Give proper permissions to script
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -i
+    $ROOT/build/src/BuildMacOSImage.sh -i $BUILD_IMG
     popd  > /dev/null
 fi
