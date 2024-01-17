@@ -934,7 +934,7 @@ void NotificationManager::ProgressBarNotification::render_text(ImGuiWrapper& img
 }
 void NotificationManager::ProgressBarNotification::render_bar(ImGuiWrapper& imgui, const float win_size_x, const float win_size_y, const float win_pos_x, const float win_pos_y)
 {
-	ImVec4 orange_color			= ImVec4(.99f, .313f, .0f, 1.0f);
+	ImVec4 orange_color			= ImVec4(0.0f, 0.859f, 0.031f, 1.0f);
 	ImVec4 gray_color			= ImVec4(.34f, .34f, .34f, 1.0f);
 	ImVec2 lineEnd				= ImVec2(win_pos_x - m_window_width_offset, win_pos_y + win_size_y / 2 + (m_multiline ? m_line_height / 2 : 0));
 	ImVec2 lineStart			= ImVec2(win_pos_x - win_size_x + m_left_indentation, win_pos_y + win_size_y / 2 + (m_multiline ? m_line_height / 2 : 0));

@@ -365,7 +365,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     def = this->add("printhost_port", coString);
     def->label = L("Printer");
     def->tooltip = L("Name of the printer");
@@ -373,7 +373,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     def = this->add("printhost_cafile", coString);
     def->label = L("HTTPS CA File");
     def->tooltip = L("Custom CA certificate file can be specified for HTTPS OctoPrint connections, in crt/pem format. "
@@ -381,16 +381,16 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     // Options used by physical printers
-    
+
     def = this->add("printhost_user", coString);
     def->label = L("User");
 //    def->tooltip = L("");
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     def = this->add("printhost_password", coString);
     def->label = L("Password");
 //    def->tooltip = L("");
@@ -406,7 +406,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionBool(false));
-    
+
     def = this->add("preset_names", coStrings);
     def->label = L("Printer preset names");
     def->tooltip = L("Names of presets related to the physical printer");
@@ -458,18 +458,18 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("avoid_crossing_perimeters", coBool);
-    def->label = L("Avoid crossing perimeters");
-    def->tooltip = L("Optimize travel moves in order to minimize the crossing of perimeters. "
+    def->label = L("Avoid crossing walls");
+    def->tooltip = L("Optimize travel moves in order to minimize the crossing of walls. "
                    "This is mostly useful with Bowden extruders which suffer from oozing. "
                    "This feature slows down both the print and the G-code generation.");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("avoid_crossing_perimeters_max_detour", coFloatOrPercent);
-    def->label = L("Avoid crossing perimeters - Max detour length");
+    def->label = L("Avoid crossing walls - Max detour length");
     def->category = L("Layers and Perimeters");
-    def->tooltip = L("The maximum detour length for avoid crossing perimeters. "
-                     "If the detour is longer than this value, avoid crossing perimeters is not applied for this travel path. "
+    def->tooltip = L("The maximum detour length for avoid crossing walls. "
+                     "If the detour is longer than this value, avoid crossing walls is not applied for this travel path. "
                      "Detour length could be specified either as an absolute value or as percentage (for example 50%) of a direct travel path.");
     def->sidetext = L("mm or % (zero to disable)");
     def->min = 0;
@@ -698,7 +698,7 @@ void PrintConfigDef::init_fff_params()
         { "no_brim",         L("No brim") },
         { "outer_only",      L("Outer brim only") },
         { "inner_only",      L("Inner brim only") },
-        { "outer_and_inner", L("Outer and inner brim") } 
+        { "outer_and_inner", L("Outer and inner brim") }
     });
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionEnum<BrimType>(btOuterOnly));
@@ -840,7 +840,7 @@ void PrintConfigDef::init_fff_params()
     def = this->add("end_gcode", coString);
     def->label = L("End G-code");
     def->tooltip = L("This end procedure is inserted at the end of the output file. "
-                   "Note that you can use placeholder variables for all PrusaSlicer settings.");
+                   "Note that you can use placeholder variables for all CaribouSlicer settings.");
     def->multiline = true;
     def->full_width = true;
     def->height = 12;
@@ -851,7 +851,7 @@ void PrintConfigDef::init_fff_params()
     def->label = L("End G-code");
     def->tooltip = L("This end procedure is inserted at the end of the output file, before the printer end gcode (and "
                    "before any toolchange from this filament in case of multimaterial printers). "
-                   "Note that you can use placeholder variables for all PrusaSlicer settings. "
+                   "Note that you can use placeholder variables for all CaribouSlicer settings. "
                    "If you have multiple extruders, the gcode is processed in extruder order.");
     def->multiline = true;
     def->full_width = true;
@@ -860,7 +860,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionStrings { "; Filament-specific end gcode \n;END gcode for filament\n" });
 
     auto def_top_fill_pattern = def = this->add("top_fill_pattern", coEnum);
-    def->label = L("Top fill pattern");
+    def->label = L("Top");
     def->category = L("Infill");
     def->tooltip = L("Fill pattern for top infill. This only affects the top visible layer, and not its adjacent solid shells.");
     def->cli = "top-fill-pattern|external-fill-pattern|solid-fill-pattern";
@@ -880,7 +880,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionEnum<InfillPattern>(ipMonotonic));
 
     def = this->add("bottom_fill_pattern", coEnum);
-    def->label = L("Bottom fill pattern");
+    def->label = L("Bottom");
     def->category = L("Infill");
     def->tooltip = L("Fill pattern for bottom infill. This only affects the bottom external visible layer, and not its adjacent solid shells.");
     def->cli = "bottom-fill-pattern|external-fill-pattern";
@@ -927,7 +927,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloatOrPercent(50, true));
 
     def = this->add("external_perimeters_first", coBool);
-    def->label = L("External perimeters first");
+    def->label = L("External walls first");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("Print contour perimeters from the outermost one to the innermost one "
                    "instead of the default inverse order.");
@@ -935,7 +935,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("extra_perimeters", coBool);
-    def->label = L("Extra perimeters if needed");
+    def->label = L("If needed");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("Add more perimeters when needed for avoiding gaps in sloping walls. "
                    "Slic3r keeps adding perimeters, until more than 70% of the loop immediately above "
@@ -944,7 +944,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(true));
 
     def = this->add("extra_perimeters_on_overhangs", coBool);
-    def->label = L("Extra perimeters on overhangs (Experimental)");
+    def->label = L("On overhangs");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("Detect overhang areas where bridges cannot be anchored, and fill them with "
                     "extra perimeter paths. These paths are anchored to the nearby non-overhang area when possible.");
@@ -957,7 +957,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The extruder to use (unless more specific extruder settings are specified). "
                    "This value overrides perimeter and infill extruders, but not the support extruders.");
     def->min = 0;  // 0 = inherit defaults
-    def->set_enum_labels(ConfigOptionDef::GUIType::i_enum_open, 
+    def->set_enum_labels(ConfigOptionDef::GUIType::i_enum_open,
         { L("default"), "1", "2", "3", "4", "5" }); // override label for item 0
 
     def = this->add("extruder_clearance_height", coFloat);
@@ -1218,11 +1218,11 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The filament material type for use in custom G-codes.");
     def->gui_flags = "show_value";
     def->set_enum_values(ConfigOptionDef::GUIType::select_open, {
-        "PLA", 
+        "PLA",
         "PET",
         "ABS",
         "ASA",
-        "FLEX", 
+        "FLEX",
         "HIPS",
         "EDGE",
         "NGEN",
@@ -1331,7 +1331,7 @@ void PrintConfigDef::init_fff_params()
     def->set_enum<InfillPattern>({
         { "rectilinear",        L("Rectilinear") },
         { "alignedrectilinear", L("Aligned Rectilinear") },
-        { "grid",               L("Grid") }, 
+        { "grid",               L("Grid") },
         { "triangles",          L("Triangles")},
         { "stars",              L("Stars")},
         { "cubic",              L("Cubic")},
@@ -1504,7 +1504,7 @@ void PrintConfigDef::init_fff_params()
     def->label = L("G-code flavor");
     def->tooltip = L("Some G/M-code commands, including temperature control and others, are not universal. "
                    "Set this option to your printer's firmware to get a compatible output. "
-                   "The \"No extrusion\" flavor prevents PrusaSlicer from exporting any extrusion value at all.");
+                   "The \"No extrusion\" flavor prevents CaribouSlicer from exporting any extrusion value at all.");
     def->set_enum<GCodeFlavor>({
         { "reprap",         "RepRap/Sprinter" },
         { "reprapfirmware", "RepRapFirmware" },
@@ -1604,7 +1604,7 @@ void PrintConfigDef::init_fff_params()
     def->category = L("Advanced");
     def->tooltip = L("Connect an infill line to an internal perimeter with a short segment of an additional perimeter. "
                      "If expressed as percentage (example: 15%) it is calculated over infill extrusion width. "
-                     "PrusaSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
+                     "CaribouSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
                      "shorter than infill_anchor_max is found, the infill line is connected to a perimeter segment at just one side "
                      "and the length of the perimeter segment taken is limited to this parameter, but no longer than anchor_length_max. "
                      "Set this parameter to zero to disable anchoring perimeters connected to a single infill line.");
@@ -1627,7 +1627,7 @@ void PrintConfigDef::init_fff_params()
     def->category    = def_infill_anchor_min->category;
     def->tooltip = L("Connect an infill line to an internal perimeter with a short segment of an additional perimeter. "
                      "If expressed as percentage (example: 15%) it is calculated over infill extrusion width. "
-                     "PrusaSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
+                     "CaribouSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
                      "shorter than this parameter is found, the infill line is connected to a perimeter segment at just one side "
                      "and the length of the perimeter segment taken is limited to infill_anchor, but no longer than this parameter. "
                      "Set this parameter to zero to disable anchoring.");
@@ -1667,8 +1667,8 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloatOrPercent(0, false));
 
     def = this->add("infill_first", coBool);
-    def->label = L("Infill before perimeters");
-    def->tooltip = L("This option will switch the print order of perimeters and infill, making the latter first.");
+    def->label = L("Infill before walls");
+    def->tooltip = L("This option will switch the print order of walls and infill, making the latter first.");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionBool(false));
 
@@ -2195,12 +2195,12 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(60));
 
     def = this->add("perimeters", coInt);
-    def->label = L("Perimeters");
+    def->label = L("Wall loops");
     def->category = L("Layers and Perimeters");
-    def->tooltip = L("This option sets the number of perimeters to generate for each layer. "
-                   "Note that Slic3r may increase this number automatically when it detects "
-                   "sloping surfaces which benefit from a higher number of perimeters "
-                   "if the Extra Perimeters option is enabled.");
+    def->tooltip = L("This option sets the number of wall loops to generate for each layer. "
+                   "Note that CaribouSlicer may increase this number automatically when it detects "
+                   "sloping surfaces which benefit from a higher number of wall loops "
+                   "if the Extra wall loops option is enabled.");
     def->sidetext = L("(minimum)");
     def->aliases = { "perimeter_offsets" };
     def->min = 0;
@@ -2208,7 +2208,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionInt(3));
 
     def = this->add("extra_perimeter_on_even_layers", coBool);
-    def->label = L("Add extra perimeter on even layers");
+    def->label = L("On even layers");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("It increases infill bonding to perimeter. Reduce shell thickness will be turned on.");
     def->set_default_value(new ConfigOptionBool(false));
@@ -2403,7 +2403,7 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("travel_lift_before_obstacle", coBools);
     def->label = L("Steeper ramp before obstacles");
-    def->tooltip = L("If enabled, PrusaSlicer detects obstacles along the travel path and makes the slope steeper "
+    def->tooltip = L("If enabled, CaribouSlicer detects obstacles along the travel path and makes the slope steeper "
                      "in case an obstacle might be hit during the initial phase of the travel.");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionBools{false});
@@ -2640,7 +2640,7 @@ void PrintConfigDef::init_fff_params()
     def->min = 0;
 
     def = this->add("spiral_vase", coBool);
-    def->label = L("Spiral vase");
+    def->label = L("Spiral vase mode");
     def->tooltip = L("This feature will raise Z gradually while printing a single-walled object "
                    "in order to remove any visible seam. This option requires a single perimeter, "
                    "no infill, no top solid layers and no support material. You can still set "
@@ -2662,15 +2662,15 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("autoemit_temperature_commands", coBool);
     def->label = L("Emit temperature commands automatically");
-    def->tooltip = L("When enabled, PrusaSlicer will check whether your Custom Start G-Code contains M104 or M190. "
+    def->tooltip = L("When enabled, CaribouSlicer will check whether your Custom Start G-Code contains M104 or M190. "
                      "If so, the temperatures will not be emitted automatically so you're free to customize "
                      "the order of heating commands and other custom actions. Note that you can use "
-                     "placeholder variables for all PrusaSlicer settings, so you can put "
+                     "placeholder variables for all CaribouSlicer settings, so you can put "
                      "a \"M109 S[first_layer_temperature]\" command wherever you want.\n"
                      "If your Custom Start G-Code does NOT contain M104 or M190, "
-                     "PrusaSlicer will execute the Start G-Code after bed reached its target temperature "
+                     "CaribouSlicer will execute the Start G-Code after bed reached its target temperature "
                      "and extruder just started heating.\n\n"
-                     "When disabled, PrusaSlicer will NOT emit commands to heat up extruder and bed, "
+                     "When disabled, CaribouSlicer will NOT emit commands to heat up extruder and bed, "
                      "leaving both to Custom Start G-Code.");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionBool(true));
@@ -2689,11 +2689,11 @@ void PrintConfigDef::init_fff_params()
     def->label = L("Start G-code");
     def->tooltip = L("This start procedure is inserted at the beginning, after any printer start gcode (and "
                    "after any toolchange to this filament in case of multi-material printers). "
-                   "This is used to override settings for a specific filament. If PrusaSlicer detects "
+                   "This is used to override settings for a specific filament. If CaribouSlicer detects "
                    "M104, M109, M140 or M190 in your custom codes, such commands will "
                    "not be prepended automatically so you're free to customize the order "
                    "of heating commands and other custom actions. Note that you can use placeholder variables "
-                   "for all PrusaSlicer settings, so you can put a \"M109 S[first_layer_temperature]\" command "
+                   "for all CaribouSlicer settings, so you can put a \"M109 S[first_layer_temperature]\" command "
                    "wherever you want. If you have multiple extruders, the gcode is processed "
                    "in extruder order.");
     def->multiline = true;
@@ -3011,7 +3011,7 @@ void PrintConfigDef::init_fff_params()
                      "will create more stable supports, while snug support towers will save material and reduce "
                      "object scarring.");
     def->set_enum<SupportMaterialStyle>({
-        { "grid", L("Grid") }, 
+        { "grid", L("Grid") },
         { "snug", L("Snug") },
         { "organic", L("Organic") }
     });
@@ -3098,7 +3098,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(2));
 
     def = this->add("support_tree_branch_diameter_angle", coFloat);
-    // TRN PrintSettings: #lmFIXME 
+    // TRN PrintSettings: #lmFIXME
     def->label = L("Branch Diameter Angle");
     def->category = L("Support material");
     // TRN PrintSettings: "Organic supports" > "Branch Diameter Angle"
@@ -3124,10 +3124,10 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(3));
 
     // Tree Support Branch Distance
-    // How far apart the branches need to be when they touch the model. Making this distance small will cause 
+    // How far apart the branches need to be when they touch the model. Making this distance small will cause
     // the tree support to touch the model at more points, causing better overhang but making support harder to remove.
     def = this->add("support_tree_branch_distance", coFloat);
-    // TRN PrintSettings: #lmFIXME 
+    // TRN PrintSettings: #lmFIXME
     def->label = L("Branch Distance");
     def->category = L("Support material");
     // TRN PrintSettings: "Organic supports" > "Branch Distance"
@@ -3179,9 +3179,9 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("toolchange_gcode", coString);
     def->label = L("Tool change G-code");
-    def->tooltip = L("This custom code is inserted before every toolchange. Placeholder variables for all PrusaSlicer settings "
+    def->tooltip = L("This custom code is inserted before every toolchange. Placeholder variables for all CaribouSlicer settings "
                      "as well as {toolchange_z}, {previous_extruder} and {next_extruder} can be used. When a tool-changing command "
-                     "which changes to the correct extruder is included (such as T{next_extruder}), PrusaSlicer will emit no other such command. "
+                     "which changes to the correct extruder is included (such as T{next_extruder}), CaribouSlicer will emit no other such command. "
                      "It is therefore possible to script custom behaviour both before and after the toolchange.");
     def->multiline = true;
     def->full_width = true;
@@ -3318,14 +3318,14 @@ void PrintConfigDef::init_fff_params()
                                                     140., 140., 140., 140.,   0. });
 
     def = this->add("wipe_tower_x", coFloat);
-    def->label = L("Position X");
+    def->label = L("       X");
     def->tooltip = L("X coordinate of the left front corner of a wipe tower");
     def->sidetext = L("mm");
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(180.));
 
     def = this->add("wipe_tower_y", coFloat);
-    def->label = L("Position Y");
+    def->label = L("Y");
     def->tooltip = L("Y coordinate of the left front corner of a wipe tower");
     def->sidetext = L("mm");
     def->mode = comAdvanced;
@@ -3680,7 +3680,7 @@ void PrintConfigDef::init_sla_support_params(const std::string &prefix)
     def->label = L("Pillar widening factor");
     def->category = L("Supports");
 
-    def->tooltip  = 
+    def->tooltip  =
         L("Merging bridges or pillars into another pillars can "
         "increase the radius. Zero means no increase, one means "
         "full increase. The exact amount of increase is unspecified and can "
@@ -3900,7 +3900,7 @@ void PrintConfigDef::init_sla_params()
                       "to the sign of the correction.");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.0));
-    
+
     def = this->add("elefant_foot_min_width", coFloat);
     def->label = L("Elephant foot minimum width");
     def->category = L("Advanced");
@@ -4072,7 +4072,7 @@ void PrintConfigDef::init_sla_params()
     def->full_width = true;
     def->height = 13;
     // TODO currently notes are the only way to pass data
-    // for non-PrusaResearch printers. We therefore need to always show them 
+    // for non-PrusaResearch printers. We therefore need to always show them
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionString(""));
 
@@ -4177,7 +4177,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 30;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.));
-    
+
     def = this->add("pad_brim_size", coFloat);
     def->label = L("Pad brim size");
     def->tooltip = L("How far should the pad extend around the contained geometry");
@@ -4228,7 +4228,7 @@ void PrintConfigDef::init_sla_params()
     def->tooltip = L("Create pad around object and ignore the support elevation");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(false));
-    
+
     def = this->add("pad_around_object_everywhere", coBool);
     def->label = L("Pad around object everywhere");
     def->category = L("Pad");
@@ -4274,14 +4274,14 @@ void PrintConfigDef::init_sla_params()
     def->min = 0;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.3));
-    
+
     def = this->add("hollowing_enable", coBool);
     def->label = L("Enable hollowing");
     def->category = L("Hollowing");
     def->tooltip = L("Hollow out a model to have an empty interior");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(false));
-    
+
     def = this->add("hollowing_min_thickness", coFloat);
     def->label = L("Wall thickness");
     def->category = L("Hollowing");
@@ -4291,7 +4291,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 10;
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionFloat(3.));
-    
+
     def = this->add("hollowing_quality", coFloat);
     def->label = L("Accuracy");
     def->category = L("Hollowing");
@@ -4300,7 +4300,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 1;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.5));
-    
+
     def = this->add("hollowing_closing_distance", coFloat);
     def->label = L("Closing distance");
     def->category = L("Hollowing");
@@ -4514,7 +4514,7 @@ DynamicPrintConfig* DynamicPrintConfig::new_from_defaults_keys(const std::vector
 }
 
 double min_object_distance(const ConfigBase &cfg)
-{   
+{
     const ConfigOptionEnum<PrinterTechnology> *opt_printer_technology = cfg.option<ConfigOptionEnum<PrinterTechnology>>("printer_technology");
     auto printer_technology = opt_printer_technology ? opt_printer_technology->value : ptUnknown;
 
@@ -4527,7 +4527,7 @@ double min_object_distance(const ConfigBase &cfg)
         auto dd_opt  = cfg.option<ConfigOptionFloat>("duplicate_distance");
         auto co_opt  = cfg.option<ConfigOptionBool>("complete_objects");
 
-        if (!ecr_opt || !dd_opt || !co_opt) 
+        if (!ecr_opt || !dd_opt || !co_opt)
             ret = 0.;
         else {
             // min object distance is max(duplicate_distance, clearance_radius)
@@ -4868,7 +4868,7 @@ std::string validate(const FullPrintConfig &cfg)
         return ret; \
     }
 PRINT_CONFIG_CACHE_INITIALIZE((
-    PrintObjectConfig, PrintRegionConfig, MachineEnvelopeConfig, GCodeConfig, PrintConfig, FullPrintConfig, 
+    PrintObjectConfig, PrintRegionConfig, MachineEnvelopeConfig, GCodeConfig, PrintConfig, FullPrintConfig,
     SLAMaterialConfig, SLAPrintConfig, SLAPrintObjectConfig, SLAPrinterConfig, SLAFullPrintConfig))
 static int print_config_static_initialized = print_config_static_initializer();
 
@@ -5077,8 +5077,8 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("config_compatibility", coEnum);
     def->label = L("Forward-compatibility rule when loading configurations from config files and project files (3MF, AMF).");
-    def->tooltip = L("This version of PrusaSlicer may not understand configurations produced by the newest PrusaSlicer versions. "
-                     "For example, newer PrusaSlicer may extend the list of supported firmware flavors. One may decide to "
+    def->tooltip = L("This version of CaribouSlicer may not understand configurations produced by the newest CaribouSlicer versions. "
+                     "For example, newer CaribouSlicer may extend the list of supported firmware flavors. One may decide to "
                      "bail out or to substitute an unknown value with a default silently or verbosely.");
     def->set_enum<ForwardCompatibilitySubstitutionRule>({
         { "disable",        L("Bail out on unknown configuration values") },
@@ -5098,8 +5098,8 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("single_instance", coBool);
     def->label = L("Single instance mode");
-    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of GUI PrusaSlicer, "
-                     "or an existing PrusaSlicer window is activated. "
+    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of GUI CaribouSlicer, "
+                     "or an existing CaribouSlicer window is activated. "
                      "Overrides the \"single_instance\" configuration value from application preferences.");
 
     def = this->add("datadir", coString);
@@ -5153,12 +5153,12 @@ ReadWriteSlicingStatesConfigDef::ReadWriteSlicingStatesConfigDef()
     def = this->add("position", coFloats);
     def->label = L("Position");
     def->tooltip = L("Position of the extruder at the beginning of the custom G-code block. If the custom G-code travels somewhere else, "
-                     "it should write to this variable so PrusaSlicer knows where it travels from when it gets control back.");
+                     "it should write to this variable so CaribouSlicer knows where it travels from when it gets control back.");
 
     def = this->add("e_retracted", coFloats);
     def->label = L("Retraction");
     def->tooltip = L("Retraction state at the beginning of the custom G-code block. If the custom G-code moves the extruder axis, "
-                     "it should write to this variable so PrusaSlicer deretracts correctly when it gets control back.");
+                     "it should write to this variable so CaribouSlicer deretracts correctly when it gets control back.");
 
     def = this->add("e_restart_extra", coFloats);
     def->label = L("Extra deretraction");
@@ -5218,7 +5218,7 @@ PrintStatisticsConfigDef::PrintStatisticsConfigDef()
     def = this->add("normal_print_time", coString);
     def->label = L("Print time (normal mode)");
     def->tooltip = L("Estimated print time when printed in normal mode (i.e. not in silent mode). Same as print_time.");
-    
+
     def = this->add("num_printing_extruders", coInt);
     def->label = L("Number of printing extruders");
     def->tooltip = L("Number of extruders used during the print.");
@@ -5446,22 +5446,22 @@ static Points to_points(const std::vector<Vec2d> &dpts)
     Points pts; pts.reserve(dpts.size());
     for (auto &v : dpts)
         pts.emplace_back( coord_t(scale_(v.x())), coord_t(scale_(v.y())) );
-    return pts;    
+    return pts;
 }
 
 Points get_bed_shape(const DynamicPrintConfig &config)
 {
     const auto *bed_shape_opt = config.opt<ConfigOptionPoints>("bed_shape");
     if (!bed_shape_opt) {
-        
+
         // Here, it is certain that the bed shape is missing, so an infinite one
         // has to be used, but still, the center of bed can be queried
         if (auto center_opt = config.opt<ConfigOptionPoint>("center"))
             return { scaled(center_opt->value) };
-        
+
         return {};
     }
-    
+
     return to_points(bed_shape_opt->values);
 }
 

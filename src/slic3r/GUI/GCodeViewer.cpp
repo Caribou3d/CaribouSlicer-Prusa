@@ -226,7 +226,7 @@ void GCodeViewer::COG::render()
     //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     //ImGui::SetNextWindowBgAlpha(0.25f);
     //imgui.begin(std::string("COG"), ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
-    //imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, _u8L("Center of mass") + ":");
+    //imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, _u8L("Center of mass") + ":");
     //ImGui::SameLine();
     //char buf[1024];
     //const Vec3d position = cog();
@@ -348,7 +348,7 @@ void GCodeViewer::SequentialView::Marker::render()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::SetNextWindowBgAlpha(0.25f);
     imgui.begin(std::string("ToolPosition"), ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
-    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, _u8L("Tool position") + ":");
+    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, _u8L("Tool position") + ":");
     ImGui::SameLine();
     char buf[1024];
     const Vec3f position = m_world_position + m_world_offset + m_z_offset * Vec3f::UnitZ();
@@ -519,8 +519,8 @@ void GCodeViewer::SequentialView::GCodeWindow::render(float top, float bottom, s
         }
     };
 
-    static const ImVec4 LINE_NUMBER_COLOR = ImGuiWrapper::COL_ORANGE_LIGHT;
-    static const ImVec4 SELECTION_RECT_COLOR = ImGuiWrapper::COL_ORANGE_DARK;
+    static const ImVec4 LINE_NUMBER_COLOR = ImGuiWrapper::COL_GREENC_LIGHT;
+    static const ImVec4 SELECTION_RECT_COLOR = ImGuiWrapper::COL_GREENC_DARK;
     static const ImVec4 COMMAND_COLOR = { 0.8f, 0.8f, 0.0f, 1.0f };
     static const ImVec4 PARAMETERS_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
     static const ImVec4 COMMENT_COLOR = { 0.7f, 0.7f, 0.7f, 1.0f };
@@ -670,7 +670,7 @@ void GCodeViewer::SequentialView::render(float legend_height)
 const std::array<ColorRGBA, static_cast<size_t>(GCodeExtrusionRole::Count)> GCodeViewer::Extrusion_Role_Colors{ {
     { 0.90f, 0.70f, 0.70f, 1.0f },   // GCodeExtrusionRole::None
     { 1.00f, 0.90f, 0.30f, 1.0f },   // GCodeExtrusionRole::Perimeter
-    { 1.00f, 0.49f, 0.22f, 1.0f },   // GCodeExtrusionRole::ExternalPerimeter
+    { 0.00f, 1.00f, 0.01f, 1.0f },   // GCodeExtrusionRole::ExternalPerimeter
     { 0.12f, 0.12f, 1.00f, 1.0f },   // GCodeExtrusionRole::OverhangPerimeter
     { 0.69f, 0.19f, 0.16f, 1.0f },   // GCodeExtrusionRole::InternalInfill
     { 0.59f, 0.33f, 0.80f, 1.0f },   // GCodeExtrusionRole::SolidInfill
@@ -679,7 +679,7 @@ const std::array<ColorRGBA, static_cast<size_t>(GCodeExtrusionRole::Count)> GCod
     { 0.30f, 0.50f, 0.73f, 1.0f },   // GCodeExtrusionRole::BridgeInfill
     { 1.00f, 1.00f, 1.00f, 1.0f },   // GCodeExtrusionRole::GapFill
     { 0.00f, 0.53f, 0.43f, 1.0f },   // GCodeExtrusionRole::Skirt
-    { 0.00f, 1.00f, 0.00f, 1.0f },   // GCodeExtrusionRole::SupportMaterial
+    { 1.00f, 0.49f, 0.21f, 1.0f },   // GCodeExtrusionRole::SupportMaterial
     { 0.00f, 0.50f, 0.00f, 1.0f },   // GCodeExtrusionRole::SupportMaterialInterface
     { 0.70f, 0.89f, 0.67f, 1.0f },   // GCodeExtrusionRole::WipeTower
     { 0.37f, 0.82f, 0.58f, 1.0f },   // GCodeExtrusionRole::Custom
@@ -3485,7 +3485,7 @@ void GCodeViewer::render_legend(float& legend_height)
                 pos = ImGui::GetCursorScreenPos();
                 const float width = std::max(1.0f, percent_bar_size * percent / max_percent);
                 draw_list->AddRectFilled({ pos.x, pos.y + 2.0f }, { pos.x + width, pos.y + icon_size - 2.0f },
-                    ImGui::GetColorU32(ImGuiWrapper::COL_ORANGE_LIGHT));
+                    ImGui::GetColorU32(ImGuiWrapper::COL_GREENC_LIGHT));
                 ImGui::Dummy({ percent_bar_size, icon_size });
                 ImGui::SameLine();
                 char buf[64];
@@ -3506,7 +3506,7 @@ void GCodeViewer::render_legend(float& legend_height)
                 pos = ImGui::GetCursorScreenPos();
                 const float width = std::max(1.0f, percent_bar_size * percent / max_percent);
                 draw_list->AddRectFilled({ pos.x, pos.y + 2.0f }, { pos.x + width, pos.y + icon_size - 2.0f },
-                    ImGui::GetColorU32(ImGuiWrapper::COL_ORANGE_LIGHT));
+                    ImGui::GetColorU32(ImGuiWrapper::COL_GREENC_LIGHT));
                 ImGui::Dummy({ percent_bar_size, icon_size });
                 ImGui::SameLine();
                 char buf[64];
@@ -4124,17 +4124,17 @@ void GCodeViewer::render_legend(float& legend_height)
 
         if (ImGui::BeginTable("Settings", 2)) {
             if (!m_settings_ids.printer.empty())
-                add_strings_row_to_table(_u8L("Printer") + ":", ImGuiWrapper::COL_ORANGE_LIGHT,
+                add_strings_row_to_table(_u8L("Printer") + ":", ImGuiWrapper::COL_GREENC_LIGHT,
                     trim_text_if_needed(m_settings_ids.printer), ImGuiWrapper::to_ImVec4(ColorRGBA::WHITE()));
             if (!m_settings_ids.print.empty())
-                add_strings_row_to_table(_u8L("Print settings") + ":", ImGuiWrapper::COL_ORANGE_LIGHT,
+                add_strings_row_to_table(_u8L("Print settings") + ":", ImGuiWrapper::COL_GREENC_LIGHT,
                     trim_text_if_needed(m_settings_ids.print), ImGuiWrapper::to_ImVec4(ColorRGBA::WHITE()));
             if (!m_settings_ids.filament.empty()) {
                 for (unsigned char i : m_extruder_ids) {
                     if (i < static_cast<unsigned char>(m_settings_ids.filament.size()) && !m_settings_ids.filament[i].empty()) {
                         std::string txt = _u8L("Filament");
                         txt += (m_extruder_ids.size() == 1) ? ":" : " " + std::to_string(i + 1);
-                        add_strings_row_to_table(txt, ImGuiWrapper::COL_ORANGE_LIGHT,
+                        add_strings_row_to_table(txt, ImGuiWrapper::COL_GREENC_LIGHT,
                             trim_text_if_needed(m_settings_ids.filament[i]), ImGuiWrapper::to_ImVec4(ColorRGBA::WHITE()));
                     }
                 }
@@ -4189,11 +4189,11 @@ void GCodeViewer::render_legend(float& legend_height)
 
         if (ImGui::BeginTable("Times", 2)) {
             if (!time_mode.layers_times.empty()) {
-                add_strings_row_to_table(_u8L("First layer") + ":", ImGuiWrapper::COL_ORANGE_LIGHT,
+                add_strings_row_to_table(_u8L("First layer") + ":", ImGuiWrapper::COL_GREENC_LIGHT,
                     short_time_ui(get_time_dhms(time_mode.layers_times.front())), ImGuiWrapper::to_ImVec4(ColorRGBA::WHITE()));
             }
 
-            add_strings_row_to_table(_u8L("Total") + ":", ImGuiWrapper::COL_ORANGE_LIGHT,
+            add_strings_row_to_table(_u8L("Total") + ":", ImGuiWrapper::COL_GREENC_LIGHT,
                 short_time_ui(get_time_dhms(time_mode.time)), ImGuiWrapper::to_ImVec4(ColorRGBA::WHITE()));
 
             ImGui::EndTable();
@@ -4337,7 +4337,7 @@ void GCodeViewer::render_statistics()
     ImGuiWrapper& imgui = *wxGetApp().imgui();
 
     auto add_time = [&imgui](const std::string& label, int64_t time) {
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, label);
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, label);
         ImGui::SameLine(offset);
         imgui.text(std::to_string(time) + " ms (" + get_time_dhms(static_cast<float>(time) * 0.001f) + ")");
     };
@@ -4355,7 +4355,7 @@ void GCodeViewer::render_statistics()
         static const float inv_mb = 1.0f / mb;
         static const float gb = 1024.0f * mb;
         static const float inv_gb = 1.0f / gb;
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, label);
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, label);
         ImGui::SameLine(offset);
         if (static_cast<float>(memory) < mb)
             imgui.text(format_string("KB", inv_kb));
@@ -4366,7 +4366,7 @@ void GCodeViewer::render_statistics()
     };
 
     auto add_counter = [&imgui](const std::string& label, int64_t counter) {
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, label);
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, label);
         ImGui::SameLine(offset);
         imgui.text(std::to_string(counter));
     };

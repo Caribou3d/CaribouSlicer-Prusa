@@ -39,10 +39,10 @@ static const std::string MODEL_PREFIX = "model:";
 // Thus we will let PrusaSlicer 2.3.2 and couple of follow-up versions to download the version number from an alternate file until the PrusaSlicer 2.3.0/2.3.1
 // are phased out, then we will revert to the original name.
 // For 2.6.0-alpha1 we have switched back to the original. The file should contain data for AppUpdater.cpp
-static const std::string VERSION_CHECK_URL = "https://files.prusa3d.com/wp-content/uploads/repository/PrusaSlicer-settings-master/live/PrusaSlicer.version";
+static const std::string VERSION_CHECK_URL = "https://github.com/Caribou3d/CaribouSlicer/blob/master/CaribouSlicer.version?raw=true";
 //static const std::string VERSION_CHECK_URL = "https://files.prusa3d.com/wp-content/uploads/repository/PrusaSlicer-settings-master/live/PrusaSlicer.version2";
 // Url to index archive zip that contains latest indicies
-static const std::string INDEX_ARCHIVE_URL= "https://files.prusa3d.com/wp-content/uploads/repository/vendor_indices.zip";
+static const std::string INDEX_ARCHIVE_URL= "https://caribou3d.com/CaribouSlicer/repository/vendor_indices.zip";
 // Url to folder with vendor profile files. Used when downloading new profiles that are not in resources folder.
 static const std::string PROFILE_FOLDER_URL = "https://files.prusa3d.com/wp-content/uploads/repository/PrusaSlicer-settings-master/live/";
 

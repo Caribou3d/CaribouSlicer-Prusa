@@ -67,7 +67,7 @@ static std::string def_text_color()
     return encode_color(ColorRGB(def_colour.Red(), def_colour.Green(), def_colour.Blue()));
 }
 static std::string grey     = "#808080";
-static std::string orange   = "#ed6b21";
+static std::string orange   = "#107c18";
 
 static void color_string(wxString& str, const std::string& color)
 {
@@ -929,12 +929,12 @@ void UnsavedChangesDialog::build(Preset::Type type, PresetCollection* dependent_
             wxString action = m_app_config_key == "default_action_on_new_project"   ? _L("You will not be asked about the unsaved changes in presets the next time you create new project") : 
                               m_app_config_key == "default_action_on_select_preset" ? _L("You will not be asked about the unsaved changes in presets the next time you switch a preset") :
                                                                                       _L("You will not be asked about the unsaved changes in presets the next time you: \n"
-						                                                                    "- Closing PrusaSlicer while some presets are modified,\n"
+						                                                                    "- Closing CaribouSlicer while some presets are modified,\n"
 						                                                                    "- Loading a new project while some presets are modified") ;
-            wxString msg = _L("PrusaSlicer will remember your action.") + "\n\n" + action + "\n\n" +
+            wxString msg = _L("CaribouSlicer will remember your action.") + "\n\n" + action + "\n\n" +
                            format_wxstr(_L("Visit \"Preferences\" and check \"%1%\"\nto be asked about unsaved changes again."), preferences_item);
     
-            MessageDialog dialog(nullptr, msg, _L("PrusaSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
+            MessageDialog dialog(nullptr, msg, _L("CaribouSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
             if (dialog.ShowModal() == wxID_CANCEL)
                 m_remember_choice->SetValue(false);
         });

@@ -134,16 +134,16 @@ Control::Control( wxWindow *parent,
     // control's view variables
     SLIDER_MARGIN     = 4 + GUI::wxGetApp().em_unit();
 
-    DARK_ORANGE_PEN   = wxPen(wxColour(237, 107, 33));
-    ORANGE_PEN        = wxPen(wxColour(253, 126, 66));
-    LIGHT_ORANGE_PEN  = wxPen(wxColour(254, 177, 139));
+    DARK_GREEN_PEN   = wxPen(wxColour(16, 124, 24));
+    GREEN_PEN        = wxPen(wxColour(27, 204, 40));
+    LIGHT_GREEN_PEN   = wxPen(wxColour(114, 237, 123));
 
     DARK_GREY_PEN     = wxPen(wxColour(128, 128, 128));
     GREY_PEN          = wxPen(wxColour(164, 164, 164));
     LIGHT_GREY_PEN    = wxPen(wxColour(204, 204, 204));
 
     m_line_pens = { &DARK_GREY_PEN, &GREY_PEN, &LIGHT_GREY_PEN };
-    m_segm_pens = { &DARK_ORANGE_PEN, &ORANGE_PEN, &LIGHT_ORANGE_PEN };
+    m_segm_pens = { &DARK_GREEN_PEN, &GREEN_PEN, &LIGHT_GREEN_PEN };
 
     FOCUS_RECT_PEN   = wxPen(wxColour(128, 128, 10), 1, wxPENSTYLE_DOT);
     FOCUS_RECT_BRUSH = wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT);
@@ -618,7 +618,7 @@ void Control::draw_info_line_with_icon(wxDC& dc, const wxPoint& pos, const Selec
 {
     if (m_selection == selection) {
         //draw info line
-        dc.SetPen(DARK_ORANGE_PEN);
+        dc.SetPen(DARK_GREEN_PEN);
         const wxPoint pt_beg = is_horizontal() ? wxPoint(pos.x, pos.y - m_thumb_size.y) : wxPoint(pos.x - m_thumb_size.x, pos.y/* - 1*/);
         const wxPoint pt_end = is_horizontal() ? wxPoint(pos.x, pos.y + m_thumb_size.y) : wxPoint(pos.x + m_thumb_size.x, pos.y/* - 1*/);
         dc.DrawLine(pt_beg, pt_end);
@@ -666,7 +666,7 @@ void Control::draw_tick_on_mouse_position(wxDC& dc)
         wxCoord new_pos = get_position_from_value(tick);
         const wxPoint pos = is_horizontal() ? wxPoint(new_pos, height * 0.5) : wxPoint(0.5 * width, new_pos);
 
-        dc.SetPen(DARK_ORANGE_PEN);
+        dc.SetPen(DARK_GREEN_PEN);
 
         draw_ticks(dc, pos, -2);
         draw_ticks(dc, pos, 2 );
@@ -820,7 +820,7 @@ void Control::draw_tick_text(wxDC& dc, const wxPoint& pos, int tick, LabelType l
     }
 
     wxColour old_clr = dc.GetTextForeground();
-    const wxPen& pen = is_wipe_tower_layer(tick) && (tick == m_lower_value || tick == m_higher_value) ? DARK_ORANGE_PEN : /*wxPen(old_clr)*/GREY_PEN;
+    const wxPen& pen = is_wipe_tower_layer(tick) && (tick == m_lower_value || tick == m_higher_value) ? DARK_GREEN_PEN : /*wxPen(old_clr)*/GREY_PEN;
     dc.SetPen(pen);
     dc.SetTextForeground(pen.GetColour());
 

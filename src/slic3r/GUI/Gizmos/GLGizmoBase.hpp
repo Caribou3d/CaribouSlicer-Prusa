@@ -27,7 +27,7 @@ namespace GUI {
 
 static const ColorRGBA DEFAULT_BASE_COLOR        = { 0.625f, 0.625f, 0.625f, 1.0f };
 static const ColorRGBA DEFAULT_DRAG_COLOR        = ColorRGBA::WHITE();
-static const ColorRGBA DEFAULT_HIGHLIGHT_COLOR   = ColorRGBA::ORANGE();
+static const ColorRGBA DEFAULT_HIGHLIGHT_COLOR   = ColorRGBA::GREENC();
 static const std::array<ColorRGBA, 3> AXES_COLOR = {{ ColorRGBA::X(), ColorRGBA::Y(), ColorRGBA::Z() }};
 static const ColorRGBA CONSTRAINED_COLOR         = ColorRGBA::GRAY();
 

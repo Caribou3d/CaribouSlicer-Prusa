@@ -1062,7 +1062,7 @@ void GLModel::render_statistics()
         static const float inv_mb = 1.0f / mb;
         static const float gb = 1024.0f * mb;
         static const float inv_gb = 1.0f / gb;
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, label);
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, label);
         ImGui::SameLine(offset);
         if (static_cast<float>(memory) < mb)
             imgui.text(format_string("KB", inv_kb));
@@ -1073,7 +1073,7 @@ void GLModel::render_statistics()
     };
 
     auto add_counter = [&imgui](const std::string& label, int64_t counter) {
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, label);
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, label);
         ImGui::SameLine(offset);
         imgui.text(std::to_string(counter));
     };

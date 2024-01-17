@@ -33,8 +33,8 @@
 #include <CGAL/Min_sphere_of_spheres_d.h>
 #include <CGAL/Min_sphere_of_points_d_traits_3.h>
 
-static const Slic3r::ColorRGBA UNIFORM_SCALE_COLOR     = Slic3r::ColorRGBA::ORANGE();
-static const Slic3r::ColorRGBA SOLID_PLANE_COLOR       = Slic3r::ColorRGBA::ORANGE();
+static const Slic3r::ColorRGBA UNIFORM_SCALE_COLOR     = Slic3r::ColorRGBA::GREENC();
+static const Slic3r::ColorRGBA SOLID_PLANE_COLOR       = Slic3r::ColorRGBA::GREENC();
 static const Slic3r::ColorRGBA TRANSPARENT_PLANE_COLOR = { 0.8f, 0.8f, 0.8f, 0.5f };
 
 namespace Slic3r {
@@ -2587,22 +2587,22 @@ void Selection::render_debug_window() const
                 float spacing = 0.0f;
                 if (svd.rotation) {
                     ImGui::SameLine(0.0f, spacing);
-                    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, svd.rotation_90_degrees ? "Rotation 90 degs" : "Rotation");
+                    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, svd.rotation_90_degrees ? "Rotation 90 degs" : "Rotation");
                     spacing = 10.0f;
                 }
                 if (svd.scale) {
                     ImGui::SameLine(0.0f, spacing);
-                    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, svd.anisotropic_scale ? "Anisotropic scale" : "Isotropic scale");
+                    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, svd.anisotropic_scale ? "Anisotropic scale" : "Isotropic scale");
                     spacing = 10.0f;
                 }
                 if (svd.mirror) {
                     ImGui::SameLine(0.0f, spacing);
-                    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Mirror");
+                    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Mirror");
                     spacing = 10.0f;
                 }
                 if (svd.skew) {
                     ImGui::SameLine(0.0f, spacing);
-                    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Skew");
+                    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Skew");
                 }
             }
         }

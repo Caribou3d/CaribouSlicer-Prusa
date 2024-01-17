@@ -120,11 +120,11 @@ static const std::map<const wchar_t, std::string> font_icons_extra_large = {
 
 const ImVec4 ImGuiWrapper::COL_GREY_DARK         = { 0.33f, 0.33f, 0.33f, 1.0f };
 const ImVec4 ImGuiWrapper::COL_GREY_LIGHT        = { 0.4f, 0.4f, 0.4f, 1.0f };
-const ImVec4 ImGuiWrapper::COL_ORANGE_DARK       = { 0.67f, 0.36f, 0.19f, 1.0f };
-const ImVec4 ImGuiWrapper::COL_ORANGE_LIGHT      = to_ImVec4(ColorRGBA::ORANGE());
+const ImVec4 ImGuiWrapper::COL_GREENC_DARK       = { 0.063f, 0.353f, 0.094f, 1.0f };
+const ImVec4 ImGuiWrapper::COL_GREENC_LIGHT      = to_ImVec4(ColorRGBA::GREENC());
 const ImVec4 ImGuiWrapper::COL_WINDOW_BACKGROUND = { 0.13f, 0.13f, 0.13f, 0.8f };
-const ImVec4 ImGuiWrapper::COL_BUTTON_BACKGROUND = COL_ORANGE_DARK;
-const ImVec4 ImGuiWrapper::COL_BUTTON_HOVERED    = COL_ORANGE_LIGHT;
+const ImVec4 ImGuiWrapper::COL_BUTTON_BACKGROUND = COL_GREENC_DARK;
+const ImVec4 ImGuiWrapper::COL_BUTTON_HOVERED    = COL_GREENC_LIGHT;
 const ImVec4 ImGuiWrapper::COL_BUTTON_ACTIVE     = COL_BUTTON_HOVERED;
 
 ImGuiWrapper::ImGuiWrapper()
@@ -1569,7 +1569,7 @@ ImVec2 ImGuiWrapper::suggest_location(const ImVec2 &dialog_size,
 void ImGuiWrapper::draw(
     const Polygon &polygon,
     ImDrawList *   draw_list /* = ImGui::GetOverlayDrawList()*/,
-    ImU32          color     /* = ImGui::GetColorU32(COL_ORANGE_LIGHT)*/,
+    ImU32          color     /* = ImGui::GetColorU32(COL_GREENC_LIGHT)*/,
     float          thickness /* = 3.f*/)
 {
     // minimal one line consist of 2 points
@@ -1852,7 +1852,7 @@ void ImGuiWrapper::init_style()
     // Window
     style.WindowRounding = 4.0f;
     set_color(ImGuiCol_WindowBg, COL_WINDOW_BACKGROUND);
-    set_color(ImGuiCol_TitleBgActive, COL_ORANGE_DARK);
+    set_color(ImGuiCol_TitleBgActive, COL_GREENC_DARK);
 
     // Generics
     set_color(ImGuiCol_FrameBg, COL_GREY_DARK);
@@ -1860,7 +1860,7 @@ void ImGuiWrapper::init_style()
     set_color(ImGuiCol_FrameBgActive, COL_GREY_LIGHT);
 
     // Text selection
-    set_color(ImGuiCol_TextSelectedBg, COL_ORANGE_DARK);
+    set_color(ImGuiCol_TextSelectedBg, COL_GREENC_DARK);
 
     // Buttons
     set_color(ImGuiCol_Button, COL_BUTTON_BACKGROUND);
@@ -1868,31 +1868,31 @@ void ImGuiWrapper::init_style()
     set_color(ImGuiCol_ButtonActive, COL_BUTTON_ACTIVE);
 
     // Checkbox
-    set_color(ImGuiCol_CheckMark, COL_ORANGE_LIGHT);
+    set_color(ImGuiCol_CheckMark, COL_GREENC_LIGHT);
 
     // ComboBox items
-    set_color(ImGuiCol_Header, COL_ORANGE_DARK);
-    set_color(ImGuiCol_HeaderHovered, COL_ORANGE_LIGHT);
-    set_color(ImGuiCol_HeaderActive, COL_ORANGE_LIGHT);
+    set_color(ImGuiCol_Header, COL_GREENC_DARK);
+    set_color(ImGuiCol_HeaderHovered, COL_GREENC_LIGHT);
+    set_color(ImGuiCol_HeaderActive, COL_GREENC_LIGHT);
 
     // Slider
-    set_color(ImGuiCol_SliderGrab, COL_ORANGE_DARK);
-    set_color(ImGuiCol_SliderGrabActive, COL_ORANGE_LIGHT);
+    set_color(ImGuiCol_SliderGrab, COL_GREENC_DARK);
+    set_color(ImGuiCol_SliderGrabActive, COL_GREENC_LIGHT);
 
     // Separator
-    set_color(ImGuiCol_Separator, COL_ORANGE_LIGHT);
+    set_color(ImGuiCol_Separator, COL_GREENC_LIGHT);
 
     // Tabs
-    set_color(ImGuiCol_Tab, COL_ORANGE_DARK);
-    set_color(ImGuiCol_TabHovered, COL_ORANGE_LIGHT);
-    set_color(ImGuiCol_TabActive, COL_ORANGE_LIGHT);
+    set_color(ImGuiCol_Tab, COL_GREENC_DARK);
+    set_color(ImGuiCol_TabHovered, COL_GREENC_LIGHT);
+    set_color(ImGuiCol_TabActive, COL_GREENC_LIGHT);
     set_color(ImGuiCol_TabUnfocused, COL_GREY_DARK);
     set_color(ImGuiCol_TabUnfocusedActive, COL_GREY_LIGHT);
 
     // Scrollbars
-    set_color(ImGuiCol_ScrollbarGrab, COL_ORANGE_DARK);
-    set_color(ImGuiCol_ScrollbarGrabHovered, COL_ORANGE_LIGHT);
-    set_color(ImGuiCol_ScrollbarGrabActive, COL_ORANGE_LIGHT);
+    set_color(ImGuiCol_ScrollbarGrab, COL_GREENC_DARK);
+    set_color(ImGuiCol_ScrollbarGrabHovered, COL_GREENC_LIGHT);
+    set_color(ImGuiCol_ScrollbarGrabActive, COL_GREENC_LIGHT);
 }
 
 void ImGuiWrapper::render_draw_data(ImDrawData *draw_data)

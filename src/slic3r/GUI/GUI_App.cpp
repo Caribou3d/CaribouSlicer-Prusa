@@ -176,7 +176,7 @@ public:
             memDC.SelectObject(bitmap);
 
             memDC.SetFont(m_action_font);
-            memDC.SetTextForeground(wxColour(237, 107, 33));
+            memDC.SetTextForeground(wxColour(16, 124, 24));
             memDC.DrawText(text, int(m_scale * 60), m_action_line_y_position);
 
             memDC.SelectObject(wxNullBitmap);
@@ -293,10 +293,11 @@ private:
             version = _L("Version") + " " + std::string(SLIC3R_VERSION);
 
             // credits infornation
-            credits = "\n" + title + " " +
-                _L("is based on Slic3r by Alessandro Ranellucci and the RepRap community.") + "\n\n" +
-                _L("Developed by Prusa Research.") + "\n\n" +
-                _L("Licensed under GNU AGPLv3.") + "\n\n\n\n\n\n\n";
+            credits = title + " " + 
+                _L("is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill.") + "\n" + 
+                _L("Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.") + "\n\n" + 
+                title + " " + _L("is licensed under the") + " " + _L("GNU Affero General Public License, version 3") + ".\n\n" + 
+                _L("Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kral, David Kocik and numerous others.") + "\n\n";
 
             title_font = version_font = credits_font = init_font;
         }
@@ -464,7 +465,7 @@ static bool run_updater_win()
 {
     // find updater exe
     boost::filesystem::path path_updater = boost::dll::program_location().parent_path() / "prusaslicer-updater.exe";
-    // run updater. Original args: /silent -restartapp prusa-slicer.exe -startappfirst
+    // run updater. Original args: /silent -restartapp caribou-slicer.exe -startappfirst
     std::string msg;
     bool res = create_process(path_updater, L"/silent", msg);
     if (!res)
@@ -746,8 +747,8 @@ static void generic_exception_handle()
         BOOST_LOG_TRIVIAL(error) << boost::format("std::bad_alloc exception: %1%") % ex.what();
         std::terminate();
     } catch (const boost::io::bad_format_string& ex) {
-        wxString errmsg = _L("PrusaSlicer has encountered a localization error. "
-                             "Please report to PrusaSlicer team, what language was active and in which scenario "
+        wxString errmsg = _L("CaribouSlicer has encountered a localization error. "
+                             "Please report to CaribouSlicer team, what language was active and in which scenario "
                              "this issue happened. Thank you.\n\nThe application will now terminate.");
         wxMessageBox(errmsg + "\n\n" + wxString(ex.what()), _L("Critical error"), wxOK | wxICON_ERROR);
         BOOST_LOG_TRIVIAL(error) << boost::format("Uncaught exception: %1%") % ex.what();
@@ -839,14 +840,14 @@ void GUI_App::post_init()
                 // The CallAfter is needed as well, without it, GL extensions did not show.
                 // Also, we only want to show this when the wizard does not, so the new user
                 // sees something else than "we want something" on the first start.
-                show_send_system_info_dialog_if_needed();   
+                //show_send_system_info_dialog_if_needed();   
             }  
             // app version check is asynchronous and triggers blocking dialog window, better call it last
             this->app_version_check(false);
         });
     }
 
-    // Set PrusaSlicer version and save to PrusaSlicer.ini or PrusaSlicerGcodeViewer.ini.
+    // Set CaribouSlicer version and save to PrusaSlicer.ini or CaribouSlicerGcodeViewer.ini.
     app_config->set("version", SLIC3R_VERSION);
 
 #ifdef _WIN32
@@ -914,7 +915,7 @@ static boost::optional<Semver> parse_semver_from_ini(std::string path)
     std::stringstream buffer;
     buffer << stream.rdbuf();
     std::string body = buffer.str();
-    size_t start = body.find("PrusaSlicer ");
+    size_t start = body.find("CaribouSlicer ");
     if (start == std::string::npos)
         return boost::none;
     body = body.substr(start + 12);
@@ -965,7 +966,7 @@ void GUI_App::init_app_config()
         if (!error.empty()) {
             // Error while parsing config file. We'll customize the error message and rethrow to be displayed.
             if (is_editor()) {
-                throw Slic3r::RuntimeError(format("Error parsing PrusaSlicer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing CaribouSlicer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error. Your user profiles will not be affected."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
@@ -1060,7 +1061,7 @@ std::string GUI_App::check_older_app_config(Semver current_version, bool backup)
         if (!error.empty()) {
             // Error while parsing config file. We'll customize the error message and rethrow to be displayed.
             if (is_editor()) {
-                throw Slic3r::RuntimeError(format("Error parsing PrusaSlicer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing CaribouSlicer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error. Your user profiles will not be affected."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
@@ -1116,11 +1117,11 @@ bool GUI_App::on_init_inner()
     // Win32 32bit build.
     if (wxPlatformInfo::Get().GetArchName().substr(0, 2) == "64") {
         RichMessageDialog dlg(nullptr,
-            _L("You are running a 32 bit build of PrusaSlicer on 64-bit Windows."
-                "\n32 bit build of PrusaSlicer will likely not be able to utilize all the RAM available in the system."
-                "\nPlease download and install a 64 bit build of PrusaSlicer from https://www.prusa3d.cz/prusaslicer/."
+            _L("You are running a 32 bit build of CaribouSlicer on 64-bit Windows."
+                "\n32 bit build of CaribouSlicer will likely not be able to utilize all the RAM available in the system."
+                "\nPlease download and install a 64 bit build of CaribouSlicer from https://www.prusa3d.cz/prusaslicer/."
                 "\nDo you wish to continue?"),
-            "PrusaSlicer", wxICON_QUESTION | wxYES_NO);
+            "CaribouSlicer", wxICON_QUESTION | wxYES_NO);
         if (dlg.ShowModal() != wxID_YES)
             return false;
     }
@@ -1204,7 +1205,7 @@ bool GUI_App::on_init_inner()
             RichMessageDialog
                 dlg(nullptr,
                     wxString::Format(_L("%s\nDo you want to continue?"), msg),
-                    "PrusaSlicer", wxICON_QUESTION | wxYES_NO);
+                    "CaribouSlicer", wxICON_QUESTION | wxYES_NO);
             dlg.ShowCheckBox(_L("Remember my choice"));
             if (dlg.ShowModal() != wxID_YES) return false;
 
@@ -1238,7 +1239,7 @@ bool GUI_App::on_init_inner()
         }
 
         // create splash screen with updated bmp
-        scrn = new SplashScreen(bmp.IsOk() ? bmp : get_bmp_bundle("PrusaSlicer", 400)->GetPreferredBitmapSizeAtScale(1.0), 
+        scrn = new SplashScreen(bmp.IsOk() ? bmp : get_bmp_bundle("CaribouSlicer", 400)->GetPreferredBitmapSizeAtScale(1.0), 
                                 wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT, 4000, splashscreen_pos);
 
         if (!default_splashscreen_pos)
@@ -1279,7 +1280,7 @@ bool GUI_App::on_init_inner()
                         , NotificationManager::NotificationLevel::ImportantNotificationLevel
                         , Slic3r::format(_u8L("New prerelease version %1% is available."), evt_string)
                         , _u8L("See Releases page.")
-                        , [](wxEvtHandler* evnthndlr) {wxGetApp().open_browser_with_warning_dialog("https://github.com/prusa3d/PrusaSlicer/releases"); return true; }
+                        , [](wxEvtHandler* evnthndlr) {wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer/releases"); return true; }
                     );
                 }
             }
@@ -1421,8 +1422,8 @@ bool GUI_App::on_init_inner()
     {
         wxString preferences_item = _L("Restore window position on start");
         InfoDialog dialog(nullptr,
-            _L("PrusaSlicer started after a crash"),
-            format_wxstr(_L("PrusaSlicer crashed last time when attempting to set window position.\n"
+            _L("CaribouSlicer started after a crash"),
+            format_wxstr(_L("CaribouSlicer crashed last time when attempting to set window position.\n"
                 "We are sorry for the inconvenience, it unfortunately happens with certain multiple-monitor setups.\n"
                 "More precise reason for the crash: \"%1%\".\n"
                 "For more information see our GitHub issue tracker: \"%2%\" and \"%3%\"\n\n"
@@ -1482,7 +1483,7 @@ const wxColour GUI_App::get_label_default_clr_system()
 
 const wxColour GUI_App::get_label_default_clr_modified()
 {
-    return dark_mode() ? wxColour(253, 111, 40) : wxColour(252, 77, 1);
+    return dark_mode() ? wxColour(24, 180, 36) : wxColour(0, 219, 8);
 }
 
 const std::vector<std::string> GUI_App::get_mode_default_palette()
@@ -1501,9 +1502,9 @@ void GUI_App::init_ui_colours()
     m_color_label_default           = is_dark_mode ? wxColour(250, 250, 250): wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     m_color_highlight_label_default = is_dark_mode ? wxColour(230, 230, 230): wxSystemSettings::GetColour(/*wxSYS_COLOUR_HIGHLIGHTTEXT*/wxSYS_COLOUR_WINDOWTEXT);
     m_color_highlight_default       = is_dark_mode ? wxColour(78, 78, 78)   : wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT);
-    m_color_hovered_btn_label       = is_dark_mode ? wxColour(253, 111, 40) : wxColour(252, 77, 1);
-    m_color_default_btn_label       = is_dark_mode ? wxColour(255, 181, 100): wxColour(203, 61, 0);
-    m_color_selected_btn_bg         = is_dark_mode ? wxColour(95, 73, 62)   : wxColour(228, 220, 216);
+    m_color_hovered_btn_label       = is_dark_mode ? wxColour(24, 180, 36) : wxColour(0, 219, 8);
+    m_color_default_btn_label       = is_dark_mode ? wxColour(101, 235, 112): wxColour(1, 140, 13);
+    m_color_selected_btn_bg         = is_dark_mode ? wxColour(62, 112, 72)   : wxColour(218, 230, 220);
 #else
     m_color_label_default = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 #endif
@@ -1870,7 +1871,7 @@ void GUI_App::check_printer_presets()
     for (const std::string& preset_name : preset_names)
         msg_text += "\n    \"" + from_u8(preset_name) + "\",";
     msg_text.RemoveLast();
-    msg_text += "\n\n" + _L("But since this version of PrusaSlicer we don't show this information in Printer Settings anymore.\n"
+    msg_text += "\n\n" + _L("But since this version of CaribouSlicer we don't show this information in Printer Settings anymore.\n"
                             "Settings will be available in physical printers settings.") + "\n\n" +
                          _L("By default new Printer devices will be named as \"Printer N\" during its creation.\n"
                             "Note: This name can be changed later from the physical printers settings");
@@ -2284,7 +2285,7 @@ bool GUI_App::load_language(wxString language, bool initial)
 #ifdef __WXOSX__
             // ysFIXME - temporary workaround till it isn't fixed in wxWidgets:
             // Use English as an initial language, because of under OSX it try to load "inappropriate" language for wxLANGUAGE_DEFAULT.
-            // For example in our case it's trying to load "en_CZ" and as a result PrusaSlicer catch warning message.
+            // For example in our case it's trying to load "en_CZ" and as a result CaribouSlicer catch warning message.
             // But wxWidgets guys work on it.
             temp_locale.Init(wxLANGUAGE_ENGLISH);
 #else
@@ -2368,14 +2369,14 @@ bool GUI_App::load_language(wxString language, bool initial)
 
     if (! wxLocale::IsAvailable(language_info->Language)) {
     	// Loading the language dictionary failed.
-    	wxString message = "Switching PrusaSlicer to language " + language_info->CanonicalName + " failed.";
+    	wxString message = "Switching CaribouSlicer to language " + language_info->CanonicalName + " failed.";
 #if !defined(_WIN32) && !defined(__APPLE__)
         // likely some linux system
         message += "\nYou may need to reconfigure the missing locales, likely by running the \"locale-gen\" and \"dpkg-reconfigure locales\" commands.\n";
 #endif
         if (initial)
         	message + "\n\nApplication will close.";
-        wxMessageBox(message, "PrusaSlicer - Switching language failed", wxOK | wxICON_ERROR);
+        wxMessageBox(message, "CaribouSlicer - Switching language failed", wxOK | wxICON_ERROR);
         if (initial)
 			std::exit(EXIT_FAILURE);
 		else
@@ -2935,7 +2936,7 @@ void GUI_App::OSXStoreOpenFiles(const wxArrayString &fileNames)
         if (is_gcode_file(into_u8(filename)))
             ++ num_gcodes;
     if (fileNames.size() == num_gcodes) {
-        // Opening PrusaSlicer by drag & dropping a G-Code onto PrusaSlicer icon in Finder,
+        // Opening CaribouSlicer by drag & dropping a G-Code onto CaribouSlicer icon in Finder,
         // just G-codes were passed. Switch to G-code viewer mode.
         m_app_mode = EAppMode::GCodeViewer;
         unlock_lockfile(get_instance_hash_string() + ".lock", data_dir() + "/cache/");
@@ -3382,18 +3383,18 @@ bool GUI_App::open_browser_with_warning_dialog(const wxString& url, wxWindow* pa
     std::string option_key = "suppress_hyperlinks";
     if (force_remember_choice || app_config->get(option_key).empty()) {
         if (app_config->get(option_key).empty()) {
-            RichMessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("PrusaSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
+            RichMessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("CaribouSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
             dialog.ShowCheckBox(_L("Remember my choice"));
             auto answer = dialog.ShowModal();
             launch = answer == wxID_YES;
             if (dialog.IsCheckBoxChecked()) {
                 wxString preferences_item = _L("Suppress to open hyperlink in browser");
                 wxString msg =
-                    _L("PrusaSlicer will remember your choice.") + "\n\n" +
+                    _L("CaribouSlicer will remember your choice.") + "\n\n" +
                     _L("You will not be asked about it again on hyperlinks hovering.") + "\n\n" +
                     format_wxstr(_L("Visit \"Preferences\" and check \"%1%\"\nto changes your choice."), preferences_item);
 
-                MessageDialog msg_dlg(parent, msg, _L("PrusaSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
+                MessageDialog msg_dlg(parent, msg, _L("CaribouSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
                 if (msg_dlg.ShowModal() == wxID_CANCEL)
                     return false;
                 app_config->set(option_key, answer == wxID_NO ? "1" : "0");
@@ -3405,7 +3406,7 @@ bool GUI_App::open_browser_with_warning_dialog(const wxString& url, wxWindow* pa
     // warning dialog doesn't containe a "Remember my choice" checkbox
     // and will be shown only when "Suppress to open hyperlink in browser" is ON.
     else if (app_config->get_bool(option_key)) {
-        MessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("PrusaSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
+        MessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("CaribouSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
         launch = dialog.ShowModal() == wxID_YES;
     }
 
@@ -3441,22 +3442,22 @@ bool GUI_App::open_browser_with_warning_dialog(const wxString& url, wxWindow* pa
 #ifdef __WXMSW__
 void GUI_App::associate_3mf_files()
 {
-    associate_file_type(L".3mf", L"Prusa.Slicer.1", L"PrusaSlicer", true);
+    associate_file_type(L".3mf", L"Prusa.Slicer.1", L"CaribouSlicer", true);
 }
 
 void GUI_App::associate_stl_files()
 {
-    associate_file_type(L".stl", L"Prusa.Slicer.1", L"PrusaSlicer", true);
+    associate_file_type(L".stl", L"Prusa.Slicer.1", L"CaribouSlicer", true);
 }
 
 void GUI_App::associate_gcode_files()
 {
-    associate_file_type(L".gcode", L"PrusaSlicer.GCodeViewer.1", L"PrusaSlicerGCodeViewer", true);
+    associate_file_type(L".gcode", L"CaribouSlicer.GCodeViewer.1", L"CaribouSlicerGCodeViewer", true);
 }
 
 void GUI_App::associate_bgcode_files()
 {
-    associate_file_type(L".bgcode", L"PrusaSlicer.GCodeViewer.1", L"PrusaSlicerGCodeViewer", true);
+    associate_file_type(L".bgcode", L"CaribouSlicer.GCodeViewer.1", L"CaribouSlicerGCodeViewer", true);
 }
 #endif // __WXMSW__
 

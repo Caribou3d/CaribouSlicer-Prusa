@@ -27,7 +27,7 @@ AboutDialogLogo::AboutDialogLogo(wxWindow* parent)
     : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
     this->SetBackgroundColour(*wxWHITE);
-    this->logo = wxBitmap(from_u8(Slic3r::var("PrusaSlicer_192px.png")), wxBITMAP_TYPE_PNG);
+    this->logo = wxBitmap(from_u8(Slic3r::var("CaribouSlicer_192px.png")), wxBITMAP_TYPE_PNG);
     this->SetMinSize(this->logo.GetSize());
     
     this->Bind(wxEVT_PAINT, &AboutDialogLogo::onRepaint, this);
@@ -252,7 +252,7 @@ AboutDialog::AboutDialog()
     
     // version
     {
-        auto version_string = _L("Version") + " " + std::string(SLIC3R_VERSION);
+        auto version_string = _L("Version") + " " + std::string(SLIC3R_VERSION) + " Build" + " " + std::string(SLIC3R_BUILD_NR);
         wxStaticText* version = new wxStaticText(this, wxID_ANY, version_string.c_str(), wxDefaultPosition, wxDefaultSize);
         wxFont version_font = GetFont();
         #ifdef __WXMSW__
@@ -279,27 +279,28 @@ AboutDialog::AboutDialog()
         m_html->SetBorders(2);
         const wxString copyright_str    = _L("Copyright");
         // TRN AboutDialog: "Slic3r %1% GNU Affero General Public License"
-        const wxString is_lecensed_str  = _L("is licensed under the");
+        const wxString is_licensed_str  = _L("is licensed under the");
         const wxString license_str      = _L("GNU Affero General Public License, version 3");
-        const wxString based_on_str     = _L("PrusaSlicer is based on Slic3r by Alessandro Ranellucci and the RepRap community.");
+        const wxString based_on_str     = _L("CaribouSlicer is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill. Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.");
         const wxString contributors_str = _L("Contributions by Henrik Brix Andersen, Nicolas Dandrimont, Mark Hindess, Petr Ledvina, Joseph Lenox, Y. Sapir, Mike Sheldrake, Vojtech Bubnik and numerous others.");
         const auto text = format_wxstr(
             "<html>"
             "<body bgcolor= %1% link= %2%>"
             "<font color=%3%>"
-            "%4% &copy; 2016-2023 Prusa Research. <br />"
-            "%5% &copy; 2011-2018 Alessandro Ranellucci. <br />"
-            "<a href=\"http://slic3r.org/\">Slic3r</a> %6% "
-            "<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\">%7%</a>."
-            "<br /><br />"
-            "%8%"
+            "%4% &copy; 2023  Caribou3d Research & Development. <br />"
+            "%5% &copy; 2016-2023 Prusa Research. <br />"
+            "%6% &copy; 2011-2018 Alessandro Ranellucci. <br />"
+            "<a href=\"http://slic3r.org/\">Slic3r</a> %7% "
+            "<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\">%8%</a>."
             "<br /><br />"
             "%9%"
+            "<br /><br />"
+            "%10%"
             "</font>"
             "</body>"
             "</html>", bgr_clr_str, text_clr_str, text_clr_str
-            , copyright_str, copyright_str
-            , is_lecensed_str
+            , copyright_str, copyright_str, copyright_str
+            , is_licensed_str
             , license_str
             , based_on_str
             , contributors_str);

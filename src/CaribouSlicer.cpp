@@ -59,7 +59,7 @@
 #include "libslic3r/Thread.hpp"
 #include "libslic3r/BlacklistedLibraryCheck.hpp"
 
-#include "PrusaSlicer.hpp"
+#include "CaribouSlicer.hpp"
 
 #ifdef SLIC3R_GUI
     #include "slic3r/GUI/GUI_Init.hpp"
@@ -127,7 +127,7 @@ int CLI::run(int argc, char **argv)
 #ifdef _WIN32
             false;
 #else
-            // On Unix systems, the prusa-slicer binary may be symlinked to give the application a different meaning.
+            // On Unix systems, the caribou-slicer binary may be symlinked to give the application a different meaning.
             boost::algorithm::iends_with(boost::filesystem::path(argv[0]).filename().string(), "gcodeviewer");
 #endif // _WIN32
 #if ENABLE_GL_CORE_PROFILE
@@ -737,23 +737,23 @@ bool CLI::setup(int argc, char **argv)
     detect_platform();
 
 #ifdef WIN32
-    // Notify user that a blacklisted DLL was injected into PrusaSlicer process (for example Nahimic, see GH #5573).
-    // We hope that if a DLL is being injected into a PrusaSlicer process, it happens at the very start of the application,
+    // Notify user that a blacklisted DLL was injected into CaribouSlicer process (for example Nahimic, see GH #5573).
+    // We hope that if a DLL is being injected into a CaribouSlicer process, it happens at the very start of the application,
     // thus we shall detect them now.
     if (BlacklistedLibraryCheck::get_instance().perform_check()) {
-        std::wstring text = L"Following DLLs have been injected into the PrusaSlicer process:\n\n";
+        std::wstring text = L"Following DLLs have been injected into the CaribouSlicer process:\n\n";
         text += BlacklistedLibraryCheck::get_instance().get_blacklisted_string();
         text += L"\n\n"
-                L"PrusaSlicer is known to not run correctly with these DLLs injected. "
+                L"CaribouSlicer is known to not run correctly with these DLLs injected. "
                 L"We suggest stopping or uninstalling these services if you experience "
-                L"crashes or unexpected behaviour while using PrusaSlicer.\n"
-                L"For example, ASUS Sonic Studio injects a Nahimic driver, which makes PrusaSlicer "
+                L"crashes or unexpected behaviour while using CaribouSlicer.\n"
+                L"For example, ASUS Sonic Studio injects a Nahimic driver, which makes CaribouSlicer "
                 L"to crash on a secondary monitor, see PrusaSlicer github issue #5573";
         MessageBoxW(NULL, text.c_str(), L"Warning"/*L"Incopatible library found"*/, MB_OK);
     }
 #endif
 
-    // See Invoking prusa-slicer from $PATH environment variable crashes #5542
+    // See Invoking caribou-slicer from $PATH environment variable crashes #5542
     // boost::filesystem::path path_to_binary = boost::filesystem::system_complete(argv[0]);
     boost::filesystem::path path_to_binary = boost::dll::program_location();
 
@@ -836,8 +836,8 @@ void CLI::print_help(bool include_print_options, PrinterTechnology printer_techn
         << " (without GUI support)"
 #endif /* SLIC3R_GUI */
         << std::endl
-        << "https://github.com/prusa3d/PrusaSlicer" << std::endl << std::endl
-        << "Usage: prusa-slicer [ ACTIONS ] [ TRANSFORM ] [ OPTIONS ] [ file.stl ... ]" << std::endl
+        << "https://github.com/caribou3d/CaribouSlicer" << std::endl << std::endl
+        << "Usage: caribouslicer [ ACTIONS ] [ TRANSFORM ] [ OPTIONS ] [ file.stl ... ]" << std::endl
         << std::endl
         << "Actions:" << std::endl;
     cli_actions_config_def.print_cli_help(boost::nowide::cout, false);
@@ -943,7 +943,7 @@ extern "C" {
 
 #if defined(SLIC3R_UBSAN)
 extern "C" {
-    // Enable printing stacktrace by default. It can be disabled by running PrusaSlicer with "UBSAN_OPTIONS=print_stacktrace=0".
+    // Enable printing stacktrace by default. It can be disabled by running CaribouSlicer with "UBSAN_OPTIONS=print_stacktrace=0".
     const char *__ubsan_default_options() {
         return "print_stacktrace=1";
     }

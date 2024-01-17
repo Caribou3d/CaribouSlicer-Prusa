@@ -935,7 +935,7 @@ private:
     {NotificationType::URLNotRegistered
 		, NotificationLevel::RegularNotificationLevel
 		, 10
-		, _u8L("PrusaSlicer received a download request from Printables.com, but it's not allowed. You can allow it")
+		, _u8L("CaribouSlicer received a download request from Printables.com, but it's not allowed. You can allow it")
 		, _u8L("here.")
 		,  [](wxEvtHandler* evnthndlr) {
 			wxGetApp().open_preferences("downloader_url_registered", "Other");
@@ -943,7 +943,7 @@ private:
 		} },
 
 			//{NotificationType::NewAppAvailable, NotificationLevel::ImportantNotificationLevel, 20,  _u8L("New version is available."),  _u8L("See Releases page."), [](wxEvtHandler* evnthndlr) {
-			//	wxGetApp().open_browser_with_warning_dialog("https://github.com/prusa3d/PrusaSlicer/releases"); return true; }},
+			//	wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer/releases"); return true; }},
 			//{NotificationType::NewAppAvailable, NotificationLevel::ImportantNotificationLevel, 20,  _u8L("New vesion of PrusaSlicer is available.",  _u8L("Download page.") },
 			//{NotificationType::LoadingFailed, NotificationLevel::RegularNotificationLevel, 20,  _u8L("Loading of model has Failed") },
 			//{NotificationType::DeviceEjected, NotificationLevel::RegularNotificationLevel, 10,  _u8L("Removable device has been safely ejected")} // if we want changeble text (like here name of device), we need to do it as CustomNotification

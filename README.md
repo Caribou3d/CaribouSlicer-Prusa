@@ -86,4 +86,4 @@ Slic3r is licensed under the GNU Affero General Public License, version 3. Slic3
 
 The GNU Affero General Public License, version 3 ensures that if you use any part of this software in any way (even behind a web server), your software must be released under the same license.
 
-Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kr#al, David Kocik and numerous others.
+Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kral, David Kocik and numerous others.

@@ -1422,15 +1422,15 @@ void GCodeGenerator::_do_export(Print& print, GCodeOutputStream &file, Thumbnail
         file.write_format(";%s\n", GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Estimated_Printing_Time_Placeholder).c_str());
 
         // if exporting gcode in ascii format, config export is done here
-        // Append full config, delimited by two 'phony' configuration keys prusaslicer_config = begin and prusaslicer_config = end.
+        // Append full config, delimited by two 'phony' configuration keys caribouslicer_config = begin and caribouslicer_config = end.
         // The delimiters are structured as configuration key / value pairs to be parsable by older versions of PrusaSlicer G-code viewer.
         {
-            file.write("\n; prusaslicer_config = begin\n");
+            file.write("\n; caribouslicer_config = begin\n");
             std::string full_config;
             append_full_config(print, full_config);
             if (!full_config.empty())
                 file.write(full_config);
-            file.write("; prusaslicer_config = end\n");
+            file.write("; caribouslicer_config = end\n");
         }
     }
     print.throw_if_canceled();

@@ -919,7 +919,7 @@ void ObjectManipulation::render_debug_window()
     ImGuiWrapper& imgui = *wxGetApp().imgui();
 //   ImGui::SetNextWindowCollapsed(true, ImGuiCond_Once);
     imgui.begin(std::string("ObjectManipulation"), ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize);
-    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Coordinates type");
+    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Coordinates type");
     ImGui::SameLine();
     imgui.text(coordinate_type_str(m_coordinates_type));
     imgui.end();

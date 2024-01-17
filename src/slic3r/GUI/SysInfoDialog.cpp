@@ -49,7 +49,7 @@ std::string get_main_info(bool format_as_html)
         out << b_start << (wxGetApp().is_editor() ? SLIC3R_APP_NAME : GCODEVIEWER_APP_NAME) << b_end << line_end;
     out << b_start << "Version:   "             << b_end << SLIC3R_VERSION << line_end;
     
-    std::string build_id = SLIC3R_BUILD_ID;
+    std::string build_id = SLIC3R_BUILD_NR;
     if (! wxGetApp().is_editor())
         boost::replace_first(build_id, SLIC3R_APP_NAME, GCODEVIEWER_APP_NAME);
     out << b_start << "Build:     " << b_end << build_id << line_end;
@@ -163,7 +163,7 @@ SysInfoDialog::SysInfoDialog()
 #ifdef WIN32
         std::wstring blacklisted_libraries = BlacklistedLibraryCheck::get_instance().get_blacklisted_string().c_str();
         if (! blacklisted_libraries.empty())
-            blacklisted_libraries_message = wxString("<br><b>") + _L("Blacklisted libraries loaded into PrusaSlicer process:") + "</b><br>" + blacklisted_libraries;
+            blacklisted_libraries_message = wxString("<br><b>") + _L("Blacklisted libraries loaded into CaribouSlicer process:") + "</b><br>" + blacklisted_libraries;
 #endif // WIN32
        const auto text = GUI::format_wxstr(
             "<html>"

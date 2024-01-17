@@ -199,23 +199,23 @@ void GLCanvas3D::LayersEditing::render_overlay(const GLCanvas3D& canvas)
 
     imgui.begin(_L("Variable layer height"), ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
-    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, _L("Left mouse button:"));
+    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, _L("Left mouse button:"));
     ImGui::SameLine();
     imgui.text(_L("Add detail"));
 
-    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, _L("Right mouse button:"));
+    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, _L("Right mouse button:"));
     ImGui::SameLine();
     imgui.text(_L("Remove detail"));
 
-    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, _L("Shift + Left mouse button:"));
+    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, _L("Shift + Left mouse button:"));
     ImGui::SameLine();
     imgui.text(_L("Reset to base"));
 
-    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, _L("Shift + Right mouse button:"));
+    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, _L("Shift + Right mouse button:"));
     ImGui::SameLine();
     imgui.text(_L("Smoothing"));
 
-    imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, _L("Mouse wheel:"));
+    imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, _L("Mouse wheel:"));
     ImGui::SameLine();
     imgui.text(_L("Increase/decrease edit area"));
     
@@ -1269,7 +1269,7 @@ void GLCanvas3D::SLAView::render_debug_window()
     ImGuiWrapper& imgui = *wxGetApp().imgui();
     imgui.begin(std::string("SLAView"), ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize);
     for (const auto& [id, type] : m_instances_cache) {
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "(" + std::to_string(id.object_id) + ", " + std::to_string(id.instance_id) + ")");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "(" + std::to_string(id.object_id) + ", " + std::to_string(id.instance_id) + ")");
         ImGui::SameLine();
         imgui.text_colored(ImGui::GetStyleColorVec4(ImGuiCol_Text), (type == ESLAViewType::Original) ? "Original" : "Processed");
     }
@@ -5759,12 +5759,12 @@ void GLCanvas3D::_picking_pass()
     char buf[1024];
     if (hit.type != SceneRaycaster::EType::None) {
         if (ImGui::BeginTable("Hit", 2)) {
-            add_strings_row_to_table("Object ID", ImGuiWrapper::COL_ORANGE_LIGHT, std::to_string(hit.raycaster_id), ImGui::GetStyleColorVec4(ImGuiCol_Text));
-            add_strings_row_to_table("Type", ImGuiWrapper::COL_ORANGE_LIGHT, object_type, ImGui::GetStyleColorVec4(ImGuiCol_Text));
+            add_strings_row_to_table("Object ID", ImGuiWrapper::COL_GREENC_LIGHT, std::to_string(hit.raycaster_id), ImGui::GetStyleColorVec4(ImGuiCol_Text));
+            add_strings_row_to_table("Type", ImGuiWrapper::COL_GREENC_LIGHT, object_type, ImGui::GetStyleColorVec4(ImGuiCol_Text));
             sprintf(buf, "%.3f, %.3f, %.3f", hit.position.x(), hit.position.y(), hit.position.z());
-            add_strings_row_to_table("Position", ImGuiWrapper::COL_ORANGE_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
+            add_strings_row_to_table("Position", ImGuiWrapper::COL_GREENC_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
             sprintf(buf, "%.3f, %.3f, %.3f", hit.normal.x(), hit.normal.y(), hit.normal.z());
-            add_strings_row_to_table("Normal", ImGuiWrapper::COL_ORANGE_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
+            add_strings_row_to_table("Normal", ImGuiWrapper::COL_GREENC_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
             ImGui::EndTable();
         }
     }
@@ -5775,13 +5775,13 @@ void GLCanvas3D::_picking_pass()
     imgui.text("Registered for picking:");
     if (ImGui::BeginTable("Raycasters", 2)) {
         sprintf(buf, "%d (%d)", (int)m_scene_raycaster.beds_count(), (int)m_scene_raycaster.active_beds_count());
-        add_strings_row_to_table("Beds", ImGuiWrapper::COL_ORANGE_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
+        add_strings_row_to_table("Beds", ImGuiWrapper::COL_GREENC_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
         sprintf(buf, "%d (%d)", (int)m_scene_raycaster.volumes_count(), (int)m_scene_raycaster.active_volumes_count());
-        add_strings_row_to_table("Volumes", ImGuiWrapper::COL_ORANGE_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
+        add_strings_row_to_table("Volumes", ImGuiWrapper::COL_GREENC_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
         sprintf(buf, "%d (%d)", (int)m_scene_raycaster.gizmos_count(), (int)m_scene_raycaster.active_gizmos_count());
-        add_strings_row_to_table("Gizmo elements", ImGuiWrapper::COL_ORANGE_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
+        add_strings_row_to_table("Gizmo elements", ImGuiWrapper::COL_GREENC_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
         sprintf(buf, "%d (%d)", (int)m_scene_raycaster.fallback_gizmos_count(), (int)m_scene_raycaster.active_fallback_gizmos_count());
-        add_strings_row_to_table("Gizmo2 elements", ImGuiWrapper::COL_ORANGE_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
+        add_strings_row_to_table("Gizmo2 elements", ImGuiWrapper::COL_GREENC_LIGHT, std::string(buf), ImGui::GetStyleColorVec4(ImGuiCol_Text));
         ImGui::EndTable();
     }
 
@@ -5791,7 +5791,7 @@ void GLCanvas3D::_picking_pass()
         imgui.text("Gizmo raycasters IDs:");
         if (ImGui::BeginTable("GizmoRaycasters", 3)) {
             for (size_t i = 0; i < gizmo_raycasters->size(); ++i) {
-                add_strings_row_to_table(std::to_string(i), ImGuiWrapper::COL_ORANGE_LIGHT,
+                add_strings_row_to_table(std::to_string(i), ImGuiWrapper::COL_GREENC_LIGHT,
                     std::to_string(SceneRaycaster::decode_id(SceneRaycaster::EType::Gizmo, (*gizmo_raycasters)[i]->get_id())), ImGui::GetStyleColorVec4(ImGuiCol_Text),
                     to_string(Geometry::Transformation((*gizmo_raycasters)[i]->get_transform()).get_offset()), ImGui::GetStyleColorVec4(ImGuiCol_Text));
             }
@@ -5805,7 +5805,7 @@ void GLCanvas3D::_picking_pass()
         imgui.text("Gizmo2 raycasters IDs:");
         if (ImGui::BeginTable("Gizmo2Raycasters", 3)) {
             for (size_t i = 0; i < gizmo2_raycasters->size(); ++i) {
-                add_strings_row_to_table(std::to_string(i), ImGuiWrapper::COL_ORANGE_LIGHT,
+                add_strings_row_to_table(std::to_string(i), ImGuiWrapper::COL_GREENC_LIGHT,
                     std::to_string(SceneRaycaster::decode_id(SceneRaycaster::EType::FallbackGizmo, (*gizmo2_raycasters)[i]->get_id())), ImGui::GetStyleColorVec4(ImGuiCol_Text),
                     to_string(Geometry::Transformation((*gizmo2_raycasters)[i]->get_transform()).get_offset()), ImGui::GetStyleColorVec4(ImGuiCol_Text));
             }
@@ -7850,7 +7850,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "File metadata compression");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "File metadata compression");
         ImGui::TableSetColumnIndex(1);
         std::vector<std::string> options = { "None", "Deflate", "heatshrink 11,4", "heatshrink 12,4" };
         int option_id = (int)binarizer_config.compression.file_metadata;
@@ -7859,7 +7859,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Printer metadata compression");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Printer metadata compression");
         ImGui::TableSetColumnIndex(1);
         option_id = (int)binarizer_config.compression.printer_metadata;
         if (imgui.combo(std::string("##printer_metadata_compression"), options, option_id, ImGuiComboFlags_HeightLargest, 0.0f, 175.0f))
@@ -7867,7 +7867,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Print metadata compression");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Print metadata compression");
         ImGui::TableSetColumnIndex(1);
         option_id = (int)binarizer_config.compression.print_metadata;
         if (imgui.combo(std::string("##print_metadata_compression"), options, option_id, ImGuiComboFlags_HeightLargest, 0.0f, 175.0f))
@@ -7875,7 +7875,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Slicer metadata compression");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Slicer metadata compression");
         ImGui::TableSetColumnIndex(1);
         option_id = (int)binarizer_config.compression.slicer_metadata;
         if (imgui.combo(std::string("##slicer_metadata_compression"), options, option_id, ImGuiComboFlags_HeightLargest, 0.0f, 175.0f))
@@ -7883,7 +7883,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "GCode compression");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "GCode compression");
         ImGui::TableSetColumnIndex(1);
         option_id = (int)binarizer_config.compression.gcode;
         if (imgui.combo(std::string("##gcode_compression"), options, option_id, ImGuiComboFlags_HeightLargest, 0.0f, 175.0f))
@@ -7891,7 +7891,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "GCode encoding");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "GCode encoding");
         ImGui::TableSetColumnIndex(1);
         options = { "None", "MeatPack", "MeatPack Comments" };
         option_id = (int)binarizer_config.gcode_encoding;
@@ -7900,7 +7900,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Metadata encoding");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Metadata encoding");
         ImGui::TableSetColumnIndex(1);
         options = { "INI" };
         option_id = (int)binarizer_config.metadata_encoding;
@@ -7909,7 +7909,7 @@ void GLCanvas3D::show_binary_gcode_debug_window()
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        imgui.text_colored(ImGuiWrapper::COL_ORANGE_LIGHT, "Checksum type");
+        imgui.text_colored(ImGuiWrapper::COL_GREENC_LIGHT, "Checksum type");
         ImGui::TableSetColumnIndex(1);
         options = { "None", "CRC32" };
         option_id = (int)binarizer_config.checksum;

@@ -480,7 +480,7 @@ namespace Slic3r {
         unsigned int m_version;
         bool m_check_version;
 
-        // Semantic version of PrusaSlicer, that generated this 3MF.
+        // Semantic version of CaribouSlicer, that generated this 3MF.
         boost::optional<Semver> m_prusaslicer_generator_version;
         unsigned int m_fdm_supports_painting_version = 0;
         unsigned int m_seam_painting_version         = 0;
@@ -1492,7 +1492,7 @@ namespace Slic3r {
                 std::string         extra;
                 pt::ptree attr_tree = tree.find("<xmlattr>")->second;
                 if (attr_tree.find("type") == attr_tree.not_found()) {
-                    // It means that data was saved in old version (2.2.0 and older) of PrusaSlicer
+                    // It means that data was saved in old version (2.2.0 and older) of CaribouSlicer
                     // read old data ... 
                     std::string gcode       = tree.get<std::string> ("<xmlattr>.gcode");
                     // ... and interpret them to the new data
@@ -1942,20 +1942,20 @@ namespace Slic3r {
         } else if (m_curr_metadata_name == "Application") {
             // Generator application of the 3MF.
             // SLIC3R_APP_KEY - SLIC3R_VERSION
-            if (boost::starts_with(m_curr_characters, "PrusaSlicer-"))
+            if (boost::starts_with(m_curr_characters, "CaribouSlicer-"))
                 m_prusaslicer_generator_version = Semver::parse(m_curr_characters.substr(12));
         } else if (m_curr_metadata_name == SLIC3RPE_FDM_SUPPORTS_PAINTING_VERSION) {
             m_fdm_supports_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_fdm_supports_painting_version, FDM_SUPPORTS_PAINTING_VERSION,
-                _u8L("The selected 3MF contains FDM supports painted object using a newer version of PrusaSlicer and is not compatible."));
+                _u8L("The selected 3MF contains FDM supports painted object using a newer version of CaribouSlicer and is not compatible."));
         } else if (m_curr_metadata_name == SLIC3RPE_SEAM_PAINTING_VERSION) {
             m_seam_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_seam_painting_version, SEAM_PAINTING_VERSION,
-                _u8L("The selected 3MF contains seam painted object using a newer version of PrusaSlicer and is not compatible."));
+                _u8L("The selected 3MF contains seam painted object using a newer version of CaribouSlicer and is not compatible."));
         } else if (m_curr_metadata_name == SLIC3RPE_MM_PAINTING_VERSION) {
             m_mm_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_mm_painting_version, MM_PAINTING_VERSION,
-                _u8L("The selected 3MF contains multi-material painted object using a newer version of PrusaSlicer and is not compatible."));
+                _u8L("The selected 3MF contains multi-material painted object using a newer version of CaribouSlicer and is not compatible."));
         }
 
         return true;
