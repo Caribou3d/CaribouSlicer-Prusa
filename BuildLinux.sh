@@ -63,7 +63,7 @@ then
 fi
 
 unset name
-while getopts ":hugbdsiw" opt; do
+while getopts ":hugbdrsiw" opt; do
   case ${opt} in
     u )
         UPDATE_LIB="1"
@@ -83,16 +83,20 @@ while getopts ":hugbdsiw" opt; do
     g )
         FORCE_GTK2="-g"
         ;;
-    w )
+    r )
+	    BUILD_CLEANDEPEND="1"
+	;;        
+    w )    
 	BUILD_WIPE="1"
 	;;
-    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-s][-i]"
+    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-i]"
         echo "   -h: this message"
 	    echo "   -w: wipe build directories before building"
         echo "   -u: only update dependency packets (optional and need sudo)"
         echo "   -g: force gtk2 build"
         echo "   -b: build in debug mode"
         echo "   -d: build deps"
+        echo "   -r: clean dependencies"        
         echo "   -s: build CaribouSlicer"
         echo "   -i: Generate appimage (optional)"
         echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
@@ -104,13 +108,14 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-s][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-i]"
     echo "   -h: this message"
     echo "   -w: wipe build directories before building"
     echo "   -u: only update dependency packets (optional and need sudo)"
     echo "   -g: force gtk2 build"
     echo "   -b: build in debug mode"
     echo "   -d: build deps"
+    echo "   -r: clean dependencies"      
     echo "   -s: build CaribouSlicer"
     echo "   -i: generate appimage (optional)"
     echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
@@ -213,7 +218,6 @@ then
 
     # make deps
     make -j$NCORES
-#    make -j1
     echo -e "\n ... done\n"
 
     # rename wxscintilla
@@ -227,13 +231,18 @@ then
     fi
     popd > /dev/null
     echo -e "\n ... done\n"
+fi
 
-    # clean deps
-    echo "[4/9] Cleaning dependencies..."
-#    rm -rf dep_*
-    popd  > /dev/null
+if [[ -n "$BUILD_CLEANDEPEND" ]]
+then
+    echo -e "[4/9] Cleaning dependencies...\n"
+    pushd deps/build
+    pwd
+    rm -fr dep_*
+    popd > /dev/null    
     echo -e "\n ... done\n"
 fi
+
 
 if [[ -n "$BUILD_CARIBOUSLICER" ]]
 then

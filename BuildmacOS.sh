@@ -51,7 +51,7 @@ if [ $TARGET_OS == "macos" ]; then
 else
     echo -e "$(tput setaf 1)This script doesn't support your Operating system!"
     echo -e "Please use Linux 64-bit or Windows 10 64-bit with Linux subsystem / git-bash.$(tput sgr0)\n"
-#    exit -1
+    exit -1
 fi
 
 # Check if CMake is installed
@@ -64,7 +64,7 @@ fi
 
 BUILD_ARCH=$(uname -m)
 
-while getopts ":idaxbhcsw" opt; do
+while getopts ":idaxbhcswr" opt; do
   case ${opt} in
     i )
         BUILD_IMAGE="1"
@@ -92,16 +92,20 @@ while getopts ":idaxbhcsw" opt; do
     w )
 	    BUILD_WIPE="1"
 	;;
-    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-x][-b][-c][-s][-i]"
+    r )
+	    BUILD_CLEANDEPEND="1"
+	;;
+    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-r][-x][-b][-c][-s][-i]"
         echo "   -h: this message"
 	    echo "   -w: wipe build directories bfore building"
         echo "   -d: build dependencies"
-        echo "   -a: Build for arm64 (Apple Silicon)"
-        echo "   -x: Build for x86_64 (Intel)"
-        echo "   -b: Build with debug symbols"
-        echo "   -c: Build for XCode"
+        echo "   -a: build for arm64 (Apple Silicon)"
+        echo "   -r: clean dependencies"
+        echo "   -x: build for x86_64 (Intel)"
+        echo "   -b: build with debug symbols"
+        echo "   -c: build for XCode"
         echo "   -s: build CaribouSlicer"
-        echo "   -i: Generate DMG image (optional)\n"
+        echo "   -i: generate DMG image (optional)\n"
         exit 0
         ;;
   esac
@@ -109,20 +113,20 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-x][-b][-c][-s][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-r][-x][-b][-c][-s][-i]"
     echo "   -h: this message"
 	echo "   -w: wipe build directories bfore building"
     echo "   -d: build dependencies"
     echo "   -a: Build for arm64 (Apple Silicon)"
-    echo "   -x: Build for x86_64 (Intel)"
-    echo "   -b: Build with debug symbols"
-    echo "   -c: Build for XCode"
+    echo "   -r: clean dependencies"   
+    echo "   -x: build for x86_64 (Intel)"
+    echo "   -b: build with debug symbols"
+    echo "   -c: build for XCode"
     echo "   -s: build CaribouSlicer"
     echo -e "   -i: Generate DMG image (optional)\n"
     exit 0
 fi
 
-echo $BUILD_ARCH
 export $BUILD_ARCH
 export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix zstd)/lib/
 
@@ -160,7 +164,6 @@ then
     echo -e "[2/9] Building dependencies ...\n"
 
     # make deps
-#    make -j1
     make -j$NCORES
 
     echo -e "\n ... done\n"
@@ -173,13 +176,15 @@ then
 
     popd > /dev/null
     echo -e "\n ... done\n"
+fi
 
+if [[ -n "$BUILD_CLEANDEPEND" ]]
+then
     echo -e "[4/9] Cleaning dependencies...\n"
-
-    # clean deps
-#    rm -rf dep_*
-    popd > /dev/null
-
+    pushd deps/build
+    pwd
+    rm -fr dep_*
+    popd > /dev/null    
     echo -e "\n ... done\n"
 fi
 
