@@ -64,7 +64,7 @@ fi
 
 BUILD_ARCH=$(uname -m)
 
-while getopts ":idaxbhcswr" opt; do
+while getopts ":idaxbhcstwr" opt; do
   case ${opt} in
     i )
         BUILD_IMAGE="1"
@@ -95,7 +95,7 @@ while getopts ":idaxbhcswr" opt; do
     r )
 	    BUILD_CLEANDEPEND="1"
 	;;
-    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-r][-x][-b][-c][-s][-i]"
+    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
         echo "   -h: this message"
 	    echo "   -w: wipe build directories bfore building"
         echo "   -d: build dependencies"
@@ -105,6 +105,7 @@ while getopts ":idaxbhcswr" opt; do
         echo "   -b: build with debug symbols"
         echo "   -c: build for XCode"
         echo "   -s: build CaribouSlicer"
+        echo "   -t: build tests (in combination with -s)"
         echo "   -i: generate DMG image (optional)\n"
         exit 0
         ;;
@@ -113,16 +114,17 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-r][-x][-b][-c][-s][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
     echo "   -h: this message"
 	echo "   -w: wipe build directories bfore building"
     echo "   -d: build dependencies"
     echo "   -a: Build for arm64 (Apple Silicon)"
-    echo "   -r: clean dependencies"   
+    echo "   -r: clean dependencies"
     echo "   -x: build for x86_64 (Intel)"
     echo "   -b: build with debug symbols"
     echo "   -c: build for XCode"
     echo "   -s: build CaribouSlicer"
+    echo "   -t: build tests (in combination with -s)"
     echo -e "   -i: Generate DMG image (optional)\n"
     exit 0
 fi
@@ -185,7 +187,7 @@ then
     pushd deps/build
     pwd
     rm -fr dep_*
-    popd > /dev/null    
+    popd > /dev/null
     echo -e "\n ... done\n"
 fi
 
@@ -219,6 +221,14 @@ then
     then
         BUILD_ARGS="-GXcode ${BUILD_ARGS}"
     fi
+
+    if [[ -n "$BUILD_TESTS" ]]
+    then
+        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=1"
+    else
+        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=0"
+    fi
+
     # cmake
     pushd build > /dev/null
     cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.14" -DSLIC3R_STATIC=1 ${BUILD_ARGS}

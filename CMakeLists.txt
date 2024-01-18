@@ -18,6 +18,7 @@ include(CMakeDependentOption)
 set(SLIC3R_RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 file(TO_NATIVE_PATH "${SLIC3R_RESOURCES_DIR}" SLIC3R_RESOURCES_DIR_WIN)
 
+
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "No build type selected, default to Release")
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type (default Release)" FORCE)
@@ -79,7 +80,14 @@ if (APPLE)
 endif ()
 
 option(SLIC3R_BUILD_SANDBOXES   "Build development sandboxes" OFF)
-option(SLIC3R_BUILD_TESTS       "Build unit tests" ON)
+
+if (CMAKE_BUILD_TESTS)
+    option(SLIC3R_BUILD_TESTS       "Build unit tests" ON)
+    set(SLIC3R_BUILD_TESTS ON CACHE BOOL "" FORCE)
+else ()
+    option(SLIC3R_BUILD_TESTS       "Build unit tests" OFF)
+    set(SLIC3R_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+endif ()
 
 if (IS_CROSS_COMPILE)
     message("Detected cross compilation setup. Tests and encoding checks will be forcedly disabled!")
@@ -384,7 +392,7 @@ endif()
 function(slic3r_remap_configs targets from_Cfg to_Cfg)
     if(MSVC)
         string(TOUPPER ${from_Cfg} from_CFG)
-    
+
         foreach(tgt ${targets})
             if(TARGET ${tgt})
                 set_target_properties(${tgt} PROPERTIES MAP_IMPORTED_CONFIG_${from_CFG} ${to_Cfg})
@@ -587,7 +595,7 @@ function(caribouslicer_copy_dlls target)
     elseif ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
         set(_bits 32)
     endif ()
-    
+
     get_property(_is_multi GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
     get_target_property(_alt_out_dir ${target} RUNTIME_OUTPUT_DIRECTORY)
 
@@ -598,14 +606,14 @@ function(caribouslicer_copy_dlls target)
     else ()
         set (_out_dir "$<TARGET_PROPERTY:${target},BINARY_DIR>")
     endif ()
-    
-    # This has to be a separate target due to the windows command line lenght limits    
-    add_custom_command(TARGET ${target} POST_BUILD 
+
+    # This has to be a separate target due to the windows command line lenght limits
+    add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${TOP_LEVEL_PROJECT_DIR}/deps/+GMP/gmp/lib/win${_bits}/libgmp-10.dll ${_out_dir}
         COMMENT "Copy gmp runtime to build tree"
         VERBATIM)
-    
-    add_custom_command(TARGET ${target} POST_BUILD 
+
+    add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${TOP_LEVEL_PROJECT_DIR}/deps/+MPFR/mpfr/lib/win${_bits}/libmpfr-4.dll ${_out_dir}
         COMMENT "Copy mpfr runtime to build tree"
         VERBATIM)

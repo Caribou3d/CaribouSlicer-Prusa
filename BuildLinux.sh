@@ -63,7 +63,7 @@ then
 fi
 
 unset name
-while getopts ":hugbdrsiw" opt; do
+while getopts ":hugbdrstiw" opt; do
   case ${opt} in
     u )
         UPDATE_LIB="1"
@@ -77,6 +77,9 @@ while getopts ":hugbdrsiw" opt; do
     s )
         BUILD_CARIBOUSLICER="1"
         ;;
+    t )
+        BUILD_TESTS="1"
+        ;;
     b )
         BUILD_DEBUG="1"
         ;;
@@ -85,19 +88,20 @@ while getopts ":hugbdrsiw" opt; do
         ;;
     r )
         BUILD_CLEANDEPEND="1"
-	;;        
-    w )    
+	;;
+    w )
 	BUILD_WIPE="1"
 	;;
-    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-i]"
+    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-t][-i]"
         echo "   -h: this message"
 	    echo "   -w: wipe build directories before building"
         echo "   -u: only update dependency packets (optional and need sudo)"
         echo "   -g: force gtk2 build"
         echo "   -b: build in debug mode"
         echo "   -d: build deps"
-        echo "   -r: clean dependencies"        
+        echo "   -r: clean dependencies"
         echo "   -s: build CaribouSlicer"
+        echo "   -t: build tests (in combination with -s)"
         echo "   -i: Generate appimage (optional)"
         echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
         echo -e "   and then './BuildLinux.sh -dsi'\n"
@@ -108,15 +112,16 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-t][-i]"
     echo "   -h: this message"
     echo "   -w: wipe build directories before building"
     echo "   -u: only update dependency packets (optional and need sudo)"
     echo "   -g: force gtk2 build"
     echo "   -b: build in debug mode"
     echo "   -d: build deps"
-    echo "   -r: clean dependencies"      
+    echo "   -r: clean dependencies"
     echo "   -s: build CaribouSlicer"
+    echo "   -t: build tests (in combination with -s)"
     echo "   -i: generate appimage (optional)"
     echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
     echo -e "   and then './BuildLinux.sh -dsi'\n"
@@ -235,9 +240,9 @@ fi
 if [[ -n "$BUILD_CLEANDEPEND" ]]
 then
     echo -e "[4/9] Cleaning dependencies...\n"
-    pushd deps/build > /dev/null 
+    pushd deps/build > /dev/null
     rm -fr dep_*
-    popd > /dev/null    
+    popd > /dev/null
     echo -e " ... done\n"
 fi
 
@@ -264,6 +269,13 @@ then
     if [[ -n "$BUILD_DEBUG" ]]
     then
         BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TYPE=Debug"
+    fi
+
+    if [[ -n "$BUILD_TESTS" ]]
+    then
+        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=1"
+    else
+        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=0"
     fi
 
     # cmake
