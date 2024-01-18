@@ -50,7 +50,7 @@ if [ $TARGET_OS == "macos" ]; then
     fi
 else
     echo -e "$(tput setaf 1)This script doesn't support your Operating system!"
-    echo -e "Please use Linux 64-bit or Windows 10 64-bit with Linux subsystem / git-bash.$(tput sgr0)\n"
+    echo -e "Please use a macOS.$(tput sgr0)\n"
     exit -1
 fi
 
