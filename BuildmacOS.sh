@@ -175,6 +175,7 @@ then
     cp libwxscintilla-3.2.a libwx_osx_cocoau_scintilla-3.2.a
 
     popd > /dev/null
+    popd > /dev/null
     echo -e "\n ... done\n"
 fi
 
