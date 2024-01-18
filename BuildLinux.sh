@@ -84,7 +84,7 @@ while getopts ":hugbdrsiw" opt; do
         FORCE_GTK2="-g"
         ;;
     r )
-	    BUILD_CLEANDEPEND="1"
+        BUILD_CLEANDEPEND="1"
 	;;        
     w )    
 	BUILD_WIPE="1"
@@ -211,11 +211,9 @@ then
 
     pushd deps/build > /dev/null
     cmake .. $BUILD_ARGS
-
     echo -e "\n ... done\n"
 
     echo -e "\n[2/9] Building dependencies...\n"
-
     # make deps
     make -j$NCORES
     echo -e "\n ... done\n"
@@ -230,19 +228,18 @@ then
         cp libwxscintilla-3.2.a libwx_gtk3u_scintilla-3.2.a
     fi
     popd > /dev/null
+    popd > /dev/null
     echo -e "\n ... done\n"
 fi
 
 if [[ -n "$BUILD_CLEANDEPEND" ]]
 then
     echo -e "[4/9] Cleaning dependencies...\n"
-    pushd deps/build
-    pwd
+    pushd deps/build > /dev/null 
     rm -fr dep_*
     popd > /dev/null    
-    echo -e "\n ... done\n"
+    echo -e " ... done\n"
 fi
-
 
 if [[ -n "$BUILD_CARIBOUSLICER" ]]
 then
@@ -276,7 +273,7 @@ then
     # make CaribouSlicer
     echo -e "\n[6/9] Building CaribouSlicer ...\n"
     make -j$NCORES
-	echo -e "\n ... done"
+    echo -e "\n ... done"
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
