@@ -27,13 +27,13 @@ while getopts ":ih" opt; do
         ;;
     h ) echo "Usage: ./BuildLinuxImage.sh [-i] [-h]"
         echo "   -i: Generate Appimage (optional)"
-        echo "    -h: help"
+        echo "   -h: help"
         exit 0
         ;;
   esac
 done
 
-echo -e "\n[8/8] Generating Linux app..."
+echo -e "\n[8/9] Generating Linux app..."
 
 # create directory and copy into it
 if [ -d "package" ]
@@ -68,7 +68,7 @@ echo -e "\ndone"
 
 if [[ -n "$BUILD_IMAGE" ]]
 then
-    echo -e "\nCreating Appimage for distribution..."
+    echo -e "\n[9/9] Creating Appimage for distribution..."
     pushd package > /dev/null
     chmod +x ../src/build_appimage.sh
     ../src/build_appimage.sh

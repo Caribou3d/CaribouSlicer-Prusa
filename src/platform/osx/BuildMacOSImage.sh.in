@@ -15,7 +15,7 @@ while getopts ":ih" opt; do
   esac
 done
 
-echo -n "[9/9] Generating MacOS app..."
+echo -e "\n[8/9] Generating MacOS app..."
 {
     # update Info.plist
     pushd src
@@ -52,7 +52,7 @@ echo "done"
 
 if [[ -n "$BUILD_IMAGE" ]]
 then
-echo -n "Creating DMG Image for distribution..."
+echo -e "\n[9/9] Creating DMG Image for distribution..."
 {
     tar -cvf @SLIC3R_APP_KEY@.tar pack/@SLIC3R_APP_KEY@
 
