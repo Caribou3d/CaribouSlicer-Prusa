@@ -259,10 +259,14 @@ public:
     void            recreate_GUI(const wxString& message);
     void            system_info();
     void            keyboard_shortcuts();
+    void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
+//    void            html_dialog();
     void            load_project(wxWindow *parent, wxString& input_file) const;
     void            import_model(wxWindow *parent, wxArrayString& input_files) const;
     void            import_zip(wxWindow* parent, wxString& input_file) const;
     void            load_gcode(wxWindow* parent, wxString& input_file) const;
+
+    void            calibration_cube_dialog();
 
     static bool     catch_error(std::function<void()> cb, const std::string& err);
 
@@ -328,6 +332,8 @@ public:
     PresetUpdater*  preset_updater{ nullptr };
     MainFrame*      mainframe{ nullptr };
     Plater*         plater_{ nullptr };
+    std::mutex      not_modal_dialog_mutex;
+    wxDialog*       not_modal_dialog = nullptr;
 
 	PresetUpdater*  get_preset_updater() { return preset_updater; }
 
@@ -393,7 +399,7 @@ private:
     bool            select_language();
 
     bool            config_wizard_startup();
-    // Returns true if the configuration is fine. 
+    // Returns true if the configuration is fine.
     // Returns true if the configuration is not compatible and the user decided to rather close the slicer instead of reconfiguring.
 	bool            check_updates(const bool verbose);
     void            on_version_read(wxCommandEvent& evt);
@@ -402,7 +408,7 @@ private:
     // inititate read of version file online in separate thread
     void            app_version_check(bool from_user);
 
-    bool                    m_datadir_redefined { false }; 
+    bool                    m_datadir_redefined { false };
     bool                    m_wifi_config_dialog_shown { false };
     bool                    m_wifi_config_dialog_was_declined { false };
 };
