@@ -27,6 +27,8 @@ src/slic3r/GUI/BedShapeDialog.hpp
 src/slic3r/GUI/BonjourDialog.cpp
 src/slic3r/GUI/ButtonsDescription.cpp
 src/slic3r/GUI/CalibrationCubeDialog.cpp
+src/slic3r/GUI/CalibrationFlowDialog.cpp
+#src/slic3r/GUI/CalibrationRetractionDialog.cpp
 src/slic3r/GUI/ConfigManipulation.cpp
 src/slic3r/GUI/ConfigSnapshotDialog.cpp
 src/slic3r/GUI/ConfigWizard.cpp

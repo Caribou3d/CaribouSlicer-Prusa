@@ -131,8 +131,8 @@ ModelObject* CalibrationAbstractDialog::add_part(ModelObject* model_object, std:
             //volumes_info.push_back(std::make_pair(from_u8(new_volume->name), new_volume->get_mesh_errors_count() > 0));
 
             // set a default extruder value, since user can't add it manually
-            new_volume->config.set_key_value("extruder", new ConfigOptionInt(0));
-            new_volume->config.set_key_value("first_layer_extruder", new ConfigOptionInt(0));
+//            new_volume->config.set_key_value("extruder", new ConfigOptionInt(0));
+//            new_volume->config.set_key_value("first_layer_extruder", new ConfigOptionInt(0));
 
             //move to bed
             /* const TriangleMesh& hull = new_volume->get_convex_hull();
@@ -144,6 +144,7 @@ ModelObject* CalibrationAbstractDialog::add_part(ModelObject* model_object, std:
             volume->translate(Vec3d(0,0,-min_z));*/
         }
     }
+
     assert(model.objects.size() == 1);
     return model.objects.empty()?nullptr: model.objects[0];
 }

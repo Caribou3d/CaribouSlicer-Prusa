@@ -79,7 +79,8 @@
 #include "../Utils/WinRegistry.hpp"
 #include "slic3r/Config/Snapshot.hpp"
 #include "CalibrationCubeDialog.hpp"
-//#include "CalibrationFlowDialog.hpp"
+//#include "CalibrationRetractionDialog.hpp"
+#include "CalibrationFlowDialog.hpp"
 #include "ConfigSnapshotDialog.hpp"
 #include "FirmwareDialog.hpp"
 #include "Preferences.hpp"
@@ -1974,9 +1975,13 @@ void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialo
 //    change_calibration_dialog(nullptr, new HtmlDialog(this, mainframe,"Introduction to calibrations", "/calibration", "introduction.html"));
 //}
 
-//void GUI_App::flow_ratio_dialog()
+void GUI_App::flow_ratio_dialog()
+{
+    change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
+}
+//void GUI_App::calibration_retraction_dialog()
 //{
-//    change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
+//    change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
 //}
 
 void GUI_App::calibration_cube_dialog()
