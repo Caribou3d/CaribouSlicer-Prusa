@@ -1557,6 +1557,8 @@ void MainFrame::init_menubar_as_editor()
 //       append_menu_item(m_calibration_menu, wxID_ANY, _(L("Bed/Extruder leveling")), _(L("Create a test print to help you to level your printer bed.")),
 //           [this](wxCommandEvent&) { wxGetApp().bed_leveling_dialog(); });
 //       m_calibration_menu->AppendSeparator();
+        append_menu_item(m_calibration_menu, wxID_ANY, _(L("Filament Flow Wall calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
+           [this](wxCommandEvent&) { wxGetApp().flow_walls_dialog(); });
         append_menu_item(m_calibration_menu, wxID_ANY, _(L("Filament Flow calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
            [this](wxCommandEvent&) { wxGetApp().flow_ratio_dialog(); });
 //       append_menu_item(m_calibration_menu, wxID_ANY, _(L("Filament temperature calibration")), _(L("Create a test print to help you to set your filament temperature.")),

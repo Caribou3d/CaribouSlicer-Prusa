@@ -260,6 +260,7 @@ public:
     void            system_info();
     void            keyboard_shortcuts();
     void            flow_ratio_dialog();
+    void            flow_walls_dialog();
     void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
 //    void            html_dialog();
     void            load_project(wxWindow *parent, wxString& input_file) const;

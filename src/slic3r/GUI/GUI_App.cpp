@@ -80,6 +80,7 @@
 #include "slic3r/Config/Snapshot.hpp"
 #include "CalibrationCubeDialog.hpp"
 //#include "CalibrationRetractionDialog.hpp"
+#include "CalibrationWallsDialog.hpp"
 #include "CalibrationFlowDialog.hpp"
 #include "ConfigSnapshotDialog.hpp"
 #include "FirmwareDialog.hpp"
@@ -1974,7 +1975,10 @@ void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialo
 //{
 //    change_calibration_dialog(nullptr, new HtmlDialog(this, mainframe,"Introduction to calibrations", "/calibration", "introduction.html"));
 //}
-
+void GUI_App::flow_walls_dialog()
+{
+    change_calibration_dialog(nullptr, new CalibrationWallsDialog(this, mainframe));
+}
 void GUI_App::flow_ratio_dialog()
 {
     change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
