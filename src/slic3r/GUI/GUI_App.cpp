@@ -81,6 +81,8 @@
 #include "CalibrationCubeDialog.hpp"
 //#include "CalibrationRetractionDialog.hpp"
 #include "CalibrationWallsDialog.hpp"
+#include "CalibrationFirstLayerDialog.hpp"
+#include "CalibrationFirstLayerPatchDialog.hpp"
 #include "CalibrationFlowDialog.hpp"
 #include "ConfigSnapshotDialog.hpp"
 #include "FirmwareDialog.hpp"
@@ -1975,6 +1977,9 @@ void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialo
 //{
 //    change_calibration_dialog(nullptr, new HtmlDialog(this, mainframe,"Introduction to calibrations", "/calibration", "introduction.html"));
 //}
+
+
+
 void GUI_App::flow_walls_dialog()
 {
     change_calibration_dialog(nullptr, new CalibrationWallsDialog(this, mainframe));
@@ -1987,6 +1992,14 @@ void GUI_App::flow_ratio_dialog()
 //{
 //    change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
 //}
+void GUI_App::calibration_first_layer_dialog()
+{
+    change_calibration_dialog(nullptr, new CalibrationFirstLayerDialog(this, mainframe));
+}
+void GUI_App::calibration_first_layer_patch_dialog()
+{
+    change_calibration_dialog(nullptr, new CalibrationFirstLayerPatchDialog(this, mainframe));
+}
 
 void GUI_App::calibration_cube_dialog()
 {

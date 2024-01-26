@@ -3,7 +3,7 @@
 
 #include "CalibrationAbstractDialog.hpp"
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 
 class CalibrationCubeDialog : public CalibrationAbstractDialog
@@ -12,10 +12,11 @@ class CalibrationCubeDialog : public CalibrationAbstractDialog
 public:
     CalibrationCubeDialog(GUI_App* app, MainFrame* mainframe) : CalibrationAbstractDialog(app, mainframe, "Calibration cube") { create(boost::filesystem::path("calibration") / "cube", "cube.html"); }
     virtual ~CalibrationCubeDialog(){ }
-    
+
 protected:
     void create_buttons(wxStdDialogButtonSizer* sizer) override;
     void create_geometry(std::string cube_path);
+    void create_geometry_caribou(wxCommandEvent& event_args) { create_geometry("CaribouCube.stl"); }
     void create_geometry_voron(wxCommandEvent& event_args) { create_geometry("voron_design_cube_v7.amf"); }
     void create_geometry_standard(wxCommandEvent& event_args) { create_geometry("xyzCalibration_cube.amf"); }
 

@@ -37,7 +37,9 @@ void CalibrationCubeDialog::create_buttons(wxStdDialogButtonSizer* buttons){
     calibrate->SetEditable(false);
 
     buttons->Add(new wxStaticText(this, wxID_ANY, _L("Dimension:")));
+    buttons->AddSpacer(10);
     buttons->Add(scale);
+    buttons->AddSpacer(10);
     buttons->Add(new wxStaticText(this, wxID_ANY, _L("mm")));
     buttons->AddSpacer(40);
     buttons->Add(new wxStaticText(this, wxID_ANY, _L("Goal:")));
@@ -47,6 +49,11 @@ void CalibrationCubeDialog::create_buttons(wxStdDialogButtonSizer* buttons){
     wxButton* bt = new wxButton(this, wxID_FILE1, _(L("Standard Cube")));
     bt->Bind(wxEVT_BUTTON, &CalibrationCubeDialog::create_geometry_standard, this);
     bt->SetToolTip(_L("Standard cubic xyz cube, with a flat top. Better for infill/perimeter overlap calibration."));
+    buttons->Add(bt);
+    buttons->AddSpacer(10);
+    bt = new wxButton(this, wxID_FILE1, _(L("CaribouCube")));
+    bt->Bind(wxEVT_BUTTON, &CalibrationCubeDialog::create_geometry_caribou, this);
+    bt->SetToolTip(_L("Caribou cubic xyz cube, with a flat top. Better for infill/perimeter overlap calibration."));
     buttons->Add(bt);
     buttons->AddSpacer(10);
     bt = new wxButton(this, wxID_FILE1, _(L("Voron Cube")));
@@ -74,17 +81,20 @@ void CalibrationCubeDialog::create_geometry(std::string calibration_path) {
     const ConfigOptionFloats* nozzle_diameter_config = printerConfig->option<ConfigOptionFloats>("nozzle_diameter");
     assert(nozzle_diameter_config->values.size() > 0);
     float nozzle_diameter = nozzle_diameter_config->values[0];
-    float cube_size = 30;
-    if (calibration_path == "xyzCalibration_cube.amf")
-        cube_size = 20;
-    int idx_scale = scale->GetSelection();
-    double xyzScale = 20;
-    if (!scale->GetValue().ToDouble(&xyzScale)) {
-        xyzScale = 20;
+
+    float scalefactor = 0.5;
+    if (calibration_path == "voron_design_cube_v7.amf")
+    {
+        scalefactor = 1.0 / 3.0;
     }
-    xyzScale = xyzScale / cube_size;
+    int idx_scale = scale->GetSelection();
+    double xyzScale = (idx_scale +1) * scalefactor;
+
     //do scaling
     model.objects[objs_idx[0]]->scale(xyzScale, xyzScale, xyzScale);
+
+    //workaround to place parts on the bed: offset parts
+    model.objects[objs_idx[0]]->translate({0,0,20});
 
     /// --- custom config ---
     int idx_goal = calibrate->GetSelection();

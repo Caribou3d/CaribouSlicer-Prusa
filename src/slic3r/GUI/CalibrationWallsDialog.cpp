@@ -32,10 +32,11 @@ void CalibrationWallsDialog::create_buttons(wxStdDialogButtonSizer* buttons){
     dimension->SetSelection(1);
 
     buttons->Add(new wxStaticText(this, wxID_ANY, _L("Dimension:")));
+    buttons->AddSpacer(10);
     buttons->Add(dimension);
+    buttons->AddSpacer(10);
     buttons->Add(new wxStaticText(this, wxID_ANY, _L("mm")));
     buttons->AddSpacer(40);
-
     wxButton* bt = new wxButton(this, wxID_FILE1, _(L("Generate")));
     bt->Bind(wxEVT_BUTTON, &CalibrationWallsDialog::create_geometry_v, this);
     buttons->Add(bt);
@@ -52,7 +53,7 @@ void CalibrationWallsDialog::create_geometry() {
 
     assert(objs_idx.size() == 1);
 //    const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_FFF_PRINT)->get_config();
-//    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
+    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
     const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
 
     /// --- scale ---
