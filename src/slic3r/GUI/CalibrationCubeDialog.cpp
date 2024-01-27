@@ -72,9 +72,10 @@ void CalibrationCubeDialog::create_geometry(std::string calibration_path) {
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration"/"cube"/ calibration_path).string()}, true, false, false);
 
     assert(objs_idx.size() == 1);
-//    const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_FFF_PRINT)->get_config();
-//    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
+    const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_PRINT)->get_config();
+    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
     const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
+    const ConfigOptionPoints* bed_shape = printerConfig->option<ConfigOptionPoints>("bed_shape");
 
     /// --- scale ---
     //model is created for a 0.4 nozzle, scale xy with nozzle size.
@@ -106,16 +107,25 @@ void CalibrationCubeDialog::create_geometry(std::string calibration_path) {
         //add full solid layers
     }
 
+     /// --- main config, please modify object config when possible ---
+    DynamicPrintConfig new_print_config = *printConfig; //make a copy
+    new_print_config.set_key_value("skirts", new ConfigOptionInt(2));
+    new_print_config.set_key_value("skirt_distance", new ConfigOptionFloat(1.0));
+
     //update plater
+    this->gui_app->get_tab(Preset::TYPE_PRINT)->load_config(new_print_config);
+    plat->on_config_change(new_print_config);
     plat->changed_objects(objs_idx);
+    this->gui_app->get_tab(Preset::TYPE_PRINT)->update_dirty();
     plat->is_preview_shown();
+
     //update everything, easier to code.
     ObjectList* obj = this->gui_app->obj_list();
     obj->update_after_undo_redo();
 
     plat->reslice();
     plat->select_view_3D("Preview");
-}
+    }
 
 } // namespace GUI
 } // namespace Slic3r
