@@ -84,6 +84,7 @@
 #include "CalibrationFirstLayerDialog.hpp"
 #include "CalibrationFirstLayerPatchDialog.hpp"
 #include "CalibrationFlowDialog.hpp"
+#include "CalibrationTempDialog.hpp"
 #include "ConfigSnapshotDialog.hpp"
 #include "FirmwareDialog.hpp"
 #include "Preferences.hpp"
@@ -1999,6 +2000,10 @@ void GUI_App::calibration_first_layer_dialog()
 void GUI_App::calibration_first_layer_patch_dialog()
 {
     change_calibration_dialog(nullptr, new CalibrationFirstLayerPatchDialog(this, mainframe));
+}
+void GUI_App::filament_temperature_dialog()
+{
+    change_calibration_dialog(nullptr, new CalibrationTempDialog(this, mainframe));
 }
 
 void GUI_App::calibration_cube_dialog()

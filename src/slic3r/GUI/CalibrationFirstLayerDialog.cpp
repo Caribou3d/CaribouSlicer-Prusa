@@ -32,23 +32,21 @@ void CalibrationFirstLayerDialog::create_buttons(wxStdDialogButtonSizer* buttons
     bool isCirc = (type == BuildVolume::Type::Circle);
 
     if (isRect){
-    wxString choices_quantity[] = {"5","9"};
-    quantity = new wxComboBox(this, wxID_ANY, wxString{ "5" }, wxDefaultPosition, wxDefaultSize, 2, choices_quantity);
-    quantity->SetToolTip(_L("You can choose the size of the cube."
-        " It's a simple scale, you can modify it in the right panel yourself if you prefer. It's just quicker to select it here."));
-    quantity->SetSelection(0);
-    buttons->Add(new wxStaticText(this, wxID_ANY, _L("Quantity:")));
-    buttons->AddSpacer(10);
-    buttons->Add(quantity);
+        wxString choices_quantity[] = {"5","9"};
+        quantity = new wxComboBox(this, wxID_ANY, wxString{ "5" }, wxDefaultPosition, wxDefaultSize, 2, choices_quantity);
+        quantity->SetToolTip(_L("You can choose the size of the cube."
+            " It's a simple scale, you can modify it in the right panel yourself if you prefer. It's just quicker to select it here."));
+        quantity->SetSelection(0);
+        buttons->Add(new wxStaticText(this, wxID_ANY, _L("Quantity:")));
+        buttons->AddSpacer(10);
+        buttons->Add(quantity);
     } else if (isCirc){
-    wxString choices_quantity[] = {"5"};
-    quantity = new wxComboBox(this, wxID_ANY, wxString{ "5" }, wxDefaultPosition, wxDefaultSize, 1, choices_quantity);
-    quantity->SetToolTip(_L("You can choose the size of the cube."
-        " It's a simple scale, you can modify it in the right panel yourself if you prefer. It's just quicker to select it here."));
-    quantity->SetSelection(0);
-
+        wxString choices_quantity[] = {"5"};
+        quantity = new wxComboBox(this, wxID_ANY, wxString{ "5" }, wxDefaultPosition, wxDefaultSize, 1, choices_quantity);
+        quantity->SetToolTip(_L("You can choose the size of the cube."
+            " It's a simple scale, you can modify it in the right panel yourself if you prefer. It's just quicker to select it here."));
+        quantity->SetSelection(0);
     } else return ;
-
 
     buttons->AddSpacer(40);
     wxButton* bt = new wxButton(this, wxID_FILE1, _(L("Generate")));

@@ -263,6 +263,7 @@ public:
     void            flow_walls_dialog();
     void            calibration_first_layer_dialog();
     void            calibration_first_layer_patch_dialog();
+    void            filament_temperature_dialog();
     void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
 //    void            html_dialog();
     void            load_project(wxWindow *parent, wxString& input_file) const;

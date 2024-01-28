@@ -90,7 +90,6 @@ void CalibrationFirstLayerPatchDialog::create_geometry() {
         yScale = xScale;
     }
 
-
     /// --- scale in z direction according to layer height and nozzle diameter ---
     const ConfigOptionFloats* nozzle_diameter_config = printerConfig->option<ConfigOptionFloats>("nozzle_diameter");
     assert(nozzle_diameter_config->values.size() > 0);
