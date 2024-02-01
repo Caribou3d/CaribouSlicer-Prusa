@@ -49,10 +49,9 @@ void CalibrationWallsDialog::create_geometry() {
 
     //GLCanvas3D::set_warning_freeze(true);
       std::vector<size_t> objs_idx = plat->load_files(std::vector<std::string>{
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration"/"walls"/ "low_cube.stl").string()}, true, false, false);
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration"/"walls"/ "low_cube.3mf").string()}, true, false, false);
 
     assert(objs_idx.size() == 1);
-//    const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_FFF_PRINT)->get_config();
     const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
     const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
 
