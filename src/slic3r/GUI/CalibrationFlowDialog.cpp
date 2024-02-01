@@ -45,6 +45,10 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
 
     plat->new_project();
 
+    const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_PRINT)->get_config();
+    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
+    const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
+
     //GLCanvas3D::set_warning_freeze(true);
     bool autocenter = gui_app->app_config->get("autocenter") == "1";
     if (autocenter) {
@@ -53,18 +57,29 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     }
 
     std::vector<size_t> objs_idx = plat->load_files(std::vector<std::string>{
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "filament_flow_test_cube.3mf").string(),
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "filament_flow_test_cube.3mf").string(),
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "filament_flow_test_cube.3mf").string(),
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "filament_flow_test_cube.3mf").string(),
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "filament_flow_test_cube.3mf").string()}, true, false, false);
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "0.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m20.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m10.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p10.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p20.3mf").string()}, true, false, false);
 
     assert(objs_idx.size() == 5);
-    const DynamicPrintConfig* print_config = this->gui_app->get_tab(Preset::TYPE_PRINT)->get_config();
-    const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
+
+    for (size_t i = 0; i < 5; i++) {
+        add_part(model.objects[objs_idx[i]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "O.3mf").string(), Vec3d{ 0.0,-5,0.5 + 0.1}, Vec3d{1.0, 1.0, 1.0}); // base: 0.2mm height
+    }
+
+    const ConfigOptionFloat* extruder_clearance_radius = printConfig->option<ConfigOptionFloat>("extruder_clearance_radius");
+    double xyshift = 1.2 * extruder_clearance_radius->value;
+
+    model.objects[objs_idx[1]]->translate({ -xyshift, xyshift, 0 });
+    model.objects[objs_idx[2]]->translate({ xyshift, xyshift, 0 });
+    model.objects[objs_idx[3]]->translate({ -xyshift, -xyshift, 0 });
+    model.objects[objs_idx[4]]->translate({ xyshift, -xyshift, 0 });
 
 
-    /// --- scale ---
+
+/*    /// --- scale ---
     // model is created for a 0.4 nozzle, scale xy with nozzle size.
     const ConfigOptionFloats* nozzle_diameter_config = printerConfig->option<ConfigOptionFloats>("nozzle_diameter");
     assert(nozzle_diameter_config->values.size() > 0);
@@ -100,7 +115,7 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     (zscale / 2) represents the midpoint of the filament_flow_test_cube
     ((first_layer_height + layer_height) / 2) represents the midpoint of our indicator tab (it is scaled to be 2 layers tall)
     The 0.3 constant is the same as the delta calculated in add_part below, this should probably be calculated per the model object
-    */
+
     float zshift = -(zscale / 2) + ((first_layer_height + layer_height) / 2) + 0.3;
 
     std::cout << "xyScale " << xyScale << " zscale  " << zscale << std::endl;
@@ -155,44 +170,62 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
         new_print_config.set_key_value("complete_objects_one_skirt", new ConfigOptionBool(true));
     }
 
-    /// --- custom config ---
-    for (size_t i = 0; i < 5; i++) {
-        //brim to have some time to build up pressure in the nozzle
-        model.objects[objs_idx[i]]->config.set_key_value("brim_width", new ConfigOptionFloat(brim_width));
-        model.objects[objs_idx[i]]->config.set_key_value("external_perimeter_overlap", new ConfigOptionPercent(100));
-        model.objects[objs_idx[i]]->config.set_key_value("perimeter_overlap", new ConfigOptionPercent(100));
-        model.objects[objs_idx[i]]->config.set_key_value("brim_ears", new ConfigOptionBool(false));
-        model.objects[objs_idx[i]]->config.set_key_value("perimeters", new ConfigOptionInt(3));
-        model.objects[objs_idx[i]]->config.set_key_value("only_one_perimeter_top", new ConfigOptionBool(true));
-        model.objects[objs_idx[i]]->config.set_key_value("enforce_full_fill_volume", new ConfigOptionBool(true));
-        model.objects[objs_idx[i]]->config.set_key_value("bottom_solid_layers", new ConfigOptionInt(5));
-        model.objects[objs_idx[i]]->config.set_key_value("top_solid_layers", new ConfigOptionInt(100));
-        model.objects[objs_idx[i]]->config.set_key_value("thin_walls", new ConfigOptionBool(true));
-        model.objects[objs_idx[i]]->config.set_key_value("thin_walls_min_width", new ConfigOptionFloatOrPercent(50,true));
-        model.objects[objs_idx[i]]->config.set_key_value("gap_fill_enabled", new ConfigOptionBool(true));
-        model.objects[objs_idx[i]]->config.set_key_value("layer_height", new ConfigOptionFloat(layer_height));
-        model.objects[objs_idx[i]]->config.set_key_value("first_layer_height", new ConfigOptionFloatOrPercent(first_layer_height, false));
-        model.objects[objs_idx[i]]->config.set_key_value("external_infill_margin", new ConfigOptionFloatOrPercent(100, true));
-//        model.objects[objs_idx[i]]->config.set_key_value("solid_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipRectilinearWGapFill));
-//        model.objects[objs_idx[i]]->config.set_key_value("top_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipSmooth));
-        //disable ironing post-process
-        model.objects[objs_idx[i]]->config.set_key_value("ironing", new ConfigOptionBool(false));
-        //set extrusion mult: 80 90 100 110 120
-        model.objects[objs_idx[i]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
-    }
 
    return;
 
+*/
+
+    /// --- custom config ---
+    for (size_t i = 0; i < 5; i++) {
+        //brim to have some time to build up pressure in the nozzle
+//        model.objects[objs_idx[i]]->config.set_key_value("brim_width", new ConfigOptionFloat(brim_width));
+    model.objects[objs_idx[0]]->config.set_key_value("perimeters", new ConfigOptionInt(3));
+    model.objects[objs_idx[0]]->config.set_key_value("fill_density", new ConfigOptionPercent(10));
+    model.objects[objs_idx[0]]->config.set_key_value("top_solid_layers", new ConfigOptionInt(100));
+    model.objects[objs_idx[0]]->config.set_key_value("bottom_solid_layers", new ConfigOptionInt(5));
+
+/*        model.objects[objs_idx[i]]->config.set_key_value("external_perimeter_overlap", new ConfigOptionPercent(100));
+        model.objects[objs_idx[i]]->config.set_key_value("perimeter_overlap", new ConfigOptionPercent(100));
+        model.objects[objs_idx[i]]->config.set_key_value("brim_ears", new ConfigOptionBool(false));
+         model.objects[objs_idx[i]]->config.set_key_value("only_one_perimeter_top", new ConfigOptionBool(true));
+        model.objects[objs_idx[i]]->config.set_key_value("enforce_full_fill_volume", new ConfigOptionBool(true));
+         model.objects[objs_idx[i]]->config.set_key_value("thin_walls", new ConfigOptionBool(true));
+        model.objects[objs_idx[i]]->config.set_key_value("thin_walls_min_width", new ConfigOptionFloatOrPercent(50,true));
+        model.objects[objs_idx[i]]->config.set_key_value("gap_fill_enabled", new ConfigOptionBool(true));
+//        model.objects[objs_idx[i]]->config.set_key_value("layer_height", new ConfigOptionFloat(layer_height));
+//        model.objects[objs_idx[i]]->config.set_key_value("first_layer_height", new ConfigOptionFloatOrPercent(first_layer_height, false));
+        model.objects[objs_idx[i]]->config.set_key_value("external_infill_margin", new ConfigOptionFloatOrPercent(100, true));
+//        model.objects[objs_idx[i]]->config.set_key_value("solid_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipRectilinearWGapFill));
+//        model.objects[objs_idx[i]]->config.set_key_value("top_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipSmooth));
+ */       //disable ironing post-process
+        model.objects[objs_idx[i]]->config.set_key_value("ironing", new ConfigOptionBool(false));
+        //set extrusion mult: 80 90 100 110 120
+//        model.objects[objs_idx[i]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
+    }
 
     //update plater
     //GLCanvas3D::set_warning_freeze(false);
-    this->gui_app->get_tab(Preset::TYPE_PRINT)->load_config(new_print_config);
-    plat->on_config_change(new_print_config);
+
+    DynamicPrintConfig new_printConfig = *printConfig; //make a copy
+
+    new_printConfig.set_key_value("complete_objects", new ConfigOptionBool(true));
+
+
+    /// --- main config, please modify object config when possible ---
+    new_printConfig.set_key_value("skirts", new ConfigOptionInt(2));
+    new_printConfig.set_key_value("skirt_distance", new ConfigOptionFloat(1.0));
+
+    //update plater
+    this->gui_app->get_tab(Preset::TYPE_PRINT)->load_config(new_printConfig);
+    plat->on_config_change(new_printConfig);
     plat->changed_objects(objs_idx);
     this->gui_app->get_tab(Preset::TYPE_PRINT)->update_dirty();
-    //update everything, easier to code.
+    plat->is_preview_shown();
     ObjectList* obj = this->gui_app->obj_list();
     obj->update_after_undo_redo();
+
+    plat->reslice();
+    plat->select_view_3D("Preview");
 
     // arrange if needed, after new settings, to take them into account
 //    if (has_to_arrange) {
