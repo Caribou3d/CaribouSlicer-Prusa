@@ -64,7 +64,6 @@ void CalibrationTempDialog::create_geometry(wxCommandEvent& event_args) {
     Model& model = plat->model();
     plat->new_project();
 
-
     //GLCanvas3D::set_warning_freeze(true);
     std::vector<size_t> objs_idx = plat->load_files(std::vector<std::string>{
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_temp" / "TempTowerBase.3mf").string()}, true, false, false);
@@ -84,10 +83,9 @@ void CalibrationTempDialog::create_geometry(wxCommandEvent& event_args) {
     long temp_items_val2 = 1;
     temp_high->GetValue().ToLong(&temp_items_val2);
 
-    long temp_low  = std::min(temp_items_val1,temp_items_val2);
-    long temp_high = std::max(temp_items_val1,temp_items_val2);
+    int temp_low  = std::min(temp_items_val1,temp_items_val2);
+    int temp_high = std::max(temp_items_val1,temp_items_val2);
 
-    //int16_t temperature = 5 * (temperature_config->values[0] / 5);
     long step_temp = 5;
     steps->GetValue().ToLong(&step_temp);
 
@@ -127,10 +125,10 @@ void CalibrationTempDialog::create_geometry(wxCommandEvent& event_args) {
     new_printConfig.set_key_value("complete_objects", new ConfigOptionBool(false));
 
     /// -- generate the heat change gcode
-    int temperature = temp_high - step_temp;
+    int16_t temperature = temp_high ;
     int parts = std::round((temp_high - temp_low) / step_temp) + 1;
 
-    for (int16_t i = 1; i < parts; i++) {
+    for (int16_t i = 0; i < parts; i++) {
         double changelayer = partheightscaled * i + baseheightscaled + layer_height;
         model.custom_gcode_per_print_z.gcodes.emplace_back(CustomGCode::Item{ changelayer, CustomGCode::Type::Custom , -1, "", "M104 S" + std::to_string(temperature) + " ; floor " + std::to_string(i+1) + " of the temp tower" });
         temperature -= step_temp;
@@ -144,7 +142,7 @@ void CalibrationTempDialog::create_geometry(wxCommandEvent& event_args) {
     model.objects[objs_idx[0]]->config.set_key_value("fill_density", new ConfigOptionPercent(7));
     model.objects[objs_idx[0]]->config.set_key_value("fill_density", new ConfigOptionPercent(15));
 
-//   /// --- main config, please modify object config when possible ---
+    /// --- main config, please modify object config when possible ---
     new_printConfig.set_key_value("skirts", new ConfigOptionInt(2));
     new_printConfig.set_key_value("skirt_distance", new ConfigOptionFloat(1.0));
 
