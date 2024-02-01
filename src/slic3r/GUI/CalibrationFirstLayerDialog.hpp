@@ -10,7 +10,7 @@ class CalibrationFirstLayerDialog : public CalibrationAbstractDialog
 {
 
 public:
-    CalibrationFirstLayerDialog(GUI_App* app, MainFrame* mainframe) : CalibrationAbstractDialog(app, mainframe, "Calibration walls") { create(boost::filesystem::path("calibration") / "walls", "walls.html"); }
+    CalibrationFirstLayerDialog(GUI_App* app, MainFrame* mainframe) : CalibrationAbstractDialog(app, mainframe, "Calibration walls") { create(boost::filesystem::path("calibration") / "first_layer", "first_layer.html"); }
     virtual ~CalibrationFirstLayerDialog(){ }
 
 protected:
