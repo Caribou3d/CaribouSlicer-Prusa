@@ -40,8 +40,6 @@ void CalibrationFlowDialog::create_buttons(wxStdDialogButtonSizer* buttons){
 void CalibrationFlowDialog::create_geometry(float start, float delta) {
     Plater* plat = this->main_frame->plater();
     Model& model = plat->model();
-//    if (!plat->new_project(L("Flow calibration")))
-//        return;
 
     plat->new_project();
 
@@ -56,12 +54,23 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
         gui_app->app_config->set("autocenter", "0");
     }
 
-    std::vector<size_t> objs_idx = plat->load_files(std::vector<std::string>{
+    std::vector<size_t> objs_idx;
+
+    if (delta == 10.f && start == 80.f) {
+        objs_idx = plat->load_files(std::vector<std::string>{
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "0.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m20.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m10.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p10.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p20.3mf").string()}, true, false, false);
+    } else if (delta == 2.f && start == 92.f) {
+        objs_idx = plat->load_files(std::vector<std::string>{
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "0.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m2.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m4.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m6.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m8.3mf").string()}, true, false, false);
+    }
 
     assert(objs_idx.size() == 5);
 
@@ -179,20 +188,21 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     for (size_t i = 0; i < 5; i++) {
         //brim to have some time to build up pressure in the nozzle
 //        model.objects[objs_idx[i]]->config.set_key_value("brim_width", new ConfigOptionFloat(brim_width));
-    model.objects[objs_idx[0]]->config.set_key_value("perimeters", new ConfigOptionInt(3));
-    model.objects[objs_idx[0]]->config.set_key_value("fill_density", new ConfigOptionPercent(10));
-    model.objects[objs_idx[0]]->config.set_key_value("top_solid_layers", new ConfigOptionInt(100));
-    model.objects[objs_idx[0]]->config.set_key_value("bottom_solid_layers", new ConfigOptionInt(5));
+    model.objects[objs_idx[i]]->config.set_key_value("perimeters", new ConfigOptionInt(3));
+    model.objects[objs_idx[i]]->config.set_key_value("fill_density", new ConfigOptionPercent(10));
+    model.objects[objs_idx[i]]->config.set_key_value("top_solid_layers", new ConfigOptionInt(100));
+    model.objects[objs_idx[i]]->config.set_key_value("bottom_solid_layers", new ConfigOptionInt(5));
+    model.objects[objs_idx[0]]->config.set_key_value("brim_width", new ConfigOptionFloat(0.0));
 
-/*        model.objects[objs_idx[i]]->config.set_key_value("external_perimeter_overlap", new ConfigOptionPercent(100));
-        model.objects[objs_idx[i]]->config.set_key_value("perimeter_overlap", new ConfigOptionPercent(100));
-        model.objects[objs_idx[i]]->config.set_key_value("brim_ears", new ConfigOptionBool(false));
-         model.objects[objs_idx[i]]->config.set_key_value("only_one_perimeter_top", new ConfigOptionBool(true));
-        model.objects[objs_idx[i]]->config.set_key_value("enforce_full_fill_volume", new ConfigOptionBool(true));
-         model.objects[objs_idx[i]]->config.set_key_value("thin_walls", new ConfigOptionBool(true));
-        model.objects[objs_idx[i]]->config.set_key_value("thin_walls_min_width", new ConfigOptionFloatOrPercent(50,true));
-        model.objects[objs_idx[i]]->config.set_key_value("gap_fill_enabled", new ConfigOptionBool(true));
-//        model.objects[objs_idx[i]]->config.set_key_value("layer_height", new ConfigOptionFloat(layer_height));
+//       model.objects[objs_idx[i]]->config.set_key_value("external_perimeter_overlap", new ConfigOptionPercent(100));
+//        model.objects[objs_idx[i]]->config.set_key_value("perimeter_overlap", new ConfigOptionPercent(100));
+//        model.objects[objs_idx[i]]->config.set_key_value("brim_ears", new ConfigOptionBool(false));
+ //        model.objects[objs_idx[i]]->config.set_key_value("only_one_perimeter_top", new ConfigOptionBool(true));
+//        model.objects[objs_idx[i]]->config.set_key_value("enforce_full_fill_volume", new ConfigOptionBool(true));
+//         model.objects[objs_idx[i]]->config.set_key_value("thin_walls", new ConfigOptionBool(true));
+//        model.objects[objs_idx[i]]->config.set_key_value("thin_walls_min_width", new ConfigOptionFloatOrPercent(50,true));
+//        model.objects[objs_idx[i]]->config.set_key_value("gap_fill_enabled", new ConfigOptionBool(true));
+/*/        model.objects[objs_idx[i]]->config.set_key_value("layer_height", new ConfigOptionFloat(layer_height));
 //        model.objects[objs_idx[i]]->config.set_key_value("first_layer_height", new ConfigOptionFloatOrPercent(first_layer_height, false));
         model.objects[objs_idx[i]]->config.set_key_value("external_infill_margin", new ConfigOptionFloatOrPercent(100, true));
 //        model.objects[objs_idx[i]]->config.set_key_value("solid_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipRectilinearWGapFill));
