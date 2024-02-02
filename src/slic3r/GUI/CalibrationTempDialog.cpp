@@ -139,8 +139,7 @@ void CalibrationTempDialog::create_geometry(wxCommandEvent& event_args) {
     model.objects[objs_idx[0]]->config.set_key_value("perimeters", new ConfigOptionInt(2));
     model.objects[objs_idx[0]]->config.set_key_value("top_solid_layers", new ConfigOptionInt(3));
     model.objects[objs_idx[0]]->config.set_key_value("bottom_solid_layers", new ConfigOptionInt(3));
-    model.objects[objs_idx[0]]->config.set_key_value("fill_density", new ConfigOptionPercent(7));
-    model.objects[objs_idx[0]]->config.set_key_value("fill_density", new ConfigOptionPercent(15));
+     model.objects[objs_idx[0]]->config.set_key_value("fill_density", new ConfigOptionPercent(15));
 
     /// --- main config, please modify object config when possible ---
     new_printConfig.set_key_value("skirts", new ConfigOptionInt(2));
