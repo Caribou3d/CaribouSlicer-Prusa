@@ -58,18 +58,18 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
 
     if (delta == 10.f && start == 80.f) {
         objs_idx = plat->load_files(std::vector<std::string>{
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "0.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m20.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m10.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "0.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p10.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p20.3mf").string()}, true, false, false);
     } else if (delta == 2.f && start == 92.f) {
         objs_idx = plat->load_files(std::vector<std::string>{
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "0.3mf").string(),
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m2.3mf").string(),
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m4.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m8.3mf").string(),
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m6.3mf").string(),
-            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m8.3mf").string()}, true, false, false);
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m4.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m2.3mf").string(),
+            (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "0.3mf").string()}, true, false, false);
     }
 
     assert(objs_idx.size() == 5);
@@ -78,14 +78,26 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
         add_part(model.objects[objs_idx[i]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "O.3mf").string(), Vec3d{ 0.0,-5,0.5 + 0.1}, Vec3d{1.0, 1.0, 1.0}); // base: 0.2mm height
     }
 
+
+    for (size_t i = 0; i < 5; i++) {
+        model.objects[objs_idx[1]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
+    }
+
+
     const ConfigOptionFloat* extruder_clearance_radius = printConfig->option<ConfigOptionFloat>("extruder_clearance_radius");
     double xyshift = 1.2 * extruder_clearance_radius->value;
 
-    model.objects[objs_idx[1]]->translate({ -xyshift, xyshift, 0 });
-    model.objects[objs_idx[2]]->translate({ xyshift, xyshift, 0 });
-    model.objects[objs_idx[3]]->translate({ -xyshift, -xyshift, 0 });
-    model.objects[objs_idx[4]]->translate({ xyshift, -xyshift, 0 });
-
+    if (delta == 10.f && start == 80.f) {
+        model.objects[objs_idx[0]]->translate({ -xyshift, xyshift, 0 });
+        model.objects[objs_idx[1]]->translate({ xyshift, xyshift, 0 });
+        model.objects[objs_idx[3]]->translate({ -xyshift, -xyshift, 0 });
+        model.objects[objs_idx[4]]->translate({ xyshift, -xyshift, 0 });
+    } else if (delta == 2.f && start == 92.f) {
+        model.objects[objs_idx[0]]->translate({ -xyshift, xyshift, 0 });
+        model.objects[objs_idx[1]]->translate({ xyshift, xyshift, 0 });
+        model.objects[objs_idx[2]]->translate({ xyshift, -xyshift, 0 });
+        model.objects[objs_idx[3]]->translate({ -xyshift, -xyshift, 0 });
+    }
 
 
 /*    /// --- scale ---
@@ -166,6 +178,11 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     model.objects[objs_idx[4]]->translate({ bed_min.x() + bed_size.x() / 2 + offsetx / 2, bed_min.y() + bed_size.y() / 2 + offsety, zscale / 2 });
 
 
+    //set extrusion mult: 80 90 100 110 120
+    model.objects[objs_idx[1]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
+    model.objects[objs_idx[2]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
+    model.objects[objs_idx[3]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
+    model.objects[objs_idx[4]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
 
     // if not enough space, forget about complete_objects
     if (bed_size.y() < offsety * 2 + 25 * xyScale + brim_width || bed_size.x() < offsetx + 25 * xyScale + brim_width)
@@ -180,7 +197,6 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     }
 
 
-   return;
 
 */
 
@@ -192,7 +208,7 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     model.objects[objs_idx[i]]->config.set_key_value("fill_density", new ConfigOptionPercent(10));
     model.objects[objs_idx[i]]->config.set_key_value("top_solid_layers", new ConfigOptionInt(100));
     model.objects[objs_idx[i]]->config.set_key_value("bottom_solid_layers", new ConfigOptionInt(5));
-    model.objects[objs_idx[0]]->config.set_key_value("brim_width", new ConfigOptionFloat(0.0));
+    model.objects[objs_idx[i]]->config.set_key_value("brim_width", new ConfigOptionFloat(0.0));
 
 //       model.objects[objs_idx[i]]->config.set_key_value("external_perimeter_overlap", new ConfigOptionPercent(100));
 //        model.objects[objs_idx[i]]->config.set_key_value("perimeter_overlap", new ConfigOptionPercent(100));
@@ -209,8 +225,6 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
 //        model.objects[objs_idx[i]]->config.set_key_value("top_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipSmooth));
  */       //disable ironing post-process
         model.objects[objs_idx[i]]->config.set_key_value("ironing", new ConfigOptionBool(false));
-        //set extrusion mult: 80 90 100 110 120
-//        model.objects[objs_idx[i]]->config.set_key_value("print_extrusion_multiplier", new ConfigOptionPercent(start + (float)i * delta));
     }
 
     //update plater

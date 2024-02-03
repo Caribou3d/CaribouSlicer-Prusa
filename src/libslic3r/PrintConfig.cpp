@@ -1015,6 +1015,19 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloats { 1. });
 
+    def = this->add("print_extrusion_multiplier", coPercent);
+    def->label = L("Extrusion multiplier");
+    def->tooltip = L("This factor changes the amount of flow proportionally. You may need to tweak "
+        "this setting to get nice surface finish and correct single wall widths. "
+        "Usual values are between 90% and 110%. If you think you need to change this more, "
+        "check filament diameter and your firmware E steps."
+        " This print setting is multiplied with the extrusion_multiplier from the filament tab."
+        " Its only purpose is to offer the same functionality but on a per-object basis.");
+    def->sidetext = L("%");
+    def->mode = comAdvanced;
+    def->min = 2;
+    def->set_default_value(new ConfigOptionPercent(100));
+
     def = this->add("extrusion_width", coFloatOrPercent);
     def->label = L("Default extrusion width");
     def->category = L("Extrusion Width");
