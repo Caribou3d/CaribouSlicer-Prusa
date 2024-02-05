@@ -263,6 +263,7 @@ public:
     void            flow_walls_dialog();
     void            calibration_first_layer_dialog();
     void            calibration_first_layer_patch_dialog();
+    void            calibration_retraction_dialog();
     void            filament_temperature_dialog();
     void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
 //    void            html_dialog();
@@ -329,6 +330,10 @@ public:
     GalleryDialog *      gallery_dialog();
     Downloader*          downloader();
 
+    bool            is_adding_script_handler() { return m_adding_script_handler; }
+    //void            set_adding_script_handler(bool status) { m_adding_script_handler = status; }
+
+
     // Parameters extracted from the command line to be passed to GUI after initialization.
     GUI_InitParams* init_params { nullptr };
 
@@ -367,6 +372,8 @@ public:
     void            show_desktop_integration_dialog();
     void            show_downloader_registration_dialog();
 
+    void            set_adding_script_handler(bool status) { m_adding_script_handler = status; }
+
 #if ENABLE_THUMBNAIL_GENERATOR_DEBUG
     // temporary and debug only -> extract thumbnails from selected gcode and save them as png files
     void            gcode_thumbnails_debug();
@@ -395,6 +402,9 @@ public:
 private:
     bool            on_init_inner();
 	void            init_app_config();
+
+    bool             m_adding_script_handler { false };
+
     // returns old config path to copy from if such exists,
     // returns an empty string if such config path does not exists or if it cannot be loaded.
     std::string     check_older_app_config(Semver current_version, bool backup);

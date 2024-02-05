@@ -1566,9 +1566,9 @@ void MainFrame::init_menubar_as_editor()
         m_calibration_menu->AppendSeparator();
         append_menu_item(m_calibration_menu, wxID_ANY, _(L("Filament temperature calibration")), _(L("Create a test print to help you to set your filament temperature.")),
            [this](wxCommandEvent&) { wxGetApp().filament_temperature_dialog(); });
-//       append_menu_item(m_calibration_menu, wxID_ANY, _(L("Extruder retraction calibration")), _(L("Create a test print to help you to set your retraction length.")),
-//           [this](wxCommandEvent&) { wxGetApp().calibration_retraction_dialog(); });
-//       m_calibration_menu->AppendSeparator();
+        append_menu_item(m_calibration_menu, wxID_ANY, _(L("Extruder retraction calibration")), _(L("Create a test print to help you to set your retraction length.")),
+           [this](wxCommandEvent&) { wxGetApp().calibration_retraction_dialog(); });
+//        m_calibration_menu->AppendSeparator();
 //        append_menu_item(m_calibration_menu, wxID_ANY, _(L("Bridge flow calibration")), _(L("Create a test print to help you to set your bridge flow ratio.")),
 //            [this](wxCommandEvent&) { wxGetApp().bridge_tuning_dialog(); });
 //        append_menu_item(m_calibration_menu, wxID_ANY, _(L("Ironing pattern calibration")), _(L("Create a test print to help you to set your over-bridge flow ratio and ironing pattern.")),

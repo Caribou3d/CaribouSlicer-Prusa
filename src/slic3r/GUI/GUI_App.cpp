@@ -79,7 +79,7 @@
 #include "../Utils/WinRegistry.hpp"
 #include "slic3r/Config/Snapshot.hpp"
 #include "CalibrationCubeDialog.hpp"
-//#include "CalibrationRetractionDialog.hpp"
+#include "CalibrationRetractionDialog.hpp"
 #include "CalibrationWallsDialog.hpp"
 #include "CalibrationFirstLayerDialog.hpp"
 #include "CalibrationFirstLayerPatchDialog.hpp"
@@ -1989,10 +1989,10 @@ void GUI_App::flow_ratio_dialog()
 {
     change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
 }
-//void GUI_App::calibration_retraction_dialog()
-//{
-//    change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
-//}
+void GUI_App::calibration_retraction_dialog()
+{
+    change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
+}
 void GUI_App::calibration_first_layer_dialog()
 {
     change_calibration_dialog(nullptr, new CalibrationFirstLayerDialog(this, mainframe));
