@@ -14,7 +14,7 @@ Prebuilt Windows and Linux binaries are available through the [git releases page
 You may want to check the [PrusaSlicer project page](https://www.prusa3d.com/prusaslicer/).
 
 
-CaribouSlicer is based on PrusaSlicer by Prusa Research 
+CaribouSlicer is based on PrusaSlicer by Prusa Research
 (https://www.prusa3d.com/prusaslicer/)
 and SuperSlicer by supermerill (https://github.com/supermerill/SuperSlicer).
 
@@ -26,11 +26,9 @@ the [documentation directory](doc/) for more information.
 
 ### What language is it written in?
 
-All user facing code is written in C++, and some legacy code as well as unit
-tests are written in Perl. Perl is not required for either development or use
-of CaribouSlicer.
-
-The slicing core is the `libslic3r` library, which can be built and used in a standalone way. The command line interface is a thin wrapper over `libslic3r`.
+All user facing code is written in C++.
+The slicing core is the `libslic3r` library, which can be built and used in a standalone way.
+The command line interface is a thin wrapper over `libslic3r`.
 
 ### What are CaribouSlicer's main features?
 
@@ -75,7 +73,7 @@ Sure! You can do the following to find things that are available to help with:
 
 ### What's CaribouSlicer license?
 
-CaribouSlicer is licensed under the GNU Affero General Public License, version 3. 
+CaribouSlicer is licensed under the GNU Affero General Public License, version 3.
 CaribouSlicer is based on PrusaSlicer by PrusaResearch.
 
 SuperSlicer is licensed under the GNU Affero General Public License, version 3. SuperSlicer is based on PrusaSlicer by PrusaResearch.

@@ -120,6 +120,37 @@ static inline bool circle_approximation_sufficient(const Circle &circle, const P
     return true;
 }
 
+#if 0
+static inline bool get_deviation_sum_squared(const Circle &circle, const Points::const_iterator begin, const Points::const_iterator end, const double tolerance, double &total_deviation)
+{
+    // The circle was calculated from the 1st and last point of the point sequence, thus the fitting of those points does not need to be evaluated.
+    assert(std::abs((*begin - circle.center).cast<double>().norm() - circle.radius) < SCALED_EPSILON);
+    assert(std::abs((*std::prev(end) - circle.center).cast<double>().norm() - circle.radius) < SCALED_EPSILON);
+    assert(end - begin >= 3);
+
+    total_deviation = 0;
+
+    const double tolerance2 = sqr(tolerance);
+    for (auto it = std::next(begin); std::next(it) != end; ++ it)
+        if (double deviation2 = sqr((*it - circle.center).cast<double>().norm() - circle.radius); deviation2 > tolerance2)
+            return false;
+        else
+            total_deviation += deviation2;
+
+    for (auto it = begin; std::next(it) != end; ++ it) {
+        Point closest_point;
+        if (foot_pt_on_segment(*it, *std::next(it), circle.center, closest_point)) {
+            if (double deviation2 = sqr((closest_point - circle.center).cast<double>().norm() - circle.radius); deviation2 > tolerance2)
+                return false;
+            else
+                total_deviation += deviation2;
+        }
+    }
+
+    return true;
+}
+#endif
+
 double arc_fit_variance(const Point &start_pos, const Point &end_pos, const float radius, bool is_ccw,
     const Points::const_iterator begin, const Points::const_iterator end)
 {
