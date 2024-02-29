@@ -1,7 +1,7 @@
 
 # Building CaribouSlicer on UNIX/Linux
 
-Please understand that CaribouSlicer team cannot support compilation on all possible Linux distros. Namely, we cannot help troubleshoot OpenGL driver issues or dependency issues if compiled against distro provided libraries. **We can only support CaribouSlicer statically linked against the dependencies compiled with the `deps` scripts**, the same way we compile CaribouSlicer for our [binary builds](https://github.com/caribou3d/CaribouSlicer/releases).
+Please understand that CaribouSlicer team cannot support compilation on all possible Linux distros. Namely, we cannot help troubleshoot OpenGL driver issues or dependency issues if compiled against distro provided libraries. **We can only support CaribouSlicer statically linked against the dependencies compiled with the `deps` scripts**, the same way we compile CaribouSlicer for our [binary builds](https://github.com/caribou3d/CaribouSlicer-Prusa/releases).
 
 If you have some reason to link dynamically to your system libraries, you are free to do so, but we can not and will not troubleshoot any issues you possibly run into.
 
@@ -120,7 +120,7 @@ You can then use the `make install` target to install CaribouSlicer.
 If CaribouSlicer is to be distributed as an AppImage or a binary blob (.tar.gz and similar), then a desktop integration support is compiled in by default: CaribouSlicer will offer to integrate with desktop by manually copying the desktop file and application icon into user's desktop configuration. The built-in desktop integration is also handy on Crosstini (Linux on Chrome OS).
 
 If CaribouSlicer is compiled with `SLIC3R_FHS` enabled, then a desktop integration support will not be integrated. One may want to disable desktop integration by running
-    
+
     cmake .. -DSLIC3R_DESKTOP_INTEGRATION=0
-    
+
 when building CaribouSlicer for flatpack or snap, where the desktop integration is performed by the installer.

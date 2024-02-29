@@ -33,9 +33,9 @@ namespace Slic3r {
 namespace GUI {
 
 
-static const char* URL_CHANGELOG = "https://github.com/caribou3d/CaribouSlicer/releases";
-static const char* URL_DOWNLOAD = "https://github.com/caribou3d/CaribouSlicer/releases";
-static const char* URL_DEV = "https://github.com/caribou3d/CaribouSlicer/releases/tag/version_%1%";
+static const char* URL_CHANGELOG = "https://github.com/caribou3d/CaribouSlicer-Prusa/releases";
+static const char* URL_DOWNLOAD = "https://github.com/caribou3d/CaribouSlicer-Prusa/releases";
+static const char* URL_DEV = "https://github.com/caribou3d/CaribouSlicer-Prusa/releases/tag/version_%1%";
 
 static const std::string CONFIG_UPDATE_WIKI_URL("https://github.com/prusa3d/PrusaSlicer/wiki/Slic3r-PE-1.40-configuration-update");
 
@@ -115,9 +115,9 @@ AppUpdateAvailableDialog::AppUpdateAvailableDialog(const Semver& ver_current, co
 		content_sizer->Add(cbox);
 	}
 	content_sizer->AddSpacer(VERT_SPACING);
-	
+
 	AUAD_size = content_sizer->GetSize();
-	
+
 
 	add_button(wxID_CANCEL);
 
@@ -159,7 +159,7 @@ AppUpdateDownloadDialog::AppUpdateDownloadDialog( const Semver& ver_online, boos
 	filename = GUI::format_wxstr(path.filename().string());
 	content_sizer->Add(txtctrl_path, 1, wxEXPAND);
 	content_sizer->AddSpacer(VERT_SPACING);
-	
+
 	wxButton* btn = new wxButton(this, wxID_ANY, _L("Select directory"));
 	content_sizer->Add(btn/*, 1, wxEXPAND*/);
 
@@ -272,9 +272,9 @@ boost::filesystem::path AppUpdateDownloadDialog::get_download_path() const
 // MsgUpdateConfig
 
 MsgUpdateConfig::MsgUpdateConfig(const std::vector<Update> &updates, bool force_before_wizard/* = false*/) :
-	MsgDialog(nullptr, force_before_wizard ? _L("Opening Configuration Wizard") : _L("Configuration update"), 
+	MsgDialog(nullptr, force_before_wizard ? _L("Opening Configuration Wizard") : _L("Configuration update"),
 					   force_before_wizard ? _L("CaribouSlicer is not using the newest configuration available.\n"
-												"Configuration Wizard may not offer the latest printers, filaments and SLA materials to be installed.") : 
+												"Configuration Wizard may not offer the latest printers, filaments and SLA materials to be installed.") :
 											 _L("Configuration update is available"), wxICON_ERROR)
 {
 	auto *text = new wxStaticText(this, wxID_ANY, _(L(
@@ -350,7 +350,7 @@ MsgUpdateForced::MsgUpdateForced(const std::vector<Update>& updates) :
 		"should there be a problem with the new version.\n\n"
 		"Updated configuration bundles:"
 	)), SLIC3R_APP_NAME));
-	
+
 
 	text->Wrap(CONTENT_WIDTH * wxGetApp().em_unit());
 	content_sizer->Add(text);
@@ -404,7 +404,7 @@ MsgUpdateForced::~MsgUpdateForced() {}
 // MsgDataIncompatible
 
 MsgDataIncompatible::MsgDataIncompatible(const std::unordered_map<std::string, wxString> &incompats) :
-    MsgDialog(nullptr, wxString::Format(_(L("%s incompatibility")), SLIC3R_APP_NAME), 
+    MsgDialog(nullptr, wxString::Format(_(L("%s incompatibility")), SLIC3R_APP_NAME),
                        wxString::Format(_(L("%s configuration is incompatible")), SLIC3R_APP_NAME), wxICON_ERROR)
 {
 	auto *text = new wxStaticText(this, wxID_ANY, wxString::Format(_(L(
@@ -412,7 +412,7 @@ MsgDataIncompatible::MsgDataIncompatible(const std::unordered_map<std::string, w
 		"This probably happened as a result of running an older %s after using a newer one.\n\n"
 
 		"You may either exit %s and try again with a newer version, or you may re-run the initial configuration. "
-		"Doing so will create a backup snapshot of the existing configuration before installing files compatible with this %s.")) + "\n", 
+		"Doing so will create a backup snapshot of the existing configuration before installing files compatible with this %s.")) + "\n",
 		SLIC3R_APP_NAME, SLIC3R_APP_NAME, SLIC3R_APP_NAME, SLIC3R_APP_NAME));
 	text->Wrap(CONTENT_WIDTH * wxGetApp().em_unit());
 	content_sizer->Add(text);

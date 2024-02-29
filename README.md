@@ -9,7 +9,7 @@ compatible with any modern printer based on the RepRap toolchain, including all
 those based on the Marlin, Prusa, Sprinter and Repetier firmware. It also works
 with Mach3, LinuxCNC and Machinekit controllers.
 
-Prebuilt Windows and Linux binaries are available through the [git releases page](https://github.com/caribou3d/CaribouSlicer/releases).
+Prebuilt Windows and Linux binaries are available through the [git releases page](https://github.com/caribou3d/CaribouSlicer-Prusa/releases).
 
 You may want to check the [PrusaSlicer project page](https://www.prusa3d.com/prusaslicer/).
 
@@ -68,7 +68,7 @@ these documentation pages:
 ### Can I help?
 
 Sure! You can do the following to find things that are available to help with:
-* Add an [issue](https://github.com/caribou3d/CaribouSlicer/issues) to the github tracker if it isn't already present.
+* Add an [issue](https://github.com/caribou3d/CaribouSlicer-Prusa/issues) to the github tracker if it isn't already present.
 
 
 ### What's CaribouSlicer license?

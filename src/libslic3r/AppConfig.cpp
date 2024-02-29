@@ -35,7 +35,7 @@ namespace Slic3r {
 static const std::string VENDOR_PREFIX = "vendor:";
 static const std::string MODEL_PREFIX = "model:";
 //The file contains data for AppUpdater.cpp
-static const std::string VERSION_CHECK_URL = "https://github.com/Caribou3d/CaribouSlicer/blob/master/CaribouSlicer.version?raw=true";
+static const std::string VERSION_CHECK_URL = "https://github.com/caribou3d/CaribouSlicer-Prusa/blob/master/CaribouSlicer.version?raw=true";
 // Url to index archive zip that contains latest indicies
 static const std::string INDEX_ARCHIVE_URL= "https://caribou3d.com/CaribouSlicer/repository/vendor_indices.zip";
 // Url to folder with vendor profile files. Used when downloading new profiles that are not in resources folder.
