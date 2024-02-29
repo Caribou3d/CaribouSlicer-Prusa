@@ -9,9 +9,9 @@ beta = 2.7.0-beta1
 rc = 2.7.0-rc1
 
 [release:win64]
-url = https://github.com/caribou3d/CaribouSlicer-Prusa/releases/download/Caribou-2.7.1/CaribouSlicer-Win64-2.7.2.zip
+url = https://github.com/caribou3d/CaribouSlicer-Prusa/releases/download/Caribou-2.7.2/CaribouSlicer-Win64-2.7.2.zip
 size = 69502226
 
 [release:linux]
-url = https://github.com/caribou3d/CaribouSlicer-Prusa/releases/download/Caribou-2.7.1/CaribouSlicer-2.7.2.tgz
+url = https://github.com/caribou3d/CaribouSlicer-Prusa/releases/download/Caribou-2.7.2/CaribouSlicer-2.7.2.tgz
 size = 86716506
