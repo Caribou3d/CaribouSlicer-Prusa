@@ -148,11 +148,11 @@ then
     apt update
     if [[ -z "$FOUND_GTK3" ]]
     then
-        echo -e "\nInstalling: libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git\n"
-        apt install libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git
+        echo -e "\nInstalling: libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4\n"
+        apt install libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4
     else
-        echo -e "\nFind libgtk-3, installing: libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git\n"
-        apt install libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git
+        echo -e "\nFind libgtk-3, installing: libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4\n"
+        apt install libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4
     fi
 
     # for ubuntu 22.04:
