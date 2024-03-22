@@ -62,7 +62,7 @@ chmod ug+x package/@SLIC3R_APP_CMD@
 echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_VIEWER_CMD@" "$@"' > package/@SLIC3R_VIEWER_CMD@
 chmod ug+x package/@SLIC3R_VIEWER_CMD@
 pushd package > /dev/null
-tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-linux-x64.tgz .  &>/dev/null
+tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64.tgz .  &>/dev/null
 popd > /dev/null
 echo -e "\ndone"
 
@@ -73,6 +73,6 @@ then
     chmod +x ../src/build_appimage.sh
     ../src/build_appimage.sh
     popd > /dev/null
-    mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-linux-x64.AppImage"
+    mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64.AppImage"
     echo -e "\ndone"
 fi
