@@ -20,51 +20,69 @@ fi
 export ROOT=`pwd`
 export NCORES=`nproc`
 
-while getopts ":ih" opt; do
+while getopts ":ihag" opt; do
   case ${opt} in
     i )
         export BUILD_IMAGE="1"
         ;;
-    h ) echo "Usage: ./BuildLinuxImage.sh [-i] [-h]"
-        echo "   -i: Generate Appimage (optional)"
+    a )
+        export BUILD_APP="1"
+        ;;
+    g )
+        export FORCE_GTK2="1"
+        ;;
+    h ) echo "Usage: ./BuildLinuxImage.sh [-g][-i][-a][-h]"
+        echo "   -g: force gtk2 build"
+        echo "   -i: generate Appimage (optional)"
+	    echo "   -a: generate tgz (optional)"
         echo "   -h: help"
         exit 0
         ;;
   esac
 done
 
-echo -e "\n[8/9] Generating Linux app..."
+if [[ -n "$BUILD_APP" ]]
+then
+    echo -e "\n[8/9] Generating Linux app..."
 
-# create directory and copy into it
-if [ -d "package" ]
+    # create directory and copy into it
+    if [ -d "package" ]
+        then
+            rm -rf package/*
+            rm -rf package/.* 2&>/dev/null
+        else
+            mkdir package
+    fi
+
+    mkdir package/bin
+
+    # copy Resources
+    cp -rf ../resources/ package/resources
+    cp -f src/@SLIC3R_APP_CMD@ package/bin/@SLIC3R_APP_CMD@
+    cp -f src/OCCTWrapper.so package/bin
+    ln -rs package/bin/@SLIC3R_APP_CMD@ package/bin/@SLIC3R_VIEWER_CMD@
+
+    # remove unneeded po from resources
+    find package/resources/localization -type f -name "*.po" -delete
+    find package/resources/localization -type f \( -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" \) -delete
+
+    # create bin
+    echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_APP_CMD@" "$@"' > package/@SLIC3R_APP_CMD@
+    chmod ug+x package/@SLIC3R_APP_CMD@
+    echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_VIEWER_CMD@" "$@"' > package/@SLIC3R_VIEWER_CMD@
+    chmod ug+x package/@SLIC3R_VIEWER_CMD@
+    pushd package > /dev/null
+
+    if [[ -z "$FORCE_GTK2" ]]
     then
-        rm -rf package/*
-        rm -rf package/.* 2&>/dev/null
+        tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64-GTK3.tgz .  &>/dev/null
     else
-        mkdir package
+        tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64-GTK2-.tgz .  &>/dev/null
+    fi
+
+    popd > /dev/null
+    echo -e "\ndone"
 fi
-
-mkdir package/bin
-
-# copy Resources
-cp -rf ../resources/ package/resources
-cp -f src/@SLIC3R_APP_CMD@ package/bin/@SLIC3R_APP_CMD@
-cp -f src/OCCTWrapper.so package/bin
-ln -rs package/bin/@SLIC3R_APP_CMD@ package/bin/@SLIC3R_VIEWER_CMD@
-
-# remove unneeded po from resources
-find package/resources/localization -type f -name "*.po" -delete
-find package/resources/localization -type f \( -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" \) -delete
-
-# create bin
-echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_APP_CMD@" "$@"' > package/@SLIC3R_APP_CMD@
-chmod ug+x package/@SLIC3R_APP_CMD@
-echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_VIEWER_CMD@" "$@"' > package/@SLIC3R_VIEWER_CMD@
-chmod ug+x package/@SLIC3R_VIEWER_CMD@
-pushd package > /dev/null
-tar -czvf ../@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64.tgz .  &>/dev/null
-popd > /dev/null
-echo -e "\ndone"
 
 if [[ -n "$BUILD_IMAGE" ]]
 then
@@ -73,6 +91,11 @@ then
     chmod +x ../src/build_appimage.sh
     ../src/build_appimage.sh
     popd > /dev/null
-    mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64.AppImage"
+    if [[ -z "$FORCE_GTK2" ]]
+    then
+        mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64-GTK3.AppImage"
+    else
+         mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64-GTK2.AppImage"
+    fi
     echo -e "\ndone"
 fi
