@@ -382,13 +382,13 @@ bool OpenGLManager::init_gl()
             // Complain about the OpenGL version.
             wxString message = format_wxstr(
 #if ENABLE_OPENGL_ES
-                _L("PrusaSlicer requires OpenGL ES 2.0 capable graphics driver to run correctly, \n"
+                _L("CaribouSlicer requires OpenGL ES 2.0 capable graphics driver to run correctly, \n"
                    "while OpenGL version %s, render %s, vendor %s was detected."), s_gl_info.get_version_string(), s_gl_info.get_renderer(), s_gl_info.get_vendor());
 #elif ENABLE_GL_CORE_PROFILE
-                _L("PrusaSlicer requires OpenGL 3.2 capable graphics driver to run correctly,\n"
+                _L("CaribouSlicer requires OpenGL 3.2 capable graphics driver to run correctly,\n"
                    "while OpenGL version %s, render %s, vendor %s was detected."), s_gl_info.get_version_string(), s_gl_info.get_renderer(), s_gl_info.get_vendor());
 #else
-                _L("PrusaSlicer requires OpenGL 2.0 capable graphics driver to run correctly, \n"
+                _L("CaribouSlicer requires OpenGL 2.0 capable graphics driver to run correctly, \n"
                    "while OpenGL version %s, render %s, vendor %s was detected."), s_gl_info.get_version_string(), s_gl_info.get_renderer(), s_gl_info.get_vendor());
 #endif // ENABLE_OPENGL_ES
             message += "\n";

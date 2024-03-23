@@ -779,7 +779,7 @@ msgstr "Part de l'objecte flotant"
 msgid "Thin fragile part"
 msgstr "Part fina fràgil"
 
-#. TRN this translation rule is used to translate lists of unknown size on single line. The first argument is element of the list,
+#. TRN this translation rule is used to translate lists of uknown size on single line. The first argument is element of the list,
 #. the second argument may be element or rest of the list. For most languages, this does not need translation, but some use different
 #. separator than comma and some use blank space in front of the separator.
 #: src/libslic3r/Print.cpp:1319
@@ -5053,7 +5053,7 @@ msgstr "Volums de purga - matriu"
 
 #: src/libslic3r/PrintConfig.cpp:3308
 msgid ""
-"This matrix describes volumes (in cubic millimetres) required to purge the "
+"This matrix describes volumes (in cubic milimetres) required to purge the "
 "new filament on the wipe tower for any given pair of tools."
 msgstr ""
 "Aquesta matriu descriu els volums (en mil·límetres cúbics) necessaris per "
@@ -5423,7 +5423,7 @@ msgstr "Pes màxim en el model"
 #: src/libslic3r/PrintConfig.cpp:3664
 msgid ""
 "Maximum weight of sub-trees that terminate on the model instead of the print "
-"bed. The weight is the sum of the lengths of all branches emanating from the "
+"bed. The weight is the sum of the lenghts of all branches emanating from the "
 "endpoint."
 msgstr ""
 "Pes màxim dels subarbres que acaben en el model en lloc del llit "
@@ -7532,7 +7532,7 @@ msgstr "Executant scripts de postprocessament"
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:702
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:722
-msgid "Unknown error occurred during exporting G-code."
+msgid "Unknown error occured during exporting G-code."
 msgstr "S'ha produït un error desconegut durant l'exportació del codi G."
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:707
@@ -10624,7 +10624,7 @@ msgstr "Orientar el text vers la càmera."
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3152
 #, boost-format
 msgid ""
-"Can't load exactly same font(\"%1%\"). Application selected a similar "
+"Can't load exactly same font(\"%1%\"). Aplication selected a similar "
 "one(\"%2%\"). You have to specify font for enable edit text."
 msgstr ""
 "No es pot carregar exactament el mateix tipus de lletra(\"%1%\"), "
@@ -11371,7 +11371,7 @@ msgid "Operation already cancelling. Please wait few seconds."
 msgstr "Operació ja cancel·lada. Si us plau, espereu uns segons."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:358
-msgid "Can't apply when process preview."
+msgid "Can't apply when proccess preview."
 msgstr "No es pot aplicar quan la visualització prèvia del procés."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:365
@@ -11612,7 +11612,7 @@ msgstr "Ruta no reparable per auto-intersecció i punts múltiples."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:1120
 msgid ""
-"Final shape contains selfintersection or multiple points with same "
+"Final shape constains selfintersection or multiple points with same "
 "coordinate."
 msgstr ""
 "La forma final conté auto-interseccions o múltiples punts amb les mateixes "
@@ -13040,7 +13040,7 @@ msgstr "Hi ha hagut un error en obrir el GUI de PrusaSlicer"
 
 #: src/slic3r/GUI/GUI_Init.cpp:67
 #, boost-format
-msgid "Fatal error, exception caught: %1%"
+msgid "Fatal error, exception catched: %1%"
 msgstr "Error fatal, excepció detectada: %1%"
 
 #: src/slic3r/GUI/GUI_ObjectLayers.cpp:33
@@ -13776,7 +13776,7 @@ msgid "Bed filling done."
 msgstr "Ompliment de Base fet."
 
 #: src/slic3r/GUI/Jobs/PlaterWorker.hpp:89
-msgid "An unexpected error occurred"
+msgid "An unexpected error occured"
 msgstr "S'ha produït un error inesperat"
 
 #: src/slic3r/GUI/Jobs/RotoptimizeJob.hpp:26
@@ -15273,7 +15273,7 @@ msgstr "Exportant."
 
 #: src/slic3r/GUI/NotificationManager.hpp:938
 msgid ""
-"PrusaSlicer received a download request from Printables.com, but it's not "
+"PrusaSlicer recieved a download request from Printables.com, but it's not "
 "allowed. You can allow it"
 msgstr ""
 "PrusaSlicer ha rebut una sol·licitud de descàrrega de Printables.com, però "
@@ -16942,7 +16942,7 @@ msgstr "Notificar sobre nous llançaments"
 
 #: src/slic3r/GUI/Preferences.cpp:588
 msgid ""
-"You will be notified about new release after startup accordingly: All = "
+"You will be notified about new release after startup acordingly: All = "
 "Regular release and alpha / beta releases. Release only = regular release."
 msgstr ""
 "Se't notificarà sobre la nova versió després de la posada en marxa en "
@@ -19409,7 +19409,7 @@ msgstr "Mode Avançat"
 #: src/slic3r/Utils/AppUpdater.cpp:47
 #, boost-format
 msgid ""
-"Running downloaded installer of %1% has failed:\n"
+"Running downloaded instaler of %1% has failed:\n"
 "%2%"
 msgstr ""
 "L'execució de l'instal·lador descarregat de %1% ha fallat:\n"
@@ -19485,7 +19485,7 @@ msgstr "No s'ha pogut connectar amb Duet"
 #: src/slic3r/Utils/Duet.cpp:114 src/slic3r/Utils/Duet.cpp:196
 #: src/slic3r/Utils/FlashAir.cpp:129 src/slic3r/Utils/FlashAir.cpp:150
 #: src/slic3r/Utils/FlashAir.cpp:166 src/slic3r/Utils/MKS.cpp:89
-msgid "Unknown error occurred"
+msgid "Unknown error occured"
 msgstr "S'ha produït un error desconegut"
 
 #: src/slic3r/Utils/Duet.cpp:175

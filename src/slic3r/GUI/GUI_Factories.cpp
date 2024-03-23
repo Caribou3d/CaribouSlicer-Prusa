@@ -489,7 +489,7 @@ wxString MenuFactory::get_repaire_result_message(
         msg += "\n\n";
     }
     if (!failed_models.empty()) {
-        msg += _L_PLURAL("Folowing model repair failed", "Folowing models repair failed", failed_models.size()) + ":\n";
+        msg += _L_PLURAL("Following model repair failed", "Following models repair failed", failed_models.size()) + ":\n";
         for (auto& model : failed_models)
             msg += bullet_suf + from_u8(model.first) + ": " + _(model.second);
     }

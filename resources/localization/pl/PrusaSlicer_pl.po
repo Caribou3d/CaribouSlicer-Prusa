@@ -193,7 +193,7 @@ msgstr "1000 (bez ograniczeń)"
 msgid "10 mm"
 msgstr "10 mm"
 
-#. TRN this translation rule is used to translate lists of unknown size on single line. The first argument is element of the list,
+#. TRN this translation rule is used to translate lists of uknown size on single line. The first argument is element of the list,
 #. the second argument may be element or rest of the list. For most languages, this does not need translation, but some use different
 #. separator than comma and some use blank space in front of the separator.
 #: src/libslic3r/Print.cpp:1312
@@ -1178,7 +1178,7 @@ msgid "Another export job is currently running."
 msgstr "W tej chwili trwa inny proces eksportu."
 
 #: src/slic3r/GUI/Jobs/PlaterWorker.hpp:89
-msgid "An unexpected error occurred"
+msgid "An unexpected error occured"
 msgstr "Wystąpił nieoczekiwany błąd"
 
 #: src/slic3r/GUI/KBShortcutsDialog.cpp:157
@@ -2180,7 +2180,7 @@ msgstr ""
 "code</a> w Ustawieniach drukarki."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:358
-msgid "Can't apply when process preview."
+msgid "Can't apply when proccess preview."
 msgstr "Nie można zastosować podczas przetwarzania podglądu."
 
 #. TRN %1% = file path
@@ -2203,7 +2203,7 @@ msgstr "Nie można usunąć tymczasowego stylu \"%1%\"."
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3152
 #, boost-format
 msgid ""
-"Can't load exactly same font(\"%1%\"). Application selected a similar "
+"Can't load exactly same font(\"%1%\"). Aplication selected a similar "
 "one(\"%2%\"). You have to specify font for enable edit text."
 msgstr ""
 "Nie można załadować dokładnie tej samej czcionki (\"%1%\"). Aplikacja "
@@ -5698,7 +5698,7 @@ msgstr "Błąd krytyczny"
 
 #: src/slic3r/GUI/GUI_Init.cpp:67
 #, boost-format
-msgid "Fatal error, exception caught: %1%"
+msgid "Fatal error, exception catched: %1%"
 msgstr "Błąd krytyczny, wyjątek wychwycony: %1%"
 
 #: src/slic3r/GUI/GCodeViewer.cpp:3717 src/slic3r/GUI/GCodeViewer.cpp:3763
@@ -5941,7 +5941,7 @@ msgstr "Wypełnij pozostałą przestrzeń stołu instancjami wybranego modelu"
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:1120
 msgid ""
-"Final shape contains selfintersection or multiple points with same "
+"Final shape constains selfintersection or multiple points with same "
 "coordinate."
 msgstr ""
 "Ostateczny kształt zawiera przecięcie lub wiele punktów o tych samych "
@@ -9190,7 +9190,7 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:3614
 msgid ""
 "Maximum weight of sub-trees that terminate on the model instead of the print "
-"bed. The weight is the sum of the lengths of all branches emanating from the "
+"bed. The weight is the sum of the lenghts of all branches emanating from the "
 "endpoint."
 msgstr ""
 "Maksymalna waga podrzędnych drzew, które kończą się na modelu zamiast na "
@@ -12409,7 +12409,7 @@ msgstr "PrusaSlicer: Otwórz hiperłącze"
 
 #: src/slic3r/GUI/NotificationManager.hpp:938
 msgid ""
-"PrusaSlicer received a download request from Printables.com, but it's not "
+"PrusaSlicer recieved a download request from Printables.com, but it's not "
 "allowed. You can allow it"
 msgstr ""
 "PrusaSlicer otrzymał żądanie pobrania z Printables.com, ale nie jest to "
@@ -13443,7 +13443,7 @@ msgstr ""
 #: src/slic3r/Utils/AppUpdater.cpp:47
 #, boost-format
 msgid ""
-"Running downloaded installer of %1% has failed:\n"
+"Running downloaded instaler of %1% has failed:\n"
 "%2%"
 msgstr ""
 "Uruchomienie pobranego instalatora %1% nie powiodło się:\n"
@@ -17874,7 +17874,7 @@ msgstr "To jest warstwa wieży czyszczącej"
 
 #: src/libslic3r/PrintConfig.cpp:3273
 msgid ""
-"This matrix describes volumes (in cubic millimetres) required to purge the "
+"This matrix describes volumes (in cubic milimetres) required to purge the "
 "new filament on the wipe tower for any given pair of tools."
 msgstr ""
 "Ta formuła określa objętość (w milimetrach sześciennych) wymaganą do "
@@ -18736,12 +18736,12 @@ msgstr "Nieznany format archiwum: %s"
 #: src/slic3r/Utils/Duet.cpp:114 src/slic3r/Utils/Duet.cpp:196
 #: src/slic3r/Utils/FlashAir.cpp:129 src/slic3r/Utils/FlashAir.cpp:150
 #: src/slic3r/Utils/FlashAir.cpp:166 src/slic3r/Utils/MKS.cpp:89
-msgid "Unknown error occurred"
+msgid "Unknown error occured"
 msgstr "Wystąpił nieznany błąd"
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:702
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:722
-msgid "Unknown error occurred during exporting G-code."
+msgid "Unknown error occured during exporting G-code."
 msgstr "Wystąpił nieznany błąd podczas eksportowania G-code."
 
 #. TRN - Preview of filename after clear local filepath.
@@ -20081,7 +20081,7 @@ msgstr "Próbujesz usunąć obiekt, który jest częścią przeciętego obiektu.
 
 #: src/slic3r/GUI/Preferences.cpp:588
 msgid ""
-"You will be notified about new release after startup accordingly: All = "
+"You will be notified about new release after startup acordingly: All = "
 "Regular release and alpha / beta releases. Release only = regular release."
 msgstr ""
 "Dostaniesz powiadomienie o każdej nowej wersji przy starcie aplikacji.\n"

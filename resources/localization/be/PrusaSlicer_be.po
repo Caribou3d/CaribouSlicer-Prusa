@@ -785,7 +785,7 @@ msgstr "Частка аб'екту плавае"
 msgid "Thin fragile part"
 msgstr "Тонкая далікатная частка"
 
-#. TRN this translation rule is used to translate lists of unknown size on single line. The first argument is element of the list,
+#. TRN this translation rule is used to translate lists of uknown size on single line. The first argument is element of the list,
 #. the second argument may be element or rest of the list. For most languages, this does not need translation, but some use different
 #. separator than comma and some use blank space in front of the separator.
 #: src/libslic3r/Print.cpp:1319
@@ -5089,7 +5089,7 @@ msgstr "Аб'ёмы прадзьмуху - табліца"
 
 #: src/libslic3r/PrintConfig.cpp:3308
 msgid ""
-"This matrix describes volumes (in cubic millimetres) required to purge the "
+"This matrix describes volumes (in cubic milimetres) required to purge the "
 "new filament on the wipe tower for any given pair of tools."
 msgstr ""
 "Табліца апісвае аб'ёмы (у кубічных міліметрах), якія неабходныя для "
@@ -5467,7 +5467,7 @@ msgstr "Найбольшая вага мадэлі"
 #: src/libslic3r/PrintConfig.cpp:3664
 msgid ""
 "Maximum weight of sub-trees that terminate on the model instead of the print "
-"bed. The weight is the sum of the lengths of all branches emanating from the "
+"bed. The weight is the sum of the lenghts of all branches emanating from the "
 "endpoint."
 msgstr ""
 "Найбольшая вага галін дрэваў, якія сканчаюцца на мадэлі замест стала друку.\n"
@@ -10670,7 +10670,7 @@ msgstr "Накіраваць тэкст у бок камеры."
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3152
 #, boost-format
 msgid ""
-"Can't load exactly same font(\"%1%\"). Application selected a similar "
+"Can't load exactly same font(\"%1%\"). Aplication selected a similar "
 "one(\"%2%\"). You have to specify font for enable edit text."
 msgstr ""
 "Не атрымалася загрузіць сапраўды такі ж шрыфт (\"%1%\").\n"
@@ -11416,7 +11416,7 @@ msgstr ""
 "Калі ласка, пачакайце некалькі секундаў."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:358
-msgid "Can't apply when process preview."
+msgid "Can't apply when proccess preview."
 msgstr "Немагчыма ўжываць пры папярэднім праглядзе."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:365
@@ -11659,7 +11659,7 @@ msgstr "Шлях не можа быць выпраўлены ад самапер
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:1120
 msgid ""
-"Final shape contains selfintersection or multiple points with same "
+"Final shape constains selfintersection or multiple points with same "
 "coordinate."
 msgstr ""
 "Канчатковая фігура ўтрымлівае самаперасекі ці некалькі кропак з аднолькавымі "
@@ -12647,9 +12647,9 @@ msgstr "&Наладкі"
 msgid "Restart application"
 msgstr "Запусціць праграму нанова"
 
-#: src/slic3r/GUI/GUI_App.cpp:2815
+#: src/slic3r/GUI/GUI_App.cpp:2811
 msgid "For new project all modifications will be reseted"
-msgstr "Для новага праекта ўсе змены будуць скінутыя"
+msgstr "Для новага праекту ўсе змены будуць скінутыя"
 
 #: src/slic3r/GUI/GUI_App.cpp:2849
 msgid "Loading a new project while the current project is modified."
@@ -13090,7 +13090,7 @@ msgstr "Памылка ініцыялізацыі графічнага інтэ�
 
 #: src/slic3r/GUI/GUI_Init.cpp:67
 #, boost-format
-msgid "Fatal error, exception caught: %1%"
+msgid "Fatal error, exception catched: %1%"
 msgstr "Фатальная памылка, выяўлена выключэнне: %1%"
 
 #: src/slic3r/GUI/GUI_ObjectLayers.cpp:33
@@ -13579,29 +13579,7 @@ msgstr ""
 "Пасле аднаўлення сеткі былі выдаленыя карыстальніцкія апоры, шво і "
 "шматматэрыяльная афарбоўка."
 
-#: src/slic3r/GUI/GUI_ObjectList.cpp:4646
-msgid "Fixing by Windows repair algorithm"
-msgstr ""
-
-#: src/slic3r/GUI/GUI_ObjectList.cpp:4676
-msgid "The following model was repaired successfully"
-msgid_plural "The following models were repaired successfully"
-msgstr[0] "Наступная мадэль паспяхова адноўлена"
-msgstr[1] "Наступныя мадэлі паспяхова адноўленыя"
-msgstr[2] "Наступных мадэляў паспяхова адноўлена"
-
-#: src/slic3r/GUI/GUI_ObjectList.cpp:4682
-msgid "Folowing model repair failed"
-msgid_plural "Folowing models repair failed"
-msgstr[0] "Не атрымалася аднавіць мадэль"
-msgstr[1] "Не атрымалася аднавіць мадэлі"
-msgstr[2] "Не атрымалася аднавіць мадэляў"
-
-#: src/slic3r/GUI/GUI_ObjectList.cpp:4687
-msgid "Repairing was canceled"
-msgstr "Аднаўленне было адменена"
-
-#: src/slic3r/GUI/GUI_ObjectList.cpp:4804
+#: src/slic3r/GUI/GUI_ObjectList.cpp:4792
 msgid "Change Extruders"
 msgstr "Змяніць экструдары"
 
@@ -13851,7 +13829,7 @@ msgstr "Запаўненне стала выканана."
 
 #: src/slic3r/GUI/Jobs/PlaterWorker.hpp:89
 msgid "An unexpected error occured"
-msgstr ""
+msgstr "Адбылася непрадбачаная памылка"
 
 #: src/slic3r/GUI/Jobs/RotoptimizeJob.hpp:26
 msgid "Best surface quality"
@@ -15361,7 +15339,7 @@ msgstr "Экспартаванне."
 
 #: src/slic3r/GUI/NotificationManager.hpp:938
 msgid ""
-"PrusaSlicer received a download request from Printables.com, but it's not "
+"PrusaSlicer recieved a download request from Printables.com, but it's not "
 "allowed. You can allow it"
 msgstr ""
 "PrusaSlicer атрымаў запыт на загрузку ад Printables.com, але гэтае "
@@ -17071,7 +17049,7 @@ msgstr "Апавяшчаць аб новых выпусках"
 
 #: src/slic3r/GUI/Preferences.cpp:588
 msgid ""
-"You will be notified about new release after startup accordingly: All = "
+"You will be notified about new release after startup acordingly: All = "
 "Regular release and alpha / beta releases. Release only = regular release."
 msgstr ""
 "Апавяшчэнне аб новых выпусках пасля запуску праграмы:\n"
@@ -19552,7 +19530,7 @@ msgstr "Пашыраны"
 #: src/slic3r/Utils/AppUpdater.cpp:47
 #, boost-format
 msgid ""
-"Running downloaded installer of %1% has failed:\n"
+"Running downloaded instaler of %1% has failed:\n"
 "%2%"
 msgstr ""
 "Не атрымалася запусціць спампаваны ўсталёўшчык %1%:\n"
@@ -19629,7 +19607,7 @@ msgstr "Не атрымалася злучыцца з Duet"
 #: src/slic3r/Utils/Duet.cpp:114 src/slic3r/Utils/Duet.cpp:196
 #: src/slic3r/Utils/FlashAir.cpp:129 src/slic3r/Utils/FlashAir.cpp:150
 #: src/slic3r/Utils/FlashAir.cpp:166 src/slic3r/Utils/MKS.cpp:89
-msgid "Unknown error occurred"
+msgid "Unknown error occured"
 msgstr "Адбылася невядомая памылка"
 
 #: src/slic3r/Utils/Duet.cpp:175

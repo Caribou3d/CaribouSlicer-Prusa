@@ -713,7 +713,7 @@ msgstr "浮动对象部分"
 msgid "Thin fragile part"
 msgstr "薄易损件"
 
-#. TRN this translation rule is used to translate lists of unknown size on single line. The first argument is element of the list,
+#. TRN this translation rule is used to translate lists of uknown size on single line. The first argument is element of the list,
 #. the second argument may be element or rest of the list. For most languages, this does not need translation, but some use different
 #. separator than comma and some use blank space in front of the separator.
 #: src/libslic3r/Print.cpp:1319
@@ -4578,7 +4578,7 @@ msgstr "清除量-矩阵"
 
 #: src/libslic3r/PrintConfig.cpp:3308
 msgid ""
-"This matrix describes volumes (in cubic millimetres) required to purge the "
+"This matrix describes volumes (in cubic milimetres) required to purge the "
 "new filament on the wipe tower for any given pair of tools."
 msgstr ""
 "此矩阵描述清除擦料塔上任何给定工具对的新耗材所需的体积（以立方米为单位）。"
@@ -4918,7 +4918,7 @@ msgstr "模型上的最大重量"
 #: src/libslic3r/PrintConfig.cpp:3664
 msgid ""
 "Maximum weight of sub-trees that terminate on the model instead of the print "
-"bed. The weight is the sum of the lengths of all branches emanating from the "
+"bed. The weight is the sum of the lenghts of all branches emanating from the "
 "endpoint."
 msgstr ""
 "终止于模型而不是打印床的子树的最大重量。该重量是所有从端点发出的分支的长度之"
@@ -6883,7 +6883,7 @@ msgstr "运行后处理脚本"
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:702
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:722
-msgid "Unknown error occurred during exporting G-code."
+msgid "Unknown error occured during exporting G-code."
 msgstr "导出 G-Code 时出现未知错误。"
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:707
@@ -9849,7 +9849,7 @@ msgstr ""
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3152
 #, boost-format
 msgid ""
-"Can't load exactly same font(\"%1%\"). Application selected a similar "
+"Can't load exactly same font(\"%1%\"). Aplication selected a similar "
 "one(\"%2%\"). You have to specify font for enable edit text."
 msgstr ""
 "不能加载完全相同的字体(\"%1%\")。应用程序选择了一种类似的字体（\"%2%\"）。你"
@@ -10581,7 +10581,7 @@ msgid "Operation already cancelling. Please wait few seconds."
 msgstr "操作已经取消。请稍等几秒钟。"
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:358
-msgid "Can't apply when process preview."
+msgid "Can't apply when proccess preview."
 msgstr "进程预览时无法应用。"
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:365
@@ -10820,7 +10820,7 @@ msgstr ""
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:1120
 msgid ""
-"Final shape contains selfintersection or multiple points with same "
+"Final shape constains selfintersection or multiple points with same "
 "coordinate."
 msgstr ""
 
@@ -12189,7 +12189,7 @@ msgstr "PrusaSlicer GUI 初始化失败"
 
 #: src/slic3r/GUI/GUI_Init.cpp:67
 #, boost-format
-msgid "Fatal error, exception caught: %1%"
+msgid "Fatal error, exception catched: %1%"
 msgstr "致命错误，捕获异常：%1%"
 
 #: src/slic3r/GUI/GUI_ObjectLayers.cpp:33
@@ -12894,7 +12894,7 @@ msgid "Bed filling done."
 msgstr "床铺填充完毕。"
 
 #: src/slic3r/GUI/Jobs/PlaterWorker.hpp:89
-msgid "An unexpected error occurred"
+msgid "An unexpected error occured"
 msgstr ""
 
 #: src/slic3r/GUI/Jobs/RotoptimizeJob.hpp:26
@@ -14353,7 +14353,7 @@ msgstr "出口。"
 
 #: src/slic3r/GUI/NotificationManager.hpp:938
 msgid ""
-"PrusaSlicer received a download request from Printables.com, but it's not "
+"PrusaSlicer recieved a download request from Printables.com, but it's not "
 "allowed. You can allow it"
 msgstr ""
 "PrusaSlicer收到了来自Printables.com的下载请求，但这是不允许的。你可以允许它"
@@ -15885,7 +15885,7 @@ msgstr "通知新版本"
 
 #: src/slic3r/GUI/Preferences.cpp:588
 msgid ""
-"You will be notified about new release after startup accordingly: All = "
+"You will be notified about new release after startup acordingly: All = "
 "Regular release and alpha / beta releases. Release only = regular release."
 msgstr ""
 "启动后，您将收到关于新版本的通知：所有=常规版本和 alpha/beta 版本。仅发布=定"
@@ -18178,7 +18178,7 @@ msgstr "高级"
 #: src/slic3r/Utils/AppUpdater.cpp:47
 #, boost-format
 msgid ""
-"Running downloaded installer of %1% has failed:\n"
+"Running downloaded instaler of %1% has failed:\n"
 "%2%"
 msgstr ""
 "运行下载的%1%的安装程序失败：\n"
@@ -18252,7 +18252,7 @@ msgstr "无法连接到 Duet"
 #: src/slic3r/Utils/Duet.cpp:114 src/slic3r/Utils/Duet.cpp:196
 #: src/slic3r/Utils/FlashAir.cpp:129 src/slic3r/Utils/FlashAir.cpp:150
 #: src/slic3r/Utils/FlashAir.cpp:166 src/slic3r/Utils/MKS.cpp:89
-msgid "Unknown error occurred"
+msgid "Unknown error occured"
 msgstr "发生未知错误"
 
 #: src/slic3r/Utils/Duet.cpp:175

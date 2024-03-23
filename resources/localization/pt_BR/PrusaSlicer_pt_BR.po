@@ -757,7 +757,7 @@ msgstr ""
 msgid "Thin fragile part"
 msgstr ""
 
-#. TRN this translation rule is used to translate lists of unknown size on single line. The first argument is element of the list,
+#. TRN this translation rule is used to translate lists of uknown size on single line. The first argument is element of the list,
 #. the second argument may be element or rest of the list. For most languages, this does not need translation, but some use different
 #. separator than comma and some use blank space in front of the separator.
 #: src/libslic3r/Print.cpp:1319
@@ -4903,7 +4903,7 @@ msgstr "Volumes de purga-matriz"
 
 #: src/libslic3r/PrintConfig.cpp:3308
 msgid ""
-"This matrix describes volumes (in cubic millimetres) required to purge the "
+"This matrix describes volumes (in cubic milimetres) required to purge the "
 "new filament on the wipe tower for any given pair of tools."
 msgstr ""
 "Esta matriz descreve volumes (em milimetros cúbicos) necessários para limpar "
@@ -5255,7 +5255,7 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:3664
 msgid ""
 "Maximum weight of sub-trees that terminate on the model instead of the print "
-"bed. The weight is the sum of the lengths of all branches emanating from the "
+"bed. The weight is the sum of the lenghts of all branches emanating from the "
 "endpoint."
 msgstr ""
 
@@ -7280,7 +7280,7 @@ msgstr "Aplicando scripts de pós-processamento"
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:702
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:722
-msgid "Unknown error occurred during exporting G-code."
+msgid "Unknown error occured during exporting G-code."
 msgstr "Ocorreu um erro desconhecido durante a exportação do G-code."
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:707
@@ -10315,7 +10315,7 @@ msgstr ""
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3152
 #, boost-format
 msgid ""
-"Can't load exactly same font(\"%1%\"). Application selected a similar "
+"Can't load exactly same font(\"%1%\"). Aplication selected a similar "
 "one(\"%2%\"). You have to specify font for enable edit text."
 msgstr ""
 
@@ -11050,7 +11050,7 @@ msgid "Operation already cancelling. Please wait few seconds."
 msgstr "Operação já cancelada. Por favor, aguarde alguns segundos."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:358
-msgid "Can't apply when process preview."
+msgid "Can't apply when proccess preview."
 msgstr "Não pode ser aplicado durante a visualização do processo."
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:365
@@ -11289,7 +11289,7 @@ msgstr ""
 
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:1120
 msgid ""
-"Final shape contains selfintersection or multiple points with same "
+"Final shape constains selfintersection or multiple points with same "
 "coordinate."
 msgstr ""
 
