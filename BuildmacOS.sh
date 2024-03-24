@@ -253,7 +253,7 @@ then
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
 
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -p $BUILD_IMG
+    $ROOT/build/src/BuildMacOSImage.sh -a
     popd  > /dev/null
 fi
 
@@ -262,6 +262,6 @@ then
     # Give proper permissions to script
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -i $BUILD_IMG
+    $ROOT/build/src/BuildMacOSImage.sh -i 
     popd  > /dev/null
 fi

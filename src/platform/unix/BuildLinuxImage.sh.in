@@ -9,6 +9,7 @@
 # Change log:
 #
 # 20 Nov 2023, wschadow, branding and minor changes
+# 24 Mar 2024, wschadow, updated calling options
 #
 
 # Our sysctl call may be run as normal user,
@@ -81,12 +82,12 @@ then
     fi
 
     popd > /dev/null
-    echo -e "\ndone"
+    echo -e "\n ... done\n"
 fi
 
 if [[ -n "$BUILD_IMAGE" ]]
 then
-    echo -e "\n[9/9] Creating Appimage for distribution..."
+    echo -e "[9/9] Creating Appimage for distribution..."
     pushd package > /dev/null
     chmod +x ../src/build_appimage.sh
     ../src/build_appimage.sh
@@ -97,5 +98,5 @@ then
     else
          mv package/"@SLIC3R_APP_KEY@_ubu64.AppImage" "@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-Linux-x64-GTK2.AppImage"
     fi
-    echo -e "\ndone"
+    echo -e "\n ... done\n"
 fi
