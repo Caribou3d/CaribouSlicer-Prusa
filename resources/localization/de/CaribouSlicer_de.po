@@ -1420,7 +1420,6 @@ msgstr ""
 "volumetrische Geschwindigkeit überschreiten werden."
 
 #: src/libslic3r/PrintConfig.cpp:601 src/libslic3r/PrintConfig.cpp:648
-#, c-format, boost-format
 msgid "speed for 0% overlap (bridge)"
 msgstr "Geschwindigkeit für 0% Überhang (Brücke)"
 
@@ -1434,17 +1433,14 @@ msgid "mm/s or %"
 msgstr "mm/s oder %"
 
 #: src/libslic3r/PrintConfig.cpp:610 src/libslic3r/PrintConfig.cpp:657
-#, c-format, boost-format
 msgid "speed for 25% overlap"
 msgstr "Geschwindigkeit für 25% Überlappung"
 
 #: src/libslic3r/PrintConfig.cpp:619 src/libslic3r/PrintConfig.cpp:666
-#, c-format, boost-format
 msgid "speed for 50% overlap"
 msgstr "Geschwindigkeit für 50% Überlappung"
 
 #: src/libslic3r/PrintConfig.cpp:628 src/libslic3r/PrintConfig.cpp:675
-#, c-format, boost-format
 msgid "speed for 75% overlap"
 msgstr "Geschwindigkeit für 75% Überlappung"
 
@@ -1877,7 +1873,6 @@ msgid "If needed"
 msgstr "Bei Bedarf"
 
 #: src/libslic3r/PrintConfig.cpp:941
-#, c-format, boost-format
 msgid ""
 "Add more perimeters when needed for avoiding gaps in sloping walls. Slic3r "
 "keeps adding perimeters, until more than 70% of the loop immediately above "
@@ -3387,7 +3382,6 @@ msgid "This setting represents the maximum speed of your fan."
 msgstr "Diese Einstellung bestimmt die maximale Geschwindigkeit Ihres Lüfters."
 
 #: src/libslic3r/PrintConfig.cpp:2023
-#, c-format, boost-format
 msgid ""
 "This is the highest printable layer height for this extruder, used to cap "
 "the variable layer height and support layer height. Maximum recommended "
@@ -8104,12 +8098,10 @@ msgstr ""
 "überprüfen."
 
 #: src/slic3r/GUI/CalibrationFlowDialog.cpp:31
-#, c-format, boost-format
 msgid "Generate 10% intervals around current value"
 msgstr "Generiere 10% Intervalle um den aktuellen Wert"
 
 #: src/slic3r/GUI/CalibrationFlowDialog.cpp:34
-#, c-format, boost-format
 msgid "Generate 2% intervals below current value"
 msgstr "Erzeuge 2% Intervalle unter dem aktuellen Wert"
 
@@ -8148,7 +8140,6 @@ msgstr ""
 "Die Höhe der ersten Schicht wird auf 0,01 zurückgesetzt."
 
 #: src/slic3r/GUI/ConfigManipulation.cpp:86
-#, c-format, boost-format
 msgid ""
 "The Spiral Vase mode requires:\n"
 "- one perimeter\n"
