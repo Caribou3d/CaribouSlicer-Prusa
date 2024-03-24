@@ -289,7 +289,7 @@ then
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
-    make gettext_make_pot
+#    make gettext_make_pot
     make gettext_po_to_mo
 
     popd  > /dev/null
