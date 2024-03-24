@@ -1865,7 +1865,7 @@ msgid ""
 "Print contour perimeters from the outermost one to the innermost one instead "
 "of the default inverse order."
 msgstr ""
-"Drucken Sie Konturperimeter vom äußersten zum innersten anstatt der "
+"Drucken Sie Konturwände vom äußersten zum innersten anstatt der "
 "standardmäßigen umgekehrten Reihenfolge."
 
 #: src/libslic3r/PrintConfig.cpp:939
@@ -1879,8 +1879,8 @@ msgid ""
 "is supported."
 msgstr ""
 "Fügen Sie bei Bedarf weitere Wände hinzu, um Spalten in schrägen Wänden zu "
-"vermeiden. CaribouSlicer fügt immer wieder Perimeter hinzu, bis mehr als "
-"70% der unmittelbar darüber liegenden Schleife unterstützt werden."
+"vermeiden. CaribouSlicer fügt immer wieder Perimeter hinzu, bis mehr als 70% "
+"der unmittelbar darüber liegenden Schleife unterstützt werden."
 
 #: src/libslic3r/PrintConfig.cpp:948
 msgid "On overhangs"
@@ -5485,8 +5485,8 @@ msgid ""
 msgstr ""
 "Minimale Dicke von dünnen Features. Modell-Features, die dünner als dieser "
 "Wert sind, werden nicht gedruckt, während Features, die dicker als die "
-"Mindest-Featuregröße sind, auf die Mindestperimeterbreite verbreitert "
-"werden. Wenn der Wert in Prozent angegeben wird (z.B. 25%), wird er auf der "
+"Mindest-Featuregröße sind, auf die MindestWandbreite verbreitert werden. "
+"Wenn der Wert in Prozent angegeben wird (z.B. 25%), wird er auf der "
 "Grundlage des Düsendurchmessers berechnet."
 
 #: src/libslic3r/PrintConfig.cpp:3578
@@ -15369,7 +15369,7 @@ msgstr "Expansion der ersten Schicht (Fläche)"
 
 #: src/slic3r/GUI/MainFrame.cpp:1562
 msgid "Filament Flow Wall calibration"
-msgstr "Filamentfl0 Kalibrierung (Wand)"
+msgstr "Filament Kalibrierung (Wand)"
 
 #: src/slic3r/GUI/MainFrame.cpp:1567
 msgid "Filament temperature calibration"
