@@ -7718,7 +7718,7 @@ msgstr "Üdvözli a %s Konfigurációs Asszisztens"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:574
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Üdvözöli a %s Konfigurációs Varázsló"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:576
@@ -8309,11 +8309,11 @@ msgid "Configuration &Assistant"
 msgstr "Konfigurációs Segéd"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3529
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Konfigurációs Varázsló"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3530
-msgid "Configuration &Wizard"
+msgid "Configuration &Assistent"
 msgstr "Konfigurációs Varázsló"
 
 #: src/slic3r/GUI/DesktopIntegrationDialog.cpp:237
@@ -12362,7 +12362,7 @@ msgstr ""
 #: src/slic3r/GUI/GUI_App.cpp:3564
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 
 #. TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present
@@ -18563,7 +18563,7 @@ msgid "Download path is %1%. Do you wish to continue?"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Konfigurációs Varázsló Megnyitása"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275 src/slic3r/GUI/UpdateDialogs.cpp:456
@@ -18573,7 +18573,7 @@ msgstr "Konfiguráció frissítés"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "A CaribouSlicer nem a legújabb elérhető konfigurációt használja.\n"

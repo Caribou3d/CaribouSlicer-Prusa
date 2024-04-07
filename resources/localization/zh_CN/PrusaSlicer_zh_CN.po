@@ -7337,7 +7337,7 @@ msgstr "欢迎访问 %s 配置助手"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:574
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "欢迎访问 %s 配置向导"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:576
@@ -7899,11 +7899,11 @@ msgid "Configuration &Assistant"
 msgstr "配置助手(&A)"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3529
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "配置向导"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3530
-msgid "Configuration &Wizard"
+msgid "Configuration &Assistent"
 msgstr "配置向导(&W)"
 
 #: src/slic3r/GUI/DesktopIntegrationDialog.cpp:237
@@ -11886,7 +11886,7 @@ msgstr "正在下载新版本。是否要继续？"
 #: src/slic3r/GUI/GUI_App.cpp:3564
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr "无法启动URL下载。目标文件夹没有设置。请在配置向导中选择目标文件夹。"
 
 #. TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present
@@ -17819,7 +17819,7 @@ msgid "Download path is %1%. Do you wish to continue?"
 msgstr "下载路径为%1%。是否要继续？"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "打开配置向导"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275 src/slic3r/GUI/UpdateDialogs.cpp:456
@@ -17829,7 +17829,7 @@ msgstr "配置更新"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "PrusaSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "PrusaSlicer 未使用可用的最新配置。\n"

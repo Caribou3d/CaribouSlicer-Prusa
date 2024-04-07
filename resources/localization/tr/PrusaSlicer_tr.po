@@ -7753,7 +7753,7 @@ msgstr "%s Yapılandırma Asistanına Hoş Geldiniz"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:574
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "%s Yapılandırma Sihirbazına Hoş Geldiniz"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:576
@@ -8346,11 +8346,11 @@ msgid "Configuration &Assistant"
 msgstr "Yapılandırma &Asistanı"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3529
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Yapılandırma Sihirbazını"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3530
-msgid "Configuration &Wizard"
+msgid "Configuration &Assistent"
 msgstr "Yapılandırma Sihirbazı"
 
 #: src/slic3r/GUI/DesktopIntegrationDialog.cpp:237
@@ -12424,7 +12424,7 @@ msgstr ""
 #: src/slic3r/GUI/GUI_App.cpp:3564
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 
 #. TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present
@@ -18621,7 +18621,7 @@ msgid "Download path is %1%. Do you wish to continue?"
 msgstr "İndirme yolu %1%. Devam etmek istiyor musunuz?"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Yapılandırma Sihirbazı Açılıyor"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275 src/slic3r/GUI/UpdateDialogs.cpp:456
@@ -18631,7 +18631,7 @@ msgstr "Yapılandırma güncelleme"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "PrusaSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "PrusaSlicer mevcut en yeni yapılandırmayı kullanmıyor.\n"

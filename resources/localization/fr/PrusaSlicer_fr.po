@@ -2878,11 +2878,11 @@ msgstr ""
 "nécessaire."
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3530
-msgid "Configuration &Wizard"
+msgid "Configuration &Assistent"
 msgstr "Assistant de Co&nfiguration"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3529
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Assistant de Configuration"
 
 #: src/slic3r/GUI/FirmwareDialog.cpp:924
@@ -3315,7 +3315,7 @@ msgstr "Impossible d'obtenir les ressources pour créer une nouvelle connexion"
 #: src/slic3r/GUI/GUI_App.cpp:3564
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 "Impossible de démarrer le téléchargement à partir de l'URL. Le dossier de "
 "destination n'est pas défini. Veuillez choisir le dossier de destination "
@@ -11023,7 +11023,7 @@ msgid "Open hyperlink in default browser?"
 msgstr "Ouvrir le lien hypertexte dans le navigateur par défaut ?"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Ouverture de l'Assistant de Configuration"
 
 #: src/slic3r/GUI/GUI_App.cpp:2852
@@ -12578,7 +12578,7 @@ msgstr "PrusaSlicer se ferme"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "PrusaSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "PrusaSlicer n'utilise pas la dernière configuration disponible.\n"
@@ -19733,7 +19733,7 @@ msgstr "Bienvenue dans l'Assistant de Configuration de %s"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:574
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Bienvenue dans l'Assistant de Configuration de %s"
 
 #: src/slic3r/GUI/SavePresetDialog.cpp:448

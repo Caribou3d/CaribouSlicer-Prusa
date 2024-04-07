@@ -2850,11 +2850,11 @@ msgstr ""
 "Controlla quindi le modifiche non salvate e salvale, se necessario."
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3530
-msgid "Configuration &Wizard"
+msgid "Configuration &Assistent"
 msgstr "Co&nfigurazione guidata"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3529
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Configurazione Guidata"
 
 #: src/slic3r/GUI/FirmwareDialog.cpp:924
@@ -3284,7 +3284,7 @@ msgstr "Non sono state trovate le risorse per stabilire una nuova connessione"
 #: src/slic3r/GUI/GUI_App.cpp:3564
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 "Impossibile avviare il download dell'URL. La cartella di destinazione non è "
 "impostata. Scegliere la cartella di destinazione nella Configurazione "
@@ -10881,7 +10881,7 @@ msgid "Open hyperlink in default browser?"
 msgstr "Aprire il collegamento ipertestuale nel browser predefinito?"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Apertura Configurazione Guidata"
 
 #: src/slic3r/GUI/GUI_App.cpp:2852
@@ -12425,7 +12425,7 @@ msgstr "CaribouSlicer si sta chiudendo"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicer non sta usando la configurazione più recente disponibile.\n"
@@ -19462,7 +19462,7 @@ msgstr "Benvenuto nell'Assistente di Configurazione di %s"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:574
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Benvenuto nella Configurazione Guidata di %s"
 
 #: src/slic3r/GUI/SavePresetDialog.cpp:448
