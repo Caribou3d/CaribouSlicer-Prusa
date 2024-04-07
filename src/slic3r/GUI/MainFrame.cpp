@@ -1181,32 +1181,29 @@ static void init_macos_application_menu(wxMenuBar* menu_bar, MainFrame* main_fra
 static wxMenu* generate_help_menu()
 {
     wxMenu* helpMenu = new wxMenu();
-    append_menu_item(helpMenu, wxID_ANY, _L("Software &Releases"), _L("Open the software releases page in your browser"),
+    append_menu_item(helpMenu, wxID_ANY, _L("CaribouSlicer &Releases"), _L("Open the software releases page in your browser"),
         [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer-Prusa/releases", nullptr, false); });
-//#        my $versioncheck = $self->_append_menu_item($helpMenu, "Check for &Updates...", "Check for new Slic3r versions", sub{
-//#            wxTheApp->check_version(1);
-//#        });
-//#        $versioncheck->Enable(wxTheApp->have_version_check);
-//        append_menu_item(helpMenu, wxID_ANY, wxString::Format(_L("%s &Manual"), SLIC3R_APP_NAME),
-//                                             wxString::Format(_L("Open the %s manual in your browser"), SLIC3R_APP_NAME),
-//            [this](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("http://manual.slic3r.org/"); });
-    helpMenu->AppendSeparator();
-    append_menu_item(helpMenu, wxID_ANY, _L("System &Info"), _L("Show system information"),
-        [](wxCommandEvent&) { wxGetApp().system_info(); });
-    append_menu_item(helpMenu, wxID_ANY, _L("Show &Configuration Folder"), _L("Show user configuration folder (datadir)"),
-        [](wxCommandEvent&) { Slic3r::GUI::desktop_open_datadir_folder(); });
-    append_menu_item(helpMenu, wxID_ANY, _L("Report an I&ssue"), wxString::Format(_L("Report an issue on %s"), SLIC3R_APP_NAME),
-        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer-Prusa/issues/new/choose", nullptr, false); });
 #ifndef __APPLE__
     append_about_menu_item(helpMenu);
 #endif // __APPLE__
+
+    append_menu_item(helpMenu, wxID_ANY, _L("System &Info"), _L("Show system information"),
+        [](wxCommandEvent&) { wxGetApp().system_info(); });
+    append_menu_item(helpMenu, wxID_ANY, _L("Report an I&ssue"), wxString::Format(_L("Report an issue on %s"), SLIC3R_APP_NAME),
+        [](wxCommandEvent&) { wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer-Prusa/issues/new/choose", nullptr, false); });
+
+    helpMenu->AppendSeparator();
+    append_menu_item(helpMenu, wxID_ANY, _L("Show &Configuration Folder"), _L("Show user configuration folder (datadir)"),
+        [](wxCommandEvent&) { Slic3r::GUI::desktop_open_datadir_folder(); });
+    helpMenu->AppendSeparator();
+
     append_menu_item(helpMenu, wxID_ANY, _L("Show Tip of the Day")
 #if 0//debug
         + "\tCtrl+Shift+T"
 #endif
         ,_L("Opens Tip of the day notification in bottom right corner or shows another tip if already opened."),
         [](wxCommandEvent&) { wxGetApp().plater()->get_notification_manager()->push_hint_notification(false); });
-    helpMenu->AppendSeparator();
+
     append_menu_item(helpMenu, wxID_ANY, _L("Keyboard Shortcuts") + sep + "&?", _L("Show the list of the keyboard shortcuts"),
         [](wxCommandEvent&) { wxGetApp().keyboard_shortcuts(); });
 #if ENABLE_THUMBNAIL_GENERATOR_DEBUG
