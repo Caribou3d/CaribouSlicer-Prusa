@@ -63,7 +63,7 @@ then
 fi
 
 unset name
-while getopts ":hugbdrstiw" opt; do
+while getopts ":hugbdrsltiw" opt; do
   case ${opt} in
     u )
         UPDATE_LIB="1"
@@ -76,6 +76,9 @@ while getopts ":hugbdrstiw" opt; do
         ;;
     s )
         BUILD_CARIBOUSLICER="1"
+        ;;
+    l )
+        UPDATE_POTFILE="1"
         ;;
     t )
         BUILD_TESTS="1"
@@ -92,7 +95,7 @@ while getopts ":hugbdrstiw" opt; do
     w )
 	BUILD_WIPE="1"
 	;;
-    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-t][-i]"
+    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-l][-t][-i]"
         echo "   -h: this message"
 	    echo "   -w: wipe build directories before building"
         echo "   -u: only update dependency packets (optional and need sudo)"
@@ -101,6 +104,7 @@ while getopts ":hugbdrstiw" opt; do
         echo "   -d: build deps"
         echo "   -r: clean dependencies"
         echo "   -s: build CaribouSlicer"
+        echo "   -l: update language .pot file"
         echo "   -t: build tests (in combination with -s)"
         echo "   -i: Generate appimage (optional)"
         echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
@@ -112,7 +116,7 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-t][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-l][-t][-i]"
     echo "   -h: this message"
     echo "   -w: wipe build directories before building"
     echo "   -u: only update dependency packets (optional and need sudo)"
@@ -121,6 +125,7 @@ then
     echo "   -d: build deps"
     echo "   -r: clean dependencies"
     echo "   -s: build CaribouSlicer"
+    echo "   -l: update language .pot file"
     echo "   -t: build tests (in combination with -s)"
     echo "   -i: generate appimage (optional)"
     echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
@@ -289,7 +294,10 @@ then
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
-#    make gettext_make_pot
+    if [[ -n "$UPDATE_POTFILE" ]]
+    then
+        make gettext_make_pot
+    fi
     make gettext_po_to_mo
 
     popd  > /dev/null
