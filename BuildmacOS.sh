@@ -86,6 +86,9 @@ while getopts ":idaxbhcstwr" opt; do
     s )
         BUILD_CARIBOUSLICER="1"
         ;;
+   l )
+        UPDATE_POTFILE="1"
+        ;;
     c)
         BUILD_XCODE="1"
         ;;
@@ -95,15 +98,15 @@ while getopts ":idaxbhcstwr" opt; do
     r )
 	    BUILD_CLEANDEPEND="1"
 	;;
-    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
+    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-a][-r][-x][-b][-c][-d][-s][-l][-t][-i]"
         echo "   -h: this message"
 	    echo "   -w: wipe build directories bfore building"
-        echo "   -d: build dependencies"
         echo "   -a: build for arm64 (Apple Silicon)"
         echo "   -r: clean dependencies"
         echo "   -x: build for x86_64 (Intel)"
         echo "   -b: build with debug symbols"
         echo "   -c: build for XCode"
+        echo "   -d: build dependencies"        
         echo "   -s: build CaribouSlicer"
         echo "   -t: build tests (in combination with -s)"
         echo "   -i: generate DMG image (optional)\n"
@@ -114,15 +117,15 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-a][-r][-x][-b][-c][-d][-s][-l][-t][-i]"
     echo "   -h: this message"
 	echo "   -w: wipe build directories bfore building"
-    echo "   -d: build dependencies"
     echo "   -a: Build for arm64 (Apple Silicon)"
     echo "   -r: clean dependencies"
     echo "   -x: build for x86_64 (Intel)"
     echo "   -b: build with debug symbols"
     echo "   -c: build for XCode"
+    echo "   -d: build dependencies"    
     echo "   -s: build CaribouSlicer"
     echo "   -t: build tests (in combination with -s)"
     echo -e "   -i: Generate DMG image (optional)\n"
@@ -131,7 +134,6 @@ fi
 
 export $BUILD_ARCH
 export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix zstd)/lib/
-
 
 if [[ -n "$BUILD_DEPS" ]]
 then
@@ -244,6 +246,10 @@ then
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
+    if [[ -n "$UPDATE_POTFILE" ]]
+    then
+        make gettext_make_pot
+    fi
     make gettext_po_to_mo
 
     popd  > /dev/null

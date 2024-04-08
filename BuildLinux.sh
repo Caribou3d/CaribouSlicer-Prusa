@@ -95,14 +95,14 @@ while getopts ":hugbdrsltiw" opt; do
     w )
 	BUILD_WIPE="1"
 	;;
-    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-l][-t][-i]"
+    h ) echo "Usage: ./BuildLinux.sh [-h][-u][-w][-g][-b][-r][-d][-s][-l][-t][-i]"
         echo "   -h: this message"
-	    echo "   -w: wipe build directories before building"
         echo "   -u: only update dependency packets (optional and need sudo)"
+        echo "   -w: wipe build directories before building"
         echo "   -g: force gtk2 build"
         echo "   -b: build in debug mode"
+        echo "   -r: clean dependencies"        
         echo "   -d: build deps"
-        echo "   -r: clean dependencies"
         echo "   -s: build CaribouSlicer"
         echo "   -l: update language .pot file"
         echo "   -t: build tests (in combination with -s)"
@@ -116,14 +116,14 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-l][-t][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-u][-w][-g][-b][-r][-d][-s][-l][-t][-i]"
     echo "   -h: this message"
+    echo "   -u: only update dependency packets (optional and need sudo)"    
     echo "   -w: wipe build directories before building"
-    echo "   -u: only update dependency packets (optional and need sudo)"
     echo "   -g: force gtk2 build"
     echo "   -b: build in debug mode"
+    echo "   -r: clean dependencies"    
     echo "   -d: build deps"
-    echo "   -r: clean dependencies"
     echo "   -s: build CaribouSlicer"
     echo "   -l: update language .pot file"
     echo "   -t: build tests (in combination with -s)"
