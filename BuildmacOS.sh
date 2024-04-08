@@ -64,7 +64,7 @@ fi
 
 BUILD_ARCH=$(uname -m)
 
-while getopts ":idaxbhcstwr" opt; do
+while getopts ":idaxbhcsltwr" opt; do
   case ${opt} in
     i )
         BUILD_IMAGE="1"
