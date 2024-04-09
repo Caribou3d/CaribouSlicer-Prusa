@@ -87,7 +87,7 @@ if (SLIC3R_GUI)
         list(FILTER wxWidgets_LIBRARIES EXCLUDE REGEX expat)
         list(APPEND wxWidgets_LIBRARIES libexpat)
     endif ()
-    
+
     # This is an issue in the new wxWidgets cmake build, doesn't deal with librt
     find_library(LIBRT rt)
     if(LIBRT)
@@ -98,7 +98,7 @@ if (SLIC3R_GUI)
     # wrong libs for opengl in the link line and it does not link to it by himself.
     # libslic3r_gui will link to opengl anyway, so lets override wx
     list(FILTER wxWidgets_LIBRARIES EXCLUDE REGEX OpenGL)
-    
+
     if (UNIX AND NOT APPLE)
         list(APPEND wxWidgets_LIBRARIES X11 wayland-client wayland-egl EGL)
     endif ()
@@ -115,9 +115,10 @@ if (APPLE)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/osx/BuildMacOSImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildMacOSImage.sh @ONLY)
 endif ()
 if (NOT WIN32 AND NOT APPLE)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/unix/BuildLinuxImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildLinuxImage.sh @ONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/unix/buildLinuxImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildLinuxImage.sh @ONLY)
     configure_file(${LIBDIR}/platform/unix/build_appimage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/build_appimage.sh @ONLY)
 endif ()
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/msw/buildwinzip.sh.in ${CMAKE_CURRENT_BINARY_DIR}/buildwinzip.sh @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/msw/CaribouSlicer.rc.in ${CMAKE_CURRENT_BINARY_DIR}/CaribouSlicer.rc @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/msw/CaribouGcodeviewer.rc.in ${CMAKE_CURRENT_BINARY_DIR}/CaribouGcodeviewer.rc @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/msw/CaribouSlicer.manifest.in ${CMAKE_CURRENT_BINARY_DIR}/CaribouSlicer.manifest @ONLY)
