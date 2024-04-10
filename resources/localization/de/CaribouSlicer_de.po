@@ -8157,7 +8157,7 @@ msgstr "Wählen Sie die höhere Temperatur aus."
 
 #: src/slic3r/GUI/CalibrationTempDialog.cpp:44
 msgid "Lower temp:"
-msgstr "untere Temperatur"
+msgstr "untere Temperatur:"
 
 #: src/slic3r/GUI/CalibrationTempDialog.cpp:48
 msgid "Upper temp:"
