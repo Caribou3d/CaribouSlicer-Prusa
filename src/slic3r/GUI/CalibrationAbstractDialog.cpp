@@ -186,3 +186,4 @@ wxPanel* CalibrationAbstractDialog::create_header(wxWindow* parent, const wxFont
 
 } // namespace GUI
 } // namespace Slic3r
+
