@@ -84,10 +84,10 @@ fi
 
 if [[ -n "$BUILD_IMAGE" ]]
 then
-echo -e "\n[9/9] Creating .tgz and DMG Image for distribution..."
+echo -e "[9/9] Creating .tgz and DMG Image for distribution..."
     {
 
-    tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION_FULL@-@SLIC3R_GITBUILD_NR@-macOS.tgz pack/@SLIC3R_APP_KEY@
+    tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-macOS.tgz pack/@SLIC3R_APP_KEY@
 
         # create dmg
         hdiutil create -ov -fs HFS+ -volname "@SLIC3R_APP_KEY@" -srcfolder "pack/@SLIC3R_APP_KEY@" temp.dmg
