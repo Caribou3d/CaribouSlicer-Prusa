@@ -109,7 +109,7 @@ while getopts ":idaxbhcsltwr" opt; do
         echo "   -d: build dependencies"        
         echo "   -s: build CaribouSlicer"
         echo "   -t: build tests (in combination with -s)"
-        echo "   -i: generate DMG image (optional)\n"
+        echo "   -i: generate .tgz and DMG image (optional)\n"
         exit 0
         ;;
   esac
@@ -128,7 +128,7 @@ then
     echo "   -d: build dependencies"    
     echo "   -s: build CaribouSlicer"
     echo "   -t: build tests (in combination with -s)"
-    echo -e "   -i: Generate DMG image (optional)\n"
+    echo -e "   -i: Generate .tgz and DMG image (optional)\n"
     exit 0
 fi
 
@@ -168,7 +168,7 @@ then
     echo -e "[2/9] Building dependencies ...\n"
 
     # make deps
-    make -j$NCORES
+    make -j1
 
     echo -e "\n ... done\n"
 
@@ -186,7 +186,7 @@ fi
 if [[ -n "$BUILD_CLEANDEPEND" ]]
 then
     echo -e "[4/9] Cleaning dependencies...\n"
-    pushd deps/build
+    pushd deps/build > /dev/null
     pwd
     rm -fr dep_*
     popd > /dev/null
@@ -233,7 +233,7 @@ then
 
     # cmake
     pushd build > /dev/null
-    cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.15" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
+    cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.14" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo -e "\n ... done"
 
     # make Slic3r

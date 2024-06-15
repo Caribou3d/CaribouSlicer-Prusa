@@ -20,6 +20,16 @@ cp -f caribou-slicer.exe $DESTDIR
 cp -f libgmp-10.dll $DESTDIR
 cp -f libmpfr-4.dll $DESTDIR
 cp -fr resources $DESTDIR/resources
+# delete unneeded files
+find $DESTDIR/resources/localization -name "*.po" -type f -delete
+find $DESTDIR/resources/localization -name "P*.mo" -type f -delete
+find $DESTDIR/resources/localization -name "*database*"  -type f -delete
+find $DESTDIR/resources/localization -name "S*.mo" -type f -delete
+find $DESTDIR/resources/localization -name "*.ini" -type f -delete
+find $DESTDIR/resources/localization -name "*.pot" -type f -delete
+find $DESTDIR/resources/localization -name "*.py" -type f -delete
+find $DESTDIR/resources/localization -name "*.md" -type f -delete
+find $DESTDIR/resources/localization -name "*.txt" -type f -delete
 echo '... done'
 echo
 echo 'creating zip file ....'

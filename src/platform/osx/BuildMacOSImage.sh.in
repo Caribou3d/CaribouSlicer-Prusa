@@ -12,10 +12,7 @@
 # 24 Mar 2024, wschadow, updated calling options
 #
 
-export ROOT=`pwd`
-export NCORES=`sysctl -n hw.ncpu`
-
-while getopts ":iah" opt; do
+while getopts ":ihag" opt; do
   case ${opt} in
     i )
         export BUILD_IMAGE="1"
@@ -23,7 +20,11 @@ while getopts ":iah" opt; do
     a )
         export BUILD_APP="1"
         ;;
-    h ) echo "Usage: ./BuildLinuxImage.sh [-i][-a][-h]"
+    g )
+        export FORCE_GTK2="1"
+        ;;
+    h ) echo "Usage: ./BuildLinuxImage.sh [-g][-i][-a][-h]"
+        echo "   -g: force gtk2 build"
         echo "   -i: generate Appimage (optional)"
 	    echo "   -a: generate tgz (optional)"
         echo "   -h: help"
@@ -63,12 +64,19 @@ then
         cp PkgInfo pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/PkgInfo
         # remove unneeded po from resources
         find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*.po" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*.pot" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*.ini" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*.py" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*.md" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*.txt" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*database.mo" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "Slic3r.mo" -type f -delete
+        find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "SuperSlicer.mo" -type f -delete
 
         # copy bin and do not let it lower case
         cp -f src/@SLIC3R_APP_CMD@ pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/@SLIC3R_APP_KEY@
         chmod u+x pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/@SLIC3R_APP_KEY@
         cp /usr/local/opt/zstd/lib/libzstd.1.dylib pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/libzstd.1.dylib
-        tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-macOS.tgz pack/@SLIC3R_APP_KEY@
 
     } &> $ROOT/Build.log # Capture all command output
     echo -e "\n ... done\n"
@@ -76,8 +84,11 @@ fi
 
 if [[ -n "$BUILD_IMAGE" ]]
 then
-    echo -e "[9/9] Creating DMG Image for distribution..."
+echo -e "\n[9/9] Creating .tgz and DMG Image for distribution..."
     {
+
+    tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION_FULL@-@SLIC3R_GITBUILD_NR@-macOS.tgz pack/@SLIC3R_APP_KEY@
+
         # create dmg
         hdiutil create -ov -fs HFS+ -volname "@SLIC3R_APP_KEY@" -srcfolder "pack/@SLIC3R_APP_KEY@" temp.dmg
         hdiutil convert temp.dmg -format UDZO -o @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-macOS.dmg

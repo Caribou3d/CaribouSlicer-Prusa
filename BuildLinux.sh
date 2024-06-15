@@ -11,8 +11,31 @@
 # 01 Jan 2024, wschadow, debranding for the Prusa version, added build options
 #
 
+set -e # exit on first error
+
 export ROOT=`pwd`
 export NCORES=`nproc`
+
+function usage() {
+    echo "Usage: ./BuildLinux.sh [-h][-u][-w][-g][-b][-r][-d][-s][-l][-t][-i]"
+    echo "   -h: this message"
+    echo "   -u: only update dependency packets (optional and need sudo)"
+    echo "   -w: wipe build directories before building"
+    echo "   -g: force gtk2 build"
+    echo "   -b: build in debug mode"
+    echo "   -r: clean dependencies"
+    echo "   -d: build deps"
+    echo "   -s: build CaribouSlicer"
+    echo "   -l: update language .pot file"
+    echo "   -t: build tests (in combination with -s)"
+    echo "   -i: generate .tgz and appimage (optional)"
+    echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
+    echo -e "   and then './BuildLinux.sh -dsi'\n"
+    exit 0
+}
+
+function check_operating_system() {
+# check operating system
 
 OS_FOUND=$( command -v uname)
 
@@ -35,7 +58,6 @@ case $( "${OS_FOUND}" | tr '[:upper:]' '[:lower:]') in
     ;;
 esac
 
-# check operating system
 echo
 if [ $TARGET_OS == "linux" ]; then
     if [ $(uname -m) == "x86_64" ]; then
@@ -53,15 +75,51 @@ else
     echo -e "Please use Linux 64-bit or Windows 10 64-bit with Linux subsystem / git-bash.$(tput sgr0)\n"
     exit -1
 fi
+}
 
-# Check if CMake is installed
-export CMAKE_INSTALLED=`which cmake`
-if [[ -z "$CMAKE_INSTALLED" ]]
+function check_available_memory_and_disk() {
+    FREE_MEM_GB=$(free -g -t | grep 'Mem:' | rev | cut -d" " -f1 | rev)
+    MIN_MEM_GB=5
+
+    FREE_DISK_KB=$(df -k . | tail -1 | awk '{print $4}')
+    MIN_DISK_KB=$((10 * 1024 * 1024))
+
+    if [ ${FREE_MEM_GB} -le ${MIN_MEM_GB} ]; then
+        echo -e "\nERROR: CaribouSlicer Builder requires at least ${MIN_MEM_GB}G of 'available' mem (systen has only ${FREE_MEM_GB}G available)"
+        echo && free -h && echo
+        exit 2
+    fi
+
+    if [[ ${FREE_DISK_KB} -le ${MIN_DISK_KB} ]]; then
+        echo -e "\nERROR: CaribouSlicer Builder requires at least $(echo ${MIN_DISK_KB} |awk '{ printf "%.1fG\n", $1/1024/1024; }') (systen has only $(echo ${FREE_DISK_KB} | awk '{ printf "%.1fG\n", $1/1024/1024; }') disk free)"
+        echo && df -h . && echo
+        exit 1
+    fi
+}
+
+function check_distribution() {
+    DISTRIBUTION=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
+    # treat ubuntu as debian
+    if [ "${DISTRIBUTION}" == "ubuntu" ]
 then
-    echo "Can't find CMake. Either is not installed or not in the PATH. Aborting!"
-    exit -1
+        DISTRIBUTION="debian"
+    fi
+    echo -e "$(tput setaf 2)${DISTRIBUTION} found$(tput sgr0)\n"
+    if [ ! -f ./src/platform/unix/linux.d/${DISTRIBUTION} ]
+    then
+        echo "Your distribution does not appear to be currently supported by these build scripts"
+        exit 1
 fi
+}
 
+#=======================================================================================
+
+check_operating_system
+check_distribution
+check_available_memory_and_disk
+
+#---------------------------------------------------------------------------------------
+#check command line arguments
 unset name
 while getopts ":hugbdrsltiw" opt; do
   case ${opt} in
@@ -95,94 +153,37 @@ while getopts ":hugbdrsltiw" opt; do
     w )
 	BUILD_WIPE="1"
 	;;
-    h ) echo "Usage: ./BuildLinux.sh [-h][-u][-w][-g][-b][-r][-d][-s][-l][-t][-i]"
-        echo "   -h: this message"
-        echo "   -u: only update dependency packets (optional and need sudo)"
-        echo "   -w: wipe build directories before building"
-        echo "   -g: force gtk2 build"
-        echo "   -b: build in debug mode"
-        echo "   -r: clean dependencies"        
-        echo "   -d: build deps"
-        echo "   -s: build CaribouSlicer"
-        echo "   -l: update language .pot file"
-        echo "   -t: build tests (in combination with -s)"
-        echo "   -i: Generate appimage (optional)"
-        echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
-        echo -e "   and then './BuildLinux.sh -dsi'\n"
-        exit 0
+        h ) usage
+#            exit 0
+            ;;
+        * ) usage
+#            exit 0
         ;;
   esac
 done
 
-if [ $OPTIND -eq 1 ]
+
+if [ ${OPTIND} -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-u][-w][-g][-b][-r][-d][-s][-l][-t][-i]"
-    echo "   -h: this message"
-    echo "   -u: only update dependency packets (optional and need sudo)"    
-    echo "   -w: wipe build directories before building"
-    echo "   -g: force gtk2 build"
-    echo "   -b: build in debug mode"
-    echo "   -r: clean dependencies"    
-    echo "   -d: build deps"
-    echo "   -s: build CaribouSlicer"
-    echo "   -l: update language .pot file"
-    echo "   -t: build tests (in combination with -s)"
-    echo "   -i: generate appimage (optional)"
-    echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
-    echo -e "   and then './BuildLinux.sh -dsi'\n"
+    usage
     exit 0
 fi
 
-FOUND_GTK2=$(dpkg -l libgtk* | grep gtk2)
-FOUND_GTK3=$(dpkg -l libgtk* | grep gtk-3)
-FOUND_GTK2_DEV=$(dpkg -l libgtk* | grep gtk2.0-dev)
-FOUND_GTK3_DEV=$(dpkg -l libgtk* | grep gtk-3-dev)
+#---------------------------------------------------------------------------------------
 
-echo -e "FOUND_GTK2:\n$FOUND_GTK2\n"
-echo -e "FOUND_GTK3:\n$FOUND_GTK3)\n"
+# check installation of required packages or update when -u is set
+
+source ./src/platform/unix/linux.d/${DISTRIBUTION}
 
 if [[ -n "$FORCE_GTK2" ]]
 then
-   FOUND_GTK3=""
-   FOUND_GTK3_DEV=""
-fi
-
-if [[ -n "$UPDATE_LIB" ]]
-then
-    echo -n -e "Updating linux ...\n"
-    apt update
-    if [[ -z "$FOUND_GTK3" ]]
-    then
-        echo -e "\nInstalling: libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4\n"
-        apt install libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4
-    else
-        echo -e "\nFind libgtk-3, installing: libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4\n"
-        apt install libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4
-    fi
-
-    # for ubuntu 22.04:
-    ubu_version="$(cat /etc/issue)"
-    if [[ $ubu_version == "Ubuntu 22.04"* ]]
-    then
-        apt install curl libssl-dev libcurl4-openssl-dev m4
-    fi
-    if [[ -n "$BUILD_DEBUG" ]]
-    then
-        echo -e "\nInstalling: libssl-dev libcurl4-openssl-dev\n"
-        apt install libssl-dev libcurl4-openssl-dev
-    fi
-    echo -e "... done\n"
-    exit 0
-fi
-
-if [[ -z "$FOUND_GTK2_DEV" ]]
-then
-    if [[ -z "$FOUND_GTK3_DEV" ]]
-    then
-	echo -e "\nError, you must install the dependencies before."
-	echo -e "Use option -u with sudo\n"
-	exit 0
-    fi
+    FOUND_GTK2=$(dpkg -l libgtk* | grep gtk2)
+    FOUND_GTK2_DEV=$(dpkg -l libgtk* | grep gtk2.0-dev)
+    echo -e "\nFOUND_GTK2:\n$FOUND_GTK2\n"
+else
+    FOUND_GTK3=$(dpkg -l libgtk* | grep gtk-3)
+    FOUND_GTK3_DEV=$(dpkg -l libgtk* | grep gtk-3-dev)
+    echo -e "\nFOUND_GTK3:\n$FOUND_GTK3)\n"
 fi
 
 if [[ -n "$BUILD_DEPS" ]]
