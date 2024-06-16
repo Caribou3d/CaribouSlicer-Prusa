@@ -37,44 +37,44 @@ function usage() {
 function check_operating_system() {
 # check operating system
 
-OS_FOUND=$( command -v uname)
+    OS_FOUND=$( command -v uname)
 
-case $( "${OS_FOUND}" | tr '[:upper:]' '[:lower:]') in
-  linux*)
-    TARGET_OS="linux"
-   ;;
-  msys*|cygwin*|mingw*)
-    # or possible 'bash on windows'
-    TARGET_OS='windows'
-   ;;
-  nt|win*)
-    TARGET_OS='windows'
+    case   $( "${OS_FOUND}" | tr '[:upper:]' '[:lower:]') in
+    linux*)
+        TARGET_OS="linux"
     ;;
-  darwin)
-    TARGET_OS='macos'
+    msys*|cygwin*|mingw*)
+        # or possible 'bash on windows'
+        TARGET_OS='windows'
     ;;
-  *)
-    TARGET_OS='unknown'
-    ;;
-esac
+    nt|win*)
+        TARGET_OS='windows'
+        ;;
+    darwin)
+        TARGET_OS='macos'
+        ;;
+    *)
+        TARGET_OS='unknown'
+        ;;
+    esac
 
-echo
-if [ $TARGET_OS == "linux" ]; then
-    if [ $(uname -m) == "x86_64" ]; then
-        echo -e "$(tput setaf 2)Linux 64-bit found$(tput sgr0)\n"
-        Processor="64"
-    elif [[ $(uname -m) == "i386" || $(uname -m) == "i686" ]]; then
-        echo "$(tput setaf 2)Linux 32-bit found$(tput sgr0)\n"
-        Processor="32"
+    echo
+    if [ $TARGET_OS == "linux" ]; then
+        if [ $(uname -m) == "x86_64" ]; then
+            echo -e "$(tput setaf 2)Linux 64-bit found$(tput sgr0)\n"
+            Processor="64"
+        elif [[ $(uname -m) == "i386" || $(uname -m) == "i686" ]]; then
+            echo "$(tput setaf 2)Linux 32-bit found$(tput sgr0)\n"
+            Processor="32"
+        else
+            echo "$(tput setaf 1)Unsupported OS: Linux $(uname -m)"
+            exit -1
+        fi
     else
-        echo "$(tput setaf 1)Unsupported OS: Linux $(uname -m)"
+        echo -e "$(tput setaf 1)This script doesn't support your Operating system!"
+        echo -e "Please use Linux 64-bit or Windows 10 64-bit with Linux subsystem / git-bash.$(tput sgr0)\n"
         exit -1
     fi
-else
-    echo -e "$(tput setaf 1)This script doesn't support your Operating system!"
-    echo -e "Please use Linux 64-bit or Windows 10 64-bit with Linux subsystem / git-bash.$(tput sgr0)\n"
-    exit -1
-fi
 }
 
 function check_available_memory_and_disk() {
@@ -101,7 +101,7 @@ function check_distribution() {
     DISTRIBUTION=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
     # treat ubuntu as debian
     if [ "${DISTRIBUTION}" == "ubuntu" ]
-then
+    then
         DISTRIBUTION="debian"
     fi
     echo -e "$(tput setaf 2)${DISTRIBUTION} found$(tput sgr0)\n"
@@ -109,7 +109,7 @@ then
     then
         echo "Your distribution does not appear to be currently supported by these build scripts"
         exit 1
-fi
+    fi
 }
 
 #=======================================================================================
@@ -122,44 +122,44 @@ check_available_memory_and_disk
 #check command line arguments
 unset name
 while getopts ":hugbdrsltiw" opt; do
-  case ${opt} in
-    u )
-        UPDATE_LIB="1"
-        ;;
-    i )
-        BUILD_IMAGE="1"
-        ;;
-    d )
-        BUILD_DEPS="1"
-        ;;
-    s )
-        BUILD_CARIBOUSLICER="1"
-        ;;
-    l )
-        UPDATE_POTFILE="1"
-        ;;
-    t )
-        BUILD_TESTS="1"
-        ;;
-    b )
-        BUILD_DEBUG="1"
-        ;;
-    g )
-        FORCE_GTK2="-g"
-        ;;
-    r )
-        BUILD_CLEANDEPEND="1"
-	;;
-    w )
-	BUILD_WIPE="1"
-	;;
+    case ${opt} in
+        u )
+            UPDATE_LIB="1"
+            ;;
+        i )
+            BUILD_IMAGE="1"
+            ;;
+        d )
+            BUILD_DEPS="1"
+            ;;
+        s )
+            BUILD_CARIBOUSLICER="1"
+            ;;
+        l )
+            UPDATE_POTFILE="1"
+            ;;
+        t )
+            BUILD_TESTS="1"
+            ;;
+        b )
+            BUILD_DEBUG="1"
+            ;;
+        g )
+            FORCE_GTK2="-g"
+            ;;
+        r )
+            BUILD_CLEANDEPEND="1"
+            ;;
+        w )
+            BUILD_WIPE="1"
+            ;;
         h ) usage
 #            exit 0
             ;;
         * ) usage
 #            exit 0
-        ;;
-  esac
+            ;;
+    esac
 done
 
 
@@ -197,7 +197,7 @@ then
     # mkdir build in deps
     if [ ! -d "deps/build" ]
     then
-	mkdir deps/build
+    mkdir deps/build
     fi
     echo -e "[1/9] Configuring dependencies ...\n"
     BUILD_ARGS=""
@@ -210,10 +210,10 @@ then
     if [[ -n "$BUILD_DEBUG" ]]
     then
         # have to build deps with debug & release or the cmake won't find evrything it needs
-	if [ ! -d "deps/build/release" ]
-	then
-	    mkdir deps/build/release
-	fi
+    if [ ! -d "deps/build/release" ]
+    then
+        mkdir deps/build/release
+    fi
         pushd deps/build/release > /dev/null
         cmake ../.. -DDESTDIR="../destdir" $BUILD_ARGS
         popd > /dev/null
@@ -264,7 +264,7 @@ then
     # mkdir build
     if [ ! -d "build" ]
     then
-	mkdir build
+    mkdir build
     fi
 
     BUILD_ARGS=""
@@ -277,12 +277,12 @@ then
         BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TYPE=Debug"
     fi
 
-    if [[ -n "$BUILD_TESTS" ]]
-    then
-        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=1"
-    else
-        BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=0"
-    fi
+   if [[ -n "$BUILD_TESTS" ]]
+   then
+       BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=1"
+   else
+       BUILD_ARGS="${BUILD_ARGS} -DCMAKE_BUILD_TESTS=0"
+   fi
 
     # cmake
     pushd build > /dev/null
