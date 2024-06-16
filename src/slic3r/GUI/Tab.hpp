@@ -184,7 +184,6 @@ protected:
 	std::string			m_name;
 	const wxString		m_title;
 	TabPresetComboBox*	m_presets_choice;
-	ScalableButton*		m_search_btn;
 	ScalableButton*		m_btn_compare_preset;
 	ScalableButton*		m_btn_save_preset;
 	ScalableButton*		m_btn_rename_preset;
@@ -199,8 +198,6 @@ protected:
 
 	wxScrolledWindow*	m_page_view {nullptr};
 	wxBoxSizer*			m_page_sizer {nullptr};
-
-    ModeSizer*			m_mode_sizer {nullptr};
 
    	struct PresetDependencies {
 		Preset::Type type	  = Preset::TYPE_INVALID;
@@ -479,7 +476,7 @@ class TabFilament : public Tab
     std::map<std::string, wxWindow*> m_overrides_options;
 public:
 	TabFilament(wxBookCtrlBase* parent) :
-		Tab(parent, _(L("Filament Settings")), Slic3r::Preset::TYPE_FILAMENT) {}
+		Tab(parent, _L("Filaments"), Slic3r::Preset::TYPE_FILAMENT) {}
 	~TabFilament() {}
 
 	void		build() override;
@@ -537,7 +534,7 @@ public:
     PrinterTechnology               m_printer_technology = ptFFF;
 
     TabPrinter(wxBookCtrlBase* parent) :
-        Tab(parent, _L("Printer Settings"), Slic3r::Preset::TYPE_PRINTER) {}
+        Tab(parent, _L("Printers"), Slic3r::Preset::TYPE_PRINTER) {}
 	~TabPrinter() {}
 
 	void		build() override;
@@ -574,9 +571,11 @@ class TabSLAMaterial : public Tab
 	void		update_material_overrides_page();
 
 	std::map<std::string, wxWindow*> m_overrides_options;
+	ogStaticText*	m_z_correction_to_mm_description = nullptr;
+
 public:
     TabSLAMaterial(wxBookCtrlBase* parent) :
-		Tab(parent, _(L("Material Settings")), Slic3r::Preset::TYPE_SLA_MATERIAL) {}
+		Tab(parent, _L("Materials"), Slic3r::Preset::TYPE_SLA_MATERIAL) {}
     ~TabSLAMaterial() {}
 
 	void		build() override;
@@ -589,6 +588,7 @@ public:
 	void		sys_color_changed() override;
 	bool 		supports_printer_technology(const PrinterTechnology tech) const override { return tech == ptSLA; }
 	void		update_sla_prusa_specific_visibility() override;
+    void		update_description_lines() override;
 };
 
 class TabSLAPrint : public Tab

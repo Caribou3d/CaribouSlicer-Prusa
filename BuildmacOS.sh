@@ -106,7 +106,7 @@ while getopts ":idaxbhcsltwr" opt; do
         echo "   -x: build for x86_64 (Intel)"
         echo "   -b: build with debug symbols"
         echo "   -c: build for XCode"
-        echo "   -d: build dependencies"        
+        echo "   -d: build dependencies"
         echo "   -s: build CaribouSlicer"
         echo "   -t: build tests (in combination with -s)"
         echo "   -i: generate DMG image (optional)\n"
@@ -125,7 +125,7 @@ then
     echo "   -x: build for x86_64 (Intel)"
     echo "   -b: build with debug symbols"
     echo "   -c: build for XCode"
-    echo "   -d: build dependencies"    
+    echo "   -d: build dependencies"
     echo "   -s: build CaribouSlicer"
     echo "   -t: build tests (in combination with -s)"
     echo -e "   -i: Generate DMG image (optional)\n"
@@ -168,7 +168,7 @@ then
     echo -e "[2/9] Building dependencies ...\n"
 
     # make deps
-    make -j$NCORES
+    make -j1
 
     echo -e "\n ... done\n"
 
@@ -240,7 +240,7 @@ then
     if [[ -z "$BUILD_XCODE" ]]
     then
         echo -e "\n[6/9] Building CaribouSlicer ...\n"
-        make -j$NCORES
+        make -j1
         echo -e "\n ... done"
     fi
 
@@ -268,6 +268,6 @@ then
     # Give proper permissions to script
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -i 
+    $ROOT/build/src/BuildMacOSImage.sh -i
     popd  > /dev/null
 fi
