@@ -9,7 +9,7 @@ target_link_libraries(${_TEST_NAME}_tests test_common libslic3r)
 set_property(TARGET ${_TEST_NAME}_tests PROPERTY FOLDER "tests")
 
 if (WIN32)
-    prusaslicer_copy_dlls(${_TEST_NAME}_tests)
+    caribouslicer_copy_dlls(${_TEST_NAME}_tests)
 endif()
 
 set(_catch_args "exclude:[NotWorking] exclude:[Slow]")

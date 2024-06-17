@@ -37,6 +37,23 @@ set(SLIC3R_GUI_SOURCES
     GUI/BackgroundSlicingProcess.hpp
     GUI/BitmapCache.cpp
     GUI/BitmapCache.hpp
+    GUI/CalibrationAbstractDialog.cpp
+    GUI/CalibrationAbstractDialog.hpp
+    GUI/CalibrationCubeDialog.cpp
+    GUI/CalibrationCubeDialog.hpp
+    GUI/CalibrationFlowDialog.cpp
+    GUI/CalibrationFlowDialog.hpp
+    GUI/CalibrationAbstractDialog.hpp
+    GUI/CalibrationWallsDialog.cpp
+    GUI/CalibrationWallsDialog.hpp
+    GUI/CalibrationFirstLayerPatchDialog.cpp
+    GUI/CalibrationFirstLayerPatchDialog.hpp
+    GUI/CalibrationFirstLayerDialog.cpp
+    GUI/CalibrationFirstLayerDialog.hpp
+    GUI/CalibrationTempDialog.cpp
+    GUI/CalibrationTempDialog.hpp
+    GUI/CalibrationRetractionDialog.cpp
+    GUI/CalibrationRetractionDialog.hpp
     GUI/ConfigSnapshotDialog.cpp
     GUI/ConfigSnapshotDialog.hpp
     GUI/3DScene.cpp

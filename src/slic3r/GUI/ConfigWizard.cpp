@@ -109,11 +109,11 @@ ConfigWizardLoadingDialog::ConfigWizardLoadingDialog(wxWindow* parent, const wxS
 
 // Configuration data structures extensions needed for the wizard
 
-bool Bundle::load(fs::path source_path, BundleLocation location, bool ais_prusa_bundle)
+bool Bundle::load(fs::path source_path, BundleLocation location, bool ais_caribou_bundle)
 {
     this->preset_bundle = std::make_unique<PresetBundle>();
     this->location = location;
-    this->is_prusa_bundle = ais_prusa_bundle;
+    this->is_caribou_bundle = ais_caribou_bundle;
 
     std::string path_string = source_path.string();
     // Throw when parsing invalid configuration. Only valid configuration is supposed to be provided over the air.
@@ -141,7 +141,7 @@ Bundle::Bundle(Bundle &&other)
     : preset_bundle(std::move(other.preset_bundle))
     , vendor_profile(other.vendor_profile)
     , location(other.location)
-    , is_prusa_bundle(other.is_prusa_bundle)
+    , is_caribou_bundle(other.is_caribou_bundle)
 {
     other.vendor_profile = nullptr;
 }
@@ -155,21 +155,21 @@ BundleMap BundleMap::load()
     const auto archive_dir = (boost::filesystem::path(Slic3r::data_dir()) / "cache" / "vendor").make_preferred();
     const auto rsrc_vendor_dir = (boost::filesystem::path(resources_dir()) / "profiles").make_preferred();
     const auto cache_dir = boost::filesystem::path(Slic3r::data_dir()) / "cache"; // for Index
-    // Load Prusa bundle from the datadir/vendor directory or from datadir/cache/vendor (archive) or from resources/profiles.
-    auto prusa_bundle_path = (vendor_dir / PresetBundle::PRUSA_BUNDLE).replace_extension(".ini");
-    BundleLocation prusa_bundle_loc = BundleLocation::IN_VENDOR;
-    if (! boost::filesystem::exists(prusa_bundle_path)) {
-        prusa_bundle_path = (archive_dir / PresetBundle::PRUSA_BUNDLE).replace_extension(".ini");
-        prusa_bundle_loc = BundleLocation::IN_ARCHIVE;
+    // Load Caribou bundle from the datadir/vendor directory or from datadir/cache/vendor (archive) or from resources/profiles.
+    auto caribou_bundle_path = (vendor_dir / PresetBundle::CARIBOU_BUNDLE).replace_extension(".ini");
+    BundleLocation caribou_bundle_loc = BundleLocation::IN_VENDOR;
+    if (! boost::filesystem::exists(caribou_bundle_path)) {
+        caribou_bundle_path = (archive_dir / PresetBundle::CARIBOU_BUNDLE).replace_extension(".ini");
+        caribou_bundle_loc = BundleLocation::IN_ARCHIVE;
     }
-    if (!boost::filesystem::exists(prusa_bundle_path)) {
-        prusa_bundle_path = (rsrc_vendor_dir / PresetBundle::PRUSA_BUNDLE).replace_extension(".ini");
-        prusa_bundle_loc = BundleLocation::IN_RESOURCES;
+    if (!boost::filesystem::exists(caribou_bundle_path)) {
+        caribou_bundle_path = (rsrc_vendor_dir / PresetBundle::CARIBOU_BUNDLE).replace_extension(".ini");
+        caribou_bundle_loc = BundleLocation::IN_RESOURCES;
     }
     {
-        Bundle prusa_bundle;
-        if (prusa_bundle.load(std::move(prusa_bundle_path), prusa_bundle_loc, true))
-            res.emplace(PresetBundle::PRUSA_BUNDLE, std::move(prusa_bundle)); 
+        Bundle caribou_bundle;
+        if (caribou_bundle.load(std::move(caribou_bundle_path), caribou_bundle_loc, true))
+            res.emplace(PresetBundle::CARIBOU_BUNDLE, std::move(caribou_bundle));
     }
 
     // Load the other bundles in the datadir/vendor directory
@@ -251,19 +251,19 @@ BundleMap BundleMap::load()
     return res;
 }
 
-Bundle& BundleMap::prusa_bundle()
+Bundle& BundleMap::caribou_bundle()
 {
-    auto it = find(PresetBundle::PRUSA_BUNDLE);
+    auto it = find(PresetBundle::CARIBOU_BUNDLE);
     if (it == end()) {
-        throw Slic3r::RuntimeError("ConfigWizard: Internal error in BundleMap: PRUSA_BUNDLE not loaded");
+        throw Slic3r::RuntimeError("ConfigWizard: Internal error in BundleMap: CARIBOU_BUNDLE not loaded");
     }
 
     return it->second;
 }
 
-const Bundle& BundleMap::prusa_bundle() const
+const Bundle& BundleMap::caribou_bundle() const
 {
-    return const_cast<BundleMap*>(this)->prusa_bundle();
+    return const_cast<BundleMap*>(this)->caribou_bundle();
 }
 
 
@@ -612,7 +612,7 @@ PageWelcome::PageWelcome(ConfigWizard *parent)
 #ifdef __APPLE__
             _L("Welcome to the %s Configuration Assistant")
 #else
-            _L("Welcome to the %s Configuration Wizard")
+            _L("Welcome to the %s Configuration Assistent")
 #endif
             , SLIC3R_APP_NAME), _L("Welcome"))
     , welcome_text(append_text(format_wxstr(
@@ -840,7 +840,7 @@ void PagePrinters::set_run_reason(ConfigWizard::RunReason run_reason)
     if (is_primary_printer_page
         && (run_reason == ConfigWizard::RR_DATA_EMPTY || run_reason == ConfigWizard::RR_DATA_LEGACY)
         && printer_pickers.size() > 0 
-        && printer_pickers[0]->vendor_id == PresetBundle::PRUSA_BUNDLE) {
+        && printer_pickers[0]->vendor_id == PresetBundle::CARIBOU_BUNDLE) {
         printer_pickers[0]->select_one(0, true);
     }
 }
@@ -1350,11 +1350,11 @@ void PageMaterials::sort_list_data(StringList* list, bool add_All_item, bool mat
 // get data from list
 // sort data
 // first should be <all>
-// then prusa profiles
+// then caribou profiles
 // then the rest
 // in alphabetical order
     
-    std::vector<std::reference_wrapper<const std::string>> prusa_profiles;
+    std::vector<std::reference_wrapper<const std::string>> caribou_profiles;
     std::vector<std::pair<std::wstring ,std::reference_wrapper<const std::string>>> other_profiles; // first is lower case id for sorting
     bool add_TEMPLATES_item = false;
     for (int i = 0 ; i < list->size(); ++i) {
@@ -1365,8 +1365,8 @@ void PageMaterials::sort_list_data(StringList* list, bool add_All_item, bool mat
             add_TEMPLATES_item = true;
             continue;
         }
-        if (!material_type_ordering && data.find("Prusa") != std::string::npos)
-            prusa_profiles.push_back(data);
+        if (!material_type_ordering && data.find("Caribou") != std::string::npos)
+            caribou_profiles.push_back(data);
         else 
             other_profiles.emplace_back(boost::algorithm::to_lower_copy(boost::nowide::widen(data)),data);
     }
@@ -1391,7 +1391,7 @@ void PageMaterials::sort_list_data(StringList* list, bool add_All_item, bool mat
             }
         }
     } else {
-        std::sort(prusa_profiles.begin(), prusa_profiles.end(), [](std::reference_wrapper<const std::string> a, std::reference_wrapper<const std::string> b) {
+        std::sort(caribou_profiles.begin(), caribou_profiles.end(), [](std::reference_wrapper<const std::string> a, std::reference_wrapper<const std::string> b) {
             return a.get() < b.get();
             });
         std::sort(other_profiles.begin(), other_profiles.end(), [](const std::pair<std::wstring, std::reference_wrapper<const std::string>>& a, const std::pair<std::wstring, std::reference_wrapper<const std::string>>& b) {
@@ -1404,7 +1404,7 @@ void PageMaterials::sort_list_data(StringList* list, bool add_All_item, bool mat
         list->append(_L("(All)"), &EMPTY);
     if (materials->technology == T_FFF && add_TEMPLATES_item)
         list->append(_L("(Templates)"), &TEMPLATES);
-    for (const auto& item : prusa_profiles)
+    for (const auto& item : caribou_profiles)
         list->append(item, &const_cast<std::string&>(item.get()));
     for (const auto& item : other_profiles)
         list->append(item.second, &const_cast<std::string&>(item.second.get()));
@@ -1414,32 +1414,32 @@ void PageMaterials::sort_list_data(StringList* list, bool add_All_item, bool mat
 void PageMaterials::sort_list_data(PresetList* list, const std::vector<ProfilePrintData>& data)
 {
     // sort data
-    // then prusa profiles
+    // then caribou profiles
     // then the rest
     // in alphabetical order
-    std::vector<ProfilePrintData> prusa_profiles;
+    std::vector<ProfilePrintData> caribou_profiles;
     std::vector<std::pair<std::wstring, ProfilePrintData>> other_profiles; // first is lower case id for sorting
     for (const auto& item : data) {
         const std::string& name = item.name;
-        if (name.find("Prusa") != std::string::npos)
-            prusa_profiles.emplace_back(item);
+        if (name.find("Caribou") != std::string::npos)
+            caribou_profiles.emplace_back(item);
         else
             other_profiles.emplace_back(boost::algorithm::to_lower_copy(boost::nowide::widen(name)), item);
     }
-    std::sort(prusa_profiles.begin(), prusa_profiles.end(), [](ProfilePrintData a, ProfilePrintData b) {
+    std::sort(caribou_profiles.begin(), caribou_profiles.end(), [](ProfilePrintData a, ProfilePrintData b) {
         return a.name.get() < b.name.get();
         });
     std::sort(other_profiles.begin(), other_profiles.end(), [](const std::pair<std::wstring, ProfilePrintData>& a, const std::pair<std::wstring, ProfilePrintData>& b) {
         return a.first < b.first;
         });
     list->Clear();
-    for (size_t i = 0; i < prusa_profiles.size(); ++i) {
-        list->append(std::string(prusa_profiles[i].name) + (prusa_profiles[i].omnipresent || template_shown ? "" : " *"), &const_cast<std::string&>(prusa_profiles[i].name.get()));
-        list->Check(i, prusa_profiles[i].checked);
+    for (size_t i = 0; i < caribou_profiles.size(); ++i) {
+        list->append(std::string(caribou_profiles[i].name) + (caribou_profiles[i].omnipresent || template_shown ? "" : " *"), &const_cast<std::string&>(caribou_profiles[i].name.get()));
+        list->Check(i, caribou_profiles[i].checked);
     }
     for (size_t i = 0; i < other_profiles.size(); ++i) {
         list->append(std::string(other_profiles[i].second.name) + (other_profiles[i].second.omnipresent || template_shown ? "" : " *"), &const_cast<std::string&>(other_profiles[i].second.name.get()));
-        list->Check(i + prusa_profiles.size(), other_profiles[i].second.checked);
+        list->Check(i + caribou_profiles.size(), other_profiles[i].second.checked);
     }
 }
 
@@ -1675,7 +1675,7 @@ PageDownloader::PageDownloader(ConfigWizard* parent)
 
         const wxString link = format_wxstr("<a href = \"%1%\">%1%</a>", "printables.com");
 
-        // TRN ConfigWizard : Downloader : %1% = "printables.com", %2% = "PrusaSlicer"
+        // TRN ConfigWizard : Downloader : %1% = "printables.com", %2% = "CaribouSlicer"
         const wxString main_text = format_wxstr(_L("If enabled, you will be able to open models from the %1% "
                                                    "online database with a single click (using a %2% logo button)."
         ), link, SLIC3R_APP_NAME);
@@ -1734,7 +1734,7 @@ bool DownloaderUtils::Worker::perform_register(const std::string& path)
     BOOST_LOG_TRIVIAL(info) << "Downloader registration: Directory for downloads: " << chosen_dest.string();
     wxGetApp().app_config->set("url_downloader_dest", chosen_dest.string());
 #ifdef _WIN32
-    // Registry key creation for "prusaslicer://" URL
+    // Registry key creation for "caribouslicer://" URL
 
     boost::filesystem::path binary_path(boost::filesystem::canonical(boost::dll::program_location()));
     // the path to binary needs to be correctly saved in string with respect to localized characters
@@ -1746,8 +1746,8 @@ bool DownloaderUtils::Worker::perform_register(const std::string& path)
     //std::string key_string = "\"" + binary_string + "\" \"%1\"";
     std::string key_string = "\"" + binary_string + "\" \"--single-instance\" \"%1\"";
 
-    wxRegKey key_first(wxRegKey::HKCU, "Software\\Classes\\prusaslicer");
-    wxRegKey key_full(wxRegKey::HKCU, "Software\\Classes\\prusaslicer\\shell\\open\\command");
+    wxRegKey key_first(wxRegKey::HKCU, "Software\\Classes\\caribouslicer");
+    wxRegKey key_full(wxRegKey::HKCU, "Software\\Classes\\caribouslicer\\shell\\open\\command");
     if (!key_first.Exists()) {
         key_first.Create(false);
     }
@@ -1756,7 +1756,7 @@ bool DownloaderUtils::Worker::perform_register(const std::string& path)
     if (!key_full.Exists()) {
         key_full.Create(false);
     }
-    //key_full = "\"C:\\Program Files\\Prusa3D\\PrusaSlicer\\prusa-slicer-console.exe\" \"%1\"";
+    //key_full = "\"C:\\Program Files\\Prusa3D\\PrusaSlicer\\caribou-slicer-console.exe\" \"%1\"";
     key_full = key_string;
 #elif __APPLE__
     // Apple registers for custom url in info.plist thus it has to be already registered since build.
@@ -1772,7 +1772,7 @@ void DownloaderUtils::Worker::deregister()
 {
 #ifdef _WIN32
     std::string key_string = "";
-    wxRegKey key_full(wxRegKey::HKCU, "Software\\Classes\\prusaslicer\\shell\\open\\command");
+    wxRegKey key_full(wxRegKey::HKCU, "Software\\Classes\\caribouslicer\\shell\\open\\command");
     if (!key_full.Exists()) {
         return;
     }
@@ -1831,9 +1831,9 @@ PageReloadFromDisk::PageReloadFromDisk(ConfigWizard* parent)
 PageFilesAssociation::PageFilesAssociation(ConfigWizard* parent)
     : ConfigWizardPage(parent, _L("Files association"), _L("Files association"))
 {
-    cb_3mf = new wxCheckBox(this, wxID_ANY, _L("Associate .3mf files to PrusaSlicer"));
-    cb_stl = new wxCheckBox(this, wxID_ANY, _L("Associate .stl files to PrusaSlicer"));
-//    cb_gcode = new wxCheckBox(this, wxID_ANY, _L("Associate .gcode files to PrusaSlicer G-code Viewer"));
+    cb_3mf = new wxCheckBox(this, wxID_ANY, _L("Associate .3mf files to CaribouSlicer"));
+    cb_stl = new wxCheckBox(this, wxID_ANY, _L("Associate .stl files to CaribouSlicer"));
+//    cb_gcode = new wxCheckBox(this, wxID_ANY, _L("Associate .gcode files to Caribou G-code Viewer"));
 
     append(cb_3mf);
     append(cb_stl);
@@ -1844,7 +1844,7 @@ PageFilesAssociation::PageFilesAssociation(ConfigWizard* parent)
 PageMode::PageMode(ConfigWizard *parent)
     : ConfigWizardPage(parent, _L("View mode"), _L("View mode"))
 {
-    append_text(_L("PrusaSlicer's user interfaces comes in three variants:\nSimple, Advanced, and Expert.\n"
+    append_text(_L("CaribouSlicer's user interfaces comes in three variants:\nSimple, Advanced, and Expert.\n"
         "The Simple mode shows only the most frequently used settings relevant for regular 3D printing. "
         "The other two offer progressively more sophisticated fine-tuning, "
         "they are suitable for advanced and expert users, respectively."));
@@ -2286,7 +2286,7 @@ void PageTemperatures::apply_custom_config(DynamicPrintConfig &config)
 
 ConfigWizardIndex::ConfigWizardIndex(wxWindow *parent)
     : wxPanel(parent)
-    , bg(ScalableBitmap(parent, "PrusaSlicer_192px_transparent.png", 192))
+    , bg(ScalableBitmap(parent, "CaribouSlicer_192px_transparent.png", 192))
     , bullet_black(ScalableBitmap(parent, "bullet_black.png"))
     , bullet_blue(ScalableBitmap(parent, "bullet_blue.png"))
     , bullet_white(ScalableBitmap(parent, "bullet_white.png"))
@@ -2717,7 +2717,7 @@ void ConfigWizard::priv::load_vendors()
 
                 const auto &model = needle->second.first;
                 const auto &variant = needle->second.second;
-                appconfig_new.set_variant("PrusaResearch", model, variant, true);
+                appconfig_new.set_variant("Caribou", model, variant, true);
             }
     }
 
@@ -3362,11 +3362,11 @@ bool ConfigWizard::priv::apply_config(AppConfig *app_config, PresetBundle *prese
         }
         return ptAny;
     };
-    // Prusa printers are considered first, then 3rd party.
-    if (preferred_pt = get_preferred_printer_technology("PrusaResearch", bundles.prusa_bundle());
+    // Caribou printers are considered first, then 3rd party.
+    if (preferred_pt = get_preferred_printer_technology("Caribou", bundles.caribou_bundle());
         preferred_pt == ptAny || (preferred_pt == ptSLA && suppress_sla_printer)) {
         for (const auto& bundle : bundles) {
-            if (bundle.second.is_prusa_bundle) { continue; }
+            if (bundle.second.is_caribou_bundle) { continue; }
             if (PrinterTechnology pt = get_preferred_printer_technology(bundle.first, bundle.second); pt == ptAny)
                 continue;
             else if (preferred_pt == ptAny)
@@ -3391,8 +3391,8 @@ bool ConfigWizard::priv::apply_config(AppConfig *app_config, PresetBundle *prese
     for (const auto &pair : bundles) {
         if (pair.second.location == BundleLocation::IN_VENDOR) { continue; }
 
-        if (pair.second.is_prusa_bundle) {
-            // Always install Prusa bundle, because it has a lot of filaments/materials
+        if (pair.second.is_caribou_bundle) {
+            // Always install Caribou bundle, because it has a lot of filaments/materials
             // likely to be referenced by other profiles.
             install_bundles.emplace_back(pair.first);
             continue;
@@ -3504,11 +3504,11 @@ bool ConfigWizard::priv::apply_config(AppConfig *app_config, PresetBundle *prese
             variant.clear();
         return std::string();
     };
-    // Prusa printers are considered first, then 3rd party.
-    if (preferred_model = get_preferred_printer_model("PrusaResearch", bundles.prusa_bundle(), preferred_variant);
+    // Caribou printers are considered first, then 3rd party.
+    if (preferred_model = get_preferred_printer_model("Caribou", bundles.caribou_bundle(), preferred_variant);
         preferred_model.empty()) {
         for (const auto& bundle : bundles) {
-            if (bundle.second.is_prusa_bundle) { continue; }
+            if (bundle.second.is_caribou_bundle) { continue; }
             if (preferred_model = get_preferred_printer_model(bundle.first, bundle.second, preferred_variant);
                 !preferred_model.empty())
                     break;
@@ -4141,8 +4141,8 @@ const wxString& ConfigWizard::name(const bool from_menu/* = false*/)
     static const wxString config_wizard_name =  L("Configuration Assistant");
     static const wxString config_wizard_name_menu = L("Configuration &Assistant");
 #else
-    static const wxString config_wizard_name = L("Configuration Wizard");
-    static const wxString config_wizard_name_menu = L("Configuration &Wizard");
+    static const wxString config_wizard_name = L("Configuration Assistent");
+    static const wxString config_wizard_name_menu = L("Configuration &Assistent");
 #endif
     return from_menu ? config_wizard_name_menu : config_wizard_name;
 }

@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=Prusa GCode viewer
-Exec=prusa-slicer --gcodeviewer %F
-Icon=PrusaSlicer-gcodeviewer
+Name=Caribou GCode viewer
+Exec=CaribouSlicer --gcodeviewer %F
+Icon=CaribouGcodeviewer
 Terminal=false
 Type=Application
 MimeType=text/x.gcode;

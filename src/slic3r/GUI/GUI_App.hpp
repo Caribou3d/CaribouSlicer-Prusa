@@ -276,10 +276,20 @@ public:
     void            recreate_GUI(const wxString& message);
     void            system_info();
     void            keyboard_shortcuts();
+    void            flow_ratio_dialog();
+    void            flow_walls_dialog();
+    void            calibration_first_layer_dialog();
+    void            calibration_first_layer_patch_dialog();
+    void            calibration_retraction_dialog();
+    void            filament_temperature_dialog();
+    void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
+//    void            html_dialog();
     void            load_project(wxWindow *parent, wxString& input_file) const;
     void            import_model(wxWindow *parent, wxArrayString& input_files) const;
     void            import_zip(wxWindow* parent, wxString& input_file) const;
     void            load_gcode(wxWindow* parent, wxString& input_file) const;
+
+    void            calibration_cube_dialog();
 
     static bool     catch_error(std::function<void()> cb, const std::string& err);
 

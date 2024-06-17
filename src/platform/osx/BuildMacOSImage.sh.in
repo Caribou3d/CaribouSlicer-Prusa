@@ -9,13 +9,13 @@
 # Change log:
 #
 # 20 Nov 2023, wschadow, branding and minor changes
-# 01 Jan 2024, wschadow, debranding for the Prusa version, added build options
+# 24 Mar 2024, wschadow, updated calling options
 #
 
 export ROOT=`pwd`
 export NCORES=`sysctl -n hw.ncpu`
 
-while getopts ":iha" opt; do
+while getopts ":iah" opt; do
   case ${opt} in
     i )
         export BUILD_IMAGE="1"
@@ -23,9 +23,9 @@ while getopts ":iha" opt; do
     a )
         export BUILD_APP="1"
         ;;
-    h ) echo "Usage: ./BuildMacOSImage.sh [-i][-a][-h]"
-        echo "   -i: generate DMG image (optional)"
-    	echo "   -a: generate App (optional)"
+    h ) echo "Usage: ./BuildLinuxImage.sh [-i][-a][-h]"
+        echo "   -i: generate Appimage (optional)"
+	    echo "   -a: generate tgz (optional)"
         echo "   -h: help"
         exit 0
         ;;
@@ -34,17 +34,18 @@ done
 
 if [[ -n "$BUILD_APP" ]]
 then
-    echo -e "\n[8/9] Generating macOS app ..."
 
+    echo -e "\n[8/9] Generating macOS app ..."
+    {
     # update Info.plist
-    pushd src > /dev/null
+        pushd src
     sed "s/+UNKNOWN/_$(date '+%F')/" Info.plist >Info.date.plist
-    popd > /dev/null
+        popd
 
     # create directory and copy into it
     if [ -d "pack" ]
     then
-        rm -rf pack
+            rm -rf pack/*
     fi
     mkdir pack
     mkdir pack/@SLIC3R_APP_KEY@
@@ -64,20 +65,25 @@ then
     find pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/Resources/localization -name "*.po" -type f -delete
 
     # copy bin and do not let it lower case
-    cp -f src/@SLIC3R_APP_NAME@ pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/@SLIC3R_APP_KEY@
+        cp -f src/@SLIC3R_APP_CMD@ pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/@SLIC3R_APP_KEY@
     chmod u+x pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/@SLIC3R_APP_KEY@
-    tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-macOS.tgz pack/@SLIC3R_APP_KEY@ &>/dev/null
+        cp /usr/local/opt/zstd/lib/libzstd.1.dylib pack/@SLIC3R_APP_KEY@/@SLIC3R_APP_KEY@.app/Contents/MacOS/libzstd.1.dylib
+        tar -czvf @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-macOS.tgz pack/@SLIC3R_APP_KEY@
 
+    } &> $ROOT/Build.log # Capture all command output
     echo -e "\n... done\n"
 fi   
 
 if [[ -n "$BUILD_IMAGE" ]]
 then
-    echo -e "\n[9/9] Creating DMG Image for distribution ...\n"
-
+    echo -e "[9/9] Creating DMG Image for distribution..."
+    {
     # create dmg
     hdiutil create -ov -fs HFS+ -volname "@SLIC3R_APP_KEY@" -srcfolder "pack/@SLIC3R_APP_KEY@" temp.dmg
-    hdiutil convert temp.dmg -format UDZO -o @SLIC3R_APP_KEY@-@SLIC3R_VERSION@.dmg
+        hdiutil convert temp.dmg -format UDZO -o @SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-macOS.dmg
     rm -f temp.dmg
+
+        popd
+    } &> $ROOT/Build.log # Capture all command output
     echo -e "\n... done\n"
 fi

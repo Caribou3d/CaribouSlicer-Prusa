@@ -1,6 +1,6 @@
 get_filename_component(_TEST_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
 
-add_executable(${_TEST_NAME}_tests 
+add_executable(${_TEST_NAME}_tests
 	${_TEST_NAME}_tests.cpp
     test_line.cpp
     test_point.cpp
@@ -51,12 +51,12 @@ add_executable(${_TEST_NAME}_tests
 if (TARGET OpenVDB::openvdb)
     target_sources(${_TEST_NAME}_tests PRIVATE test_hollowing.cpp)
 endif()
-    
+
 target_link_libraries(${_TEST_NAME}_tests test_common libslic3r)
 set_property(TARGET ${_TEST_NAME}_tests PROPERTY FOLDER "tests")
 
 if (WIN32)
-    prusaslicer_copy_dlls(${_TEST_NAME}_tests)
+    caribouslicer_copy_dlls(${_TEST_NAME}_tests)
 endif()
 
 # catch_discover_tests(${_TEST_NAME}_tests TEST_PREFIX "${_TEST_NAME}: ")

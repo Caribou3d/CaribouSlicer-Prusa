@@ -5,9 +5,9 @@
 <g id="eye_x5F_close">
 	<path fill="none" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 		M2,8c0,0,2,4,6,4s6-4,6-4s-2-4-6-4S2,8,2,8z"/>
-	
+
 		<circle fill="none" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="8" cy="8" r="1"/>
-	
-		<line fill="none" stroke="#ED6B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="2" y1="14" x2="14" y2="2"/>
+
+		<line fill="none" stroke="#107C18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="2" y1="14" x2="14" y2="2"/>
 </g>
 </svg>

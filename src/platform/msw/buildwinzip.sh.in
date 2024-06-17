@@ -1,0 +1,28 @@
+#!/bin/bash
+
+cd release
+
+DESTDIR="@SLIC3R_APP_KEY@-@SLIC3R_VERSION@-@SLIC3R_BUILD_NR@-win64"
+
+echo
+echo "Destination: $DESTDIR"
+rm -fr $DESTDIR
+mkdir $DESTDIR
+
+echo
+echo 'copying files ....'
+echo
+cp -f CaribouSlicer.dll $DESTDIR
+cp -f OCCTWrapper.dll $DESTDIR
+cp -f caribou-gcodeviewer.exe $DESTDIR
+cp -f caribou-slicer-console.exe $DESTDIR
+cp -f caribou-slicer.exe $DESTDIR
+cp -f libgmp-10.dll $DESTDIR
+cp -f libmpfr-4.dll $DESTDIR
+cp -fr resources $DESTDIR/resources
+echo '... done'
+echo
+echo 'creating zip file ....'
+zip a $DESTDIR.zip  $DESTDIR/* | tail -4
+echo
+echo '... done'

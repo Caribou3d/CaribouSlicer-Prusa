@@ -5,8 +5,8 @@
 <rect x="1" y="1" fill="#808080" width="1" height="14"/>
 <rect x="1" y="5" fill="#808080" width="14" height="1"/>
 <rect x="1" y="1" fill="#808080" width="14" height="1"/>
-<rect x="3" y="4" fill="#ED6B21" width="4" height="4"/>
-<polygon fill="#ED6B21" points="5,9 4,8 6,8 "/>
+<rect x="3" y="4" fill="#107C18" width="4" height="4"/>
+<polygon fill="#107C18" points="5,9 4,8 6,8 "/>
 <circle fill="#FB4040" cx="12" cy="12" r="4"/>
 <g>
 	<path fill="#808080" d="M15,7.4V1h-1v5.9C14.4,7,14.7,7.2,15,7.4z"/>
