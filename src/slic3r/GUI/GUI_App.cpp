@@ -2079,37 +2079,37 @@ void GUI_App::keyboard_shortcuts()
     dlg.ShowModal();
 }
 
-void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialog* new_one)
-{
-    if (have_to_destroy == nullptr) {
-        wxDialog* to_destroy = nullptr;
-        {
-            //hove to ensure that this release is "atomic"
-            std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-            to_destroy = not_modal_dialog;
-            not_modal_dialog = nullptr;
-        }
-        if (to_destroy != nullptr) {
-            to_destroy->Destroy();
-        }
-    } else {
-        //hove to ensure that these two command are "atomic"
-        std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-        if (not_modal_dialog == have_to_destroy) {
-            not_modal_dialog = nullptr;
-        }
-    }
-    if (new_one != nullptr) {
-        {
-            //hove to ensure that these command are "atomic"
-            std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-            if (not_modal_dialog != nullptr)
-                not_modal_dialog->Destroy();
-            not_modal_dialog = new_one;
-        }
-        new_one->Show();
-    }
-}
+// void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialog* new_one)
+// {
+//     if (have_to_destroy == nullptr) {
+//         wxDialog* to_destroy = nullptr;
+//         {
+//             //hove to ensure that this release is "atomic"
+//             std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
+//             to_destroy = not_modal_dialog;
+//             not_modal_dialog = nullptr;
+//         }
+//         if (to_destroy != nullptr) {
+//             to_destroy->Destroy();
+//         }
+//     } else {
+//         //hove to ensure that these two command are "atomic"
+//         std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
+//         if (not_modal_dialog == have_to_destroy) {
+//             not_modal_dialog = nullptr;
+//         }
+//     }
+//     if (new_one != nullptr) {
+//         {
+//             //hove to ensure that these command are "atomic"
+//             std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
+//             if (not_modal_dialog != nullptr)
+//                 not_modal_dialog->Destroy();
+//             not_modal_dialog = new_one;
+//         }
+//         new_one->Show();
+//     }
+// }
 
 //void GUI_App::html_dialog()
 //{
