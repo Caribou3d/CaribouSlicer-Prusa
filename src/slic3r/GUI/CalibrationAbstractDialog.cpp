@@ -84,7 +84,7 @@ void CalibrationAbstractDialog::create(boost::filesystem::path html_path, std::s
     create_buttons(buttons);
 
     wxButton* close = new wxButton(this, wxID_CLOSE, _L("Close"));
-    close->Bind(wxEVT_BUTTON, &CalibrationAbstractDialog::close_me, this);
+    //close->Bind(wxEVT_BUTTON, &CalibrationAbstractDialog::close_me, this);
     buttons->AddButton(close);
     close->SetDefault();
     close->SetFocus();
@@ -96,10 +96,10 @@ void CalibrationAbstractDialog::create(boost::filesystem::path html_path, std::s
     this->SetSize(dialog_size.x, dialog_size.y);
 }
 
-void CalibrationAbstractDialog::close_me(wxCommandEvent& event_args) {
-    this->gui_app->change_calibration_dialog(this, nullptr);
-    this->Destroy();
-}
+// void CalibrationAbstractDialog::close_me(wxCommandEvent& event_args) {
+//     this->gui_app->change_calibration_dialog(this, nullptr);
+//     this->Destroy();
+// }
 
 ModelObject* CalibrationAbstractDialog::add_part(ModelObject* model_object, std::string input_file, Vec3d move, Vec3d scale) {
     Model model;
@@ -186,4 +186,3 @@ wxPanel* CalibrationAbstractDialog::create_header(wxWindow* parent, const wxFont
 
 } // namespace GUI
 } // namespace Slic3r
-

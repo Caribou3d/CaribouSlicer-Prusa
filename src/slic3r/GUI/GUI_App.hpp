@@ -177,7 +177,7 @@ private:
     std::unique_ptr<AppUpdater>                     m_app_updater;
     std::unique_ptr<wxSingleInstanceChecker>        m_single_instance_checker;
     std::unique_ptr<Downloader>                     m_downloader;
-    
+
     std::string m_instance_hash_string;
 	size_t m_instance_hash_int;
 
@@ -282,7 +282,7 @@ public:
     void            calibration_first_layer_patch_dialog();
     void            calibration_retraction_dialog();
     void            filament_temperature_dialog();
-    void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
+//    void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
 //    void            html_dialog();
     void            load_project(wxWindow *parent, wxString& input_file) const;
     void            import_model(wxWindow *parent, wxArrayString& input_files) const;
@@ -412,7 +412,7 @@ public:
 
     void            open_wifi_config_dialog(bool forced, const wxString& drive_path = {});
     bool            get_wifi_config_dialog_shown() const { return m_wifi_config_dialog_shown; }
-    
+
     void            request_login(bool show_user_info = false) {}
     bool            check_login() { return false; }
     void            get_login_info() {}
@@ -450,7 +450,7 @@ private:
     bool            select_language();
 
     bool            config_wizard_startup();
-    // Returns true if the configuration is fine. 
+    // Returns true if the configuration is fine.
     // Returns true if the configuration is not compatible and the user decided to rather close the slicer instead of reconfiguring.
 	bool            check_updates(const bool invoked_automatically);
     void            on_version_read(wxCommandEvent& evt);

@@ -2118,35 +2118,35 @@ void GUI_App::keyboard_shortcuts()
 
 
 
-void GUI_App::flow_walls_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationWallsDialog(this, mainframe));
-}
-void GUI_App::flow_ratio_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
-}
-void GUI_App::calibration_retraction_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
-}
-void GUI_App::calibration_first_layer_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationFirstLayerDialog(this, mainframe));
-}
-void GUI_App::calibration_first_layer_patch_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationFirstLayerPatchDialog(this, mainframe));
-}
-void GUI_App::filament_temperature_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationTempDialog(this, mainframe));
-}
-
-void GUI_App::calibration_cube_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationCubeDialog(this, mainframe));
-}
+// void GUI_App::flow_walls_dialog()
+// {//
+//    change_calibration_dialog(nullptr, new CalibrationWallsDialog(this, mainframe));
+// }
+// void GUI_App::flow_ratio_dialog()
+// {//
+//    change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
+// }
+// void GUI_App::calibration_retraction_dialog()
+// {//
+//   change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
+// }
+// void GUI_App::calibration_first_layer_dialog()
+// {//
+    //change_calibration_dialog(nullptr, new CalibrationFirstLayerDialog(this, mainframe));
+// }
+// void GUI_App::calibration_first_layer_patch_dialog()
+// {//
+//    change_calibration_dialog(nullptr, new CalibrationFirstLayerPatchDialog(this, mainframe));
+// }
+// void GUI_App::filament_temperature_dialog()
+// {//
+//    change_calibration_dialog(nullptr, new CalibrationTempDialog(this, mainframe));
+// }
+//
+// void GUI_App::calibration_cube_dialog()
+// {
+//     change_calibration_dialog(nullptr, new CalibrationCubeDialog(this, mainframe));
+// }
 
 // static method accepting a wxWindow object as first parameter
 bool GUI_App::catch_error(std::function<void()> cb,
