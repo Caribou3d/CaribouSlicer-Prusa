@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script can download and compile dependencies, compile CaribouSlicer
+# This script can download and compile dependencies, compile PrusaSlicer
 # and optional build a .tgz and an appimage.
 #
 # Original script from SuperSclier by supermerill https://github.com/supermerill/SuperSlicer
@@ -63,7 +63,7 @@ then
 fi
 
 unset name
-while getopts ":hugbdrsltiw" opt; do
+while getopts ":hugbdrstiw" opt; do
   case ${opt} in
     u )
         UPDATE_LIB="1"
@@ -75,10 +75,7 @@ while getopts ":hugbdrsltiw" opt; do
         BUILD_DEPS="1"
         ;;
     s )
-        BUILD_CARIBOUSLICER="1"
-        ;;
-    l )
-        UPDATE_POTFILE="1"
+        BUILD_PRUSASLICER="1"
         ;;
     t )
         BUILD_TESTS="1"
@@ -95,16 +92,15 @@ while getopts ":hugbdrsltiw" opt; do
     w )
 	BUILD_WIPE="1"
 	;;
-    h ) echo "Usage: ./BuildLinux.sh [-h][-u][-w][-g][-b][-r][-d][-s][-l][-t][-i]"
+    h ) echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-t][-i]"
         echo "   -h: this message"
+	    echo "   -w: wipe build directories before building"
         echo "   -u: only update dependency packets (optional and need sudo)"
-        echo "   -w: wipe build directories before building"
         echo "   -g: force gtk2 build"
         echo "   -b: build in debug mode"
-        echo "   -r: clean dependencies"        
         echo "   -d: build deps"
-        echo "   -s: build CaribouSlicer"
-        echo "   -l: update language .pot file"
+        echo "   -r: clean dependencies"
+        echo "   -s: build PrusaSlicer"
         echo "   -t: build tests (in combination with -s)"
         echo "   -i: Generate appimage (optional)"
         echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
@@ -116,16 +112,15 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-u][-w][-g][-b][-r][-d][-s][-l][-t][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-u][-g][-b][-d][-r][-s][-t][-i]"
     echo "   -h: this message"
-    echo "   -u: only update dependency packets (optional and need sudo)"    
     echo "   -w: wipe build directories before building"
+    echo "   -u: only update dependency packets (optional and need sudo)"
     echo "   -g: force gtk2 build"
     echo "   -b: build in debug mode"
-    echo "   -r: clean dependencies"    
     echo "   -d: build deps"
-    echo "   -s: build CaribouSlicer"
-    echo "   -l: update language .pot file"
+    echo "   -r: clean dependencies"
+    echo "   -s: build PrusaSlicer"
     echo "   -t: build tests (in combination with -s)"
     echo "   -i: generate appimage (optional)"
     echo -e "\n   For a first use, you want to 'sudo ./BuildLinux.sh -u'"
@@ -153,11 +148,11 @@ then
     apt update
     if [[ -z "$FOUND_GTK3" ]]
     then
-        echo -e "\nInstalling: libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4\n"
-        apt install libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4
+        echo -e "\nInstalling: libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git\n"
+        apt install libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git
     else
-        echo -e "\nFind libgtk-3, installing: libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4\n"
-        apt install libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git m4
+        echo -e "\nFind libgtk-3, installing: libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git\n"
+        apt install libgtk-3-dev libglew-dev libudev-dev libdbus-1-dev cmake git
     fi
 
     # for ubuntu 22.04:
@@ -251,9 +246,9 @@ then
     echo -e " ... done\n"
 fi
 
-if [[ -n "$BUILD_CARIBOUSLICER" ]]
+if [[ -n "$BUILD_PRUSASLICER" ]]
 then
-    echo -e "[5/9] Configuring CaribouSlicer ...\n"
+    echo -e "[5/9] Configuring PrusaSlicer ...\n"
     if [[ -n $BUILD_WIPE ]]
     then
        echo -e "\n wiping build directory ...\n"
@@ -287,17 +282,15 @@ then
     pushd build > /dev/null
     cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo " ... done"
-    # make CaribouSlicer
-    echo -e "\n[6/9] Building CaribouSlicer ...\n"
+    # make PrusaSlicer
+    echo -e "\n[6/9] Building PrusaSlicer ...\n"
     make -j$NCORES
+    # make OCCTWrapper.so
+    make OCCTWrapper
     echo -e "\n ... done"
-
+    
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
-    if [[ -n "$UPDATE_POTFILE" ]]
-    then
-        make gettext_make_pot
-    fi
     make gettext_po_to_mo
 
     popd  > /dev/null

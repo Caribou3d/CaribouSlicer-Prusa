@@ -19,5 +19,9 @@ deps/build*
 deps/build-linux/*
 **/.DS_Store
 **/.idea/
+<<<<<<< HEAD
+deps/build
+=======
 .pkg_cache
 CMakeUserPresets.json
+>>>>>>> version_2.7.2

@@ -127,7 +127,7 @@ class MainFrame : public DPIFrame
     bool can_delete_all() const;
     bool can_reslice() const;
 
-    // MenuBar items changeable in respect to printer technology
+    // MenuBar items changeable in respect to printer technology 
     enum MenuItems
     {                   //   FFF                  SLA
         miExport = 0,   // Export G-code        Export
@@ -137,9 +137,8 @@ class MainFrame : public DPIFrame
         miLogin,
     };
 
-    // vector of a MenuBar items changeable in respect to printer technology
+    // vector of a MenuBar items changeable in respect to printer technology 
     std::vector<wxMenuItem*> m_changeable_menu_items;
-    wxMenu* m_calibration_menu = nullptr;
 
     wxFileHistory m_recent_projects;
 
@@ -150,7 +149,7 @@ class MainFrame : public DPIFrame
         Dlg,
         GCodeViewer
     };
-
+    
     ESettingsLayout m_layout{ ESettingsLayout::Unknown };
 
 protected:

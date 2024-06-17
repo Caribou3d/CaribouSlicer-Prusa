@@ -59,7 +59,7 @@ public:
     void    toggle_field(const std::string& field_key, const bool toggle, int opt_index = -1);
 
     // FFF print
-    void    update_print_fff_config(DynamicPrintConfig* config, const bool is_global_config = false, const std::string &opt_key = "", const boost::any &value = "");
+    void    update_print_fff_config(DynamicPrintConfig* config, const bool is_global_config = false);
     void    toggle_print_fff_options(DynamicPrintConfig* config);
 
     // SLA print

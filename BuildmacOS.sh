@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script can download and compile dependencies, compile CaribouSlicer
+# This script can download and compile dependencies, compile PrusaSlicer
 # and optional build a .tgz and an appimage.
 #
 # Original script from SuperSclier by supermerill https://github.com/supermerill/SuperSlicer
@@ -64,7 +64,7 @@ fi
 
 BUILD_ARCH=$(uname -m)
 
-while getopts ":idaxbhcsltwr" opt; do
+while getopts ":idaxbhcstwr" opt; do
   case ${opt} in
     i )
         BUILD_IMAGE="1"
@@ -84,10 +84,7 @@ while getopts ":idaxbhcsltwr" opt; do
         BUILD_DEBUG="1"
         ;;
     s )
-        BUILD_CARIBOUSLICER="1"
-        ;;
-   l )
-        UPDATE_POTFILE="1"
+        BUILD_PRUSASLICER="1"
         ;;
     c)
         BUILD_XCODE="1"
@@ -98,16 +95,16 @@ while getopts ":idaxbhcsltwr" opt; do
     r )
 	    BUILD_CLEANDEPEND="1"
 	;;
-    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-a][-r][-x][-b][-c][-d][-s][-l][-t][-i]"
+    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
         echo "   -h: this message"
 	    echo "   -w: wipe build directories bfore building"
+        echo "   -d: build dependencies"
         echo "   -a: build for arm64 (Apple Silicon)"
         echo "   -r: clean dependencies"
         echo "   -x: build for x86_64 (Intel)"
         echo "   -b: build with debug symbols"
         echo "   -c: build for XCode"
-        echo "   -d: build dependencies"
-        echo "   -s: build CaribouSlicer"
+        echo "   -s: build PrusaSlicer"
         echo "   -t: build tests (in combination with -s)"
         echo "   -i: generate DMG image (optional)\n"
         exit 0
@@ -117,16 +114,16 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-a][-r][-x][-b][-c][-d][-s][-l][-t][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
     echo "   -h: this message"
 	echo "   -w: wipe build directories bfore building"
+    echo "   -d: build dependencies"
     echo "   -a: Build for arm64 (Apple Silicon)"
     echo "   -r: clean dependencies"
     echo "   -x: build for x86_64 (Intel)"
     echo "   -b: build with debug symbols"
     echo "   -c: build for XCode"
-    echo "   -d: build dependencies"
-    echo "   -s: build CaribouSlicer"
+    echo "   -s: build PrusaSlicer"
     echo "   -t: build tests (in combination with -s)"
     echo -e "   -i: Generate DMG image (optional)\n"
     exit 0
@@ -134,6 +131,7 @@ fi
 
 export $BUILD_ARCH
 export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix zstd)/lib/
+
 
 if [[ -n "$BUILD_DEPS" ]]
 then
@@ -160,7 +158,7 @@ then
     fi
     # cmake deps
     echo "Cmake command: cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET=\"10.15\" ${BUILD_ARCH} "
-    pushd deps/build > /dev/null
+    pushd deps/build
     cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET="10.15" $BUILD_ARGS
 
     echo -e "\n ... done\n"
@@ -193,9 +191,9 @@ then
     echo -e "\n ... done\n"
 fi
 
-if [[ -n "$BUILD_CARIBOUSLICER" ]]
+if [[ -n "$BUILD_PRUSASLICER" ]]
 then
-    echo -e "[5/9] Configuring CaribouSlicer ...\n"
+    echo -e "[5/9] Configuring PrusaSlicer ...\n"
 
     if [[ -n $BUILD_WIPE ]]
     then
@@ -232,24 +230,21 @@ then
     fi
 
     # cmake
-    pushd build > /dev/null
+    pushd build 
     cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.15" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
+    echo "Cmake command: cmake .. -DCMAKE_PREFIX_PATH=\"$PWD/../deps/build/destdir/usr/local\" -DCMAKE_OSX_DEPLOYMENT_TARGET=\"10.15\" -DSLIC3R_STATIC=1 ${BUILD_ARCH} "
     echo -e "\n ... done"
 
     # make Slic3r
     if [[ -z "$BUILD_XCODE" ]]
     then
-        echo -e "\n[6/9] Building CaribouSlicer ...\n"
+        echo -e "\n[6/9] Building PrusaSlicer ...\n"
         make -j1
         echo -e "\n ... done"
     fi
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
-    if [[ -n "$UPDATE_POTFILE" ]]
-    then
-        make gettext_make_pot
-    fi
     make gettext_po_to_mo
 
     popd  > /dev/null
@@ -268,6 +263,6 @@ then
     # Give proper permissions to script
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -i
+    $ROOT/build/src/BuildMacOSImage.sh -i 
     popd  > /dev/null
 fi

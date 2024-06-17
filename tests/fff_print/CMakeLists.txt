@@ -43,7 +43,7 @@ set_property(TARGET ${_TEST_NAME}_tests PROPERTY FOLDER "tests")
 target_compile_definitions(${_TEST_NAME}_tests PUBLIC CATCH_CONFIG_ENABLE_BENCHMARKING)
 
 if (WIN32)
-    caribouslicer_copy_dlls(${_TEST_NAME}_tests)
+    prusaslicer_copy_dlls(${_TEST_NAME}_tests)
 endif()
 
 # catch_discover_tests(${_TEST_NAME}_tests TEST_PREFIX "${_TEST_NAME}: ")

@@ -1,17 +1,19 @@
 
-# Building CaribouSlicer on UNIX/Linux
+# Building PrusaSlicer on UNIX/Linux
 
-Please understand that CaribouSlicer team cannot support compilation on all possible Linux distros. Namely, we cannot help troubleshoot OpenGL driver issues or dependency issues if compiled against distro provided libraries. **We can only support CaribouSlicer statically linked against the dependencies compiled with the `deps` scripts**, the same way we compile CaribouSlicer for our [binary builds](https://github.com/caribou3d/CaribouSlicer-Prusa/releases).
+Please understand that PrusaSlicer team cannot support compilation on all possible Linux distros. Namely, we cannot help troubleshoot OpenGL driver issues or dependency issues if compiled against distro provided libraries. **We can only support PrusaSlicer statically linked against the dependencies compiled with the `deps` scripts**, the same way we compile PrusaSlicer for our [binary builds](https://github.com/prusa3d/PrusaSlicer/releases).
 
 If you have some reason to link dynamically to your system libraries, you are free to do so, but we can not and will not troubleshoot any issues you possibly run into.
 
+Instead of compiling PrusaSlicer from source code, one may also consider to install PrusaSlicer [pre-compiled by contributors](https://github.com/prusa3d/PrusaSlicer/wiki/PrusaSlicer-on-Linux---binary-distributions).
+
 ## Step by step guide
 
-This guide describes building CaribouSlicer statically against dependencies pulled by our `deps` script. Running all the listed commands in order should result in successful build.
+This guide describes building PrusaSlicer statically against dependencies pulled by our `deps` script. Running all the listed commands in order should result in successful build.
 
 #### 0. Prerequisities
 
-You need at least 8GB of RAM on your system. Linking on a 4GB RAM system will likely fail, and you may need to limit the number of compiler processes with the '-j xxx' make or ninja parameter, where 'xxx' is the number of compiler processes launched if running on low RAM multi-core system, for example on Raspberry PI.
+You need at least 8GB of RAM on your system. Linking on a 4GB RAM system will likely fail and you may need to limit the number of compiler processes with the '-j xxx' make or ninja parameter, where 'xxx' is the number of compiler processes launched if running on low RAM multi core system, for example on Raspberry PI.
 
 GNU build tools, CMake, git and other libraries have to be installed on the build machine.
 Unless that's already the case, install them as usual from your distribution packages.
@@ -32,10 +34,10 @@ The names of the packages may be different on different distros.
 #### 1. Cloning the repository
 
 
-Cloning the repository is simple thanks to git and Github. Simply `cd` into wherever you want to clone CaribouSlicer code base and run
+Cloning the repository is simple thanks to git and Github. Simply `cd` into wherever you want to clone PrusaSlicer code base and run
 ```
-git clone https://www.github.com/caribou3d/CaribouSlicer
-cd CaribouSlicer
+git clone https://www.github.com/prusa3d/PrusaSlicer
+cd PrusaSlicer
 ```
 This will download the source code into a new directory and `cd` into it. You can now optionally select a tag/branch/commit to build using `git checkout`. Otherwise, `master` branch will be built.
 The path to the build directory must not contain spaces - this scenario is not supported by the build scripts.
@@ -43,7 +45,7 @@ The path to the build directory must not contain spaces - this scenario is not s
 
 #### 2. Building dependencies
 
-CaribouSlicer uses CMake and the build is quite simple, the only tricky part is resolution of dependencies. The supported and recommended way is to build the dependencies first and link to them statically. CaribouSlicer source base contains a CMake script that automatically downloads and builds the required dependencies. All that is needed is to run the following (from the top of the cloned repository):
+PrusaSlicer uses CMake and the build is quite simple, the only tricky part is resolution of dependencies. The supported and recommended way is to build the dependencies first and link to them statically. PrusaSlicer source base contains a CMake script that automatically downloads and builds the required dependencies. All that is needed is to run the following (from the top of the cloned repository):
 
     cd deps
     mkdir build
@@ -56,7 +58,7 @@ CaribouSlicer uses CMake and the build is quite simple, the only tricky part is 
 **Warning**: Once the dependency bundle is installed in a destdir, the destdir cannot be moved elsewhere. This is because wxWidgets hardcode the installation path.
 
 
-#### 3. Building CaribouSlicer
+#### 3. Building PrusaSlicer
 
 Now when the dependencies are compiled, all that is needed is to tell CMake that we are interested in static build and point it to the dependencies. From the top of the repository, run
 
@@ -65,10 +67,10 @@ Now when the dependencies are compiled, all that is needed is to tell CMake that
     cmake .. -DSLIC3R_STATIC=1 -DSLIC3R_GTK=3 -DSLIC3R_PCH=OFF -DCMAKE_PREFIX_PATH=$(pwd)/../deps/build/destdir/usr/local
     make -j4
 
-And that's it. It is now possible to run the freshly built CaribouSlicer binary:
+And that's it. It is now possible to run the freshly built PrusaSlicer binary:
 
     cd src
-    ./caribou-slicer
+    ./prusa-slicer
 
 
 
@@ -82,12 +84,12 @@ And that's it. It is now possible to run the freshly built CaribouSlicer binary:
 - `-DDEP_WX_GTK3=ON` builds wxWidgets (one of the dependencies) against GTK3 (defaults to OFF)
 
 
-## Useful CMake flags when building CaribouSlicer
+## Useful CMake flags when building PrusaSlicer
 - `-DSLIC3R_ASAN=ON` enables gcc/clang address sanitizer (defaults to `OFF`, requires gcc>4.8 or clang>3.1)
 - `-DSLIC3R_GTK=3` to use GTK3 (defaults to `2`). Note that wxWidgets must be built against the same GTK version.
 - `-DSLIC3R_STATIC=ON` for static build (defaults to `OFF`)
 - `-DCMAKE_BUILD_TYPE=Debug` to build in debug mode (defaults to `Release`)
-- `-DSLIC3R_GUI=no` to build the console variant of CaribouSlicer
+- `-DSLIC3R_GUI=no` to build the console variant of PrusaSlicer
 
 See the CMake files to get the complete list.
 
@@ -95,32 +97,32 @@ See the CMake files to get the complete list.
 
 ## Building dynamically
 
-As already mentioned above, dynamic linking of dependencies is possible, but CaribouSlicer team is unable to troubleshoot (Linux world is way too complex). Feel free to do so, but you are on your own. Several remarks though:
+As already mentioned above, dynamic linking of dependencies is possible, but PrusaSlicer team is unable to troubleshoot (Linux world is way too complex). Feel free to do so, but you are on your own. Several remarks though:
 
-The list of dependencies can be easily obtained by inspecting the CMake scripts in the `deps/` directory. Some of the dependencies don't have to be as recent as the versions listed - generally versions available on conservative Linux distros such as Debian stable, Ubuntu LTS releases or Fedora are likely sufficient. If you decide to build this way, it is your responsibility to make sure that CMake finds all required dependencies. It is possible to look at your distribution CaribouSlicer package to see how the package maintainers solved the dependency issues.
+The list of dependencies can be easily obtained by inspecting the CMake scripts in the `deps/` directory. Some of the dependencies don't have to be as recent as the versions listed - generally versions available on conservative Linux distros such as Debian stable, Ubuntu LTS releases or Fedora are likely sufficient. If you decide to build this way, it is your responsibility to make sure that CMake finds all required dependencies. It is possible to look at your distribution PrusaSlicer package to see how the package maintainers solved the dependency issues.
 
-Note that you may need to use wxGTK with disabled EGL support for CaribouSlicer to work correctly: see [#9774](https://github.com/prusa3d/PrusaSlicer/issues/9774).
+Note that you may need to use wxGTK with disabled EGL support for PrusaSlicer to work correctly: see [#9774](https://github.com/prusa3d/PrusaSlicer/issues/9774).
 
 ## Miscellaneous
 
 ### Installation
 
-At runtime, CaribouSlicer needs a way to access its resource files. By default, it looks for a `resources` directory relative to its binary.
+At runtime, PrusaSlicer needs a way to access its resource files. By default, it looks for a `resources` directory relative to its binary.
 
-If you instead want CaribouSlicer installed in a structure according to the File System Hierarchy Standard, use the `SLIC3R_FHS` flag
+If you instead want PrusaSlicer installed in a structure according to the File System Hierarchy Standard, use the `SLIC3R_FHS` flag
 
     cmake .. -DSLIC3R_FHS=1
 
-This will make CaribouSlicer look for a fixed-location `share/slic3r-caribou3d` directory instead (note that the location becomes hardcoded).
+This will make PrusaSlicer look for a fixed-location `share/slic3r-prusa3d` directory instead (note that the location becomes hardcoded).
 
-You can then use the `make install` target to install CaribouSlicer.
+You can then use the `make install` target to install PrusaSlicer.
 
-### Desktop Integration (CaribouSlicer 2.4 and newer)
+### Desktop Integration (PrusaSlicer 2.4 and newer)
 
-If CaribouSlicer is to be distributed as an AppImage or a binary blob (.tar.gz and similar), then a desktop integration support is compiled in by default: CaribouSlicer will offer to integrate with desktop by manually copying the desktop file and application icon into user's desktop configuration. The built-in desktop integration is also handy on Crosstini (Linux on Chrome OS).
+If PrusaSlicer is to be distributed as an AppImage or a binary blob (.tar.gz and similar), then a desktop integration support is compiled in by default: PrusaSlicer will offer to integrate with desktop by manually copying the desktop file and application icon into user's desktop configuration. The built-in desktop integration is also handy on Crosstini (Linux on Chrome OS).
 
-If CaribouSlicer is compiled with `SLIC3R_FHS` enabled, then a desktop integration support will not be integrated. One may want to disable desktop integration by running
-
+If PrusaSlicer is compiled with `SLIC3R_FHS` enabled, then a desktop integration support will not be integrated. One may want to disable desktop integration by running
+    
     cmake .. -DSLIC3R_DESKTOP_INTEGRATION=0
-
-when building CaribouSlicer for flatpack or snap, where the desktop integration is performed by the installer.
+    
+when building PrusaSlicer for flatpack or snap, where the desktop integration is performed by the installer.

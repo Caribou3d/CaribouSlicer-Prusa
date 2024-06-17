@@ -200,7 +200,7 @@ static Vec3d get_feature_offset(const Measure::SurfaceFeature& feature)
     }
     default: { assert(false); }
     }
-
+     
     return ret;
 }
 
@@ -296,12 +296,12 @@ bool GLGizmoMeasure::on_mouse(const wxMouseEvent &mouse_event)
     m_mouse_pos = { double(mouse_event.GetX()), double(mouse_event.GetY()) };
 
     if (mouse_event.Moving()) {
-        // only for sure
+        // only for sure 
         m_mouse_left_down = false;
         return false;
     }
     else if (mouse_event.Dragging()) {
-        // Enable/Disable panning/rotating the 3D scene
+        // Enable/Disable panning/rotating the 3D scene 
         // Ctrl is pressed or the mouse is not hovering a selected volume
         bool unlock_dragging = mouse_event.CmdDown() || (m_hover_id == -1 && !m_parent.get_selection().contains_volume(m_parent.get_first_hover_volume_idx()));
         // mode is not center selection or mouse is not hovering a center
@@ -315,7 +315,7 @@ bool GLGizmoMeasure::on_mouse(const wxMouseEvent &mouse_event)
 
         if (m_hover_id != -1) {
             m_mouse_left_down = true;
-
+            
             auto detect_current_item = [this]() {
                 SelectedFeatures::Item item;
                 if (m_hover_id == SEL_SPHERE_1_ID) {
@@ -1991,7 +1991,7 @@ void GLGizmoMeasure::on_render_input_window(float x, float y, float bottom_limit
                 ImGui::Dummy(ImVec2(rect_size, rect_size));
             }
             );
-
+          
           ++row_count;
         }
 

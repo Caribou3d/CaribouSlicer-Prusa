@@ -6,10 +6,10 @@
 #/|/ Copyright (c) 2019 Colin Gilgenbach @hexane360
 #/|/ Copyright (c) 2018 Dan Kortschak
 #/|/
-#/|/ CaribouSlicer is released under the terms of the AGPLv3 or higher
+#/|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
 #/|/
 cmake_minimum_required(VERSION 3.13)
-project(CaribouSlicer)
+project(PrusaSlicer)
 
 include("version.inc")
 include(GNUInstallDirs)
@@ -17,7 +17,6 @@ include(CMakeDependentOption)
 
 set(SLIC3R_RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 file(TO_NATIVE_PATH "${SLIC3R_RESOURCES_DIR}" SLIC3R_RESOURCES_DIR_WIN)
-
 
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "No build type selected, default to Release")
@@ -34,9 +33,9 @@ else()
         endif()
 endif()
 
-option(SLIC3R_STATIC 			"Compile CaribouSlicer with static libraries (Boost, TBB, glew)" ${SLIC3R_STATIC_INITIAL})
-option(SLIC3R_GUI    			"Compile CaribouSlicer with GUI components (OpenGL, wxWidgets)" 1)
-option(SLIC3R_FHS               "Assume CaribouSlicer is to be installed in a FHS directory structure" 0)
+option(SLIC3R_STATIC 			"Compile PrusaSlicer with static libraries (Boost, TBB, glew)" ${SLIC3R_STATIC_INITIAL})
+option(SLIC3R_GUI    			"Compile PrusaSlicer with GUI components (OpenGL, wxWidgets)" 1)
+option(SLIC3R_FHS               "Assume PrusaSlicer is to be installed in a FHS directory structure" 0)
 option(SLIC3R_PCH               "Use precompiled headers" 1)
 option(SLIC3R_MSVC_COMPILE_PARALLEL "Compile on Visual Studio in parallel" 1)
 option(SLIC3R_MSVC_PDB          "Generate PDB files on MSVC in Release mode" 1)
@@ -85,14 +84,7 @@ if (APPLE)
 endif ()
 
 option(SLIC3R_BUILD_SANDBOXES   "Build development sandboxes" OFF)
-
-if (CMAKE_BUILD_TESTS)
-    option(SLIC3R_BUILD_TESTS       "Build unit tests" ON)
-    set(SLIC3R_BUILD_TESTS ON CACHE BOOL "" FORCE)
-else ()
-    option(SLIC3R_BUILD_TESTS       "Build unit tests" OFF)
-    set(SLIC3R_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-endif ()
+option(SLIC3R_BUILD_TESTS       "Build unit tests" ON)
 
 if (IS_CROSS_COMPILE)
     message("Detected cross compilation setup. Tests and encoding checks will be forcedly disabled!")
@@ -162,7 +154,7 @@ if (MINGW)
 endif ()
 
 if (NOT MSVC)
-    # ARMs (Raspberry PI) use an unsigned char by default. Let's make it consistent for CaribouSlicer on all platforms.
+    # ARMs (Raspberry PI) use an unsigned char by default. Let's make it consistent for PrusaSlicer on all platforms.
     add_compile_options(-fsigned-char)
 endif ()
 
@@ -318,7 +310,7 @@ if (SLIC3R_ASAN)
 endif ()
 
 if (SLIC3R_UBSAN)
-    # Stacktrace for every report is enabled by default. It can be disabled by running CaribouSlicer with "UBSAN_OPTIONS=print_stacktrace=0".
+    # Stacktrace for every report is enabled by default. It can be disabled by running PrusaSlicer with "UBSAN_OPTIONS=print_stacktrace=0".
 
     # Define macro SLIC3R_UBSAN to allow detection in the source code if this sanitizer is enabled.
     add_compile_definitions(SLIC3R_UBSAN)
@@ -402,7 +394,7 @@ endif()
 function(slic3r_remap_configs targets from_Cfg to_Cfg)
     if(MSVC)
         string(TOUPPER ${from_Cfg} from_CFG)
-
+    
         foreach(tgt ${targets})
             if(TARGET ${tgt})
                 set_target_properties(${tgt} PROPERTIES MAP_IMPORTED_CONFIG_${from_CFG} ${to_Cfg})
@@ -518,7 +510,7 @@ set(L10N_DIR "${SLIC3R_RESOURCES_DIR}/localization")
 add_custom_target(gettext_make_pot
     COMMAND xgettext --keyword=L --keyword=_L --keyword=_u8L --keyword=L_CONTEXT:1,2c --keyword=_L_PLURAL:1,2 --add-comments=TRN --from-code=UTF-8 --debug --boost
         -f "${L10N_DIR}/list.txt"
-        -o "${L10N_DIR}/CaribouSlicer.pot"
+        -o "${L10N_DIR}/PrusaSlicer.pot"
     COMMAND hintsToPot ${SLIC3R_RESOURCES_DIR} ${L10N_DIR}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generate pot file from strings in the source tree"
@@ -528,7 +520,7 @@ add_custom_target(gettext_merge_community_po_with_pot
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Merge community po with new generated pot file"
 )
-file(GLOB L10N_PO_FILES "${L10N_DIR}/*/CaribouSlicer*.po")
+file(GLOB L10N_PO_FILES "${L10N_DIR}/*/PrusaSlicer*.po")
 # list of names of directories, which are licalized by PS internally
 list(APPEND PS_L10N_DIRS "cs" "de" "es" "fr" "it" "ja" "pl")
 foreach(po_file ${L10N_PO_FILES})
@@ -539,7 +531,7 @@ foreach(po_file ${L10N_PO_FILES})
     if(found_dir_id LESS 0)
         add_custom_command(
             TARGET gettext_merge_community_po_with_pot PRE_BUILD
-            COMMAND msgmerge -N -o ${po_file} ${po_file} "${L10N_DIR}/CaribouSlicer.pot"
+            COMMAND msgmerge -N -o ${po_file} ${po_file} "${L10N_DIR}/PrusaSlicer.pot"
             # delete obsolete lines from resulting PO to avoid conflicts after a merging of it with wxWidgets.po
             COMMAND msgattrib --no-obsolete -o ${po_file} ${po_file}
             DEPENDS ${po_file}
@@ -549,14 +541,14 @@ endforeach()
 
 add_custom_target(gettext_concat_wx_po_with_po
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-    COMMENT "Concatenate and merge wxWidgets localization po with CaribouSlicer po file"
+    COMMENT "Concatenate and merge wxWidgets localization po with PrusaSlicer po file"
 )
-file(GLOB L10N_PO_FILES "${L10N_DIR}/*/CaribouSlicer*.po")
+file(GLOB L10N_PO_FILES "${L10N_DIR}/*/PrusaSlicer*.po")
 foreach(po_file ${L10N_PO_FILES})
     GET_FILENAME_COMPONENT(po_dir "${po_file}" DIRECTORY)
     GET_FILENAME_COMPONENT(po_dir_name "${po_dir}" NAME)
     SET(wx_po_file "${L10N_DIR}/wx_locale/${po_dir_name}.po")
-    #SET(po_new_file "${po_dir}/CaribouSlicer_.po")
+    #SET(po_new_file "${po_dir}/PrusaSlicer_.po")
     add_custom_command(
         TARGET gettext_concat_wx_po_with_po PRE_BUILD
         COMMAND msgcat --use-first -o ${po_file} ${po_file} ${wx_po_file}
@@ -570,10 +562,10 @@ add_custom_target(gettext_po_to_mo
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generate localization mo files (binary) from po files (texts)"
 )
-file(GLOB L10N_PO_FILES "${L10N_DIR}/*/CaribouSlicer*.po")
+file(GLOB L10N_PO_FILES "${L10N_DIR}/*/PrusaSlicer*.po")
 foreach(po_file ${L10N_PO_FILES})
     GET_FILENAME_COMPONENT(po_dir "${po_file}" DIRECTORY)
-    SET(mo_file "${po_dir}/CaribouSlicer.mo")
+    SET(mo_file "${po_dir}/PrusaSlicer.mo")
     add_custom_command(
         TARGET gettext_po_to_mo PRE_BUILD
         COMMAND msgfmt ARGS --check-format -o ${mo_file} ${po_file}
@@ -601,13 +593,13 @@ else ()
 endif ()
 
 set(TOP_LEVEL_PROJECT_DIR ${PROJECT_SOURCE_DIR})
-function(caribouslicer_copy_dlls target)
+function(prusaslicer_copy_dlls target)
     if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
         set(_bits 64)
     elseif ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
         set(_bits 32)
     endif ()
-
+    
     get_property(_is_multi GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
     get_target_property(_alt_out_dir ${target} RUNTIME_OUTPUT_DIRECTORY)
 
@@ -618,23 +610,23 @@ function(caribouslicer_copy_dlls target)
     else ()
         set (_out_dir "$<TARGET_PROPERTY:${target},BINARY_DIR>")
     endif ()
-
-    # This has to be a separate target due to the windows command line lenght limits
-    add_custom_command(TARGET ${target} POST_BUILD
+    
+    # This has to be a separate target due to the windows command line lenght limits    
+    add_custom_command(TARGET ${target} POST_BUILD 
         COMMAND ${CMAKE_COMMAND} -E copy ${TOP_LEVEL_PROJECT_DIR}/deps/+GMP/gmp/lib/win${_bits}/libgmp-10.dll ${_out_dir}
         COMMENT "Copy gmp runtime to build tree"
         VERBATIM)
-
-    add_custom_command(TARGET ${target} POST_BUILD
+    
+    add_custom_command(TARGET ${target} POST_BUILD 
         COMMAND ${CMAKE_COMMAND} -E copy ${TOP_LEVEL_PROJECT_DIR}/deps/+MPFR/mpfr/lib/win${_bits}/libmpfr-4.dll ${_out_dir}
         COMMENT "Copy mpfr runtime to build tree"
         VERBATIM)
 endfunction()
 
 
-# libslic3r, CaribouSlicer GUI and the CaribouSlicer executable.
+# libslic3r, PrusaSlicer GUI and the PrusaSlicer executable.
 add_subdirectory(src)
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CaribouSlicer_app_console)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT PrusaSlicer_app_console)
 
 add_dependencies(gettext_make_pot hintsToPot)
 
@@ -652,25 +644,29 @@ if (WIN32)
     install(DIRECTORY "${SLIC3R_RESOURCES_DIR}/" DESTINATION "${CMAKE_INSTALL_PREFIX}/resources")
 elseif (SLIC3R_FHS)
     # CMAKE_INSTALL_FULL_DATAROOTDIR: read-only architecture-independent data root (share)
-    set(SLIC3R_FHS_RESOURCES "${CMAKE_INSTALL_FULL_DATAROOTDIR}/CaribouSlicer")
+    set(SLIC3R_FHS_RESOURCES "${CMAKE_INSTALL_FULL_DATAROOTDIR}/PrusaSlicer")
     install(DIRECTORY ${SLIC3R_RESOURCES_DIR}/ DESTINATION ${SLIC3R_FHS_RESOURCES}
         PATTERN "*/udev" EXCLUDE
     )
-    install(FILES src/platform/unix/CaribouSlicer.desktop DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
-    install(FILES src/platform/unix/CaribouGcodeviewer.desktop DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
+    install(FILES src/platform/unix/PrusaSlicer.desktop DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
+    install(FILES src/platform/unix/PrusaGcodeviewer.desktop DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
     foreach(SIZE 32 128 192)
-        install(FILES ${SLIC3R_RESOURCES_DIR}/icons/CaribouSlicer_${SIZE}px.png
-            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/${SIZE}x${SIZE}/apps RENAME CaribouSlicer.png
+        install(FILES ${SLIC3R_RESOURCES_DIR}/icons/PrusaSlicer_${SIZE}px.png
+            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/${SIZE}x${SIZE}/apps RENAME PrusaSlicer.png
         )
-        install(FILES ${SLIC3R_RESOURCES_DIR}/icons/CaribouGcodeviewer_${SIZE}px.png
-            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/${SIZE}x${SIZE}/apps RENAME CaribouGcodeviewer.png
+        install(FILES ${SLIC3R_RESOURCES_DIR}/icons/PrusaSlicer-gcodeviewer_${SIZE}px.png
+            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/${SIZE}x${SIZE}/apps RENAME PrusaSlicer-gcodeviewer.png
         )
     endforeach()
     install(DIRECTORY ${SLIC3R_RESOURCES_DIR}/udev/ DESTINATION lib/udev/rules.d)
 else ()
-    install(FILES src/platform/unix/CaribouSlicer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/resources/applications)
-    install(FILES src/platform/unix/CaribouGcodeviewer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/resources/applications)
+    install(FILES src/platform/unix/PrusaSlicer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/resources/applications)
+    install(FILES src/platform/unix/PrusaGcodeviewer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/resources/applications)
     install(DIRECTORY "${SLIC3R_RESOURCES_DIR}/" DESTINATION "${CMAKE_INSTALL_PREFIX}/resources")
 endif ()
 
 configure_file(${LIBDIR}/platform/unix/fhs.hpp.in ${LIBDIR_BIN}/platform/unix/fhs.hpp)
+
+if (NOT WIN32 AND NOT APPLE)
+   configure_file(${LIBDIR}/platform/unix/build_appimage.sh.in ${LIBDIR_BIN}/build_appimage.sh @ONLY)
+endif()

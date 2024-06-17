@@ -83,7 +83,7 @@ static bool is_improper_category(const std::string& category, const int extruder
 // pt_FFF
 static SettingsFactory::Bundle FREQ_SETTINGS_BUNDLE_FFF =
 {
-    { L("Layers and Perimeters"), { "layer_height" , "perimeters", "extra_perimeter_on_even_layers", "top_solid_layers", "bottom_solid_layers" } },
+    { L("Layers and Perimeters"), { "layer_height" , "perimeters", "top_solid_layers", "bottom_solid_layers" } },
     { L("Infill")               , { "fill_density", "fill_pattern" } },
     { L("Support material")     , { "support_material", "support_material_auto", "support_material_threshold",
                                     "support_material_pattern", "support_material_interface_pattern", "support_material_buildplate_only",
@@ -168,7 +168,7 @@ std::map<std::string, std::string> SettingsFactory::CATEGORY_ICON =
     { L("Skirt and brim")       , "skirt+brim"  },
 //  { L("Speed > Acceleration") , "time"        },
     { L("Advanced")             , "wrench"      },
-    // ptSLA                    ,
+    // ptSLA                    ,               
     { L("Supports")             , "support"     },
     { L("Pad")                  , "pad"         },
     { L("Hollowing")            , "hollowing"   }
@@ -421,7 +421,7 @@ static void create_freq_settings_popupmenu(wxMenu* menu, const bool is_object_se
             [menu, item, is_object_settings, bundle](wxCommandEvent& event) {
                     wxString category_name = menu->GetLabel(event.GetId());
                     std::vector<std::string> options;
-                    for (auto& category : bundle)
+                    for (auto& category : bundle) 
                         if (category_name == _(category.first)) {
                             options = category.second;
                             break;
@@ -529,7 +529,7 @@ wxString MenuFactory::get_repaire_result_message(
 void MenuFactory::append_menu_item_delete(wxMenu* menu)
 {
     append_menu_item(menu, wxID_ANY, _L("Delete") + "\tDel", _L("Remove the selected object"),
-        [](wxCommandEvent&) { plater()->remove_selected(); }, "delete", nullptr,
+        [](wxCommandEvent&) { plater()->remove_selected(); }, "delete", nullptr, 
         []() { return plater()->can_delete(); }, m_parent);
 
     menu->AppendSeparator();
@@ -599,7 +599,7 @@ static void append_menu_itemm_add_(const wxString& name, GLGizmosManager::EType 
             } else {
                 svg->create_volume(volume_type);
             }
-        }
+        }        
     };
 
     if (type == ModelVolumeType::MODEL_PART || type == ModelVolumeType::NEGATIVE_VOLUME || type == ModelVolumeType::PARAMETER_MODIFIER ||
@@ -667,7 +667,7 @@ void MenuFactory::append_menu_items_add_volume(MenuType menu_type)
             continue;
         wxMenu* sub_menu = append_submenu_add_generic(menu, ModelVolumeType(type));
         append_submenu(menu, sub_menu, wxID_ANY, _(item.first), "", item.second,
-            [type]() {
+            [type]() { 
                 bool can_add = type < size_t(ModelVolumeType::PARAMETER_MODIFIER) ? !obj_list()->is_selected_object_cut() : true;
                 return can_add && obj_list()->is_instance_or_object_selected();
             }, m_parent);
@@ -811,7 +811,7 @@ wxMenuItem* MenuFactory::append_menu_item_instance_to_object(wxMenu* menu)
 
 wxMenuItem* MenuFactory::append_menu_item_printable(wxMenu* menu)
 {
-    wxMenuItem* menu_item_printable = append_menu_check_item(menu, wxID_ANY, _L("Printable"), "",
+    wxMenuItem* menu_item_printable = append_menu_check_item(menu, wxID_ANY, _L("Printable"), "", 
         [](wxCommandEvent& ) { obj_list()->toggle_printable_state(); }, menu);
 
     m_parent->Bind(wxEVT_UPDATE_UI, [](wxUpdateUIEvent& evt) {
@@ -828,7 +828,7 @@ wxMenuItem* MenuFactory::append_menu_item_printable(wxMenu* menu)
             int inst_idx = type == itObject ? 0 : list->GetModel()->GetInstanceIdByItem(frst_item);
             check = list->object(obj_idx)->instances[inst_idx]->printable;
         }
-
+            
         evt.Check(check);
 
         // disable the menu item if SLA supports or Hollow gizmos are active
@@ -1073,7 +1073,7 @@ void MenuFactory::append_menu_item_edit_text(wxMenu *menu)
 
     auto can_edit_text = []() {
         if (plater() == nullptr)
-            return false;
+            return false;        
         const Selection& selection = plater()->get_selection();
         if (selection.volumes_count() != 1)
             return false;
@@ -1083,7 +1083,7 @@ void MenuFactory::append_menu_item_edit_text(wxMenu *menu)
         const ModelVolume *volume = get_model_volume(*gl_volume, selection.get_model()->objects);
         if (volume == nullptr)
             return false;
-        return volume->is_text();
+        return volume->is_text();        
     };
 
     if (menu != &m_text_part_menu) {
@@ -1110,7 +1110,7 @@ void MenuFactory::append_menu_item_edit_svg(wxMenu *menu)
     wxString name = _L("Edit SVG");
     auto can_edit_svg = []() {
         if (plater() == nullptr)
-            return false;
+            return false;        
         const Selection& selection = plater()->get_selection();
         if (selection.volumes_count() != 1)
             return false;
@@ -1120,7 +1120,7 @@ void MenuFactory::append_menu_item_edit_svg(wxMenu *menu)
         const ModelVolume *volume = get_model_volume(*gl_volume, selection.get_model()->objects);
         if (volume == nullptr)
             return false;
-        return volume->is_svg();
+        return volume->is_svg();        
     };
 
     if (menu != &m_svg_part_menu) {
@@ -1160,7 +1160,7 @@ void MenuFactory::create_default_menu()
 
 void MenuFactory::create_common_object_menu(wxMenu* menu)
 {
-#ifdef __WXOSX__
+#ifdef __WXOSX__  
     append_menu_items_osx(menu);
 #endif // __WXOSX__
     append_menu_items_instance_manipulation(menu);
@@ -1220,7 +1220,7 @@ void MenuFactory::append_mutable_part_menu_items(wxMenu* menu)
 void MenuFactory::create_part_menu()
 {
     wxMenu* menu = &m_part_menu;
-#ifdef __WXOSX__
+#ifdef __WXOSX__  
     append_menu_items_osx(menu);
 #endif // __WXOSX__
     append_menu_item_delete(menu);
@@ -1392,17 +1392,17 @@ void MenuFactory::append_menu_items_instance_manipulation(wxMenu* menu)
     MenuType type = menu == &m_object_menu ? mtObjectFFF : mtObjectSLA;
 
     items_increase[type]                = append_menu_item(menu, wxID_ANY, _L("Add instance") + "\t+", _L("Add one more instance of the selected object"),
-        [](wxCommandEvent&) { plater()->increase_instances();      }, "add_copies", nullptr,
+        [](wxCommandEvent&) { plater()->increase_instances();      }, "add_copies", nullptr, 
         []() { return plater()->can_increase_instances(); }, m_parent);
     items_decrease[type]                = append_menu_item(menu, wxID_ANY, _L("Remove instance") + "\t-", _L("Remove one instance of the selected object"),
-        [](wxCommandEvent&) { plater()->decrease_instances();      }, "remove_copies", nullptr,
+        [](wxCommandEvent&) { plater()->decrease_instances();      }, "remove_copies", nullptr, 
         []() { return plater()->can_decrease_instances(); }, m_parent);
     items_set_number_of_copies[type]    = append_menu_item(menu, wxID_ANY, _L("Set number of instances") + dots, _L("Change the number of instances of the selected object"),
         [](wxCommandEvent&) { plater()->set_number_of_copies();    }, "number_of_copies", nullptr,
         []() { return plater()->can_increase_instances(); }, m_parent);
 
     append_menu_item(menu, wxID_ANY, _L("Fill bed with instances") + dots, _L("Fill the remaining area of bed with instances of the selected object"),
-        [](wxCommandEvent&) { plater()->fill_bed_with_instances();    }, "", nullptr,
+        [](wxCommandEvent&) { plater()->fill_bed_with_instances();    }, "", nullptr, 
         []() { return plater()->can_increase_instances(); }, m_parent);
 
 }
@@ -1485,7 +1485,7 @@ void MenuFactory::sys_color_changed()
 void MenuFactory::sys_color_changed(wxMenu* menu)
 {
     sys_color_changed_menu(menu);// msw_rescale_menu updates just icons, so use it
-#ifdef _WIN32
+#ifdef _WIN32 
     // but under MSW we have to update item's bachground color
     for (wxMenuItem* item : menu->GetMenuItems())
         update_menu_item_def_colors(item);
@@ -1501,7 +1501,7 @@ void MenuFactory::sys_color_changed(wxMenuBar* menubar)
         sys_color_changed_menu(menu);
 #ifndef __linux__
         menu->SetupBitmaps();
-#ifdef _WIN32
+#ifdef _WIN32 
         // but under MSW we have to update item's bachground color
         for (wxMenuItem* item : menu->GetMenuItems())
             update_menu_item_def_colors(item);
@@ -1513,4 +1513,4 @@ void MenuFactory::sys_color_changed(wxMenuBar* menubar)
 
 
 } //namespace GUI
-} //namespace Slic3r
+} //namespace Slic3r 

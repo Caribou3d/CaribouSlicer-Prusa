@@ -1,25 +1,18 @@
 
-![CaribouSlicer logo](/resources/icons/CaribouSlicer.png?raw=true)
+![PrusaSlicer logo](/resources/icons/PrusaSlicer.png?raw=true)
 
-# CaribouSlicer
+# PrusaSlicer
 
-CaribouSlicer takes 3D models (STL, OBJ, AMF) and converts them into G-code
+You may want to check the [PrusaSlicer project page](https://www.prusa3d.com/prusaslicer/).
+Prebuilt Windows, OSX and Linux binaries are available through the [git releases page](https://github.com/prusa3d/PrusaSlicer/releases) or from the [Prusa3D downloads page](https://www.prusa3d.com/drivers/). There are also [3rd party Linux builds available](https://github.com/prusa3d/PrusaSlicer/wiki/PrusaSlicer-on-Linux---binary-distributions).
+
+PrusaSlicer takes 3D models (STL, OBJ, AMF) and converts them into G-code
 instructions for FFF printers or PNG layers for mSLA 3D printers. It's
 compatible with any modern printer based on the RepRap toolchain, including all
 those based on the Marlin, Prusa, Sprinter and Repetier firmware. It also works
 with Mach3, LinuxCNC and Machinekit controllers.
 
-Prebuilt Windows and Linux binaries are available through the [git releases page](https://github.com/caribou3d/CaribouSlicer-Prusa/releases).
-
-You may want to check the [PrusaSlicer project page](https://www.prusa3d.com/prusaslicer/).
-
-
-CaribouSlicer is based on PrusaSlicer by Prusa Research
-(https://www.prusa3d.com/prusaslicer/)
-and SuperSlicer by supermerill (https://github.com/supermerill/SuperSlicer).
-
-Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.
-[Slic3r](https://github.com/Slic3r/Slic3r) by Alessandro Ranellucci and the RepRap community.
+PrusaSlicer is based on [Slic3r](https://github.com/Slic3r/Slic3r) by Alessandro Ranellucci and the RepRap community.
 
 See the [project homepage](https://www.prusa3d.com/slic3r-prusa-edition/) and
 the [documentation directory](doc/) for more information.
@@ -30,7 +23,7 @@ All user facing code is written in C++.
 The slicing core is the `libslic3r` library, which can be built and used in a standalone way.
 The command line interface is a thin wrapper over `libslic3r`.
 
-### What are CaribouSlicer's main features?
+### What are PrusaSlicer's main features?
 
 Key features are:
 
@@ -62,26 +55,20 @@ Other major features are:
 If you want to compile the source yourself, follow the instructions on one of
 these documentation pages:
 * [Linux](doc/How%20to%20build%20-%20Linux%20et%20al.md)
-* [macOS](doc/How%20to%20build%20-%20macOS.md)
+* [macOS](doc/How%20to%20build%20-%20Mac%20OS.md)
 * [Windows](doc/How%20to%20build%20-%20Windows.md)
 
 ### Can I help?
 
 Sure! You can do the following to find things that are available to help with:
-* Add an [issue](https://github.com/caribou3d/CaribouSlicer-Prusa/issues) to the github tracker if it isn't already present.
+* Add an [issue](https://github.com/prusa3d/PrusaSlicer/issues) to the github tracker if it isn't already present.
+* Look at [issues labeled "volunteer needed"](https://github.com/prusa3d/PrusaSlicer/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+label%3A%22volunteer+needed%22)
 
+### What's PrusaSlicer license?
 
-### What's CaribouSlicer license?
+PrusaSlicer is licensed under the _GNU Affero General Public License, version 3_.
+The PrusaSlicer is originally based on Slic3r by Alessandro Ranellucci.
 
-CaribouSlicer is licensed under the GNU Affero General Public License, version 3.
-CaribouSlicer is based on PrusaSlicer by PrusaResearch.
+### How can I use PrusaSlicer from the command line?
 
-SuperSlicer is licensed under the GNU Affero General Public License, version 3. SuperSlicer is based on PrusaSlicer by PrusaResearch.
-
-PrusaSlicer is licensed under the GNU Affero General Public License, version 3. PrusaSlicer is owned by Prusa Research. PrusaSlicer is originally based on Slic3r by Alessandro Ranellucci.
-
-Slic3r is licensed under the GNU Affero General Public License, version 3. Slic3r was created by Alessandro Ranellucci with the help of many other contributors.
-
-The GNU Affero General Public License, version 3 ensures that if you use any part of this software in any way (even behind a web server), your software must be released under the same license.
-
-Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kral, David Kocik and numerous others.
+Please refer to the [Command Line Interface](https://github.com/prusa3d/PrusaSlicer/wiki/Command-Line-Interface) wiki page.

@@ -34,12 +34,12 @@
 @ECHO                  deps-dirty - build deps without cleaning
 @ECHO                Default: %PS_STEPS_DEFAULT%
 @ECHO  -r -RUN       Specifies what to perform at the run step:
-@ECHO                  console - run and wait on caribou-slicer-console.exe
+@ECHO                  console - run and wait on prusa-slicer-console.exe
 @ECHO                  custom - run and wait on your custom build/%PS_CUSTOM_RUN_FILE%
 @ECHO                  ide - open project in Visual Studio if not open (no wait)
 @ECHO                  none - run step does nothing
-@ECHO                  viewer - run caribou-gcodeviewer.exe (no wait)
-@ECHO                  window - run caribou-slicer.exe (no wait)
+@ECHO                  viewer - run prusa-gcodeviewer.exe (no wait)
+@ECHO                  window - run prusa-slicer.exe (no wait)
 @ECHO                Default: none
 @ECHO  -d -DESTDIR   Deps destination directory
 @ECHO                Warning: Changing destdir path will not delete the old destdir.
@@ -266,14 +266,14 @@ FOR /F "tokens=2 delims=," %%I in (
 @ECHO Running %PS_RUN% application...
 @REM icacls below is just a hack for file-not-found error handling
 IF "%PS_RUN%" EQU "console" (
-    icacls caribou-slicer-console.exe >nul || GOTO :END
-    start /wait /b caribou-slicer-console.exe
+    icacls prusa-slicer-console.exe >nul || GOTO :END
+    start /wait /b prusa-slicer-console.exe
 ) ELSE IF "%PS_RUN%" EQU "window" (
-    icacls caribou-slicer.exe >nul || GOTO :END
-    start caribou-slicer.exe
+    icacls prusa-slicer.exe >nul || GOTO :END
+    start prusa-slicer.exe
 ) ELSE IF "%PS_RUN%" EQU "viewer" (
-    icacls caribou-gcodeviewer.exe >nul || GOTO :END
-    start caribou-gcodeviewer.exe
+    icacls prusa-gcodeviewer.exe >nul || GOTO :END
+    start prusa-gcodeviewer.exe
 ) ELSE IF "%PS_RUN%" EQU "custom" (
     icacls %PS_CUSTOM_BAT% >nul || GOTO :END
     CALL %PS_CUSTOM_BAT%

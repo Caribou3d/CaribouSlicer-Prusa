@@ -177,7 +177,7 @@ private:
     std::unique_ptr<AppUpdater>                     m_app_updater;
     std::unique_ptr<wxSingleInstanceChecker>        m_single_instance_checker;
     std::unique_ptr<Downloader>                     m_downloader;
-
+    
     std::string m_instance_hash_string;
 	size_t m_instance_hash_int;
 
@@ -276,20 +276,10 @@ public:
     void            recreate_GUI(const wxString& message);
     void            system_info();
     void            keyboard_shortcuts();
-    void            flow_ratio_dialog();
-    void            flow_walls_dialog();
-    void            calibration_first_layer_dialog();
-    void            calibration_first_layer_patch_dialog();
-    void            calibration_retraction_dialog();
-    void            filament_temperature_dialog();
-    void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
-//    void            html_dialog();
     void            load_project(wxWindow *parent, wxString& input_file) const;
     void            import_model(wxWindow *parent, wxArrayString& input_files) const;
     void            import_zip(wxWindow* parent, wxString& input_file) const;
     void            load_gcode(wxWindow* parent, wxString& input_file) const;
-
-    void            calibration_cube_dialog();
 
     static bool     catch_error(std::function<void()> cb, const std::string& err);
 
@@ -348,10 +338,6 @@ public:
     GalleryDialog *      gallery_dialog();
     Downloader*          downloader();
 
-    bool            is_adding_script_handler() { return m_adding_script_handler; }
-    //void            set_adding_script_handler(bool status) { m_adding_script_handler = status; }
-
-
     // Parameters extracted from the command line to be passed to GUI after initialization.
     GUI_InitParams* init_params { nullptr };
 
@@ -360,8 +346,6 @@ public:
     PresetUpdater*  preset_updater{ nullptr };
     MainFrame*      mainframe{ nullptr };
     Plater*         plater_{ nullptr };
-    std::mutex      not_modal_dialog_mutex;
-    wxDialog*       not_modal_dialog = nullptr;
 
 	PresetUpdater*  get_preset_updater() { return preset_updater; }
 
@@ -393,8 +377,6 @@ public:
     void            show_desktop_integration_dialog();
     void            show_downloader_registration_dialog();
 
-    void            set_adding_script_handler(bool status) { m_adding_script_handler = status; }
-
 #if ENABLE_THUMBNAIL_GENERATOR_DEBUG
     // temporary and debug only -> extract thumbnails from selected gcode and save them as png files
     void            gcode_thumbnails_debug();
@@ -420,7 +402,7 @@ public:
 
     void            open_wifi_config_dialog(bool forced, const wxString& drive_path = {});
     bool            get_wifi_config_dialog_shown() const { return m_wifi_config_dialog_shown; }
-
+    
     void            request_login(bool show_user_info = false) {}
     bool            check_login() { return false; }
     void            get_login_info() {}
@@ -448,9 +430,6 @@ public:
 private:
     bool            on_init_inner();
 	void            init_app_config();
-
-    bool             m_adding_script_handler { false };
-
     // returns old config path to copy from if such exists,
     // returns an empty string if such config path does not exists or if it cannot be loaded.
     std::string     check_older_app_config(Semver current_version, bool backup);
@@ -461,7 +440,7 @@ private:
     bool            select_language();
 
     bool            config_wizard_startup();
-    // Returns true if the configuration is fine.
+    // Returns true if the configuration is fine. 
     // Returns true if the configuration is not compatible and the user decided to rather close the slicer instead of reconfiguring.
 	bool            check_updates(const bool invoked_automatically);
     void            on_version_read(wxCommandEvent& evt);

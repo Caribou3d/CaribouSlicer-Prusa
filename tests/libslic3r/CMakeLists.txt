@@ -56,7 +56,7 @@ target_link_libraries(${_TEST_NAME}_tests test_common libslic3r)
 set_property(TARGET ${_TEST_NAME}_tests PROPERTY FOLDER "tests")
 
 if (WIN32)
-    caribouslicer_copy_dlls(${_TEST_NAME}_tests)
+    prusaslicer_copy_dlls(${_TEST_NAME}_tests)
 endif()
 
 # catch_discover_tests(${_TEST_NAME}_tests TEST_PREFIX "${_TEST_NAME}: ")

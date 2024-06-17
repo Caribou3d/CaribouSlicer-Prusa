@@ -654,7 +654,6 @@ PRINT_CONFIG_CLASS_DEFINE(
     ((ConfigOptionFloat,                bridge_speed))
     ((ConfigOptionEnum<InfillPattern>,  top_fill_pattern))
     ((ConfigOptionEnum<InfillPattern>,  bottom_fill_pattern))
-    ((ConfigOptionEnum<InfillPattern>,  solid_fill_pattern))
     ((ConfigOptionFloatOrPercent,       external_perimeter_extrusion_width))
     ((ConfigOptionFloatOrPercent,       external_perimeter_speed))
     ((ConfigOptionBool,                 enable_dynamic_overhang_speeds))
@@ -665,7 +664,6 @@ PRINT_CONFIG_CLASS_DEFINE(
     ((ConfigOptionBool,                 external_perimeters_first))
     ((ConfigOptionBool,                 extra_perimeters))
     ((ConfigOptionBool,                 extra_perimeters_on_overhangs))
-    ((ConfigOptionBool,                 extra_perimeter_on_even_layers))
     ((ConfigOptionFloat,                fill_angle))
     ((ConfigOptionPercent,              fill_density))
     ((ConfigOptionEnum<InfillPattern>,  fill_pattern))
@@ -694,8 +692,6 @@ PRINT_CONFIG_CLASS_DEFINE(
     ((ConfigOptionFloat,                perimeter_speed))
     // Total number of perimeters.
     ((ConfigOptionInt,                  perimeters))
-    ((ConfigOptionPercent,              print_extrusion_multiplier))
-    ((ConfigOptionBool,                 reduce_shell_thickness))
     ((ConfigOptionFloatOrPercent,       small_perimeter_speed))
     ((ConfigOptionFloat,                solid_infill_below_area))
     ((ConfigOptionInt,                  solid_infill_extruder))
@@ -846,7 +842,7 @@ static inline std::string get_extrusion_axis(const GCodeConfig &cfg)
 }
 
 PRINT_CONFIG_CLASS_DERIVED_DEFINE(
-    PrintConfig,
+    PrintConfig, 
     (MachineEnvelopeConfig, GCodeConfig),
 
     ((ConfigOptionBool,               avoid_crossing_curled_overhangs))
@@ -879,7 +875,6 @@ PRINT_CONFIG_CLASS_DERIVED_DEFINE(
     ((ConfigOptionInts,               fan_below_layer_time))
     ((ConfigOptionStrings,            filament_colour))
     ((ConfigOptionStrings,            filament_notes))
-    ((ConfigOptionPercents,           filament_shrink))
     ((ConfigOptionFloat,              first_layer_acceleration))
     ((ConfigOptionInts,               first_layer_bed_temperature))
     ((ConfigOptionFloatOrPercent,     first_layer_extrusion_width))

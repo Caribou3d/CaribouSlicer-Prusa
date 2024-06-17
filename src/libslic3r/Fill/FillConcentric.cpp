@@ -49,7 +49,7 @@ void FillConcentric::_fill_surface_single(
     size_t iPathFirst = polylines_out.size();
     Point last_pos(0, 0);
     for (const Polygon &loop : loops) {
-        polylines_out.emplace_back(loop.split_at_index(rand() % loop.points.size()));
+        polylines_out.emplace_back(loop.split_at_index(nearest_point_index(loop.points, last_pos)));
         last_pos = polylines_out.back().last_point();
     }
 

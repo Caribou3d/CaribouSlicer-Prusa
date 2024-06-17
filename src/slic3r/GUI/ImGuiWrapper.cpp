@@ -329,7 +329,7 @@ bool ImGuiWrapper::update_key_data(wxKeyEvent &evt)
         // Release BackSpace, Delete, ... when miss wxEVT_KEY_UP event
         // Already Fixed at begining of new frame
         // unsigned int key_u = static_cast<unsigned int>(key);
-        //if (key_u >= 0 && key_u < IM_ARRAYSIZE(io.KeysDown) && io.KeysDown[key_u]) {
+        //if (key_u >= 0 && key_u < IM_ARRAYSIZE(io.KeysDown) && io.KeysDown[key_u]) { 
         //    io.KeysDown[key_u] = false;
         //}
 
@@ -380,7 +380,7 @@ void ImGuiWrapper::new_frame()
 
     // Not sure if it is neccessary
     // values from 33 to 126 are reserved for the standard ASCII characters
-    for (size_t i = 33; i <= 126; ++i) {
+    for (size_t i = 33; i <= 126; ++i) { 
         wxKeyCode keycode = static_cast<wxKeyCode>(i);
         if (io.KeysDown[i] && keycode != WXK_NONE && !wxGetKeyState(keycode))
             io.KeysDown[i] = false;
@@ -389,7 +389,7 @@ void ImGuiWrapper::new_frame()
     // special keys: delete, backspace, ...
     for (int key: io.KeyMap) {
         wxKeyCode keycode = static_cast<wxKeyCode>(key);
-        if (io.KeysDown[key] && keycode != WXK_NONE && !wxGetKeyState(keycode))
+        if (io.KeysDown[key] && keycode != WXK_NONE && !wxGetKeyState(keycode)) 
             io.KeysDown[key] = false;
     }
 
@@ -750,7 +750,7 @@ void ImGuiWrapper::search_list(const ImVec2& size_, bool (*items_getter)(int, co
 {
     int& hovered_id = view_params.hovered_id;
     // ImGui::ListBoxHeader("", size);
-    {
+    {   
         // rewrote part of function to add a TextInput instead of label Text
         ImGuiContext& g = *GImGui;
         ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -918,7 +918,7 @@ ColorRGBA ImGuiPSWrap::from_ImVec4(const ImVec4& color)
     return { color.x, color.y, color.z, color.w };
 }
 
-template <typename T, typename Func>
+template <typename T, typename Func> 
 static bool input_optional(std::optional<T> &v, Func& f, std::function<bool(const T&)> is_default, const T& def_val)
 {
     if (v.has_value()) {
@@ -983,7 +983,7 @@ bool ImGuiWrapper::slider_optional_int(const char         *label,
         if (val.has_value())
             v = static_cast<int>(std::round(*val));
         else
-            v.reset();
+            v.reset(); 
         return true;
     } else return false;
 }
@@ -1044,7 +1044,7 @@ ImVec2 ImGuiWrapper::suggest_location(const ImVec2 &dialog_size,
     double allowed_space = 10; // in px
     double allowed_space_sq = allowed_space * allowed_space;
     Vec2d  move_vec         = (center - (offset.cast<int>() + half_dialog_size))
-                         .cast<double>();
+                         .cast<double>();    
     Vec2d result_move(0, 0);
     do {
         move_vec             = move_vec / 2.;
@@ -1053,7 +1053,7 @@ ImVec2 ImGuiWrapper::suggest_location(const ImVec2 &dialog_size,
         for (Point &p : moved_polygon) p += move_point;
         if (Slic3r::intersection(interest, Polygon(moved_polygon)).empty())
             result_move += move_vec;
-
+        
     } while (move_vec.squaredNorm() >= allowed_space_sq);
     offset += result_move;
 
@@ -1169,7 +1169,7 @@ void ImGuiWrapper::init_font(bool compress)
         config.MergeMode = true;
         io.Fonts->AddFontFromFileTTF((Slic3r::resources_dir() + "/fonts/" + "NotoSansCJK-Regular.ttc").c_str(), m_font_size, &config, ranges.Data);
     }
-
+    
     if (font == nullptr) {
         font = io.Fonts->AddFontDefault();
         if (font == nullptr) {
