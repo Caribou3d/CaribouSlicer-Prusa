@@ -121,14 +121,14 @@ endif (MINGW)
 if (APPLE)
     # Binary name on unix like systems (Linux, Unix)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/osx/BuildMacOSImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildMacOSImage.sh @ONLY)
-    set_target_properties(CaribouSlicer PROPERTIES OUTPUT_NAME "prusa-slicer")
+    set_target_properties(CaribouSlicer PROPERTIES OUTPUT_NAME "CaribouSlicer")
 endif ()
 
 
 if (NOT WIN32 AND NOT APPLE)
     # Binary name on unix like systems (Linux, Unix)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/unix/BuildLinuxImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildLinuxImage.sh @ONLY)
-    set_target_properties(CaribouSlicer PROPERTIES OUTPUT_NAME "prusa-slicer")
+    set_target_properties(CaribouSlicer PROPERTIES OUTPUT_NAME "CaribouSlicer")
 endif ()
 
 target_link_libraries(CaribouSlicer libslic3r libcereal)
@@ -181,7 +181,7 @@ if (WIN32)
     endif()
     target_compile_definitions(CaribouSlicer_app_gui PRIVATE -DSLIC3R_WRAPPER_NOCONSOLE)
     add_dependencies(CaribouSlicer_app_gui CaribouSlicer)
-    set_target_properties(CaribouSlicer_app_gui PROPERTIES OUTPUT_NAME "prusa-slicer")
+    set_target_properties(CaribouSlicer_app_gui PROPERTIES OUTPUT_NAME "CaribouSlicer")
     target_link_libraries(CaribouSlicer_app_gui PRIVATE boost_headeronly)
 
     add_executable(CaribouSlicer_app_console CaribouSlicer_app_msvc.cpp ${CMAKE_CURRENT_BINARY_DIR}/CaribouSlicer.rc)
@@ -191,7 +191,7 @@ if (WIN32)
     endif ()
     target_compile_definitions(CaribouSlicer_app_console PRIVATE -DSLIC3R_WRAPPER_CONSOLE)
     add_dependencies(CaribouSlicer_app_console CaribouSlicer)
-    set_target_properties(CaribouSlicer_app_console PROPERTIES OUTPUT_NAME "prusa-slicer-console")
+    set_target_properties(CaribouSlicer_app_console PROPERTIES OUTPUT_NAME "CaribouSlicer-console")
     target_link_libraries(CaribouSlicer_app_console PRIVATE boost_headeronly)
 
     add_executable(CaribouSlicer_app_gcodeviewer WIN32 CaribouSlicer_app_msvc.cpp ${CMAKE_CURRENT_BINARY_DIR}/CaribouGcodeviewer.rc)
@@ -201,7 +201,7 @@ if (WIN32)
     endif ()
     target_compile_definitions(CaribouSlicer_app_gcodeviewer PRIVATE -DSLIC3R_WRAPPER_NOCONSOLE -DSLIC3R_WRAPPER_GCODEVIEWER)
     add_dependencies(CaribouSlicer_app_gcodeviewer CaribouSlicer)
-    set_target_properties(CaribouSlicer_app_gcodeviewer PROPERTIES OUTPUT_NAME "prusa-gcodeviewer")
+    set_target_properties(CaribouSlicer_app_gcodeviewer PROPERTIES OUTPUT_NAME "CaribouGcodeviewer")
     target_link_libraries(CaribouSlicer_app_gcodeviewer PRIVATE boost_headeronly)
 endif ()
 
@@ -251,15 +251,15 @@ else ()
     if (APPLE)
         # On OSX, the name of the binary matches the name of the Application.
         add_custom_command(TARGET CaribouSlicer POST_BUILD
-            COMMAND ln -sf CaribouSlicer prusa-slicer
-            COMMAND ln -sf CaribouSlicer prusa-gcodeviewer
+            COMMAND ln -sf CaribouSlicer CaribouSlicer
+            COMMAND ln -sf CaribouSlicer CaribouGcodeviewer
             COMMAND ln -sf CaribouSlicer PrusaGCodeViewer
             WORKING_DIRECTORY "$<TARGET_FILE_DIR:CaribouSlicer>"
-            COMMENT "Symlinking the G-code viewer to CaribouSlicer, symlinking to prusa-slicer and prusa-gcodeviewer"
+            COMMENT "Symlinking the G-code viewer to CaribouSlicer, symlinking to CaribouSlicer and CaribouGcodeviewer"
             VERBATIM)
     else ()
         add_custom_command(TARGET CaribouSlicer POST_BUILD
-            COMMAND ln -sf prusa-slicer prusa-gcodeviewer
+            COMMAND ln -sf CaribouSlicer CaribouGcodeviewer
             WORKING_DIRECTORY "$<TARGET_FILE_DIR:CaribouSlicer>"
             COMMENT "Symlinking the G-code viewer to CaribouSlicer"
             VERBATIM)
@@ -287,5 +287,5 @@ else ()
     install(TARGETS CaribouSlicer RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
     # Install the symlink for gcodeviewer
-    install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink prusa-slicer prusa-gcodeviewer WORKING_DIRECTORY \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})")
+    install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink CaribouSlicer CaribouGcodeviewer WORKING_DIRECTORY \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})")
 endif ()

@@ -14452,7 +14452,7 @@ msgstr ""
 #: src/slic3r/GUI/OpenGLManager.cpp:393
 msgid ""
 "As a workaround, you may run PrusaSlicer with a software rendered 3D "
-"graphics by running prusa-slicer.exe with the --sw-renderer parameter."
+"graphics by running CaribouSlicer.exe with the --sw-renderer parameter."
 msgstr ""
 
 #: src/slic3r/GUI/OpenGLManager.cpp:395

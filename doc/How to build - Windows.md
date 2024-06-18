@@ -48,7 +48,7 @@ cmake .. -DCMAKE_PREFIX_PATH="c:\src\PrusaSlicer\deps\build\destdir\usr\local"
 
 Note that `CMAKE_PREFIX_PATH` must be absolute path. A relative path will not work.
 
-### Compile PrusaSlicer. 
+### Compile PrusaSlicer.
 
 Double-click c:\src\PrusaSlicer\build\PrusaSlicer.sln to open in Visual Studio and select `PrusaSlicer_app_gui` as your startup project (right-click->Set as Startup Project).
 
@@ -75,7 +75,7 @@ c:\src\PrusaSlicer>build_win.bat -d=..\PrusaSlicer-deps -r=console
 The build script will run for a while and automatically perform the following steps:
 1. Configure and build [deps](#compile-the-dependencies) as RelWithDebInfo with `c:\src\PrusaSlicer-deps` as the destination directory
 2. Configure and build all [application targets](#compile-prusaslicer) as RelWithDebInfo
-3. Launch the resulting `prusa-slicer-console.exe` binary
+3. Launch the resulting `CaribouSlicer-console.exe` binary
 
 You can change the above command line options to do things like:
 * Change the destination for the dependencies by pointing `-d` to a different directory such as: `build_win.bat -d=s:\PrusaSlicerDeps`

@@ -84,14 +84,14 @@ To remove the limitation, simply delete the key `MinimumSDKVersion` from that fi
 
 ### `CMath::CMath` target not found
 
-At the moment (20.2.2024) PrusaSlicer cannot be built with CMake 3.28+. Use [CMake 3.27](https://github.com/Kitware/CMake/releases/tag/v3.27.9) instead. 
+At the moment (20.2.2024) PrusaSlicer cannot be built with CMake 3.28+. Use [CMake 3.27](https://github.com/Kitware/CMake/releases/tag/v3.27.9) instead.
 If you install the CMake application from [universal DMG](https://github.com/Kitware/CMake/releases/download/v3.27.9/cmake-3.27.9-macos-universal.dmg), you can invoke the CMake like this:
 
 ```
 /Applications/CMake.app/Contents/bin/cmake
 ```
 
-### Running `cmake -GXCode` fails with `No CMAKE_CXX_COMPILER could be found.` 
+### Running `cmake -GXCode` fails with `No CMAKE_CXX_COMPILER could be found.`
 
 - If XCode command line tools wasn't already installed, run:
     ```
@@ -108,7 +108,7 @@ Works on a fresh installation of MacOS Catalina 10.15.6
 
 - Install [brew](https://brew.sh/):
 - Open Terminal
-    
+
 - Enter:
 
 ```
@@ -126,5 +126,5 @@ mkdir build
 cd build
 cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local"
 make
-src/prusa-slicer
+src/CaribouSlicer
 ```
