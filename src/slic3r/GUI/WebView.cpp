@@ -1,6 +1,6 @@
 #include "WebView.hpp"
-#include "slic3r/GUI/GUI_App.hpp"
-#include "slic3r/GUI/GUI.hpp"
+#include "GUI_App.hpp"
+#include "GUI.hpp"
 
 #include <wx/uri.h>
 #include <wx/webview.h>
@@ -18,7 +18,7 @@ wxWebView* WebView::CreateWebView(wxWindow * parent, const wxString& url, std::v
     wxWebView* webView = nullptr;
     if (backend_available)
         webView = wxWebView::New();
-    
+
     if (webView) {
         wxString correct_url = url.empty() ? wxString("") : wxURI(url).BuildURI();
 
