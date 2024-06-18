@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Kalibrierung der Filamenttemperatur</title>
+</head>
+<body>
+<table width="100%">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<h1>Kalibrierung der Filamenttemperatur</h1>
+</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>
+<table><tr><td>Anforderung:</td>
+        <td style="text-align: left;">Bettnivellierung</td>
+        <td style="text-align: left;">Fluss</td></tr>
+</table>
+</strong>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Sie sollten die Bettebenenkalibrierung vorher durchgef&uuml;hrt haben,</strong> und
+Es ist besser, auch die Durchflusskalibrierung durchgef&uuml;hrt zu haben. Diese Kalibrierung wird Ihnen dabei helfen
+W&auml;hlen Sie die richtige Temperatur im Hinblick auf Verklebungen, &Uuml;berst&auml;nde und N&auml;ssen. Beachten Sie, dass dieser Test
+ist abh&auml;ngig von der gew&auml;hlten K&uuml;hlung. Sie k&ouml;nnen dies mehrmals mit mehr oder weniger ausdrucken
+Abk&uuml;hlen, um den Sweet Spot zu finden.</p>
+<p>Bei diesem Test wird ein Turm gedruckt, der mit einer anderen Temperatureinstellung f&uuml;r jede Etage gedruckt wird.
+Sie sollten den Filamenttyp ausw&auml;hlen, bevor Sie den Turm erstellen. Die Basis wird gedruckt
+mit den Temperatureinstellungen das Filament formen. Das Erdgeschoss wird gedruckt
+mit der h&ouml;chsten gew&auml;hlten Temperatur. Die Temperatur wird um das gew&auml;hlte Delta gesenkt
+f&uuml;r jede Etage.
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./temp_tower_slicer.png" width="365" height="365"/></td>
+</tr>
+<tr>
+<h2>Ergebnisse / Beobachtung</h2>
+<p>Ziel ist es, die h&ouml;chstm&ouml;gliche Temperatur zu w&auml;hlen, die keine Artefakte erzeugt.</p>
+<p>Zuerst m&uuml;ssen Sie den Turm analysieren. Auf jeder Etage ist die Temperatur angegeben.</p>
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./temp_tower_180.jpg" width="400" height="100" /></td>
+<td>Zu kalt, es kann nicht extrudiert werden</td>
+<td>
+</tr>
+<tr>
+<td><img src="./temp_tower_195.jpg" width="400" height="100" /></td>
+<td>Gut</td>
+</tr>
+<tr>
+<td><img src="./temp_tower_210.jpg" width="400" height="100" /></td>
+<td>Gut</td>
+</tr>
+<tr>
+<td><img src="./temp_tower_225.jpg" width="400" height="100" /></td>
+<td>Zu hei&szlig;, man sieht etwas tropfendes Filament</td>
+</tr>
+<tr>
+<td><img src="./temp_tower_240.jpg" width="400" height="100" /></td>
+<td>Zu hei&szlig;, man sieht tropfendes Filament</td>
+</tr>
+</tbody>
+</table>
+<p>Hier sehen Sie, dass der mit 210 Grad Celsius bedruckte Boden der hei&szlig;este ist, den wir drucken k&ouml;nnen
+ ohne Zerfallsprobleme (bez&uuml;glich der Hitze; die schlechte Qualit&auml;t der Bilder liegt daran).
+ zu hoher Geschwindigkeit). Sie sollten versuchen, das Teil zu zerbrechen. Auf diesen Bildern ein Teil des 195
+ Gradboden wurde wegen fehlender Schichthaftung abgebrochen.</p>
+<h2>Ergebnisse: Zerst&ouml;rung</h2>
+<p>Schlie&szlig;lich m&ouml;chten Sie den Turm auseinandernehmen, um zu sehen, ob die niedrigeren Temperaturen nachteilige Auswirkungen haben
+Auswirkungen auf den Schichtverbund. Es sollte nicht m&ouml;glich sein, Schichten mit blo&szlig;en H&auml;nden auseinanderzurei&szlig;en.
+L&auml;sst sich ein Boden leicht auseinanderziehen, dann ist diese Bodentemperatur definitiv zu niedrig (oder Sie).
+zu stark gek&uuml;hlt wurde, weil der L&uuml;fter zu stark bl&auml;st), daher sollten Sie eine h&ouml;here w&auml;hlen
+Temperatur oder versuchen Sie es erneut mit weniger K&uuml;hlung. Wenn Sie versuchen, eines zu zerbrechen, fassen Sie es nicht an
+an den Enden des Turms, aber auf dem getesteten Stockwerk und dem n&auml;chsten, so dass nur die Br&uuml;cke &uuml;brig bleibt
+L&uuml;cken zwischen ihnen.</p>
+<h2>So optimieren Sie Ihren Drucker</h2>
+<p>Bei schlechter Betthaftung &auml;ndern Sie die Temperatur in Ihrer Filamenteinstellung
+(Extruder -> andere Ebenen), dann speichern. Dann k&ouml;nnen Sie mit einem anderen einen neuen Turm generieren
+Temperaturbereich auch.
+</p>
+</ul>
+<h2>Notizen</h2>
+<p>Die meisten Kalibrierungen m&uuml;ssen in der <strong>richtigen</strong> Reihenfolge durchgef&uuml;hrt werden. Dieses hier
+sollte Dritter sein.</p>
+<p>Dieser Turm wurde mit dem 3D-Modell <a href="https://www.thingiverse.com/thing:2729076"> erstellt
+erstellt von gaaZolee</a> mit der CC BY-SA 3.0-Lizenz.<p>
+</body>
+</html>
