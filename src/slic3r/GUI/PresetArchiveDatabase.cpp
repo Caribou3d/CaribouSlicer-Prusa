@@ -126,7 +126,7 @@ bool extract_local_archive_repository( ArchiveRepository::RepositoryManifest& ma
     assert(!manifest_data.tmp_path.empty());
     assert(!manifest_data.source_path.empty());
 	// Delete previous data before unzip.
-	// We have unique path in temp set for whole run of slicer and in it folder for each repo. 
+	// We have unique path in temp set for whole run of slicer and in it folder for each repo.
 	delete_path_recursive(manifest_data.tmp_path);
 	fs::create_directories(manifest_data.tmp_path);
 	// Unzip repository zip to unique path in temp directory.
@@ -242,7 +242,7 @@ bool OnlineArchiveRepository::get_file_inner(const std::string& url, const fs::p
 			fs::rename(tmp_path, target_path);
 			res = true;
 		})
-		.perform_sync();	
+		.perform_sync();
 
 	return res;
 }
@@ -312,7 +312,7 @@ bool LocalArchiveRepository::get_archive(const fs::path& target_path) const
 	return get_file_inner(std::move(source_path), target_path);
 }
 
-void LocalArchiveRepository::do_extract() 
+void LocalArchiveRepository::do_extract()
 {
     RepositoryManifest new_manifest;
     new_manifest.source_path = this->get_manifest().source_path;
@@ -326,7 +326,7 @@ void LocalArchiveRepository::do_extract()
 PresetArchiveDatabase::PresetArchiveDatabase(AppConfig* app_config, wxEvtHandler* evt_handler)
 	: p_evt_handler(evt_handler)
 {
-	// 
+	//
 	boost::system::error_code ec;
 	m_unq_tmp_path = fs::temp_directory_path() / fs::unique_path();
 	fs::create_directories(m_unq_tmp_path, ec);
@@ -347,7 +347,7 @@ bool PresetArchiveDatabase::set_selected_repositories(const std::vector<std::str
 		for (const auto& archive : m_archive_repositories) {
 			if (archive->get_uuid() != uuid) {
                 continue;
-            }        
+            }
 		    id = archive->get_manifest().id;
 		    name = archive->get_manifest().name;
             if (!archive->is_extracted()) {
@@ -414,7 +414,7 @@ void PresetArchiveDatabase::set_installed_printer_repositories(const std::vector
         for (const auto &archive : m_archive_repositories) {
             if (archive->get_manifest().id != used_id) {
 				continue;
-			}	
+			}
 			const std::string uuid = archive->get_uuid();
 
             const auto& it = m_selected_repositories_uuid.find(uuid);
@@ -467,7 +467,7 @@ void PresetArchiveDatabase::remove_local_archive(const std::string& uuid)
 	assert(archives_it != m_archive_repositories.end());
 	std::string removed_uuid = archives_it->get()->get_uuid();
 	m_archive_repositories.erase(archives_it);
-	
+
 	auto used_it = m_selected_repositories_uuid.find(removed_uuid);
 	assert(used_it != m_selected_repositories_uuid.end());
 	m_selected_repositories_uuid.erase(used_it);
@@ -484,7 +484,7 @@ void PresetArchiveDatabase::remove_local_archive(const std::string& uuid)
     for (auto &archive : m_archive_repositories) {
          archive->do_extract();
     }
- }    
+ }
 
 void PresetArchiveDatabase::load_app_manifest_json()
 {
@@ -541,7 +541,7 @@ void PresetArchiveDatabase::load_app_manifest_json()
                     m_has_installed_printer_repositories_uuid[uuid] = false;
                 }
 				m_archive_repositories.emplace_back(std::make_unique<LocalArchiveRepository>(std::move(uuid), std::move(manifest), extracted));
-			
+
 				continue;
 			}
 			// online repo
@@ -678,10 +678,10 @@ fs::path PresetArchiveDatabase::get_stored_manifest_path() const
 bool PresetArchiveDatabase::is_selected(const std::string& uuid) const
 {
 	auto search = m_selected_repositories_uuid.find(uuid);
-	assert(search != m_selected_repositories_uuid.end()); 
+	assert(search != m_selected_repositories_uuid.end());
 	return search->second;
 }
-bool PresetArchiveDatabase::has_installed_printers(const std::string &uuid) const 
+bool PresetArchiveDatabase::has_installed_printers(const std::string &uuid) const
 {
     auto search = m_has_installed_printer_repositories_uuid.find(uuid);
     assert(search != m_has_installed_printer_repositories_uuid.end());
@@ -722,7 +722,7 @@ void PresetArchiveDatabase::read_server_manifest(const std::string& json_body)
 			id_to_uuid[repo_ptr->get_manifest().id] = repo_ptr->get_uuid();
 		}
 	}
-	
+
 	// Make a stash of secret repos that are online and has installed printers.
 	// If some of these will be missing afer reading the json tree, it needs to be added back to main population.
 	PrivateArchiveRepositoryVector secret_online_used_repos_cache;
@@ -739,7 +739,7 @@ void PresetArchiveDatabase::read_server_manifest(const std::string& json_body)
 	}
 
     clear_online_repos();
-	
+
 	for (const auto& subtree : ptree) {
 		ArchiveRepository::RepositoryManifest manifest;
 		if (!extract_repository_header(subtree.second, manifest)) {
@@ -760,7 +760,7 @@ void PresetArchiveDatabase::read_server_manifest(const std::string& json_body)
         }
 		m_archive_repositories.emplace_back(std::make_unique<OnlineArchiveRepository>(uuid, std::move(manifest)));
 	}
-	
+
 	// return missing secret online repos with installed printers to the vector
 	for (const auto &repo_ptr : secret_online_used_repos_cache) {
         std::string uuid = repo_ptr->get_uuid();
@@ -780,28 +780,28 @@ void PresetArchiveDatabase::read_server_manifest(const std::string& json_body)
 	save_app_manifest_json();
 }
 
-SharedArchiveRepositoryVector PresetArchiveDatabase::get_all_archive_repositories() const 
+SharedArchiveRepositoryVector PresetArchiveDatabase::get_all_archive_repositories() const
 {
     SharedArchiveRepositoryVector result;
     result.reserve(m_archive_repositories.size());
-    for (const auto &repo_ptr : m_archive_repositories) 
+    for (const auto &repo_ptr : m_archive_repositories)
     {
         result.emplace_back(repo_ptr.get());
     }
     return result;
 }
 
-SharedArchiveRepositoryVector PresetArchiveDatabase::get_selected_archive_repositories() const 
+SharedArchiveRepositoryVector PresetArchiveDatabase::get_selected_archive_repositories() const
 {
     SharedArchiveRepositoryVector result;
     result.reserve(m_archive_repositories.size());
-    for (const auto &repo_ptr : m_archive_repositories) 
+    for (const auto &repo_ptr : m_archive_repositories)
     {
         auto it = m_selected_repositories_uuid.find(repo_ptr->get_uuid());
         assert(it != m_selected_repositories_uuid.end());
         if (it->second) {
             result.emplace_back(repo_ptr.get());
-        }   
+        }
     }
     return result;
 }
@@ -832,7 +832,7 @@ void PresetArchiveDatabase::consolidate_uuid_maps()
 		for (const auto& repo_ptr : m_archive_repositories) {
             if (repo_ptr->get_uuid() == selected_it->first) {
 				found = true;
-				break;	 
+				break;
 			}
 		}
 		if (!found) {
@@ -872,7 +872,7 @@ bool sync_inner(std::string& manifest)
 #ifdef SLIC3R_REPO_URL
     std::string url = SLIC3R_REPO_URL;
 #else
-    std::string url = "https://caribou3d.com/caribouslicer/preset-repo";
+    std::string url = "https://caribou3d.com/CaribouSlicer/preset-repo/ArchiveRepositoryManifest.json";
 #endif
     auto http = Http::get(std::move(url));
     add_authorization_header(http);
