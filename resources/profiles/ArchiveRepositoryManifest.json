@@ -2,7 +2,7 @@
 	"name": "Caribou FFF",
 	"description": "Prusa FFF printers",
 	"visibility": "",
-	"id": "carobou-fff",
+	"id": "caribou-fff",
 	"url": "https://caribou3d.com/caribouslicer/preset-repo/caribou-fff/",
 	"index_url": "https://caribou3d.com/caribouslicer/preset-repo/caribou-fff/vendor_indices.zip",
 	"selected": 1
