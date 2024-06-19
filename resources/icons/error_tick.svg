@@ -5,8 +5,8 @@
 <g id="error_tick">
 	<path fill="#646464" stroke="#808080" d="M 8 1.85 M 8 1 L 2 5 v 2 v 4 l 6 4 l 6 -4 V 7 V 5 L 8 1 L 8 1 z"/>
 
-    <path fill="none" stroke="#107C18" stroke-linecap="round" stroke-width="2" d="M8 4 L8 9" />
+    <path fill="none" stroke="#ed0000" stroke-linecap="round" stroke-width="2" d="M8 4 L8 9" />
 
-	<circle fill="#107C18" cx="8" cy="12" r="1"/>
+	<circle fill="#ed0000" cx="8" cy="12" r="1"/>
 </g>
 </svg>
