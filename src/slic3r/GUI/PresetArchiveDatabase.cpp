@@ -872,7 +872,7 @@ bool sync_inner(std::string& manifest)
 #ifdef SLIC3R_REPO_URL
     std::string url = SLIC3R_REPO_URL;
 #else
-    std::string url = "https://preset-repo-api.prusa3d.com/v1/repos";
+    std::string url = "https://caribou3d.com/caribouslicer/preset-repo"
 #endif
     auto http = Http::get(std::move(url));
     add_authorization_header(http);
