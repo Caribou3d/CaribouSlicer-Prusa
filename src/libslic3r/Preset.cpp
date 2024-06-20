@@ -428,7 +428,7 @@ void Preset::set_visible_from_appconfig(const AppConfig &app_config)
         if (type == TYPE_FILAMENT && app_config.get_bool("no_templates") && vendor && vendor->templates_profile)
             is_visible = false;
     	else if (app_config.has_section(section_name)) {
-    		// Check whether this profile is marked as "installed" in PrusaSlicer.ini,
+    		// Check whether this profile is marked as "installed" in CaribouSlicer.ini,
     		// or whether a profile is marked as "installed", which this profile may have been renamed from.
 	    	const std::map<std::string, std::string> &installed = app_config.get_section(section_name);
 	    	auto has = [&installed](const std::string &name) {

@@ -4,8 +4,8 @@
 ///|/
 ///|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
 ///|/
-#ifndef _prusaslicer_technologies_h_
-#define _prusaslicer_technologies_h_
+#ifndef _caribouslicer_technologies_h_
+#define _caribouslicer_technologies_h_
 
 //=============
 // debug techs
@@ -55,4 +55,4 @@
 // Enable extension of tool position imgui dialog to show actual speed profile
 #define ENABLE_ACTUAL_SPEED_DEBUG 1
 
-#endif // _prusaslicer_technologies_h_
+#endif // _caribouslicer_technologies_h_

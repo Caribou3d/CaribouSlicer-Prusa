@@ -206,7 +206,7 @@ static bool should_dialog_be_shown()
 
 
 
-// Following function saves current PrusaSlicer version into app config.
+// Following function saves current CaribouSlicer version into app config.
 // It will be later used to decide whether to open the dialog or not.
 static void save_version()
 {

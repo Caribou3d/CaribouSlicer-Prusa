@@ -53,14 +53,14 @@ enum class NotificationType
 	Mouse3dDisconnected,
 //	Mouse3dConnected,
 //	NewPresetsAviable,
-	// Notification on the start of PrusaSlicer, when a new PrusaSlicer version is published.
-	// Contains a hyperlink to open a web browser pointing to the PrusaSlicer download location.
+	// Notification on the start of CaribouSlicer, when a new CaribouSlicer version is published.
+	// Contains a hyperlink to open a web browser pointing to the CaribouSlicer download location.
 	NewAppAvailable,
 	// Like NewAppAvailable but with text and link for alpha / bet release
 	NewAlphaAvailable,
 	NewBetaAvailable,
 	NoNewReleaseAvailable,
-	// Notification on the start of PrusaSlicer, when updates of system profiles are detected.
+	// Notification on the start of CaribouSlicer, when updates of system profiles are detected.
 	// Contains a hyperlink to execute installation of the new system profiles.
 	PresetUpdateAvailable,
 	PresetUpdateAvailableNewPrinter,
@@ -123,7 +123,7 @@ enum class NotificationType
 	RepairFinished,
 	// Short meesage to fill space between start and finish of export
 	ExportOngoing,
-	// Progressbar of download from prusaslicer:// url
+	// Progressbar of download from CaribouSlicer:// url
 	URLDownload,
 	// MacOS specific - PS comes forward even when downloader is not allowed
 	URLNotRegistered,
@@ -926,7 +926,7 @@ private:
 
 			//{NotificationType::NewAppAvailable, NotificationLevel::ImportantNotificationLevel, 20,  _u8L("New version is available."),  _u8L("See Releases page."), [](wxEvtHandler* evnthndlr) {
 			//	wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer-Prusa/releases"); return true; }},
-			//{NotificationType::NewAppAvailable, NotificationLevel::ImportantNotificationLevel, 20,  _u8L("New vesion of PrusaSlicer is available.",  _u8L("Download page.") },
+			//{NotificationType::NewAppAvailable, NotificationLevel::ImportantNotificationLevel, 20,  _u8L("New vesion of CaribouSlicer is available.",  _u8L("Download page.") },
 			//{NotificationType::LoadingFailed, NotificationLevel::RegularNotificationLevel, 20,  _u8L("Loading of model has Failed") },
 			//{NotificationType::DeviceEjected, NotificationLevel::RegularNotificationLevel, 10,  _u8L("Removable device has been safely ejected")} // if we want changeble text (like here name of device), we need to do it as CustomNotification
 	};

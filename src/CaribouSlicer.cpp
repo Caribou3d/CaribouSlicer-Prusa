@@ -253,7 +253,7 @@ int CLI::run(int argc, char **argv)
     for (const std::string& s : { "opengl-version", "opengl-compatibility", "opengl-debug", "opengl-aa", "gcodeviewer" }) {
         auto it = std::find(m_actions.cbegin(), m_actions.cend(), s);
         if (it != m_actions.end()) {
-            boost::nowide::cerr << "Parameter '" << s << "' is ignored, this PrusaSlicer build is CLI only." << std::endl;
+            boost::nowide::cerr << "Parameter '" << s << "' is ignored, this CaribouSlicer build is CLI only." << std::endl;
             m_actions.erase(it);
         }
     }
@@ -268,7 +268,7 @@ int CLI::run(int argc, char **argv)
         }
     if (!start_as_gcodeviewer) {
         for (const std::string& file : m_input_files) {
-            if (boost::starts_with(file, "prusaslicer://")) {
+            if (boost::starts_with(file, "CaribouSlicer://")) {
                 start_downloader = true;
                 download_url = file;
                 continue;

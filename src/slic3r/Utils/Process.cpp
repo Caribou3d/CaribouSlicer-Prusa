@@ -18,7 +18,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/log/trivial.hpp>
 
-// For starting another PrusaSlicer instance on OSX.
+// For starting another CaribouSlicer instance on OSX.
 // Fails to compile on Windows on the build server.
 #ifdef __APPLE__
     #include <boost/process/spawn.hpp>
@@ -58,7 +58,7 @@ static void start_new_slicer_or_gcodeviewer(const NewSlicerInstanceType instance
 
 	args.emplace_back(nullptr);
 	BOOST_LOG_TRIVIAL(info) << "Trying to spawn a new slicer \"" << into_u8(path) << "\"";
-	// Don't call with wxEXEC_HIDE_CONSOLE, PrusaSlicer in GUI mode would just show the splash screen. It would not open the main window though, it would
+	// Don't call with wxEXEC_HIDE_CONSOLE, CaribouSlicer in GUI mode would just show the splash screen. It would not open the main window though, it would
 	// just hang in the background.
 	if (wxExecute(const_cast<wchar_t**>(args.data()), wxEXEC_ASYNC) <= 0)
 		BOOST_LOG_TRIVIAL(error) << "Failed to spawn a new slicer \"" << into_u8(path);
@@ -67,11 +67,11 @@ static void start_new_slicer_or_gcodeviewer(const NewSlicerInstanceType instance
 	boost::filesystem::path bin_path = into_path(wxStandardPaths::Get().GetExecutablePath());
 #if defined(__APPLE__)
 	{
-		// Maybe one day we will be able to run PrusaGCodeViewer, but for now the Apple notarization 
+		// Maybe one day we will be able to run CaribouGCodeViewer, but for now the Apple notarization 
 		// process refuses Apps with multiple binaries and Vojtech does not know any workaround.
-		// ((instance_type == NewSlicerInstanceType::Slicer) ? "PrusaSlicer" : "PrusaGCodeViewer");
-		// Just run PrusaSlicer and give it a --gcodeviewer parameter.
-		bin_path = bin_path.parent_path() / "PrusaSlicer";
+		// ((instance_type == NewSlicerInstanceType::Slicer) ? "CaribouSlicer" : "CaribouGCodeViewer");
+		// Just run CaribouSlicer and give it a --gcodeviewer parameter.
+		bin_path = bin_path.parent_path() / "CaribouSlicer";
 		// On Apple the wxExecute fails, thus we use boost::process instead.
 		BOOST_LOG_TRIVIAL(info) << "Trying to spawn a new slicer \"" << bin_path.string() << "\"";
 		try {
@@ -87,11 +87,11 @@ static void start_new_slicer_or_gcodeviewer(const NewSlicerInstanceType instance
 			if (delete_after_load && !paths_to_open.empty())
 				args.emplace_back("--delete-after-load=1");
 			boost::process::spawn(bin_path, args);
-		    // boost::process::spawn() sets SIGCHLD to SIGIGN for the child process, thus if a child PrusaSlicer spawns another
-		    // subprocess and the subrocess dies, the child PrusaSlicer will not receive information on end of subprocess
+		    // boost::process::spawn() sets SIGCHLD to SIGIGN for the child process, thus if a child CaribouSlicer spawns another
+		    // subprocess and the subrocess dies, the child CaribouSlicer will not receive information on end of subprocess
 		    // (posix waitpid() call will always fail).
 		    // https://jmmv.dev/2008/10/boostprocess-and-sigchld.html
-		    // The child instance of PrusaSlicer has to reset SIGCHLD to its default, so that posix waitpid() and similar continue to work.
+		    // The child instance of CaribouSlicer has to reset SIGCHLD to its default, so that posix waitpid() and similar continue to work.
 		    // See GH issue #5507
 		}
 		catch (const std::exception& ex) {

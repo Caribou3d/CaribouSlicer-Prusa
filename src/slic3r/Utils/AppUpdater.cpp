@@ -72,7 +72,7 @@ namespace {
             const char* argv1[] = { "hdiutil", "attach", path.string().c_str(), nullptr };
             ::wxExecute(const_cast<char**>(argv1), wxEXEC_ASYNC, nullptr);
             // open inside attached as a folder in finder
-            const char* argv2[] = { "open", "/Volumes/PrusaSlicer", nullptr };
+            const char* argv2[] = { "open", "/Volumes/CaribouSlicer", nullptr };
 			::wxExecute(const_cast<char**>(argv2), wxEXEC_ASYNC, nullptr);
 			return true;
 		}
@@ -129,7 +129,7 @@ struct AppUpdater::priv {
 	// gets version file via http
 	void version_check(const std::string& version_check_url);
 #if 0
-	// parsing of Prusaslicer.version2 
+	// parsing of CaribouSlicer.version2 
 	void parse_version_string_old(const std::string& body) const;
 #endif
 	// parses ini tree of version file, saves to m_online_version_data and queue event(s) to UI 

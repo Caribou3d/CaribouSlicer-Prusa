@@ -84,7 +84,7 @@ public:
 
         for (int i=0; i<3; ++i) {
             if (is_same_vertex(source(h_candidate), target(h))) {
-                // Meshes in PrusaSlicer should be fixed enough for the following not to happen.
+                // Meshes in CaribouSlicer should be fixed enough for the following not to happen.
                 assert(is_same_vertex(target(h_candidate), source(h)));
                 return h_candidate;
             }

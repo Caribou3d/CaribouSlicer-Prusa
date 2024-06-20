@@ -174,7 +174,7 @@ class SceneBuilder;
 
 struct InstPos { size_t obj_idx = 0, inst_idx = 0; };
 
-// Implementing ArrangeableModel interface for PrusaSlicer's Model, ModelObject, ModelInstance data
+// Implementing ArrangeableModel interface for CaribouSlicer's Model, ModelObject, ModelInstance data
 // hierarchy
 class ArrangeableSlicerModel: public ArrangeableModel
 {
@@ -209,7 +209,7 @@ public:
     const Model &get_model() const { return *m_model; }
 };
 
-// SceneBuilder implementation for PrusaSlicer API.
+// SceneBuilder implementation for CaribouSlicer API.
 class SceneBuilder: public SceneBuilderBase<SceneBuilder>
 {
 protected:

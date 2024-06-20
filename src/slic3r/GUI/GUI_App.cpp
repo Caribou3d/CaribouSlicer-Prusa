@@ -950,7 +950,7 @@ void GUI_App::init_app_config()
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
             else {
-                throw Slic3r::RuntimeError(format("Error parsing PrusaGCodeViewer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing CaribouGCodeViewer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
@@ -1152,7 +1152,7 @@ std::string GUI_App::check_older_app_config(Semver current_version, bool backup)
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
             else {
-                throw Slic3r::RuntimeError(format("Error parsing PrusaGCodeViewer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing CaribouGCodeViewer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
