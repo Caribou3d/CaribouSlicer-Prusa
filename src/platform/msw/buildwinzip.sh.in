@@ -19,6 +19,7 @@ cp -f caribou-slicer-console.exe $DESTDIR
 cp -f caribou-slicer.exe $DESTDIR
 cp -f libgmp-10.dll $DESTDIR
 cp -f libmpfr-4.dll $DESTDIR
+cp -f WebView2Loader.dll $DESTDIR
 cp -fr resources $DESTDIR/resources
 echo '... done'
 echo
