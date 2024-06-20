@@ -23,7 +23,7 @@
 
 #ifndef __linux__
 void                sys_color_changed_menu(wxMenu* menu);
-#else 
+#else
 inline void         sys_color_changed_menu(wxMenu* /* menu */) {}
 #endif // no __linux__
 
@@ -48,7 +48,7 @@ wxMenuItem* append_menu_radio_item(wxMenu* menu, int id, const wxString& string,
 
 wxMenuItem* append_menu_check_item(wxMenu* menu, int id, const wxString& string, const wxString& description,
     std::function<void(wxCommandEvent & event)> cb, wxEvtHandler* event_handler,
-    std::function<bool()> const enable_condition = []() { return true; }, 
+    std::function<bool()> const enable_condition = []() { return true; },
     std::function<bool()> const check_condition = []() { return true; }, wxWindow* parent = nullptr);
 
 void enable_menu_item(wxUpdateUIEvent& evt, std::function<bool()> const cb_condition, wxMenuItem* item, wxWindow* win);
@@ -195,7 +195,7 @@ public:
         const wxSize&       size = wxDefaultSize,
         const wxPoint&      pos = wxDefaultPosition,
         long                style = wxBU_EXACTFIT | wxNO_BORDER,
-        int                 width = 16, 
+        int                 width = 16,
         int                 height = -1);
 
     ScalableButton(
@@ -223,7 +223,7 @@ private:
     int             m_height{-1}; // should be multiplied to em_unit
 
 protected:
-    // bitmap dimensions 
+    // bitmap dimensions
     int             m_bmp_width{ 16 };
     int             m_bmp_height{ -1 };
     bool            m_has_border {false};

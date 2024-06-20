@@ -1529,7 +1529,7 @@ TEST_CASE("Voronoi offset 3", "[VoronoiOffset]")
 
 TEST_CASE("Voronoi offset with edge collapse", "[VoronoiOffset4]")
 {
-    Polygons poly 
+    Polygons poly
     {
         // Outer contour
         {

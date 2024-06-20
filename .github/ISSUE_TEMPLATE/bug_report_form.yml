@@ -13,7 +13,7 @@ body:
       placeholder: |
         What is the problem?
         What did you expect?
-        You paste or drop screenshots here 
+        You paste or drop screenshots here
     validations:
       required: true
   - type: textarea

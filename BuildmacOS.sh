@@ -230,7 +230,7 @@ then
     fi
 
     # cmake
-    pushd build 
+    pushd build
     cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.15" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo "Cmake command: cmake .. -DCMAKE_PREFIX_PATH=\"$PWD/../deps/build/destdir/usr/local\" -DCMAKE_OSX_DEPLOYMENT_TARGET=\"10.15\" -DSLIC3R_STATIC=1 ${BUILD_ARCH} "
     echo -e "\n ... done"
@@ -263,6 +263,6 @@ then
     # Give proper permissions to script
     chmod 755 $ROOT/build/src/BuildMacOSImage.sh
     pushd build  > /dev/null
-    $ROOT/build/src/BuildMacOSImage.sh -i 
+    $ROOT/build/src/BuildMacOSImage.sh -i
     popd  > /dev/null
 fi

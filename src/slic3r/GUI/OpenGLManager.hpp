@@ -81,7 +81,7 @@ public:
         void detect() const;
     };
 
-#ifdef __APPLE__ 
+#ifdef __APPLE__
     // Part of hack to remove crash when closing the application on OSX 10.9.5 when building against newer wxWidgets
     struct OSInfo
     {
@@ -104,7 +104,7 @@ private:
     bool m_debug_enabled{ false };
     GLShadersManager m_shaders_manager;
     static GLInfo s_gl_info;
-#ifdef __APPLE__ 
+#ifdef __APPLE__
     // Part of hack to remove crash when closing the application on OSX 10.9.5 when building against newer wxWidgets
     static OSInfo s_os_info;
 #endif //__APPLE__

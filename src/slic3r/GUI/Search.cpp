@@ -54,7 +54,7 @@ static char marker_by_type(Preset::Type type, PrinterTechnology pt)
         return ImGui::PreferencesButton;
     default:
         return ' ';
-	}
+    }
 }
 
 std::string Option::opt_key() const
@@ -102,7 +102,7 @@ void OptionsSearcher::append_options(DynamicPrintConfig* config, Preset::Type ty
         if (gc.category == "Machine limits" || gc.category == "Material printing profile") {
             if (gc.category == "Machine limits")
                 suffix = id == 1 ? L("Stealth") : L("Normal");
-            else 
+            else
                 suffix = id == 1 ? L("Above") : L("Below");
             suffix_local = " " + _(suffix);
             suffix = " " + suffix;
@@ -130,16 +130,16 @@ void OptionsSearcher::append_options(DynamicPrintConfig* config, Preset::Type ty
         if ( type != Preset::TYPE_FILAMENT && !PresetCollection::is_independent_from_extruder_number_option(opt_key))
             switch (config->option(opt_key)->type())
             {
-            case coInts:	change_opt_key<ConfigOptionInts		>(opt_key, config, cnt);	break;
-            case coBools:	change_opt_key<ConfigOptionBools	>(opt_key, config, cnt);	break;
-            case coFloats:	change_opt_key<ConfigOptionFloats	>(opt_key, config, cnt);	break;
-            case coStrings:	change_opt_key<ConfigOptionStrings	>(opt_key, config, cnt);	break;
-            case coPercents:change_opt_key<ConfigOptionPercents	>(opt_key, config, cnt);	break;
-            case coPoints:	change_opt_key<ConfigOptionPoints	>(opt_key, config, cnt);	break;
-            case coFloatsOrPercents:	change_opt_key<ConfigOptionFloatsOrPercents	>(opt_key, config, cnt);	break;
-            case coEnums:	change_opt_key<ConfigOptionEnumsGeneric>(opt_key, config, cnt);	break;
+            case coInts:    change_opt_key<ConfigOptionInts        >(opt_key, config, cnt);    break;
+            case coBools:    change_opt_key<ConfigOptionBools    >(opt_key, config, cnt);    break;
+            case coFloats:    change_opt_key<ConfigOptionFloats    >(opt_key, config, cnt);    break;
+            case coStrings:    change_opt_key<ConfigOptionStrings    >(opt_key, config, cnt);    break;
+            case coPercents:change_opt_key<ConfigOptionPercents    >(opt_key, config, cnt);    break;
+            case coPoints:    change_opt_key<ConfigOptionPoints    >(opt_key, config, cnt);    break;
+            case coFloatsOrPercents:    change_opt_key<ConfigOptionFloatsOrPercents    >(opt_key, config, cnt);    break;
+            case coEnums:    change_opt_key<ConfigOptionEnumsGeneric>(opt_key, config, cnt);    break;
 
-            default:		break;
+            default:        break;
             }
 
         wxString label = opt.full_label.empty() ? opt.label : opt.full_label;
@@ -156,31 +156,31 @@ void OptionsSearcher::append_options(DynamicPrintConfig* config, Preset::Type ty
 // Mark a string using ColorMarkerStart and ColorMarkerEnd symbols
 static std::wstring mark_string(const std::wstring &str, const std::vector<uint16_t> &matches, Preset::Type type, PrinterTechnology pt)
 {
-	std::wstring out;
+    std::wstring out;
     out += marker_by_type(type, pt);
-	if (matches.empty())
-		out += str;
-	else {
-		out.reserve(str.size() * 2);
-		if (matches.front() > 0)
-			out += str.substr(0, matches.front());
-		for (size_t i = 0;;) {
-			// Find the longest string of successive indices.
-			size_t j = i + 1;
+    if (matches.empty())
+        out += str;
+    else {
+        out.reserve(str.size() * 2);
+        if (matches.front() > 0)
+            out += str.substr(0, matches.front());
+        for (size_t i = 0;;) {
+            // Find the longest string of successive indices.
+            size_t j = i + 1;
             while (j < matches.size() && matches[j] == matches[j - 1] + 1)
                 ++ j;
             out += ImGui::ColorMarkerStart;
             out += str.substr(matches[i], matches[j - 1] - matches[i] + 1);
             out += ImGui::ColorMarkerEnd;
             if (j == matches.size()) {
-				out += str.substr(matches[j - 1] + 1);
-				break;
-			}
+                out += str.substr(matches[j - 1] + 1);
+                break;
+            }
             out += str.substr(matches[j - 1] + 1, matches[j] - matches[j - 1] - 1);
             i = j;
-		}
-	}
-	return out;
+        }
+    }
+    return out;
 }
 
 bool OptionsSearcher::search()
@@ -193,13 +193,13 @@ static bool fuzzy_match(const std::wstring &search_pattern, const std::wstring &
     uint16_t matches[fts::max_matches + 1]; // +1 for the stopper
     int score;
     if (fts::fuzzy_match(search_pattern.c_str(), label.c_str(), score, matches)) {
-	    size_t cnt = 0;
-	    for (; matches[cnt] != fts::stopper; ++cnt);
-	    out_matches.assign(matches, matches + cnt);
-		out_score = score;
-		return true;
-	} else
-		return false;
+        size_t cnt = 0;
+        for (; matches[cnt] != fts::stopper; ++cnt);
+        out_matches.assign(matches, matches + cnt);
+        out_score = score;
+        return true;
+    } else
+        return false;
 }
 
 bool OptionsSearcher::search(const std::string& search, bool force/* = false*/)
@@ -217,16 +217,16 @@ bool OptionsSearcher::search(const std::string& search, bool force/* = false*/)
         std::wstring out;
         if (marked)
             out += marker_by_type(opt.type, printer_technology);
-    	const std::wstring *prev = nullptr;
-    	for (const std::wstring * const s : {
-	        view_params.category 	? &opt.category_local 		: nullptr,
-	        &opt.group_local, &opt.label_local })
-    		if (s != nullptr && (prev == nullptr || *prev != *s)) {
-      			if (out.size()>2)
-    				out += sep;
-    			out += *s;
-    			prev = s;
-    		}
+        const std::wstring *prev = nullptr;
+        for (const std::wstring * const s : {
+            view_params.category     ? &opt.category_local         : nullptr,
+            &opt.group_local, &opt.label_local })
+            if (s != nullptr && (prev == nullptr || *prev != *s)) {
+                  if (out.size()>2)
+                    out += sep;
+                out += *s;
+                prev = s;
+            }
         return out;
     };
 
@@ -235,16 +235,16 @@ bool OptionsSearcher::search(const std::string& search, bool force/* = false*/)
         std::wstring out;
         if (marked)
             out += marker_by_type(opt.type, printer_technology);
-    	const std::wstring*prev = nullptr;
-    	for (const std::wstring * const s : {
-	        view_params.category 	? &opt.category 			: nullptr,
-	        &opt.group, &opt.label })
-    		if (s != nullptr && (prev == nullptr || *prev != *s)) {
-      			if (out.size()>2)
-    				out += sep;
-    			out += *s;
-    			prev = s;
-    		}
+        const std::wstring*prev = nullptr;
+        for (const std::wstring * const s : {
+            view_params.category     ? &opt.category             : nullptr,
+            &opt.group, &opt.label })
+            if (s != nullptr && (prev == nullptr || *prev != *s)) {
+                  if (out.size()>2)
+                    out += sep;
+                out += *s;
+                prev = s;
+            }
         return out;
     };
 
@@ -274,22 +274,22 @@ bool OptionsSearcher::search(const std::string& search, bool force/* = false*/)
         matches.clear();
         fuzzy_match(wsearch, label, score, matches);
         if (fuzzy_match(wsearch, opt.key, score2, matches2) && score2 > score) {
-        	for (fts::pos_type &pos : matches2)
-        		pos += label.size() + 1;
-        	label += L"(" + opt.key + L")";
-        	append(matches, matches2);
-        	score = score2;
+            for (fts::pos_type &pos : matches2)
+                pos += label.size() + 1;
+            label += L"(" + opt.key + L")";
+            append(matches, matches2);
+            score = score2;
         }
         if (view_params.english && fuzzy_match(wsearch, label_english, score2, matches2) && score2 > score) {
-        	label   = std::move(label_english);
-        	matches = std::move(matches2);
-        	score   = score2;
+            label   = std::move(label_english);
+            matches = std::move(matches2);
+            score   = score2;
         }
         if (score > 90/*std::numeric_limits<int>::min()*/) {
-		    label = mark_string(label, matches, opt.type, printer_technology);
+            label = mark_string(label, matches, opt.type, printer_technology);
             label += L"  [" + std::to_wstring(score) + L"]";// add score value
-	        std::string label_u8 = into_u8(label);
-	        std::string label_plain = label_u8;
+            std::string label_u8 = into_u8(label);
+            std::string label_plain = label_u8;
 
 #ifdef SUPPORTS_MARKUP
             boost::replace_all(label_plain, std::string(1, char(ImGui::ColorMarkerStart)), "<b>");
@@ -304,7 +304,7 @@ bool OptionsSearcher::search(const std::string& search, bool force/* = false*/)
 
     if (!full_list)
         sort_found();
- 
+
     if (search_line != search)
         search_line = search;
 
@@ -350,8 +350,8 @@ void OptionsSearcher::append_preferences_option(const GUI::Line& opt_line)
     std::string key = get_key(opt_line.get_options().front().opt_id, type);
     const GroupAndCategory& gc = groups_and_categories[key];
     if (gc.group.IsEmpty() || gc.category.IsEmpty())
-        return;        
-        
+        return;
+
     preferences_options.emplace_back(Search::Option{ boost::nowide::widen(key), type,
                                 label.ToStdWstring(), _(label).ToStdWstring(),
                                 gc.group.ToStdWstring(), _(gc.group).ToStdWstring(),
@@ -673,7 +673,7 @@ void SearchDialog::ProcessSelection(wxDataViewItem selection)
     // then mainframe will not have focus and found option will not be "active" (have cursor) as a result
     // SearchDialog have to be closed and have to lose a focus
     // and only after that jump_to_option() function can be called
-    // So, post event to plater: 
+    // So, post event to plater:
     wxCommandEvent event(wxCUSTOMEVT_JUMP_TO_OPTION);
     event.SetInt(search_list_model->GetRow(selection));
     wxPostEvent(GUI::wxGetApp().mainframe, event);
@@ -730,7 +730,7 @@ void SearchDialog::OnSelect(wxDataViewEvent& event)
 {
     // To avoid selection update from Select() under osx
     if (prevent_list_events)
-        return;    
+        return;
 
     // Under OSX mouse and key states didn't fill after wxEVT_DATAVIEW_SELECTION_CHANGED call
     // As a result, we can't to identify what kind of actions was done
@@ -739,7 +739,7 @@ void SearchDialog::OnSelect(wxDataViewEvent& event)
     // wxEVT_DATAVIEW_SELECTION_CHANGED is processed, when selection is changed after mouse click or press the Up/Down arrows
     // But this two cases should be processed in different way:
     // Up/Down arrows   -> leave it as it is (just a navigation)
-    // LeftMouseClick   -> call the ProcessSelection function  
+    // LeftMouseClick   -> call the ProcessSelection function
     if (wxGetMouseState().LeftIsDown())
 #endif //__APPLE__
         ProcessSelection(search_list->GetSelection());
@@ -748,7 +748,7 @@ void SearchDialog::OnSelect(wxDataViewEvent& event)
 void SearchDialog::update_list()
 {
     // Under OSX model->Clear invoke wxEVT_DATAVIEW_SELECTION_CHANGED, so
-    // set prevent_list_events to true already here 
+    // set prevent_list_events to true already here
     prevent_list_events = true;
     search_list_model->Clear();
 
@@ -831,7 +831,7 @@ SearchListModel::SearchListModel(wxWindow* parent) : wxDataViewVirtualListModel(
 {
     int icon_id = 0;
     for (const std::string& icon : { "cog", "printer", "sla_printer", "spool", "resin", "notification_preferences" })
-        m_icon[icon_id++] = ScalableBitmap(parent, icon);    
+        m_icon[icon_id++] = ScalableBitmap(parent, icon);
 }
 
 void SearchListModel::Clear()
@@ -857,7 +857,7 @@ void SearchListModel::sys_color_changed()
         bmp.sys_color_changed();
 }
 
-wxString SearchListModel::GetColumnType(unsigned int col) const 
+wxString SearchListModel::GetColumnType(unsigned int col) const
 {
 #ifdef __WXMSW__
     if (col == colIconMarkedText)
@@ -881,7 +881,7 @@ void SearchListModel::GetValueByRow(wxVariant& variant,
         break;
     }
 #else
-    case colIcon: 
+    case colIcon:
         variant << m_icon[m_values[row].second].bmp().GetBitmapFor(m_icon[m_values[row].second].parent());
         break;
     case colMarkedText:

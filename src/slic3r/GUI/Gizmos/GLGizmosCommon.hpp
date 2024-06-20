@@ -250,7 +250,7 @@ public:
     void set_position_by_ratio(double pos, bool keep_normal);
     void set_range_and_pos(const Vec3d& cpl_normal, double cpl_offset, double pos);
     void set_behavior(bool hide_clipped, bool fill_cut, double contour_width);
-    
+
     int get_number_of_contours() const;
     std::vector<Vec3d> point_per_contour() const;
 

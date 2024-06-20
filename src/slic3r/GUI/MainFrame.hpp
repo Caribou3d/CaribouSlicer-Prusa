@@ -45,7 +45,7 @@ class Plater;
 class MainFrame;
 class PreferencesDialog;
 class GalleryDialog;
-class ConnectWebViewPanel; 
+class ConnectWebViewPanel;
 class PrinterWebViewPanel;
 
 enum QuickSlice
@@ -117,8 +117,8 @@ class MainFrame : public DPIFrame
     bool can_export_supports() const;
     bool can_export_gcode() const;
     bool can_send_gcode() const;
-	bool can_export_gcode_sd() const;
-	bool can_eject() const;
+    bool can_export_gcode_sd() const;
+    bool can_eject() const;
     bool can_slice() const;
     bool can_change_view() const;
     bool can_select() const;
@@ -127,7 +127,7 @@ class MainFrame : public DPIFrame
     bool can_delete_all() const;
     bool can_reslice() const;
 
-    // MenuBar items changeable in respect to printer technology 
+    // MenuBar items changeable in respect to printer technology
     enum MenuItems
     {                   //   FFF                  SLA
         miExport = 0,   // Export G-code        Export
@@ -137,7 +137,7 @@ class MainFrame : public DPIFrame
         miLogin,
     };
 
-    // vector of a MenuBar items changeable in respect to printer technology 
+    // vector of a MenuBar items changeable in respect to printer technology
     std::vector<wxMenuItem*> m_changeable_menu_items;
  //   wxMenu* m_calibration_menu = nullptr;
 
@@ -150,7 +150,7 @@ class MainFrame : public DPIFrame
         Dlg,
         GCodeViewer
     };
-    
+
     ESettingsLayout m_layout{ ESettingsLayout::Unknown };
 
 protected:
@@ -164,8 +164,8 @@ public:
     void update_layout();
     void update_mode_markers();
 
-	// Called when closing the application and when switching the application language.
-	void 		shutdown();
+    // Called when closing the application and when switching the application language.
+    void         shutdown();
 
     Plater*     plater() { return m_plater; }
     GalleryDialog* gallery_dialog();
@@ -243,15 +243,15 @@ public:
     PreferencesDialog*    preferences_dialog { nullptr };
     PrintHostQueueDialog* m_printhost_queue_dlg;
     GalleryDialog*        m_gallery_dialog{ nullptr };
-    
+
 #ifdef __APPLE__
     std::unique_ptr<wxTaskBarIcon> m_taskbar_icon;
 #endif // __APPLE__
 
 #ifdef _WIN32
-    void*				m_hDeviceNotify { nullptr };
-    uint32_t  			m_ulSHChangeNotifyRegister { 0 };
-	static constexpr int WM_USER_MEDIACHANGED { 0x7FFF }; // WM_USER from 0x0400 to 0x7FFF, picking the last one to not interfere with wxWidgets allocation
+    void*                m_hDeviceNotify { nullptr };
+    uint32_t              m_ulSHChangeNotifyRegister { 0 };
+    static constexpr int WM_USER_MEDIACHANGED { 0x7FFF }; // WM_USER from 0x0400 to 0x7FFF, picking the last one to not interfere with wxWidgets allocation
 #endif // _WIN32
 };
 

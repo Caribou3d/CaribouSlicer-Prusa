@@ -12,7 +12,7 @@
 
 using namespace Slic3r;
 
-static inline Slic3r::Point random_point(float LO=-50, float HI=50) 
+static inline Slic3r::Point random_point(float LO=-50, float HI=50)
 {
     Vec2f pt = Vec2f(LO, LO) + (Vec2d(rand(), rand()) * (HI-LO) / RAND_MAX).cast<float>();
     return pt.cast<coord_t>();
@@ -54,7 +54,7 @@ static ExtrusionPath new_extrusion_path(const Polyline &polyline, ExtrusionRole 
     return { polyline, ExtrusionAttributes{ role, ExtrusionFlow{ mm3_per_mm, -1.f, -1.f } } };
 }
 
-SCENARIO("ExtrusionLoop", "[ExtrusionEntity]") 
+SCENARIO("ExtrusionLoop", "[ExtrusionEntity]")
 {
     GIVEN("Square") {
         Polygon square { { 100, 100 }, { 200, 100 }, { 200, 200 }, { 100, 200 } };
@@ -154,7 +154,7 @@ SCENARIO("ExtrusionLoop", "[ExtrusionEntity]")
                 REQUIRE(l2 == Approx(l - 3.));
             }
         }
-        
+
         WHEN("splitting at endpoint") {
             auto loop2 = std::unique_ptr<ExtrusionLoop>(dynamic_cast<ExtrusionLoop*>(loop.clone()));
             loop2->split_at_vertex(polyline2.points.front());
@@ -183,7 +183,7 @@ SCENARIO("ExtrusionLoop", "[ExtrusionEntity]")
                 REQUIRE(loop2->paths[1].polyline.size() == 3);
             }
         }
-        
+
         WHEN("splitting at an edge") {
             Point point(250, 150);
             auto loop2 = std::unique_ptr<ExtrusionLoop>(dynamic_cast<ExtrusionLoop*>(loop.clone()));
@@ -234,7 +234,7 @@ SCENARIO("ExtrusionLoop", "[ExtrusionEntity]")
     GIVEN("Some complex loop") {
         ExtrusionLoop loop;
         loop.paths.emplace_back(new_extrusion_path(
-            Polyline { { 15896783, 15868739 }, { 24842049, 12117558 }, { 33853238, 15801279 }, { 37591780, 24780128 }, { 37591780, 24844970 }, 
+            Polyline { { 15896783, 15868739 }, { 24842049, 12117558 }, { 33853238, 15801279 }, { 37591780, 24780128 }, { 37591780, 24844970 },
                        { 33853231, 33825297 }, { 24842049, 37509013 }, { 15896798, 33757841 }, { 12211841, 24812544 }, { 15896783, 15868739 } },
             ExtrusionRole::ExternalPerimeter, 1.));
         THEN("area") {
@@ -248,7 +248,7 @@ SCENARIO("ExtrusionLoop", "[ExtrusionEntity]")
     }
 }
 
-SCENARIO("ExtrusionEntityCollection: Basics", "[ExtrusionEntity]") 
+SCENARIO("ExtrusionEntityCollection: Basics", "[ExtrusionEntity]")
 {
     Polyline        polyline { { 100, 100 }, { 200, 100 }, { 200, 200 } };
     ExtrusionPath   path = new_extrusion_path(polyline, ExtrusionRole::ExternalPerimeter, 1.);
@@ -287,7 +287,7 @@ SCENARIO("ExtrusionEntityCollection: Basics", "[ExtrusionEntity]")
     }
 }
 
-SCENARIO("ExtrusionEntityCollection: Polygon flattening", "[ExtrusionEntity]") 
+SCENARIO("ExtrusionEntityCollection: Polygon flattening", "[ExtrusionEntity]")
 {
     srand(0xDEADBEEF); // consistent seed for test reproducibility.
 
@@ -344,9 +344,9 @@ TEST_CASE("ExtrusionEntityCollection: Chained path", "[ExtrusionEntity]") {
         Polylines chained;
         Point     initial_point;
     };
-    std::vector<Test> tests { 
+    std::vector<Test> tests {
         {
-            { 
+            {
                 { {0,15}, {0,18}, {0,20} },
                 { {0,10}, {0,8}, {0,5} }
             },
@@ -357,7 +357,7 @@ TEST_CASE("ExtrusionEntityCollection: Chained path", "[ExtrusionEntity]") {
             { 0, 30 }
         },
         {
-            { 
+            {
                 { {4,0}, {10,0}, {15,0} },
                 { {10,5}, {15,5}, {20,5} }
             },
@@ -368,7 +368,7 @@ TEST_CASE("ExtrusionEntityCollection: Chained path", "[ExtrusionEntity]") {
             { 30, 0 }
         },
         {
-            { 
+            {
                 { {15,0}, {10,0}, {4,0} },
                 { {10,5}, {15,5}, {20,5} }
             },

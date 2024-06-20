@@ -113,15 +113,15 @@ template<typename T, typename Q>
 inline T unscale(Q v) { return T(v) * T(SCALING_FACTOR); }
 
 enum Axis {
-	X=0,
-	Y,
-	Z,
-	E,
-	F,
-	NUM_AXES,
-	// For the GCodeReader to mark a parsed axis, which is not in "XYZEF", it was parsed correctly.
-	UNKNOWN_AXIS = NUM_AXES,
-	NUM_AXES_WITH_UNKNOWN,
+    X=0,
+    Y,
+    Z,
+    E,
+    F,
+    NUM_AXES,
+    // For the GCodeReader to mark a parsed axis, which is not in "XYZEF", it was parsed correctly.
+    UNKNOWN_AXIS = NUM_AXES,
+    NUM_AXES_WITH_UNKNOWN,
 };
 
 template <typename T, typename Alloc, typename Alloc2>
@@ -197,16 +197,16 @@ std::vector<T_TO> cast(const std::vector<T_FROM> &src)
 template <typename T>
 inline void remove_nulls(std::vector<T*> &vec)
 {
-	vec.erase(
-    	std::remove_if(vec.begin(), vec.end(), [](const T *ptr) { return ptr == nullptr; }),
-    	vec.end());
+    vec.erase(
+        std::remove_if(vec.begin(), vec.end(), [](const T *ptr) { return ptr == nullptr; }),
+        vec.end());
 }
 
 template <typename T>
 inline void sort_remove_duplicates(std::vector<T> &vec)
 {
-	std::sort(vec.begin(), vec.end());
-	vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
+    std::sort(vec.begin(), vec.end());
+    vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
 }
 
 // Older compilers do not provide a std::make_unique template. Provide a simple one.

@@ -49,12 +49,12 @@ TEST_CASE("Fill: Pattern Path Length", "[Fill]") {
         test_set.reserve(4);
         std::vector<Vec2d> points { {0,0}, {100,0}, {100,100}, {0,100} };
         for (size_t i = 0; i < 4; ++i) {
-            std::transform(points.cbegin()+i, points.cend(),   std::back_inserter(test_set), [] (const Vec2d& a) -> Point { return Point::new_scale(a.x(), a.y()); } ); 
+            std::transform(points.cbegin()+i, points.cend(),   std::back_inserter(test_set), [] (const Vec2d& a) -> Point { return Point::new_scale(a.x(), a.y()); } );
             std::transform(points.cbegin(), points.cbegin()+i, std::back_inserter(test_set), [] (const Vec2d& a) -> Point { return Point::new_scale(a.x(), a.y()); } );
             Slic3r::Polylines paths = test(Slic3r::ExPolygon(test_set));
             REQUIRE(paths.size() == 1); // one continuous path
 
-            // TODO: determine what the "Expected length" should be for rectilinear fill of a 100x100 polygon. 
+            // TODO: determine what the "Expected length" should be for rectilinear fill of a 100x100 polygon.
             // This check only checks that it's above scale(3*100 + 2*50) + scaled_epsilon.
             // ok abs($paths->[0]->length - scale(3*100 + 2*50)) - scaled_epsilon, 'path has expected length';
             REQUIRE(std::abs(paths[0].length() - static_cast<double>(scale_(3*100 + 2*50))) - SCALED_EPSILON > 0); // path has expected length
@@ -116,7 +116,7 @@ TEST_CASE("Fill: Pattern Path Length", "[Fill]") {
         Slic3r::Polylines paths = test(Slic3r::ExPolygon(points));
         REQUIRE(paths.size() == 1); // one continuous path
 
-        // TODO: determine what the "Expected length" should be for rectilinear fill of a 100x100 polygon. 
+        // TODO: determine what the "Expected length" should be for rectilinear fill of a 100x100 polygon.
         // This check only checks that it's above scale(3*100 + 2*50) + scaled_epsilon.
         // ok abs($paths->[0]->length - scale(3*100 + 2*50)) - scaled_epsilon, 'path has expected length';
         REQUIRE(std::abs(paths[0].length() - static_cast<double>(scale_(3*100 + 2*50))) - SCALED_EPSILON > 0); // path has expected length
@@ -127,7 +127,7 @@ TEST_CASE("Fill: Pattern Path Length", "[Fill]") {
         std::unique_ptr<Slic3r::Fill> filler(Slic3r::Fill::new_from_type("rectilinear"));
         filler->bounding_box = get_extents(expolygon);
         filler->angle = 0;
-        
+
         Surface surface(stTop, expolygon);
         // width, height, nozzle_dmr
         auto flow = Slic3r::Flow(0.69f, 0.4f, 0.5f);
@@ -152,10 +152,10 @@ TEST_CASE("Fill: Pattern Path Length", "[Fill]") {
             Point::new_scale(6883102, 9598327.01296997),
             Point::new_scale(6883102, 20327272.01297),
             Point::new_scale(3116896, 20327272.01297),
-            Point::new_scale(3116896, 9598327.01296997) 
+            Point::new_scale(3116896, 9598327.01296997)
         };
         Slic3r::ExPolygon expolygon(points);
-         
+
         REQUIRE(test_if_solid_surface_filled(expolygon, 0.55) == true);
         for (size_t i = 0; i <= 20; ++i)
         {
@@ -183,7 +183,7 @@ TEST_CASE("Fill: Pattern Path Length", "[Fill]") {
                 Slic3r::Point(59515153,20697500),Slic3r::Point(58502480,20697500),Slic3r::Point(58502480,5422499)
         };
         Slic3r::ExPolygon expolygon(points);
-         
+
         REQUIRE(test_if_solid_surface_filled(expolygon, 0.55) == true);
         REQUIRE(test_if_solid_surface_filled(expolygon, 0.55, PI/2.0) == true);
     }
@@ -192,12 +192,12 @@ TEST_CASE("Fill: Pattern Path Length", "[Fill]") {
             Point::new_scale(0,0),Point::new_scale(98,0),Point::new_scale(98,10), Point::new_scale(0,10)
         };
         Slic3r::ExPolygon expolygon(points);
-         
+
         REQUIRE(test_if_solid_surface_filled(expolygon, 0.5, 45.0, 0.99) == true);
     }
 }
 
-SCENARIO("Infill does not exceed perimeters", "[Fill]") 
+SCENARIO("Infill does not exceed perimeters", "[Fill]")
 {
     auto test = [](const std::string_view pattern) {
         auto config = Slic3r::DynamicPrintConfig::full_print_config_with({
@@ -213,7 +213,7 @@ SCENARIO("Infill does not exceed perimeters", "[Fill]")
             { "perimeter_extruder",     1 },
             { "infill_extruder",        2 }
         });
-        
+
         WHEN("40mm cube sliced") {
             std::string gcode = Slic3r::Test::slice({ mesh(Slic3r::Test::TestMesh::cube_20x20x20, Vec3d::Zero(), 2.0) }, config);
             THEN("gcode not empty") {
@@ -311,7 +311,7 @@ SCENARIO("Infill does not exceed perimeters", "[Fill]")
 //     };
 
 //     double tolerance = 5; // mm^2
-    
+
 //     // GIVEN("solid_infill_below_area == 0") {
 //     //     config.opt_float("solid_infill_below_area") = 0;
 //     //     WHEN("pyramid is sliced ") {
@@ -370,19 +370,19 @@ SCENARIO("Combine infill", "[Fill]")
                 if (line.cmd_is("G1") && line.dist_Z(self) != 0 && line.comment().find("lift nozzle") == std::string::npos)
                     layers.insert(z);
             });
-            
+
             auto layers_with_perimeters = int(layer_infill.size());
             auto layers_with_infill     = int(std::count_if(layer_infill.begin(), layer_infill.end(), [](auto &v){ return v.second; }));
             THEN("expected number of layers") {
                 REQUIRE(layers.size() == layers_with_perimeters + config.opt_int("raft_layers"));
             }
-            
+
             if (config.opt_int("raft_layers") == 0) {
                 // first infill layer printed directly on print bed is not combined, so we don't consider it.
                 -- layers_with_infill;
                 -- layers_with_perimeters;
             }
-            
+
             // we expect that infill is generated for half the number of combined layers
             // plus for each single layer that was not combined (remainder)
             THEN("infill is only present in correct number of layers") {
@@ -390,7 +390,7 @@ SCENARIO("Combine infill", "[Fill]")
                 REQUIRE(layers_with_infill == int(layers_with_perimeters / infill_every) + (layers_with_perimeters % infill_every));
             }
         };
-        
+
         auto config = Slic3r::DynamicPrintConfig::full_print_config_with({
             { "nozzle_diameter",        "0.5, 0.5, 0.5, 0.5" },
             { "layer_height",           0.2 },
@@ -422,7 +422,7 @@ SCENARIO("Combine infill", "[Fill]")
             { "layer_height",           0.2 },
             { "first_layer_height",     0.2 },
             { "infill_every_layers",    2  }
-        });        
+        });
         THEN("infill combination produces internal void surfaces") {
             bool has_void = false;
             for (const Layer *layer : print.get_object(0)->layers())
@@ -433,7 +433,7 @@ SCENARIO("Combine infill", "[Fill]")
             REQUIRE(has_void);
         }
     }
-        
+
     WHEN("infill_every_layers disabled") {
         // we disable combination after infill has been generated
         Slic3r::Print print;
@@ -442,7 +442,7 @@ SCENARIO("Combine infill", "[Fill]")
             { "layer_height",           0.2 },
             { "first_layer_height",     0.2 },
             { "infill_every_layers",    1  }
-        });        
+        });
 
         THEN("infill combination is idempotent") {
             bool has_infill_on_each_layer = true;
@@ -596,7 +596,7 @@ SCENARIO("Infill density zero", "[Fill]")
 
     my $test = sub {
         my ($expolygon, $flow_spacing, $angle, $density) = @_;
-        
+
         my $filler = Slic3r::Filler->new_from_type('rectilinear');
         $filler->set_bounding_box($expolygon->bounding_box);
         $filler->set_angle($angle // 0);
@@ -618,19 +618,19 @@ SCENARIO("Infill density zero", "[Fill]")
             layer_height    => $flow->height,
             density         => $density // 1,
         );
-        
+
         # check whether any part was left uncovered
         my @grown_paths = map @{Slic3r::Polyline->new(@$_)->grow(scale $filler->spacing/2)}, @$paths;
         my $uncovered = diff_ex([ @$expolygon ], [ @grown_paths ], 1);
-        
+
         # ignore very small dots
         my $uncovered_filtered = [ grep $_->area > (scale $flow_spacing)**2, @$uncovered ];
 
         is scalar(@$uncovered_filtered), 0, 'solid surface is fully filled';
-        
+
         if (0 && @$uncovered_filtered) {
             require "Slic3r/SVG.pm";
-            Slic3r::SVG::output("uncovered.svg", 
+            Slic3r::SVG::output("uncovered.svg",
                 no_arrows       => 1,
                 expolygons      => [ $expolygon ],
                 blue_expolygons => [ @$uncovered ],
@@ -640,7 +640,7 @@ SCENARIO("Infill density zero", "[Fill]")
             exit;
         }
     };
-    
+
     my $expolygon = Slic3r::ExPolygon->new([
         [6883102, 9598327.01296997],
         [6883102, 20327272.01297],
@@ -648,17 +648,17 @@ SCENARIO("Infill density zero", "[Fill]")
         [3116896, 9598327.01296997],
     ]);
     $test->($expolygon, 0.55);
-    
+
     for (1..20) {
         $expolygon->scale(1.05);
         $test->($expolygon, 0.55);
     }
-    
+
     $expolygon = Slic3r::ExPolygon->new(
         [[59515297,5422499],[59531249,5578697],[59695801,6123186],[59965713,6630228],[60328214,7070685],[60773285,7434379],[61274561,7702115],[61819378,7866770],[62390306,7924789],[62958700,7866744],[63503012,7702244],[64007365,7434357],[64449960,7070398],[64809327,6634999],[65082143,6123325],[65245005,5584454],[65266967,5422499],[66267307,5422499],[66269190,8310081],[66275379,17810072],[66277259,20697500],[65267237,20697500],[65245004,20533538],[65082082,19994444],[64811462,19488579],[64450624,19048208],[64012101,18686514],[63503122,18415781],[62959151,18251378],[62453416,18198442],[62390147,18197355],[62200087,18200576],[61813519,18252990],[61274433,18415918],[60768598,18686517],[60327567,19047892],[59963609,19493297],[59695865,19994587],[59531222,20539379],[59515153,20697500],[58502480,20697500],[58502480,5422499]]
     );
     $test->($expolygon, 0.524341649025257);
-    
+
     $expolygon = Slic3r::ExPolygon->new([ scale_points [0,0], [98,0], [98,10], [0,10] ]);
     $test->($expolygon, 0.5, 45, 0.99);  # non-solid infill
 }

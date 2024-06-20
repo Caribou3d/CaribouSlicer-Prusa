@@ -15,7 +15,7 @@ using namespace Slic3r;
 
 std::unique_ptr<CoolingBuffer> make_cooling_buffer(
     GCodeGenerator                  &gcode,
-    const DynamicPrintConfig        &config         = DynamicPrintConfig{}, 
+    const DynamicPrintConfig        &config         = DynamicPrintConfig{},
     const std::vector<unsigned int> &extruder_ids   = { 0 })
 {
     PrintConfig print_config;
@@ -74,7 +74,7 @@ SCENARIO("Cooling unit tests", "[Cooling]") {
     }
 
     WHEN("G-code block 4") {
-        const std::string gcode_src = 
+        const std::string gcode_src =
             "G1 X50 F2500\n"
             "G1 F3000;_EXTRUDE_SET_SPEED\n"
             "G1 X100 E1\n"
@@ -96,7 +96,7 @@ SCENARIO("Cooling unit tests", "[Cooling]") {
         }
         THEN("speed is not altered for extruder-only moves") {
             bool speed_not_altered = gcode.find("F400") != gcode.npos;
-            REQUIRE(speed_not_altered);   
+            REQUIRE(speed_not_altered);
         }
     }
 
@@ -110,7 +110,7 @@ SCENARIO("Cooling unit tests", "[Cooling]") {
             auto buffer = make_cooling_buffer(gcodegen, config);
             std::string gcode = buffer->process_layer(gcode1, 0, true);
             bool fan_not_activated = gcode.find("M106") == gcode.npos;
-            REQUIRE(fan_not_activated);      
+            REQUIRE(fan_not_activated);
         }
     }
     WHEN("G-code block 1 with two extruders") {
@@ -124,11 +124,11 @@ SCENARIO("Cooling unit tests", "[Cooling]") {
         std::string gcode = buffer->process_layer(gcode1 + "T1\nG1 X0 E1 F3000\n", 0, true);
         THEN("fan is activated for the 1st tool") {
             bool ok = gcode.find("M106") == 0;
-            REQUIRE(ok);      
+            REQUIRE(ok);
         }
         THEN("fan is disabled for the 2nd tool") {
             bool ok = gcode.find("\nM107") > 0;
-            REQUIRE(ok);      
+            REQUIRE(ok);
         }
     }
     WHEN("G-code block 2") {
@@ -138,10 +138,10 @@ SCENARIO("Cooling unit tests", "[Cooling]") {
             auto buffer = make_cooling_buffer(gcodegen, config);
             std::string gcode = buffer->process_layer(gcode2, 0, true);
             bool ok = gcode.find("F3000") != gcode.npos;
-            REQUIRE(ok);      
+            REQUIRE(ok);
         }
         THEN("fan is not activated on all objects printing at different Z") {
-            config.set_deserialize_strict({ 
+            config.set_deserialize_strict({
                 { "fan_below_layer_time",      int(print_time2 * 0.65) },
                 { "slowdown_below_layer_time", int(print_time2 * 0.7) }
             });
@@ -150,11 +150,11 @@ SCENARIO("Cooling unit tests", "[Cooling]") {
             // use an elapsed time which is < the threshold but greater than it when summed twice
             std::string gcode = buffer->process_layer(gcode2, 0, true) + buffer->process_layer(gcode2, 1, true);
             bool fan_not_activated = gcode.find("M106") == gcode.npos;
-            REQUIRE(fan_not_activated);      
+            REQUIRE(fan_not_activated);
         }
         THEN("fan is activated on all objects printing at different Z") {
             // use an elapsed time which is < the threshold even when summed twice
-            config.set_deserialize_strict({ 
+            config.set_deserialize_strict({
                 { "fan_below_layer_time",      int(print_time2 + 1) },
                 { "slowdown_below_layer_time", int(print_time2 + 1) }
             });
@@ -163,7 +163,7 @@ SCENARIO("Cooling unit tests", "[Cooling]") {
             // use an elapsed time which is < the threshold but greater than it when summed twice
             std::string gcode = buffer->process_layer(gcode2, 0, true) + buffer->process_layer(gcode2, 1, true);
             bool fan_activated = gcode.find("M106") != gcode.npos;
-            REQUIRE(fan_activated);      
+            REQUIRE(fan_activated);
         }
     }
 }
@@ -181,7 +181,7 @@ SCENARIO("Cooling integration tests", "[Cooling]") {
             { "bottom_solid_layers",        1 },
             // internal bridges use solid_infil speed
         });
-    
+
         GCodeReader parser;
         int fan = 0;
         int fan_with_incorrect_speeds = 0;
@@ -257,11 +257,11 @@ SCENARIO("Cooling integration tests", "[Cooling]") {
                 if (line.has('F') && line.f() == external_perimeter_speed)
                     ++ layer_external[scaled<coord_t>(self.z())];
             }
-        });            
+        });
         THEN("slowdown_below_layer_time is honored") {
             // Account for some inaccuracies.
             const double slowdown_below_layer_time = config.opt<ConfigOptionInts>("slowdown_below_layer_time")->values.front() - 0.5;
-            size_t minimum_time_honored = std::count_if(layer_times.begin(), layer_times.end(), 
+            size_t minimum_time_honored = std::count_if(layer_times.begin(), layer_times.end(),
                 [slowdown_below_layer_time](double t){ return t > slowdown_below_layer_time; });
             REQUIRE(minimum_time_honored == layer_times.size());
         }

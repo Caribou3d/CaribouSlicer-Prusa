@@ -33,7 +33,7 @@
 namespace {
 using namespace Slic3r::GUI;
 bool is_emboss_mirror(size_t axis_idx)
-{    
+{
     Plater* plater = wxGetApp().plater();
     if (!plater)
         return false;
@@ -86,9 +86,9 @@ static choice_ctrl* create_word_local_combo(wxWindow *parent)
      */
     temp = new wxBitmapComboBox();
     temp->SetTextCtrlStyle(wxTE_READONLY);
-	temp->Create(parent, wxID_ANY, wxString(""), wxDefaultPosition, size, 0, nullptr);
+    temp->Create(parent, wxID_ANY, wxString(""), wxDefaultPosition, size, 0, nullptr);
 #else
-	temp = new choice_ctrl(parent, wxID_ANY, wxString(""), wxDefaultPosition, size, 0, nullptr, wxCB_READONLY | DD_NO_CHECK_ICON);
+    temp = new choice_ctrl(parent, wxID_ANY, wxString(""), wxDefaultPosition, size, 0, nullptr, wxCB_READONLY | DD_NO_CHECK_ICON);
 #endif //__WXOSX__
 
     temp->SetFont(Slic3r::GUI::wxGetApp().normal_font());
@@ -100,7 +100,7 @@ static choice_ctrl* create_word_local_combo(wxWindow *parent)
     temp->Select((int)ECoordinatesType::World);
 
     temp->SetToolTip(_L("Select coordinate space, in which the transformation will be performed."));
-	return temp;
+    return temp;
 }
 
 void msw_rescale_word_local_combo(choice_ctrl* combo)
@@ -122,7 +122,7 @@ void msw_rescale_word_local_combo(choice_ctrl* combo)
     combo->SetMinSize(wxSize(-1, int(1.5f*combo->GetFont().GetPixelSize().y + 0.5f)));
     // Set rescaled size
     combo->SetSize(size);
-    
+
     combo->Append(ObjectManipulation::coordinate_type_str(ECoordinatesType::World));
     combo->Append(ObjectManipulation::coordinate_type_str(ECoordinatesType::Instance));
     combo->Append(ObjectManipulation::coordinate_type_str(ECoordinatesType::Local));
@@ -213,8 +213,8 @@ ObjectManipulation::ObjectManipulation(wxWindow* parent) :
     // Height of labels should be equivalent to the edit boxes
     int height = wxTextCtrl(parent, wxID_ANY, "Br").GetBestHeight(-1);
 #ifdef __WXGTK__
-    // On Linux button with bitmap has bigger height then regular button or regular TextCtrl 
-    // It can cause a wrong alignment on show/hide of a reset buttons 
+    // On Linux button with bitmap has bigger height then regular button or regular TextCtrl
+    // It can cause a wrong alignment on show/hide of a reset buttons
     const int bmp_btn_height = ScalableButton(parent, wxID_ANY, "undo") .GetBestHeight(-1);
     if (bmp_btn_height > height)
         height = bmp_btn_height;
@@ -228,7 +228,7 @@ ObjectManipulation::ObjectManipulation(wxWindow* parent) :
         wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
         sizer->SetMinSize(wxSize(-1, height));
         sizer->Add(*label, 0, wxALIGN_CENTER_VERTICAL);
-      
+
         if (reciver)
             reciver->Add(sizer);
         else
@@ -292,7 +292,7 @@ ObjectManipulation::ObjectManipulation(wxWindow* parent) :
 
         sizer->AddStretchSpacer(2);
         sizer->Add(btn, 0, wxALIGN_CENTER_VERTICAL);
-        
+
         btn->Bind(wxEVT_BUTTON, [this, axis_idx](wxCommandEvent&) {
             if (::is_emboss_mirror(axis_idx))
                 return;
@@ -322,7 +322,7 @@ ObjectManipulation::ObjectManipulation(wxWindow* parent) :
     editors_grid_sizer->Add(m_mirror_warning_bitmap, 0, wxALIGN_CENTER_VERTICAL);
     editors_grid_sizer->AddStretchSpacer(1);
 
-    // add EditBoxes 
+    // add EditBoxes
     auto add_edit_boxes = [this, editors_grid_sizer](const std::string& opt_key, int axis)
     {
         ManipulationEditor* editor = new ManipulationEditor(this, opt_key, axis);
@@ -330,14 +330,14 @@ ObjectManipulation::ObjectManipulation(wxWindow* parent) :
 
         editors_grid_sizer->Add(editor, 0, wxALIGN_CENTER_VERTICAL);
     };
-    
-    // add Units 
+
+    // add Units
     auto add_unit_text = [this, parent, editors_grid_sizer, height](std::string unit, wxStaticText** unit_text)
     {
         *unit_text = new wxStaticText(parent, wxID_ANY, _(unit));
-        set_font_and_background_style(*unit_text, wxGetApp().normal_font()); 
+        set_font_and_background_style(*unit_text, wxGetApp().normal_font());
 
-        // Unit text should be the same height as labels      
+        // Unit text should be the same height as labels
         wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
         sizer->SetMinSize(wxSize(-1, height));
         sizer->Add(*unit_text, 0, wxALIGN_CENTER_VERTICAL);
@@ -558,15 +558,15 @@ void ObjectManipulation::Show(const bool show)
 
 bool ObjectManipulation::IsShown()
 {
-	return dynamic_cast<const wxStaticBoxSizer*>(m_og->sizer)->GetStaticBox()->IsShown(); //  m_og->get_grid_sizer()->IsShown(2);
+    return dynamic_cast<const wxStaticBoxSizer*>(m_og->sizer)->GetStaticBox()->IsShown(); //  m_og->get_grid_sizer()->IsShown(2);
 }
 
 void ObjectManipulation::UpdateAndShow(const bool show)
 {
-	if (show) {
+    if (show) {
         this->set_dirty();
-		this->update_if_dirty();
-	}
+        this->update_if_dirty();
+    }
 
     OG_Settings::UpdateAndShow(show);
 }
@@ -763,11 +763,11 @@ void ObjectManipulation::update_if_dirty()
 
     for (int i = 0; i < 3; ++ i) {
         auto update = [this, i](Vec3d &cached, Vec3d &cached_rounded, ManipulationEditorKey key_id, const Vec3d &new_value) {
-			wxString new_text = double_to_string(new_value(i), m_imperial_units && key_id == meSize ? 4 : 2);
-			double new_rounded;
-			new_text.ToDouble(&new_rounded);
-			if (std::abs(cached_rounded(i) - new_rounded) > EPSILON) {
-				cached_rounded(i) = new_rounded;
+            wxString new_text = double_to_string(new_value(i), m_imperial_units && key_id == meSize ? 4 : 2);
+            double new_rounded;
+            new_text.ToDouble(&new_rounded);
+            if (std::abs(cached_rounded(i) - new_rounded) > EPSILON) {
+                cached_rounded(i) = new_rounded;
                 const int id = key_id*3+i;
                 if (m_imperial_units) {
                     double inch_value = new_value(i) * mm_to_in;
@@ -781,8 +781,8 @@ void ObjectManipulation::update_if_dirty()
                 }
                 if (id >= 0) m_editors[id]->set_value(new_text);
             }
-			cached(i) = new_value(i);
-		};
+            cached(i) = new_value(i);
+        };
         update(m_cache.position, m_cache.position_rounded, mePosition, m_new_position);
         update(m_cache.scale,    m_cache.scale_rounded,    meScale,    m_new_scale);
         update(m_cache.size,     m_cache.size_rounded,     meSize,     m_new_size);
@@ -892,7 +892,7 @@ void ObjectManipulation::update_item_name(const wxString& item_name)
 }
 
 void ObjectManipulation::update_warning_icon_state(const MeshErrorsInfo& warning)
-{   
+{
     if (const std::string& warning_icon_name = warning.warning_icon_name;
         !warning_icon_name.empty())
         m_manifold_warning_bmp = ScalableBitmap(m_parent, warning_icon_name);
@@ -988,13 +988,13 @@ void ObjectManipulation::change_rotation_value(int axis, double value)
         transformation_type.set_instance();
 
     selection.setup_cache();
-	selection.rotate(
-		(M_PI / 180.0) * (transformation_type.absolute() ? rotation : rotation - m_cache.rotation), 
-		transformation_type);
+    selection.rotate(
+        (M_PI / 180.0) * (transformation_type.absolute() ? rotation : rotation - m_cache.rotation),
+        transformation_type);
     canvas->do_rotate(L("Set Orientation"));
 
     m_cache.rotation = rotation;
-	m_cache.rotation_rounded(axis) = DBL_MAX;
+    m_cache.rotation_rounded(axis) = DBL_MAX;
     this->UpdateAndShow(true);
 }
 
@@ -1135,7 +1135,7 @@ void ObjectManipulation::on_change(const std::string& opt_key, int axis, double 
 }
 
 void ObjectManipulation::set_uniform_scaling(const bool use_uniform_scale)
-{ 
+{
     if (!use_uniform_scale)
         // Recalculate cached values at this panel, refresh the screen.
         this->UpdateAndShow(true);
@@ -1348,4 +1348,4 @@ void ManipulationEditor::kill_focus(ObjectManipulation* parent)
 }
 
 } //namespace GUI
-} //namespace Slic3r 
+} //namespace Slic3r

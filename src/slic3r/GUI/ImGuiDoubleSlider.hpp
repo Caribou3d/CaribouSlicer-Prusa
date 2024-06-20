@@ -63,13 +63,13 @@ public:
     void    SetCtrlSize(ImVec2 size)        { m_size = size; }
     void    SetCtrlScale(float scale)       { m_draw_opts.scale = scale; }
     void    Init(const ImVec2& pos, const ImVec2& size, float scale) {
-                                          m_pos = pos; 
+                                          m_pos = pos;
                                           m_size = size;
                                           m_draw_opts.scale = scale;
     }
     ImVec2  GetCtrlSize()               { return m_size; }
     ImVec2  GetCtrlPos()                { return m_pos; }
-    
+
     void    Show(bool show)             { m_is_shown = show; }
     void    Hide()                      { m_is_shown = false; }
     bool    IsShown() const             { return m_is_shown; }
@@ -235,7 +235,7 @@ public:
     }
     void Thaw() {
         m_allow_process_thumb_move = true;
-        process_thumb_move(); 
+        process_thumb_move();
     }
 
     void    SetSliderValues(const std::vector<ValType>& values)          { m_values = values; }
@@ -280,9 +280,9 @@ protected:
         return to_string_with_precision(static_cast<ValType>(m_alternate_values.empty() ? m_values[pos] : m_alternate_values[pos]));
     }
 
-    void process_thumb_move() { 
+    void process_thumb_move() {
         if (m_cb_thumb_move && m_allow_process_thumb_move)
-            m_cb_thumb_move(); 
+            m_cb_thumb_move();
     }
 
 private:

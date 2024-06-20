@@ -45,7 +45,7 @@ class GLGizmoCut3D : public GLGizmoBase
     double                      m_snap_step{ 1.0 };
     int                         m_connectors_group_id;
 
-    // archived values 
+    // archived values
     Vec3d m_ar_plane_center { Vec3d::Zero() };
     Transform3d m_start_dragging_m{ Transform3d::Identity() };
 
@@ -111,7 +111,7 @@ class GLGizmoCut3D : public GLGizmoBase
             outside_cut_contour = 0;
             outside_bb = 0;
             is_overlap = false;
-        } 
+        }
     } m_info_stats;
 
     bool m_keep_upper{ true };
@@ -333,7 +333,7 @@ protected:
     std::string get_gizmo_leaving_text() const override     { return _u8L("Leaving Cut gizmo"); }
     std::string get_action_snapshot_name() const override   { return _u8L("Cut gizmo editing"); }
 
-    void data_changed(bool is_serializing) override; 
+    void data_changed(bool is_serializing) override;
     Transform3d get_cut_matrix(const Selection& selection);
 
 private:

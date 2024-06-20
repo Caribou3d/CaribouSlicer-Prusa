@@ -58,7 +58,7 @@ static std::set<ObjectID> get_selected_volume_ids(const Selection &selection)
         const ModelObject *obj    = model_objects[cid.object_id];
         const ModelVolume *volume = obj->volumes[cid.volume_id];
         const ObjectID &   id     = volume->id();
-        
+
         // prevent selection of volume without inidces
         if (volume->mesh().its.indices.empty()) continue;
 
@@ -99,7 +99,7 @@ GLGizmoSimplify::GLGizmoSimplify(GLCanvas3D &parent)
 {}
 
 GLGizmoSimplify::~GLGizmoSimplify()
-{ 
+{
     stop_worker_thread_request();
     if (m_worker.joinable())
         m_worker.join();
@@ -187,7 +187,7 @@ void GLGizmoSimplify::on_render_input_window(float x, float y, float bottom_limi
     bool is_cancelling = false;
     bool is_worker_running = false;
     bool is_result_ready = false;
-    int progress = 0; 
+    int progress = 0;
     {
         std::lock_guard lk(m_state_mutex);
         is_cancelling = m_state.status == State::cancelling;
@@ -198,19 +198,19 @@ void GLGizmoSimplify::on_render_input_window(float x, float y, float bottom_limi
 
     // Whether to trigger calculation after rendering is done.
     bool start_process = false;
-    
+
     // Check selection of new volume (or change)
-    // Do not reselect object when processing 
+    // Do not reselect object when processing
     if (m_volume_ids != act_volume_ids) {
         bool change_window_position = m_volume_ids.empty();
         // select different model
 
         // close suggestion notification
         auto notification_manager = wxGetApp().plater()->get_notification_manager();
-        for (const auto &id : act_volume_ids) 
+        for (const auto &id : act_volume_ids)
             notification_manager->remove_simplify_suggestion_with_id(id);
 
-        m_volume_ids = std::move(act_volume_ids);        
+        m_volume_ids = std::move(act_volume_ids);
         init_model();
 
         // triangle count is calculated in init model
@@ -230,7 +230,7 @@ void GLGizmoSimplify::on_render_input_window(float x, float y, float bottom_limi
         // Start processing. If we switched from another object, process will
         // stop the background thread and it will restart itself later.
         start_process = true;
-        
+
         // set window position
         if (change_window_position) {
             ImVec2 pos;
@@ -238,7 +238,7 @@ void GLGizmoSimplify::on_render_input_window(float x, float y, float bottom_limi
             if (m_move_to_center) {
                 m_move_to_center   = false;
                 pos = ImVec2(parent_size.get_width() / 2 - m_gui_cfg->window_offset_x,
-                             parent_size.get_height() / 2 - m_gui_cfg->window_offset_y);                
+                             parent_size.get_height() / 2 - m_gui_cfg->window_offset_y);
             } else {
                 // keep window wisible on canvas and close to mouse click
                 pos = ImGui::GetMousePos();
@@ -315,7 +315,7 @@ void GLGizmoSimplify::on_render_input_window(float x, float y, float bottom_limi
     // show preview result triangle count (percent)
     if (!m_configuration.use_count) {
         m_configuration.wanted_count = static_cast<uint32_t>(m_triangle_count);
-        m_configuration.decimate_ratio = 
+        m_configuration.decimate_ratio =
             (1.0f - (m_configuration.wanted_count / (float) m_original_triangle_count)) * 100.f;
     }
 
@@ -323,7 +323,7 @@ void GLGizmoSimplify::on_render_input_window(float x, float y, float bottom_limi
     ImGui::Text("%s", tr_decimate_ratio.c_str());
     ImGui::SameLine(m_gui_cfg->bottom_left_width);
     ImGui::SetNextItemWidth(m_gui_cfg->input_width);
-    const char * format = (m_configuration.decimate_ratio > 10)? "%.0f %%": 
+    const char * format = (m_configuration.decimate_ratio > 10)? "%.0f %%":
         ((m_configuration.decimate_ratio > 1)? "%.1f %%":"%.2f %%");
 
     if(m_imgui->slider_float("##decimate_ratio",  &m_configuration.decimate_ratio, 0.f, 100.f, format)){
@@ -382,9 +382,9 @@ bool GLGizmoSimplify::stop_worker_thread_request()
 {
     std::lock_guard lk(m_state_mutex);
     if (m_state.status != State::running) return false;
-    
+
     m_state.status = State::Status::cancelling;
-    return true;    
+    return true;
 }
 
 
@@ -449,7 +449,7 @@ void GLGizmoSimplify::process()
         m_worker.join();
     }
 
-    // Copy configuration that will be used.    
+    // Copy configuration that will be used.
     m_state.config = m_configuration;
     m_state.volume_ids = m_volume_ids;
     m_state.status = State::running;
@@ -463,7 +463,7 @@ void GLGizmoSimplify::process()
         const ModelVolume *volume = get_selected_volume(id, selection);
         its[id] = std::make_unique<indexed_triangle_set>(volume->mesh().its); // copy
     }
-    
+
     m_worker = std::thread([this](State::Data its) {
 
         // Checks that the UI thread did not request cancellation, throws if so.
@@ -549,7 +549,7 @@ void GLGizmoSimplify::apply_simplify() {
         obj->ensure_on_bed(true); // allow negative z
     }
     m_state.result.clear();
-    // fix hollowing, sla support points, modifiers, ...  
+    // fix hollowing, sla support points, modifiers, ...
     int object_idx = selection.get_object_idx();
     plater->changed_mesh(object_idx);
     // Fix warning icon in object list
@@ -562,7 +562,7 @@ bool GLGizmoSimplify::on_is_activable() const
     return !m_parent.get_selection().is_empty();
 }
 
-void GLGizmoSimplify::on_set_state() 
+void GLGizmoSimplify::on_set_state()
 {
     // Closing gizmo. e.g. selecting another one
     if (GLGizmoBase::m_state == GLGizmoBase::Off) {
@@ -577,12 +577,12 @@ void GLGizmoSimplify::on_set_state()
     }
 }
 
-void GLGizmoSimplify::create_gui_cfg() { 
+void GLGizmoSimplify::create_gui_cfg() {
     if (m_gui_cfg.has_value()) return;
     int    space_size = ImGuiPureWrap::calc_text_size(std::string_view{":MM"}).x;
     GuiCfg cfg;
     cfg.top_left_width = std::max(ImGuiPureWrap::calc_text_size(tr_mesh_name).x,
-                                  ImGuiPureWrap::calc_text_size(tr_triangles).x) 
+                                  ImGuiPureWrap::calc_text_size(tr_triangles).x)
         + space_size;
 
     const float radio_size = ImGui::GetFrameHeight();
@@ -594,7 +594,7 @@ void GLGizmoSimplify::create_gui_cfg() {
     cfg.input_width   = cfg.bottom_left_width * 1.5;
     cfg.window_offset_x = (cfg.bottom_left_width + cfg.input_width)/2;
     cfg.window_offset_y = ImGui::GetTextLineHeightWithSpacing() * 5;
-    
+
     m_gui_cfg = cfg;
 }
 
@@ -608,7 +608,7 @@ void GLGizmoSimplify::request_rerender(bool force) {
 }
 
 void GLGizmoSimplify::set_center_position() {
-    m_move_to_center = true; 
+    m_move_to_center = true;
 }
 
 void GLGizmoSimplify::init_model()
@@ -664,8 +664,8 @@ void GLGizmoSimplify::update_model(const State::Data &data)
 
     // check that result is for actual gl models
     size_t model_count = m_glmodels.size();
-    if (data.size() != model_count) return;  
-        
+    if (data.size() != model_count) return;
+
     m_triangle_count = 0;
     for (const auto &item : data) {
         const indexed_triangle_set &its = *item.second;
@@ -710,9 +710,9 @@ void GLGizmoSimplify::update_model(const State::Data &data)
 void GLGizmoSimplify::on_render()
 {
     if (m_glmodels.empty()) return;
-    
+
     const Selection &             selection  = m_parent.get_selection();
-    
+
     // Check that the GLVolume still belongs to the ModelObject we work on.
     if (m_volume_ids != get_selected_volume_ids(selection)) return;
 

@@ -10,7 +10,7 @@
 using namespace Slic3r;
 
 namespace Private{
-        
+
 // calculate multiplication of ray dir to intersect - inspired by
 // segment_segment_intersection when ray dir is normalized retur distance from
 // ray point to intersection No value mean no intersection
@@ -96,7 +96,7 @@ Vec3d calc_hit_point(const igl::Hit &h, indexed_triangle_set &its)
 } // namespace Private
 
 std::string get_font_filepath() {
-    std::string resource_dir = 
+    std::string resource_dir =
         std::string(TEST_DATA_DIR) + "/../../resources/";
     return resource_dir + "fonts/NotoSans-Regular.ttf";
 }
@@ -105,7 +105,7 @@ std::string get_font_filepath() {
 TEST_CASE("Read glyph C shape from font, stb library calls ONLY", "[Emboss]") {
     std::string font_path = get_font_filepath();
     char  letter   = 'C';
-    
+
     // Read  font file
     FILE *file = fopen(font_path.c_str(), "rb");
     REQUIRE(file != nullptr);
@@ -122,7 +122,7 @@ TEST_CASE("Read glyph C shape from font, stb library calls ONLY", "[Emboss]") {
     int font_offset = stbtt_GetFontOffsetForIndex(buffer.data(), 0);
     REQUIRE(font_offset >= 0);
     stbtt_fontinfo font_info;
-    REQUIRE(stbtt_InitFont(&font_info, buffer.data(), font_offset) != 0);    
+    REQUIRE(stbtt_InitFont(&font_info, buffer.data(), font_offset) != 0);
     int unicode_letter = (int) letter;
     int glyph_index = stbtt_FindGlyphIndex(&font_info, unicode_letter);
     REQUIRE(glyph_index != 0);
@@ -133,7 +133,7 @@ TEST_CASE("Read glyph C shape from font, stb library calls ONLY", "[Emboss]") {
 }
 
 #include <libslic3r/Utils.hpp>
-TEST_CASE("Convert glyph % to model", "[Emboss]") 
+TEST_CASE("Convert glyph % to model", "[Emboss]")
 {
     std::string font_path = get_font_filepath();
     unsigned int font_index = 0; // collection
@@ -143,18 +143,18 @@ TEST_CASE("Convert glyph % to model", "[Emboss]")
     auto font = Emboss::create_font_file(font_path.c_str());
     REQUIRE(font != nullptr);
 
-    std::optional<Emboss::Glyph> glyph = 
+    std::optional<Emboss::Glyph> glyph =
         Emboss::letter2glyph(*font, font_index, letter, flatness);
     REQUIRE(glyph.has_value());
 
-    ExPolygons shape = glyph->shape;    
+    ExPolygons shape = glyph->shape;
     REQUIRE(!shape.empty());
 
     float z_depth = 1.f;
     Emboss::ProjectZ projection(z_depth);
     indexed_triangle_set its = Emboss::polygons2model(shape, projection);
 
-    CHECK(!its.indices.empty());    
+    CHECK(!its.indices.empty());
 }
 
 //#define VISUALIZE
@@ -208,8 +208,8 @@ ExPolygons heal_and_check(const Polygons &polygons)
     CHECK(success);
 
     // Is default shape for unhealabled shape?
-    bool is_default_shape = 
-        shape.size() == 1 && 
+    bool is_default_shape =
+        shape.size() == 1 &&
         shape.front().contour.points.size() == 4 &&
         shape.front().holes.size() == 1 &&
         shape.front().holes.front().points.size() == 4 ;
@@ -333,7 +333,7 @@ TEST_CASE("Heal of points close to line", "[Emboss]")
 TEST_CASE("Convert text with glyph cache to model", "[Emboss]")
 {
     std::string font_path = get_font_filepath();
-    std::string text = 
+    std::string text =
 "Because Ford never learned to say his original name, \n\
 his father eventually died of shame, which is still \r\n\
 a terminal disease in some parts of the Galaxy.\n\r\
@@ -353,7 +353,7 @@ nor why it should choose to collapse on Betelgeuse Seven\".";
     ExPolygons shapes = Emboss::text2shapes(ffwc, text.c_str(), fp, was_canceled);
     REQUIRE(!shapes.empty());
 
-    float depth = 2.f;  
+    float depth = 2.f;
     Emboss::ProjectZ projection(depth);
     indexed_triangle_set its = Emboss::polygons2model(shapes, projection);
     CHECK(!its.indices.empty());
@@ -441,8 +441,8 @@ namespace fs = boost::filesystem;
 //#include <filesystem>
 //namespace fs = std::filesystem;
 // Check function Emboss::is_italic that exist some italic and some non-italic font.
-TEST_CASE("Italic check", "[Emboss]") 
-{  
+TEST_CASE("Italic check", "[Emboss]")
+{
     std::string dir_path = FONT_DIR_PATH;
     std::queue<std::string> dir_paths;
     dir_paths.push(dir_path);
@@ -624,32 +624,32 @@ struct ShapesVertexId {
 
 /// <summary>
 /// IntersectingElemnt
-/// 
+///
 /// Adress polygon inside of ExPolygon
 /// Keep information about source of vertex:
 ///     - from face (one of 2 possible)
 ///     - from edge (one of 2 possible)
-/// 
+///
 /// V1~~~~V2
 /// : f1 /|
 /// :   / |
-/// :  /e1| 
+/// :  /e1|
 /// : /   |e2
 /// :/ f2 |
 /// V1'~~~V2'
-/// 
+///
 /// | .. edge
 /// / .. edge
-/// : .. foreign edge - neighbor 
+/// : .. foreign edge - neighbor
 /// ~ .. no care edge - idealy should not cross model
 /// V1,V1' .. projected 2d point to 3d
 /// V2,V2' .. projected 2d point to 3d
-/// 
+///
 /// f1 .. text_face_1 (triangle face made by side of shape contour)
 /// f2 .. text_face_2
 /// e1 .. text_edge_1 (edge on side of face made by side of shape contour)
 /// e2 .. text_edge_2
-/// 
+///
 /// </summary>
 struct IntersectingElemnt
 {
@@ -688,7 +688,7 @@ namespace Slic3r::MeshBoolean::cgal2 {
 //    using _EpecMesh = CGAL::Surface_mesh<EpecKernel::Point_3>;
 
     using CGALMesh = _EpicMesh;
-            
+
     /// <summary>
     /// Convert triangle mesh model to CGAL Surface_mesh
     /// Add property map for source face index
@@ -747,7 +747,7 @@ namespace Slic3r::MeshBoolean::cgal2 {
     {
         CGALMesh result;
         if (shape.empty()) return result;
-        
+
         auto edge_shape_map = result.add_property_map<CGALMesh::Edge_index, IntersectingElemnt>(edge_shape_map_name).first;
         auto face_shape_map = result.add_property_map<CGALMesh::Face_index, IntersectingElemnt>(face_shape_map_name).first;
 
@@ -778,13 +778,13 @@ namespace Slic3r::MeshBoolean::cgal2 {
                     return hi;
                 };
                 auto fi = result.add_face(indices[i], indices[i + 1], indices[j]);
-                edge_shape_map[result.edge(find_edge(fi, indices[i], indices[i + 1]))] = 
+                edge_shape_map[result.edge(find_edge(fi, indices[i], indices[i + 1]))] =
                     IntersectingElemnt{vertex_index, contour_index, IntersectingElemnt::Type::edge_1};
-                face_shape_map[fi] =                     
+                face_shape_map[fi] =
                     IntersectingElemnt{vertex_index, contour_index, IntersectingElemnt::Type::face_1};
                 edge_shape_map[result.edge(find_edge(fi, indices[i + 1], indices[j]))] =
                     IntersectingElemnt{vertex_index, contour_index, IntersectingElemnt::Type::edge_2};
-                face_shape_map[result.add_face(indices[j], indices[i + 1], indices[j + 1])] =                     
+                face_shape_map[result.add_face(indices[j], indices[i + 1], indices[j + 1])] =
                     IntersectingElemnt{vertex_index, contour_index, IntersectingElemnt::Type::face_2};
                 ++contour_index;
             }
@@ -812,8 +812,8 @@ namespace Slic3r::MeshBoolean::cgal2 {
 // Question store(1) Or calculate on demand(2) ??
 // (1) type: vector <vector<vertex indices>>
 // (1) Needs recalculation when merge and propagation togewther with its
-// (2) Could appear surface mistakes(need calc - all half edges) 
-// (2) NO need of trace cut outline and connect it with letter conture points 
+// (2) Could appear surface mistakes(need calc - all half edges)
+// (2) NO need of trace cut outline and connect it with letter conture points
 
 /// <summary>
 /// Cut surface shape from source model
@@ -865,7 +865,7 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
     auto font = Emboss::create_font_file(font_path.c_str());
     REQUIRE(font != nullptr);
 
-    std::optional<Emboss::Glyph> glyph = 
+    std::optional<Emboss::Glyph> glyph =
         Emboss::letter2glyph(*font, font_index, letter, flatness);
     REQUIRE(glyph.has_value());
 
@@ -881,7 +881,7 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
 
     CHECK(!text.indices.empty());
 #endif
-    
+
     auto cube = its_make_cube(782 - 49 + 50, 724 + 10 + 50, 5);
     its_translate(cube, Vec3f(49 - 25, -10 - 25, 2.5));
     auto cube2 = cube;
@@ -897,7 +897,7 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
     //append(cube.indices, cube2.indices);
 
     using MyMesh = Slic3r::MeshBoolean::cgal2::CGALMesh;
-    
+
     // name of CGAL property map for store source object face id - index into its.indices
     std::string face_map_name = "f:face_map";
     std::string face_type_map_name = "f:type";
@@ -911,7 +911,7 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
     std::string face_shape_map_name = "f:glyph_id";
     std::vector<ShapesVertexId> glyph_contours;
 
-    MyMesh cgal_shape = MeshBoolean::cgal2::to_cgal(shape, projection, 0, edge_shape_map_name, face_shape_map_name, glyph_contours);    
+    MyMesh cgal_shape = MeshBoolean::cgal2::to_cgal(shape, projection, 0, edge_shape_map_name, face_shape_map_name, glyph_contours);
 
     auto edge_shape_map = cgal_shape.property_map<MyMesh::Edge_index, IntersectingElemnt>(edge_shape_map_name).first;
     auto face_shape_map = cgal_shape.property_map<MyMesh::Face_index, IntersectingElemnt>(face_shape_map_name).first;
@@ -921,7 +921,7 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
     using ecm_it = boost::property_map<MyMesh, d_prop_bool>::SMPM;
     using EcmType = CGAL::internal::Dynamic<MyMesh, ecm_it>;
     EcmType ecm = get(d_prop_bool(), cgal_object);
-    
+
     struct Visitor : public CGAL::Polygon_mesh_processing::Corefinement::Default_visitor<MyMesh> {
         Visitor(const MyMesh &object, const MyMesh &shape,
                 MyMesh::Property_map<CGAL::SM_Edge_index, IntersectingElemnt> edge_shape_map,
@@ -1062,13 +1062,13 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
                 assert(shape_from.vertex_index == shape_to.vertex_index);
                 assert(shape_from.point_index != -1);
                 assert(shape_to.point_index != -1);
-                
+
                 const ShapesVertexId &vertex_index = glyph_contours[shape_from.vertex_index];
                 const ExPolygon &expoly  = shape[vertex_index.expoly];
                 const Polygon &contour = vertex_index.contour == 0 ? expoly.contour : expoly.holes[vertex_index.contour - 1];
                 bool is_inside = false;
-                
-                // 4 type 
+
+                // 4 type
                 // index into contour
                 int32_t i_from = shape_from.point_index;
                 int32_t i_to = shape_to.point_index;
@@ -1116,8 +1116,8 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
                         side_type = SideType::inside;
                     else
                         is_inside = false;
-                } 
-                if (!is_inside) side_type = SideType::outside;                
+                }
+                if (!is_inside) side_type = SideType::outside;
                 break;
             }
             // next half edge index inside of face
@@ -1125,10 +1125,10 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
         } while (hi != hi_end);
         side_type_map[fi] = side_type;
     }
-    
+
     // debug output
-    auto face_colors = cgal_object.add_property_map<MyMesh::Face_index, CGAL::Color>("f:color").first;    
-    for (auto fi : cgal_object.faces()) { 
+    auto face_colors = cgal_object.add_property_map<MyMesh::Face_index, CGAL::Color>("f:color").first;
+    for (auto fi : cgal_object.faces()) {
         auto &color = face_colors[fi];
         switch (side_type_map[fi]) {
         case SideType::inside: color = CGAL::Color{255, 0, 0}; break;
@@ -1137,14 +1137,14 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
         }
     }
     CGAL::IO::write_OFF("c:\\data\\temp\\constrained.off", cgal_object);
-    
+
     // Seed fill the other faces inside the region.
     for (Visitor::face_descriptor fi : cgal_object.faces()) {
         if (side_type_map[fi] != SideType::not_constrained) continue;
 
         // check if neighbor face is inside
         Visitor::halfedge_descriptor hi     = cgal_object.halfedge(fi);
-        Visitor::halfedge_descriptor hi_end = hi; 
+        Visitor::halfedge_descriptor hi_end = hi;
 
         bool has_inside_neighbor = false;
         std::vector<MyMesh::Face_index> queue;
@@ -1169,19 +1169,19 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
 
             // check neighbor triangle
             Visitor::halfedge_descriptor hi     = cgal_object.halfedge(fi);
-            Visitor::halfedge_descriptor hi_end = hi; 
+            Visitor::halfedge_descriptor hi_end = hi;
             do {
                 Visitor::face_descriptor fi_opposite = cgal_object.face(cgal_object.opposite(hi));
                 SideType side = side_type_map[fi_opposite];
-                if (side == SideType::not_constrained) 
-                    queue.emplace_back(fi_opposite);                
+                if (side == SideType::not_constrained)
+                    queue.emplace_back(fi_opposite);
                 hi = cgal_object.next(hi);
             } while (hi != hi_end);
-        }            
+        }
     }
 
     // debug output
-    for (auto fi : cgal_object.faces()) { 
+    for (auto fi : cgal_object.faces()) {
         auto &color = face_colors[fi];
         switch (side_type_map[fi]) {
         case SideType::inside: color = CGAL::Color{255, 0, 0}; break;
@@ -1235,7 +1235,7 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
                state == FaceState::Marked || state == FaceState::MarkedSplit);
         if (state == FaceState::UnmarkedEmitted) continue; // Already emitted.
 
-        if (state == FaceState::Unmarked || 
+        if (state == FaceState::Unmarked ||
             state == FaceState::UnmarkedSplit) {
             // Just copy the unsplit source face.
             const Vec3i source_vertices = cube.indices[source_face_id];
@@ -1250,14 +1250,14 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
             its_extruded.indices.emplace_back(target_vertices);
             face_states[source_face_id] = FaceState::UnmarkedEmitted;
             continue; // revert modification
-        } 
+        }
 
         auto hi = cgal_object.halfedge(fi);
         auto hi_prev = cgal_object.prev(hi);
         auto hi_next = cgal_object.next(hi);
-        const Vec3i source_vertices{ 
-            int((std::size_t)cgal_object.target(hi)), 
-            int((std::size_t)cgal_object.target(hi_next)), 
+        const Vec3i source_vertices{
+            int((std::size_t)cgal_object.target(hi)),
+            int((std::size_t)cgal_object.target(hi_next)),
             int((std::size_t)cgal_object.target(hi_prev)) };
         Vec3i target_vertices;
         if (side_type_map[fi] != SideType::inside) {
@@ -1275,7 +1275,7 @@ TEST_CASE("Emboss extrude cut", "[Emboss-Cut]")
             its_extruded.indices.emplace_back(target_vertices);
             continue; // copy splitted triangle
         }
-        
+
         // Extrude the face. Neighbor edges separating extruded face from
         // non-extruded face will be extruded.
         bool  boundary_vertex[3] = {false, false, false};

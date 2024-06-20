@@ -111,7 +111,7 @@ void fill_config(PConf& pcfg, const ArrangeParams &params) {
     // The accuracy of optimization.
     // Goes from 0.0 to 1.0 and scales performance as well
     pcfg.accuracy = params.accuracy;
-    
+
     // Allow parallel execution.
     pcfg.parallel = params.parallel;
 }
@@ -126,7 +126,7 @@ static double fixed_overfit(const std::tuple<double, Box>& result, const Box &bi
     Box fullbb  = sl::boundingBox(pilebb, binbb);
     auto diff = double(fullbb.area()) - binbb.area();
     if(diff > 0) score += diff;
-    
+
     return score;
 }
 
@@ -165,7 +165,7 @@ protected:
     ItemGroup m_remaining;      // Remaining items
     ItemGroup m_items;          // allready packed items
     size_t    m_item_count = 0; // Number of all items to be packed
-    
+
     template<class T> ArithmeticOnly<T, double> norm(T val)
     {
         return double(val) / m_norm;
@@ -182,18 +182,18 @@ protected:
         const double bin_area = m_bin_area;
         const SpatIndex& spatindex = m_rtree;
         const SpatIndex& smalls_spatindex = m_smallsrtree;
-        
+
         // We will treat big items (compared to the print bed) differently
         auto isBig = [bin_area](double a) {
             return a/bin_area > BIG_ITEM_TRESHOLD ;
         };
-        
+
         // Candidate item bounding box
         auto ibb = item.boundingBox();
-        
+
         // Calculate the full bounding box of the pile with the candidate item
         auto fullbb = sl::boundingBox(m_pilebb, ibb);
-        
+
         // The bounding box of the big items (they will accumulate in the center
         // of the pile
         Box bigbb;
@@ -202,31 +202,31 @@ protected:
             auto boostbb = spatindex.bounds();
             boost::geometry::convert(boostbb, bigbb);
         }
-        
+
         // Will hold the resulting score
         double score = 0;
-        
+
         // Density is the pack density: how big is the arranged pile
         double density = 0;
-        
+
         // Distinction of cases for the arrangement scene
         enum e_cases {
             // This branch is for big items in a mixed (big and small) scene
             // OR for all items in a small-only scene.
             BIG_ITEM,
-            
+
             // This branch is for the last big item in a mixed scene
             LAST_BIG_ITEM,
-            
+
             // For small items in a mixed scene.
             SMALL_ITEM
         } compute_case;
-        
+
         bool bigitems = isBig(item.area()) || spatindex.empty();
         if(bigitems && !m_remaining.empty()) compute_case = BIG_ITEM;
         else if (bigitems && m_remaining.empty()) compute_case = LAST_BIG_ITEM;
         else compute_case = SMALL_ITEM;
-        
+
         switch (compute_case) {
         case BIG_ITEM: {
             const Point& minc = ibb.minCorner(); // bottom left corner
@@ -269,7 +269,7 @@ protected:
             index.query(query, std::back_inserter(result));
 
             // now get the score for the best alignment
-            for(auto& e : result) { 
+            for(auto& e : result) {
                 auto idx = e.second;
                 Item& p = m_items[idx];
                 auto parea = p.area();
@@ -281,10 +281,10 @@ protected:
                     if(ascore < alignment_score) alignment_score = ascore;
                 }
             }
-            
+
             density = std::sqrt(norm(fullbb.width()) * norm(fullbb.height()));
             double R = double(m_remaining.size()) / m_item_count;
-            
+
             // The final mix of the score is the balance between the
             // distance from the full pile center, the pack density and
             // the alignment with the neighbors
@@ -308,14 +308,14 @@ protected:
             // just fine for small items
             score = norm(pl::distance(ibb.center(), bigbb.center()));
             break;
-        }            
         }
-        
+        }
+
         return std::make_tuple(score, fullbb);
     }
-    
+
     std::function<double(const Item&)> get_objfn();
-    
+
 public:
     AutoArranger(const TBin &                  bin,
                  const ArrangeParams           &params,
@@ -343,7 +343,7 @@ public:
 
             m_rtree.clear();
             m_smallsrtree.clear();
-            
+
             // We will treat big items (compared to the print bed) differently
             auto isBig = [this](double a) {
                 return a / m_bin_area > BIG_ITEM_TRESHOLD ;
@@ -355,7 +355,7 @@ public:
                 m_smallsrtree.insert({itm.boundingBox(), idx});
             }
         };
-        
+
         m_pconf.object_function = get_objfn();
 
         m_pconf.on_preload = [this](const ItemGroup &items, PConfig &cfg) {
@@ -370,7 +370,7 @@ public:
         };
 
         auto on_packed = params.on_packed;
-        
+
         if (progressind || on_packed)
             m_pck.progressIndicator([this, progressind, on_packed](unsigned rem) {
 
@@ -393,18 +393,18 @@ public:
 
         m_pck.configure(m_pconf);
     }
-     
+
     template<class It> inline void operator()(It from, It to) {
         m_rtree.clear();
         m_item_count += size_t(to - from);
         m_pck.execute(from, to);
         m_item_count = 0;
     }
-    
+
     PConfig& config() { return m_pconf; }
     const PConfig& config() const { return m_pconf; }
-    
-    inline void preload(std::vector<Item>& fixeditems) {        
+
+    inline void preload(std::vector<Item>& fixeditems) {
         for(unsigned idx = 0; idx < fixeditems.size(); ++idx) {
             Item& itm = fixeditems[idx];
             itm.markAsFixedInBin(itm.binId());
@@ -420,14 +420,14 @@ template<> std::function<double(const Item&)> AutoArranger<Box>::get_objfn()
 
     return [this, bincenter](const Item &itm) {
         auto result = objfunc(itm, bincenter);
-        
+
         double score = std::get<0>(result);
         auto& fullbb = std::get<1>(result);
 
         double miss = Placer::overfit(fullbb, m_bin);
         miss = miss > 0? miss : 0;
         score += miss * miss;
-        
+
         return score;
     };
 }
@@ -488,7 +488,7 @@ void _arrange(
     // Integer ceiling the min distance from the bed perimeters
     coord_t md = params.min_obj_distance;
     md = md / 2 - params.min_bed_distance;
-    
+
     auto corrected_bin = bin;
     sl::offset(corrected_bin, md);
     ArrangeParams mod_params = params;
@@ -555,16 +555,16 @@ inline double distance_to(const Point& p1, const Point& p2)
 static CircleBed to_circle(const Point &center, const Points& points) {
     std::vector<double> vertex_distances;
     double avg_dist = 0;
-    
+
     for (const Point& pt : points)
     {
         double distance = distance_to(center, pt);
         vertex_distances.push_back(distance);
         avg_dist += distance;
     }
-    
+
     avg_dist /= vertex_distances.size();
-    
+
     CircleBed ret(center, avg_dist);
     for(auto el : vertex_distances)
     {
@@ -573,7 +573,7 @@ static CircleBed to_circle(const Point &center, const Points& points) {
             break;
         }
     }
-    
+
     return ret;
 }
 
@@ -638,23 +638,23 @@ void arrange(ArrangePolygons &      arrangables,
              const ArrangeParams &  params)
 {
     namespace clppr = Slic3r::ClipperLib;
-    
+
     std::vector<Item> items, fixeditems;
     items.reserve(arrangables.size());
-    
+
     for (ArrangePolygon &arrangeable : arrangables)
         process_arrangeable(arrangeable, items);
-    
+
     for (const ArrangePolygon &fixed: excludes)
         process_arrangeable(fixed, fixeditems);
-    
+
     for (Item &itm : fixeditems) itm.inflate(scaled(-2. * EPSILON));
-    
+
     auto &cfn = params.stopcondition;
     auto &pri = params.progressind;
-    
+
     _arrange(items, fixeditems, to_nestbin(bed), params, pri, cfn);
-    
+
     for(size_t i = 0; i < items.size(); ++i) {
         Point tr = items[i].translation();
         arrangables[i].translation = {coord_t(tr.x()), coord_t(tr.y())};

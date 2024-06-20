@@ -49,7 +49,7 @@ namespace GUI {
 
 struct SettingsFactory
 {
-//				     category ->       vector ( option )
+//                     category ->       vector ( option )
     typedef std::map<std::string, std::vector<std::string>> Bundle;
     static std::map<std::string, std::string>               CATEGORY_ICON;
 
@@ -61,9 +61,9 @@ struct SettingsFactory
 class MenuFactory
 {
 public:
-	static std::vector<wxBitmapBundle*> get_volume_bitmaps();
-	static std::vector<wxBitmapBundle*> get_text_volume_bitmaps();
-	static std::vector<wxBitmapBundle*> get_svg_volume_bitmaps();
+    static std::vector<wxBitmapBundle*> get_volume_bitmaps();
+    static std::vector<wxBitmapBundle*> get_text_volume_bitmaps();
+    static std::vector<wxBitmapBundle*> get_svg_volume_bitmaps();
 
     static wxString                     get_repaire_result_message(const std::vector<std::string>& succes_models,
                                                                    const std::vector<std::pair<std::string, std::string>>& failed_models);
@@ -123,7 +123,7 @@ private:
 
     wxMenu*     append_submenu_add_generic(wxMenu* menu, ModelVolumeType type);
     void        append_menu_item_add_text(wxMenu* menu, ModelVolumeType type, bool is_submenu_item = true);
-    void        append_menu_item_add_svg(wxMenu *menu, ModelVolumeType type, bool is_submenu_item = true);    
+    void        append_menu_item_add_svg(wxMenu *menu, ModelVolumeType type, bool is_submenu_item = true);
     void        append_menu_items_add_volume(MenuType type);
     wxMenuItem* append_menu_item_layers_editing(wxMenu* menu);
     wxMenuItem* append_menu_item_settings(wxMenu* menu);

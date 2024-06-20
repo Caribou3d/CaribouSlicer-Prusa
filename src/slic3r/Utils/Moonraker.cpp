@@ -31,7 +31,7 @@ namespace {
 // Workaround for Windows 10/11 mDNS resolve issue, where two mDNS resolves in succession fail.
 std::string substitute_host(const std::string& orig_addr, std::string sub_addr)
 {
-    // put ipv6 into [] brackets 
+    // put ipv6 into [] brackets
     if (sub_addr.find(':') != std::string::npos && sub_addr.at(0) != '[')
         sub_addr = "[" + sub_addr + "]";
     // Using the new CURL API for handling URL. https://everything.curl.dev/libcurl/url
@@ -111,7 +111,7 @@ bool Moonraker::test(wxString& msg) const
     })
     .on_complete([&](std::string body, unsigned) {
         BOOST_LOG_TRIVIAL(debug) << boost::format("%1%: Got server/info: %2%") % name % body;
-            
+
         try {
             // All successful HTTP requests will return a json encoded object in the form of :
             // {result: <response data>}
@@ -181,7 +181,7 @@ bool Moonraker::upload(PrintHostUpload upload_data, ProgressFn prorgess_fn, Erro
         // If it got the address use it instead of the stored in "host" variable.
         // This new address returns in "test_msg_or_host_ip" variable.
         // Solves troubles of uploades failing with name address.
-        // in original address (m_host) replace host for resolved ip 
+        // in original address (m_host) replace host for resolved ip
         info_fn(L"resolve", test_msg_or_host_ip);
         url = substitute_host(make_url("server/files/upload"), GUI::into_u8(test_msg_or_host_ip));
         BOOST_LOG_TRIVIAL(info) << "Upload address after ip resolve: " << url;
@@ -205,13 +205,13 @@ bool Moonraker::upload(PrintHostUpload upload_data, ProgressFn prorgess_fn, Erro
     */
     auto http = Http::post(std::move(url));
     set_auth(http);
-    
+
     http.form_add("root", "gcodes");
     if (!upload_parent_path.empty())
         http.form_add("path", upload_parent_path.string());
     if (upload_data.post_action == PrintHostPostUploadAction::StartPrint)
         http.form_add("print", "true");
-   
+
     http.form_add_file("file", upload_data.source_path.string(), upload_filename.string())
         .on_complete([&](std::string body, unsigned status) {
             BOOST_LOG_TRIVIAL(debug) << boost::format("%1%: File uploaded: HTTP %2%: %3%") % name % status % body;

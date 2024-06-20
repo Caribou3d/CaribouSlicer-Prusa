@@ -61,7 +61,7 @@ void TopBarItemsCtrl::Button::set_selected(bool selected)
     m_is_selected = selected;
 
     m_foreground_color = m_is_selected ? wxGetApp().get_window_default_clr(): wxGetApp().get_label_clr_default() ;
-    m_background_color = m_is_selected ? wxGetApp().get_label_clr_default() : 
+    m_background_color = m_is_selected ? wxGetApp().get_label_clr_default() :
 #ifdef _WIN32
                                          wxGetApp().get_window_default_clr();
 #else
@@ -87,7 +87,7 @@ void TopBarItemsCtrl::Button::set_hovered(bool hovered)
 
     m_background_color =    m_is_selected ? wxGetApp().get_label_clr_default()     :
                             hovered       ? wxGetApp().get_color_selected_btn_bg() :
-                            
+
 #ifdef _WIN32
                                             wxGetApp().get_window_default_clr();
 #else
@@ -271,7 +271,7 @@ void TopBarItemsCtrl::UnselectPopupButtons()
 
 void TopBarItemsCtrl::CreateSearch()
 {
-    // Linux specific: If wxDefaultSize is used in constructor and than set just maxSize, 
+    // Linux specific: If wxDefaultSize is used in constructor and than set just maxSize,
     // than this max size will be used as a default control size and can't be resized.
     // So, set initial size for some minimum value
     m_search = new ::TextInput(this, wxGetApp().searcher().default_string, "", "search", wxDefaultPosition, wxSize(2 * em_unit(this), -1), wxTE_PROCESS_ENTER);
@@ -285,15 +285,15 @@ void TopBarItemsCtrl::CreateSearch()
     });
 
     m_search->Bind(wxEVT_MOVE, [](wxMoveEvent& event)
-    { 
+    {
         event.Skip();
         wxGetApp().searcher().update_dialog_position();
     });
 
-    m_search->SetOnDropDownIcon([this]() 
+    m_search->SetOnDropDownIcon([this]()
     {
-        wxGetApp().searcher().set_search_input(m_search); 
-        wxGetApp().show_search_dialog(); 
+        wxGetApp().searcher().set_search_input(m_search);
+        wxGetApp().show_search_dialog();
     });
 
     m_search->Bind(wxEVT_KILL_FOCUS, [](wxFocusEvent& e)
@@ -307,7 +307,7 @@ void TopBarItemsCtrl::CreateSearch()
 
     ctrl->Bind(wxEVT_KEY_DOWN, [this](wxKeyEvent& e)
     {
-        wxGetApp().searcher().set_search_input(m_search); 
+        wxGetApp().searcher().set_search_input(m_search);
         if (e.GetKeyCode() == WXK_TAB)
             m_search->Navigate(e.ShiftDown() ? wxNavigationKeyEvent::IsBackward : wxNavigationKeyEvent::IsForward);
         else
@@ -317,7 +317,7 @@ void TopBarItemsCtrl::CreateSearch()
 
     ctrl->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event)
     {
-        wxGetApp().searcher().set_search_input(m_search); 
+        wxGetApp().searcher().set_search_input(m_search);
         wxGetApp().show_search_dialog();
         event.Skip();
     });
@@ -443,7 +443,7 @@ TopBarItemsCtrl::TopBarItemsCtrl(wxWindow *parent, TopBarMenus* menus/* = nullpt
 #else
     m_menu_btn = new ButtonWithPopup(this, _L("Menu"), wxGetApp().logo_name());
     left_sizer->Add(m_menu_btn, 0, wxALIGN_CENTER_VERTICAL | wxALL, m_btn_margin);
-    
+
     m_menu_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {
         m_menu_btn->set_selected(true);
         m_menus->Popup(this, &m_menus->main, m_menu_btn->get_popup_pos());
@@ -474,7 +474,7 @@ TopBarItemsCtrl::TopBarItemsCtrl(wxWindow *parent, TopBarMenus* menus/* = nullpt
     m_workspace_btn = new ButtonWithPopup(this, _L("Workspace"), "mode_simple");
     right_sizer->AddStretchSpacer(20);
     right_sizer->Add(m_workspace_btn, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT | wxALL, m_btn_margin);
-    
+
     m_workspace_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {
         m_workspace_btn->set_selected(true);
         m_menus->Popup(this, &m_menus->workspaces, m_workspace_btn->get_popup_pos());
@@ -482,7 +482,7 @@ TopBarItemsCtrl::TopBarItemsCtrl(wxWindow *parent, TopBarMenus* menus/* = nullpt
 
     m_account_btn = new ButtonWithPopup(this, _L("Log in"), "user", wxSize(180, -1));
     right_sizer->Add(m_account_btn, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT | wxRIGHT, m_btn_margin);
-    
+
     m_account_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {
         m_account_btn->set_selected(true);
         m_menus->Popup(this, &m_menus->account, m_account_btn->get_popup_pos());

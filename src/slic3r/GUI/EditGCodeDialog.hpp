@@ -78,7 +78,7 @@ enum class ParamType {
     FilamentVector,
 };
 
-// On all of 3 different platforms Bitmap+Text icon column looks different 
+// On all of 3 different platforms Bitmap+Text icon column looks different
 // because of Markup text is missed or not implemented.
 // As a temporary workaround, we will use:
 // MSW - DataViewBitmapText (our custom renderer wxBitmap + wxString, supported Markup text)
@@ -122,7 +122,7 @@ public:
                const std::string&   icon_name);
 
     // parametre node
-    ParamsNode( ParamsNode*         parent, 
+    ParamsNode( ParamsNode*         parent,
                 ParamType           param_type,
                 const std::string&  param_key);
 

@@ -29,7 +29,7 @@ TEST_CASE("SurfaceMesh on a cube", "[SurfaceMesh]") {
     Halfedge_index hi = hi_first;
 
     REQUIRE(! hi_first.is_invalid());
-    
+
     SECTION("next / prev halfedge") {
         hi = sm.next(hi);
         REQUIRE(hi != hi_first);
@@ -87,7 +87,7 @@ TEST_CASE("SurfaceMesh on a cube", "[SurfaceMesh]") {
         hi = sm.prev(hi);
         hi = sm.opposite(hi);
         REQUIRE(hi.face() == Face_index(6));
-        REQUIRE(sm.point(sm.target(hi)).isApprox(cube.vertices[7])); 
+        REQUIRE(sm.point(sm.target(hi)).isApprox(cube.vertices[7]));
     }
 }
 
@@ -97,7 +97,7 @@ TEST_CASE("SurfaceMesh on a cube", "[SurfaceMesh]") {
 TEST_CASE("SurfaceMesh on a broken cube", "[SurfaceMesh]") {
     indexed_triangle_set cube = its_make_cube_broken(1., 1., 1.);
     SurfaceMesh sm(cube);
-    
+
     SECTION("Check inverted face") {
         Halfedge_index hi = sm.halfedge(Face_index(8));
         for (int i=0; i<3; ++i) {

@@ -41,7 +41,7 @@ private:
 
     // Used to move slice (text line) on place where is approx vertical center of text
     // When copy value const double ASCENT_CENTER from Emboss.cpp and Vertical align is center than
-    // text line will cross object center 
+    // text line will cross object center
     const double ascent_ratio_offset = 1/3.;
 };
 

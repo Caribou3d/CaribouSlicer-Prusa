@@ -84,7 +84,7 @@ static HRESULT winrt_activate_instance(const std::wstring &class_name, IInspecta
 {
     HSTRING hClassName;
     HRESULT hr = (*s_WindowsCreateString)(class_name.c_str(), class_name.size(), &hClassName);
-    if (S_OK != hr) 
+    if (S_OK != hr)
         return hr;
     hr = (*s_RoActivateInstance)(hClassName, pinst);
     (*s_WindowsDeleteString)(hClassName);
@@ -244,9 +244,9 @@ void fix_model_by_win10_sdk(const std::string &path_src, const std::string &path
         hr = model->get_Meshes(meshes.GetAddressOf());
         unsigned num_meshes = 0;
         hr = meshes->get_Size(&num_meshes);
-        
+
         on_progress(L("Repairing model by Windows repair algorithm"), 40);
-        
+
         Microsoft::WRL::ComPtr<ABI::Windows::Foundation::IAsyncAction>                      repairAsync;
         hr = model->RepairAsync(repairAsync.GetAddressOf());
         status = winrt_async_await(repairAsync, throw_on_cancel);
@@ -327,7 +327,7 @@ public:
 
 // returt FALSE, if fixing was canceled
 // fix_result is empty, if fixing finished successfully
-// fix_result containes a message if fixing failed 
+// fix_result containes a message if fixing failed
 bool fix_model_by_win10_sdk_gui(ModelObject &model_object, int volume_idx, wxProgressDialog& progress_dialog, const wxString& msg_header, std::string& fix_result)
 {
     std::mutex mtx;
@@ -385,7 +385,7 @@ bool fix_model_by_win10_sdk_gui(ModelObject &model_object, int volume_idx, wxPro
                 model.clear_materials();
                 boost::filesystem::path path_dst = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
                 path_dst += ".3mf";
-                fix_model_by_win10_sdk(path_src.string().c_str(), path_dst.string(), on_progress, 
+                fix_model_by_win10_sdk(path_src.string().c_str(), path_dst.string(), on_progress,
                     [&canceled]() { if (canceled) throw RepairCanceledException(); });
                 boost::filesystem::remove(path_src);
                 // PresetBundle bundle;

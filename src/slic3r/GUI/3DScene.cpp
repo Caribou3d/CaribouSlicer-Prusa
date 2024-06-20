@@ -63,7 +63,7 @@ void glAssertRecentCallImpl(const char* file_name, unsigned int line, const char
     switch (err) {
     case GL_INVALID_ENUM:       sErr = "Invalid Enum";      break;
     case GL_INVALID_VALUE:      sErr = "Invalid Value";     break;
-    // be aware that GL_INVALID_OPERATION is generated if glGetError is executed between the execution of glBegin and the corresponding execution of glEnd 
+    // be aware that GL_INVALID_OPERATION is generated if glGetError is executed between the execution of glBegin and the corresponding execution of glEnd
     case GL_INVALID_OPERATION:  sErr = "Invalid Operation"; break;
     case GL_STACK_OVERFLOW:     sErr = "Stack Overflow";    break;
     case GL_STACK_UNDERFLOW:    sErr = "Stack Underflow";   break;
@@ -103,7 +103,7 @@ void GLVolume::SinkingContours::update()
         !m_parent.is_sinking() ||
         m_parent.is_below_printbed()){
         m_model.reset();
-        return;    
+        return;
     }
 
     const BoundingBoxf3& box = m_parent.transformed_convex_hull_bounding_box();
@@ -112,8 +112,8 @@ void GLVolume::SinkingContours::update()
         // Fix it !!! It is not working all the time
         m_shift = box.center() - m_old_box.center();
         return;
-    }    
-    
+    }
+
     m_old_box = box;
     m_shift = Vec3d::Zero();
 
@@ -406,7 +406,7 @@ void GLVolume::render()
     GLShaderProgram* shader = GUI::wxGetApp().get_current_shader();
     if (shader == nullptr)
         return;
-    
+
     const bool is_left_handed = this->is_left_handed();
 
     if (is_left_handed)
@@ -649,7 +649,7 @@ void GLVolumeCollection::load_object_auxiliary(
         v.shader_outside_printer_detection_enabled = (step == slaposSupportTree || step == slaposDrillHoles);
         v.set_instance_transformation(model_instance.get_transformation());
     };
- 
+
     if (milestone == SLAPrintObjectStep::slaposDrillHoles) {
         if (print_object->get_parts_to_slice().size() > 1) {
             // Get the mesh.
@@ -862,7 +862,7 @@ void GLVolumeCollection::render(GLVolumeCollection::ERenderType type, bool disab
                 it->second.time_used = time_now;
             }
 
-            
+
             ts->render(nullptr, world_matrix);
 
             if (is_left_handed)
@@ -977,8 +977,8 @@ void GLVolumeCollection::update_colors_by_extruder(const DynamicPrintConfig* con
     std::vector<ColorItem> colors;
 
     if (static_cast<PrinterTechnology>(config->opt_int("printer_technology")) == ptSLA) {
-        const std::string& txt_color = config->opt_string("material_colour").empty() ? 
-                                       print_config_def.get("material_colour")->get_default_value<ConfigOptionString>()->value : 
+        const std::string& txt_color = config->opt_string("material_colour").empty() ?
+                                       print_config_def.get("material_colour")->get_default_value<ConfigOptionString>()->value :
                                        config->opt_string("material_colour");
         ColorRGB rgb;
         if (decode_color(txt_color, rgb))
@@ -1052,7 +1052,7 @@ std::vector<double> GLVolumeCollection::get_current_print_zs(bool active_only) c
     return print_zs;
 }
 
-size_t GLVolumeCollection::cpu_memory_used() const 
+size_t GLVolumeCollection::cpu_memory_used() const
 {
     size_t memsize = sizeof(*this) + this->volumes.capacity() * sizeof(GLVolume);
     for (const GLVolume *volume : this->volumes)
@@ -1060,7 +1060,7 @@ size_t GLVolumeCollection::cpu_memory_used() const
     return memsize;
 }
 
-size_t GLVolumeCollection::gpu_memory_used() const 
+size_t GLVolumeCollection::gpu_memory_used() const
 {
     size_t memsize = 0;
     for (const GLVolume *volume : this->volumes)
@@ -1068,8 +1068,8 @@ size_t GLVolumeCollection::gpu_memory_used() const
     return memsize;
 }
 
-std::string GLVolumeCollection::log_memory_info() const 
-{ 
+std::string GLVolumeCollection::log_memory_info() const
+{
     return " (GLVolumeCollection RAM: " + format_memsize_MB(this->cpu_memory_used()) + " GPU: " + format_memsize_MB(this->gpu_memory_used()) + " Both: " + format_memsize_MB(this->gpu_memory_used()) + ")";
 }
 
@@ -1190,7 +1190,7 @@ static void thick_lines_to_geometry(
             // Share left / right vertices if possible.
             const double v_dot = v_prev.dot(v);
             // To reduce gpu memory usage, we try to reuse vertices
-            // To reduce the visual artifacts, due to averaged normals, we allow to reuse vertices only when any of two adjacent edges 
+            // To reduce the visual artifacts, due to averaged normals, we allow to reuse vertices only when any of two adjacent edges
             // is longer than a fixed threshold.
             // The following value is arbitrary, it comes from tests made on a bunch of models showing the visual artifacts
             const double len_threshold = 2.5;
@@ -1428,7 +1428,7 @@ static void thick_lines_to_geometry(
             const bool is_right_turn = n_top_prev.dot(unit_v_prev.cross(unit_v)) > 0.0;
 
             // To reduce gpu memory usage, we try to reuse vertices
-            // To reduce the visual artifacts, due to averaged normals, we allow to reuse vertices only when any of two adjacent edges 
+            // To reduce the visual artifacts, due to averaged normals, we allow to reuse vertices only when any of two adjacent edges
             // is longer than a fixed threshold.
             // The following value is arbitrary, it comes from tests made on a bunch of models showing the visual artifacts
             const double len_threshold = 2.5;

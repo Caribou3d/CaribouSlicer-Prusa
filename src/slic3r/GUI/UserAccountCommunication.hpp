@@ -27,13 +27,13 @@ private:
     std::string sha256(const std::string& input);
 };
 
-class UserAccountCommunication : public wxEvtHandler 
+class UserAccountCommunication : public wxEvtHandler
 {
 public:
     UserAccountCommunication(wxEvtHandler* evt_handler, AppConfig* app_config);
     ~UserAccountCommunication();
 
-    // UI Session thread Interface 
+    // UI Session thread Interface
     //
     bool is_logged();
     void do_login();
@@ -48,7 +48,7 @@ public:
     void enqueue_refresh();
 
     // Callbacks - called from UI after receiving Event from Session thread. Some might use Session thread.
-    // 
+    //
     // Called when browser returns code via prusaslicer:// custom url.
     // Exchanges code for tokens and shared_session_key
     void on_login_code_recieved(const std::string& url_message);
@@ -96,8 +96,8 @@ private:
     void login_redirect();
     std::string client_id() const { return "oamhmhZez7opFosnwzElIgE2oGgI2iJORSkw587O"; }
 
-    
-    
+
+
 };
 }
 }

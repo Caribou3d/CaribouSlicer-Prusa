@@ -175,7 +175,7 @@ void BitmapComboBox::DrawBackground_(wxDC& dc, const wxRect& rect, int WXUNUSED(
     {
         dc.SetTextForeground(flags & ODCB_PAINTING_DISABLED ? wxColour(108,108,108) : wxGetApp().get_label_clr_default());
 
-        wxColour selCol = flags & ODCB_PAINTING_DISABLED ? 
+        wxColour selCol = flags & ODCB_PAINTING_DISABLED ?
 #ifdef _MSW_DARK_MODE
             wxRGBToColour(NppDarkMode::GetSofterBackgroundColor()) :
 #else

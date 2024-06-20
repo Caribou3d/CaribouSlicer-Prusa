@@ -25,16 +25,16 @@
 #include "format.hpp"
 
 #ifdef _WIN32
-	// The standard Windows includes.
-	#define WIN32_LEAN_AND_MEAN
+    // The standard Windows includes.
+    #define WIN32_LEAN_AND_MEAN
 #ifndef NOMINMAX
-	#define NOMINMAX
+    #define NOMINMAX
 #endif
-	#include <Windows.h>
-	#include <psapi.h>
+    #include <Windows.h>
+    #include <psapi.h>
 #endif /* _WIN32 */
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 
 std::string get_main_info(bool format_as_html)
@@ -48,7 +48,7 @@ std::string get_main_info(bool format_as_html)
     if (!format_as_html)
         out << b_start << (wxGetApp().is_editor() ? SLIC3R_APP_NAME : GCODEVIEWER_APP_NAME) << b_end << line_end;
     out << b_start << "Version:   "             << b_end << SLIC3R_VERSION << line_end;
-    
+
     std::string build_id = SLIC3R_BUILD_NR;
     if (! wxGetApp().is_editor())
         boost::replace_first(build_id, SLIC3R_APP_NAME, GCODEVIEWER_APP_NAME);
@@ -57,7 +57,7 @@ std::string get_main_info(bool format_as_html)
     out << line_end;
     out << b_start << "Operating System:    "   << b_end << wxPlatformInfo::Get().GetOperatingSystemFamilyName() << line_end;
     out << b_start << "System Architecture: "   << b_end << wxPlatformInfo::Get().GetBitnessName() << line_end;
-    out << b_start << 
+    out << b_start <<
 #if defined _WIN32
         "Windows Version:     "
 #else
@@ -97,23 +97,23 @@ std::string get_mem_info(bool format_as_html)
 SysInfoDialog::SysInfoDialog()
     : DPIDialog(static_cast<wxWindow*>(wxGetApp().mainframe), wxID_ANY, (wxGetApp().is_editor() ? wxString(SLIC3R_APP_NAME) : wxString(GCODEVIEWER_APP_NAME)) + " - " + _L("System Information"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
-	wxColour bgr_clr = wxGetApp().get_window_default_clr();//wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
-	SetBackgroundColour(bgr_clr);
+    wxColour bgr_clr = wxGetApp().get_window_default_clr();//wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+    SetBackgroundColour(bgr_clr);
     SetFont(wxGetApp().normal_font());
 
     wxBoxSizer* hsizer = new wxBoxSizer(wxHORIZONTAL);
     hsizer->SetMinSize(wxSize(50 * wxGetApp().em_unit(), -1));
 
-	auto main_sizer = new wxBoxSizer(wxVERTICAL);
-	main_sizer->Add(hsizer, 1, wxEXPAND | wxALL, 10);
+    auto main_sizer = new wxBoxSizer(wxVERTICAL);
+    main_sizer->Add(hsizer, 1, wxEXPAND | wxALL, 10);
 
     // logo
     //m_logo_bmp = ScalableBitmap(this, wxGetApp().logo_name(), 192);
     //m_logo = new wxStaticBitmap(this, wxID_ANY, m_logo_bmp.bmp());
     m_logo = new wxStaticBitmap(this, wxID_ANY, *get_bmp_bundle(wxGetApp().logo_name(), 192));
 
-	hsizer->Add(m_logo, 0, wxALIGN_CENTER_VERTICAL);
-    
+    hsizer->Add(m_logo, 0, wxALIGN_CENTER_VERTICAL);
+
     wxBoxSizer* vsizer = new wxBoxSizer(wxVERTICAL);
     hsizer->Add(vsizer, 1, wxEXPAND|wxLEFT, 20);
 
@@ -140,7 +140,7 @@ SysInfoDialog::SysInfoDialog()
     {
         m_html->SetFonts(font.GetFaceName(), font.GetFaceName(), size);
         m_html->SetBorders(2);
-		const auto text = wxString::Format(
+        const auto text = wxString::Format(
             "<html>"
             "<body bgcolor= %s link= %s>"
             "<font color=%s>"
@@ -194,12 +194,12 @@ SysInfoDialog::SysInfoDialog()
     main_sizer->Add(buttons, 0, wxEXPAND | wxRIGHT | wxBOTTOM, 3);
 
     wxGetApp().UpdateDlgDarkUI(this, true);
-    
+
 //     this->Bind(wxEVT_LEFT_DOWN, &SysInfoDialog::onCloseDialog, this);
 //     logo->Bind(wxEVT_LEFT_DOWN, &SysInfoDialog::onCloseDialog, this);
 
-	SetSizer(main_sizer);
-	main_sizer->SetSizeHints(this);
+    SetSizer(main_sizer);
+    main_sizer->SetSizeHints(this);
 }
 
 void SysInfoDialog::on_dpi_changed(const wxRect &suggested_rect)

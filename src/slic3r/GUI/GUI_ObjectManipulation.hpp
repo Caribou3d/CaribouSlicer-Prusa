@@ -196,8 +196,8 @@ public:
     bool        use_colors() { return m_use_colors; }
 
     void        set_dirty() { m_dirty = true; }
-	// Called from the App to update the UI if dirty.
-	void		update_if_dirty();
+    // Called from the App to update the UI if dirty.
+    void        update_if_dirty();
 
     void        set_uniform_scaling(const bool use_uniform_scale);
     bool        get_uniform_scaling() const { return m_uniform_scale; }
@@ -245,7 +245,7 @@ private:
     //Show or hide mirror buttons
     void update_mirror_buttons_visibility();
 
-    // change values 
+    // change values
     void change_position_value(int axis, double value);
     void change_rotation_value(int axis, double value);
     void change_scale_value(int axis, double value);

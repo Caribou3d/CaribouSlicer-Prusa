@@ -130,7 +130,7 @@ public:
         }
     }
     ClipperLib_Z::ZFillCallback clipper_callback() {
-        return [this](const ZPoint &e1bot, const ZPoint &e1top, 
+        return [this](const ZPoint &e1bot, const ZPoint &e1top,
                  const ZPoint &e2bot, const ZPoint &e2top, ZPoint &pt)
         { return (*this)(e1bot, e1top, e2bot, e2top, pt); };
     }

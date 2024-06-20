@@ -86,7 +86,7 @@ PresetComboBox::PresetComboBox(wxWindow* parent, Preset::Type preset_type, const
     m_em_unit(em_unit(this))
 {
     init_from_bundle(preset_bundle);
-    
+
     m_bitmapCompatible   = get_bmp_bundle("flag_green");
     m_bitmapIncompatible = get_bmp_bundle("flag_red");
 
@@ -145,7 +145,7 @@ void PresetComboBox::OnSelect(wxCommandEvent& evt)
     // see https://github.com/prusa3d/PrusaSlicer/issues/3889
     // Under OSX: in case of use of a same names written in different case (like "ENDER" and "Ender")
     // m_presets_choice->GetSelection() will return first item, because search in PopupListCtrl is case-insensitive.
-    // So, use GetSelection() from event parameter 
+    // So, use GetSelection() from event parameter
     auto selected_item = evt.GetSelection();
 
     auto marker = reinterpret_cast<Marker>(this->GetClientData(selected_item));
@@ -348,7 +348,7 @@ void PresetComboBox::update(std::string select_preset_name)
         if (i + 1 == m_collection->num_default_presets())
             set_label_marker(Append(separator(L("System presets")), NullBitmapBndl()));
     }
-    
+
     if (!system_presets.empty())
     {
         std::sort(system_presets.begin(), system_presets.end(), [](const PresetData& a, const PresetData& b) {
@@ -403,7 +403,7 @@ void PresetComboBox::update(std::string select_preset_name)
             set_label_marker(Append(it->name, *it->bitmap), LABEL_ITEM_DISABLED);
         }
     }
-    
+
     update_selection();
     Thaw();
 }
@@ -636,7 +636,7 @@ bool PresetComboBox::selection_is_changed_according_to_physical_printers()
     }
     else
         old_printer_preset = m_collection->get_edited_preset().name;
-    // Select related printer preset on the Printer Settings Tab 
+    // Select related printer preset on the Printer Settings Tab
     physical_printers.select_printer(selected_string);
     std::string preset_name = physical_printers.get_selected_printer_preset_name();
 
@@ -646,7 +646,7 @@ bool PresetComboBox::selection_is_changed_according_to_physical_printers()
         // update action buttons to show/hide "Send to" button
         wxGetApp().plater()->show_action_buttons();
 
-        // we need just to update according Plater<->Tab PresetComboBox 
+        // we need just to update according Plater<->Tab PresetComboBox
         if (dynamic_cast<PlaterPresetComboBox*>(this)!=nullptr) {
             // Synchronize config.ini with the current selections.
             m_preset_bundle->export_selections(*wxGetApp().app_config);
@@ -789,7 +789,7 @@ void PlaterPresetComboBox::OnSelect(wxCommandEvent &evt)
     }
     else if (marker == LABEL_ITEM_PHYSICAL_PRINTER || m_last_selected != selected_item || m_collection->current_is_dirty())
         m_last_selected = selected_item;
-        
+
     evt.Skip();
 }
 
@@ -815,7 +815,7 @@ void PlaterPresetComboBox::switch_to_tab()
     {
         //In a case of a multi-material printing, for editing another Filament Preset
         //it's needed to select this preset for the "Filament settings" Tab
-        if (m_type == Preset::TYPE_FILAMENT && wxGetApp().extruders_edited_cnt() > 1 && 
+        if (m_type == Preset::TYPE_FILAMENT && wxGetApp().extruders_edited_cnt() > 1 &&
             !dynamic_cast<TabFilament*>(wxGetApp().get_tab(m_type))->set_active_extruder(m_extruder_idx))
             // do nothing, if we can't set new extruder and select new preset
             return;
@@ -901,7 +901,7 @@ void PlaterPresetComboBox::show_edit_menu()
             append_menu_item(menu, wxID_ANY, _L("Open the physical printer URL"), "",
                 [this](wxCommandEvent&) { this->open_physical_printer_url(); }, "open_browser", menu, []() { return true; }, wxGetApp().plater());
         }
-        
+
 
         append_menu_item(menu, wxID_ANY, _L("Delete physical printer"), "",
             [this](wxCommandEvent&) { this->del_physical_printer(); }, "cross", menu, []() { return true; }, wxGetApp().plater());
@@ -965,10 +965,10 @@ static std::string get_connect_state_suffix_for_printer(const Preset& printer_pr
     // process real data from Connect
     if (auto printer_state_map = wxGetApp().plater()->get_user_account()->get_printer_state_map();
         !printer_state_map.empty()) {
-        
+
         for (const auto& [printer_model_nozzle_pair, states] : printer_state_map) {
             if (printer_model_nozzle_pair.first == printer_preset.config.opt_string("printer_model")
-                && printer_model_nozzle_pair.second == printer_preset.config.opt_string("printer_variant")) 
+                && printer_model_nozzle_pair.second == printer_preset.config.opt_string("printer_variant"))
             {
                 PrinterStatesCount states_cnt = get_printe_states_count(states);
 
@@ -1000,7 +1000,7 @@ static bool fill_data_to_connect_info_line(  const Preset& printer_preset,
 
         for (const auto& [printer_model_nozzle_pair, states] : printer_state_map) {
             if (printer_model_nozzle_pair.first == printer_preset.config.opt_string("printer_model")
-                &&  printer_model_nozzle_pair.second == printer_preset.config.opt_string("printer_variant")) 
+                &&  printer_model_nozzle_pair.second == printer_preset.config.opt_string("printer_variant"))
             {
                 PrinterStatesCount states_cnt = get_printe_states_count(states);
 
@@ -1051,7 +1051,7 @@ void PlaterPresetComboBox::update()
 
     // Show wide icons if the currently selected preset is not compatible with the current printer,
     // and draw a red flag in front of the selected preset.
-    bool wide_icons = m_type == Preset::TYPE_FILAMENT ? 
+    bool wide_icons = m_type == Preset::TYPE_FILAMENT ?
                       extruder_filaments.get_selected_filament()     && !extruder_filaments.get_selected_filament()->is_compatible :
                       m_collection->get_selected_idx() != size_t(-1) && !m_collection->get_selected_preset().is_compatible;
 
@@ -1075,7 +1075,7 @@ void PlaterPresetComboBox::update()
     if (!presets.front().is_visible)
         this->set_label_marker(this->Append(separator(L("System presets")), NullBitmapBndl()));
 
-    for (size_t i = presets.front().is_visible ? 0 : m_collection->num_default_presets(); i < presets.size(); ++i) 
+    for (size_t i = presets.front().is_visible ? 0 : m_collection->num_default_presets(); i < presets.size(); ++i)
     {
         const Preset& preset = presets[i];
         const bool is_selected =  m_type == Preset::TYPE_FILAMENT ?
@@ -1102,7 +1102,7 @@ void PlaterPresetComboBox::update()
         if (m_type == Preset::TYPE_FILAMENT)
         {
             // Assign an extruder color to the selected item if the extruder color is defined.
-            filament_rgb = is_selected ? selected_filament_preset->config.opt_string("filament_colour", 0) : 
+            filament_rgb = is_selected ? selected_filament_preset->config.opt_string("filament_colour", 0) :
                                          preset.config.opt_string("filament_colour", 0);
             extruder_rgb = (is_selected && !extruder_color.empty()) ? extruder_color : filament_rgb;
             single_bar = filament_rgb == extruder_rgb;
@@ -1116,7 +1116,7 @@ void PlaterPresetComboBox::update()
         }
 
         auto bmp = get_bmp(bitmap_key, wide_icons, bitmap_type_name,
-                                is_compatible, preset.is_system || preset.is_default, 
+                                is_compatible, preset.is_system || preset.is_default,
                                 single_bar, filament_rgb, extruder_rgb, material_rgb);
         assert(bmp);
 
@@ -1149,19 +1149,19 @@ void PlaterPresetComboBox::update()
         if (i + 1 == m_collection->num_default_presets())
             set_label_marker(Append(separator(L("System presets")), NullBitmapBndl()));
     }
-    
+
     if(!system_presets.empty())
     {
         std::sort(system_presets.begin(), system_presets.end(), [](const PresetData& a, const PresetData& b) {
             return a.lower_name < b.lower_name;
             });
-        
+
         for (std::vector<PresetData>::iterator it = system_presets.begin(); it != system_presets.end(); ++it) {
             Append(it->name, *it->bitmap);
             validate_selection(it->name == selected_user_preset);
         }
     }
-    
+
     if (!nonsys_presets.empty())
     {
         std::sort(nonsys_presets.begin(), nonsys_presets.end(), [](const PresetData& a, const PresetData& b) {
@@ -1307,7 +1307,7 @@ void TabPresetComboBox::OnSelect(wxCommandEvent &evt)
     // see https://github.com/prusa3d/PrusaSlicer/issues/3889
     // Under OSX: in case of use of a same names written in different case (like "ENDER" and "Ender")
     // m_presets_choice->GetSelection() will return first item, because search in PopupListCtrl is case-insensitive.
-    // So, use GetSelection() from event parameter 
+    // So, use GetSelection() from event parameter
     auto selected_item = evt.GetSelection();
 
     auto marker = reinterpret_cast<Marker>(this->GetClientData(selected_item));
@@ -1355,7 +1355,7 @@ void TabPresetComboBox::update()
     const ExtruderFilaments& extruder_filaments = m_preset_bundle->extruders_filaments[m_extruder_idx];
 
     const std::deque<Preset>& presets = m_collection->get_presets();
-    
+
     struct PresetData {
         wxString        name;
         wxString        lower_name;
@@ -1387,7 +1387,7 @@ void TabPresetComboBox::update()
 
         if (!preset.is_visible || (!show_incompatible && !is_compatible && i != idx_selected))
             continue;
-        
+
         // marker used for disable incompatible printer models for the selected physical printer
         bool is_enabled = true;
 
@@ -1425,8 +1425,8 @@ void TabPresetComboBox::update()
         if (i + 1 == m_collection->num_default_presets())
             set_label_marker(Append(separator(L("System presets")), NullBitmapBndl()));
     }
-   
-    if (!system_presets.empty()) 
+
+    if (!system_presets.empty())
     {
         std::sort(system_presets.begin(), system_presets.end(), [](const PresetData& a, const PresetData& b) {
             return a.lower_name < b.lower_name;
@@ -1439,7 +1439,7 @@ void TabPresetComboBox::update()
             validate_selection(it->name == selected);
         }
     }
-    
+
     if (!nonsys_presets.empty())
     {
         std::sort(nonsys_presets.begin(), nonsys_presets.end(), [](const PresetData& a, const PresetData& b) {
@@ -1455,7 +1455,7 @@ void TabPresetComboBox::update()
         }
     }
 
-    if (!template_presets.empty()) 
+    if (!template_presets.empty())
     {
         std::sort(template_presets.begin(), template_presets.end(), [](const PresetData& a, const PresetData& b) {
             return a.lower_name < b.lower_name;
@@ -1469,7 +1469,7 @@ void TabPresetComboBox::update()
             validate_selection(it->name == selected);
         }
     }
-    
+
     if (m_type == Preset::TYPE_PRINTER)
     {
         // add Physical printers, if any exists
@@ -1549,7 +1549,7 @@ void TabPresetComboBox::update_dirty()
             ph_printer_name = PhysicalPrinter::get_short_name(preset_name);
             preset_name = PhysicalPrinter::get_preset_name(preset_name);
         }
-            
+
         Preset* preset = m_collection->find_preset(preset_name, false);
         if (preset) {
             std::string new_label = preset->name + suffix(preset);

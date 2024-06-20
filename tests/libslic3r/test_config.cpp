@@ -5,8 +5,8 @@
 #include "libslic3r/LocalesUtils.hpp"
 
 #include <cereal/types/polymorphic.hpp>
-#include <cereal/types/string.hpp> 
-#include <cereal/types/vector.hpp> 
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
 #include <cereal/archives/binary.hpp>
 
 using namespace Slic3r;

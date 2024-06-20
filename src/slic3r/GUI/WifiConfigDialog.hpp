@@ -21,7 +21,7 @@ class WifiConfigDialog : public DPIDialog
 {
 public:
     WifiConfigDialog(wxWindow* parent, std::string& file_path, RemovableDriveManager* removable_manager, const wxString& preffered_drive );
-    ~WifiConfigDialog();    
+    ~WifiConfigDialog();
     wxString    get_used_path() const { return m_used_path; }
 
 private:

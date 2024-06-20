@@ -205,11 +205,11 @@ bool Preview::init(wxWindow* parent, Bed3D& bed, Model* model)
         return false;
 
     // to match the background of the sliders
-#ifdef _WIN32 
+#ifdef _WIN32
     wxGetApp().UpdateDarkUI(this);
 #else
     SetBackgroundColour(GetParent()->GetBackgroundColour());
-#endif // _WIN32 
+#endif // _WIN32
 
     const GUI_InitParams* const init_params = wxGetApp().init_params;
     m_canvas_widget = OpenGLManager::create_wxglcanvas(*this, (init_params != nullptr) ? init_params->opengl_aa : false);
@@ -238,7 +238,7 @@ bool Preview::init(wxWindow* parent, Bed3D& bed, Model* model)
     GetSizer()->SetSizeHints(this);
 
     bind_event_handlers();
-    
+
     return true;
 }
 
@@ -383,7 +383,7 @@ static void upgrade_text_entry_dialog(wxTextEntryDialog* dlg, double min = -1.0,
 
             break;
         }
-    }   
+    }
 }
 
 void Preview::create_sliders()
@@ -426,7 +426,7 @@ void Preview::create_sliders()
             return GUI::wxGetApp().plater()->fff_print();
         });
 
-        m_layers_slider->set_callback_on_get_custom_code([](const std::string& code_in, double height) -> std::string 
+        m_layers_slider->set_callback_on_get_custom_code([](const std::string& code_in, double height) -> std::string
         {
             wxString msg_text = _L("Enter custom G-code used on current layer") + ":";
             wxString msg_header = format_wxstr(_L("Custom G-code on current layer (%1% mm)."), height);
@@ -678,14 +678,14 @@ void Preview::update_layers_slider(const std::vector<double>& layers_z, bool kee
             const ExPolygons& bottom = object->get_layer(0)->lslices;
             double bottom_area = area(bottom);
 
-            // at least 25% of object's height have to be a solid 
+            // at least 25% of object's height have to be a solid
             int  i, min_solid_height = int(0.25 * num_layers);
             for (i = 1; i <= min_solid_height; ++ i) {
                 double cur_area = area(object->get_layer(i)->lslices);
                 if (!DoubleSlider::equivalent_areas(bottom_area, cur_area)) {
                     // but due to the elephant foot compensation, the first layer may be slightly smaller than the others
                     if (i == 1 && fabs(cur_area - bottom_area) / bottom_area < 0.1) {
-                        // So, let process this case and use second layer as a bottom 
+                        // So, let process this case and use second layer as a bottom
                         bottom_area = cur_area;
                         continue;
                     }
@@ -719,13 +719,13 @@ void Preview::update_layers_slider(const std::vector<double>& layers_z, bool kee
 
 void Preview::update_layers_slider_mode()
 {
-    //    true  -> single-extruder printer profile OR 
+    //    true  -> single-extruder printer profile OR
     //             multi-extruder printer profile , but whole model is printed by only one extruder
     //    false -> multi-extruder printer profile , and model is printed by several extruders
     bool    one_extruder_printed_model = true;
 
     // extruder used for whole model for multi-extruder printer profile
-    int     only_extruder = -1; 
+    int     only_extruder = -1;
 
     if (wxGetApp().extruders_edited_cnt() > 1)
     {
@@ -746,7 +746,7 @@ void Preview::update_layers_slider_mode()
                         return false;
 
                     for (ModelVolume* volume : object->volumes)
-                        if ((volume->config.has("extruder") && 
+                        if ((volume->config.has("extruder") &&
                             volume->config.option("extruder")->getInt() != 0 && // extruder isn't default
                             volume->config.option("extruder")->getInt() != extruder) ||
                             !volume->mm_segmentation_facets.empty())
@@ -913,7 +913,7 @@ void Preview::load_print_as_fff(bool keep_z_range)
                 break;
             }
     }
-	if (print->is_step_done(posSupportMaterial)) {
+    if (print->is_step_done(posSupportMaterial)) {
         for (const PrintObject* print_object : print->objects())
             if (! print_object->support_layers().empty()) {
                 has_layers = true;
@@ -939,7 +939,7 @@ void Preview::load_print_as_fff(bool keep_z_range)
     std::vector<std::string> color_print_colors;
     if (!color_print_values.empty()) {
         color_print_colors = wxGetApp().plater()->get_color_strings_for_color_print(m_gcode_result);
-        color_print_colors.push_back("#808080"); // gray color for pause print or custom G-code 
+        color_print_colors.push_back("#808080"); // gray color for pause print or custom G-code
     }
 
     std::vector<double> zs;

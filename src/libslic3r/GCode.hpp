@@ -61,11 +61,11 @@ struct PrintInstance;
 class OozePrevention {
 public:
     bool enable;
-    
+
     OozePrevention() : enable(false) {}
     std::string pre_toolchange(GCodeGenerator &gcodegen);
     std::string post_toolchange(GCodeGenerator &gcodegen);
-    
+
 private:
     int _get_temp(const GCodeGenerator &gcodegen) const;
 };
@@ -97,10 +97,10 @@ namespace GCode {
 struct ObjectLayerToPrint
 {
     ObjectLayerToPrint() : object_layer(nullptr), support_layer(nullptr) {}
-    const Layer* 		object_layer;
+    const Layer*         object_layer;
     const SupportLayer* support_layer;
-    const Layer* 		layer()   const { return (object_layer != nullptr) ? object_layer : support_layer; }
-    const PrintObject* 	object()  const { return (this->layer() != nullptr) ? this->layer()->object() : nullptr; }
+    const Layer*         layer()   const { return (object_layer != nullptr) ? object_layer : support_layer; }
+    const PrintObject*     object()  const { return (this->layer() != nullptr) ? this->layer()->object() : nullptr; }
     coordf_t            print_z() const { return (object_layer != nullptr && support_layer != nullptr) ? 0.5 * (object_layer->print_z + support_layer->print_z) : this->layer()->print_z; }
 };
 
@@ -197,7 +197,7 @@ private:
 
         bool is_open() const { return f; }
         bool is_error() const;
-        
+
         void flush();
         void close();
 
@@ -205,12 +205,12 @@ private:
         void write(const std::string& what) { this->write(what.c_str()); }
         void write(const char* what);
 
-        // Write a string into a file. 
+        // Write a string into a file.
         // Add a newline, if the string does not end with a newline already.
         // Used to export a custom G-code section processed by the PlaceholderParser.
         void writeln(const std::string& what);
 
-        // Formats and write into a file the given data. 
+        // Formats and write into a file the given data.
         void write_format(const char* format, ...);
 
     private:
@@ -223,7 +223,7 @@ private:
     };
     void            _do_export(Print &print, GCodeOutputStream &file, ThumbnailsGeneratorCallback thumbnail_cb);
 
-    static ObjectsLayerToPrint         		                     collect_layers_to_print(const PrintObject &object);
+    static ObjectsLayerToPrint                                      collect_layers_to_print(const PrintObject &object);
     static std::vector<std::pair<coordf_t, ObjectsLayerToPrint>> collect_layers_to_print(const Print &print);
 
     Polyline get_layer_change_xy_path(const Vec3d &from, const Vec3d &to);
@@ -241,11 +241,11 @@ private:
         const Print                     &print,
         // Set of object & print layers of the same PrintObject and with the same print_z.
         const ObjectsLayerToPrint       &layers,
-        const LayerTools  				&layer_tools,
+        const LayerTools                  &layer_tools,
         const GCode::SmoothPathCaches   &smooth_path_caches,
         const bool                       last_layer,
-		// Pairs of PrintObject index and its instance index.
-		const std::vector<const PrintInstance*> *ordering,
+        // Pairs of PrintObject index and its instance index.
+        const std::vector<const PrintInstance*> *ordering,
         // If set to size_t(-1), then print all copies of all objects.
         // Otherwise print a single copy of a single object.
         const size_t                     single_object_idx = size_t(-1));
@@ -308,19 +308,19 @@ private:
     // This function will be called for each printing extruder, possibly twice: First for wiping extrusions, second for normal extrusions.
     void process_layer_single_object(
         // output
-        std::string              &gcode, 
+        std::string              &gcode,
         // Index of the extruder currently active.
         const unsigned int        extruder_id,
         // What object and instance is going to be printed.
         const InstanceToPrint    &print_instance,
         // and the object & support layer of the above.
-        const ObjectLayerToPrint &layer_to_print, 
+        const ObjectLayerToPrint &layer_to_print,
         // Container for extruder overrides (when wiping into object or infill).
         const LayerTools         &layer_tools,
         // Optional smooth path interpolating extrusion polylines.
         const GCode::SmoothPathCache &smooth_path_cache,
         // Is any extrusion possibly marked as wiping extrusion?
-        const bool                is_anything_overridden, 
+        const bool                is_anything_overridden,
         // Round 1 (wiping into object or infill) or round 2 (normal extrusions).
         const bool                print_wipe_extrusions);
 

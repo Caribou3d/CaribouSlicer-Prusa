@@ -76,11 +76,11 @@ void test_supports(const std::string          &obj_filename,
 
 inline void test_supports(const std::string &obj_filename,
                    const sla::SupportTreeConfig &supportcfg,
-                   SupportByproducts        &out) 
+                   SupportByproducts        &out)
 {
     sla::HollowingConfig hcfg;
     hcfg.enabled = false;
-    test_supports(obj_filename, supportcfg, hcfg, {}, out);    
+    test_supports(obj_filename, supportcfg, hcfg, {}, out);
 }
 
 inline void test_supports(const std::string &obj_filename,
@@ -102,7 +102,7 @@ void test_support_model_collision(
 
 inline void test_support_model_collision(
     const std::string        &obj_filename,
-    const sla::SupportTreeConfig &input_supportcfg = {}) 
+    const sla::SupportTreeConfig &input_supportcfg = {})
 {
     sla::HollowingConfig hcfg;
     hcfg.enabled = false;

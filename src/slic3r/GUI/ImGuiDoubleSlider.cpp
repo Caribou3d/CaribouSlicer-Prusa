@@ -12,9 +12,9 @@ const ImU32 thumb_bg_clr    = ImGui::ColorConvertFloat4ToU32(ImGuiPureWrap::COL_
 const ImU32 groove_bg_clr   = ImGui::ColorConvertFloat4ToU32(ImGuiPureWrap::COL_WINDOW_BACKGROUND);
 const ImU32 border_clr      = IM_COL32(255, 255, 255, 255);
 
-static bool behavior(ImGuiID id, const ImRect& region, 
-                     const ImS32 v_min, const ImS32 v_max, 
-                     ImS32* out_value, ImRect* out_thumb, 
+static bool behavior(ImGuiID id, const ImRect& region,
+                     const ImS32 v_min, const ImS32 v_max,
+                     ImS32* out_value, ImRect* out_thumb,
                      ImGuiSliderFlags flags = 0,
                      bool change_on_mouse_move = false)
 {
@@ -45,7 +45,7 @@ static bool behavior(ImGuiID id, const ImRect& region,
     if (ImGui::ItemHoverable(mouse_wheel_responsive_region, id)) {
         if (change_on_mouse_move)
             v_new = v_min + (ImS32)(v_range * mouse_pos_ratio + 0.5f);
-        else 
+        else
             v_new = ImClamp(*out_value + (ImS32)(context.IO.MouseWheel/* * accer*/), v_min, v_max);
     }
 
@@ -97,8 +97,8 @@ ImRect ImGuiControl::DrawOptions::draggable_region(const ImRect& groove, bool is
     ImRect draggable_region =   is_horizontal ?
                                 ImRect(groove.Min.x, groove.GetCenter().y, groove.Max.x, groove.GetCenter().y) :
                                 ImRect(groove.GetCenter().x, groove.Min.y, groove.GetCenter().x, groove.Max.y);
-    draggable_region.Expand(is_horizontal ? 
-                            ImVec2(/*thumb_radius()*/0, draggable_region_sz().y) : 
+    draggable_region.Expand(is_horizontal ?
+                            ImVec2(/*thumb_radius()*/0, draggable_region_sz().y) :
                             ImVec2(draggable_region_sz().x, 0));
 
     return draggable_region;
@@ -124,9 +124,9 @@ ImGuiControl::ImGuiControl( int lowerValue,
                             bool use_lower_thumb) :
     m_selection(ssUndef),
     m_name(name),
-    m_lower_pos(lowerValue), 
-    m_higher_pos (higherValue), 
-    m_min_pos(minValue), 
+    m_lower_pos(lowerValue),
+    m_higher_pos (higherValue),
+    m_min_pos(minValue),
     m_max_pos(maxValue),
     m_flags(flags),
     m_draw_lower_thumb(use_lower_thumb)
@@ -135,7 +135,7 @@ ImGuiControl::ImGuiControl( int lowerValue,
 
 int ImGuiControl::GetActivePos() const
 {
-    return m_selection == ssLower  ? m_lower_pos : 
+    return m_selection == ssLower  ? m_lower_pos :
            m_selection == ssHigher ? m_higher_pos : -1;
 }
 
@@ -207,8 +207,8 @@ void ImGuiControl::correct_higher_pos()
 }
 
 void ImGuiControl::CombineThumbs(bool combine)
-{ 
-    m_combine_thumbs = combine; 
+{
+    m_combine_thumbs = combine;
     if (combine) {
         m_selection = ssHigher;
         correct_higher_pos();
@@ -308,7 +308,7 @@ void ImGuiControl::draw_label(std::string label, const ImRect& thumb, bool is_mi
     ImVec2 text_content_size    = ImGui::CalcTextSize(label.c_str());
     ImVec2 text_size    = text_content_size + text_padding * 2;
     ImVec2 text_start   = is_horizontal() ?
-                        ImVec2(thumb.Max.x + triangle_offset_x, thumb_center.y - text_size.y) : 
+                        ImVec2(thumb.Max.x + triangle_offset_x, thumb_center.y - text_size.y) :
                         ImVec2(thumb.Min.x - text_size.x - triangle_offset_x, thumb_center.y - text_size.y) ;
 
     if (is_mirrored)
@@ -321,7 +321,7 @@ void ImGuiControl::draw_label(std::string label, const ImRect& thumb, bool is_mi
     if (with_border) {
 
         float  rounding_b = 0.75f * rounding;
-        
+
         ImRect text_rect_b(text_rect);
         text_rect_b.Expand(ImVec2(rounding_b, rounding_b));
 
@@ -390,21 +390,21 @@ void ImGuiControl::apply_regions(int higher_pos, int lower_pos, const ImRect& dr
     float   thumb_radius    = m_draw_opts.thumb_radius();
 
     // set slideable region
-    m_regions.higher_slideable_region = is_horizontal() ? 
+    m_regions.higher_slideable_region = is_horizontal() ?
                                         ImRect(draggable_region.Min + ImVec2(m_draw_lower_thumb ? thumb_radius : 0, 0), draggable_region.Max) :
                                         ImRect(draggable_region.Min, draggable_region.Max - ImVec2(0, m_combine_thumbs ? 0 : thumb_radius));
-    m_regions.lower_slideable_region  = is_horizontal() ? 
-                                        ImRect(draggable_region.Min, draggable_region.Max - ImVec2(thumb_radius, 0)) : 
+    m_regions.lower_slideable_region  = is_horizontal() ?
+                                        ImRect(draggable_region.Min, draggable_region.Max - ImVec2(thumb_radius, 0)) :
                                         ImRect(draggable_region.Min + ImVec2(0, thumb_radius), draggable_region.Max);
 
     // initialize the thumbs.
     float higher_thumb_pos = GetPositionInRect(higher_pos, m_regions.higher_slideable_region);
-    m_regions.higher_thumb =    is_horizontal() ? 
-                                ImRect(higher_thumb_pos - thumb_radius, mid.y - thumb_radius, higher_thumb_pos + thumb_radius, mid.y + thumb_radius) : 
+    m_regions.higher_thumb =    is_horizontal() ?
+                                ImRect(higher_thumb_pos - thumb_radius, mid.y - thumb_radius, higher_thumb_pos + thumb_radius, mid.y + thumb_radius) :
                                 ImRect(mid.x - thumb_radius, higher_thumb_pos - thumb_radius, mid.x + thumb_radius, higher_thumb_pos + thumb_radius);
 
     float  lower_thumb_pos = GetPositionInRect(lower_pos, m_regions.lower_slideable_region);
-    m_regions.lower_thumb  =    is_horizontal() ? 
+    m_regions.lower_thumb  =    is_horizontal() ?
                                 ImRect(lower_thumb_pos - thumb_radius, mid.y - thumb_radius, lower_thumb_pos + thumb_radius, mid.y + thumb_radius) :
                                 ImRect(mid.x - thumb_radius, lower_thumb_pos - thumb_radius, mid.x + thumb_radius, lower_thumb_pos + thumb_radius);
 }
@@ -422,7 +422,7 @@ void ImGuiControl::check_and_correct_thumbs(int* higher_pos, int* lower_pos)
     const float lower_thumb_center_pos  = is_horizontal() ? lower_thumb_center.x  : lower_thumb_center.y;
 
     if (is_horizontal()) {
-        if (lower_thumb_center_pos + thumb_radius > higher_thumb_center_pos) { 
+        if (lower_thumb_center_pos + thumb_radius > higher_thumb_center_pos) {
             if (m_selection == ssHigher) {
                 m_regions.higher_thumb = m_regions.lower_thumb;
                 m_regions.higher_thumb.TranslateX(thumb_radius);
@@ -441,7 +441,7 @@ void ImGuiControl::check_and_correct_thumbs(int* higher_pos, int* lower_pos)
                 m_regions.lower_thumb = m_regions.higher_thumb;
                 m_regions.lower_thumb.TranslateY(thumb_radius);
                 *lower_pos = *higher_pos;
-            }        
+            }
             else {
                 m_regions.higher_thumb = m_regions.lower_thumb;
                 m_regions.higher_thumb.TranslateY(-thumb_radius);
@@ -451,8 +451,8 @@ void ImGuiControl::check_and_correct_thumbs(int* higher_pos, int* lower_pos)
     }
 }
 
-bool ImGuiControl::draw_slider( int* higher_pos, int* lower_pos, 
-                                std::string& higher_label, std::string& lower_label, 
+bool ImGuiControl::draw_slider( int* higher_pos, int* lower_pos,
+                                std::string& higher_label, std::string& lower_label,
                                 const ImVec2& pos, const ImVec2& size, float scale)
 {
     ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -476,7 +476,7 @@ bool ImGuiControl::draw_slider( int* higher_pos, int* lower_pos,
         ImGui::SetFocusID(id, window);
         ImGui::FocusWindow(window);
     }
-    
+
     // set slideable regions and thumbs.
     apply_regions(*higher_pos, *lower_pos, draggable_region);
 
@@ -530,8 +530,8 @@ bool ImGuiControl::draw_slider( int* higher_pos, int* lower_pos,
         ImVec2 active_thumb_center = active_thumb.GetCenter();
         if (context.IO.MouseClicked[0])
             m_active_thumb_center_on_lcklick = active_thumb_center;
-        if (context.IO.MouseReleased[0] && 
-            (m_active_thumb_center_on_lcklick.y == active_thumb_center.y) && 
+        if (context.IO.MouseReleased[0] &&
+            (m_active_thumb_center_on_lcklick.y == active_thumb_center.y) &&
             (m_active_thumb_center_on_lcklick.x == active_thumb_center.x)     )
             m_lclick_on_selected_thumb = true;
     }

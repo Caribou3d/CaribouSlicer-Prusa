@@ -22,7 +22,7 @@ public:
 
     // methods that actually do / undo desktop integration. Static to be accesible from anywhere.
 
-    // returns true if path to CaribouSlicer.desktop is stored in App Config and existence of desktop file. 
+    // returns true if path to CaribouSlicer.desktop is stored in App Config and existence of desktop file.
     // Does not check if desktop file leads to this binary or existence of icons and viewer desktop file.
     static bool is_integrated();
     // true if appimage

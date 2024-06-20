@@ -13,7 +13,7 @@ namespace GUI {
 
 class ProjectDirtyStateManager
 {
-public:    
+public:
     void update_from_undo_redo_stack(bool dirty);
     void update_from_presets();
     void update_from_preview();

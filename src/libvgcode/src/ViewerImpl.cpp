@@ -284,7 +284,7 @@ static const std::array<Color, size_t(EGCodeExtrusionRole::COUNT)> DEFAULT_EXTRU
     { 230, 179, 179 }, // None
     { 255, 230,  77 }, // Perimeter
    // { 255, 125,  56 }, // ExternalPerimeter
-    { 0, 179,  0 }, // ExternalPerimeter    
+    { 0, 179,  0 }, // ExternalPerimeter
     {  31,  31, 255 }, // OverhangPerimeter
     { 176,  48,  41 }, // InternalInfill
     { 150,  84, 204 }, // SolidInfill
@@ -929,7 +929,7 @@ static void extract_pos_and_or_hwa(const std::vector<PathVertex>& vertices, floa
             if (update_bitset)
                 valid_lines_bitset.reset(i);
         }
-        
+
         if (positions != nullptr) {
             Vec3 position = v.position;
             if (move_type == EMoveType::Extrude)
@@ -1233,7 +1233,7 @@ void ViewerImpl::update_colors()
 
 
     if (!m_used_extruders.empty()) {
-        // ensure that the number of defined tool colors matches the max id of the used extruders 
+        // ensure that the number of defined tool colors matches the max id of the used extruders
         const size_t max_used_extruder_id = 1 + static_cast<size_t>(m_used_extruders.rbegin()->first);
         const size_t tool_colors_size = m_tool_colors.size();
         if (m_tool_colors.size() < max_used_extruder_id) {
@@ -1244,14 +1244,14 @@ void ViewerImpl::update_colors()
     }
 
     update_color_ranges();
-    
+
     // Recalculate "normal" colors of all the vertices for current view settings.
     // If some part of the preview should be rendered in dark grey, it is taken
     // care of in update_colors_texture. That is to avoid the need to recalculate
     // the "normal" color on every slider move.
     for (size_t i = 0; i < m_vertices.size(); ++i)
         m_vertices_colors[i] = encode_color(get_vertex_color(m_vertices[i]));
-    
+
     update_colors_texture();
     m_settings.update_colors = false;
 }
@@ -1426,7 +1426,7 @@ void ViewerImpl::set_view_visible_range(Interval::value_type min, Interval::valu
 
 float ViewerImpl::get_estimated_time_at(size_t id) const
 {
-    return std::accumulate(m_vertices.begin(), m_vertices.begin() + id + 1, 0.0f, 
+    return std::accumulate(m_vertices.begin(), m_vertices.begin() + id + 1, 0.0f,
         [this](float a, const PathVertex& v) { return a + v.times[static_cast<size_t>(m_settings.time_mode)]; });
 }
 
@@ -1692,7 +1692,7 @@ void ViewerImpl::update_view_full_range()
         if (last_it != first_it)
             --last_it;
 
-        // remove disabled trailing options, if any 
+        // remove disabled trailing options, if any
         auto rev_first_it = std::make_reverse_iterator(first_it);
         if (rev_first_it != m_vertices.rbegin())
             --rev_first_it;

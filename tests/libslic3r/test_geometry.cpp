@@ -133,7 +133,7 @@ SCENARIO("polygon_is_convex works") {
             THEN("it is convex") {
                 REQUIRE(polygon_is_convex(ccw_square));
             }
-        } 
+        }
     }
     GIVEN("A concave polygon") {
         Polygon concave = { {0,0}, {10,0}, {10,10}, {0,10}, {0,6}, {4,6}, {4,4}, {0,4} };
@@ -261,8 +261,8 @@ SCENARIO("Circle Fit, TaubinFit with Newton's method", "[Geometry]") {
     }
     GIVEN("A vector of Vec2ds arranged in a half-circle with approximately the same distance R from some point") {
         Vec2d expected_center(-3, 9);
-        Vec2ds sample {Vec2d(6.0, 0), Vec2d(5.1961524, 3), Vec2d(3 ,5.1961524), 
-                        Vec2d(0, 6.0), 
+        Vec2ds sample {Vec2d(6.0, 0), Vec2d(5.1961524, 3), Vec2d(3 ,5.1961524),
+                        Vec2d(0, 6.0),
                         Vec2d(3, 5.1961524), Vec2d(-5.1961524, 3), Vec2d(-6.0, 0)};
 
         std::transform(sample.begin(), sample.end(), sample.begin(), [expected_center] (const Vec2d& a) { return a + expected_center;});
@@ -292,8 +292,8 @@ SCENARIO("Circle Fit, TaubinFit with Newton's method", "[Geometry]") {
     }
     GIVEN("A vector of Points arranged in a half-circle with approximately the same distance R from some point") {
         Point expected_center { Point::new_scale(-3, 9)};
-        Points sample {Point::new_scale(6.0, 0), Point::new_scale(5.1961524, 3), Point::new_scale(3 ,5.1961524), 
-                        Point::new_scale(0, 6.0), 
+        Points sample {Point::new_scale(6.0, 0), Point::new_scale(5.1961524, 3), Point::new_scale(3 ,5.1961524),
+                        Point::new_scale(0, 6.0),
                         Point::new_scale(3, 5.1961524), Point::new_scale(-5.1961524, 3), Point::new_scale(-6.0, 0)};
 
         std::transform(sample.begin(), sample.end(), sample.begin(), [expected_center] (const Point& a) { return a + expected_center;});
@@ -373,8 +373,8 @@ SCENARIO("Circle Fit, least squares by decomposition or by solving normal equati
 
 TEST_CASE("smallest_enclosing_circle_welzl", "[Geometry]") {
     // Some random points in plane.
-    Points pts { 
-        { 89243, 4359 }, { 763465, 59687 }, { 3245, 734987 }, { 2459867, 987634 }, { 759866, 67843982 }, { 9754687, 9834658 }, { 87235089, 743984373 }, 
+    Points pts {
+        { 89243, 4359 }, { 763465, 59687 }, { 3245, 734987 }, { 2459867, 987634 }, { 759866, 67843982 }, { 9754687, 9834658 }, { 87235089, 743984373 },
         { 65874456, 2987546 }, { 98234524, 657654873 }, { 786243598, 287934765 }, { 824356, 734265 }, { 82576449, 7864534 }, { 7826345, 3984765 }
     };
 
@@ -416,15 +416,15 @@ SCENARIO("Path chaining", "[Geometry]") {
             { {48828819, 10972330}, {49126582, 48368374} },
             { {9654526, 12656711}, {10264020, 47691584} },
             { {5726905, 18648632}, {8070762, 45082416} },
-            { {54818187, 39579970}, {52974912, 43271272} }, 
+            { {54818187, 39579970}, {52974912, 43271272} },
             { {4464342, 37371742}, {5027890, 39106220} },
-            { {54139746, 18417661}, {55177987, 38472580} }, 
+            { {54139746, 18417661}, {55177987, 38472580} },
             { {56527590, 32058461}, {56316456, 34067185} },
             { {3303988, 29215290}, {3569863, 32985633} },
-            { {56255666, 25025857}, {56478310, 27144087} }, 
+            { {56255666, 25025857}, {56478310, 27144087} },
             { {4300034, 22805361}, {3667946, 25752601} },
             { {8266122, 14250611}, {6244813, 17751595} },
-            { {12177955, 9886741}, {10703348, 11491900} } 
+            { {12177955, 9886741}, {10703348, 11491900} }
         };
         Polylines chained = chain_polylines(polylines);
         THEN("Chained taking the shortest path") {
@@ -468,7 +468,7 @@ SCENARIO("Line distances", "[Geometry]"){
             REQUIRE(line.distance_to(Point(0, 0))  == 0);
             REQUIRE(line.distance_to(Point(20, 0)) == 0);
             REQUIRE(line.distance_to(Point(10, 0)) == 0);
-        
+
         }
         THEN("Points off the line have the appropriate distance"){
             REQUIRE(line.distance_to(Point(10, 10)) == 10);
@@ -618,8 +618,8 @@ SCENARIO("Ported from xs/t/14_geometry.t", "[Geometry]"){
         REQUIRE(positions.size() == 4);
     }
     SECTION("directions_parallel") {
-        REQUIRE(Slic3r::Geometry::directions_parallel(0, 0, 0)); 
-        REQUIRE(Slic3r::Geometry::directions_parallel(0, M_PI, 0)); 
+        REQUIRE(Slic3r::Geometry::directions_parallel(0, 0, 0));
+        REQUIRE(Slic3r::Geometry::directions_parallel(0, M_PI, 0));
         REQUIRE(Slic3r::Geometry::directions_parallel(0, 0, M_PI / 180));
         REQUIRE(Slic3r::Geometry::directions_parallel(0, M_PI, M_PI / 180));
         REQUIRE(! Slic3r::Geometry::directions_parallel(M_PI /2, M_PI, 0));

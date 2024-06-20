@@ -435,7 +435,7 @@ static std::vector<TravelPoint> simplify_travel(const AvoidCrossingPerimeters::B
 
     // Try to skip some points in the path.
     //FIXME maybe use a binary search to trim the line?
-    //FIXME how about searching tangent point at long segments? 
+    //FIXME how about searching tangent point at long segments?
     for (size_t point_idx = 1; point_idx < travel.size(); ++point_idx) {
         const Point &current_point = travel[point_idx - 1].point;
         TravelPoint  next          = travel[point_idx];
@@ -917,20 +917,20 @@ static std::vector<float> contour_distance(const EdgeGrid::Grid     &grid,
                 return true;
             }
 
-            const EdgeGrid::Grid 			   &grid;
-            const size_t 		  				idx_contour;
+            const EdgeGrid::Grid                &grid;
+            const size_t                           idx_contour;
             const EdgeGrid::Contour            &contour;
 
             const std::vector<float>           &boundary_parameters;
             const double                        dist_same_contour_accept;
-            const double 						dist_same_contour_reject;
+            const double                         dist_same_contour_reject;
 
-            size_t 								idx_point;
-            Point			      				point;
+            size_t                                 idx_point;
+            Point                                  point;
             // Direction inside the contour from idx_point, not normalized.
-            Vec2d								dir_inside;
-            bool 								found;
-            double 								distance;
+            Vec2d                                dir_inside;
+            bool                                 found;
+            double                                 distance;
 
         private:
             static Vec2d dir_inside_at_point(const Points &contour, size_t i)

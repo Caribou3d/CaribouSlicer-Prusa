@@ -127,7 +127,7 @@ bool UserAccount::on_user_id_success(const std::string data, std::string& out_us
             BOOST_LOG_TRIVIAL(debug) << static_cast<std::string>(section.first) << "    " << *opt;
             m_account_user_data[section.first] = *opt;
         }
-       
+
     }
     if (m_account_user_data.find("public_username") == m_account_user_data.end()) {
         BOOST_LOG_TRIVIAL(error) << "User ID message from PrusaAuth did not contain public_username. Login failed. Message data: " << data;
@@ -231,7 +231,7 @@ bool UserAccount::on_connect_printers_success(const std::string& data, AppConfig
         BOOST_LOG_TRIVIAL(error) << "Could not parse prusaconnect message. " << e.what();
         return false;
     }
-    // tree format: 
+    // tree format:
     /*
     [{
         "printer_uuid": "972d2ce7-0967-4555-bff2-330c7fa0a4e1",
@@ -352,7 +352,7 @@ std::string UserAccount::get_current_printer_uuid_from_connect(const std::string
     if (compatible_printers.empty()) {
         return {};
     }
-    
+
     return std::find(compatible_printers.begin(), compatible_printers.end(), selected_printer_id) == compatible_printers.end() ? "" : m_current_printer_uuid_from_connect;
 }
 
@@ -409,7 +409,7 @@ std::string UserAccount::get_print_data_from_json(const std::string &json, const
 
     // this will fail if not flat subtree
     size_t start_of_keyword = json.find("\""+keyword+"\"");
-    if (start_of_keyword == std::string::npos)  
+    if (start_of_keyword == std::string::npos)
         return {};
     size_t start_of_sub = json.find('{', start_of_keyword);
     if (start_of_sub == std::string::npos)
@@ -454,49 +454,49 @@ void UserAccount::fill_supported_printer_models_from_json(const std::string& jso
 void UserAccount::fill_material_from_json(const std::string& json, std::vector<std::string>& result) const
 {
 
-    /* option 1: 
+    /* option 1:
     "slot": {
-			"active": 2,
-			"slots": {
-				"1": {
-					"material": "PLA",
-					"temp": 170,
-					"fan_hotend": 7689,
-					"fan_print": 0
-				},
-				"2": {
-					"material": "PLA",
-					"temp": 225,
-					"fan_hotend": 7798,
-					"fan_print": 6503
-				},
-				"3": {
-					"material": "PLA",
-					"temp": 36,
-					"fan_hotend": 6636,
-					"fan_print": 0
-				},
-				"4": {
-					"material": "PLA",
-					"temp": 35,
-					"fan_hotend": 0,
-					"fan_print": 0
-				},
-				"5": {
-					"material": "PETG",
-					"temp": 136,
-					"fan_hotend": 8132,
-					"fan_print": 0
-				}
-			}
-		}
+            "active": 2,
+            "slots": {
+                "1": {
+                    "material": "PLA",
+                    "temp": 170,
+                    "fan_hotend": 7689,
+                    "fan_print": 0
+                },
+                "2": {
+                    "material": "PLA",
+                    "temp": 225,
+                    "fan_hotend": 7798,
+                    "fan_print": 6503
+                },
+                "3": {
+                    "material": "PLA",
+                    "temp": 36,
+                    "fan_hotend": 6636,
+                    "fan_print": 0
+                },
+                "4": {
+                    "material": "PLA",
+                    "temp": 35,
+                    "fan_hotend": 0,
+                    "fan_print": 0
+                },
+                "5": {
+                    "material": "PETG",
+                    "temp": 136,
+                    "fan_hotend": 8132,
+                    "fan_print": 0
+                }
+            }
+        }
     */
     /* option 2
         "filament": {
-			"material": "PLA",
-			"bed_temperature": 60,
-			"nozzle_temperature": 210
-		}
+            "material": "PLA",
+            "bed_temperature": 60,
+            "nozzle_temperature": 210
+        }
     */
     // try finding "slot" subtree a use it to
     // if not found, find "filament" subtree

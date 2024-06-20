@@ -79,7 +79,7 @@ protected:
 
     void *DoGetItemClientData(unsigned int n) const override;
     void  DoSetItemClientData(unsigned int n, void *data) override;
-    
+
     void OnEdit() override;
 
 #ifdef __WIN32__

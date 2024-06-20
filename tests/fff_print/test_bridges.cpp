@@ -7,13 +7,13 @@
 
 using namespace Slic3r;
 
-SCENARIO("Bridge detector", "[Bridging]") 
+SCENARIO("Bridge detector", "[Bridging]")
 {
-    auto check_angle = [](const ExPolygons &lower, const ExPolygon &bridge, double expected, double tolerance = -1, double expected_coverage = -1) 
+    auto check_angle = [](const ExPolygons &lower, const ExPolygon &bridge, double expected, double tolerance = -1, double expected_coverage = -1)
     {
         if (expected_coverage < 0)
             expected_coverage = bridge.area();
-        
+
         BridgeDetector bridge_detector(bridge, lower, scaled<coord_t>(0.5)); // extrusion width
         if (tolerance < 0)
             tolerance = Geometry::rad2deg(bridge_detector.resolution) + EPSILON;
@@ -103,7 +103,7 @@ SCENARIO("Bridging integration", "[Bridging]") {
     });
 
     std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::bridge }, config);
-    
+
     GCodeReader                 parser;
     const double                bridge_speed = config.opt_float("bridge_speed") * 60.;
     // angle => length
@@ -126,7 +126,7 @@ SCENARIO("Bridging integration", "[Bridging]") {
     }
     THEN("bridge has the expected direction 0 degrees") {
         // Bridging with the longest extrusion.
-        auto it_longest_extrusion = std::max_element(extrusions.begin(), extrusions.end(), 
+        auto it_longest_extrusion = std::max_element(extrusions.begin(), extrusions.end(),
             [](const auto &e1, const auto &e2){ return e1.second < e2.second; });
         REQUIRE(it_longest_extrusion->first == 0);
     }

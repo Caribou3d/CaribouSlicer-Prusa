@@ -12,9 +12,9 @@ varying float coord_s;
 
 void main()
 {
-	float inv_stride = 1.0 / (dash_size + gap_size);
+    float inv_stride = 1.0 / (dash_size + gap_size);
     if (gap_size > 0.0 && fract(coord_s * inv_stride) > dash_size * inv_stride)
         discard;
-		
-	gl_FragColor = uniform_color;
+
+    gl_FragColor = uniform_color;
 }

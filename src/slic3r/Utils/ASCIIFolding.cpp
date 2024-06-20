@@ -12,7 +12,7 @@
 namespace Slic3r {
 
 // Based on http://svn.apache.org/repos/asf/lucene/java/tags/lucene_solr_4_5_1/lucene/analysis/common/src/java/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.java
-// Convert the input UNICODE character to a string of maximum 4 output ASCII characters.    
+// Convert the input UNICODE character to a string of maximum 4 output ASCII characters.
 // Return the end of the string written to the output.
 // The output buffer must be at least 4 characters long.
 wchar_t* fold_to_ascii(wchar_t c, wchar_t *out)
@@ -112,7 +112,7 @@ wchar_t* fold_to_ascii(wchar_t c, wchar_t *out)
             *out ++ = 'E';
             break;
         case L'\uA734': // [LATIN CAPITAL LETTER AO]
-            *out ++ = 'A';                    
+            *out ++ = 'A';
             *out ++ = 'O';
             break;
         case L'\uA736': // [LATIN CAPITAL LETTER AU]
@@ -186,7 +186,7 @@ wchar_t* fold_to_ascii(wchar_t c, wchar_t *out)
             *out ++ = 'b';
             break;
         case L'\u249D': // [PARENTHESIZED LATIN SMALL LETTER B]
-            *out ++ = '(';                    
+            *out ++ = '(';
             *out ++ = 'b';
             *out ++ = ')';
             break;

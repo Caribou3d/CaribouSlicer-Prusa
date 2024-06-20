@@ -106,9 +106,9 @@ public:
         , m_refresh_token(refresh_token)
         , m_shared_session_key(shared_session_key)
         , m_polling_action(polling_enabled ? UserAccountActionID::USER_ACCOUNT_ACTION_CONNECT_PRINTER_MODELS : UserAccountActionID::USER_ACCOUNT_ACTION_DUMMY)
-       
+
     {
-        
+
         // do not forget to add delete to destructor
         m_actions[UserAccountActionID::USER_ACCOUNT_ACTION_DUMMY] = std::make_unique<DummyUserAction>();
         m_actions[UserAccountActionID::USER_ACCOUNT_ACTION_REFRESH_TOKEN] = std::make_unique<UserActionPost>("EXCHANGE_TOKENS", "https://account.prusa3d.com/o/token/");
@@ -166,7 +166,7 @@ private:
 
     // false prevents action queu to be processed - no communication is done
     // sets to true by init_with_code or enqueue_action call
-    bool        m_proccessing_enabled {false}; 
+    bool        m_proccessing_enabled {false};
     // action when woken up on idle - switches between USER_ACCOUNT_ACTION_CONNECT_PRINTER_MODELS and USER_ACCOUNT_ACTION_CONNECT_STATUS
     // set to USER_ACCOUNT_ACTION_DUMMY to switch off polling
     UserAccountActionID m_polling_action;
@@ -174,7 +174,7 @@ private:
     std::string m_access_token;
     std::string m_refresh_token;
     std::string m_shared_session_key;
-    long long m_next_token_timeout; 
+    long long m_next_token_timeout;
 
     std::queue<ActionQueueData>                                    m_action_queue;
     std::queue<ActionQueueData>                                    m_priority_action_queue;

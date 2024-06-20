@@ -19,7 +19,7 @@ class WifiScanner
 public:
     WifiScanner();
     ~WifiScanner();
-    
+
     bool is_init() const { return m_init; }
 
     const WifiSsidPskMap& get_map() const { return m_map; }

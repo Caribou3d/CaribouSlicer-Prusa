@@ -106,16 +106,16 @@ sla::SupportTreeConfig make_support_cfg(const SLAPrintObjectConfig& c)
         break;
     }
     }
-    
+
     return scfg;
 }
 
 sla::PadConfig::EmbedObject builtin_pad_cfg(const SLAPrintObjectConfig& c)
 {
     sla::PadConfig::EmbedObject ret;
-    
+
     ret.enabled = is_zero_elevation(c);
-    
+
     if(ret.enabled) {
         ret.everywhere           = c.pad_around_object_everywhere.getBool();
         ret.object_gap_mm        = c.pad_object_gap.getFloat();
@@ -124,24 +124,24 @@ sla::PadConfig::EmbedObject builtin_pad_cfg(const SLAPrintObjectConfig& c)
         ret.stick_penetration_mm = c.pad_object_connector_penetration
                                        .getFloat();
     }
-    
+
     return ret;
 }
 
 sla::PadConfig make_pad_cfg(const SLAPrintObjectConfig& c)
 {
     sla::PadConfig pcfg;
-    
+
     pcfg.wall_thickness_mm = c.pad_wall_thickness.getFloat();
     pcfg.wall_slope = c.pad_wall_slope.getFloat() * PI / 180.0;
-    
+
     pcfg.max_merge_dist_mm = c.pad_max_merge_distance.getFloat();
     pcfg.wall_height_mm = c.pad_wall_height.getFloat();
     pcfg.brim_size_mm = c.pad_brim_size.getFloat();
-    
+
     // set builtin pad implicitly ON
     pcfg.embed_object = builtin_pad_cfg(c);
-    
+
     return pcfg;
 }
 
@@ -193,8 +193,8 @@ static std::vector<SLAPrintObject::Instance> sla_instances(const ModelObject &mo
     return instances;
 }
 
-std::vector<ObjectID> SLAPrint::print_object_ids() const 
-{ 
+std::vector<ObjectID> SLAPrint::print_object_ids() const
+{
     std::vector<ObjectID> out;
     // Reserve one more for the caller to append the ID of the Print itself.
     out.reserve(m_objects.size() + 1);
@@ -514,7 +514,7 @@ SLAPrint::ApplyStatus SLAPrint::apply(const Model &model, DynamicPrintConfig con
                     model_object.sla_support_points = model_object_new.sla_support_points;
                 }
                 model_object.sla_points_status = model_object_new.sla_points_status;
-                
+
                 // Invalidate hollowing if drain holes have changed
                 if (model_object.sla_drain_holes != model_object_new.sla_drain_holes)
                 {
@@ -626,15 +626,15 @@ std::string SLAPrint::validate(std::vector<std::string>*) const
         sla::SupportTreeConfig cfg = make_support_cfg(po->config());
 
         double elv = cfg.object_elevation_mm;
-        
+
         sla::PadConfig padcfg = make_pad_cfg(po->config());
         sla::PadConfig::EmbedObject &builtinpad = padcfg.embed_object;
-        
+
         if(supports_en && !builtinpad.enabled && elv < cfg.head_fullwidth())
             return _u8L(
                 "Elevation is too low for object. Use the \"Pad around "
                 "object\" feature to print the object without elevation.");
-        
+
         if(supports_en && builtinpad.enabled &&
            cfg.pillar_base_safety_distance_mm < builtinpad.object_gap_mm) {
             return _u8L(
@@ -643,7 +643,7 @@ std::string SLAPrint::validate(std::vector<std::string>*) const
                 "distance' has to be greater than the 'Pad object gap' "
                 "parameter to avoid this.");
         }
-        
+
         std::string pval = padcfg.validate();
         if (!pval.empty()) return pval;
     }
@@ -722,7 +722,7 @@ void SLAPrint::process()
 
     // Assumption: at this point the print objects should be populated only with
     // the model objects we have to process and the instances are also filtered
-    
+
     Steps printsteps(this);
 
     // We want to first process all objects...
@@ -736,7 +736,7 @@ void SLAPrint::process()
     };
 
     SLAPrintStep print_steps[] = { slapsMergeSlicesAndEval, slapsRasterize };
-    
+
     double st = Steps::min_objstatus;
 
     BOOST_LOG_TRIVIAL(info) << "Start slicing process.";
@@ -776,7 +776,7 @@ void SLAPrint::process()
                     throw_if_canceled();
                     po->set_done(step);
                 }
-                
+
                 incr = printsteps.progressrange(step);
             }
         }
@@ -798,7 +798,7 @@ void SLAPrint::process()
             throw_if_canceled();
             set_done(currentstep);
         }
-        
+
         st += printsteps.progressrange(currentstep);
     }
 

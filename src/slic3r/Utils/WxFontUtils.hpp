@@ -51,7 +51,7 @@ public:
     /// To not load font file twice on success is font_file returned.
     /// </summary>
     /// <param name="font">wx descriptor of font</param>
-    /// <param name="font_file">file described in wx font</param> 
+    /// <param name="font_file">file described in wx font</param>
     /// <returns>New created font fileon success otherwise nullptr</returns>
     static std::unique_ptr<Slic3r::Emboss::FontFile> set_italic(wxFont &font, const Slic3r::Emboss::FontFile &prev_font_file);
 
@@ -61,7 +61,7 @@ public:
     /// To not load font file twice on success is font_file returned.
     /// </summary>
     /// <param name="font">wx descriptor of font</param>
-    /// <param name="font_file">file described in wx font</param> 
+    /// <param name="font_file">file described in wx font</param>
     /// <returns>New created font fileon success otherwise nullptr</returns>
     static std::unique_ptr<Slic3r::Emboss::FontFile> set_bold(wxFont &font, const Slic3r::Emboss::FontFile &font_file);
 

@@ -61,7 +61,7 @@ macro(list_projects result curdir)
   foreach(child ${children})
     if(IS_DIRECTORY ${curdir}/${child})
       string(REGEX MATCH "^\\+([a-zA-Z0-9_]+)" is_package_dir ${child})
-      if(is_package_dir AND EXISTS ${curdir}/${child}/${CMAKE_MATCH_1}.cmake) 
+      if(is_package_dir AND EXISTS ${curdir}/${child}/${CMAKE_MATCH_1}.cmake)
         list(APPEND dirlist ${CMAKE_MATCH_1})
       endif()
     endif()
@@ -110,7 +110,7 @@ if (APPLE)
     # This ensures dependencies don't use SDK features which are not available in the version specified by Deployment target
     # That can happen when one uses a recent SDK but specifies an older Deployment target
     set(DEP_WERRORS_SDK "-Werror=partial-availability -Werror=unguarded-availability -Werror=unguarded-availability-new")
-    
+
     set(DEP_CMAKE_OPTS
         "-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
         "-DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT}"
@@ -148,7 +148,7 @@ option(${PROJECT_NAME}_SELECT_ALL "Choose all external projects to be built." ON
 
 find_package(Git REQUIRED)
 
-# The default command line for patching. Only works for newer 
+# The default command line for patching. Only works for newer
 set(PATCH_CMD ${GIT_EXECUTABLE} apply --verbose --ignore-space-change --whitespace=fix)
 
 # all required package targets that have existing definitions will be gathered here
@@ -228,7 +228,7 @@ if (DEP_DEBUG AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     # Making a separate debug build on Unix of wx is a nightmare
     list(APPEND DEP_DEBUG_EXCLUDES wxWidgets)
   endif ()
-  
+
   # Create the list of targets needed in debug mode
   set(_build_list_dbg "")
   set(_build_list_filt ${_build_list})
@@ -242,7 +242,7 @@ if (DEP_DEBUG AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
   # Create a subdirectory for the Debug build within the current binary dir:
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_d)
   execute_process(
-    COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR} -G${CMAKE_GENERATOR} 
+    COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR} -G${CMAKE_GENERATOR}
       -DCMAKE_BUILD_TYPE=Debug
       -DDEP_WX_GTK3=${DEP_WX_GTK3}
       -D${PROJECT_NAME}_DEP_DOWNLOAD_DIR=${${PROJECT_NAME}_DEP_DOWNLOAD_DIR}
@@ -253,7 +253,7 @@ if (DEP_DEBUG AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
       -DCMAKE_DEBUG_POSTFIX=d
       #TODO: forward per-package selector variables
       -DDEP_MESSAGES_WRITTEN=ON
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_d 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_d
     OUTPUT_QUIET
   )
 
@@ -271,7 +271,7 @@ if (DEP_DEBUG AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 
   # Can be used to build all the debug libs
   string(JOIN " " _build_list_filt_targets "${_build_list_filt}")
-  add_custom_target(deps_debug ALL 
+  add_custom_target(deps_debug ALL
     COMMAND ${CMAKE_COMMAND} --build . --target ${_build_list_filt_targets}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_d
     USES_TERMINAL

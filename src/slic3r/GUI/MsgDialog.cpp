@@ -33,36 +33,36 @@ namespace Slic3r {
 namespace GUI {
 
 MsgDialog::MsgDialog(wxWindow *parent, const wxString &title, const wxString &headline, long style, wxBitmap bitmap)
-	: wxDialog(parent ? parent : dynamic_cast<wxWindow*>(wxGetApp().mainframe), wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
-	, boldfont(wxGetApp().normal_font())
-	, content_sizer(new wxBoxSizer(wxVERTICAL))
-	, btn_sizer(new wxBoxSizer(wxHORIZONTAL))
+    : wxDialog(parent ? parent : dynamic_cast<wxWindow*>(wxGetApp().mainframe), wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+    , boldfont(wxGetApp().normal_font())
+    , content_sizer(new wxBoxSizer(wxVERTICAL))
+    , btn_sizer(new wxBoxSizer(wxHORIZONTAL))
 {
 #ifdef __APPLE__
     this->SetBackgroundColour(wxGetApp().get_window_default_clr());
 #endif
-	boldfont.SetWeight(wxFONTWEIGHT_BOLD);
+    boldfont.SetWeight(wxFONTWEIGHT_BOLD);
 
     this->SetFont(wxGetApp().normal_font());
     this->CenterOnParent();
 
     auto *main_sizer = new wxBoxSizer(wxVERTICAL);
-	auto *topsizer = new wxBoxSizer(wxHORIZONTAL);
-	auto *rightsizer = new wxBoxSizer(wxVERTICAL);
+    auto *topsizer = new wxBoxSizer(wxHORIZONTAL);
+    auto *rightsizer = new wxBoxSizer(wxVERTICAL);
 
-	auto *headtext = new wxStaticText(this, wxID_ANY, headline);
-	headtext->SetFont(boldfont);
+    auto *headtext = new wxStaticText(this, wxID_ANY, headline);
+    headtext->SetFont(boldfont);
     headtext->Wrap(CONTENT_WIDTH*wxGetApp().em_unit());
-	rightsizer->Add(headtext);
-	rightsizer->AddSpacer(VERT_SPACING);
+    rightsizer->Add(headtext);
+    rightsizer->AddSpacer(VERT_SPACING);
 
-	rightsizer->Add(content_sizer, 1, wxEXPAND);
+    rightsizer->Add(content_sizer, 1, wxEXPAND);
     btn_sizer->AddStretchSpacer();
 
-	logo = new wxStaticBitmap(this, wxID_ANY, bitmap.IsOk() ? bitmap : wxNullBitmap);
+    logo = new wxStaticBitmap(this, wxID_ANY, bitmap.IsOk() ? bitmap : wxNullBitmap);
 
-	topsizer->Add(logo, 0, wxALL, BORDER);
-	topsizer->Add(rightsizer, 1, wxTOP | wxBOTTOM | wxRIGHT | wxEXPAND, BORDER);
+    topsizer->Add(logo, 0, wxALL, BORDER);
+    topsizer->Add(rightsizer, 1, wxTOP | wxBOTTOM | wxRIGHT | wxEXPAND, BORDER);
 
     main_sizer->Add(topsizer, 1, wxEXPAND);
     main_sizer->Add(new StaticLine(this), 0, wxEXPAND | wxLEFT | wxRIGHT, HORIZ_SPACING);
@@ -70,10 +70,10 @@ MsgDialog::MsgDialog(wxWindow *parent, const wxString &title, const wxString &he
 
     apply_style(style);
 
-	SetSizerAndFit(main_sizer);
+    SetSizerAndFit(main_sizer);
 }
 
-void MsgDialog::SetButtonLabel(wxWindowID btn_id, const wxString& label, bool set_focus/* = false*/) 
+void MsgDialog::SetButtonLabel(wxWindowID btn_id, const wxString& label, bool set_focus/* = false*/)
 {
     if (wxButton* btn = get_button(btn_id)) {
         btn->SetLabel(label);
@@ -159,7 +159,7 @@ static void add_msg_content(MsgDialog* parent, wxBoxSizer* content_sizer, const 
     wxSize page_size;
     int em = wxGetApp().em_unit();
     if (!wxGetApp().mainframe) {
-        // If mainframe is nullptr, it means that GUI_App::on_init_inner() isn't completed 
+        // If mainframe is nullptr, it means that GUI_App::on_init_inner() isn't completed
         // (We just show information dialog about configuration version now)
         // And as a result the em_unit value wasn't created yet
         // So, calculate it from the scale factor of Dialog
@@ -204,7 +204,7 @@ static void add_msg_content(MsgDialog* parent, wxBoxSizer* content_sizer, const 
                                             "%3%"
                                         "</font>"
                                     "</body>"
-                               "</html>", 
+                               "</html>",
                     bgr_clr_str, text_clr_str, from_u8(msg_escaped)));
 
     html->Bind(wxEVT_HTML_LINK_CLICKED, [parent, &content](wxHtmlLinkEvent& event) {
@@ -236,7 +236,7 @@ void ErrorDialog::create(const HtmlContent& content, int icon_width)
 }
 
 ErrorDialog::ErrorDialog(wxWindow *parent, const wxString &msg, bool monospaced_font)
-    : MsgDialog(parent, wxString::Format(_L("%s error"), SLIC3R_APP_NAME), 
+    : MsgDialog(parent, wxString::Format(_L("%s error"), SLIC3R_APP_NAME),
                         wxString::Format(_L("%s has encountered an error"), SLIC3R_APP_NAME), wxOK)
     , m_content(HtmlContent{ msg, monospaced_font, true })
 {
@@ -244,7 +244,7 @@ ErrorDialog::ErrorDialog(wxWindow *parent, const wxString &msg, bool monospaced_
 }
 
 ErrorDialog::ErrorDialog(wxWindow *parent, const wxString &msg, const t_link_clicked& on_link_clicked)
-    : MsgDialog(parent, wxString::Format(_L("%s error"), SLIC3R_APP_NAME), 
+    : MsgDialog(parent, wxString::Format(_L("%s error"), SLIC3R_APP_NAME),
                         wxString::Format(_L("%s has encountered an error"), SLIC3R_APP_NAME), wxOK)
     , m_content(HtmlContent{ msg, false, true, on_link_clicked })
 {
@@ -267,7 +267,7 @@ WarningDialog::WarningDialog(wxWindow *parent,
                              const wxString& message,
                              const wxString& caption/* = wxEmptyString*/,
                              long style/* = wxOK*/)
-    : MsgDialog(parent, caption.IsEmpty() ? wxString::Format(_L("%s warning"), SLIC3R_APP_NAME) : caption, 
+    : MsgDialog(parent, caption.IsEmpty() ? wxString::Format(_L("%s warning"), SLIC3R_APP_NAME) : caption,
                         wxString::Format(_L("%s has a warning")+":", SLIC3R_APP_NAME), style)
 {
     add_msg_content(this, content_sizer, HtmlContent{ message });
@@ -315,7 +315,7 @@ RichMessageDialogBase::RichMessageDialogBase(wxWindow* parent, const HtmlContent
 
     btn_sizer->Insert(0, m_checkBox, wxALIGN_CENTER_VERTICAL);
 
-    finalize();    
+    finalize();
 }
 
 
@@ -336,8 +336,8 @@ int RichMessageDialogBase::ShowModal()
 // InfoDialog
 
 InfoDialog::InfoDialog(wxWindow* parent, const wxString &title, const wxString& msg, bool is_marked_msg/* = false*/, long style/* = wxOK | wxICON_INFORMATION*/)
-	: MsgDialog(parent, wxString::Format(_L("%s information"), SLIC3R_APP_NAME), title, style)
-	, msg(msg)
+    : MsgDialog(parent, wxString::Format(_L("%s information"), SLIC3R_APP_NAME), title, style)
+    , msg(msg)
 {
     add_msg_content(this, content_sizer, HtmlContent{ msg, false, is_marked_msg });
     finalize();

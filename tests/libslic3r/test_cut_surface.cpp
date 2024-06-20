@@ -15,7 +15,7 @@ TEST_CASE("Cut character from surface", "[]")
 
     auto font = Emboss::create_font_file(font_path.c_str());
     REQUIRE(font != nullptr);
-    std::optional<Emboss::Glyph> glyph = 
+    std::optional<Emboss::Glyph> glyph =
         Emboss::letter2glyph(*font, font_index, letter, flatness);
     REQUIRE(glyph.has_value());
     ExPolygons shapes = glyph->shape;
@@ -113,11 +113,11 @@ TEST_CASE("CutSurface in 3mf", "[Emboss]")
     //int         object_id      = 0;
     //int         text_volume_id = 2;
 
-    //std::string path_to_3mf = "C:/Users/Filip Sykala/Downloads/treefrog.3mf";    
+    //std::string path_to_3mf = "C:/Users/Filip Sykala/Downloads/treefrog.3mf";
     //int object_id      = 0;
     //int text_volume_id = 1;
 
-    std::string path_to_3mf = "C:/Users/Filip Sykala/Downloads/cube_test.3mf";    
+    std::string path_to_3mf = "C:/Users/Filip Sykala/Downloads/cube_test.3mf";
     int object_id      = 1;
     int text_volume_id = 2;
 
@@ -165,7 +165,7 @@ TEST_CASE("CutSurface in 3mf", "[Emboss]")
         cut_projection_tr, shape_scale, get_extents(shapes), z_range);
 
     float projection_ratio = -z_range.first / (z_range.second - z_range.first);
-    SurfaceCut cut = cut_surface(shapes, its, projection, projection_ratio); 
+    SurfaceCut cut = cut_surface(shapes, its, projection, projection_ratio);
     its_write_obj(cut, "C:/data/temp/cutSurface/result_cut.obj");
 }
 

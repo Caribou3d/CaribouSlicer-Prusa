@@ -25,7 +25,7 @@ SCENARIO("Gaps", "[Gaps]") {
             { "perimeter_extrusion_width",      0.35 },
             { "first_layer_extrusion_width",    0.35 }
         });
-    
+
         GCodeReader parser;
         const double perimeter_speed = config.opt_float("perimeter_speed") * 60;
         const double gap_fill_speed  = config.opt_float("gap_fill_speed") * 60;

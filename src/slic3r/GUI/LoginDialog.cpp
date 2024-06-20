@@ -73,7 +73,7 @@ void LoginDialog::update_account()
 
     m_login_button->SetLabel(logged ? _L("Log out") : _L("Log in"));
     m_continue_button->SetLabel(logged ? _L("Continue") : _L("Continue without Prusa Account"));
-    // TODO: resize correctly m_continue_button 
+    // TODO: resize correctly m_continue_button
     //m_continue_button->Fit();
 
     Fit();
@@ -82,7 +82,7 @@ void LoginDialog::update_account()
 
 void LoginDialog::on_dpi_changed(const wxRect& suggested_rect)
 {
-    
+
     SetFont(wxGetApp().normal_font());
 
     const int em = em_unit();
@@ -90,6 +90,6 @@ void LoginDialog::on_dpi_changed(const wxRect& suggested_rect)
 
     Fit();
     Refresh();
-    
+
 }
 }}// Slicer::GUI

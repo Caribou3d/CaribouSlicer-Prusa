@@ -108,7 +108,7 @@ static DynamicPrintConfig thumbnails_config()
 {
     DynamicPrintConfig config;
     config.apply_only(FullPrintConfig::defaults() , { "thumbnails", "thumbnails_format" });
-     
+
     return config;
 }
 
@@ -231,5 +231,5 @@ TEST_CASE("Validate Old Thumbnails", "[Thumbnails in Config]") {
 
 
 
-        
+
 

@@ -95,7 +95,7 @@ void GCodeViewer::COG::render()
 
     shader->stop_using();
 
-    ////Show ImGui window 
+    ////Show ImGui window
     //static float last_window_width = 0.0f;
     //static size_t last_text_length = 0;
 
@@ -1584,7 +1584,7 @@ void GCodeViewer::load_shells(const Print& print)
         // no shells, return
         return;
 
-    // adds objects' volumes 
+    // adds objects' volumes
     for (const PrintObject* obj : print.objects()) {
         const ModelObject* model_obj = obj->model_object();
         int object_id = -1;
@@ -2329,7 +2329,7 @@ void GCodeViewer::render_legend(float& legend_height)
     if (ImGuiPureWrap::combo(std::string(), view_options, new_view_type_id, ImGuiComboFlags_HeightLargest, 0.0f, -1.0f))
         new_view_type_i = view_options_id[new_view_type_id];
     ImGui::PopStyleColor(2);
-   
+
     if (curr_view_type_i != new_view_type_i) {
         enable_view_type_cache_load(false);
         set_view_type(static_cast<libvgcode::EViewType>(new_view_type_i));

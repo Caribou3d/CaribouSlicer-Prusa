@@ -9,7 +9,7 @@ using namespace Slic3r;
 
 SCENARIO("Shells", "[Shells]") {
     GIVEN("20mm box") {
-        auto test = [](const DynamicPrintConfig &config){            
+        auto test = [](const DynamicPrintConfig &config){
             std::vector<coord_t> zs;
             std::set<coord_t> layers_with_solid_infill;
             std::set<coord_t> layers_with_bridge_infill;
@@ -140,7 +140,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
             // prevent speed alteration
             { "enable_dynamic_overhang_speeds", 0 }
         });
-        
+
         THEN("correct number of top solid shells is generated in V-shaped object") {
             size_t n = 0;
             for (auto z : layers_with_speed(Slic3r::Test::slice({TestMesh::V}, config), solid_speed))
@@ -157,7 +157,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
     //     // their lower layer - the test checks that shells are not generated on the
     //     // above layers (thus 'across' the shadow perimeter)
     //     // the test is actually calibrated to leave a narrow bottom region for each
-    //     // layer - we test that in case of fill_density = 0 such narrow shells are 
+    //     // layer - we test that in case of fill_density = 0 such narrow shells are
     //     // discarded instead of grown
     //     int bottom_solid_layers = 3;
     //     auto config = Slic3r::DynamicPrintConfig::full_print_config_with({
@@ -223,7 +223,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
             { "temperature",            200 },
             { "first_layer_temperature", 205}
         });
-        
+
         // TODO: this needs to be tested with a model with sloping edges, where starting
         // points of each layer are not aligned - in that case we would test that no
         // travel moves are left to move to the new starting point - in a cube, end
@@ -235,7 +235,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
             bool                temperature_set                     = false;
             std::vector<double> z_steps;
             GCodeReader         parser;
-            parser.parse_buffer(Slic3r::Test::slice({TestMesh::cube_20x20x20}, config), 
+            parser.parse_buffer(Slic3r::Test::slice({TestMesh::cube_20x20x20}, config),
                 [&](Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
                 if (line.cmd_is("G1")) {
                     if (line.extruding(self))
@@ -269,7 +269,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
                 REQUIRE(travel_moves_after_first_extrusion <= 1);
             }
             THEN("no gaps in Z") {
-                REQUIRE(std::count_if(z_steps.begin(), z_steps.end(), 
+                REQUIRE(std::count_if(z_steps.begin(), z_steps.end(),
                     [&layer_height](auto z_step) { return z_step > layer_height + EPSILON; }) == 0);
             }
         };
@@ -299,7 +299,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
             // { "use_relative_e_distances", 1}
         });
         config.validate();
-        
+
         std::vector<std::pair<double, double>> this_layer; // [ dist_Z, dist_XY ], ...
         int  z_moves                                    = 0;
         bool bottom_layer_not_flat                      = false;
@@ -309,7 +309,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
         bool all_layer_segments_have_same_slope         = false;
         bool horizontal_extrusions                      = false;
         GCodeReader parser;
-        parser.parse_buffer(Slic3r::Test::slice({TestMesh::cube_20x20x20}, config), 
+        parser.parse_buffer(Slic3r::Test::slice({TestMesh::cube_20x20x20}, config),
             [&](Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
             if (line.cmd_is("G1")) {
                 if (z_moves < 2) {
@@ -333,7 +333,7 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
                         total_dist_XY += seg.second;
                     }
                     if (std::abs(total_dist_Z - layer_height) >
-                            // The first segment on the 2nd layer has extrusion interpolated from zero 
+                            // The first segment on the 2nd layer has extrusion interpolated from zero
                             // and the 1st segment has such a low extrusion assigned, that it is effectively zero, thus the move
                             // is considered non-extruding and a higher epsilon is required.
                             (z_moves == 2 ? 0.0021 : EPSILON))
@@ -386,12 +386,12 @@ SCENARIO("Shells (from Perl)", "[Shells]") {
     $config->set('skirts', 0);
     $config->set('first_layer_height', $config->layer_height);
     $config->set('start_gcode', '');
-    
+
     my $print = Slic3r::Test::init_print('two_hollow_squares', config => $config);
     my $diagonal_moves = 0;
     Slic3r::GCode::Reader->new->parse(Slic3r::Test::gcode($print), sub {
         my ($self, $cmd, $args, $info) = @_;
-        
+
         if ($cmd eq 'G1') {
             if ($info->{extruding} && $info->{dist_XY} > 0) {
                 if ($info->{dist_Z} > 0) {

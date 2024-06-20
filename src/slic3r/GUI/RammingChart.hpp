@@ -15,7 +15,7 @@ wxDECLARE_EVENT(EVT_WIPE_TOWER_CHART_CHANGED, wxCommandEvent);
 
 
 class Chart : public wxWindow {
-        
+
 public:
     Chart(wxWindow* parent, wxRect rect,const std::vector<std::pair<float,float>>& initial_buttons,int ramming_speed_size, float sampling, int scale_unit=10) :
         wxWindow(parent,wxID_ANY,rect.GetTopLeft(),rect.GetSize()),
@@ -38,24 +38,24 @@ public:
     }
     float get_volume() const { return m_total_volume; }
     float get_time()   const { return visible_area.m_width; }
-    
+
     std::vector<float> get_ramming_speed(float sampling) const; //returns sampled ramming speed
-    std::vector<std::pair<float,float>> get_buttons() const; // returns buttons position   
-    
+    std::vector<std::pair<float,float>> get_buttons() const; // returns buttons position
+
     void draw();
-    
+
     void mouse_clicked(wxMouseEvent& event);
     void mouse_right_button_clicked(wxMouseEvent& event);
     void mouse_moved(wxMouseEvent& event);
     void mouse_double_clicked(wxMouseEvent& event);
-    void mouse_left_window(wxMouseEvent&) { m_dragged = nullptr; }        
+    void mouse_left_window(wxMouseEvent&) { m_dragged = nullptr; }
     void mouse_released(wxMouseEvent&)    { m_dragged = nullptr; }
     void paint_event(wxPaintEvent&) { draw(); }
     DECLARE_EVENT_TABLE()
-    
 
 
-        
+
+
 private:
     static const bool fixed_x = true;
     static const bool splines = true;
@@ -69,20 +69,20 @@ private:
     public:
         bool operator<(const ButtonToDrag& a) const { return m_pos.m_x < a.m_pos.m_x; }
         ButtonToDrag(wxPoint2DDouble pos) : m_pos{pos} {};
-        wxPoint2DDouble get_pos() const { return m_pos; }            
+        wxPoint2DDouble get_pos() const { return m_pos; }
         void move(double x,double y) { m_pos.m_x+=x; m_pos.m_y+=y; }
     private:
-        wxPoint2DDouble m_pos;              // position in math coordinates                       
+        wxPoint2DDouble m_pos;              // position in math coordinates
     };
-    
-    
-    
+
+
+
     wxPoint math_to_screen(const wxPoint2DDouble& math) const {
         wxPoint screen;
         screen.x = (math.m_x-visible_area.m_x) * (m_rect.GetWidth()  / visible_area.m_width  );
         screen.y = (math.m_y-visible_area.m_y) * (m_rect.GetHeight() / visible_area.m_height );
         screen.y *= -1;
-        screen += m_rect.GetLeftBottom();            
+        screen += m_rect.GetLeftBottom();
         return screen;
     }
     wxPoint2DDouble screen_to_math(const wxPoint& screen) const {
@@ -93,7 +93,7 @@ private:
         math.m_y *= visible_area.m_height / m_rect.GetHeight();
         return (math+visible_area.GetLeftTop());
     }
-        
+
     int which_button_is_clicked(const wxPoint& point) const {
         if (!m_rect.Contains(point))
             return -1;
@@ -108,7 +108,7 @@ private:
     void recalculate_line();
 
     wxRect m_rect;                  // rectangle on screen the chart is mapped into (screen coordinates)
-    wxPoint m_previous_mouse;        
+    wxPoint m_previous_mouse;
     std::vector<ButtonToDrag> m_buttons;
     std::vector<int> m_line_to_draw;
     wxRect2DDouble visible_area;

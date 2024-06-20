@@ -74,7 +74,7 @@ void LabelObjects::init(const SpanOfConstPtrs<PrintObject>& objects, LabelObject
             std::string name = model_object->name;
             if (m_label_objects_style == LabelObjectsStyle::Octoprint) {
                 // use zero-based indexing for objects and instances, as we always have done
-                name += " id:" + std::to_string(object_id) + " copy " + std::to_string(instance_id); 
+                name += " id:" + std::to_string(object_id) + " copy " + std::to_string(instance_id);
             }
             else if (m_label_objects_style == LabelObjectsStyle::Firmware) {
                 // use one-based indexing for objects and instances so indices match what we see in PrusaSlicer.
@@ -159,7 +159,7 @@ std::string LabelObjects::all_objects_header() const
     if (m_label_objects_style == LabelObjectsStyle::Disabled)
         return std::string();
 
-    std::string out;   
+    std::string out;
 
     out += "\n";
     for (const LabelData& label : m_label_data) {

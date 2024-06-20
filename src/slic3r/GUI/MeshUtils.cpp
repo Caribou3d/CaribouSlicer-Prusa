@@ -180,7 +180,7 @@ std::vector<Vec3d> MeshClipper::point_per_contour() const
 {
     assert(m_result);
     std::vector<Vec3d> out;
-    
+
     for (const CutIsland& isl : m_result->cut_islands) {
         assert(isl.expoly.contour.size() > 2);
         // Now return a point lying inside the contour but not in a hole.
@@ -469,7 +469,7 @@ bool MeshRaycaster::unproject_on_mesh(const Vec2d& mouse_pos, const Transform3d&
 
 
 
-bool MeshRaycaster::intersects_line(Vec3d point, Vec3d direction, const Transform3d& trafo) const 
+bool MeshRaycaster::intersects_line(Vec3d point, Vec3d direction, const Transform3d& trafo) const
 {
     Transform3d trafo_inv = trafo.inverse();
     Vec3d to = trafo_inv * (point + direction);

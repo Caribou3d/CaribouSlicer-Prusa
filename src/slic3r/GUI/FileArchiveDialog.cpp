@@ -27,7 +27,7 @@ std::shared_ptr<ArchiveViewNode> ArchiveViewModel::AddFile(std::shared_ptr<Archi
 {
     std::shared_ptr<ArchiveViewNode> node = std::make_shared<ArchiveViewNode>(ArchiveViewNode(name));
     node->set_container(container);
-    
+
     if (parent.get() != nullptr) {
         parent->get_children().push_back(node);
         node->set_parent(parent);
@@ -35,17 +35,17 @@ std::shared_ptr<ArchiveViewNode> ArchiveViewModel::AddFile(std::shared_ptr<Archi
     } else {
         m_top_children.emplace_back(node);
     }
-     
+
     wxDataViewItem child = wxDataViewItem((void*)node.get());
     wxDataViewItem parent_item= wxDataViewItem((void*)parent.get());
     ItemAdded(parent_item, child);
-    
+
     if (parent)
         m_ctrl->Expand(parent_item);
     return node;
 }
 
-wxString ArchiveViewModel::GetColumnType(unsigned int col) const 
+wxString ArchiveViewModel::GetColumnType(unsigned int col) const
 {
     if (col == 0)
         return "bool";
@@ -72,7 +72,7 @@ void  ArchiveViewModel::Clear()
 {
 }
 
-wxDataViewItem ArchiveViewModel::GetParent(const wxDataViewItem& item) const 
+wxDataViewItem ArchiveViewModel::GetParent(const wxDataViewItem& item) const
 {
     assert(item.IsOk());
     ArchiveViewNode* node = static_cast<ArchiveViewNode*>(item.GetID());
@@ -86,7 +86,7 @@ unsigned int ArchiveViewModel::GetChildren(const wxDataViewItem& parent, wxDataV
         }
         return m_top_children.size();
     }
-       
+
     ArchiveViewNode* node = static_cast<ArchiveViewNode*>(parent.GetID());
     for (std::shared_ptr<ArchiveViewNode> child : node->get_children()) {
         array.push_back(wxDataViewItem((void*)child.get()));
@@ -94,7 +94,7 @@ unsigned int ArchiveViewModel::GetChildren(const wxDataViewItem& parent, wxDataV
     return node->get_children().size();
 }
 
-void ArchiveViewModel::GetValue(wxVariant& variant, const wxDataViewItem& item, unsigned int col) const 
+void ArchiveViewModel::GetValue(wxVariant& variant, const wxDataViewItem& item, unsigned int col) const
 {
     assert(item.IsOk());
     ArchiveViewNode* node = static_cast<ArchiveViewNode*>(item.GetID());
@@ -114,7 +114,7 @@ void ArchiveViewModel::untoggle_folders(const wxDataViewItem& item)
         untoggle_folders(wxDataViewItem((void*)node->get_parent().get()));
 }
 
-bool ArchiveViewModel::SetValue(const wxVariant& variant, const wxDataViewItem& item, unsigned int col) 
+bool ArchiveViewModel::SetValue(const wxVariant& variant, const wxDataViewItem& item, unsigned int col)
 {
     assert(item.IsOk());
     ArchiveViewNode* node = static_cast<ArchiveViewNode*>(item.GetID());
@@ -132,14 +132,14 @@ bool ArchiveViewModel::SetValue(const wxVariant& variant, const wxDataViewItem& 
     m_parent->Refresh();
     return true;
 }
-bool ArchiveViewModel::IsEnabled(const wxDataViewItem& item, unsigned int col) const 
+bool ArchiveViewModel::IsEnabled(const wxDataViewItem& item, unsigned int col) const
 {
     // As of now, all items are always enabled.
     // Returning false for col 1 would gray out text.
     return true;
 }
 
-bool ArchiveViewModel::IsContainer(const wxDataViewItem& item) const 
+bool ArchiveViewModel::IsContainer(const wxDataViewItem& item) const
 {
     if(!item.IsOk())
         return true;
@@ -189,7 +189,7 @@ FileArchiveDialog::FileArchiveDialog(wxWindow* parent_window, mz_zip_archive* ar
     m_avc = new ArchiveViewCtrl(this, wxSize(45 * em, 30 * em));
     wxDataViewColumn*  toggle_column = m_avc->AppendToggleColumn(L"\u2714", 0, wxDATAVIEW_CELL_ACTIVATABLE, 6 * em);
     m_avc->AppendTextColumn("filename", 1);
-    
+
     std::vector<std::shared_ptr<ArchiveViewNode>> stack;
 
     std::function<void(std::vector<std::shared_ptr<ArchiveViewNode> >&, size_t)> reduce_stack = [] (std::vector<std::shared_ptr<ArchiveViewNode>>& stack, size_t size) {
@@ -251,7 +251,7 @@ FileArchiveDialog::FileArchiveDialog(wxWindow* parent_window, mz_zip_archive* ar
         depth = std::max(depth, adjust_stack(path, stack));
         if (!stack.empty())
             parent = stack.back();
-        if (std::regex_match(path.extension().string(), pattern_drop)) { // this leaves out non-compatible files 
+        if (std::regex_match(path.extension().string(), pattern_drop)) { // this leaves out non-compatible files
             std::shared_ptr<ArchiveViewNode> new_node = m_avc->get_model()->AddFile(parent, boost::nowide::widen(path.filename().string()), false);
             new_node->set_fullpath(/*std::move(path)*/path); // filename string to wstring?
             new_node->set_size(entry.second);
@@ -289,7 +289,7 @@ FileArchiveDialog::FileArchiveDialog(wxWindow* parent_window, mz_zip_archive* ar
 
     for (const wxString& id : {_L("All"), _L("None"), _L("Open"), _L("Cancel") })
         wxGetApp().UpdateDarkUI(static_cast<wxButton*>(FindWindowByLabel(id, this)));
-}  
+}
 
 void FileArchiveDialog::on_dpi_changed(const wxRect& suggested_rect)
 {
@@ -311,14 +311,14 @@ void FileArchiveDialog::on_open_button()
 {
     wxDataViewItemArray top_items;
     m_avc->get_model()->GetChildren(wxDataViewItem(nullptr), top_items);
-    
+
     std::function<void(ArchiveViewNode*)> deep_fill = [&paths = m_selected_paths_w_size, &deep_fill](ArchiveViewNode* node){
         if (node == nullptr)
             return;
         if (node->get_children().empty()) {
-            if (node->get_toggle()) 
+            if (node->get_toggle())
                 paths.emplace_back(node->get_fullpath(), node->get_size());
-        } else { 
+        } else {
             for (std::shared_ptr<ArchiveViewNode> child : node->get_children())
                 deep_fill(child.get());
         }
@@ -334,7 +334,7 @@ void FileArchiveDialog::on_open_button()
 
 void FileArchiveDialog::on_all_button()
 {
-    
+
     wxDataViewItemArray top_items;
     m_avc->get_model()->GetChildren(wxDataViewItem(nullptr), top_items);
 
@@ -353,7 +353,7 @@ void FileArchiveDialog::on_all_button()
         ArchiveViewNode* node = static_cast<ArchiveViewNode*>(item.GetID());
         deep_fill(node);
         // Fix for linux, where Refresh or Update wont help to redraw toggle checkboxes.
-        // It should be enough to call ValueChanged for top items. 
+        // It should be enough to call ValueChanged for top items.
         m_avc->get_model()->ValueChanged(item, 0);
     }
 
@@ -380,7 +380,7 @@ void FileArchiveDialog::on_none_button()
         ArchiveViewNode* node = static_cast<ArchiveViewNode*>(item.GetID());
         deep_fill(node);
         // Fix for linux, where Refresh or Update wont help to redraw toggle checkboxes.
-        // It should be enough to call ValueChanged for top items. 
+        // It should be enough to call ValueChanged for top items.
         m_avc->get_model()->ValueChanged(item, 0);
     }
 

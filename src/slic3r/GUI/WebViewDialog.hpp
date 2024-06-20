@@ -38,12 +38,12 @@ public:
     void on_forward_button(wxCommandEvent& evt);
     void on_stop_button(wxCommandEvent& evt);
     void on_reload_button(wxCommandEvent& evt);
-    
+
     void on_view_source_request(wxCommandEvent& evt);
     void on_view_text_request(wxCommandEvent& evt);
     void on_tools_clicked(wxCommandEvent& evt);
     void on_error(wxWebViewEvent& evt);
-   
+
     void run_script(const wxString& javascript);
     void on_run_script_custom(wxCommandEvent& evt);
     void on_add_user_script(wxCommandEvent& evt);
@@ -64,7 +64,7 @@ protected:
     wxWebView* m_browser { nullptr };
     bool m_load_default_url { false };
 #ifdef DEBUG_URL_PANEL
-    
+
     wxBoxSizer *bSizer_toolbar;
     wxButton *  m_button_back;
     wxButton *  m_button_forward;
@@ -75,7 +75,7 @@ protected:
 
     wxMenu* m_tools_menu;
     wxMenuItem* m_script_custom;
-    
+
     wxInfoBar *m_info;
     wxStaticText* m_info_text;
 
@@ -95,7 +95,7 @@ protected:
     bool m_shown { false };
 
     std::vector<std::string> m_script_message_hadler_names;
-}; 
+};
 
 
 class WebViewDialog : public wxDialog
@@ -129,7 +129,7 @@ public:
     void On_enable_dev_tools(wxCommandEvent& evt);
 
     void run_script(const wxString& javascript);
-   
+
     void load_error_page();
 
     virtual void EndModal(int retCode) wxOVERRIDE;
@@ -207,7 +207,7 @@ class PrinterWebViewPanel : public WebViewPanel
 {
 public:
     PrinterWebViewPanel(wxWindow* parent, const wxString& default_url);
-    
+
     void on_loaded(wxWebViewEvent& evt);
 
     void send_api_key();

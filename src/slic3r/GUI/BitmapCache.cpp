@@ -173,7 +173,7 @@ wxBitmapBundle* BitmapCache::insert_bndl(const std::string& name, const std::vec
             x += bmp.GetScaledWidth();
 #else
             x += bmp.GetWidth();
-#endif 
+#endif
         }
         memDC.SelectObject(wxNullBitmap);
         bitmaps.push_back(*bitmap);
@@ -297,8 +297,8 @@ wxBitmap* BitmapCache::insert_raw_rgba(const std::string &bitmap_key, unsigned w
 wxBitmap* BitmapCache::load_png(const std::string &bitmap_name, unsigned width, unsigned height,
     const bool grayscale/* = false*/)
 {
-    std::string bitmap_key = bitmap_name + ( height !=0 ? 
-                                           "-h" + std::to_string(height) : 
+    std::string bitmap_key = bitmap_name + ( height !=0 ?
+                                           "-h" + std::to_string(height) :
                                            "-w" + std::to_string(width))
                                          + (grayscale ? "-gs" : "");
 
@@ -341,7 +341,7 @@ NSVGimage* BitmapCache::nsvgParseFromFileWithReplace(const char* filename, const
     data = (char*)malloc(size + 1);
     if (data == NULL) goto error;
     if (fread(data, 1, size, fp) != size) goto error;
-    data[size] = '\0';	// Must be null terminated.
+    data[size] = '\0';    // Must be null terminated.
     fclose(fp);
 
     if (replaces.empty())
@@ -376,7 +376,7 @@ void BitmapCache::nsvgGetDataFromFileWithReplace(const char* filename, std::stri
     data = (char*)malloc(size + 1);
     if (data == NULL) goto error;
     if (fread(data, 1, size, fp) != size) goto error;
-    data[size] = '\0';	// Must be null terminated.
+    data[size] = '\0';    // Must be null terminated.
     fclose(fp);
 
     data_str.assign(data);
@@ -450,11 +450,11 @@ wxBitmapBundle* BitmapCache::from_png(const std::string& bitmap_name, unsigned w
     return this->insert_bndl(bitmap_key, wxImage_to_wxBitmap_with_alpha(std::move(image)));
 }
 
-wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_width, unsigned target_height, 
+wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_width, unsigned target_height,
     const bool grayscale/* = false*/, const bool dark_mode/* = false*/, const std::string& new_color /*= ""*/)
 {
-    std::string bitmap_key = bitmap_name + ( target_height !=0 ? 
-                                           "-h" + std::to_string(target_height) : 
+    std::string bitmap_key = bitmap_name + ( target_height !=0 ?
+                                           "-h" + std::to_string(target_height) :
                                            "-w" + std::to_string(target_width))
                                          + (m_scale != 1.0f ? "-s" + float_to_string_decimal_point(m_scale) : "")
                                          + (dark_mode ? "-dm" : "")
@@ -478,7 +478,7 @@ wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_
 
     target_height != 0 ? target_height *= m_scale : target_width *= m_scale;
 
-    float svg_scale = target_height != 0 ? 
+    float svg_scale = target_height != 0 ?
                   (float)target_height / image->height  : target_width != 0 ?
                   (float)target_width / image->width    : 1;
 

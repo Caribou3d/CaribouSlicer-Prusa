@@ -359,7 +359,7 @@ TEST_CASE("arc wedge test", "[ArcWelder]") {
             const Vec2i64 &p1, const Vec2i64 &p2, const int64_t r, const bool ccw,
             // Test data
             const Vec2i64 &ptest1, const bool ptest_inside1,
-            const Vec2i64 &ptest2, const bool ptest_inside2, 
+            const Vec2i64 &ptest2, const bool ptest_inside2,
             const Vec2i64 &ptest3, const bool ptest_inside3,
             const Vec2i64 &ptest4, const bool ptest_inside4) {
             test(p1, p2, r, ccw, ptest1 + center, ptest_inside1);
@@ -368,7 +368,7 @@ TEST_CASE("arc wedge test", "[ArcWelder]") {
             test(p1, p2, r, ccw, ptest4 + center, ptest_inside4);
         };
         THEN("90 degrees arc, CCW") {
-            test_quadrants(p1, p2, radius, true, 
+            test_quadrants(p1, p2, radius, true,
                 Vec2i64{   s,   s }, true,
                 Vec2i64{   s, - s }, false,
                 Vec2i64{ - s,   s }, false,

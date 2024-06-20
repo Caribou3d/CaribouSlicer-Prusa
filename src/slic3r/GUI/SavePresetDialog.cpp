@@ -103,7 +103,7 @@ void SavePresetDialog::Item::init_input_name_ctrl(wxBoxSizer *input_name_sizer, 
 
 static std::map<Preset::Type, std::string> TOP_LABELS =
 {
-    // type                             Save settings    
+    // type                             Save settings
     { Preset::Type::TYPE_PRINT,         L("Save print settings as")   },
     { Preset::Type::TYPE_SLA_PRINT,     L("Save print settings as")   },
     { Preset::Type::TYPE_FILAMENT,      L("Save filament settings as")},
@@ -165,7 +165,7 @@ static std::string get_conflict_name(const std::vector<SavePresetDialog::Item::P
 {
     if (!casei_names.empty()) {
         const std::string lower_name = boost::to_lower_copy<std::string>(preset_name);
-        auto it = Slic3r::lower_bound_by_predicate(casei_names.begin(), casei_names.end(), 
+        auto it = Slic3r::lower_bound_by_predicate(casei_names.begin(), casei_names.end(),
                                                    [lower_name](const auto& l) { return l.casei_name < lower_name;  });
         if (it != casei_names.end() && it->casei_name == lower_name)
             return it->name;
@@ -185,7 +185,7 @@ std::string SavePresetDialog::Item::preset_name() const
     return existed_preset_name;
 }
 
-const Preset* SavePresetDialog::Item::get_existing_preset() const 
+const Preset* SavePresetDialog::Item::get_existing_preset() const
 {
     std::string existed_preset_name = get_conflict_name(m_casei_preset_names, m_preset_name);
     if (existed_preset_name.empty()) {
@@ -337,7 +337,7 @@ void SavePresetDialog::Item::Enable(bool enable /*= true*/)
 //-----------------------------------------------
 
 SavePresetDialog::SavePresetDialog(wxWindow* parent, std::vector<Preset::Type> types, std::string suffix, bool template_filament/* =false*/, PresetBundle* preset_bundle/* = nullptr*/)
-    : DPIDialog(parent, wxID_ANY, types.size() == 1 ? _L("Save preset") : _L("Save presets"), 
+    : DPIDialog(parent, wxID_ANY, types.size() == 1 ? _L("Save preset") : _L("Save presets"),
                 wxDefaultPosition, wxSize(45 * wxGetApp().em_unit(), 5 * wxGetApp().em_unit()), wxDEFAULT_DIALOG_STYLE | wxICON_WARNING),
     m_preset_bundle(preset_bundle)
 {
@@ -390,7 +390,7 @@ void SavePresetDialog::build(std::vector<Preset::Type> types, std::string suffix
     btnOK->Bind(wxEVT_UPDATE_UI, [this](wxUpdateUIEvent& evt)   { evt.Enable(enable_ok_btn()); });
 
     topSizer->Add(m_presets_sizer,  0, wxEXPAND | wxALL, BORDER_W);
-    
+
     // Add checkbox for Template filament saving
     if (template_filament && types.size() == 1 && *types.begin() == Preset::Type::TYPE_FILAMENT) {
         m_template_filament_checkbox = new wxCheckBox(this, wxID_ANY, _L("Save as profile derived from current printer only."));
@@ -555,7 +555,7 @@ void SavePresetDialog::update_physical_printers(const std::string& preset_name)
             physical_printers.save_printer(printer);
 
         physical_printers.select_printer(printer.get_full_name(preset_name));
-    }    
+    }
 }
 
 void SavePresetDialog::accept()

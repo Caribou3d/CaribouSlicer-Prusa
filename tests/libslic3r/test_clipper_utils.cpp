@@ -20,7 +20,7 @@ SCENARIO("Various Clipper operations - xs/t/11_clipper.t", "[ClipperUtils]") {
         WHEN("offset") {
             Polygons result = Slic3r::offset(square_with_hole, 5.f);
             THEN("offset matches") {
-                REQUIRE(result == Polygons { 
+                REQUIRE(result == Polygons {
                     { { 205, 205 }, { 95, 205 }, { 95, 95 }, { 205, 95 }, },
                     { { 155, 145 }, { 145, 145 }, { 145, 155 }, { 155, 155 } } });
             }
@@ -28,7 +28,7 @@ SCENARIO("Various Clipper operations - xs/t/11_clipper.t", "[ClipperUtils]") {
         WHEN("offset_ex") {
             ExPolygons result = Slic3r::offset_ex(square_with_hole, 5.f);
             THEN("offset matches") {
-                REQUIRE(result == ExPolygons { { 
+                REQUIRE(result == ExPolygons { {
                     { { 205, 205 }, { 95, 205 }, { 95, 95 }, { 205, 95 }, },
                     { { 145, 145 }, { 145, 155 }, { 155, 155 }, { 155, 145 } } } } );
             }
@@ -265,23 +265,23 @@ SCENARIO("Various Clipper operations - t/clipper.t", "[ClipperUtils]") {
     }
     GIVEN("circle") {
         Slic3r::ExPolygon circle_with_hole { Polygon::new_scale({
-                { 151.8639,288.1192 }, {133.2778,284.6011}, { 115.0091,279.6997 }, { 98.2859,270.8606 }, { 82.2734,260.7933 }, 
-                { 68.8974,247.4181 }, { 56.5622,233.0777 }, { 47.7228,216.3558 }, { 40.1617,199.0172 }, { 36.6431,180.4328 }, 
-                { 34.932,165.2312 }, { 37.5567,165.1101 }, { 41.0547,142.9903 }, { 36.9056,141.4295 }, { 40.199,124.1277 }, 
-                { 47.7776,106.7972 }, { 56.6335,90.084 }, { 68.9831,75.7557 }, { 82.3712,62.3948 }, { 98.395,52.3429 }, 
-                { 115.1281,43.5199 }, { 133.4004,38.6374 }, { 151.9884,35.1378 }, { 170.8905,35.8571 }, { 189.6847,37.991 }, 
-                { 207.5349,44.2488 }, { 224.8662,51.8273 }, { 240.0786,63.067 }, { 254.407,75.4169 }, { 265.6311,90.6406 }, 
-                { 275.6832,106.6636 }, { 281.9225,124.52 }, { 286.8064,142.795 }, { 287.5061,161.696 }, { 286.7874,180.5972 }, 
-                { 281.8856,198.8664 }, { 275.6283,216.7169 }, { 265.5604,232.7294 }, { 254.3211,247.942 }, { 239.9802,260.2776 }, 
+                { 151.8639,288.1192 }, {133.2778,284.6011}, { 115.0091,279.6997 }, { 98.2859,270.8606 }, { 82.2734,260.7933 },
+                { 68.8974,247.4181 }, { 56.5622,233.0777 }, { 47.7228,216.3558 }, { 40.1617,199.0172 }, { 36.6431,180.4328 },
+                { 34.932,165.2312 }, { 37.5567,165.1101 }, { 41.0547,142.9903 }, { 36.9056,141.4295 }, { 40.199,124.1277 },
+                { 47.7776,106.7972 }, { 56.6335,90.084 }, { 68.9831,75.7557 }, { 82.3712,62.3948 }, { 98.395,52.3429 },
+                { 115.1281,43.5199 }, { 133.4004,38.6374 }, { 151.9884,35.1378 }, { 170.8905,35.8571 }, { 189.6847,37.991 },
+                { 207.5349,44.2488 }, { 224.8662,51.8273 }, { 240.0786,63.067 }, { 254.407,75.4169 }, { 265.6311,90.6406 },
+                { 275.6832,106.6636 }, { 281.9225,124.52 }, { 286.8064,142.795 }, { 287.5061,161.696 }, { 286.7874,180.5972 },
+                { 281.8856,198.8664 }, { 275.6283,216.7169 }, { 265.5604,232.7294 }, { 254.3211,247.942 }, { 239.9802,260.2776 },
                 { 224.757,271.5022 }, { 207.4179,279.0635 }, { 189.5605,285.3035 }, { 170.7649,287.4188 }
             }) };
         circle_with_hole.holes = { Polygon::new_scale({
-                { 158.227,215.9007 }, { 164.5136,215.9007 }, { 175.15,214.5007 }, { 184.5576,210.6044 }, { 190.2268,207.8743 }, 
-                { 199.1462,201.0306 }, { 209.0146,188.346 }, { 213.5135,177.4829 }, { 214.6979,168.4866 }, { 216.1025,162.3325 }, 
-                { 214.6463,151.2703 }, { 213.2471,145.1399 }, { 209.0146,134.9203 }, { 199.1462,122.2357 }, { 189.8944,115.1366 }, 
-                { 181.2504,111.5567 }, { 175.5684,108.8205 }, { 164.5136,107.3655 }, { 158.2269,107.3655 }, { 147.5907,108.7656 }, 
-                { 138.183,112.6616 }, { 132.5135,115.3919 }, { 123.5943,122.2357 }, { 113.7259,134.92 }, { 109.2269,145.7834 }, 
-                { 108.0426,154.7799 }, { 106.638,160.9339 }, { 108.0941,171.9957 }, { 109.4933,178.1264 }, { 113.7259,188.3463 }, 
+                { 158.227,215.9007 }, { 164.5136,215.9007 }, { 175.15,214.5007 }, { 184.5576,210.6044 }, { 190.2268,207.8743 },
+                { 199.1462,201.0306 }, { 209.0146,188.346 }, { 213.5135,177.4829 }, { 214.6979,168.4866 }, { 216.1025,162.3325 },
+                { 214.6463,151.2703 }, { 213.2471,145.1399 }, { 209.0146,134.9203 }, { 199.1462,122.2357 }, { 189.8944,115.1366 },
+                { 181.2504,111.5567 }, { 175.5684,108.8205 }, { 164.5136,107.3655 }, { 158.2269,107.3655 }, { 147.5907,108.7656 },
+                { 138.183,112.6616 }, { 132.5135,115.3919 }, { 123.5943,122.2357 }, { 113.7259,134.92 }, { 109.2269,145.7834 },
+                { 108.0426,154.7799 }, { 106.638,160.9339 }, { 108.0941,171.9957 }, { 109.4933,178.1264 }, { 113.7259,188.3463 },
                 { 123.5943,201.0306 }, { 132.8461,208.1296 }, { 141.4901,211.7094 }, { 147.172,214.4458 }
             }) };
         THEN("contour is counter-clockwise") {
@@ -291,9 +291,9 @@ SCENARIO("Various Clipper operations - t/clipper.t", "[ClipperUtils]") {
             REQUIRE(circle_with_hole.holes.size() == 1);
             REQUIRE(circle_with_hole.holes.front().is_clockwise());
         }
-    
+
         WHEN("clipping a line") {
-            auto line = Polyline::new_scale({ { 152.742,288.086671142818 }, { 152.742,34.166466971035 } });    
+            auto line = Polyline::new_scale({ { 152.742,288.086671142818 }, { 152.742,34.166466971035 } });
             Polylines intersection = intersection_pl(line, to_polygons(circle_with_hole));
             THEN("clipped to two pieces") {
                 REQUIRE(intersection.front().length() == Approx((Vec2d(152742000, 215178843) - Vec2d(152742000, 288086661)).norm()));
@@ -312,7 +312,7 @@ template<e_ordering o = e_ordering::OFF, class P, class P_Alloc, class Tree>
 double polytree_area(const Tree &tree, std::vector<P, P_Alloc> *out)
 {
     traverse_pt<o>(tree, out);
-    
+
     return std::accumulate(out->begin(), out->end(), 0.0,
                            [](double a, const P &p) { return a + p.area(); });
 }
@@ -321,7 +321,7 @@ size_t count_polys(const ExPolygons& expolys)
 {
     size_t c = 0;
     for (auto &ep : expolys) c += ep.holes.size() + 1;
-    
+
     return c;
 }
 
@@ -330,32 +330,32 @@ TEST_CASE("Traversing Clipper PolyTree", "[ClipperUtils]") {
     Polygon unitbox;
     const auto UNIT = coord_t(1. / SCALING_FACTOR);
     unitbox.points = { Vec2crd{0, 0}, Vec2crd{UNIT, 0}, Vec2crd{UNIT, UNIT}, Vec2crd{0, UNIT}};
-    
+
     Polygon box_frame = unitbox;
     box_frame.scale(20, 10);
-    
+
     Polygon hole_left = unitbox;
     hole_left.scale(8);
     hole_left.translate(UNIT, UNIT);
     hole_left.reverse();
-    
+
     Polygon hole_right = hole_left;
     hole_right.translate(UNIT * 10, 0);
-    
+
     Polygon inner_left = unitbox;
     inner_left.scale(4);
     inner_left.translate(UNIT * 3, UNIT * 3);
-    
+
     Polygon inner_right = inner_left;
     inner_right.translate(UNIT * 10, 0);
-    
+
     Polygons reference = union_({box_frame, hole_left, hole_right, inner_left, inner_right});
-    
+
     ClipperLib::PolyTree tree = union_pt(reference);
     double area_sum = box_frame.area() + hole_left.area() +
                       hole_right.area() + inner_left.area() +
                       inner_right.area();
-    
+
     REQUIRE(area_sum > 0);
 
     SECTION("Traverse into Polygons WITHOUT spatial ordering") {
@@ -363,19 +363,19 @@ TEST_CASE("Traversing Clipper PolyTree", "[ClipperUtils]") {
         REQUIRE(area_sum == Approx(polytree_area(tree.GetFirst(), &output)));
         REQUIRE(output.size() == reference.size());
     }
-    
+
     SECTION("Traverse into ExPolygons WITHOUT spatial ordering") {
         ExPolygons output;
         REQUIRE(area_sum == Approx(polytree_area(tree.GetFirst(), &output)));
         REQUIRE(count_polys(output) == reference.size());
     }
-    
+
     SECTION("Traverse into Polygons WITH spatial ordering") {
         Polygons output;
         REQUIRE(area_sum == Approx(polytree_area<e_ordering::ON>(tree.GetFirst(), &output)));
         REQUIRE(output.size() == reference.size());
     }
-    
+
     SECTION("Traverse into ExPolygons WITH spatial ordering") {
         ExPolygons output;
         REQUIRE(area_sum == Approx(polytree_area<e_ordering::ON>(tree.GetFirst(), &output)));

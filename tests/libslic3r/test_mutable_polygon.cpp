@@ -12,19 +12,19 @@ SCENARIO("Iterators", "[MutablePolygon]") {
             auto begin = p.begin();
             auto end   = p.end();
             auto it    = begin;
-            THEN("++ it is not equal to begin") { 
+            THEN("++ it is not equal to begin") {
                 REQUIRE(++ it != begin);
-            } THEN("++ it is not equal to end")   { 
+            } THEN("++ it is not equal to end")   {
                 REQUIRE(++ it != end);
-            } THEN("++ (++ it) is not equal to begin") { 
+            } THEN("++ (++ it) is not equal to begin") {
                 REQUIRE(++ (++ it) != begin);
-            } THEN("++ (++ it) is equal to end") { 
+            } THEN("++ (++ it) is equal to end") {
                 REQUIRE(++ (++ it) == end);
-            } THEN("++ (++ (++ it)) is equal to begin") { 
+            } THEN("++ (++ (++ it)) is equal to begin") {
                 REQUIRE(++ (++ (++ it)) == begin);
-            } THEN("++ (++ (++ it)) is not equal to end") { 
+            } THEN("++ (++ (++ it)) is not equal to end") {
                 REQUIRE(++ (++ (++ it)) != end);
-            } 
+            }
         }
         WHEN("Iterating downwards") {
             auto begin = p.begin();

@@ -34,7 +34,7 @@ class ConfigOptionsGroup;
 
 class FreqChangedParams
 {
-    double		    m_brim_width = 0.0;
+    double            m_brim_width = 0.0;
     wxButton*       m_wiping_dialog_button{ nullptr };
     wxSizer*        m_sizer {nullptr};
 

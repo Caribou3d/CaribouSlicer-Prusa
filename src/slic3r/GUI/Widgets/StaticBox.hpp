@@ -14,13 +14,13 @@ public:
     StaticBox(wxWindow* parent,
              wxWindowID      id        = wxID_ANY,
              const wxPoint & pos       = wxDefaultPosition,
-             const wxSize &  size      = wxDefaultSize, 
+             const wxSize &  size      = wxDefaultSize,
              long style = 0);
 
     bool Create(wxWindow* parent,
         wxWindowID      id        = wxID_ANY,
         const wxPoint & pos       = wxDefaultPosition,
-        const wxSize &  size      = wxDefaultSize, 
+        const wxSize &  size      = wxDefaultSize,
         long style = 0);
 
     void SetCornerRadius(double radius);

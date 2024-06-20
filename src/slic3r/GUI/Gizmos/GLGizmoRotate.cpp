@@ -513,8 +513,8 @@ Vec3d GLGizmoRotate::mouse_position_in_local_plane(const Linef3& mouse_ray) cons
 
 GLGizmoRotate3D::GLGizmoRotate3D(GLCanvas3D& parent, const std::string& icon_filename, unsigned int sprite_id)
     : GLGizmoBase(parent, icon_filename, sprite_id)
-    , m_gizmos({ 
-        GLGizmoRotate(parent, GLGizmoRotate::X), 
+    , m_gizmos({
+        GLGizmoRotate(parent, GLGizmoRotate::X),
         GLGizmoRotate(parent, GLGizmoRotate::Y),
         GLGizmoRotate(parent, GLGizmoRotate::Z) })
 {
@@ -558,7 +558,7 @@ void GLGizmoRotate3D::data_changed(bool is_serializing) {
 
 bool GLGizmoRotate3D::on_init()
 {
-    for (GLGizmoRotate& g : m_gizmos) 
+    for (GLGizmoRotate& g : m_gizmos)
         if (!g.init()) return false;
 
     for (unsigned int i = 0; i < 3; ++i)

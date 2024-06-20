@@ -150,7 +150,7 @@ void SpinInputBase::SetBorderColor(StateColor const &color)
 }
 
 void SpinInputBase::DoSetToolTipText(wxString const &tip)
-{ 
+{
     wxWindow::DoSetToolTipText(tip);
     text_ctrl->SetToolTip(tip);
 }
@@ -254,7 +254,7 @@ void SpinInputBase::sendSpinEvent()
 {
     wxCommandEvent event(wxEVT_SPINCTRL, GetId());
     event.SetEventObject(this);
-    GetEventHandler()->ProcessEvent(event); 
+    GetEventHandler()->ProcessEvent(event);
 }
 
 
@@ -272,7 +272,7 @@ SpinInput::SpinInput(wxWindow *parent,
     Create(parent, text, label, pos, size, style, min, max, initial);
 }
 
-void SpinInput::Create(wxWindow *parent, 
+void SpinInput::Create(wxWindow *parent,
                      wxString       text,
                      wxString       label,
                      const wxPoint &pos,

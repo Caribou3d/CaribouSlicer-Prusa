@@ -21,7 +21,7 @@ SCENARIO("Extrusion width specifics", "[Flow]") {
         std::vector<double> E_per_mm_bottom;
         parser.parse_buffer(Slic3r::Test::slice({ Slic3r::Test::TestMesh::cube_20x20x20 }, config),
             [&E_per_mm_bottom, layer_height] (Slic3r::GCodeReader& self, const Slic3r::GCodeReader::GCodeLine& line)
-        { 
+        {
             if (self.z() == Approx(layer_height).margin(0.01)) { // only consider first layer
                 if (line.extruding(self) && line.dist_XY(self) > 0)
                     E_per_mm_bottom.emplace_back(line.dist_E(self) / line.dist_XY(self));
@@ -63,7 +63,7 @@ SCENARIO("Extrusion width specifics", "[Flow]") {
             { "nozzle_diameter",                "0.5" }
         });
         WHEN("Slicing a 20mm cube") {
-            test(config);            
+            test(config);
         }
     }
 }
@@ -82,7 +82,7 @@ SCENARIO(" Bridge flow specifics.", "[Flow]") {
         GCodeReader         parser;
         const double        bridge_speed = config.opt_float("bridge_speed") * 60.;
         std::vector<double> E_per_mm;
-        parser.parse_buffer(Slic3r::Test::slice({ Slic3r::Test::TestMesh::overhang }, config), 
+        parser.parse_buffer(Slic3r::Test::slice({ Slic3r::Test::TestMesh::overhang }, config),
             [&E_per_mm, bridge_speed](Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
             if (line.extruding(self) && line.dist_XY(self) > 0) {
                 if (is_approx<double>(line.new_F(self), bridge_speed))
@@ -92,7 +92,7 @@ SCENARIO(" Bridge flow specifics.", "[Flow]") {
         const double nozzle_dmr                 = config.opt<ConfigOptionFloats>("nozzle_diameter")->get_at(0);
         const double filament_dmr               = config.opt<ConfigOptionFloats>("filament_diameter")->get_at(0);
         const double bridge_mm_per_mm           = sqr(nozzle_dmr / filament_dmr) * config.opt_float("bridge_flow_ratio");
-        size_t num_errors = std::count_if(E_per_mm.begin(), E_per_mm.end(), 
+        size_t num_errors = std::count_if(E_per_mm.begin(), E_per_mm.end(),
             [bridge_mm_per_mm](double v){ return std::abs(v - bridge_mm_per_mm) > 0.01; });
         return num_errors == 0;
     };
@@ -145,7 +145,7 @@ SCENARIO(" Bridge flow specifics.", "[Flow]") {
     }
 }
 
-/// Test the expected behavior for auto-width, 
+/// Test the expected behavior for auto-width,
 /// spacing, etc
 SCENARIO("Flow: Flow math for non-bridges", "[Flow]") {
     GIVEN("Nozzle Diameter of 0.4, a desired width of 1mm and layer height of 0.5") {
@@ -204,7 +204,7 @@ SCENARIO("Flow: Flow math for non-bridges", "[Flow]") {
             }
         }
     }
-#endif    
+#endif
 
 }
 

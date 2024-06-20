@@ -158,7 +158,7 @@ SCENARIO("Original Slic3r Skirt/Brim tests", "[SkirtBrim]") {
                 { "skirts",                         0 },
                 { "first_layer_extrusion_width",     0.5 },
                 { "brim_width",                     1 }
-            });            
+            });
             THEN("2 brim lines") {
                 Slic3r::Print print;
                 Slic3r::Test::init_and_process_print({TestMesh::cube_20x20x20}, print, config);

@@ -51,7 +51,7 @@ public:
     GLGizmoFlatten(GLCanvas3D& parent, const std::string& icon_filename, unsigned int sprite_id);
 
     void set_flattening_data(const ModelObject* model_object, int instance_id);
-        
+
     /// <summary>
     /// Apply rotation on select plane
     /// </summary>

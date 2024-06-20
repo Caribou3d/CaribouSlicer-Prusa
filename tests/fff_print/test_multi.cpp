@@ -17,7 +17,7 @@ using namespace std::literals;
 SCENARIO("Basic tests", "[Multi]")
 {
     WHEN("Slicing multi-material print with non-consecutive extruders") {
-        std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::cube_20x20x20 }, 
+        std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::cube_20x20x20 },
             {
                 { "nozzle_diameter",                "0.6, 0.6, 0.6, 0.6" },
                 { "extruder",                       2 },
@@ -33,7 +33,7 @@ SCENARIO("Basic tests", "[Multi]")
         }
     }
     WHEN("Slicing with multiple skirts with a single, non-zero extruder") {
-        std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::cube_20x20x20 }, 
+        std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::cube_20x20x20 },
             {
                 { "nozzle_diameter",                        "0.6, 0.6, 0.6, 0.6" },
                 { "perimeter_extruder",                     2 },
@@ -67,7 +67,7 @@ SCENARIO("Ooze prevention", "[Multi]")
 
     // Since July 2019, PrusaSlicer only emits automatic Tn command in case that the toolchange_gcode is empty
     // The "T[next_extruder]" is therefore needed in this test.
-    
+
     std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::cube_20x20x20 }, config);
 
     GCodeReader parser;
@@ -110,7 +110,7 @@ SCENARIO("Ooze prevention", "[Multi]")
     });
 
     Polygon convex_hull = Geometry::convex_hull(extrusion_points);
-    
+
     // THEN("all nozzles are outside skirt at toolchange") {
     //     Points t;
     //     sort_remove_duplicates(toolchange_points);
@@ -134,7 +134,7 @@ SCENARIO("Ooze prevention", "[Multi]")
         points      => \@toolchange_points,
     );
 #endif
-    
+
     THEN("all toolchanges happen within expected area") {
         // offset the skirt by the maximum displacement between extruders plus a safety extra margin
         const float delta = scaled<float>(20. * sqrt(2.) + 1.);
@@ -216,7 +216,7 @@ SCENARIO("Stacked cubes", "[Multi]")
         });
         return std::make_pair(T0_shells, T1_shells);
     };
-    
+
     WHEN("Interface shells disabled") {
         std::string gcode = slice_stacked_cubes(config, lower_config, upper_config);
         auto [t0, t1] = test_shells(gcode);

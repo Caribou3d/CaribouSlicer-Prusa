@@ -74,7 +74,7 @@ public:
     // ^ Note: By default there is 1 retry (meaning 1 broadcast is sent).
     // Timeout is per one retry, ie. total time spent listening = retries * timeout.
     // If retries > 1, then care needs to be taken as more than one reply from the same service may be received.
-    
+
     // sets hostname queried by resolve()
     Bonjour& set_hostname(const std::string& hostname);
 
@@ -114,8 +114,8 @@ class LookupSocket;
 class ResolveSocket;
 
 // Session is created for each async_receive of socket. On receive, its handle_receive method is called (Thru io_service->post).
-// ReplyFn is called if correct datagram was received. 
-class UdpSession 
+// ReplyFn is called if correct datagram was received.
+class UdpSession
 {
 public:
     UdpSession(Bonjour::ReplyFn rfn);
@@ -127,7 +127,7 @@ protected:
 };
 typedef std::shared_ptr<UdpSession> SharedSession;
 // Session for LookupSocket
-class LookupSession : public UdpSession 
+class LookupSession : public UdpSession
 {
 public:
     LookupSession(const LookupSocket* sckt, Bonjour::ReplyFn rfn) : UdpSession(rfn), socket(sckt) {}
@@ -137,7 +137,7 @@ protected:
     const LookupSocket* socket;
 };
 // Session for ResolveSocket
-class ResolveSession : public UdpSession 
+class ResolveSession : public UdpSession
 {
 public:
     ResolveSession(const ResolveSocket* sckt, Bonjour::ReplyFn rfn) : UdpSession(rfn), socket(sckt) {}

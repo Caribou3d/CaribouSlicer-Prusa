@@ -414,7 +414,7 @@ bool GLGizmoHollow::on_mouse(const wxMouseEvent &mouse_event)
             m_parent.set_as_dirty();
             return true;
         }
-    } else if (mouse_event.LeftUp()) {    
+    } else if (mouse_event.LeftUp()) {
         if (!m_parent.is_mouse_dragging()) {
             bool control_down = mouse_event.CmdDown();
             // in case gizmo is selected, we just pass the LeftUp event

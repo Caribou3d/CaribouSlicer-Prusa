@@ -33,7 +33,7 @@
 #include <ctime>
 #include <deque>
 #include <Eigen/Dense>
-#include <exception> 
+#include <exception>
 #include <exception>
 #include <fstream>
 #include <functional>
@@ -144,7 +144,7 @@
 #include <wx/image.h>
 #include <wx/imaglist.h>
 #include <wx/imagpng.h>
-#include <wx/intl.h> 
+#include <wx/intl.h>
 #include <wx/intl.h>
 #include <wx/listctrl.h>
 #include <wx/menu.h>
@@ -152,7 +152,7 @@
 #include <wx/msgdlg.h>
 #include <wx/mstream.h>
 #include <wx/notebook.h>
-#include <wx/numdlg.h> 
+#include <wx/numdlg.h>
 #include <wx/numformatter.h>
 #include <wx/panel.h>
 #include <wx/platinfo.h>
@@ -179,7 +179,7 @@
 #include <wx/wfstream.h>
 #include <wx/window.h>
 #include <wx/wupdlock.h>
-#include <wx/wx.h> 
+#include <wx/wx.h>
 #include <wx/wx.h>
 #include <wx/wxprec.h>
 #include <wx/zipstrm.h>

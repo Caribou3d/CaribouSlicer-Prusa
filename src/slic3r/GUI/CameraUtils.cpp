@@ -54,7 +54,7 @@ Slic3r::Polygon CameraUtils::create_hull2d(const Camera &  camera,
     std::vector<Vec3d>  vertices;
     const TriangleMesh *hull = volume.convex_hull();
     if (hull != nullptr) {
-        const indexed_triangle_set &its = hull->its;        
+        const indexed_triangle_set &its = hull->its;
         vertices.reserve(its.vertices.size());
         // cast vector
         for (const Vec3f &vertex : its.vertices)
@@ -93,7 +93,7 @@ void CameraUtils::ray_from_screen_pos(const Camera &camera, const Vec2d &positio
 }
 
 Vec3d CameraUtils::screen_point(const Camera &camera, const Vec2d &position)
-{ 
+{
     double height = camera.get_viewport().data()[3];
     // Y coordinate has opposit direction
     return Vec3d(position.x(), height - position.y(), 0.);
@@ -125,7 +125,7 @@ Vec2d CameraUtils::get_z0_position(const Camera &camera, const Vec2d & coor)
 
     // is approx zero
     if ((fabs(dir.z()) - 1e-4) < 0)
-        return Vec2d(std::numeric_limits<double>::max(), 
+        return Vec2d(std::numeric_limits<double>::max(),
                      std::numeric_limits<double>::max());
 
     // find position of ray cross plane(z = 0)

@@ -12,6 +12,6 @@ varying float coord_s;
 
 void main()
 {
-	coord_s = v_position.w;
+    coord_s = v_position.w;
     gl_Position = projection_matrix * view_model_matrix * vec4(v_position.xyz, 1.0);
 }

@@ -43,17 +43,17 @@ public:
 
     void init_from_bundle(PresetBundle* preset_bundle);
 
-	enum LabelItemType {
-		LABEL_ITEM_PHYSICAL_PRINTER = 0xffffff01,
-		LABEL_ITEM_DISABLED,
-		LABEL_ITEM_MARKER,
-		LABEL_ITEM_PHYSICAL_PRINTERS,
-		LABEL_ITEM_WIZARD_PRINTERS,
+    enum LabelItemType {
+        LABEL_ITEM_PHYSICAL_PRINTER = 0xffffff01,
+        LABEL_ITEM_DISABLED,
+        LABEL_ITEM_MARKER,
+        LABEL_ITEM_PHYSICAL_PRINTERS,
+        LABEL_ITEM_WIZARD_PRINTERS,
         LABEL_ITEM_WIZARD_FILAMENTS,
         LABEL_ITEM_WIZARD_MATERIALS,
 
         LABEL_ITEM_MAX,
-	};
+    };
 
     void set_label_marker(int item, LabelItemType label_item_type = LABEL_ITEM_MARKER);
     bool set_printer_technology(PrinterTechnology pt);
@@ -62,7 +62,7 @@ public:
 
     bool is_selected_physical_printer();
 
-    // Return true, if physical printer was selected 
+    // Return true, if physical printer was selected
     // and next internal selection was accomplished
     bool selection_is_changed_according_to_physical_printers();
 
@@ -76,7 +76,7 @@ public:
     bool del_physical_printer(const wxString& note_string = wxEmptyString);
     void show_modif_preset_separately() { m_show_modif_preset_separately = true; }
 
-    virtual wxString get_preset_name(const Preset& preset); 
+    virtual wxString get_preset_name(const Preset& preset);
     Preset::Type     get_type() { return m_type; }
     void             show_all(bool show_all);
     virtual void update();
@@ -132,7 +132,7 @@ protected:
 #ifdef __linux__
     static const char* separator_head() { return "------- "; }
     static const char* separator_tail() { return " -------"; }
-#else // __linux__ 
+#else // __linux__
     static const char* separator_head() { return "————— "; }
     static const char* separator_tail() { return " —————"; }
 #endif // __linux__

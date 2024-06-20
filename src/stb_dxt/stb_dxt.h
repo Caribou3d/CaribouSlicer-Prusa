@@ -1,4 +1,4 @@
-// stb_dxt.h - Real-Time DXT1/DXT5 compressor 
+// stb_dxt.h - Real-Time DXT1/DXT5 compressor
 // Based on original by fabian "ryg" giesen v1.04
 // Custom version, modified by Yann Collet
 //
@@ -85,7 +85,7 @@ void stb_compress_dxt_block(unsigned char *dest, const unsigned char *src, int a
 // STB_DXT_USE_ROUNDING_BIAS
 //     use a rounding bias during color interpolation. this is closer to what "ideal"
 //     interpolation would do but doesn't match the S3TC/DX10 spec. old versions (pre-1.03)
-//     implicitly had this turned on. 
+//     implicitly had this turned on.
 //
 //     in case you're targeting a specific type of hardware (e.g. console programmers):
 //     NVidia and Intel GPUs (as of 2010) as well as DX9 ref use DXT decoders that are closer
@@ -166,15 +166,15 @@ static void stb__PrepareOptTable(unsigned char *Table,const unsigned char *expan
             int mine = expand[mn];
             int maxe = expand[mx];
             int err = abs(stb__Lerp13(maxe, mine) - i);
-            
+
             // DX10 spec says that interpolation must be within 3% of "correct" result,
             // add this as error term. (normally we'd expect a random distribution of
             // +-1.5% error, but nowhere in the spec does it say that the error has to be
             // unbiased - better safe than sorry).
             err += abs(maxe - mine) * 3 / 100;
-            
+
             if(err < bestErr)
-            { 
+            {
                Table[i*2+0] = mx;
                Table[i*2+1] = mn;
                bestErr = err;
@@ -245,12 +245,12 @@ static unsigned int stb__MatchColorsBlock(unsigned char *block, unsigned char *c
    // relying on this 1d approximation isn't always optimal in terms of euclidean distance,
    // but it's very close and a lot faster.
    // http://cbloomrants.blogspot.com/2008/12/12-08-08-dxtc-summary.html
-   
+
    c0Point   = (stops[1] + stops[3]) >> 1;
    halfPoint = (stops[3] + stops[2]) >> 1;
    c3Point   = (stops[2] + stops[0]) >> 1;
 
-   if(!dither) 
+   if(!dither)
    {
       // the version without dithering is straightforward
 
@@ -360,7 +360,7 @@ static void stb__OptimizeColorsBlock(unsigned char *block, unsigned short *pmax1
 #   define MIN(a,b)      (int)a + ( ((int)b-a) & ( ((int)b-a) >> 31 ) )
 #   define MAX(a,b)      (int)a + ( ((int)b-a) & ( ((int)a-b) >> 31 ) )
 #   define RANGE(a,b,n)  int min##n = MIN(a,b); int max##n = a+b - min##n; muv += a+b;
-#   define MINMAX(a,b,n) int min##n = MIN(min##a, min##b); int max##n = MAX(max##a, max##b); 
+#   define MINMAX(a,b,n) int min##n = MIN(min##a, min##b); int max##n = MAX(max##a, max##b);
 
     muv = 0;
     RANGE(bp[0],  bp[4],  1);
@@ -439,7 +439,7 @@ static void stb__OptimizeColorsBlock(unsigned char *block, unsigned short *pmax1
   if (fabs(vfg) > magn) magn = fabs(vfg);
   if (fabs(vfb) > magn) magn = fabs(vfb);
 
-   if(magn < 4.0f) 
+   if(magn < 4.0f)
    { // too small, default to luminance
       v_r = 299; // JPEG YCbCr luma coefs, scaled by 1000.
       v_g = 587;
@@ -547,7 +547,7 @@ static int stb__RefineBlock(unsigned char *block, unsigned short *pmax16, unsign
    } else {
       At1_r = At1_g = At1_b = 0;
       At2_r = At2_g = At2_b = 0;
-      for (i=0;i<16;++i,cm>>=2) 
+      for (i=0;i<16;++i,cm>>=2)
       {
          int step = cm&3;
          int w1 = w1Tab[step];
@@ -600,7 +600,7 @@ static void stb__CompressColorBlock(unsigned char *dest, unsigned char *block, i
    int refinecount;
    unsigned short max16, min16;
    unsigned char dblock[16*4],color[4*4];
-   
+
    dither = mode & STB_DXT_DITHER;
    refinecount = (mode & STB_DXT_HIGHQUAL) ? 2 : 1;
 
@@ -609,13 +609,13 @@ static void stb__CompressColorBlock(unsigned char *dest, unsigned char *block, i
       if (((unsigned int *) block)[i] != ((unsigned int *) block)[0])
          break;
 
-   if(i == 16) 
+   if(i == 16)
    { // constant color
       int r = block[0], g = block[1], b = block[2];
       mask  = 0xaaaaaaaa;
       max16 = (stb__OMatch5[r][0]<<11) | (stb__OMatch6[g][0]<<5) | stb__OMatch5[b][0];
       min16 = (stb__OMatch5[r][1]<<11) | (stb__OMatch6[g][1]<<5) | stb__OMatch5[b][1];
-   } else 
+   } else
    {
       // first step: compute dithered version for PCA if desired
       if(dither)
@@ -623,7 +623,7 @@ static void stb__CompressColorBlock(unsigned char *dest, unsigned char *block, i
 
       // second step: pca+map along principal axis
       stb__OptimizeColorsBlock(dither ? dblock : block,&max16,&min16);
-      if (max16 != min16) 
+      if (max16 != min16)
       {
          stb__EvalColors(color,max16,min16);
          mask = stb__MatchColorsBlock(block,color,dither);
@@ -633,20 +633,20 @@ static void stb__CompressColorBlock(unsigned char *dest, unsigned char *block, i
       // third step: refine (multiple times if requested)
       for (i=0;i<refinecount;i++) {
          unsigned int lastmask = mask;
-         
-         if (stb__RefineBlock(dither ? dblock : block,&max16,&min16,mask)) 
+
+         if (stb__RefineBlock(dither ? dblock : block,&max16,&min16,mask))
          {
-            if (max16 != min16) 
+            if (max16 != min16)
             {
                stb__EvalColors(color,max16,min16);
                mask = stb__MatchColorsBlock(block,color,dither);
-            } else 
+            } else
             {
                mask = 0;
                break;
             }
          }
-         
+
          if(mask == lastmask)
             break;
       }
@@ -712,8 +712,8 @@ static void stb__CompressAlphaBlock(unsigned char *dest,unsigned char *src,int m
     bias = (dist < 8) ? (dist - 1) : (dist/2 + 2);
     bias -= mn * 7;
     bits = 0, mask=0;
-   
-    for (i=0;i<16;i++) 
+
+    for (i=0;i<16;i++)
     {
         int a = src[i*4+3]*7 + bias;
         int ind,t;
@@ -722,17 +722,17 @@ static void stb__CompressAlphaBlock(unsigned char *dest,unsigned char *src,int m
         t = (a >= dist4) ? -1 : 0; ind =  t & 4; a -= dist4 & t;
         t = (a >= dist2) ? -1 : 0; ind += t & 2; a -= dist2 & t;
         ind += (a >= dist);
-      
+
         // turn linear scale into DXT index (0/1 are extremal pts)
         ind = -ind & 7;
         ind ^= (2 > ind);
 
         // write index
         mask |= ind << bits;
-        if((bits += 3) >= 8) 
+        if((bits += 3) >= 8)
         {
-            *dest++ = mask; 
-            mask >>= 8;     
+            *dest++ = mask;
+            mask >>= 8;
             bits -= 8;
         }
     }
@@ -763,13 +763,13 @@ static void stb__InitDXT()
 void stb_compress_dxt_block(unsigned char *dest, const unsigned char *src, int alpha, int mode)
 {
    static int init=1;
-   if (init) 
+   if (init)
    {
       stb__InitDXT();
       init=0;
    }
 
-   if (alpha) 
+   if (alpha)
    {
       stb__CompressAlphaBlock(dest,(unsigned char*) src,mode);
       dest += 8;
@@ -800,7 +800,7 @@ static void extractBlock(const unsigned char *src, int x, int y,
            *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
            *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
            *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
-           *(unsigned int*)block = *(unsigned int*) src; block += 4; 
+           *(unsigned int*)block = *(unsigned int*) src; block += 4;
            src += (w*4) - 12;
        }
        return;
@@ -810,7 +810,7 @@ static void extractBlock(const unsigned char *src, int x, int y,
    int bw = imin(w - x, 4);
    int bh = imin(h - y, 4);
    int bx, by;
-   
+
    const int rem[] =
    {
       0, 0, 0, 0,
@@ -818,7 +818,7 @@ static void extractBlock(const unsigned char *src, int x, int y,
       0, 1, 2, 0,
       0, 1, 2, 3
    };
-   
+
    for(i = 0; i < 4; ++i)
    {
       by = rem[(bh - 1) * 4 + i] + y;
@@ -918,7 +918,7 @@ void rgbToYCoCgBlock( unsigned char * dst, const unsigned char * src )
         int g = (px[1] + 1) >> 1;
         int b = px[2];
         int tmp = (2 + r + b) >> 2;
-        
+
         // Co
         iCo = clamp255( 128 + ((r - b + 1) >> 1) );
         // Y
@@ -941,10 +941,10 @@ void rgbToYCoCgBlock( unsigned char * dst, const unsigned char * src )
 
 void rygCompress(unsigned char *dst, unsigned char *src, int w, int h, int isDxt5, int& compressed_size)
 {
-   
+
    unsigned char block[64];
    int x, y;
-   
+
    unsigned char* initial_dst = dst;
 
    for (y = 0; y < h; y += 4)
@@ -965,7 +965,7 @@ void rygCompressYCoCg( unsigned char *dst, unsigned char *src, int w, int h )
     unsigned char block[64];
    unsigned char ycocgblock[64];
    int x, y;
-   
+
    for(y = 0; y < h; y += 4)
    {
       for(x = 0; x < w; x += 4)
@@ -983,7 +983,7 @@ static void stbgl__compress(unsigned char *p, unsigned char *rgba, int w, int h,
 {
    int i,j,y,y2;
    int alpha = isDxt5;
-   
+
    for (j=0; j < w; j += 4) {
       int x=4;
       for (i=0; i < h; i += 4) {

@@ -18,7 +18,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 
 RepositoryUpdateUIManager::RepositoryUpdateUIManager(wxWindow* parent, PresetArchiveDatabase* pad, int em) :

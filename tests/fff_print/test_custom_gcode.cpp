@@ -28,7 +28,7 @@ SCENARIO("Output file format", "[CustomGCode]")
         Print print;
         Model model;
         Test::init_print({ Test::TestMesh::cube_2x20x10 }, print, model, config);
-    
+
         std::string output_file = print.output_filepath({}, {});
         THEN("print config options are replaced in output filename") {
             REQUIRE(output_file == "ts_130_lh_0.4.gcode");
@@ -47,7 +47,7 @@ SCENARIO("Custom G-code", "[CustomGCode]")
         bool        last_move_was_z_change = false;
         bool        first_z_move = true; // First z move is not a layer change.
         int         num_layer_changes_not_applied = 0;
-        parser.parse_buffer(Slic3r::Test::slice({ Test::TestMesh::cube_2x20x10 }, config), 
+        parser.parse_buffer(Slic3r::Test::slice({ Test::TestMesh::cube_2x20x10 }, config),
             [&](Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line)
         {
             if (last_move_was_z_change != line.cmd_is("_MY_CUSTOM_LAYER_GCODE_")) {
@@ -91,7 +91,7 @@ SCENARIO("Custom G-code", "[CustomGCode]")
             REQUIRE(Slic3r::Test::contains(gcode, "\nM104 S205 T1 ;"));
         };
     }
-    
+
     auto test = [](DynamicPrintConfig &config) {
         // we use the [infill_extruder] placeholder to make sure this test doesn't
         // catch a false positive caused by the unparsed start G-code option itself
@@ -109,7 +109,7 @@ SCENARIO("Custom G-code", "[CustomGCode]")
         }
     };
     WHEN("legacy syntax") {
-        config.set_deserialize_strict("start_gcode", 
+        config.set_deserialize_strict("start_gcode",
             ";__temp0:[first_layer_temperature_0]__\n"
             ";__temp1:[first_layer_temperature_1]__\n"
             ";__temp2:[first_layer_temperature_2]__\n");
@@ -176,7 +176,7 @@ SCENARIO("Custom G-code", "[CustomGCode]")
     {
         auto config = Slic3r::DynamicPrintConfig::new_with({
             { "nozzle_diameter",        { 0.6,0.6,0.6,0.6,0.6 } },
-            { "start_gcode",            
+            { "start_gcode",
                 ";substitution:{if infill_extruder==1}if block"
                 "{elsif infill_extruder==2}elsif block 1"
                 "{elsif infill_extruder==3}elsif block 2"
@@ -210,7 +210,7 @@ SCENARIO("Custom G-code", "[CustomGCode]")
     GIVEN("nested if / if / else / endif") {
         auto config = Slic3r::DynamicPrintConfig::full_print_config_with({
             { "nozzle_diameter",        { 0.6,0.6,0.6,0.6,0.6 } },
-            { "start_gcode",            
+            { "start_gcode",
                 ";substitution:{if infill_extruder==1}{if perimeter_extruder==1}block11{else}block12{endif}"
                 "{elsif infill_extruder==2}{if perimeter_extruder==1}block21{else}block22{endif}"
                 "{else}{if perimeter_extruder==1}block31{else}block32{endif}{endif}:end"
@@ -235,7 +235,7 @@ SCENARIO("Custom G-code", "[CustomGCode]")
     }
     GIVEN("printer type in notes") {
         auto config = Slic3r::DynamicPrintConfig::new_with({
-            { "start_gcode",            
+            { "start_gcode",
               ";substitution:{if notes==\"MK2\"}MK2{elsif notes==\"MK3\"}MK3{else}MK1{endif}:end"
             }
         });
@@ -261,7 +261,7 @@ SCENARIO("Custom G-code", "[CustomGCode]")
             config);
         THEN("between_objects_gcode is applied correctly") {
             const boost::regex expression("^_MY_CUSTOM_GCODE_");
-            const std::ptrdiff_t match_count = 
+            const std::ptrdiff_t match_count =
                 std::distance(boost::sregex_iterator(gcode.begin(), gcode.end(), expression), boost::sregex_iterator());
             REQUIRE(match_count == 2);
         }

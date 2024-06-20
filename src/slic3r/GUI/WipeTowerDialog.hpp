@@ -29,14 +29,14 @@ private:
     ::SpinInputDouble* m_widget_time = nullptr;
     int m_ramming_step_multiplicator;
     int m_ramming_line_width_multiplicator;
-      
+
     void line_parameters_changed();
 };
 
 
 class RammingDialog : public wxDialog {
 public:
-    RammingDialog(wxWindow* parent,const std::string& parameters);    
+    RammingDialog(wxWindow* parent,const std::string& parameters);
     std::string get_parameters() { return m_output_data; }
 private:
     RammingPanel* m_panel_ramming = nullptr;
@@ -54,14 +54,14 @@ public:
     WipingPanel(wxWindow* parent, const std::vector<float>& matrix, const std::vector<std::string>& extruder_colours,
                 const std::vector<double>& filament_purging_multipliers, double printer_purging_volume, wxButton* widget_button);
     std::vector<float> read_matrix_values();
-	void format_sizer(wxSizer* sizer, wxPanel* page, wxGridSizer* grid_sizer, const wxString& table_title, int table_lshift=0);
-        
-private:        
+    void format_sizer(wxSizer* sizer, wxPanel* page, wxGridSizer* grid_sizer, const wxString& table_title, int table_lshift=0);
+
+private:
     std::vector<std::vector<wxTextCtrl*>> edit_boxes;
     std::vector<wxColour> m_colours;
     unsigned int m_number_of_extruders  = 0;
-    wxPanel*	m_page_advanced = nullptr;
-    wxBoxSizer*	m_sizer = nullptr;
+    wxPanel*    m_page_advanced = nullptr;
+    wxBoxSizer*    m_sizer = nullptr;
     wxBoxSizer* m_sizer_advanced = nullptr;
     wxGridSizer* m_gridsizer_advanced = nullptr;
     wxButton* m_widget_button     = nullptr;

@@ -236,12 +236,12 @@ public:
     // Full is the range of vertices that could potentially be visualized accordingly to the current settings.
     // Enabled is the part of the full range that is selected for visualization accordingly to the current settings.
     // Visible is the part of the enabled range that is actually visualized accordingly to the current settings.
-    // 
+    //
     const Interval& get_view_visible_range() const;
     //
     // Set the current visible range.
     // Values are clamped to the current view enabled range;
-    // 
+    //
     void set_view_visible_range(Interval::value_type min, Interval::value_type max);
     //
     // Return the current full range.

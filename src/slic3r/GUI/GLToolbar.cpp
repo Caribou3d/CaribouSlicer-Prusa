@@ -1234,7 +1234,7 @@ void GLToolbar::render_horizontal(const GLCanvas3D& parent)
 
     left += margin_w;
     top  -= margin_h;
-            
+
     // renders icons
     int id = 0;
     for (const GLToolbarItem* item : m_items) {
@@ -1247,9 +1247,9 @@ void GLToolbar::render_horizontal(const GLCanvas3D& parent)
         else {
             if (item->is_pressed())
                 render_background(left - (id == m_items.size() ? border_w : margin_w),
-                                  top + margin_h, 
-                                  left + icons_size_x + (id == 1 ? border_w : margin_w), 
-                                  top - icons_size_y - margin_h, 
+                                  top + margin_h,
+                                  left + icons_size_x + (id == 1 ? border_w : margin_w),
+                                  top - icons_size_y - margin_h,
                                   border_w, border_h);
 
             item->render(parent, tex_id, left, left + icons_size_x, top - icons_size_y, top, (unsigned int)tex_width, (unsigned int)tex_height, (unsigned int)(m_layout.icons_size));

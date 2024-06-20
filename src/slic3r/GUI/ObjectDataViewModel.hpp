@@ -66,21 +66,21 @@ WX_DEFINE_ARRAY_PTR(ObjectDataViewModelNode*, MyObjectTreeModelNodePtrArray);
 
 class ObjectDataViewModelNode
 {
-    ObjectDataViewModelNode*	    m_parent;
+    ObjectDataViewModelNode*        m_parent;
     MyObjectTreeModelNodePtrArray   m_children;
     wxBitmapBundle                  m_empty_bmp;
     size_t                          m_volumes_cnt = 0;
     std::vector< std::string >      m_opt_categories;
     t_layer_height_range            m_layer_range = { 0.0f, 0.0f };
 
-    wxString				        m_name;
+    wxString                        m_name;
     wxBitmapBundle&                 m_bmp = m_empty_bmp;
-    ItemType				        m_type;
+    ItemType                        m_type;
     int                             m_idx = -1;
-    bool					        m_container = false;
-    wxString				        m_extruder = "default";
+    bool                            m_container = false;
+    wxString                        m_extruder = "default";
     wxBitmapBundle                  m_extruder_bmp;
-    wxBitmapBundle				    m_action_icon;
+    wxBitmapBundle                    m_action_icon;
     PrintIndicator                  m_printable {piUndef};
     wxBitmapBundle                  m_printable_icon;
     std::string                     m_warning_icon_name{ "" };
@@ -102,7 +102,7 @@ public:
     {
         set_action_and_extruder_icons();
         init_container();
-	}
+    }
 
     ObjectDataViewModelNode(ObjectDataViewModelNode* parent,
                             const wxString& sub_obj_name,
@@ -135,13 +135,13 @@ public:
 #endif /* NDEBUG */
     }
 
-	void init_container();
+    void init_container();
     void invalidate_container();
 
     bool IsContainer() const
-	{
-		return m_container;
-	}
+    {
+        return m_container;
+    }
 
     ObjectDataViewModelNode* GetParent()
     {
@@ -197,10 +197,10 @@ public:
     const wxString& GetName() const                 { return m_name; }
     ItemType        GetType() const                 { return m_type; }
     InfoItemType    GetInfoItemType() const         { return m_info_item_type; }
-	void			SetIdx(const int& idx);
-	int             GetIdx() const                  { return m_idx; }
+    void            SetIdx(const int& idx);
+    int             GetIdx() const                  { return m_idx; }
     ModelVolumeType GetVolumeType() const           { return m_volume_type; }
-	t_layer_height_range    GetLayerRange() const   { return m_layer_range; }
+    t_layer_height_range    GetLayerRange() const   { return m_layer_range; }
     wxString        GetExtruder()                   { return m_extruder; }
     PrintIndicator  IsPrintable() const             { return m_printable; }
     void            UpdateExtruderAndColorIcon(wxString extruder = "");
@@ -237,7 +237,7 @@ public:
     void        set_action_and_extruder_icons();
     // set extruder icon for node
     void        set_extruder_icon();
-	// Set printable icon for node
+    // Set printable icon for node
     void        set_printable_icon(PrintIndicator printable);
 
     void        update_settings_digest_bitmaps();
@@ -248,7 +248,7 @@ public:
     void        sys_color_changed();
 
 #ifndef NDEBUG
-    bool 		valid();
+    bool         valid();
 #endif /* NDEBUG */
     bool        invalid() const { return m_idx < -1; }
     bool        has_warning_icon() const            { return !m_warning_icon_name.empty(); }
@@ -374,7 +374,7 @@ public:
     void GetAllChildren(const wxDataViewItem &parent,wxDataViewItemArray &array) const;
     // Is the container just a header or an item with all columns
     // In our case it is an item with all columns
-    bool    HasContainerColumns(const wxDataViewItem& WXUNUSED(item)) const override {	return true; }
+    bool    HasContainerColumns(const wxDataViewItem& WXUNUSED(item)) const override {    return true; }
     bool    HasInfoItem(InfoItemType type) const;
 
     ItemType        GetItemType(const wxDataViewItem &item) const;
@@ -396,12 +396,12 @@ public:
 
     ModelVolumeType GetVolumeType(const wxDataViewItem &item);
     wxDataViewItem SetPrintableState( PrintIndicator printable, int obj_idx,
-                                      int subobj_idx = -1, 
+                                      int subobj_idx = -1,
                                       ItemType subobj_type = itInstance);
     wxDataViewItem SetObjectPrintableState(PrintIndicator printable, wxDataViewItem obj_item);
 
     void    SetAssociatedControl(wxDataViewCtrl* ctrl) { m_ctrl = ctrl; }
-    // Rescale bitmaps for existing Items 
+    // Rescale bitmaps for existing Items
     void    UpdateBitmaps();
 
     void        AddWarningIcon(const wxDataViewItem& item, const std::string& warning_name);

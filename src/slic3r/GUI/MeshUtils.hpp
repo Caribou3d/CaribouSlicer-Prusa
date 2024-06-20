@@ -81,7 +81,7 @@ public:
     // Set whether the cut should be triangulated and whether a cut
     // contour should be calculated and shown.
     void set_behaviour(bool fill_cut, double contour_width);
-    
+
     // Inform MeshClipper about which plane we want to use to cut the mesh
     // This is supposed to be in world coordinates.
     void set_plane(const ClippingPlane& plane);
@@ -188,7 +188,7 @@ public:
         const ClippingPlane* clipping_plane = nullptr, // clipping plane (if active)
         size_t* facet_idx = nullptr // index of the facet hit
     ) const;
-    
+
     const AABBMesh &get_aabb_mesh() const { return m_emesh; }
 
     // Given a point and direction in world coords, returns whether the respective line
@@ -207,7 +207,7 @@ public:
 
     // Returns true if the ray, built from mouse position and camera direction, intersects the mesh.
     // In this case, position and normal contain the position and normal, in model coordinates, of the intersection closest to the camera,
-    // depending on the position/orientation of the clipping_plane, if specified 
+    // depending on the position/orientation of the clipping_plane, if specified
     bool closest_hit(
         const Vec2d& mouse_pos,
         const Transform3d& trafo, // how to get the mesh into world coords

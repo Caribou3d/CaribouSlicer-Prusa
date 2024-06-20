@@ -12,8 +12,8 @@ varying vec3 barycentric;
 void main()
 {
     float min_dist = min(min(barycentric.x, barycentric.y), barycentric.z);
-	if (min_dist > 0.5 * fwidth(min_dist))
-		discard;
-	
+    if (min_dist > 0.5 * fwidth(min_dist))
+        discard;
+
     gl_FragColor = uniform_color;
 }

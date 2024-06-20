@@ -87,14 +87,14 @@ protected:
     void on_render_input_window(float x, float y, float bottom_limit) override;
     bool on_is_activable() const override { return true; }
     bool on_is_selectable() const override { return false; }
-    void on_set_state() override;    
+    void on_set_state() override;
     void data_changed(bool is_serializing) override; // selection changed
     void on_set_hover_id() override{ m_rotate_gizmo.set_hover_id(m_hover_id); }
     void on_enable_grabber(unsigned int id) override { m_rotate_gizmo.enable_grabber(); }
     void on_disable_grabber(unsigned int id) override { m_rotate_gizmo.disable_grabber(); }
     void on_start_dragging() override;
     void on_stop_dragging() override;
-    void on_dragging(const UpdateData &data) override;    
+    void on_dragging(const UpdateData &data) override;
 
     /// <summary>
     /// Rotate by text on dragging rotate grabers
@@ -132,7 +132,7 @@ private:
     void on_mouse_confirm_edit(const wxMouseEvent &mouse_event);
 
     void volume_transformation_changed();
-    
+
     struct GuiCfg;
     std::unique_ptr<const GuiCfg> m_gui_cfg;
 
@@ -143,10 +143,10 @@ private:
     // Inside volume is current state of shape WRT Volume
     EmbossShape m_volume_shape; // copy from m_volume for edit
 
-    // same index as volumes in 
+    // same index as volumes in
     std::vector<std::string> m_shape_warnings;
 
-    // When work with undo redo stack there could be situation that 
+    // When work with undo redo stack there could be situation that
     // m_volume point to unexisting volume so One need also objectID
     ObjectID m_volume_id;
 
@@ -164,13 +164,13 @@ private:
     // TODO: it should be accessible by other gizmo too.
     // May be move to plater?
     RaycastManager m_raycast_manager;
-    
+
     // When true keep up vector otherwise relative rotation
     bool m_keep_up = true;
 
     // Keep size aspect ratio when True.
     bool m_keep_ratio = true;
-        
+
     // setted only when wanted to use - not all the time
     std::optional<ImVec2> m_set_window_offset;
 
@@ -189,7 +189,7 @@ private:
 
     // bounding box of shape
     // Note: Scaled mm to int value by m_volume_shape.scale
-    BoundingBox m_shape_bb; 
+    BoundingBox m_shape_bb;
 
     std::string m_filename_preview;
 

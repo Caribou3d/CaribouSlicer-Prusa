@@ -183,7 +183,7 @@ SCENARIO("Simplify polygon", "[Polygon]")
             {197.307,292.831}, {199.808,313.1906}, {191.5298,315.0787}, {187.3082,299.8172}, {186.4201,295.3766},
             {180.595,296.0487}, {161.7854,297.4248}, {156.8058,297.6214}, {154.3395,317.8592}
         });
-     
+
         WHEN("simplified") {
             size_t num_points = gear.size();
             Polygons simplified = gear.simplify(1000.);
@@ -204,7 +204,7 @@ TEST_CASE("Indexing expolygons", "[ExPolygon]")
 {
     ExPolygons expolys{
         ExPolygon{Polygon{{0, 0}, {10, 0}, {0, 5}}, Polygon{{4, 3}, {6, 3}, {5, 2}}},
-        ExPolygon{Polygon{{100, 0}, {110, 0}, {100, 5}}, Polygon{{104, 3}, {106, 3}, {105, 2}}}    
+        ExPolygon{Polygon{{100, 0}, {110, 0}, {100, 5}}, Polygon{{104, 3}, {106, 3}, {105, 2}}}
     };
     Points points = to_points(expolys);
     Lines lines = to_lines(expolys);
@@ -213,7 +213,7 @@ TEST_CASE("Indexing expolygons", "[ExPolygon]")
     REQUIRE(points.size() == lines.size());
     REQUIRE(points.size() == linesf.size());
     REQUIRE(points.size() == ids.get_count());
-    for (size_t i = 0; i < ids.get_count(); i++) { 
+    for (size_t i = 0; i < ids.get_count(); i++) {
         ExPolygonsIndex id = ids.cvt(i);
         const ExPolygon &expoly = expolys[id.expolygons_index];
         const Polygon &poly     = id.is_contour() ? expoly.contour : expoly.holes[id.hole_index()];

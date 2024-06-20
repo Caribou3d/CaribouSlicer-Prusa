@@ -21,7 +21,7 @@ class TreeModelVolumes;
 // Organic specific: Smooth branches and produce one cummulative mesh to be sliced.
 void organic_draw_branches(
     PrintObject                     &print_object,
-    TreeModelVolumes                &volumes, 
+    TreeModelVolumes                &volumes,
     const TreeSupportSettings       &config,
     std::vector<SupportElements>    &move_bounds,
 

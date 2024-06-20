@@ -73,7 +73,7 @@ std::string get_host_from_url(const std::string& url_in)
     // Workaround for Windows 10/11 mDNS resolve issue, where two mDNS resolves in succession fail.
 std::string substitute_host(const std::string& orig_addr, std::string sub_addr)
 {
-    // put ipv6 into [] brackets 
+    // put ipv6 into [] brackets
     if (sub_addr.find(':') != std::string::npos && sub_addr.at(0) != '[')
         sub_addr = "[" + sub_addr + "]";
 
@@ -88,7 +88,7 @@ std::string substitute_host(const std::string& orig_addr, std::string sub_addr)
     host_start = (at != std::string::npos && at > host_start ? at + 1 : host_start);
     // end of host, could be port(:), subpath(/) (could be query(?) or fragment(#)?)
     // or it will be ']' if address is ipv6 )
-    size_t potencial_host_end = orig_addr.find_first_of(":/", host_start); 
+    size_t potencial_host_end = orig_addr.find_first_of(":/", host_start);
     // if there are more ':' it must be ipv6
     if (potencial_host_end != std::string::npos && orig_addr[potencial_host_end] == ':' && orig_addr.rfind(':') != potencial_host_end) {
         size_t ipv6_end = orig_addr.find(']', host_start);
@@ -352,9 +352,9 @@ bool OctoPrint::upload(PrintHostUpload upload_data, ProgressFn prorgess_fn, Erro
         return true;
     } else {
         // There are multiple addresses - user needs to choose which to use.
-        size_t selected_index = resolved_addr.size(); 
+        size_t selected_index = resolved_addr.size();
         IPListDialog dialog(nullptr, boost::nowide::widen(m_host), resolved_addr, selected_index);
-        if (dialog.ShowModal() == wxID_OK && selected_index < resolved_addr.size()) {    
+        if (dialog.ShowModal() == wxID_OK && selected_index < resolved_addr.size()) {
             return upload_inner_with_resolved_ip(std::move(upload_data), prorgess_fn, error_fn, info_fn, resolved_addr[selected_index]);
         }
     }
@@ -403,7 +403,7 @@ bool OctoPrint::upload_inner_with_resolved_ip(PrintHostUpload upload_data, Progr
     http.form_add("print", upload_data.post_action == PrintHostPostUploadAction::StartPrint ? "true" : "false")
         .form_add("path", upload_parent_path.string())      // XXX: slashes on windows ???
         .form_add_file("file", upload_data.source_path.string(), upload_filename.string())
-  
+
         .on_complete([&](std::string body, unsigned status) {
             BOOST_LOG_TRIVIAL(debug) << boost::format("%1%: File uploaded: HTTP %2%: %3%") % name % status % body;
         })
@@ -461,7 +461,7 @@ bool OctoPrint::upload_inner_with_host(PrintHostUpload upload_data, ProgressFn p
         // If it got the address use it instead of the stored in "host" variable.
         // This new address returns in "test_msg_or_host_ip" variable.
         // Solves troubles of uploades failing with name address.
-        // in original address (m_host) replace host for resolved ip 
+        // in original address (m_host) replace host for resolved ip
         info_fn(L"resolve", test_msg_or_host_ip);
         url = substitute_host(make_url("api/files/local"), GUI::into_u8(test_msg_or_host_ip));
         BOOST_LOG_TRIVIAL(info) << "Upload address after ip resolve: " << url;
@@ -612,9 +612,9 @@ void PrusaLink::set_auth(Http& http) const
 bool PrusaLink::version_check(const boost::optional<std::string>& version_text) const
 {
     // version_text is in format OctoPrint 1.2.3
-    // true (= use PUT) should return: 
+    // true (= use PUT) should return:
     // PrusaLink 0.7+
-    
+
     try {
         if (!version_text)
             throw Slic3r::RuntimeError("no version_text was given");
@@ -624,7 +624,7 @@ bool PrusaLink::version_check(const boost::optional<std::string>& version_text) 
 
         if (name_and_version.size() != 2)
             throw Slic3r::RuntimeError("invalid version_text");
-        
+
         Semver semver(name_and_version[1]); // throws Slic3r::RuntimeError when unable to parse
         if (name_and_version.front() == "PrusaLink" && semver >= Semver(0, 7, 0))
             return true;
@@ -725,7 +725,7 @@ bool PrusaLink::get_storage(wxArrayString& storage_path, wxArrayString& storage_
         // So we must be extra careful here, or we might be showing errors on perfectly fine communication.
         if (status == 0)
             res = true;
-       
+
     })
     .on_complete([&](std::string body, unsigned) {
         BOOST_LOG_TRIVIAL(debug) << boost::format("%1%: Got storage: %2%") % name % body;
@@ -734,8 +734,8 @@ bool PrusaLink::get_storage(wxArrayString& storage_path, wxArrayString& storage_
             std::stringstream ss(body);
             pt::ptree ptree;
             pt::read_json(ss, ptree);
-            
-            // what if there is more structure added in the future? Enumerate all elements? 
+
+            // what if there is more structure added in the future? Enumerate all elements?
             if (ptree.front().first != "storage_list") {
                 res = false;
                 return;
@@ -779,12 +779,12 @@ bool PrusaLink::get_storage(wxArrayString& storage_path, wxArrayString& storage_
     }
 
     if (res && storage_path.empty()) {
-        if (!storage.empty()) { // otherwise error_msg is already filled 
+        if (!storage.empty()) { // otherwise error_msg is already filled
             error_msg = L"\n\n" + _L("Storages found") + L": \n";
             for (const auto& si : storage) {
                 error_msg += GUI::format_wxstr(si.read_only ?
                                                                 // TRN %1% = storage path
-                                                                _L("%1% : read only") : 
+                                                                _L("%1% : read only") :
                                                                 // TRN %1% = storage path
                                                                 _L("%1% : no free space"), si.path) + L"\n";
             }
@@ -1016,7 +1016,7 @@ bool PrusaLink::upload_inner_with_host(PrintHostUpload upload_data, ProgressFn p
         // If it got the address use it instead of the stored in "host" variable.
         // This new address returns in "test_msg_or_host_ip" variable.
         // Solves troubles of uploades failing with name address.
-        // in original address (m_host) replace host for resolved ip 
+        // in original address (m_host) replace host for resolved ip
         info_fn(L"resolve", test_msg_or_host_ip);
         url = substitute_host(make_url(storage_path), GUI::into_u8(test_msg_or_host_ip));
         BOOST_LOG_TRIVIAL(info) << "Upload address after ip resolve: " << url;
@@ -1116,15 +1116,15 @@ bool PrusaLink::post_inner(PrintHostUpload upload_data, std::string url, const s
                 std::string message = m_show_after_message ? (boost::format("%1%") % widebody).str() : std::string();
                 if (status == 202)
                     info_fn(L"complete_with_warning", message);
-                else 
+                else
                     info_fn(L"complete", message);
             } else {
                 // PrusaLink
                 BOOST_LOG_TRIVIAL(debug) << boost::format("%1%: File uploaded: HTTP %2%") % name % status;
                 info_fn(L"complete", wxString());
             }
-           
-           
+
+
         })
         .on_error([&](std::string body, std::string error, unsigned status) {
             BOOST_LOG_TRIVIAL(error) << boost::format("%1%: Error uploading file: %2%, HTTP %3%, body: `%4%`") % name % error % status % body;
@@ -1169,7 +1169,7 @@ void PrusaConnect::set_http_post_header_args(Http& http, PrintHostPostUploadActi
     } else if (post_action == PrintHostPostUploadAction::QueuePrint) {
         http.form_add("to_queue", "True");
     }
-   
+
 }
 
 wxString PrusaConnect::get_test_ok_msg() const

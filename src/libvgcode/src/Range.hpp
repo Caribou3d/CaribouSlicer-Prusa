@@ -16,7 +16,7 @@ public:
     void set(const Range& other) { m_range = other.m_range; }
     void set(const Interval& range) { set(range[0], range[1]); }
     void set(Interval::value_type min, Interval::value_type max);
-    
+
     Interval::value_type get_min() const { return m_range[0]; }
     void set_min(Interval::value_type min) { set(min, m_range[1]); }
 

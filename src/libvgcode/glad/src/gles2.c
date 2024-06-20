@@ -684,7 +684,7 @@ int gladLoadGLES2( GLADloadfunc load) {
 
 
 
- 
+
 
 #ifdef GLAD_GLES2
 

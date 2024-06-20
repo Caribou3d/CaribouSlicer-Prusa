@@ -46,7 +46,7 @@ public:
     std::string renderer;
 
     HINSTANCE   hOpenGL = nullptr;
-    bool 		success = false;
+    bool         success = false;
 
     bool load_opengl_dll()
     {
@@ -126,15 +126,15 @@ protected:
             return;
         }
 
-        typedef HGLRC 		(WINAPI *Func_wglCreateContext)(HDC);
-        typedef BOOL 		(WINAPI *Func_wglMakeCurrent  )(HDC, HGLRC);
-        typedef BOOL     	(WINAPI *Func_wglDeleteContext)(HGLRC);
-        typedef GLubyte* 	(WINAPI *Func_glGetString     )(GLenum);
+        typedef HGLRC         (WINAPI *Func_wglCreateContext)(HDC);
+        typedef BOOL         (WINAPI *Func_wglMakeCurrent  )(HDC, HGLRC);
+        typedef BOOL         (WINAPI *Func_wglDeleteContext)(HGLRC);
+        typedef GLubyte*     (WINAPI *Func_glGetString     )(GLenum);
 
-        Func_wglCreateContext 	wglCreateContext = (Func_wglCreateContext)GetProcAddress(hOpenGL, "wglCreateContext");
-        Func_wglMakeCurrent 	wglMakeCurrent 	 = (Func_wglMakeCurrent)  GetProcAddress(hOpenGL, "wglMakeCurrent");
-        Func_wglDeleteContext 	wglDeleteContext = (Func_wglDeleteContext)GetProcAddress(hOpenGL, "wglDeleteContext");
-        Func_glGetString 		glGetString 	 = (Func_glGetString)	  GetProcAddress(hOpenGL, "glGetString");
+        Func_wglCreateContext     wglCreateContext = (Func_wglCreateContext)GetProcAddress(hOpenGL, "wglCreateContext");
+        Func_wglMakeCurrent     wglMakeCurrent      = (Func_wglMakeCurrent)  GetProcAddress(hOpenGL, "wglMakeCurrent");
+        Func_wglDeleteContext     wglDeleteContext = (Func_wglDeleteContext)GetProcAddress(hOpenGL, "wglDeleteContext");
+        Func_glGetString         glGetString      = (Func_glGetString)      GetProcAddress(hOpenGL, "glGetString");
 
         if (wglCreateContext == nullptr || wglMakeCurrent == nullptr || wglDeleteContext == nullptr || glGetString == nullptr) {
             printf("Failed loading the system opengl32.dll: The library is invalid.\n");
@@ -146,16 +146,16 @@ protected:
             sizeof(PIXELFORMATDESCRIPTOR),
             1,
             PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
-            PFD_TYPE_RGBA,            	// The kind of framebuffer. RGBA or palette.
-            32,                        	// Color depth of the framebuffer.
+            PFD_TYPE_RGBA,                // The kind of framebuffer. RGBA or palette.
+            32,                            // Color depth of the framebuffer.
             0, 0, 0, 0, 0, 0,
             0,
             0,
             0,
             0, 0, 0, 0,
-            24,                        	// Number of bits for the depthbuffer
-            8,                        	// Number of bits for the stencilbuffer
-            0,                        	// Number of Aux buffers in the framebuffer.
+            24,                            // Number of bits for the depthbuffer
+            8,                            // Number of bits for the stencilbuffer
+            0,                            // Number of Aux buffers in the framebuffer.
             PFD_MAIN_PLANE,
             0,
             0, 0, 0
@@ -222,7 +222,7 @@ extern "C" {
 #ifdef SLIC3R_WRAPPER_NOCONSOLE
 int APIENTRY wWinMain(HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */, PWSTR /* lpCmdLine */, int /* nCmdShow */)
 {
-    int 	  argc;
+    int       argc;
     wchar_t **argv = ::CommandLineToArgvW(::GetCommandLineW(), &argc);
 #else
 int wmain(int argc, wchar_t **argv)
@@ -305,7 +305,7 @@ int wmain(int argc, wchar_t **argv)
     wchar_t path_to_slic3r[MAX_PATH + 1] = { 0 };
     wcscpy(path_to_slic3r, path_to_exe);
     wcscat(path_to_slic3r, L"CaribouSlicer.dll");
-//	printf("Loading Slic3r library: %S\n", path_to_slic3r);
+//    printf("Loading Slic3r library: %S\n", path_to_slic3r);
     HINSTANCE hInstance_Slic3r = LoadLibraryExW(path_to_slic3r, nullptr, 0);
     if (hInstance_Slic3r == nullptr) {
         printf("CaribouSlicer.dll was not loaded\n");
@@ -317,7 +317,7 @@ int wmain(int argc, wchar_t **argv)
 #ifdef _WIN64
         // there is just a single calling conversion, therefore no mangling of the function name.
         "slic3r_main"
-#else	// stdcall calling convention declaration
+#else    // stdcall calling convention declaration
         "_slic3r_main@8"
 #endif
         );

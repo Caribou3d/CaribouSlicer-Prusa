@@ -20,11 +20,11 @@ protected:
     wxGLCanvas *m_canvas;
     std::unique_ptr<wxGLContext> m_context;
 public:
-    
+
     Renderer(wxGLCanvas *c): m_canvas{c} {
         m_context = std::make_unique<wxGLContext>(m_canvas);
     }
-    
+
     wxGLContext * context() { return m_context.get(); }
     const wxGLContext * context() const { return m_context.get(); }
 
@@ -102,7 +102,7 @@ class MyFrame: public wxFrame
 {
     wxGLCanvas     *m_canvas;
     std::unique_ptr<Renderer> m_renderer;
-    
+
 public:
     MyFrame(const wxString &       title,
             const wxPoint &        pos,
@@ -120,7 +120,7 @@ public:
 
         m_frame = new MyFrame("Wayland wxNotebook issue", wxDefaultPosition, wxSize(1024, 768));
         m_frame->Show( true );
-        
+
         return true;
     }
 
@@ -175,9 +175,9 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size):
     console_sizer->Add(btn2, 0, wxALL | wxEXPAND, 5);
 
     controlsizer->Add(console_sizer, 1, wxEXPAND);
-    
+
     control_panel->SetSizer(controlsizer);
-    
+
     auto maintab_sizer = new wxBoxSizer(wxHORIZONTAL);
     maintab_sizer->Add(m_canvas, 1, wxEXPAND);
     maintab_sizer->Add(control_panel, 0);

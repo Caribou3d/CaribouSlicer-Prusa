@@ -34,7 +34,7 @@ public:
     bool can_test() const override { return true; }
     PrintHostPostUploadActions get_post_upload_actions() const override { return {}; }
     std::string get_host() const override { return host; }
-    
+
 private:
     std::string host;
 

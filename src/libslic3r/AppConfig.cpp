@@ -110,7 +110,7 @@ void AppConfig::set_defaults()
 #endif
 
         if (get("single_instance").empty())
-            set("single_instance", 
+            set("single_instance",
 #ifdef __APPLE__
                 "1"
 #else // __APPLE__
@@ -135,7 +135,7 @@ void AppConfig::set_defaults()
 
         if (get("use_binary_gcode_when_supported").empty())
             set("use_binary_gcode_when_supported", "1");
- 
+
        if (get("notify_release").empty())
            set("notify_release", "all"); // or "none" or "release"
 
@@ -148,13 +148,13 @@ void AppConfig::set_defaults()
             set("use_inches", "0");
 
         if (get("default_action_on_close_application").empty())
-            set("default_action_on_close_application", "none"); // , "discard" or "save" 
+            set("default_action_on_close_application", "none"); // , "discard" or "save"
 
         if (get("default_action_on_select_preset").empty())
-            set("default_action_on_select_preset", "none");     // , "transfer", "discard" or "save" 
+            set("default_action_on_select_preset", "none");     // , "transfer", "discard" or "save"
 
         if (get("default_action_on_new_project").empty())
-            set("default_action_on_new_project", "none");       // , "keep(transfer)", "discard" or "save" 
+            set("default_action_on_new_project", "none");       // , "keep(transfer)", "discard" or "save"
 
         if (get("color_mapinulation_panel").empty())
             set("color_mapinulation_panel", "0");
@@ -350,7 +350,7 @@ std::string AppConfig::load(const std::string &path)
         if (!recovered) {
             // Report the initial error of parsing PrusaSlicer.ini.
             // Error while parsing config file. We'll customize the error message and rethrow to be displayed.
-            // ! But to avoid the use of _utf8 (related to use of wxWidgets) 
+            // ! But to avoid the use of _utf8 (related to use of wxWidgets)
             // we will rethrow this exception from the place of load() call, if returned value wouldn't be empty
             return ex.what();
         }
@@ -358,13 +358,13 @@ std::string AppConfig::load(const std::string &path)
 
     // 2) Parse the property_tree, extract the sections and key / value pairs.
     for (const auto &section : tree) {
-    	if (section.second.empty()) {
-    		// This may be a top level (no section) entry, or an empty section.
-    		std::string data = section.second.data();
-    		if (! data.empty())
-    			// If there is a non-empty data, then it must be a top-level (without a section) config entry.
-    			m_storage[""][section.first] = data;
-    	} else if (boost::starts_with(section.first, VENDOR_PREFIX)) {
+        if (section.second.empty()) {
+            // This may be a top level (no section) entry, or an empty section.
+            std::string data = section.second.data();
+            if (! data.empty())
+                // If there is a non-empty data, then it must be a top-level (without a section) config entry.
+                m_storage[""][section.first] = data;
+        } else if (boost::starts_with(section.first, VENDOR_PREFIX)) {
             // This is a vendor section listing enabled model / variants
             const auto vendor_name = section.first.substr(VENDOR_PREFIX.size());
             auto &vendor = m_vendors[vendor_name];
@@ -377,11 +377,11 @@ std::string AppConfig::load(const std::string &path)
                     vendor[model_name].insert(variant);
                 }
             }
-    	} else {
-    		// This must be a section name. Read the entries of a section.
-    		std::map<std::string, std::string> &storage = m_storage[section.first];
+        } else {
+            // This must be a section name. Read the entries of a section.
+            std::map<std::string, std::string> &storage = m_storage[section.first];
             for (auto &kvp : section.second)
-            	storage[kvp.first] = kvp.second.data();
+                storage[kvp.first] = kvp.second.data();
         }
     }
 
@@ -441,12 +441,12 @@ void AppConfig::save()
         config_ss << kvp.first << " = " << kvp.second << std::endl;
     // Write the other categories.
     for (const auto& category : m_storage) {
-    	if (category.first.empty())
-    		continue;
+        if (category.first.empty())
+            continue;
         config_ss << std::endl << "[" << category.first << "]" << std::endl;
         for (const auto& kvp : category.second)
             config_ss << kvp.first << " = " << kvp.second << std::endl;
-	}
+    }
     // Write vendor sections
     for (const auto &vendor : m_vendors) {
         size_t size_sum = 0;
@@ -476,7 +476,7 @@ void AppConfig::save()
     c << appconfig_md5_hash_line(config_str);
 #endif
     c.close();
-    
+
 #ifdef WIN32
     // Make a backup of the configuration file before copying it to the final destination.
     std::string error_message;
@@ -494,7 +494,7 @@ void AppConfig::save()
 }
 
 bool AppConfig::erase(const std::string &section, const std::string &key)
-{       
+{
     if (auto it_storage = m_storage.find(section); it_storage != m_storage.end()) {
         auto &section = it_storage->second;
         auto it = section.find(key);
@@ -508,7 +508,7 @@ bool AppConfig::erase(const std::string &section, const std::string &key)
 }
 
 bool AppConfig::set_section(const std::string &section, std::map<std::string, std::string> data)
-{ 
+{
     auto it_section = m_storage.find(section);
     if (it_section == m_storage.end()) {
         if (data.empty())
@@ -524,7 +524,7 @@ bool AppConfig::set_section(const std::string &section, std::map<std::string, st
 }
 
 bool AppConfig::clear_section(const std::string &section)
-{ 
+{
     if (auto it_section = m_storage.find(section); it_section != m_storage.end() && ! it_section->second.empty()) {
         it_section->second.clear();
         m_dirty = true;
@@ -689,21 +689,21 @@ bool AppConfig::update_skein_dir(const std::string &dir)
 
 std::string AppConfig::get_last_output_dir(const std::string& alt, const bool removable) const
 {
-	std::string s1 = (removable ? "last_output_path_removable" : "last_output_path");
-	std::string s2 = (removable ? "remember_output_path_removable" : "remember_output_path");
-	const auto it = m_storage.find("");
-	if (it != m_storage.end()) {
-		const auto it2 = it->second.find(s1);
-		const auto it3 = it->second.find(s2);
-		if (it2 != it->second.end() && it3 != it->second.end() && !it2->second.empty() && it3->second == "1")
-			return it2->second;
-	}
-	return is_shapes_dir(alt) ? get_last_dir() : alt;
+    std::string s1 = (removable ? "last_output_path_removable" : "last_output_path");
+    std::string s2 = (removable ? "remember_output_path_removable" : "remember_output_path");
+    const auto it = m_storage.find("");
+    if (it != m_storage.end()) {
+        const auto it2 = it->second.find(s1);
+        const auto it3 = it->second.find(s2);
+        if (it2 != it->second.end() && it3 != it->second.end() && !it2->second.empty() && it3->second == "1")
+            return it2->second;
+    }
+    return is_shapes_dir(alt) ? get_last_dir() : alt;
 }
 
 bool AppConfig::update_last_output_dir(const std::string& dir, const bool removable)
 {
-	return this->set("", (removable ? "last_output_path_removable" : "last_output_path"), dir);
+    return this->set("", (removable ? "last_output_path_removable" : "last_output_path"), dir);
 }
 
 
@@ -738,8 +738,8 @@ std::string AppConfig::version_check_url() const
 
 std::string AppConfig::index_archive_url() const
 {
-#if 0  
-    // this code is for debug & testing purposes only - changed url wont get trough inner checks anyway. 
+#if 0
+    // this code is for debug & testing purposes only - changed url wont get trough inner checks anyway.
     auto from_settings = get("index_archive_url");
     return from_settings.empty() ? INDEX_ARCHIVE_URL : from_settings;
 #endif
@@ -748,8 +748,8 @@ std::string AppConfig::index_archive_url() const
 
 std::string AppConfig::profile_folder_url() const
 {
-#if 0   
-    // this code is for debug & testing purposes only - changed url wont get trough inner checks anyway. 
+#if 0
+    // this code is for debug & testing purposes only - changed url wont get trough inner checks anyway.
     auto from_settings = get("profile_folder_url");
     return from_settings.empty() ? PROFILE_FOLDER_URL : from_settings;
 #endif

@@ -5,13 +5,13 @@
 
 class BitmapToggleButton : public wxBitmapToggleButton
 {
-	virtual void update() = 0;
+    virtual void update() = 0;
 
 public:
-	BitmapToggleButton(wxWindow * parent = NULL, const wxString& label = wxEmptyString, wxWindowID id = wxID_ANY);
+    BitmapToggleButton(wxWindow * parent = NULL, const wxString& label = wxEmptyString, wxWindowID id = wxID_ANY);
 
 protected:
-	void update_size();
+    void update_size();
 };
 
 #endif // !slic3r_GUI_BitmapToggleButton_hpp_

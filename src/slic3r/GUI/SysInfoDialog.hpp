@@ -11,7 +11,7 @@
 #include "GUI_Utils.hpp"
 #include "wxExtensions.hpp"
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 
 class SysInfoDialog : public DPIDialog
@@ -28,7 +28,7 @@ public:
 
 protected:
     void on_dpi_changed(const wxRect &suggested_rect) override;
-    
+
 private:
     void onCopyToClipboard(wxEvent &);
     void onCloseDialog(wxEvent &);

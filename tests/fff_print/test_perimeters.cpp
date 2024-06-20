@@ -41,7 +41,7 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
     auto test = [&config](const TestData &data) {
         SurfaceCollection slices;
         slices.append(data.expolygons, stInternal);
-        
+
         ExtrusionEntityCollection loops;
         ExtrusionEntityCollection gap_fill;
         ExPolygons                fill_expolygons;
@@ -73,14 +73,14 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
 
         THEN("expected number of collections") {
             REQUIRE(loops.entities.size() == data.expolygons.size());
-        }        
-        
+        }
+
         loops = loops.flatten();
         THEN("expected number of loops") {
             REQUIRE(loops.entities.size() == data.total);
         }
         THEN("expected number of external loops") {
-            size_t num_external = std::count_if(loops.entities.begin(), loops.entities.end(), 
+            size_t num_external = std::count_if(loops.entities.begin(), loops.entities.end(),
                 [](const ExtrusionEntity *ee){ return ee->role() == ExtrusionRole::ExternalPerimeter; });
             REQUIRE(num_external == data.external);
         }
@@ -91,12 +91,12 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
             REQUIRE(ext_order == data.ext_order);
         }
         THEN("expected number of internal contour loops") {
-            size_t cinternal = std::count_if(loops.entities.begin(), loops.entities.end(), 
+            size_t cinternal = std::count_if(loops.entities.begin(), loops.entities.end(),
                 [](const ExtrusionEntity *ee){ return dynamic_cast<const ExtrusionLoop*>(ee)->loop_role() == elrContourInternalPerimeter; });
             REQUIRE(cinternal == data.cinternal);
         }
         THEN("expected number of ccw loops") {
-            size_t ccw = std::count_if(loops.entities.begin(), loops.entities.end(), 
+            size_t ccw = std::count_if(loops.entities.begin(), loops.entities.end(),
                 [](const ExtrusionEntity *ee){ return dynamic_cast<const ExtrusionLoop*>(ee)->polygon().is_counter_clockwise(); });
             REQUIRE(ccw == data.ccw);
         }
@@ -117,7 +117,7 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
     WHEN("Rectangle") {
         config.perimeters.value = 3;
         TestData data;
-        data.expolygons  = { 
+        data.expolygons  = {
             ExPolygon{ Polygon::new_scale({ {0,0}, {100,0}, {100,100}, {0,100} }) }
         };
         data.total       = 3;
@@ -132,9 +132,9 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
     WHEN("Rectangle with hole") {
         config.perimeters.value = 3;
         TestData data;
-        data.expolygons  = { 
-            ExPolygon{ Polygon::new_scale({ {0,0}, {100,0}, {100,100}, {0,100} }), 
-                       Polygon::new_scale({ {40,40}, {40,60}, {60,60}, {60,40} }) } 
+        data.expolygons  = {
+            ExPolygon{ Polygon::new_scale({ {0,0}, {100,0}, {100,100}, {0,100} }),
+                       Polygon::new_scale({ {40,40}, {40,60}, {60,60}, {60,40} }) }
         };
         data.total       = 6;
         data.external    = 2;
@@ -149,9 +149,9 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
         config.perimeters.value = 3;
         TestData data;
         data.expolygons  = {
-            ExPolygon{ Polygon::new_scale({ {0,0}, {200,0}, {200,200}, {0,200} }), 
+            ExPolygon{ Polygon::new_scale({ {0,0}, {200,0}, {200,200}, {0,200} }),
                        Polygon::new_scale({ {20,20}, {20,180}, {180,180}, {180,20} }) },
-            ExPolygon{ Polygon::new_scale({ {50,50}, {150,50}, {150,150}, {50,150} }), 
+            ExPolygon{ Polygon::new_scale({ {50,50}, {150,50}, {150,150}, {50,150} }),
                        Polygon::new_scale({ {80,80}, {80,120}, {120,120}, {120,80} }) }
         };
         data.total       = 4*3;
@@ -220,8 +220,8 @@ SCENARIO("Perimeters", "[Perimeters]")
             REQUIRE(! has_cw_loops);
         }
     }
-    
-    auto test = [&config](Test::TestMesh model) {    
+
+    auto test = [&config](Test::TestMesh model) {
         // we test two copies to make sure ExtrusionLoop objects are not modified in-place (the second object would not detect cw loops and thus would calculate wrong)
         std::string gcode = Slic3r::Test::slice({ model, model }, config);
         GCodeReader parser;
@@ -303,7 +303,7 @@ SCENARIO("Perimeters", "[Perimeters]")
     });
     GIVEN("Cube with hole") { test(Test::TestMesh::cube_with_hole); }
     GIVEN("Cube with concave hole") { test(Test::TestMesh::cube_with_concave_hole); }
-    
+
     WHEN("Bridging perimeters enabled") {
         // Reusing the config above.
         config.set_deserialize_strict({
@@ -320,7 +320,7 @@ SCENARIO("Perimeters", "[Perimeters]")
             { "bridge_flow_ratio",          33 },
             { "overhangs",                  true }
         });
-    
+
         std::string gcode = Slic3r::Test::slice({ mesh(Slic3r::Test::TestMesh::overhang) }, config);
 
         THEN("Bridging is applied to bridging perimeters") {
@@ -377,7 +377,7 @@ SCENARIO("Perimeters", "[Perimeters]")
                 { "small_perimeter_speed",      99 },
                 { "thin_walls",                 0 },
             });
-        
+
             std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::ipadstand }, config);
             // z => number of loops
             std::map<coord_t, int> perimeters;
@@ -424,7 +424,7 @@ SCENARIO("Some weird coverage test", "[Perimeters]")
     Print print;
     Model model;
     Slic3r::Test::init_print({ Test::TestMesh::cube_20x20x20 }, print, model, config);
-    
+
     // override a layer's slices
     ExPolygon expolygon;
     expolygon.contour = {
@@ -474,10 +474,10 @@ SCENARIO("Some weird coverage test", "[Perimeters]")
     layerm->m_slices.append({ expolygon }, stInternal);
     layer->lslices = { expolygon };
     layer->lslices_ex = { { get_extents(expolygon) } };
-    
+
     // make perimeters
     layer->make_perimeters();
-    
+
     // compute the covered area
     Flow pflow = layerm->flow(frPerimeter);
     Flow iflow = layerm->flow(frInfill);
@@ -498,10 +498,10 @@ SCENARIO("Some weird coverage test", "[Perimeters]")
             append(acc, offset(dynamic_cast<const ExtrusionPath*>(ee)->polyline, float(iflow.scaled_width() / 2.f + SCALED_EPSILON)));
         covered_by_infill = union_(acc);
     }
-    
+
     // compute the non covered area
     ExPolygons non_covered = diff_ex(to_polygons(layerm->slices().surfaces), union_(covered_by_perimeters, covered_by_infill));
-    
+
     /*
     if (0) {
         printf "max non covered = %f\n", List::Util::max(map unscale unscale $_->area, @$non_covered);
@@ -519,7 +519,7 @@ SCENARIO("Some weird coverage test", "[Perimeters]")
     }
     */
     THEN("no gap between perimeters and infill") {
-        size_t num_non_convered = std::count_if(non_covered.begin(), non_covered.end(), 
+        size_t num_non_convered = std::count_if(non_covered.begin(), non_covered.end(),
             [&iflow](const ExPolygon &ex){ return ex.area() > sqr(double(iflow.scaled_width())); });
         REQUIRE(num_non_convered == 0);
     }

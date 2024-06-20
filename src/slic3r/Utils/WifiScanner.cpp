@@ -14,7 +14,7 @@
 
 #elif __APPLE_
 #include "WifiScannerMac.h"
-#endif 
+#endif
 
 #if __linux__
 #include <dbus/dbus.h> /* Pull in all of D-Bus headers. */
@@ -64,7 +64,7 @@ void get_connected_ssid(std::string& connected_ssid)
     }
     BOOST_LOG_TRIVIAL(error) << output.str();
     pclose(pipe);
-    
+
     // Process the captured output using regular expressions
     std::regex rx(regexpstr);
     std::smatch match;
@@ -79,7 +79,7 @@ void get_connected_ssid(std::string& connected_ssid)
         }
     }
 }
-#else 
+#else
 
 DBusMessage* dbus_query(DBusConnection* connection, const char* service, const char* object, const char* interface, const char* method)
 {
@@ -130,10 +130,10 @@ void iter_access_points(DBusConnection* connection, DBusMessage* access_points, 
         const char* arg1 = "org.freedesktop.NetworkManager.AccessPoint";
         const char* arg2 = "Ssid";
         dbus_message_append_args(
-            msg, 
+            msg,
             DBUS_TYPE_STRING, &arg1,
             DBUS_TYPE_STRING, &arg2,
-            DBUS_TYPE_INVALID 
+            DBUS_TYPE_INVALID
         );
 
         DBusMessage* reply = dbus_connection_send_with_reply_and_block(connection, msg, -1, &error);
@@ -155,7 +155,7 @@ void iter_access_points(DBusConnection* connection, DBusMessage* access_points, 
             dbus_message_iter_next(&array_iter);
             continue;
         }
-        
+
         DBusMessageIter variant_iter;
         dbus_message_iter_recurse(&rep_iter, &variant_iter);
 
@@ -180,10 +180,10 @@ void iter_access_points(DBusConnection* connection, DBusMessage* access_points, 
         // Get the array of bytes and its length
         dbus_message_iter_get_fixed_array(&var_array_iter, &result, &result_len);
 
-        wifi_map[result] = std::string(); 
-        
+        wifi_map[result] = std::string();
+
         dbus_message_iter_next(&array_iter);
-    }  
+    }
 }
 
 // For each device call method GetAllAccessPoints to get object path to all Access Point objects
@@ -220,7 +220,7 @@ void iter_devices(DBusConnection* connection, DBusMessage* devices, Slic3r::Wifi
         }
 
         dbus_message_iter_next(&array_iter);
-    }   
+    }
 }
 
 // Query NetworkManager for available Wi-Fi.
@@ -241,7 +241,7 @@ void fill_wifi_map(Slic3r::WifiSsidPskMap& wifi_map)
         dbus_error_free(&error);
     }
 
-    // 
+    //
     DBusMessage* reply = dbus_query(
         connection,
         "org.freedesktop.NetworkManager",      // Service name
@@ -307,9 +307,9 @@ void WifiScanner::scan()
     }
     catch (const std::exception&)
     {
-         BOOST_LOG_TRIVIAL(error) << "Exception caught: Getting SSIDs failed.";   
+         BOOST_LOG_TRIVIAL(error) << "Exception caught: Getting SSIDs failed.";
     }
-    
+
     for ( const std::string& ssid : ssids)
     {
         if (!ssid.empty())
@@ -337,10 +337,10 @@ void WifiScanner::scan()
             BOOST_LOG_TRIVIAL(error) << "Exception caught: Getting current SSID failed.";
         }
     }
-   
-#else 
+
+#else
     fill_wifi_map(m_map);
-#endif 
+#endif
 }
 std::string WifiScanner::get_psk(const std::string& ssid)
 {
@@ -367,10 +367,10 @@ void WifiScanner::fill_wifi_map(Slic3r::WifiSsidPskMap& wifi_map, std::string& c
 
     if (!m_init)
         return;
-   
+
     if (wlanOpenHandleFunc(client_version, NULL, &supported_version, &handle) != ERROR_SUCCESS)
         return;
-   
+
     Slic3r::ScopeGuard guard([this, &handle] { wlanCloseHandleFunc(handle, NULL); });
 
     if (wlanEnumInterfacesFunc(handle, NULL, &interface_list) != ERROR_SUCCESS)

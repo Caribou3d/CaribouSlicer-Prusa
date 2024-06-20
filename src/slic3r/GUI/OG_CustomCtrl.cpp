@@ -105,7 +105,7 @@ int OG_CustomCtrl::get_height(const Line& line)
     for (auto ctrl_line : ctrl_lines)
         if (&ctrl_line.og_line == &line)
             return ctrl_line.height;
-        
+
     return 0;
 }
 
@@ -185,7 +185,7 @@ wxPoint OG_CustomCtrl::get_pos(const Line& line, Field* field_in/* = nullptr*/)
                     wxCoord label_w, label_h;
 #ifdef __WXMSW__
                     // when we use 2 monitors with different DPIs, GetTextExtent() return value for the primary display
-                    // so, use dc.GetMultiLineTextExtent on Windows 
+                    // so, use dc.GetMultiLineTextExtent on Windows
                     wxClientDC dc(this);
                     dc.SetFont(m_font);
                     dc.GetMultiLineTextExtent(label, &label_w, &label_h);
@@ -193,9 +193,9 @@ wxPoint OG_CustomCtrl::get_pos(const Line& line, Field* field_in/* = nullptr*/)
                     GetTextExtent(label, &label_w, &label_h, 0, 0, &m_font);
 #endif //__WXMSW__
                     h_pos += label_w + m_h_gap;
-                }                
+                }
                 h_pos += (opt.opt.gui_type == ConfigOptionDef::GUIType::legend ? 1 : 3) * blinking_button_width;
-                
+
                 if (field == field_in) {
                     correct_horiz_pos(h_pos, field);
                     break;
@@ -369,7 +369,7 @@ bool OG_CustomCtrl::update_visibility(ConfigOptionMode mode)
             v_pos += (wxCoord)line.height;
         else
             invisible_lines++;
-    }    
+    }
 
     this->SetMinSize(wxSize(wxDefaultCoord, v_pos));
 
@@ -740,7 +740,7 @@ wxCoord    OG_CustomCtrl::CtrlLine::draw_text(wxDC& dc, wxPoint pos, const wxStr
             dc.SetFont(old_font.Underlined());
 #else
             dc.SetFont(old_font.Bold().Underlined());
-#endif            
+#endif
         dc.SetTextForeground(color ? *color : wxGetApp().get_label_clr_default());
         dc.DrawText(out_text, pos);
         dc.SetTextForeground(old_clr);
@@ -790,12 +790,12 @@ wxPoint OG_CustomCtrl::CtrlLine::draw_act_bmps(wxDC& dc, wxPoint pos, const wxBi
 }
 
 wxCoord OG_CustomCtrl::CtrlLine::draw_edit_bmp(wxDC &dc, wxPoint pos, const wxBitmapBundle *bmp_edit)
-{ 
+{
     const wxCoord h_pos = pos.x + ctrl->m_h_gap;
     const wxCoord v_pos = pos.y;
     const int bmp_w = get_bitmap_size(bmp_edit, ctrl).GetWidth();
     rects_edit_icon.emplace_back(wxRect(h_pos, v_pos, bmp_w, bmp_w));
-    
+
     dc.DrawBitmap(bmp_edit->GetBitmapFor(ctrl), h_pos, v_pos);
 
     return h_pos + bmp_w + ctrl->m_h_gap;

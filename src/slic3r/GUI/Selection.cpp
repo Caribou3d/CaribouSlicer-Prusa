@@ -386,7 +386,7 @@ void Selection::add_all()
 
     if ((unsigned int)m_list.size() == count)
         return;
-    
+
     wxGetApp().plater()->take_snapshot(_(L("Selection-Add All")), UndoRedo::SnapshotType::Selection);
 
     m_mode = Instance;
@@ -408,7 +408,7 @@ void Selection::remove_all()
 
     if (is_empty())
         return;
-  
+
 // Not taking the snapshot with non-empty Redo stack will likely be more confusing than losing the Redo stack.
 // Let's wait for user feedback.
 //    if (!wxGetApp().plater()->can_redo())
@@ -428,8 +428,8 @@ void Selection::set_deserialized(EMode mode, const std::vector<std::pair<size_t,
         (*m_volumes)[i]->selected = false;
     m_list.clear();
     for (unsigned int i = 0; i < (unsigned int)m_volumes->size(); ++ i)
-		if (std::binary_search(volumes_and_instances.begin(), volumes_and_instances.end(), (*m_volumes)[i]->geometry_id))
-			do_add_volume(i);
+        if (std::binary_search(volumes_and_instances.begin(), volumes_and_instances.end(), (*m_volumes)[i]->geometry_id))
+            do_add_volume(i);
     update_type();
     set_bounding_boxes_dirty();
 }
@@ -480,7 +480,7 @@ void Selection::instances_changed(const std::vector<size_t> &instance_ids_select
             m_model->objects[volume->object_idx()]->volumes[volume->volume_idx()]->is_modifier())
             continue;
         auto it = std::lower_bound(instance_ids_selected.begin(), instance_ids_selected.end(), volume->geometry_id.second);
-		if (it != instance_ids_selected.end() && *it == volume->geometry_id.second)
+        if (it != instance_ids_selected.end() && *it == volume->geometry_id.second)
             this->do_add_volume(volume_idx);
     }
     update_type();
@@ -509,7 +509,7 @@ bool Selection::is_any_connector() const
 {
     const int obj_idx = get_object_idx();
 
-    if ((is_any_volume() || is_any_modifier() || is_mixed()) && // some solid_part AND/OR modifier is selected 
+    if ((is_any_volume() || is_any_modifier() || is_mixed()) && // some solid_part AND/OR modifier is selected
         obj_idx >= 0 && m_model->objects[obj_idx]->is_cut()) {
         const ModelVolumePtrs& obj_volumes = m_model->objects[obj_idx]->volumes;
         for (size_t vol_idx = 0; vol_idx < obj_volumes.size(); vol_idx++)
@@ -584,7 +584,7 @@ bool Selection::is_single_text() const
 
     const GLVolume* gl_volume = (*m_volumes)[*m_list.begin()];
     const ModelVolume* model_volume = m_model->objects[gl_volume->object_idx()]->volumes[gl_volume->volume_idx()];
-    
+
     return model_volume && model_volume->text_configuration.has_value();
 }
 
@@ -856,7 +856,7 @@ std::pair<BoundingBoxf3, Transform3d> Selection::get_bounding_box_in_reference_s
     Geometry::Transformation out_trafo(trafo);
     Vec3d center = 0.5 * (min + max);
 
-    // Fix for non centered volume 
+    // Fix for non centered volume
     // by move with calculated center(to volume center) and extend half box size
     // e.g. for right aligned embossed text
     if (m_list.size() == 1 &&
@@ -873,7 +873,7 @@ std::pair<BoundingBoxf3, Transform3d> Selection::get_bounding_box_in_reference_s
                 abs(center[i] - max[i]));
         }
     }
-    
+
     const BoundingBoxf3 out_box(-half_box_size, half_box_size);
     out_trafo.set_offset(basis_trafo * center);
     return { out_box, out_trafo.get_matrix_no_scaling_factor() };
@@ -965,7 +965,7 @@ void Selection::translate(const Vec3d& displacement, TransformationType transfor
         return;
 
     // Emboss use translate in local coordinate
-    assert(transformation_type.relative() || 
+    assert(transformation_type.relative() ||
            transformation_type.local());
 
     for (unsigned int i : m_list) {
@@ -1235,7 +1235,7 @@ void Selection::scale_to_fit_print_volume(const BuildVolume& volume)
 
     assert(is_single_full_instance());
 
-    // used to keep track whether the undo/redo snapshot has already been taken 
+    // used to keep track whether the undo/redo snapshot has already been taken
     bool undoredo_snapshot = false;
 
     if (wxGetApp().plater()->printer_technology() == ptSLA) {
@@ -1345,7 +1345,7 @@ void Selection::scale_and_translate(const Vec3d& scale, const Vec3d& world_trans
 
 #if !DISABLE_INSTANCES_SYNCH
     if (m_mode == Instance)
-        // even if there is no rotation, we pass SyncRotationType::GENERAL to force 
+        // even if there is no rotation, we pass SyncRotationType::GENERAL to force
         // synchronize_unselected_instances() to apply the scale to the other instances
         synchronize_unselected_instances(SyncRotationType::GENERAL);
     else if (m_mode == Volume)
@@ -1406,7 +1406,7 @@ void Selection::reset_skew()
 
 #if !DISABLE_INSTANCES_SYNCH
     if (m_mode == Instance)
-        // even if there is no rotation, we pass SyncRotationType::GENERAL to force 
+        // even if there is no rotation, we pass SyncRotationType::GENERAL to force
         // synchronize_unselected_instances() to remove skew from the other instances
         synchronize_unselected_instances(SyncRotationType::GENERAL);
     else if (m_mode == Volume)
@@ -1745,7 +1745,7 @@ void Selection::copy_to_clipboard()
         ModelObject* dst_object = m_clipboard.add_object();
         dst_object->name                 = src_object->name;
         dst_object->input_file           = src_object->input_file;
-		dst_object->config.assign_config(src_object->config);
+        dst_object->config.assign_config(src_object->config);
         dst_object->sla_support_points   = src_object->sla_support_points;
         dst_object->sla_points_status    = src_object->sla_points_status;
         dst_object->sla_drain_holes      = src_object->sla_drain_holes;
@@ -2678,7 +2678,7 @@ static bool is_rotation_xy_synchronized(const Transform3d::ConstLinearPart &traf
 {
     auto rot = trafo_to * trafo_from.inverse();
     static constexpr const double eps = EPSILON;
-    return 
+    return
            // Looks like a rotation around Z: block(0..1, 0..1) + no change of Z component.
            is_approx(rot(0, 0),   rot(1, 1), eps) &&
            is_approx(rot(0, 1), - rot(1, 0), eps) &&
@@ -2804,7 +2804,7 @@ void Selection::ensure_on_bed()
 
     for (size_t i = 0; i < m_volumes->size(); ++i) {
         GLVolume* volume = (*m_volumes)[i];
-        if (!volume->is_wipe_tower && !volume->is_modifier && 
+        if (!volume->is_wipe_tower && !volume->is_modifier &&
             std::find(m_cache.sinking_volumes.begin(), m_cache.sinking_volumes.end(), i) == m_cache.sinking_volumes.end()) {
             const double min_z = volume->transformed_convex_hull_bounding_box().min.z();
             std::pair<int, int> instance = std::make_pair(volume->object_idx(), volume->instance_idx());
@@ -2939,7 +2939,7 @@ void Selection::paste_volumes_from_clipboard()
 
             volumes.push_back(dst_volume);
 #ifdef _DEBUG
-		    check_model_ids_validity(*m_model);
+            check_model_ids_validity(*m_model);
 #endif /* _DEBUG */
         }
 
@@ -2980,7 +2980,7 @@ void Selection::paste_objects_from_clipboard()
 
         object_idxs.push_back(m_model->objects.size() - 1);
 #ifdef _DEBUG
-	    check_model_ids_validity(*m_model);
+        check_model_ids_validity(*m_model);
 #endif /* _DEBUG */
     }
 
@@ -3078,7 +3078,7 @@ ModelVolume *get_volume(const ObjectID &volume_id, const Selection &selection) {
         for (ModelVolume *volume : object->volumes) {
             if (volume->id() == volume_id)
                 return volume;
-        }        
+        }
     }
     return nullptr;
 }

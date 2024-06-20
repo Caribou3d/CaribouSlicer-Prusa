@@ -130,11 +130,11 @@ bool FlashAir::upload(PrintHostUpload upload_data, ProgressFn prorgess_fn, Error
             }
         })
         .perform_sync();
-    
+
     if(! res ) {
         return res;
     }
-    
+
     // start file upload
     auto httpDir = Http::get(std::move(urlSetDir));
     httpDir.on_error([&](std::string body, std::string error, unsigned status) {
@@ -189,7 +189,7 @@ std::string FlashAir::timestamp_str() const
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
 
-    unsigned long fattime = ((tm.tm_year - 80) << 25) | 
+    unsigned long fattime = ((tm.tm_year - 80) << 25) |
                             ((tm.tm_mon + 1) << 21) |
                             (tm.tm_mday << 16) |
                             (tm.tm_hour << 11) |

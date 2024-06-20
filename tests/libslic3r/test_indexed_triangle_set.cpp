@@ -160,7 +160,7 @@ std::vector<Vec3f> its_sample_surface(const indexed_triangle_set &its,
                 pos[i] = b[0] * v0[i] + b[1] * v1[i] + b[2] * v2[i];
             }
             samples.push_back(pos);
-        }        
+        }
     }
     return samples;
 }
@@ -195,13 +195,13 @@ bool is_similar(const indexed_triangle_set &from,
         sum_distance += distance;
     };
 
-    for (const Vec3f &vertex : to.vertices) { 
+    for (const Vec3f &vertex : to.vertices) {
         collect_distances(vertex);
     }
 
     for (const Vec3i &t : to.indices) {
         Vec3f center(0,0,0);
-        for (size_t i = 0; i < 3; ++i) { 
+        for (size_t i = 0; i < 3; ++i) {
             center += to.vertices[t[i]] / 3;
         }
         collect_distances(center);
@@ -209,7 +209,7 @@ bool is_similar(const indexed_triangle_set &from,
 
     size_t count        = to.vertices.size() + to.indices.size();
     float avg_distance = sum_distance / count;
-    if (avg_distance > cfg.max_average_distance || 
+    if (avg_distance > cfg.max_average_distance ||
         max_distance > cfg.max_distance)
         return false;
     return true;

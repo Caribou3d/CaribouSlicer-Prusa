@@ -23,7 +23,7 @@ namespace Slic3r {
 /// text OR polygons onto model surface
 /// </summary>
 namespace Emboss
-{    
+{
     static const float UNION_DELTA = 50.0f; // [approx in nano meters depends on volume scale]
     static const unsigned UNION_MAX_ITERATIN = 10; // [count]
 
@@ -48,7 +48,7 @@ namespace Emboss
     // description of one letter
     struct Glyph
     {
-        // NOTE: shape is scaled by SHAPE_SCALE 
+        // NOTE: shape is scaled by SHAPE_SCALE
         // to be able store points without floating points
         ExPolygons shape;
 
@@ -57,9 +57,9 @@ namespace Emboss
     };
     // cache for glyph by unicode
     using Glyphs = std::map<int, Glyph>;
-        
+
     /// <summary>
-    /// keep information from file about font 
+    /// keep information from file about font
     /// (store file data itself)
     /// + cache data readed from buffer
     /// </summary>
@@ -94,7 +94,7 @@ namespace Emboss
             if (data->size() != other.data->size())
                 return false;
             //if(*data != *other.data) return false;
-            for (size_t i = 0; i < infos.size(); i++) 
+            for (size_t i = 0; i < infos.size(); i++)
                 if (infos[i].ascent != other.infos[i].ascent ||
                     infos[i].descent == other.infos[i].descent ||
                     infos[i].linegap == other.infos[i].linegap)
@@ -176,7 +176,7 @@ namespace Emboss
 
     /// <summary>
     /// NOTE: call Slic3r::union_ex before this call
-    /// 
+    ///
     /// Heal (read: Fix) issues in expolygons:
     ///  - self intersections
     ///  - duplicit points
@@ -224,7 +224,7 @@ namespace Emboss
     /// <param name="font_index">Define font in collection</param>
     /// <param name="exist_unknown">True when text contain glyph unknown in font</param>
     /// <returns>Unique set of character from text contained in font</returns>
-    std::string create_range_text(const std::string &text, const FontFile &font, unsigned int font_index, bool* exist_unknown = nullptr);    
+    std::string create_range_text(const std::string &text, const FontFile &font, unsigned int font_index, bool* exist_unknown = nullptr);
 
     /// <summary>
     /// Calculate scale for glyph shape convert from shape points to mm
@@ -310,7 +310,7 @@ namespace Emboss
     /// <param name="projection">Define transformation from 2d to 3d(orientation, position, scale, ...)</param>
     /// <returns>Projected shape into space</returns>
     indexed_triangle_set polygons2model(const ExPolygons &shape2d, const IProjection& projection);
-    
+
     /// <summary>
     /// Suggest wanted up vector of embossed text by emboss direction
     /// </summary>
@@ -318,7 +318,7 @@ namespace Emboss
     /// <param name="up_limit">Is compared with normal.z to suggest up direction</param>
     /// <returns>Wanted up vector</returns>
     Vec3d suggest_up(const Vec3d normal, double up_limit = 0.9);
-        
+
     /// <summary>
     /// By transformation calculate angle between suggested and actual up vector
     /// </summary>
@@ -424,7 +424,7 @@ namespace Emboss
         // Inherited via IProject
         std::pair<Vec3d, Vec3d> create_front_back(const Point &p) const override;
         Vec3d project(const Vec3d &point) const override;
-        std::optional<Vec2d> unproject(const Vec3d &p, double * depth = nullptr) const override;     
+        std::optional<Vec2d> unproject(const Vec3d &p, double * depth = nullptr) const override;
     };
 
     /// <summary>

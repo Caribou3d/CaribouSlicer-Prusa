@@ -161,7 +161,7 @@ Duet::ConnectionType Duet::connect(wxString &msg) const
                     msg = format_error(body, error, status);
                 })
                 .on_complete([&](std::string body, unsigned) {
-                    try {        
+                    try {
                         pt::ptree root;
                         std::istringstream iss(body);
                         pt::read_json(iss, root);

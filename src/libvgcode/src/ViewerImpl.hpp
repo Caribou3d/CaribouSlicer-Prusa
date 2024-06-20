@@ -302,7 +302,7 @@ private:
     unsigned int m_tool_marker_shader_id{ 0 };
 #endif // VGCODE_ENABLE_COG_AND_TOOL_MARKERS
     //
-    // Caches for OpenGL uniforms id for segments shader 
+    // Caches for OpenGL uniforms id for segments shader
     //
     int m_uni_segments_view_matrix_id{ -1 };
     int m_uni_segments_projection_matrix_id{ -1 };
@@ -312,7 +312,7 @@ private:
     int m_uni_segments_colors_tex_id{ -1 };
     int m_uni_segments_segment_index_tex_id{ -1 };
     //
-    // Caches for OpenGL uniforms id for options shader 
+    // Caches for OpenGL uniforms id for options shader
     //
     int m_uni_options_view_matrix_id{ -1 };
     int m_uni_options_projection_matrix_id{ -1 };
@@ -322,14 +322,14 @@ private:
     int m_uni_options_segment_index_tex_id{ -1 };
 #if VGCODE_ENABLE_COG_AND_TOOL_MARKERS
     //
-    // Caches for OpenGL uniforms id for cog marker shader 
+    // Caches for OpenGL uniforms id for cog marker shader
     //
     int m_uni_cog_marker_world_center_position{ -1 };
     int m_uni_cog_marker_scale_factor{ -1 };
     int m_uni_cog_marker_view_matrix{ -1 };
     int m_uni_cog_marker_projection_matrix{ -1 };
     //
-    // Caches for OpenGL uniforms id for tool marker shader 
+    // Caches for OpenGL uniforms id for tool marker shader
     //
     int m_uni_tool_marker_world_origin{ -1 };
     int m_uni_tool_marker_scale_factor{ -1 };

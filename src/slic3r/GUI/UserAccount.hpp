@@ -83,17 +83,17 @@ public:
     void        set_refresh_time(int seconds) { m_communication->set_refresh_time(seconds); }
 private:
     void set_username(const std::string& username);
-   
+
     std::string m_instance_hash; // used in avatar path
 
     std::unique_ptr<Slic3r::GUI::UserAccountCommunication> m_communication;
-    
+
     ConnectPrinterStateMap              m_printer_map;
     ConnectUUIDToModelNozzleMap         m_printer_uuid_map;
     std::map<std::string, std::string>  m_account_user_data;
     std::string                         m_username;
     size_t                              m_fail_counter { 0 };
-    std::string                         m_avatar_extension;    
+    std::string                         m_avatar_extension;
 
     std::string                         m_current_printer_uuid_from_connect;
     std::string                         m_current_printer_data_json_from_connect;

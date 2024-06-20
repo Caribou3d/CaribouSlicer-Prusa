@@ -70,8 +70,8 @@ public:
 
     Halfedge_index next(Halfedge_index h)     const { assert(! h.is_invalid()); h.m_side = (h.m_side + 1) % 3; return h; }
     Halfedge_index prev(Halfedge_index h)     const { assert(! h.is_invalid()); h.m_side = (h.m_side == 0 ? 2 : h.m_side - 1); return h; }
-    Halfedge_index halfedge(Vertex_index v)   const { return Halfedge_index(v.m_face, (v.m_vertex_idx == 0 ? 2 : v.m_vertex_idx - 1)); }  
-    Halfedge_index halfedge(Face_index f)     const { return Halfedge_index(f, 0); }  
+    Halfedge_index halfedge(Vertex_index v)   const { return Halfedge_index(v.m_face, (v.m_vertex_idx == 0 ? 2 : v.m_vertex_idx - 1)); }
+    Halfedge_index halfedge(Face_index f)     const { return Halfedge_index(f, 0); }
     Halfedge_index opposite(Halfedge_index h) const {
         if (h.is_invalid())
             return h;

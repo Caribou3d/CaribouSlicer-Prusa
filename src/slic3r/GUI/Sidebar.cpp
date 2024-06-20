@@ -270,12 +270,12 @@ static bool found_and_dismiss_shown_dropdown(wxWindow* win)
 }
 
 static void show_rich_tip(const wxString& tooltip, wxButton* btn)
-{   
+{
     if (tooltip.IsEmpty())
         return;
 
-    // Currently state (propably wxWidgets issue) : 
-    // When second wxPopupTransientWindow is popped up, then first wxPopupTransientWindow doesn't receive EVT_DISMISS and stay on the top. 
+    // Currently state (propably wxWidgets issue) :
+    // When second wxPopupTransientWindow is popped up, then first wxPopupTransientWindow doesn't receive EVT_DISMISS and stay on the top.
     // New comboboxes use wxPopupTransientWindow as DropDown now
     // That is why DropDown stay on top, when we show rich tooltip for btn.
     // (see https://github.com/prusa3d/PrusaSlicer/issues/11988)
@@ -291,7 +291,7 @@ static void show_rich_tip(const wxString& tooltip, wxButton* btn)
 
     tip.ShowFor(btn);
     // Every call of the ShowFor() creates new RichToolTip and show it.
-    // Every one else are hidden. 
+    // Every one else are hidden.
     // So, set a text color just for the shown rich tooltip
     if (wxRichToolTipPopup* popup = get_rtt_popup(btn)) {
         auto children = popup->GetChildren();
@@ -372,7 +372,7 @@ Sidebar::Sidebar(Plater *parent)
         sizer_presets->Add(text, 0, wxALIGN_LEFT | wxEXPAND | wxRIGHT, 4);
         if (! filament) {
             combo_and_btn_sizer->ShowItems(preset_type == Preset::TYPE_PRINTER);
-            sizer_presets->Add(combo_and_btn_sizer, 0, wxEXPAND | 
+            sizer_presets->Add(combo_and_btn_sizer, 0, wxEXPAND |
 #ifdef __WXGTK3__
                 wxRIGHT, margin_5);
 #else
@@ -448,7 +448,7 @@ Sidebar::Sidebar(Plater *parent)
 
     // Buttons underneath the scrolled area
 
-    // rescalable bitmap buttons "Send to printer" and "Remove device" 
+    // rescalable bitmap buttons "Send to printer" and "Remove device"
 
     auto init_scalable_btn = [this](ScalableButton** btn, const std::string& icon_name, wxString tooltip = wxEmptyString)
     {
@@ -477,9 +477,9 @@ Sidebar::Sidebar(Plater *parent)
     };
 
     init_scalable_btn(&m_btn_send_gcode   , "export_gcode", _L("Send to printer") + " " +GUI::shortkey_ctrl_prefix() + "Shift+G");
-	init_scalable_btn(&m_btn_export_gcode_removable, "export_to_sd", _L("Export to SD card / Flash drive") + " " + GUI::shortkey_ctrl_prefix() + "U");
+    init_scalable_btn(&m_btn_export_gcode_removable, "export_to_sd", _L("Export to SD card / Flash drive") + " " + GUI::shortkey_ctrl_prefix() + "U");
 
-    // regular buttons "Slice now" and "Export G-code" 
+    // regular buttons "Slice now" and "Export G-code"
 
 #ifdef _WIN32
     const int scaled_height = m_btn_export_gcode_removable->GetBitmapHeight();
@@ -506,7 +506,7 @@ Sidebar::Sidebar(Plater *parent)
     complect_btns_sizer->Add(m_btn_export_gcode, 1, wxEXPAND);
     complect_btns_sizer->Add(m_btn_connect_gcode, 1, wxEXPAND | wxLEFT, margin_5);
     complect_btns_sizer->Add(m_btn_send_gcode, 0, wxLEFT, margin_5);
-	complect_btns_sizer->Add(m_btn_export_gcode_removable, 0, wxLEFT, margin_5);
+    complect_btns_sizer->Add(m_btn_export_gcode_removable, 0, wxLEFT, margin_5);
 
     btns_sizer->Add(m_btn_reslice, 0, wxEXPAND | wxTOP, margin_5);
     btns_sizer->Add(complect_btns_sizer, 0, wxEXPAND | wxTOP, margin_5);
@@ -653,7 +653,7 @@ void Sidebar::update_presets(Preset::Type preset_type)
 #else
         // CallAfter is really needed here to correct layout of the preset comboboxes,
         // when printer technology is changed during a project loading AND/OR switching the application mode.
-        // Otherwise, some of comboboxes are invisible 
+        // Otherwise, some of comboboxes are invisible
         CallAfter([this]() { show_preset_comboboxes(); });
 #endif
         break;
@@ -674,7 +674,7 @@ void Sidebar::on_select_preset(wxCommandEvent& evt)
     // see https://github.com/prusa3d/PrusaSlicer/issues/3889
     // Under OSX: in case of use of a same names written in different case (like "ENDER" and "Ender"),
     // m_presets_choice->GetSelection() will return first item, because search in PopupListCtrl is case-insensitive.
-    // So, use GetSelection() from event parameter 
+    // So, use GetSelection() from event parameter
     int selection = evt.GetSelection();
 
     auto idx = combo->get_extruder_idx();
@@ -935,9 +935,9 @@ void Sidebar::update_sliced_info_sizer()
             if (cfg->option("bottle_cost")->getFloat() > 0.0 &&
                 cfg->option("bottle_volume")->getFloat() > 0.0)
             {
-                double material_cost = cfg->option("bottle_cost")->getFloat() / 
+                double material_cost = cfg->option("bottle_cost")->getFloat() /
                                        cfg->option("bottle_volume")->getFloat();
-                str_total_cost = wxString::Format("%.3f", material_cost*(ps.objects_used_material + ps.support_used_material) / 1000);                
+                str_total_cost = wxString::Format("%.3f", material_cost*(ps.objects_used_material + ps.support_used_material) / 1000);
             }
             m_sliced_info->SetTextAndShow(siCost, str_total_cost, "Cost");
 
@@ -1160,7 +1160,7 @@ void Sidebar::set_extruders_count(size_t extruders_count)
 
     // remove unused choices if any
     remove_unused_filament_combos(extruders_count);
-    
+
     Layout();
     m_scrolled_panel->Refresh();
 }

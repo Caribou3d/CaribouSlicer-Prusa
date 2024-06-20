@@ -87,8 +87,8 @@ struct PrinterAttr_
     std::string         variant;
 };
 
-static std::string get_printer_profiles(const VendorProfile* vendor_profile, 
-                                        const PresetBundle* preset_bundle, 
+static std::string get_printer_profiles(const VendorProfile* vendor_profile,
+                                        const PresetBundle* preset_bundle,
                                         const PrinterAttr_& printer_attr)
 {
     for (const auto& printer_model : vendor_profile->models) {
@@ -170,7 +170,7 @@ static void add_profile_node(pt::ptree& printer_profiles_node, const std::string
     printer_profiles_node.push_back(std::make_pair("", profile_node));
 }
 
-static void get_printer_profiles_node(pt::ptree& printer_profiles_node, 
+static void get_printer_profiles_node(pt::ptree& printer_profiles_node,
                                       pt::ptree& user_printer_profiles_node,
                                       const PrinterPresetCollection& printer_presets,
                                       const PrinterAttr& attr)
@@ -293,7 +293,7 @@ std::string get_json_printer_models(PrinterTechnology printer_technology)
     PresetBundle preset_bundle;
     if (!load_preset_bundle_from_datadir(preset_bundle))
         return "";
-            
+
     pt::ptree vendor_node;
 
     const VendorMap& vendors_map = preset_bundle.vendors;
@@ -428,8 +428,8 @@ bool load_full_print_config(const std::string& print_preset_name, const std::str
 }
 
 // Helper function for load full config from installed presets by profile names
-std::string load_full_print_config(const std::string& print_preset_name, 
-                                   const std::vector<std::string>& material_preset_names_in, 
+std::string load_full_print_config(const std::string& print_preset_name,
+                                   const std::vector<std::string>& material_preset_names_in,
                                    const std::string& printer_preset_name,
                                    DynamicPrintConfig& config,
                                    PrinterTechnology printer_technology /*= ptUnknown*/)

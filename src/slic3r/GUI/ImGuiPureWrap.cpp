@@ -79,7 +79,7 @@ void set_next_window_bg_alpha(float alpha)
 
 void set_next_window_size(float x, float y, ImGuiCond cond)
 {
-	ImGui::SetNextWindowSize(ImVec2(x, y), cond);
+    ImGui::SetNextWindowSize(ImVec2(x, y), cond);
 }
 
 bool begin(const std::string &name, int flags)
@@ -111,7 +111,7 @@ bool button(const std::string & label_utf8, const std::string& tooltip)
 
 bool button(const std::string& label_utf8, float width, float height)
 {
-	return ImGui::Button(label_utf8.c_str(), ImVec2(width, height));
+    return ImGui::Button(label_utf8.c_str(), ImVec2(width, height));
 }
 
 bool button(const std::wstring& wlabel, float width, float height)
@@ -324,7 +324,7 @@ void draw_hexagon(const ImVec2& center, float radius, ImU32 col, float start_ang
     window->DrawList->PathFillConvex(col);
 }
 
-// Scroll up for one item 
+// Scroll up for one item
 void scroll_up()
 {
     ImGuiContext& g = *GImGui;
@@ -336,7 +336,7 @@ void scroll_up()
     ImGui::SetScrollY(win_top - item_size_y);
 }
 
-// Scroll down for one item 
+// Scroll down for one item
 void scroll_down()
 {
     ImGuiContext& g = *GImGui;
@@ -417,7 +417,7 @@ void disable_background_fadeout_animation()
     GImGui->DimBgRatio = 1.0f;
 }
 
-template <typename T, typename Func> 
+template <typename T, typename Func>
 static bool input_optional(std::optional<T> &v, Func& f, std::function<bool(const T&)> is_default, const T& def_val)
 {
     if (v.has_value()) {
@@ -445,7 +445,7 @@ bool input_optional_int(const char *        label,
     auto func = [&](int &value) {
         return ImGui::InputInt(label, &value, step, step_fast, flags);
     };
-    std::function<bool(const int &)> is_default = 
+    std::function<bool(const int &)> is_default =
         [def_val](const int &value) -> bool { return value == def_val; };
     return input_optional(v, func, is_default, def_val);
 }
@@ -503,14 +503,14 @@ std::optional<ImVec2> change_window_position(const char *window_name, bool try_t
     std::optional<ImVec2> output_window_offset;
     if (position.x < 0) {
         if (position.y < 0)
-            // top left 
-            output_window_offset = ImVec2(0, 0); 
+            // top left
+            output_window_offset = ImVec2(0, 0);
         else
             // only left
-            output_window_offset = ImVec2(0, position.y); 
+            output_window_offset = ImVec2(0, position.y);
     } else if (position.y < 0) {
         // only top
-        output_window_offset = ImVec2(position.x, 0); 
+        output_window_offset = ImVec2(position.x, 0);
     } else if (screen.x < (position.x + size.x)) {
         if (screen.y < (position.y + size.y))
             // right bottom
@@ -530,7 +530,7 @@ std::optional<ImVec2> change_window_position(const char *window_name, bool try_t
 }
 
 void left_inputs() {
-    ImGui::ClearActiveID(); 
+    ImGui::ClearActiveID();
 }
 
 std::string trunc(const std::string &text,
@@ -543,7 +543,7 @@ std::string trunc(const std::string &text,
     assert(width > tail_width);
     if (width <= tail_width) return "Error: Can't add tail and not be under wanted width.";
     float allowed_width = width - tail_width;
-    
+
     // guess approx count of letter
     float average_letter_width = calc_text_size(std::string_view("n")).x; // average letter width
     unsigned count_letter  = static_cast<unsigned>(allowed_width / average_letter_width);
@@ -566,8 +566,8 @@ std::string trunc(const std::string &text,
             --count_letter;
             result_text = text_.substr(0, count_letter);
             text_width  = calc_text_size(result_text).x;
-            if (text_width < allowed_width) break;            
-        } 
+            if (text_width < allowed_width) break;
+        }
     }
     return std::string(result_text) + tail;
 }
@@ -578,7 +578,7 @@ void escape_double_hash(std::string &text)
     const std::string search  = "##";
     const std::string replace = "# #";
     size_t pos = 0;
-    while ((pos = text.find(search, pos)) != std::string::npos) 
+    while ((pos = text.find(search, pos)) != std::string::npos)
         text.replace(pos, search.length(), replace);
 }
 

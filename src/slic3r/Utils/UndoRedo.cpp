@@ -8,15 +8,15 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
-#include <typeinfo> 
+#include <typeinfo>
 #include <cassert>
 #include <cstddef>
 
 #include <cereal/types/polymorphic.hpp>
-#include <cereal/types/map.hpp> 
-#include <cereal/types/string.hpp> 
-#include <cereal/types/utility.hpp> 
-#include <cereal/types/vector.hpp> 
+#include <cereal/types/map.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/utility.hpp>
+#include <cereal/types/vector.hpp>
 #include <cereal/archives/binary.hpp>
 #define CEREAL_FUTURE_EXPERIMENTAL
 #include <cereal/archives/adapters.hpp>
@@ -259,7 +259,7 @@ public:
     }
 
     void save(size_t active_snapshot_time, size_t current_time) {
-        assert(m_history.empty() || m_history.back().end() <= active_snapshot_time || 
+        assert(m_history.empty() || m_history.back().end() <= active_snapshot_time ||
             // The snapshot of an immutable object may have already been taken from another mutable object.
             (m_history.back().begin() <= active_snapshot_time && m_history.back().end() == current_time + 1));
         if (m_history.empty() || m_history.back().end() < active_snapshot_time)
@@ -318,8 +318,8 @@ public:
 #ifdef SLIC3R_UNDOREDO_DEBUG
     std::string                 format() override {
         std::string out = typeid(T).name();
-        out += this->is_serialized() ? 
-            std::string(" len:") + std::to_string(m_serialized.size()) : 
+        out += this->is_serialized() ?
+            std::string(" len:") + std::to_string(m_serialized.size()) :
             std::string(" shared_ptr:") + ptr_to_string(m_shared_object.get());
         for (const Interval &interval : m_history)
             out += std::string(", <") + std::to_string(interval.begin()) + "," + std::to_string(interval.end()) + ")";
@@ -440,8 +440,8 @@ public:
     }
 
     // If an object provides a reliable timestamp and the object serializes the timestamp first,
-    // then we may just check the validity of the timestamp against the last snapshot without 
-    // having to serialize the whole object. This reduces the amount of serialization and memcmp 
+    // then we may just check the validity of the timestamp against the last snapshot without
+    // having to serialize the whole object. This reduces the amount of serialization and memcmp
     // when taking a snapshot.
     bool try_save_timestamp(size_t active_snapshot_time, size_t current_time, uint64_t timestamp) {
         assert(m_history.empty() || m_history.back().end() <= active_snapshot_time);
@@ -626,7 +626,7 @@ public:
         for (const Snapshot &snapshot : m_snapshots) {
             if (snapshot.timestamp == m_active_snapshot_time)
                 out += ">>> ";
-            out += std::string("Name: \"") + snapshot.name + "\", timestamp: " + std::to_string(snapshot.timestamp) + 
+            out += std::string("Name: \"") + snapshot.name + "\", timestamp: " + std::to_string(snapshot.timestamp) +
                 ", Model ID:" + ((snapshot.model_id == 0) ? "Invalid" : std::to_string(snapshot.model_id)) + "\n";
         }
         if (m_active_snapshot_time > m_snapshots.back().timestamp)
@@ -656,7 +656,7 @@ public:
 #endif /* NDEBUG */
 
 private:
-    template<typename T> ObjectID     immutable_object_id(const std::shared_ptr<const T> &ptr) { 
+    template<typename T> ObjectID     immutable_object_id(const std::shared_ptr<const T> &ptr) {
         return this->immutable_object_id_impl((const void*)ptr.get());
     }
     ObjectID                         immutable_object_id_impl(const void *ptr) {
@@ -712,7 +712,7 @@ class TriangleMesh;
 
 namespace cereal
 {
-    // Let cereal know that there are load / save non-member functions declared for ModelObject*, ignore serialization of pointers triggering 
+    // Let cereal know that there are load / save non-member functions declared for ModelObject*, ignore serialization of pointers triggering
     // static assert, that cereal does not support serialization of raw pointers.
     template <class Archive> struct specialize<Archive, Slic3r::Model*, cereal::specialization::non_member_load_save> {};
     template <class Archive> struct specialize<Archive, Slic3r::ModelObject*, cereal::specialization::non_member_load_save> {};
@@ -989,7 +989,7 @@ void StackImpl::load_snapshot(size_t timestamp, Slic3r::Model& model, Slic3r::GU
 }
 
 bool StackImpl::has_undo_snapshot() const
-{ 
+{
     assert(this->valid());
     auto it = std::lower_bound(m_snapshots.begin(), m_snapshots.end(), Snapshot(m_active_snapshot_time));
     return -- it != m_snapshots.begin();
@@ -1021,7 +1021,7 @@ bool StackImpl::undo(Slic3r::Model &model, const Slic3r::GUI::Selection &selecti
     bool new_snapshot_taken = false;
     if (m_active_snapshot_time == m_snapshots.back().timestamp && ! m_snapshots.back().is_topmost_captured()) {
         // The current state is temporary. The current state needs to be captured to be redoable.
-        //FIXME add new a "topmost" SnapshotType? 
+        //FIXME add new a "topmost" SnapshotType?
         this->take_snapshot(topmost_snapshot_name, model, selection, gizmos, snapshot_data);
         // The line above entered another topmost_snapshot_name.
         assert(m_snapshots.back().is_topmost());
@@ -1067,7 +1067,7 @@ bool StackImpl::redo(Slic3r::Model& model, Slic3r::GUI::GLGizmosManager& gizmos,
     return true;
 }
 
-// If a snapshot modifies the snapshot type, 
+// If a snapshot modifies the snapshot type,
 static inline bool snapshot_modifies_project(SnapshotType type)
 {
     return type == SnapshotType::Action || type == SnapshotType::GizmoAction || type == SnapshotType::ProjectSeparator;
@@ -1098,7 +1098,7 @@ std::vector<Snapshot>::iterator StackImpl::release_snapshots(std::vector<Snapsho
             for (; it != end && ! snapshot_modifies_project(*it); ++ it) ;
             if (it == end && end != m_snapshots.end())
                 // Found a snapshot after end, which captures the same project state.
-                m_saved_snapshot_time = (-- it)->timestamp;                
+                m_saved_snapshot_time = (-- it)->timestamp;
             else
                 // State of the project is being lost. Indicate a "likely modified" project state until the project is saved again.
                 m_saved_snapshot_time = size_t(-1);

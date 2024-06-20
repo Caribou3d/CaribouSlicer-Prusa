@@ -31,7 +31,7 @@
         if (network.ssid != nil)
         {
             [ssids addObject:network.ssid];
-        } 
+        }
     }
     return ssids;
 }
@@ -41,9 +41,9 @@
     OSStatus status = CWKeychainFindWiFiPassword(kCWKeychainDomainSystem, [ssid dataUsingEncoding:NSUTF8StringEncoding], &psk);
     if (status == errSecSuccess) {
         return psk;
-    } 
+    }
     return @""; // Password not found or an error occurred
-    
+
 }
 
 - (NSString *)current_ssid

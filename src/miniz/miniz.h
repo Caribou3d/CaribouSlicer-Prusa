@@ -116,7 +116,7 @@
 
 
 
-/* Defines to completely disable specific portions of miniz.c: 
+/* Defines to completely disable specific portions of miniz.c:
    If all macros here are defined the only functionality remaining will be CRC-32, adler-32, tinfl, and tdefl. */
 
 /* Define MINIZ_NO_STDIO to disable all usage and any functions which rely on stdio for file I/O. */
@@ -139,7 +139,7 @@
 /* Define MINIZ_NO_ZLIB_COMPATIBLE_NAME to disable zlib names, to prevent conflicts against stock zlib. */
 /*#define MINIZ_NO_ZLIB_COMPATIBLE_NAMES */
 
-/* Define MINIZ_NO_MALLOC to disable all calls to malloc, free, and realloc. 
+/* Define MINIZ_NO_MALLOC to disable all calls to malloc, free, and realloc.
    Note if MINIZ_NO_MALLOC is defined then the user must always provide custom user alloc/free/realloc
    callbacks to the zlib and archive API's, and a few stand-alone helper API's which don't provide custom user
    functions (such as tdefl_compress_mem_to_heap() and tinfl_decompress_mem_to_heap()) won't work. */
@@ -1348,7 +1348,7 @@ typedef struct mz_zip_writer_staged_context
 
 /* Adds a file to an archive piecewise. Minimum size of the raw data is 4 bytes. */
 /* Don't call mz_zip_writer_add_staged_finish() if mz_zip_writer_add_staged_open() or mz_zip_writer_add_staged_data() fails. */
-mz_bool mz_zip_writer_add_staged_open(mz_zip_archive* pZip, mz_zip_writer_staged_context* pContext, const char* pArchive_name, 
+mz_bool mz_zip_writer_add_staged_open(mz_zip_archive* pZip, mz_zip_writer_staged_context* pContext, const char* pArchive_name,
     mz_uint64 max_size, const MZ_TIME_T* pFile_time, const void* pComment, mz_uint16 comment_size, mz_uint level_and_flags,
     const char* user_extra_data, mz_uint user_extra_data_len, const char* user_extra_data_central, mz_uint user_extra_data_central_len);
 mz_bool mz_zip_writer_add_staged_data(mz_zip_writer_staged_context* pContext, const char* pRead_buf, size_t n);

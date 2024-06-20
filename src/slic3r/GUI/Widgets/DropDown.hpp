@@ -49,15 +49,15 @@ class DropDown : public wxPopupTransientWindow
 public:
     DropDown(std::vector<wxString> &texts,
              std::vector<wxBitmapBundle> &icons);
-    
+
     DropDown(wxWindow *     parent,
              std::vector<wxString> &texts,
              std::vector<wxBitmapBundle> &icons,
              long           style     = 0);
-    
+
     void Create(wxWindow *     parent,
              long           style     = 0);
-    
+
     void Invalidate(bool clear = false);
 
     int GetSelection() const { return selection; }
@@ -80,7 +80,7 @@ public:
     void SetUseContentWidth(bool use);
 
     void SetAlignIcon(bool align);
-    
+
     void Rescale();
 
     bool HasDismissLongTime();
@@ -88,7 +88,7 @@ public:
     static void SetTransparentBG(wxDC& dc, wxWindow* win);
 
     void CallDismissAndNotify() { DismissAndNotify(); }
-    
+
 protected:
     void OnDismiss() override;
 

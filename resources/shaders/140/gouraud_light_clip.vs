@@ -34,7 +34,7 @@ void main()
 {
     // First transform the normal into camera space and normalize the result.
     vec3 eye_normal = normalize(view_normal_matrix * v_normal);
-    
+
     // Compute the cos of the angle between the normal and lights direction. The light is directional so the direction is constant for every vertex.
     // Since these two are normalized the cosine is the dot product. We also need to clamp the result to the [0,1] range.
     float NdotL = max(dot(eye_normal, LIGHT_TOP_DIR), 0.0);
@@ -48,7 +48,7 @@ void main()
     intensity.x += NdotL * LIGHT_FRONT_DIFFUSE;
 
     gl_Position = projection_matrix * eye_position;
-	
+
     // Fill in the scalar for fragment shader clipping. Fragments with this value lower than zero are discarded.
     clipping_planes_dot = dot(volume_world_matrix * vec4(v_position, 1.0), clipping_plane);
 }

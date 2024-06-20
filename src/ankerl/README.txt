@@ -1,4 +1,4 @@
-THIS DIRECTORY CONTAINS PIECES OF THE 
+THIS DIRECTORY CONTAINS PIECES OF THE
 ankerl::unordered_dense::{map, set}
 https://github.com/martinus/unordered_dense
 unordered_dense 3.1.1 10782bfc651c2bb75b11bf90491f50da122e5432

@@ -47,6 +47,6 @@ Users may move back and forth between snapshots at will using a dialog:
 Slic3r PE 1.40.0 checks for updates of the built-in System presets and downloads them.
 The first-time configuration assistant will ask you if you want to enable this feature - it is **not** mandatory.
 
-Updates are checked for and downloaded in the background. If there's is an update, Slic3r will prompt about it 
+Updates are checked for and downloaded in the background. If there's is an update, Slic3r will prompt about it
 next time it is launched, never during normal program operation. An update may be either accepted or refused.
 Before any update is applied a configuration snapshot (as described above) is taken.

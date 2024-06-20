@@ -17,7 +17,7 @@ class PresetHints
 public:
     // Produce a textual description of the cooling logic of a currently active filament.
     static std::string cooling_description(const Preset &preset);
-    
+
     // Produce a textual description of the maximum flow achived for the current configuration
     // (the current printer, filament and print settigns).
     // This description will be useful for getting a gut feeling for the maximum volumetric
@@ -31,7 +31,7 @@ public:
     // Produce a textual explanation of the combined effects of the top/bottom_solid_layers
     // versus top/bottom_min_shell_thickness. Which of the two values wins depends
     // on the active layer height.
-    static std::string top_bottom_shell_thickness_explanation(const PresetBundle &preset_bundle);    
+    static std::string top_bottom_shell_thickness_explanation(const PresetBundle &preset_bundle);
 };
 
 } // namespace Slic3r

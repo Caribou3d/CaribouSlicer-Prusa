@@ -31,7 +31,7 @@ GLGizmoScale3D::GLGizmoScale3D(GLCanvas3D& parent, const std::string& icon_filen
     m_grabber_connections[1].grabber_indices = { 2, 3 };
     m_grabber_connections[2].grabber_indices = { 4, 5 };
     m_grabber_connections[3].grabber_indices = { 6, 7 };
-    m_grabber_connections[4].grabber_indices = { 7, 8 }; 
+    m_grabber_connections[4].grabber_indices = { 7, 8 };
     m_grabber_connections[5].grabber_indices = { 8, 9 };
     m_grabber_connections[6].grabber_indices = { 9, 6 };
 }
@@ -46,7 +46,7 @@ std::string GLGizmoScale3D::get_tooltip() const
         return "Y: " + format(scale.y(), 4) + "%";
     else if (m_hover_id == 4 || m_hover_id == 5 || m_grabbers[4].dragging || m_grabbers[5].dragging)
         return "Z: " + format(scale.z(), 4) + "%";
-    else if (m_hover_id == 6 || m_hover_id == 7 || m_hover_id == 8 || m_hover_id == 9 || 
+    else if (m_hover_id == 6 || m_hover_id == 7 || m_hover_id == 8 || m_hover_id == 9 ||
         m_grabbers[6].dragging || m_grabbers[7].dragging || m_grabbers[8].dragging || m_grabbers[9].dragging)
     {
         std::string tooltip = "X: " + format(scale.x(), 4) + "%\n";
@@ -88,7 +88,7 @@ bool GLGizmoScale3D::on_mouse(const wxMouseEvent &mouse_event)
                 // and from that calculates the offset (in world coordinates) to be applied to fullfill the constraint
                 update_render_data();
                 const Vec3d constraint_position = m_grabbers_transform * m_grabbers[constraint_id(m_hover_id)].center;
-                // re-apply the scale because the selection always applies the transformations with respect to the initial state 
+                // re-apply the scale because the selection always applies the transformations with respect to the initial state
                 // set into on_start_dragging() with the call to selection.setup_cache()
                 m_parent.get_selection().scale_and_translate(m_scale, m_starting.constraint_position - constraint_position, transformation_type);
             }

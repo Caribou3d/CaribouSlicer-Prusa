@@ -154,7 +154,7 @@ static ParamType get_type(const std::string& opt_key, const ConfigOptionDef& opt
 void EditGCodeDialog::init_params_list(const std::string& custom_gcode_name)
 {
     const auto& custom_gcode_placeholders = custom_gcode_specific_placeholders();
-    const auto& specific_params = custom_gcode_placeholders.count(custom_gcode_name) > 0 ? 
+    const auto& specific_params = custom_gcode_placeholders.count(custom_gcode_name) > 0 ?
                                   custom_gcode_placeholders.at(custom_gcode_name) : t_config_option_keys({});
 
     // Add slicing states placeholders
@@ -257,7 +257,7 @@ wxDataViewItem EditGCodeDialog::add_presets_placeholders()
     for (const auto&opt : print_options)
         if (const ConfigOption *optptr = full_config.optptr(opt))
             m_params_list->AppendParam(print, optptr->is_scalar() ? ParamType::Scalar : ParamType::Vector, opt);
-    
+
     wxDataViewItem material = m_params_list->AppendSubGroup(group, _(is_fff ? L("Filament settings") : L("SLA Materials settings")), is_fff ? "spool" : "resin");
     for (const auto&opt : material_options)
         if (const ConfigOption *optptr = full_config.optptr(opt))
@@ -291,7 +291,7 @@ void EditGCodeDialog::add_selected_value_to_gcode()
 }
 
 void EditGCodeDialog::selection_changed(wxDataViewEvent& evt)
-{   
+{
     wxString label;
     wxString description;
 
@@ -325,7 +325,7 @@ void EditGCodeDialog::selection_changed(wxDataViewEvent& evt)
         if (def) {
             const ConfigOptionType scalar_type = def->is_scalar() ? def->type : static_cast<ConfigOptionType>(def->type - coVectorType);
             wxString type_str = scalar_type == coNone           ? "none" :
-                                scalar_type == coFloat          ? "float" : 
+                                scalar_type == coFloat          ? "float" :
                                 scalar_type == coInt            ? "integer" :
                                 scalar_type == coString         ? "string" :
                                 scalar_type == coPercent        ? "percent" :
@@ -422,7 +422,7 @@ ParamsNode::ParamsNode( ParamsNode *        parent,
     make_bold(text);
 }
 
-ParamsNode::ParamsNode( ParamsNode*         parent, 
+ParamsNode::ParamsNode( ParamsNode*         parent,
                         ParamType           param_type,
                         const std::string&  param_key)
     : m_parent(parent)
@@ -483,9 +483,9 @@ wxDataViewItem ParamsModel::AppendParam(wxDataViewItem      parent,
     ParamsNode* parent_node = static_cast<ParamsNode*>(parent.GetID());
     if (!parent_node)
         return wxDataViewItem(0);
-    
+
     parent_node->Append(std::make_unique<ParamsNode>(parent_node, param_type, param_key));
-        
+
     const wxDataViewItem  child_item((void*)parent_node->GetChildren().back().get());
 
     ItemAdded(parent, child_item);
@@ -592,7 +592,7 @@ bool ParamsModel::SetValue(const wxVariant& variant, const wxDataViewItem& item,
         node->text = data.GetText();
         return true;
     }
-    
+
     wxLogError("DiffModel::SetValue: wrong column");
     return false;
 }
@@ -720,7 +720,7 @@ void ParamsViewCtrl::Clear()
 void ParamsViewCtrl::Rescale(int em/* = 0*/)
 {
 //    model->Rescale();
-    Refresh();    
+    Refresh();
 }
 
 }}    // namespace Slic3r::GUI

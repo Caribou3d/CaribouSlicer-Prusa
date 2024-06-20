@@ -18,7 +18,7 @@ public:
 
 
     std::string process_layer(const std::string &gcode);
-    
+
 private:
     struct Substitution {
         std::string     plain_pattern;

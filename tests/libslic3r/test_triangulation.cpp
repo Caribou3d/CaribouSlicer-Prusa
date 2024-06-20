@@ -33,7 +33,7 @@ void store_trinagulation(const ExPolygons &shape,
 
 TEST_CASE("Triangulate rectangle with restriction on edge", "[Triangulation]")
 {
-    //                    0            1            2            3 
+    //                    0            1            2            3
     Points points = {Point(1, 1), Point(2, 1), Point(2, 2), Point(1, 2)};
     Triangulation::HalfEdges edges1 = {{1, 3}};
     std::vector<Vec3i> indices1 = Triangulation::triangulate(points, edges1);
@@ -43,7 +43,7 @@ TEST_CASE("Triangulate rectangle with restriction on edge", "[Triangulation]")
         return (t[0] == i1 || t[1] == i1 || t[2] == i1) &&
                (t[0] == i2 || t[1] == i2 || t[2] == i2);
     };
-    REQUIRE(indices1.size() == 2); 
+    REQUIRE(indices1.size() == 2);
     int i1 = edges1.begin()->first, i2 = edges1.begin()->second;
     CHECK(check(i1, i2, indices1[0]));
     CHECK(check(i1, i2, indices1[1]));
@@ -57,7 +57,7 @@ TEST_CASE("Triangulate rectangle with restriction on edge", "[Triangulation]")
     CHECK(check(i1, i2, indices2[1]));
 }
 
-TEST_CASE("Triangulation polygon", "[triangulation]") 
+TEST_CASE("Triangulation polygon", "[triangulation]")
 {
     Points points = {Point(416, 346), Point(445, 362), Point(463, 389),
                      Point(469, 427), Point(445, 491)};
@@ -71,7 +71,7 @@ TEST_CASE("Triangulation polygon", "[triangulation]")
     std::vector<Vec3i> tps  = Triangulation::triangulate(polygons);
     std::vector<Vec3i> tep  = Triangulation::triangulate(expolygon);
     std::vector<Vec3i> teps = Triangulation::triangulate(expolygons);
-       
+
     //Private::store_trinagulation(expolygons, teps);
 
     CHECK(tp.size() == tps.size());
@@ -86,16 +86,16 @@ TEST_CASE("Triangulation M shape polygon", "[triangulation]")
     Polygon shape_M = {Point(0, 0), Point(2, 0), Point(2, 2), Point(1, 1), Point(0, 2)};
 
     std::vector<Vec3i> triangles = Triangulation::triangulate(shape_M);
-    
+
     // Check outer triangle is not contain
     std::set<int> outer_triangle = {2, 3, 4};
     bool          is_in          = false;
     for (const Vec3i &t : triangles) {
         for (size_t i = 0; i < 3; i++) {
             int index = t[i];
-            if (outer_triangle.find(index) == outer_triangle.end()) { 
+            if (outer_triangle.find(index) == outer_triangle.end()) {
                 is_in = false;
-                break; 
+                break;
             } else {
                 is_in = true;
             }
@@ -109,7 +109,7 @@ TEST_CASE("Triangulation M shape polygon", "[triangulation]")
 }
 
 // same point in triangulation are not Supported
-TEST_CASE("Triangulation 2 polygons with same point", "[triangulation]") 
+TEST_CASE("Triangulation 2 polygons with same point", "[triangulation]")
 {
     Slic3r::Polygon polygon1 = {
         Point(416, 346), Point(445, 362),

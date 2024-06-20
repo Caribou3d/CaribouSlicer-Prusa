@@ -162,7 +162,7 @@ public:
     void   restore_optional() {}
 
     const TriangleMeshStats& stats() const { return m_stats; }
-    
+
     indexed_triangle_set its;
 
 private:

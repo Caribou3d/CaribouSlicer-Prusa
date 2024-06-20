@@ -14,16 +14,16 @@ namespace GUI {
 
 struct OpenGLVersions
 {
-	static const std::vector<std::pair<int, int>> core;
+    static const std::vector<std::pair<int, int>> core;
 };
 
 struct GUI_InitParams
 {
-	int		                    argc;
-	char	                  **argv;
+    int                            argc;
+    char                      **argv;
 
-	// Substitutions of unknown configuration values done during loading of user presets.
-	PresetsConfigSubstitutions  preset_substitutions;
+    // Substitutions of unknown configuration values done during loading of user presets.
+    PresetsConfigSubstitutions  preset_substitutions;
 
     std::vector<std::string>    load_configs;
     DynamicPrintConfig          extra_config;
@@ -34,11 +34,11 @@ struct GUI_InitParams
     bool                        delete_after_load;
     std::string                 download_url;
 #if !SLIC3R_OPENGL_ES
-		std::pair<int, int>         opengl_version;
-		bool                        opengl_debug;
-		bool                        opengl_compatibiity_profile;
+        std::pair<int, int>         opengl_version;
+        bool                        opengl_debug;
+        bool                        opengl_compatibiity_profile;
 #endif // !SLIC3R_OPENGL_ES
-		bool                        opengl_aa;
+        bool                        opengl_aa;
 };
 
 int GUI_Run(GUI_InitParams &params);

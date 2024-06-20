@@ -32,7 +32,7 @@ public:
     /// <param name="language_glyph_range">Character to load for imgui when initialize imgui font</param>
     /// <param name="create_default_styles">Function to create default styles</param>
     StyleManager(const ImWchar *language_glyph_range, const std::function<EmbossStyles()>& create_default_styles);
-        
+
     /// <summary>
     /// Release imgui font and style images from GPU
     /// </summary>
@@ -45,7 +45,7 @@ public:
     /// <param name="app_config">Application configuration loaded from file "CaribouSlicer.ini"
     /// + cfg is stored to privat variable</param>
     void init(AppConfig *app_config);
-    
+
     /// <summary>
     /// Write font list into AppConfig
     /// </summary>
@@ -63,7 +63,7 @@ public:
 
     /// <summary>
     /// Change order of style item in m_styles.
-    /// Fix selected font index when (i1 || i2) == m_font_selected 
+    /// Fix selected font index when (i1 || i2) == m_font_selected
     /// </summary>
     /// <param name="i1">First index to m_styles</param>
     /// <param name="i2">Second index to m_styles</param>
@@ -87,7 +87,7 @@ public:
     /// </summary>
     /// <param name="name">New name</param>
     void rename(const std::string &name);
-        
+
     /// <summary>
     /// load some valid style
     /// </summary>
@@ -105,7 +105,7 @@ public:
     bool load_style(const Style &style);
     // fastering load font on index by wxFont, ignore type and descriptor
     bool load_style(const Style &style, const wxFont &font);
-    
+
     // clear actual selected glyphs cache
     void clear_glyphs_cache();
 
@@ -119,18 +119,18 @@ public:
           Style &get_style()           { return m_style_cache.style; }
           size_t get_style_index() const     { return m_style_cache.style_index; }
     std::string &get_truncated_name()        { return m_style_cache.truncated_name; }
-    const ImFontAtlas &get_atlas() const     { return m_style_cache.atlas; } 
+    const ImFontAtlas &get_atlas() const     { return m_style_cache.atlas; }
     const FontProp    &get_font_prop() const { return get_style().prop; }
           FontProp    &get_font_prop()       { return get_style().prop; }
     const wxFont &get_wx_font()        const { return m_style_cache.wx_font; }
     const wxFont &get_stored_wx_font() const { return m_style_cache.stored_wx_font; }
     Slic3r::Emboss::FontFileWithCache &get_font_file_with_cache()   { return m_style_cache.font_file; }
-    bool has_collections() const { return m_style_cache.font_file.font_file != nullptr && 
+    bool has_collections() const { return m_style_cache.font_file.font_file != nullptr &&
                                           m_style_cache.font_file.font_file->infos.size() > 1; }
 
     // True when activ style has same name as some of stored style
     bool exist_stored_style() const { return m_style_cache.style_index != std::numeric_limits<size_t>::max(); }
-    
+
     /// <summary>
     /// check whether current style differ to selected
     /// </summary>
@@ -161,7 +161,7 @@ public:
     ImFont *get_imgui_font();
     // initialize font range by unique symbols in text
     ImFont *create_imgui_font(const std::string& text, double scale);
-    
+
     // init truncated names of styles
     void init_trunc_names(float max_width);
 
@@ -172,7 +172,7 @@ public:
     /// <param name="text">Text to render by style</param>
     void init_style_images(const Vec2i& max_size, const std::string &text);
     void free_style_images();
-    
+
     // access to all managed font styles
     const std::vector<Style> &get_styles() const;
 
@@ -190,7 +190,7 @@ public:
     };
 
     /// <summary>
-    /// All connected with one style 
+    /// All connected with one style
     /// keep temporary data and caches for style
     /// </summary>
     struct Style : public EmbossStyle
@@ -211,14 +211,14 @@ public:
 
         bool operator==(const Style &other) const
         {
-            return EmbossStyle::operator==(other) && 
+            return EmbossStyle::operator==(other) &&
                 projection == other.projection &&
                 is_approx(distance, other.distance) &&
                 is_approx(angle, other.angle);
         }
 
         // cache for view font name with maximal width in imgui
-        std::string truncated_name; 
+        std::string truncated_name;
 
         // visualization of style
         std::optional<StyleImage> image;
@@ -261,7 +261,7 @@ private:
         wxFont wx_font = {};
 
         // cache for view font name with maximal width in imgui
-        std::string truncated_name; 
+        std::string truncated_name;
 
         // actual used font item
         Style style = {};
@@ -312,7 +312,7 @@ private:
 
         // place to store result in main thread in Finalize
         std::shared_ptr<StyleImages> result;
-                
+
         // pixel per milimeter (scaled DPI)
         double ppm;
     };

@@ -39,7 +39,7 @@ enum class SnapshotType : unsigned char {
     ProjectSeparator,
     // Entering a Gizmo, which opens a secondary Undo / Redo stack.
     EnteringGizmo,
-    // Leaving a Gizmo, which closes a secondary Undo / Redo stack. 
+    // Leaving a Gizmo, which closes a secondary Undo / Redo stack.
     // No action modifying a project state was done between EnteringGizmo / LeavingGizmo.
     LeavingGizmoNoAction,
     // Leaving a Gizmo, which closes a secondary Undo / Redo stack.
@@ -75,7 +75,7 @@ struct Snapshot
     Snapshot(size_t timestamp) : timestamp(timestamp) {}
     Snapshot(const std::string &name, size_t timestamp, size_t model_id, const SnapshotData &snapshot_data) :
         name(name), timestamp(timestamp), model_id(model_id), snapshot_data(snapshot_data) {}
-    
+
     std::string         name;
     size_t                 timestamp;
     size_t                 model_id;
@@ -86,7 +86,7 @@ struct Snapshot
 
     // The topmost snapshot represents the current state when going forward.
     bool         is_topmost() const;
-    // The topmost snapshot is not being serialized to the Undo / Redo stack until going back in time, 
+    // The topmost snapshot is not being serialized to the Undo / Redo stack until going back in time,
     // when the top most state is being serialized, so we can redo back to the top most state.
     bool         is_topmost_captured() const { assert(this->is_topmost()); return model_id > 0; }
 };

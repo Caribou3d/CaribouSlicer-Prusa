@@ -533,7 +533,7 @@ private:
             switch (it->type) {
             // change color for current extruder
             case Slic3r::CustomGCode::ColorChange: { return color_change_color_id(it, extruder_id); }
-            // change tool (extruder) 
+            // change tool (extruder)
             case Slic3r::CustomGCode::ToolChange:  { return tool_change_color_id(it, extruder_id); }
             default:                               { break; }
             }
@@ -546,7 +546,7 @@ private:
             switch (it->type) {
             // change color for current extruder
             case Slic3r::CustomGCode::ColorChange: { return color_change_color_id(it, extruder_id); }
-            // change tool (extruder) 
+            // change tool (extruder)
             case Slic3r::CustomGCode::ToolChange:  { return tool_change_color_id(it, extruder_id); }
             default:                               { break; }
             }

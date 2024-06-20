@@ -1,4 +1,4 @@
-Bundled with PrusaSlicer: 
+Bundled with PrusaSlicer:
 https://github.com/tcbrindle/span
 commit 836dc6a0efd9849cb194e88e4aa2387436bb079b
 This is not the full distribution, it only contains README and span.hpp
@@ -9,7 +9,7 @@ Original README follows:
 [![License](https://img.shields.io/badge/license-BSL-blue.svg)](http://www.boost.org/LICENSE_1_0.txt)
 [![Build Status](https://travis-ci.org/tcbrindle/span.svg?branch=master)](https://travis-ci.org/tcbrindle/span)
 [![Build status](https://ci.appveyor.com/api/projects/status/ow7cj56s108fs439/branch/master?svg=true)](https://ci.appveyor.com/project/tcbrindle/span/branch/master)
-[![Try it on godbolt online](https://img.shields.io/badge/on-godbolt-blue.svg)](https://godbolt.org/z/-vlZZR) 
+[![Try it on godbolt online](https://img.shields.io/badge/on-godbolt-blue.svg)](https://godbolt.org/z/-vlZZR)
 
 `std::span` implementation for C++11 and later
 ==============================================
@@ -118,7 +118,7 @@ Alternatives
 
 * [Microsoft/GSL](https://github.com/Microsoft/GSL): The original `span` reference
   implementation from which `std::span` was born.
-  
+
 * [martinmoene/span_lite](https://github.com/martinmoene/span-lite): An
   alternative implementation which offers C++98 compatibility.
 

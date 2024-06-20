@@ -28,7 +28,7 @@ class PresetComboBox;
 class MainFrame;
 using ModelNodePtrArray = std::vector<std::unique_ptr<ModelNode>>;
 
-// On all of 3 different platforms Bitmap+Text icon column looks different 
+// On all of 3 different platforms Bitmap+Text icon column looks different
 // because of Markup text is missed or not implemented.
 // As a temporary workaround, we will use:
 // MSW - DataViewBitmapText (our custom renderer wxBitmap + wxString, supported Markup text)
@@ -379,7 +379,7 @@ class DiffPresetDialog : public DPIDialog
     void update_bundles_from_app();
     void update_controls_visibility(Preset::Type type = Preset::TYPE_INVALID);
     void update_compatibility(const std::string& preset_name, Preset::Type type, PresetBundle* preset_bundle);
-         
+
     std::vector<std::string> get_options_to_save(Preset::Type type);
     void                     button_event(Action act);
     bool                     is_save_confirmed();
@@ -425,7 +425,7 @@ protected:
     void on_sys_color_changed() override;
 };
 
-} 
+}
 }
 
 #endif //slic3r_UnsavedChangesDialog_hpp_

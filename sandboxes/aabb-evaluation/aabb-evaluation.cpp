@@ -70,7 +70,7 @@ void profile(const TriangleMesh &mesh)
                     d *= -1;
                 }
                 igl::Hit hit;
-                if (AABBTreeIndirect::intersect_ray_first_hit(mesh.its.vertices, mesh.its.indices, tree, 
+                if (AABBTreeIndirect::intersect_ray_first_hit(mesh.its.vertices, mesh.its.indices, tree,
                         Eigen::Vector3f((origin + 1e-4 * d).template cast<float>()),
                         Eigen::Vector3f(d.template cast<float>()), hit))
                     ++ num_hits;
@@ -181,7 +181,7 @@ int main(const int argc, const char *argv[])
         return -1;
     }
 
-    profile(mesh);    
+    profile(mesh);
 
     return EXIT_SUCCESS;
 }

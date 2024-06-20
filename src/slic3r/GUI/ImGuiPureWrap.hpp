@@ -16,7 +16,7 @@
 
 struct IMGUI_API ImGuiWindow;
 
-namespace ImGuiPureWrap 
+namespace ImGuiPureWrap
 {
     void set_display_size(float w, float h);
 
@@ -35,7 +35,7 @@ namespace ImGuiPureWrap
     float  get_slider_float_height();
     void set_next_window_pos(float x, float y, int flag, float pivot_x = 0.0f, float pivot_y = 0.0f);
     void set_next_window_bg_alpha(float alpha);
-	void set_next_window_size(float x, float y, ImGuiCond cond);
+    void set_next_window_size(float x, float y, ImGuiCond cond);
 
     bool begin(const std::string &name, int flags = 0);
     bool begin(const std::string& name, bool* close, int flags = 0);
@@ -81,9 +81,9 @@ namespace ImGuiPureWrap
     void process_mouse_wheel(int& mouse_wheel);
 
     // Optional inputs are used for set up value inside of an optional, with default value
-    // 
+    //
     // Extended function ImGui::InputInt to work with std::optional<int>, when value == def_val optional is released.
-    bool input_optional_int(const char *label, std::optional<int>& v, int step=1, int step_fast=100, ImGuiInputTextFlags flags=0, int def_val = 0);    
+    bool input_optional_int(const char *label, std::optional<int>& v, int step=1, int step_fast=100, ImGuiInputTextFlags flags=0, int def_val = 0);
     // Extended function ImGui::InputFloat to work with std::optional<float> value near def_val cause release of optional
     bool input_optional_float(const char* label, std::optional<float> &v, float step = 0.0f, float step_fast = 0.0f, const char* format = "%.3f", ImGuiInputTextFlags flags = 0, float def_val = .0f);
     // Extended function ImGui::DragFloat to work with std::optional<float> value near def_val cause release of optional
@@ -123,7 +123,7 @@ namespace ImGuiPureWrap
     /// </summary>
     /// <param name="text">In/Out text to be escaped</param>
     void escape_double_hash(std::string &text);
-    
+
     /// <summary>
     /// Draw symbol of cross hair
     /// </summary>
@@ -159,7 +159,7 @@ namespace ImGuiPureWrap
 //    const ImVec4 COL_GREENC_LIGHT       = { 0.063f, 0.353f, 0.094f, 1.0f };
 //    const ImVec4 COL_GREENC_LIGHT       = { 0.447f, 0.929f, 0.482f, 1.0f };
     const ImVec4 COL_GREENC_LIGHT       = { 0.102f, 0.522f, 0.153f, 1.0f};
-//    const ImVec4 COL_GREENC_LIGHT      = { 0.923f, 0.504f, 0.264f, 1.0f }; 
+//    const ImVec4 COL_GREENC_LIGHT      = { 0.923f, 0.504f, 0.264f, 1.0f };
     const ImVec4 COL_WINDOW_BACKGROUND = { 0.13f, 0.13f, 0.13f, 0.8f };
     const ImVec4 COL_BUTTON_BACKGROUND = COL_GREENC_DARK;
     const ImVec4 COL_BUTTON_HOVERED    = COL_GREENC_LIGHT;

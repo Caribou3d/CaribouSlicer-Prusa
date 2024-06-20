@@ -21,21 +21,21 @@ TEST_CASE("string_printf", "[utils]") {
         std::string outs = Slic3r::string_printf("");
         REQUIRE(outs.empty());
     }
-    
+
     SECTION("String output length should be the same as input") {
         std::string outs = Slic3r::string_printf("1234");
         REQUIRE(outs.size() == 4);
     }
-    
+
     SECTION("String format should be interpreted as with sprintf") {
         std::string outs = Slic3r::string_printf("%d %f %s", 10, 11.4, " This is a string");
         char buffer[1024];
-        
+
         sprintf(buffer, "%d %f %s", 10, 11.4, " This is a string");
-        
+
         REQUIRE(outs.compare(buffer) == 0);
     }
-    
+
     SECTION("String format should survive large input data") {
         std::string input(2048, 'A');
         std::string outs = Slic3r::string_printf("%s", input.c_str());
@@ -57,8 +57,8 @@ TEST_CASE("Bimap duplicity behavior") {
         ("tri", number::tri) // no matter if it is there
         ;
 
-    const auto& to_type = bimap.left;    
-    
+    const auto& to_type = bimap.left;
+
     auto item_number1 = to_type.find("one");
     REQUIRE(item_number1 != to_type.end());
     CHECK(item_number1->second == number::one);
@@ -68,9 +68,9 @@ TEST_CASE("Bimap duplicity behavior") {
     CHECK(item_number3->second == number::three);
 
     // to_type.find("tri"); // not in map
-    
+
     const auto &to_name = bimap.right;
-    
+
     auto it1 = to_name.find(number::one);
     REQUIRE(it1 != to_name.end());
     CHECK(it1->second == "one");
@@ -81,7 +81,7 @@ TEST_CASE("Bimap duplicity behavior") {
 
     auto it3 = to_name.find(number::tri);
     REQUIRE(it3 != to_name.end());
-    REQUIRE(number::three == number::tri);        
+    REQUIRE(number::three == number::tri);
     CHECK(it3->second == "three");
 }
 

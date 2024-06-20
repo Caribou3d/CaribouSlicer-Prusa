@@ -80,7 +80,7 @@ std::vector<RegionExpansion> propagate_waves(const ExPolygons &src, const ExPoly
 
 std::vector<RegionExpansion> propagate_waves(const ExPolygons &src, const ExPolygons &boundary,
     // Scaled expansion value
-    float expansion, 
+    float expansion,
     // Expand by waves of expansion_step size (expansion_step is scaled).
     float expansion_step,
     // Don't take more than max_nr_steps for small expansion_step.
@@ -97,7 +97,7 @@ std::vector<RegionExpansionEx> propagate_waves_ex(const WaveSeeds &seeds, const 
 
 std::vector<RegionExpansionEx> propagate_waves_ex(const ExPolygons &src, const ExPolygons &boundary,
     // Scaled expansion value
-    float expansion, 
+    float expansion,
     // Expand by waves of expansion_step size (expansion_step is scaled).
     float expansion_step,
     // Don't take more than max_nr_steps for small expansion_step.
@@ -105,7 +105,7 @@ std::vector<RegionExpansionEx> propagate_waves_ex(const ExPolygons &src, const E
 
 std::vector<Polygons> expand_expolygons(const ExPolygons &src, const ExPolygons &boundary,
     // Scaled expansion value
-    float expansion, 
+    float expansion,
     // Expand by waves of expansion_step size (expansion_step is scaled).
     float expansion_step,
     // Don't take more than max_nr_steps for small expansion_step.

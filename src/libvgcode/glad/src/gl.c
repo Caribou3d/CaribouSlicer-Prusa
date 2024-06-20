@@ -1612,7 +1612,7 @@ int gladLoadGL( GLADloadfunc load) {
 
 
 
- 
+
 
 #ifdef GLAD_GL
 

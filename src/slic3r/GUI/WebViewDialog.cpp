@@ -91,7 +91,7 @@ WebViewPanel::WebViewPanel(wxWindow *parent, const wxString& default_url, const 
     m_tools_menu->AppendSeparator();
 
     wxMenu* script_menu = new wxMenu;
-   
+
     m_script_custom = script_menu->Append(wxID_ANY, "Custom script");
     m_tools_menu->AppendSubMenu(script_menu, _L("Run Script"));
     wxMenuItem* addUserScript = m_tools_menu->Append(wxID_ANY, _L("Add user script"));
@@ -166,7 +166,7 @@ void WebViewPanel::load_error_page()
         return;
 
     m_browser->Stop();
-    m_load_error_page = true;    
+    m_load_error_page = true;
 }
 
 void WebViewPanel::on_show(wxShowEvent& evt)
@@ -254,7 +254,7 @@ void WebViewPanel::on_script_message(wxWebViewEvent& evt)
 {
 }
 
-void WebViewPanel::on_navigation_request(wxWebViewEvent &evt) 
+void WebViewPanel::on_navigation_request(wxWebViewEvent &evt)
 {
 }
 
@@ -535,12 +535,12 @@ void ConnectRequestHandler::on_connect_action_request_config(const std::string& 
     const std::string dark_mode = wxGetApp().dark_mode() ? "DARK" : "LIGHT";
     wxString language = GUI::wxGetApp().current_language_code();
     language = language.SubString(0, 1);
-    const std::string init_options = GUI::format("{\"accessToken\": \"%4%\",\"clientVersion\": \"%1%\", \"colorMode\": \"%2%\", \"language\": \"%3%\"}", SLIC3R_VERSION, dark_mode, language, token );  
+    const std::string init_options = GUI::format("{\"accessToken\": \"%4%\",\"clientVersion\": \"%1%\", \"colorMode\": \"%2%\", \"language\": \"%3%\"}", SLIC3R_VERSION, dark_mode, language, token );
     wxString script = GUI::format_wxstr("window._prusaConnect_v1.init(%1%)", init_options);
     run_script_bridge(script);
-    
+
 }
-void ConnectRequestHandler::on_connect_action_request_open_in_browser(const std::string& message_data) 
+void ConnectRequestHandler::on_connect_action_request_open_in_browser(const std::string& message_data)
 {
     try {
         std::stringstream ss(message_data);
@@ -552,12 +552,12 @@ void ConnectRequestHandler::on_connect_action_request_open_in_browser(const std:
     } catch (const std::exception &e) {
         BOOST_LOG_TRIVIAL(error) << "Could not parse _prusaConnect message. " << e.what();
         return;
-    }    
+    }
 }
 
 ConnectWebViewPanel::ConnectWebViewPanel(wxWindow* parent)
     : WebViewPanel(parent, L"https://connect.prusa3d.com/", { "_prusaSlicer" }, "connect_loading")
-{  
+{
     //m_browser->RegisterHandler(wxSharedPtr<wxWebViewHandler>(new WebViewHandler("https")));
 
     Plater* plater = wxGetApp().plater();
@@ -640,7 +640,7 @@ void ConnectWebViewPanel::on_script_message(wxWebViewEvent& evt)
     BOOST_LOG_TRIVIAL(debug) << "recieved message from PrusaConnect FE: " << evt.GetString();
     handle_message(into_u8(evt.GetString()));
 }
-void ConnectWebViewPanel::on_navigation_request(wxWebViewEvent &evt) 
+void ConnectWebViewPanel::on_navigation_request(wxWebViewEvent &evt)
 {
     if (evt.GetURL() == m_default_url) {
         m_reached_default_url = true;
@@ -731,7 +731,7 @@ void PrinterWebViewPanel::send_api_key()
     m_browser->RemoveAllUserScripts();
     m_browser->AddUserScript(script);
     m_browser->Reload();
-    
+
 }
 
 void PrinterWebViewPanel::send_credentials()
@@ -752,11 +752,11 @@ void PrinterWebViewPanel::send_credentials()
         };
     }
 )", usr, psk);
-    
+
     m_browser->RemoveAllUserScripts();
     m_browser->AddUserScript(script);
     m_browser->Reload();
-    
+
 }
 
 void PrinterWebViewPanel::sys_color_changed()
@@ -834,10 +834,10 @@ WebViewDialog::WebViewDialog(wxWindow* parent, const wxString& url, const wxStri
     m_dev_tools = m_tools_menu->AppendCheckItem(wxID_ANY, _L("Enable Dev Tools"));
 
 #endif
-    
+
     Bind(wxEVT_SHOW, &WebViewDialog::on_show, this);
     Bind(wxEVT_WEBVIEW_SCRIPT_MESSAGE_RECEIVED, &WebViewDialog::on_script_message, this, m_browser->GetId());
-    
+
     // Connect the webview events
     Bind(wxEVT_WEBVIEW_ERROR, &WebViewDialog::on_error, this, m_browser->GetId());
     //Connect the idle events
@@ -850,7 +850,7 @@ WebViewDialog::WebViewDialog(wxWindow* parent, const wxString& url, const wxStri
     Bind(wxEVT_BUTTON, &WebViewDialog::on_reload_button, this, m_button_reload->GetId());
     Bind(wxEVT_BUTTON, &WebViewDialog::on_tools_clicked, this, m_button_tools->GetId());
     Bind(wxEVT_TEXT_ENTER, &WebViewDialog::on_url, this, m_url->GetId());
-    
+
     // Connect the menu events
     Bind(wxEVT_MENU, &WebViewDialog::on_view_source_request, this, viewSource->GetId());
     Bind(wxEVT_MENU, &WebViewDialog::on_view_text_request, this, viewText->GetId());
@@ -863,7 +863,7 @@ WebViewDialog::WebViewDialog(wxWindow* parent, const wxString& url, const wxStri
 
     Bind(wxEVT_CLOSE_WINDOW, ([this](wxCloseEvent& evt) { EndModal(wxID_CANCEL); }));
 
-    m_browser->LoadURL(url);   
+    m_browser->LoadURL(url);
 #ifdef DEBUG_URL_PANEL
     m_url->SetLabelText(url);
 #endif
@@ -1149,7 +1149,7 @@ void WebViewDialog::EndModal(int retCode)
             m_browser->RemoveScriptMessageHandler(GUI::into_u8(handler));
         }
     }
-    
+
     wxDialog::EndModal(retCode);
 }
 
@@ -1193,7 +1193,7 @@ void PrinterPickWebViewDialog::on_connect_action_print(const std::string& messag
 
 void PrinterPickWebViewDialog::on_connect_action_webapp_ready(const std::string& message_data)
 {
-    
+
     if (Preset::printer_technology(wxGetApp().preset_bundle->printers.get_selected_preset().config) == ptFFF) {
         request_compatible_printers_FFF();
     } else {

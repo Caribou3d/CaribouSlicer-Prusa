@@ -116,7 +116,7 @@ public:
         ToolMarker,
     };
 
-    Preview(wxWindow* parent, Bed3D& bed, Model* model, DynamicPrintConfig* config, BackgroundSlicingProcess* process, 
+    Preview(wxWindow* parent, Bed3D& bed, Model* model, DynamicPrintConfig* config, BackgroundSlicingProcess* process,
         GCodeProcessorResult* gcode_result, std::function<void()> schedule_background_process = []() {});
     virtual ~Preview();
 

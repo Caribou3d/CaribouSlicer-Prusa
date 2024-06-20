@@ -25,8 +25,8 @@ public:
 
     std::vector<std::shared_ptr<ArchiveViewNode>>&  get_children()                                      { return m_children; }
     void                                            set_parent(std::shared_ptr<ArchiveViewNode> parent) { m_parent = parent; }
-    // On Linux, get_parent cannot just return size of m_children. ItemAdded would than crash. 
-    std::shared_ptr<ArchiveViewNode>                get_parent() const                                  { return m_parent; } 
+    // On Linux, get_parent cannot just return size of m_children. ItemAdded would than crash.
+    std::shared_ptr<ArchiveViewNode>                get_parent() const                                  { return m_parent; }
     bool                                            is_container() const                                { return m_container; }
     void                                            set_container(bool is_container)                    { m_container = is_container; }
     wxString                                        get_name() const                                    { return m_name; }
@@ -54,7 +54,7 @@ private:
 
 class ArchiveViewModel : public wxDataViewModel
 {
-public: 
+public:
     ArchiveViewModel(wxWindow* parent);
     ~ArchiveViewModel();
 
@@ -108,7 +108,7 @@ class FileArchiveDialog : public DPIDialog
 {
 public:
     FileArchiveDialog(wxWindow* parent_window, mz_zip_archive* archive, std::vector<std::pair<boost::filesystem::path, size_t>>& selected_paths_w_size);
-        
+
 protected:
     void on_dpi_changed(const wxRect& suggested_rect) override;
 

@@ -9,7 +9,7 @@ using namespace Slic3r;
 // tests for ExPolygon::overlaps(const ExPolygon &other)
 SCENARIO("Clipper intersection with polyline", "[Clipper]")
 {
-    struct TestData { 
+    struct TestData {
         ClipperLib::Path subject;
         ClipperLib::Path clip;
         ClipperLib::Paths result;

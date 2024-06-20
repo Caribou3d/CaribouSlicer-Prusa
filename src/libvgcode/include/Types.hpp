@@ -125,21 +125,21 @@ enum class EGCodeExtrusionRole : uint8_t
 {
       // This enum is used as in index into extrusion_roles_visibility.
       // Better only add things to the end.
-	  None,
-	  Perimeter,
-	  ExternalPerimeter,
-	  OverhangPerimeter,
-	  InternalInfill,
-	  SolidInfill,
-	  TopSolidInfill,
-	  Ironing,
-	  BridgeInfill,
-	  GapFill,
-	  Skirt,
-	  SupportMaterial,
-	  SupportMaterialInterface,
-	  WipeTower,
-	  Custom,
+      None,
+      Perimeter,
+      ExternalPerimeter,
+      OverhangPerimeter,
+      InternalInfill,
+      SolidInfill,
+      TopSolidInfill,
+      Ironing,
+      BridgeInfill,
+      GapFill,
+      Skirt,
+      SupportMaterial,
+      SupportMaterialInterface,
+      WipeTower,
+      Custom,
     COUNT
 };
 

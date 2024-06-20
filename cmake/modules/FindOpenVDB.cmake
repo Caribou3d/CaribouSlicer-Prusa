@@ -260,7 +260,7 @@ foreach(COMPONENT ${OpenVDB_FIND_COMPONENTS})
     endif ()
 
     list(FIND CMAKE_CONFIGURATION_TYPES "Debug" _has_debug)
-    
+
     if(OpenVDB_${COMPONENT}_LIBRARY_RELEASE AND (NOT MSVC OR _has_debug LESS 0 OR OpenVDB_${COMPONENT}_LIBRARY_DEBUG))
       set(OpenVDB_${COMPONENT}_FOUND TRUE)
     else()
@@ -358,7 +358,7 @@ if (IlmBase_FOUND AND NOT TARGET IlmBase::Half)
   if(IlmHalf_LIBRARY-NOTFOUND OR NOT IlmBase_INCLUDE_DIRS)
     just_fail("IlmBase::Half can not be found!")
   endif()
-  
+
   add_library(IlmBase::Half UNKNOWN IMPORTED)
   set_target_properties(IlmBase::Half PROPERTIES
     IMPORTED_LOCATION "${IlmHalf_LIBRARY}"
@@ -430,14 +430,14 @@ unset(_HAS_DEP)
 
 if(OpenVDB_USES_BLOSC)
   find_package(Blosc QUIET)
-  if(NOT Blosc_FOUND OR NOT TARGET Blosc::blosc) 
+  if(NOT Blosc_FOUND OR NOT TARGET Blosc::blosc)
     message(STATUS "find_package could not find Blosc. Using fallback blosc search...")
     find_path(Blosc_INCLUDE_DIR blosc.h)
     find_library(Blosc_LIBRARY NAMES blosc)
     if (Blosc_INCLUDE_DIR AND Blosc_LIBRARY)
       set(Blosc_FOUND TRUE)
       add_library(Blosc::blosc UNKNOWN IMPORTED)
-      set_target_properties(Blosc::blosc PROPERTIES 
+      set_target_properties(Blosc::blosc PROPERTIES
         IMPORTED_LOCATION "${Blosc_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES ${Blosc_INCLUDE_DIR})
     elseif()
@@ -560,14 +560,14 @@ foreach(COMPONENT ${OpenVDB_FIND_COMPONENTS})
    )
 
    if (_is_multi)
-     set_target_properties(OpenVDB::${COMPONENT} PROPERTIES 
+     set_target_properties(OpenVDB::${COMPONENT} PROPERTIES
        IMPORTED_LOCATION_RELEASE "${OpenVDB_${COMPONENT}_LIBRARY_RELEASE}"
      )
 
      if (MSVC OR OpenVDB_${COMPONENT}_LIBRARY_DEBUG)
-      set_target_properties(OpenVDB::${COMPONENT} PROPERTIES 
+      set_target_properties(OpenVDB::${COMPONENT} PROPERTIES
         IMPORTED_LOCATION_DEBUG "${OpenVDB_${COMPONENT}_LIBRARY_DEBUG}"
-      ) 
+      )
      endif ()
    endif ()
 

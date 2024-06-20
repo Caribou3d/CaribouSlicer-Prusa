@@ -71,7 +71,7 @@ public:
     bool wants_enter_leave_snapshots() const override { return true; }
     std::string get_gizmo_entering_text() const override { return _u8L("Entering SLA support points"); }
     std::string get_gizmo_leaving_text() const override { return _u8L("Leaving SLA support points"); }
-        
+
     /// <summary>
     /// Process mouse event
     /// </summary>

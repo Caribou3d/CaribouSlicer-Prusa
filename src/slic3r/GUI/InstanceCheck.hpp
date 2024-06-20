@@ -70,7 +70,7 @@ public:
 
     //finds paths to models in message(= command line arguments, first should be CaribouSlicer executable)
     //and sends them to plater via LoadFromOtherInstanceEvent
-    //security of messages: from message all existing paths are proccesed to load model 
+    //security of messages: from message all existing paths are proccesed to load model
     //                        win32 - anybody who has hwnd can send message.
     //                        mac - anybody who posts notification with name:@"OtherCaribouSlicerTerminating"
     //                        linux - instrospectable on dbus
@@ -94,7 +94,7 @@ private:
     mutable std::mutex         m_thread_stop_mutex;
     bool                     m_stop{ false };
     bool                    m_start{ true };
-    
+
     // background thread method
     void    listen();
 #endif //BACKGROUND_MESSAGE_LISTENER
@@ -105,7 +105,7 @@ private:
     void    unregister_for_messages();
     // Opaque pointer to RemovableDriveManagerMM
     void* m_impl_osx;
-public: 
+public:
     void    bring_instance_forward();
 #endif //__APPLE__
 

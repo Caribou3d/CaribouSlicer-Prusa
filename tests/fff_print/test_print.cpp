@@ -153,7 +153,7 @@ SCENARIO("Ported from Perl", "[Print]") {
         Print print;
         Model model;
         Slic3r::Test::init_print({ TestMesh::cube_20x20x20 }, print, model, config);
-        
+
         // User sets a per-region option, also testing a deep copy of Model.
         Model model2(model);
         model2.objects.front()->config.set_deserialize_strict("fill_density", "100%");

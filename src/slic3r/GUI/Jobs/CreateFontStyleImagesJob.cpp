@@ -31,7 +31,7 @@ CreateFontStyleImagesJob::CreateFontStyleImagesJob(StyleManager::StyleImagesData
 }
 
 void CreateFontStyleImagesJob::process(Ctl &ctl)
-{    
+{
     // create shapes and calc size (bounding boxes)
     std::vector<ExPolygons> name_shapes(m_input.styles.size());
     std::vector<double> scales(m_input.styles.size());
@@ -49,7 +49,7 @@ void CreateFontStyleImagesJob::process(Ctl &ctl)
         for (const ExPolygon &shape : shapes)
             bounding_box.merge(BoundingBox(shape.contour.points));
         for (ExPolygon &shape : shapes) shape.translate(-bounding_box.min);
-        
+
         // calculate conversion from FontPoint to screen pixels by size of font
         double scale = get_text_shape_scale(item.prop, *item.font.font_file) * m_input.ppm;
         scales[index] = scale;
@@ -62,7 +62,7 @@ void CreateFontStyleImagesJob::process(Ctl &ctl)
         image.tex_size.y = std::ceil(bb2.max.y() - bb2.min.y());
 
         // crop image width
-        if (image.tex_size.x > m_input.max_size.x()) 
+        if (image.tex_size.x > m_input.max_size.x())
             image.tex_size.x = m_input.max_size.x();
         // crop image height
         if (image.tex_size.y > m_input.max_size.y())
@@ -75,14 +75,14 @@ void CreateFontStyleImagesJob::process(Ctl &ctl)
     for (StyleManager::StyleImage &image : m_images) {
         image.offset.y() = offset_y;
         offset_y += image.tex_size.y+1;
-        if (m_width < image.tex_size.x) 
+        if (m_width < image.tex_size.x)
             m_width = image.tex_size.x;
     }
     m_height = offset_y;
     for (StyleManager::StyleImage &image : m_images) {
         const Point &o = image.offset;
         const ImVec2 &s = image.tex_size;
-        image.uv0 = ImVec2(o.x() / (double) m_width, 
+        image.uv0 = ImVec2(o.x() / (double) m_width,
                            o.y() / (double) m_height);
         image.uv1 = ImVec2((o.x() + s.x) / (double) m_width,
                            (o.y() + s.y) / (double) m_height);
@@ -101,7 +101,7 @@ void CreateFontStyleImagesJob::process(Ctl &ctl)
         std::unique_ptr<sla::RasterBase> r =
             sla::create_raster_grayscale_aa(resolution, dim, gamma);
         for (const ExPolygon &shape : name_shapes[index]) r->draw(shape);
-        
+
         // copy rastered data to pixels
         sla::RasterEncoder encoder = [&offset = image.offset, &pix = m_pixels, w=m_width,h=m_height]
         (const void *ptr, size_t width, size_t height, size_t num_components) {
@@ -112,7 +112,7 @@ void CreateFontStyleImagesJob::process(Ctl &ctl)
             assert((offset.y() + height) <= (size_t)h);
             const unsigned char *ptr2 = (const unsigned char *) ptr;
             for (size_t x = 0; x < width; ++x)
-                for (size_t y = 0; y < height; ++y) { 
+                for (size_t y = 0; y < height; ++y) {
                     size_t index = (offset.y() + y)*w + offset.x() + x;
                     assert(index < size);
                     if (index >= size) continue;
@@ -140,10 +140,10 @@ void CreateFontStyleImagesJob::finalize(bool canceled, std::exception_ptr &)
                           (const void *) m_pixels.data()));
 
     // set up texture id
-    void *texture_id = (void *) (intptr_t) tex_id;        
+    void *texture_id = (void *) (intptr_t) tex_id;
     for (StyleManager::StyleImage &image : m_images)
         image.texture_id = texture_id;
-        
+
     // move to result
     m_input.result->styles = std::move(m_input.styles);
     m_input.result->images = std::move(m_images);
@@ -151,7 +151,7 @@ void CreateFontStyleImagesJob::finalize(bool canceled, std::exception_ptr &)
     // bind default texture
     GLuint no_texture_id = 0;
     glsafe(::glBindTexture(target, no_texture_id));
-        
+
     // show rendered texture
     wxGetApp().plater()->canvas3D()->schedule_extra_frame(0);
 }

@@ -408,7 +408,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     def = this->add("printhost_port", coString);
     def->label = L("Printer");
     def->tooltip = L("Name of the printer");
@@ -416,7 +416,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     def = this->add("printhost_cafile", coString);
     def->label = L("HTTPS CA File");
     def->tooltip = L("Custom CA certificate file can be specified for HTTPS OctoPrint connections, in crt/pem format. "
@@ -424,16 +424,16 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     // Options used by physical printers
-    
+
     def = this->add("printhost_user", coString);
     def->label = L("User");
 //    def->tooltip = L("");
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-    
+
     def = this->add("printhost_password", coString);
     def->label = L("Password");
 //    def->tooltip = L("");
@@ -450,7 +450,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionBool(false));
-    
+
     def = this->add("preset_names", coStrings);
     def->label = L("Printer preset names");
     def->tooltip = L("Names of presets related to the physical printer");
@@ -587,7 +587,7 @@ void PrintConfigDef::init_fff_params()
     def->label = L_CONTEXT("Bottom", "Layers");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("The number of bottom solid layers is increased above bottom_solid_layers if necessary to satisfy "
-    				 "minimum thickness of bottom shell.");
+                     "minimum thickness of bottom shell.");
     def->full_label = L("Minimum bottom shell thickness");
     def->sidetext = L("mm");
     def->min = 0;
@@ -779,7 +779,7 @@ void PrintConfigDef::init_fff_params()
         { "no_brim",         L("No brim") },
         { "outer_only",      L("Outer brim only") },
         { "inner_only",      L("Inner brim only") },
-        { "outer_and_inner", L("Outer and inner brim") } 
+        { "outer_and_inner", L("Outer and inner brim") }
     });
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionEnum<BrimType>(btOuterOnly));
@@ -1024,7 +1024,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The extruder to use (unless more specific extruder settings are specified). "
                    "This value overrides perimeter and infill extruders, but not the support extruders.");
     def->min = 0;  // 0 = inherit defaults
-    def->set_enum_labels(ConfigOptionDef::GUIType::i_enum_open, 
+    def->set_enum_labels(ConfigOptionDef::GUIType::i_enum_open,
         { L("default"), "1", "2", "3", "4", "5" }); // override label for item 0
 
     def = this->add("extruder_clearance_height", coFloat);
@@ -1312,11 +1312,11 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The filament material type for use in custom G-codes.");
     def->gui_flags = "show_value";
     def->set_enum_values(ConfigOptionDef::GUIType::select_open, {
-        "PLA", 
+        "PLA",
         "PET",
         "ABS",
         "ASA",
-        "FLEX", 
+        "FLEX",
         "HIPS",
         "EDGE",
         "NGEN",
@@ -1434,7 +1434,7 @@ void PrintConfigDef::init_fff_params()
     def->set_enum<InfillPattern>({
         { "rectilinear",        L("Rectilinear") },
         { "alignedrectilinear", L("Aligned Rectilinear") },
-        { "grid",               L("Grid") }, 
+        { "grid",               L("Grid") },
         { "triangles",          L("Triangles")},
         { "stars",              L("Stars")},
         { "cubic",              L("Cubic")},
@@ -2644,7 +2644,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("With draft shield active, the skirt will be printed skirt_distance from the object, possibly intersecting brim.\n"
                      "Enabled = skirt is as tall as the highest printed object.\n"
                      "Limited = skirt is as tall as specified by skirt_height.\n"
-    				 "This is useful to protect an ABS or ASA print from warping and detaching from print bed due to wind draft.");
+                     "This is useful to protect an ABS or ASA print from warping and detaching from print bed due to wind draft.");
     def->set_enum<DraftShield>({
         { "disabled",   L("Disabled") },
         { "limited",    L("Limited") },
@@ -3126,7 +3126,7 @@ void PrintConfigDef::init_fff_params()
                      "will create more stable supports, while snug support towers will save material and reduce "
                      "object scarring.");
     def->set_enum<SupportMaterialStyle>({
-        { "grid", L("Grid") }, 
+        { "grid", L("Grid") },
         { "snug", L("Snug") },
         { "organic", L("Organic") }
     });
@@ -3213,7 +3213,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(2));
 
     def = this->add("support_tree_branch_diameter_angle", coFloat);
-    // TRN PrintSettings: #lmFIXME 
+    // TRN PrintSettings: #lmFIXME
     def->label = L("Branch Diameter Angle");
     def->category = L("Support material");
     // TRN PrintSettings: "Organic supports" > "Branch Diameter Angle"
@@ -3239,10 +3239,10 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(3));
 
     // Tree Support Branch Distance
-    // How far apart the branches need to be when they touch the model. Making this distance small will cause 
+    // How far apart the branches need to be when they touch the model. Making this distance small will cause
     // the tree support to touch the model at more points, causing better overhang but making support harder to remove.
     def = this->add("support_tree_branch_distance", coFloat);
-    // TRN PrintSettings: #lmFIXME 
+    // TRN PrintSettings: #lmFIXME
     def->label = L("Branch Distance");
     def->category = L("Support material");
     // TRN PrintSettings: "Organic supports" > "Branch Distance"
@@ -3344,8 +3344,8 @@ void PrintConfigDef::init_fff_params()
     def->label = L_CONTEXT("Top", "Layers");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("The number of top solid layers is increased above top_solid_layers if necessary to satisfy "
-    				 "minimum thickness of top shell."
-    				 " This is useful to prevent pillowing effect when printing with variable layer height.");
+                     "minimum thickness of top shell."
+                     " This is useful to prevent pillowing effect when printing with variable layer height.");
     def->full_label = L("Minimum top shell thickness");
     def->sidetext = L("mm");
     def->min = 0;
@@ -3664,9 +3664,9 @@ void PrintConfigDef::init_fff_params()
         auto it_opt = options.find(opt_key);
         assert(it_opt != options.end());
         def = this->add_nullable(std::string("filament_") + opt_key, it_opt->second.type);
-        def->label 		= it_opt->second.label;
+        def->label         = it_opt->second.label;
         def->full_label = it_opt->second.full_label;
-        def->tooltip 	= it_opt->second.tooltip;
+        def->tooltip     = it_opt->second.tooltip;
         def->sidetext   = it_opt->second.sidetext;
         def->mode       = it_opt->second.mode;
         switch (def->type) {
@@ -3809,7 +3809,7 @@ void PrintConfigDef::init_sla_support_params(const std::string &prefix)
     def->label = L("Pillar widening factor");
     def->category = L("Supports");
 
-    def->tooltip  = 
+    def->tooltip  =
         L("Merging bridges or pillars into another pillars can "
         "increase the radius. Zero means no increase, one means "
         "full increase. The exact amount of increase is unspecified and can "
@@ -4032,7 +4032,7 @@ void PrintConfigDef::init_sla_params()
     def->sidetext = L("mm");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.0));
-    
+
     def = this->add("elefant_foot_min_width", coFloat);
     def->label = L("Elephant foot minimum width");
     def->category = L("Advanced");
@@ -4212,7 +4212,7 @@ void PrintConfigDef::init_sla_params()
     def->full_width = true;
     def->height = 13;
     // TODO currently notes are the only way to pass data
-    // for non-PrusaResearch printers. We therefore need to always show them 
+    // for non-PrusaResearch printers. We therefore need to always show them
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionString(""));
 
@@ -4317,7 +4317,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 30;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.));
-    
+
     def = this->add("pad_brim_size", coFloat);
     def->label = L("Pad brim size");
     def->tooltip = L("How far should the pad extend around the contained geometry");
@@ -4368,7 +4368,7 @@ void PrintConfigDef::init_sla_params()
     def->tooltip = L("Create pad around object and ignore the support elevation");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(false));
-    
+
     def = this->add("pad_around_object_everywhere", coBool);
     def->label = L("Pad around object everywhere");
     def->category = L("Pad");
@@ -4414,14 +4414,14 @@ void PrintConfigDef::init_sla_params()
     def->min = 0;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.3));
-    
+
     def = this->add("hollowing_enable", coBool);
     def->label = L("Enable hollowing");
     def->category = L("Hollowing");
     def->tooltip = L("Hollow out a model to have an empty interior");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(false));
-    
+
     def = this->add("hollowing_min_thickness", coFloat);
     def->label = L("Wall thickness");
     def->category = L("Hollowing");
@@ -4431,7 +4431,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 10;
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionFloat(3.));
-    
+
     def = this->add("hollowing_quality", coFloat);
     def->label = L("Accuracy");
     def->category = L("Hollowing");
@@ -4440,7 +4440,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 1;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.5));
-    
+
     def = this->add("hollowing_closing_distance", coFloat);
     def->label = L("Closing distance");
     def->category = L("Hollowing");
@@ -4485,8 +4485,8 @@ void PrintConfigDef::init_sla_params()
     // Declare retract values for material profile, overriding the print and printer profiles.
     for (const char* opt_key : {
         // float
-        "support_head_front_diameter", "branchingsupport_head_front_diameter", 
-        "support_head_penetration", "branchingsupport_head_penetration", 
+        "support_head_front_diameter", "branchingsupport_head_front_diameter",
+        "support_head_penetration", "branchingsupport_head_penetration",
         "support_head_width", "branchingsupport_head_width",
         "support_pillar_diameter", "branchingsupport_pillar_diameter",
         "elefant_foot_compensation", "absolute_correction",
@@ -4543,7 +4543,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionInts({ 0, 0}));
 
-    def = this->add("tower_speed", coEnums); 
+    def = this->add("tower_speed", coEnums);
     def->full_label = L("Tower speed");
     def->tooltip = L("Tower speed used for tower raise.");
     def->mode = comExpert;
@@ -4580,7 +4580,7 @@ void PrintConfigDef::init_sla_tilt_params()
         { "move8000",   "8000"  },
     };
 
-    def = this->add("tilt_down_initial_speed", coEnums); 
+    def = this->add("tilt_down_initial_speed", coEnums);
     def->full_label = L("Tilt down initial speed");
     def->tooltip = L("Tilt speed used for an initial portion of tilt down move.");
     def->mode = comExpert;
@@ -4588,7 +4588,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->set_enum<TiltSpeeds>(tilt_speeds_il);
     def->set_default_value(new ConfigOptionEnums<TiltSpeeds>({ tsLayer1750, tsLayer1750 }));
 
-    def = this->add("tilt_down_finish_speed", coEnums); 
+    def = this->add("tilt_down_finish_speed", coEnums);
     def->full_label = L("Tilt down finish speed");
     def->tooltip = L("Tilt speed used for the rest of the tilt down move.");
     def->mode = comExpert;
@@ -4596,7 +4596,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->set_enum<TiltSpeeds>(tilt_speeds_il);
     def->set_default_value(new ConfigOptionEnums<TiltSpeeds>({ tsLayer1750, tsLayer1750 }));
 
-    def = this->add("tilt_up_initial_speed", coEnums); 
+    def = this->add("tilt_up_initial_speed", coEnums);
     def->full_label = L("Tilt up initial speed");
     def->tooltip = L("Tilt speed used for an initial portion of tilt up move.");
     def->mode = comExpert;
@@ -4604,7 +4604,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->set_enum<TiltSpeeds>(tilt_speeds_il);
     def->set_default_value(new ConfigOptionEnums<TiltSpeeds>({ tsMove8000, tsMove8000 }));
 
-    def = this->add("tilt_up_finish_speed", coEnums); 
+    def = this->add("tilt_up_finish_speed", coEnums);
     def->full_label = L("Tilt up finish speed");
     def->tooltip = L("Tilt speed used for the rest of the tilt-up.");
     def->mode = comExpert;
@@ -4763,9 +4763,9 @@ void PrintConfigDef::handle_legacy(t_config_option_key &opt_key, std::string &va
         // Slic3r PE does not support the pillars. They never worked well.
         value = "rectilinear";
     } else if (opt_key == "skirt_height" && value == "-1") {
-    	// PrusaSlicer no more accepts skirt_height == -1 to print a draft shield to the top of the highest object.
+        // PrusaSlicer no more accepts skirt_height == -1 to print a draft shield to the top of the highest object.
         // A new "draft_shield" enum config value is used instead.
-    	opt_key = "draft_shield";
+        opt_key = "draft_shield";
         value = "enabled";
     } else if (opt_key == "draft_shield" && (value == "1" || value == "0")) {
         // draft_shield used to be a bool, it was turned into an enum in PrusaSlicer 2.4.0.
@@ -4868,7 +4868,7 @@ const PrintConfigDef print_config_def;
 
 DynamicPrintConfig DynamicPrintConfig::full_print_config()
 {
-	return DynamicPrintConfig((const PrintRegionConfig&)FullPrintConfig::defaults());
+    return DynamicPrintConfig((const PrintRegionConfig&)FullPrintConfig::defaults());
 }
 
 DynamicPrintConfig::DynamicPrintConfig(const StaticPrintConfig& rhs) : DynamicConfig(rhs, rhs.keys_ref())
@@ -4883,7 +4883,7 @@ DynamicPrintConfig* DynamicPrintConfig::new_from_defaults_keys(const std::vector
 }
 
 double min_object_distance(const ConfigBase &cfg)
-{   
+{
     const ConfigOptionEnum<PrinterTechnology> *opt_printer_technology = cfg.option<ConfigOptionEnum<PrinterTechnology>>("printer_technology");
     auto printer_technology = opt_printer_technology ? opt_printer_technology->value : ptUnknown;
 
@@ -4896,7 +4896,7 @@ double min_object_distance(const ConfigBase &cfg)
         auto dd_opt  = cfg.option<ConfigOptionFloat>("duplicate_distance");
         auto co_opt  = cfg.option<ConfigOptionBool>("complete_objects");
 
-        if (!ecr_opt || !dd_opt || !co_opt) 
+        if (!ecr_opt || !dd_opt || !co_opt)
             ret = 0.;
         else {
             // min object distance is max(duplicate_distance, clearance_radius)
@@ -4965,7 +4965,7 @@ void DynamicPrintConfig::normalize_fdm()
         opt_wall_transition_length->value = std::max(opt_wall_transition_length->value, 0.001);
 }
 
-// Default values containe option pair of values (Below and Above) for each titl modes 
+// Default values containe option pair of values (Below and Above) for each titl modes
 // (Slow, Fast, HighViscosity and NoTilt) -> used for SL1S and other vendors printers
 
 const std::map<std::string, ConfigOptionFloats> tilt_options_floats_defs =
@@ -5005,7 +5005,7 @@ const std::map<std::string, ConfigOptionEnums<TiltSpeeds>> tilt_options_enums_de
     {"tilt_up_finish_speed",      ConfigOptionEnums<TiltSpeeds>({ tsLayer1750, tsLayer1750, tsLayer1750, tsLayer1750, tsLayer800, tsLayer800, tsMove120, tsMove120 }) } ,
 };
 
-// Default values containe option pair of values (Below and Above) for each titl modes 
+// Default values containe option pair of values (Below and Above) for each titl modes
 // (Slow, Fast, HighViscosity and NoTilt) -> used for SL1 printer
 
 const std::map<std::string, ConfigOptionFloats> tilt_options_floats_sl1_defs =
@@ -5378,7 +5378,7 @@ std::string validate(const FullPrintConfig &cfg)
         return ret; \
     }
 PRINT_CONFIG_CACHE_INITIALIZE((
-    PrintObjectConfig, PrintRegionConfig, MachineEnvelopeConfig, GCodeConfig, PrintConfig, FullPrintConfig, 
+    PrintObjectConfig, PrintRegionConfig, MachineEnvelopeConfig, GCodeConfig, PrintConfig, FullPrintConfig,
     SLAMaterialConfig, SLAPrintConfig, SLAPrintObjectConfig, SLAPrinterConfig, SLAFullPrintConfig))
 static int print_config_static_initialized = print_config_static_initializer();
 
@@ -5795,7 +5795,7 @@ PrintStatisticsConfigDef::PrintStatisticsConfigDef()
     def = this->add("normal_print_time", coString);
     def->label = L("Print time (normal mode)");
     def->tooltip = L("Estimated print time when printed in normal mode (i.e. not in silent mode). Same as print_time.");
-    
+
     def = this->add("num_printing_extruders", coInt);
     def->label = L("Number of printing extruders");
     def->tooltip = L("Number of extruders used during the print.");
@@ -6030,22 +6030,22 @@ static Points to_points(const std::vector<Vec2d> &dpts)
     Points pts; pts.reserve(dpts.size());
     for (auto &v : dpts)
         pts.emplace_back( coord_t(scale_(v.x())), coord_t(scale_(v.y())) );
-    return pts;    
+    return pts;
 }
 
 Points get_bed_shape(const DynamicPrintConfig &config)
 {
     const auto *bed_shape_opt = config.opt<ConfigOptionPoints>("bed_shape");
     if (!bed_shape_opt) {
-        
+
         // Here, it is certain that the bed shape is missing, so an infinite one
         // has to be used, but still, the center of bed can be queried
         if (auto center_opt = config.opt<ConfigOptionPoint>("center"))
             return { scaled(center_opt->value) };
-        
+
         return {};
     }
-    
+
     return to_points(bed_shape_opt->values);
 }
 

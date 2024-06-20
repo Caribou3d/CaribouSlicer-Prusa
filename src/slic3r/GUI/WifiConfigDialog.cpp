@@ -31,10 +31,10 @@ WifiConfigDialog::WifiConfigDialog(wxWindow* parent, std::string& file_path, Rem
 {
     // Propagation of error in wifi scanner construtor
     if (!m_wifi_scanner->is_init()) {
-        // TRN Error dialog of configuration -> wifi configuration file 
+        // TRN Error dialog of configuration -> wifi configuration file
         wxString msg = format_wxstr(L"%1%\n\n%2%", _L("Failed to scan wireless networks. Please fill SSID manually."),
 #ifdef _WIN32
-            // TRN Windows specific second line of error dialog of configuration -> wifi configuration file 
+            // TRN Windows specific second line of error dialog of configuration -> wifi configuration file
             _L("Library wlanapi.dll was not loaded.")
 #else
             ""
@@ -161,7 +161,7 @@ void WifiConfigDialog::on_retrieve_password(wxCommandEvent& e)
     if (m_ssid_combo->GetValue().empty()) {
         return;
     }
-    
+
     std::string psk = m_wifi_scanner->get_psk(into_u8(m_ssid_combo->GetValue()));
     if (psk.empty()) {
         // TRN Alert message when retrieving password for wifi from keychain. Probably will display only on Apple so keychain is MacOS term.
@@ -229,7 +229,7 @@ void WifiConfigDialog::on_ok(wxCommandEvent& e)
         show_info(nullptr, msg);
         return;
     }
-   
+
     std::string selected_path = into_u8(m_drive_combo->GetValue());
 
     if (selected_path.empty()) {
@@ -263,7 +263,7 @@ void WifiConfigDialog::on_ok(wxCommandEvent& e)
     pt::ptree tree;
     // File already exist and we only need to add data to it rather than rewrite it.
     if (boost::filesystem::exists(file_path)) {
-        
+
         boost::nowide::ifstream ifs(file_path.string());
         try {
             pt::read_ini(ifs, tree);
@@ -274,7 +274,7 @@ void WifiConfigDialog::on_ok(wxCommandEvent& e)
 
         if (auto sub = tree.get_optional<std::string>("wifi"); sub) {
             tree.erase("wifi");
-        } 
+        }
     }
 
     pt::ptree subtree;

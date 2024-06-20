@@ -72,27 +72,27 @@ enum BundleLocation{
 
 struct Bundle
 {
-	std::unique_ptr<PresetBundle> preset_bundle;
-	VendorProfile* vendor_profile{ nullptr };
-	//bool is_in_resources{ false };
+    std::unique_ptr<PresetBundle> preset_bundle;
+    VendorProfile* vendor_profile{ nullptr };
+    //bool is_in_resources{ false };
     BundleLocation location;
-	bool is_caribou_bundle{ false };
+    bool is_caribou_bundle{ false };
 
-	Bundle() = default;
-	Bundle(Bundle&& other);
+    Bundle() = default;
+    Bundle(Bundle&& other);
 
-	// Returns false if not loaded. Reason for that is logged as boost::log error.
-	bool load(fs::path source_path, BundleLocation location, bool is_caribou_bundle = false);
+    // Returns false if not loaded. Reason for that is logged as boost::log error.
+    bool load(fs::path source_path, BundleLocation location, bool is_caribou_bundle = false);
 
-	const std::string& vendor_id() const { return vendor_profile->id; }
+    const std::string& vendor_id() const { return vendor_profile->id; }
 };
 
 struct BundleMap : std::map<std::string /* = vendor ID */, Bundle>
 {
-	static BundleMap load();
+    static BundleMap load();
 
-	Bundle& caribou_bundle();
-	const Bundle& caribou_bundle() const;
+    Bundle& caribou_bundle();
+    const Bundle& caribou_bundle() const;
 };
 
 struct Materials;
@@ -227,7 +227,7 @@ struct PagePrinters: ConfigWizardPage
 template<class T, class D> struct DataList : public T
 {
     DataList(wxWindow *parent) : T(parent, wxID_ANY) {}
-	DataList(wxWindow* parent, int style) : T(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, style) {}
+    DataList(wxWindow* parent, int style) : T(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, style) {}
 
     // Note: We're _not_ using wxLB_SORT here because it doesn't do the right thing,
     // eg. "ABS" is sorted before "(All)"
@@ -258,7 +258,7 @@ template<class T, class D> struct DataList : public T
 
     void on_mouse_move(const wxPoint& position) {
         int item = T::HitTest(position);
-       
+
         if(item == wxHitTest::wxHT_WINDOW_INSIDE)
             BOOST_LOG_TRIVIAL(error) << "hit test wxHT_WINDOW_INSIDE";
         else if (item == wxHitTest::wxHT_WINDOW_OUTSIDE)
@@ -305,7 +305,7 @@ struct PageMaterials: ConfigWizardPage
     static const std::string EMPTY;
     static const std::string TEMPLATES;
     // notify user first time they choose template profile
-    bool template_shown = { false }; 
+    bool template_shown = { false };
     bool notification_shown = { false };
     int last_hovered_item = { -1 } ;
 
@@ -313,8 +313,8 @@ struct PageMaterials: ConfigWizardPage
 
     void check_and_update_presets(bool force_reload_presets = false);
     void reload_presets();
-	void update_lists(int sel_type, int sel_vendor, int last_selected_printer = -1);
-	void on_material_highlighted(int sel_material);
+    void update_lists(int sel_type, int sel_vendor, int last_selected_printer = -1);
+    void on_material_highlighted(int sel_material);
     void on_material_hovered(int sel_material);
     void select_material(int i);
     void select_all(bool select);
@@ -348,7 +348,7 @@ struct Materials
     void add_printer(const Preset* preset);
     void clear();
     bool containts(const Preset* preset) const {
-        //return std::find(presets.begin(), presets.end(), preset) != presets.end(); 
+        //return std::find(presets.begin(), presets.end(), preset) != presets.end();
         return std::find_if(presets.begin(), presets.end(),
             [preset](const Preset* element) { return element == preset; }) != presets.end();
 
@@ -412,7 +412,7 @@ struct PageCustom: ConfigWizardPage
 {
     PageCustom(ConfigWizard *parent);
     ~PageCustom() {
-        if (profile_name_editor) 
+        if (profile_name_editor)
             delete profile_name_editor;
     }
 
@@ -533,8 +533,8 @@ struct PageTemperatures: ConfigWizardPage
 };
 
 // hypothetically, each vendor can has printers both of technologies (FFF and SLA)
-typedef std::map<std::string /* = vendor ID */, 
-                 std::pair<PagePrinters* /* = FFF page */, 
+typedef std::map<std::string /* = vendor ID */,
+                 std::pair<PagePrinters* /* = FFF page */,
                            PagePrinters* /* = SLA page */>> Pages3rdparty;
 
 

@@ -27,18 +27,18 @@ class ExPolygon
 {
 public:
     ExPolygon() = default;
-	ExPolygon(const ExPolygon &other) = default;
+    ExPolygon(const ExPolygon &other) = default;
     ExPolygon(ExPolygon &&other) = default;
-	explicit ExPolygon(const Polygon &contour) : contour(contour) {}
-	explicit ExPolygon(Polygon &&contour) : contour(std::move(contour)) {}
-	explicit ExPolygon(const Points &contour) : contour(contour) {}
-	explicit ExPolygon(Points &&contour) : contour(std::move(contour)) {}
-	explicit ExPolygon(const Polygon &contour, const Polygon &hole) : contour(contour) { holes.emplace_back(hole); }
-	explicit ExPolygon(Polygon &&contour, Polygon &&hole) : contour(std::move(contour)) { holes.emplace_back(std::move(hole)); }
-	explicit ExPolygon(const Points &contour, const Points &hole) : contour(contour) { holes.emplace_back(hole); }
-	explicit ExPolygon(Points &&contour, Polygon &&hole) : contour(std::move(contour)) { holes.emplace_back(std::move(hole)); }
-	ExPolygon(std::initializer_list<Point> contour) : contour(contour) {}
-	ExPolygon(std::initializer_list<Point> contour, std::initializer_list<Point> hole) : contour(contour), holes({ hole }) {}
+    explicit ExPolygon(const Polygon &contour) : contour(contour) {}
+    explicit ExPolygon(Polygon &&contour) : contour(std::move(contour)) {}
+    explicit ExPolygon(const Points &contour) : contour(contour) {}
+    explicit ExPolygon(Points &&contour) : contour(std::move(contour)) {}
+    explicit ExPolygon(const Polygon &contour, const Polygon &hole) : contour(contour) { holes.emplace_back(hole); }
+    explicit ExPolygon(Polygon &&contour, Polygon &&hole) : contour(std::move(contour)) { holes.emplace_back(std::move(hole)); }
+    explicit ExPolygon(const Points &contour, const Points &hole) : contour(contour) { holes.emplace_back(hole); }
+    explicit ExPolygon(Points &&contour, Polygon &&hole) : contour(std::move(contour)) { holes.emplace_back(std::move(hole)); }
+    ExPolygon(std::initializer_list<Point> contour) : contour(contour) {}
+    ExPolygon(std::initializer_list<Point> contour, std::initializer_list<Point> hole) : contour(contour), holes({ hole }) {}
 
     ExPolygon& operator=(const ExPolygon &other) = default;
     ExPolygon& operator=(ExPolygon &&other) = default;
@@ -83,14 +83,14 @@ public:
     void simplify(double tolerance, ExPolygons* expolygons) const;
     void medial_axis(double min_width, double max_width, ThickPolylines* polylines) const;
     void medial_axis(double min_width, double max_width, Polylines* polylines) const;
-    Polylines medial_axis(double min_width, double max_width) const 
+    Polylines medial_axis(double min_width, double max_width) const
         { Polylines out; this->medial_axis(min_width, max_width, &out); return out; }
     Lines lines() const;
 
     // Number of contours (outer contour with holes).
-    size_t   		num_contours() const { return this->holes.size() + 1; }
-    Polygon& 		contour_or_hole(size_t idx) 		{ return (idx == 0) ? this->contour : this->holes[idx - 1]; }
-    const Polygon& 	contour_or_hole(size_t idx) const 	{ return (idx == 0) ? this->contour : this->holes[idx - 1]; }
+    size_t           num_contours() const { return this->holes.size() + 1; }
+    Polygon&         contour_or_hole(size_t idx)         { return (idx == 0) ? this->contour : this->holes[idx - 1]; }
+    const Polygon&     contour_or_hole(size_t idx) const     { return (idx == 0) ? this->contour : this->holes[idx - 1]; }
 };
 
 inline bool operator==(const ExPolygon &lhs, const ExPolygon &rhs) { return lhs.contour == rhs.contour && lhs.holes == rhs.holes; }
@@ -99,9 +99,9 @@ inline bool operator!=(const ExPolygon &lhs, const ExPolygon &rhs) { return lhs.
 inline size_t count_points(const ExPolygons &expolys)
 {
     size_t n_points = 0;
-    for (const auto &expoly : expolys) { 
+    for (const auto &expoly : expolys) {
         n_points += expoly.contour.points.size();
-        for (const auto &hole : expoly.holes) 
+        for (const auto &hole : expoly.holes)
             n_points += hole.points.size();
     }
     return n_points;
@@ -110,8 +110,8 @@ inline size_t count_points(const ExPolygons &expolys)
 inline size_t count_points(const ExPolygon &expoly)
 {
     size_t n_points = expoly.contour.points.size();
-    for (const auto &hole : expoly.holes) 
-        n_points += hole.points.size();    
+    for (const auto &hole : expoly.holes)
+        n_points += hole.points.size();
     return n_points;
 }
 
@@ -125,7 +125,7 @@ inline size_t number_polygons(const ExPolygons &expolys)
     return n_polygons;
 }
 
-inline Lines to_lines(const ExPolygon &src) 
+inline Lines to_lines(const ExPolygon &src)
 {
     Lines lines;
     lines.reserve(count_points(src));
@@ -138,7 +138,7 @@ inline Lines to_lines(const ExPolygon &src)
     return lines;
 }
 
-inline Lines to_lines(const ExPolygons &src) 
+inline Lines to_lines(const ExPolygons &src)
 {
     Lines lines;
     lines.reserve(count_points(src));
@@ -166,7 +166,7 @@ inline Linesf to_linesf(const ExPolygons &src, uint32_t count_lines = 0)
         assert(pts.size() >= 3);
         if (pts.size() < 2) return;
         bool is_first = true;
-        for (const Point &p : pts) { 
+        for (const Point &p : pts) {
             Vec2d pd = p.cast<double>();
             if (is_first) is_first = false;
             else lines.emplace_back(prev_pd, pd);
@@ -176,7 +176,7 @@ inline Linesf to_linesf(const ExPolygons &src, uint32_t count_lines = 0)
     };
     for (const ExPolygon& expoly: src) {
         to_lines(expoly.contour.points);
-        for (const Polygon &hole : expoly.holes) 
+        for (const Polygon &hole : expoly.holes)
             to_lines(hole.points);
     }
     assert(lines.size() == count_lines);
@@ -388,15 +388,15 @@ inline void translate(ExPolygons &expolys, const Point &p) {
         expoly.translate(p);
 }
 
-inline void polygons_append(Polygons &dst, const ExPolygon &src) 
-{ 
+inline void polygons_append(Polygons &dst, const ExPolygon &src)
+{
     dst.reserve(dst.size() + src.holes.size() + 1);
     dst.push_back(src.contour);
     dst.insert(dst.end(), src.holes.begin(), src.holes.end());
 }
 
-inline void polygons_append(Polygons &dst, const ExPolygons &src) 
-{ 
+inline void polygons_append(Polygons &dst, const ExPolygons &src)
+{
     dst.reserve(dst.size() + number_polygons(src));
     for (ExPolygons::const_iterator it = src.begin(); it != src.end(); ++ it) {
         dst.push_back(it->contour);
@@ -405,36 +405,36 @@ inline void polygons_append(Polygons &dst, const ExPolygons &src)
 }
 
 inline void polygons_append(Polygons &dst, ExPolygon &&src)
-{ 
+{
     dst.reserve(dst.size() + src.holes.size() + 1);
-    dst.push_back(std::move(src.contour));    
-    dst.insert(dst.end(), 
+    dst.push_back(std::move(src.contour));
+    dst.insert(dst.end(),
         std::make_move_iterator(src.holes.begin()),
         std::make_move_iterator(src.holes.end()));
 }
 
 inline void polygons_append(Polygons &dst, ExPolygons &&src)
-{ 
+{
     dst.reserve(dst.size() + number_polygons(src));
     for (ExPolygon& expoly: src) {
         dst.push_back(std::move(expoly.contour));
-        dst.insert(dst.end(), 
+        dst.insert(dst.end(),
             std::make_move_iterator(expoly.holes.begin()),
             std::make_move_iterator(expoly.holes.end()));
     }
 }
 
-inline void expolygons_append(ExPolygons &dst, const ExPolygons &src) 
-{ 
+inline void expolygons_append(ExPolygons &dst, const ExPolygons &src)
+{
     dst.insert(dst.end(), src.begin(), src.end());
 }
 
 inline void expolygons_append(ExPolygons &dst, ExPolygons &&src)
-{ 
+{
     if (dst.empty()) {
         dst = std::move(src);
     } else {
-        dst.insert(dst.end(), 
+        dst.insert(dst.end(),
             std::make_move_iterator(src.begin()),
             std::make_move_iterator(src.end()));
     }
@@ -456,11 +456,11 @@ inline bool expolygons_contain(const ExPolygons &expolys, const Point &pt, bool 
 
 inline ExPolygons expolygons_simplify(const ExPolygons &expolys, double tolerance)
 {
-	ExPolygons out;
-	out.reserve(expolys.size());
-	for (const ExPolygon &exp : expolys)
-		exp.simplify(tolerance, &out);
-	return out;
+    ExPolygons out;
+    out.reserve(expolys.size());
+    for (const ExPolygon &exp : expolys)
+        exp.simplify(tolerance, &out);
+    return out;
 }
 
 // Do expolygons match? If they match, they must have the same topology,
@@ -532,8 +532,8 @@ namespace boost { namespace polygon {
             return expolygon;
         }
     };
-    
-    
+
+
     template <>
     struct geometry_concept<Slic3r::ExPolygon> { typedef polygon_with_holes_concept type; };
 
@@ -560,7 +560,7 @@ namespace boost { namespace polygon {
               return t;
          }
     };
-    
+
     //first we register CPolygonSet as a polygon set
     template <>
     struct geometry_concept<Slic3r::ExPolygons> { typedef polygon_set_concept type; };

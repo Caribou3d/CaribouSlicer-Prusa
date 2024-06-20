@@ -16,8 +16,8 @@ namespace DoubleSlider {
 constexpr double min_delta_area = scale_(scale_(25));  // equal to 25 mm2
 constexpr double miscalculation = scale_(scale_(1));   // equal to 1 mm2
 
-static const int YES    = 0x00000002; // an analogue of wxYES   
-static const int NO     = 0x00000008; // an analogue of wxNO    
+static const int YES    = 0x00000002; // an analogue of wxYES
+static const int NO     = 0x00000008; // an analogue of wxNO
 static const int CANCEL = 0x00000010; // an analogue of wxCANCEL
 
 bool equivalent_areas(const double& bottom_area, const double& top_area)
@@ -75,8 +75,8 @@ void TickCodeManager::set_ticks(const Info& custom_gcode_per_print_z)
         mode = custom_gcode_per_print_z.mode;
 }
 
-// Get active extruders for tick. 
-// Means one current extruder for not existing tick OR 
+// Get active extruders for tick.
+// Means one current extruder for not existing tick OR
 // 2 extruders - for existing tick (extruder before ToolChange and extruder of current existing tick)
 // Use those values to disable selection of active extruders
 std::array<int, 2> TickCodeManager::get_active_extruders_for_tick(int tick, Mode main_mode) const
@@ -190,7 +190,7 @@ std::string TickCodeManager::get_new_color(const std::string& color)
 
 std::string TickCodeManager::get_custom_code(const std::string& code_in, double height)
 {
-    if (m_cb_get_custom_code) 
+    if (m_cb_get_custom_code)
         return m_cb_get_custom_code(code_in, height);
     return std::string();
 }
@@ -207,7 +207,7 @@ bool TickCodeManager::edit_extruder_sequence(const int max_tick, Mode main_mode)
     if (!check_ticks_changed_event(ToolChange, main_mode) || !m_cb_get_extruders_sequence)
         return false;
 
-    // init extruder sequence in respect to the extruders count 
+    // init extruder sequence in respect to the extruders count
     if (empty())
         m_extruders_sequence.init(colors.size());
 
@@ -282,7 +282,7 @@ bool TickCodeManager::check_ticks_changed_event(Type type, Mode main_mode)
         if (m_cb_show_info_msg) {
             std::string message = (mode == SingleExtruder ?
                             _u8L("The last color change data was saved for a single extruder printing.") :
-                            _u8L("The last color change data was saved for a multi extruder printing.") 
+                            _u8L("The last color change data was saved for a multi extruder printing.")
                             ) + "\n" +
                             _u8L("Your current changes will delete all saved color changes.") + "\n\n\t" +
                             _u8L("Are you sure you want to continue?");
@@ -300,7 +300,7 @@ bool TickCodeManager::check_ticks_changed_event(Type type, Mode main_mode)
                             _u8L("Select YES if you want to delete all saved tool changes, \n"
                                "NO if you want all tool changes switch to color changes, \n"
                                "or CANCEL to leave it unchanged.") + "\n\n\t" +
-                            _u8L("Do you want to delete all saved tool changes?")  
+                            _u8L("Do you want to delete all saved tool changes?")
                             ): ( // MultiExtruder
                             _u8L("The last color change data was saved for a multi extruder printing with tool changes for whole print.") + "\n\n" +
                             _u8L("Your current changes will delete all saved extruder (tool) changes.") + "\n\n\t" +
@@ -326,7 +326,7 @@ bool TickCodeManager::check_ticks_changed_event(Type type, Mode main_mode)
 
 
 
-// Get used extruders for tick. 
+// Get used extruders for tick.
 // Means all extruders(tools) which will be used during printing from current tick to the end
 std::set<int> TickCodeManager::get_used_extruders_for_tick(int tick, double print_z, Mode force_mode/* = Undef*/) const
 {
@@ -620,14 +620,14 @@ ConflictType TickCodeManager::is_conflict_tick(const TickCode& tick, Mode main_m
 
     // check ColorChange tick
     if (tick.type == ColorChange) {
-        // We should mark a tick as a "MeaninglessColorChange", 
+        // We should mark a tick as a "MeaninglessColorChange",
         // if it has a ColorChange for unused extruder from current print to end of the print
         std::set<int> used_extruders_for_tick = get_used_extruders_for_tick(tick.tick, print_z, main_mode);
 
         if (used_extruders_for_tick.find(tick.extruder) == used_extruders_for_tick.end())
             return ctMeaninglessColorChange;
 
-        // We should mark a tick as a "Redundant", 
+        // We should mark a tick as a "Redundant",
         // if it has a ColorChange for extruder that has not been used before
         if (mode == MultiAsSingle && tick.extruder != std::max<int>(only_extruder_id, 1) )
         {
@@ -647,7 +647,7 @@ ConflictType TickCodeManager::is_conflict_tick(const TickCode& tick, Mode main_m
 
     // check ToolChange tick
     if (mode == MultiAsSingle && tick.type == ToolChange) {
-        // We should mark a tick as a "MeaninglessToolChange", 
+        // We should mark a tick as a "MeaninglessToolChange",
         // if it has a ToolChange to the same extruder
         auto it = ticks.find(tick);
         if (it == ticks.begin())
@@ -674,7 +674,7 @@ std::string TickCodeManager::get_color_for_tool_change_tick(std::set<TickCode>::
             return it_n->color;
     }
 
-    return colors[current_extruder-1]; // return a color for a specific extruder from the colors list 
+    return colors[current_extruder-1]; // return a color for a specific extruder from the colors list
 }
 
 std::string TickCodeManager::get_color_for_color_change_tick(std::set<TickCode>::const_iterator it) const

@@ -33,7 +33,7 @@ public:
     explicit WipeTower(const GLCanvas3D::WipeTowerInfo &wti)
         : GLCanvas3D::WipeTowerInfo(wti)
     {}
-    
+
     explicit WipeTower(GLCanvas3D::WipeTowerInfo &&wti)
         : GLCanvas3D::WipeTowerInfo(std::move(wti))
     {}
@@ -43,7 +43,7 @@ public:
         m_pos = unscaled(tr); m_rotation = rotation;
         apply_wipe_tower();
     }
-    
+
     ArrangePolygon get_arrange_polygon() const
     {
         Polygon ap({
@@ -52,7 +52,7 @@ public:
             {scaled(m_bb.max)},
             {scaled(m_bb.min.x()), scaled(m_bb.max.y())}
             });
-        
+
         ArrangePolygon ret;
         ret.poly.contour = std::move(ap);
         ret.translation  = scaled(m_pos);
@@ -71,12 +71,12 @@ static WipeTower get_wipe_tower(const Plater &plater)
 void ArrangeJob::clear_input()
 {
     const Model &model = m_plater->model();
-    
+
     size_t count = 0, cunprint = 0; // To know how much space to reserve
     for (auto obj : model.objects)
         for (auto mi : obj->instances)
             mi->printable ? count++ : cunprint++;
-    
+
     m_selected.clear();
     m_unselected.clear();
     m_unprintable.clear();
@@ -88,7 +88,7 @@ void ArrangeJob::clear_input()
 
 void ArrangeJob::prepare_all() {
     clear_input();
-    
+
     for (ModelObject *obj: m_plater->model().objects)
         for (ModelInstance *mi : obj->instances) {
             ArrangePolygons & cont = mi->printable ? m_selected : m_unprintable;
@@ -106,7 +106,7 @@ void ArrangeJob::prepare_selected() {
 
     std::vector<const Selection::InstanceIdxsList *>
             obj_sel(model.objects.size(), nullptr);
-    
+
     for (auto &s : m_plater->get_selection().get_content())
         if (s.first < int(obj_sel.size()))
             obj_sel[size_t(s.first)] = &s.second;
@@ -330,17 +330,17 @@ void ArrangeJob::finalize(bool canceled, std::exception_ptr &eptr) {
 
     // Unprintable items go to the last virtual bed
     int beds = 0;
-    
+
     // Apply the arrange result to all selected objects
     for (ArrangePolygon &ap : m_selected) {
         beds = std::max(ap.bed_idx, beds);
         ap.apply();
     }
-    
+
     // Get the virtual beds from the unselected items
     for (ArrangePolygon &ap : m_unselected)
         beds = std::max(ap.bed_idx, beds);
-    
+
     // Move the unprintable items to the last virtual bed.
     for (ArrangePolygon &ap : m_unprintable) {
         if (ap.bed_idx >= 0)

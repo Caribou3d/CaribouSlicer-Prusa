@@ -108,7 +108,7 @@ TEST_CASE("Serialization of expolygons to string", "[ExPolygon, Cereal, serializ
         {{0,0}, {10,0}, {10,10}, {0,10}}, // contour
         // expolygon 2 - with rect 1px hole
         {{{0,0}, {10,0}, {10,10}, {0,10}},
-        {{5, 5}, {6, 5}, {6, 6}, {5, 6}}} 
+        {{5, 5}, {6, 5}, {6, 6}, {5, 6}}}
     }};
 
     std::stringstream ss_out; // any stream can be used
@@ -143,10 +143,10 @@ TEST_CASE("Serialization of expolygons to string", "[ExPolygon, Cereal, serializ
     //}
 
     // Change JSON named object to JSON arrays(without name)
-    
+
     // RegEx for wihitespace = "[ \t\r\n\v\f]"
     std::regex r("\"value[0-9]+\":|[ \t\r\n\v\f]");
-    std::string data_short = std::regex_replace(data, r , "");    
+    std::string data_short = std::regex_replace(data, r , "");
     std::replace(data_short.begin(), data_short.end(), '{', '[');
     std::replace(data_short.begin(), data_short.end(), '}', ']');
     CHECK(!data_short.empty());

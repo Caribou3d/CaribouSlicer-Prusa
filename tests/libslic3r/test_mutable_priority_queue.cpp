@@ -402,15 +402,15 @@ TEST_CASE("Mutable priority queue complex", "[MutableSkipHeapPriorityQueue]")
         for (size_t i = 0; i < idxs.size(); ++i) {
             if (dels[i]) {
                 if (idxs[i] != q.invalid_id())
-                    return false; // ERROR 
+                    return false; // ERROR
             } else {
                 size_t   qid = idxs[i];
-                if (qid >= q.heap_size()) { 
-                    return false; // ERROR 
+                if (qid >= q.heap_size()) {
+                    return false; // ERROR
                 }
-                MyValue &mv  = q[qid]; 
-                if (mv.id != i) { 
-                    return false; // ERROR 
+                MyValue &mv  = q[qid];
+                if (mv.id != i) {
+                    return false; // ERROR
                 }
             }
         }
@@ -420,7 +420,7 @@ TEST_CASE("Mutable priority queue complex", "[MutableSkipHeapPriorityQueue]")
     CHECK(check()); // initial check
 
     // Generate an element ID of an elmenet, which was not yet deleted, thus it is still valid.
-    auto get_valid_id = [&]()->int { 
+    auto get_valid_id = [&]()->int {
         int id = 0;
         do {
             id = rand() % count;
@@ -449,7 +449,7 @@ TEST_CASE("Mutable priority queue complex", "[MutableSkipHeapPriorityQueue]")
         dels[id] = true;
         CHECK(check());
         // and change 5 random elements and reorder them in the queue.
-        for (size_t j = 0; j < 5; j++) { 
+        for (size_t j = 0; j < 5; j++) {
             int id = get_valid_id();
             size_t   qid = idxs[id];
             MyValue &mv  = q[qid];

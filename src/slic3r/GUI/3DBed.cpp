@@ -70,7 +70,7 @@ bool Bed3D::set_shape(const Pointfs& bed_shape, const double max_print_height, c
         model_filename.clear();
     }
 
-    
+
     if (m_build_volume.bed_shape() == bed_shape && m_build_volume.max_print_height() == max_print_height && m_type == type && m_texture_filename == texture_filename && m_model_filename == model_filename)
         // No change, no need to update the UI.
         return false;
@@ -348,7 +348,7 @@ void Bed3D::render_texture(bool bottom, GLCanvas3D& canvas, const Transform3d& v
                 render_default(bottom, false, true, view_matrix, projection_matrix);
                 return;
             }
-        } 
+        }
         else if (boost::algorithm::iends_with(m_texture_filename, ".png")) {
             // generate a temporary lower resolution texture to show while no main texture levels have been compressed
             if (m_temp_texture.get_id() == 0 || m_temp_texture.get_source() != m_texture_filename) {

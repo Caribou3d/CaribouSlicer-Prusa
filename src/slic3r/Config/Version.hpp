@@ -13,7 +13,7 @@
 #include "libslic3r/FileParserError.hpp"
 #include "libslic3r/Semver.hpp"
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 namespace Config {
 
@@ -37,18 +37,18 @@ struct Version
 };
 
 // Index of vendor specific config bundle versions and Slic3r compatibilities.
-// The index is being downloaded from the internet, also an initial version of the index 
+// The index is being downloaded from the internet, also an initial version of the index
 // is contained in the Slic3r installation.
-// 
+//
 // The index has a simple format:
 //
-// min_sic3r_version = 
-// max_slic3r_version = 
+// min_sic3r_version =
+// max_slic3r_version =
 // config_version "comment"
 // config_version "comment"
 // ...
-// min_slic3r_version = 
-// max_slic3r_version = 
+// min_slic3r_version =
+// max_slic3r_version =
 // config_version comment
 // config_version comment
 // ...

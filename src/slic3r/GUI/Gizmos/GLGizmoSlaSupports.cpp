@@ -50,7 +50,7 @@ bool GLGizmoSlaSupports::on_init()
     m_desc["manual_editing"]   = _u8L("Manual editing");
     m_desc["clipping_of_view"] = _u8L("Clipping of view")+ ": ";
     m_desc["reset_direction"]  = _u8L("Reset direction");
-        
+
     return true;
 }
 
@@ -902,14 +902,14 @@ void GLGizmoSlaSupports::on_dragging(const UpdateData &data)
     if (!m_editing_mode) return;
     if (m_editing_cache[m_hover_id].support_point.is_new_island && m_lock_unique_islands)
         return;
-    
+
     std::pair<Vec3f, Vec3f> pos_and_normal;
     if (!unproject_on_mesh(data.mouse_pos.cast<double>(), pos_and_normal))
         return;
 
     m_editing_cache[m_hover_id].support_point.pos = pos_and_normal.first;
     m_editing_cache[m_hover_id].support_point.is_new_island = false;
-    m_editing_cache[m_hover_id].normal = pos_and_normal.second;        
+    m_editing_cache[m_hover_id].normal = pos_and_normal.second;
 }
 
 void GLGizmoSlaSupports::on_load(cereal::BinaryInputArchive& ar)
@@ -1034,7 +1034,7 @@ bool GLGizmoSlaSupports::has_backend_supports() const
     // find SlaPrintObject with this ID
     for (const SLAPrintObject* po : m_parent.sla_print()->objects()) {
         if (po->model_object()->id() == mo->id())
-        	return po->is_step_done(slaposSupportPoints);
+            return po->is_step_done(slaposSupportPoints);
     }
     return false;
 }
@@ -1043,14 +1043,14 @@ bool GLGizmoSlaSupports::on_mouse(const wxMouseEvent &mouse_event)
 {
     if (!is_input_enabled()) return true;
     if (mouse_event.Moving()) return false;
-    if (!mouse_event.ShiftDown() && !mouse_event.AltDown() 
+    if (!mouse_event.ShiftDown() && !mouse_event.AltDown()
         && use_grabbers(mouse_event)) return true;
 
     // wxCoord == int --> wx/types.h
     Vec2i mouse_coord(mouse_event.GetX(), mouse_event.GetY());
     Vec2d mouse_pos = mouse_coord.cast<double>();
 
-    static bool pending_right_up = false;        
+    static bool pending_right_up = false;
     if (mouse_event.LeftDown()) {
         bool grabber_contains_mouse = (get_hover_id() != -1);
         bool control_down = mouse_event.CmdDown();
@@ -1124,8 +1124,8 @@ void GLGizmoSlaSupports::get_data_from_backend()
 
 void GLGizmoSlaSupports::auto_generate()
 {
-    //wxMessageDialog dlg(GUI::wxGetApp().plater(), 
-    MessageDialog dlg(GUI::wxGetApp().plater(), 
+    //wxMessageDialog dlg(GUI::wxGetApp().plater(),
+    MessageDialog dlg(GUI::wxGetApp().plater(),
                         _L("Autogeneration will erase all manually edited points.") + "\n\n" +
                         _L("Are you sure you want to do it?") + "\n",
                         _L("Warning"), wxICON_WARNING | wxYES | wxNO);

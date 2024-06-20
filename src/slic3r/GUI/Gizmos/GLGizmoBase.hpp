@@ -160,7 +160,7 @@ public:
 
     int get_hover_id() const { return m_hover_id; }
     void set_hover_id(int id);
-    
+
     bool is_dragging() const { return m_dragging; }
 
     // returns True when Gizmo changed its state
@@ -206,7 +206,7 @@ protected:
     virtual CommonGizmosDataID on_get_requirements() const { return CommonGizmosDataID(0); }
     virtual void on_enable_grabber(unsigned int id) {}
     virtual void on_disable_grabber(unsigned int id) {}
-       
+
     // called inside use_grabbers
     virtual void on_start_dragging() {}
     virtual void on_stop_dragging() {}
@@ -230,7 +230,7 @@ protected:
     void set_dirty();
 
     /// <summary>
-    /// function which 
+    /// function which
     /// Set up m_dragging and call functions
     /// on_start_dragging / on_dragging / on_stop_dragging
     /// </summary>

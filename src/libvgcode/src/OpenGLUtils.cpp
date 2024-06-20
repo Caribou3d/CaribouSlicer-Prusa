@@ -23,7 +23,7 @@ void glAssertRecentCallImpl(const char* file_name, unsigned int line, const char
     switch (err) {
     case GL_INVALID_ENUM:      { sErr = "Invalid Enum"; break; }
     case GL_INVALID_VALUE:     { sErr = "Invalid Value"; break; }
-    // be aware that GL_INVALID_OPERATION is generated if glGetError is executed between the execution of glBegin / glEnd 
+    // be aware that GL_INVALID_OPERATION is generated if glGetError is executed between the execution of glBegin / glEnd
     case GL_INVALID_OPERATION: { sErr = "Invalid Operation"; break; }
     case GL_OUT_OF_MEMORY:     { sErr = "Out Of Memory"; break; }
     case GL_INVALID_FRAMEBUFFER_OPERATION: { sErr = "Invalid framebuffer operation"; break; }

@@ -187,7 +187,7 @@ std::vector<SerialPortInfo> scan_serial_ports_extended()
                             (cf_property = IORegistryEntrySearchCFProperty(port, kIOServicePlane,
                                  CFSTR("Product Name"), kCFAllocatorDefault,
                                  kIORegistryIterateRecursively | kIORegistryIterateParents)) ||
-                            (cf_property = IORegistryEntryCreateCFProperty(port, 
+                            (cf_property = IORegistryEntryCreateCFProperty(port,
                                  CFSTR(kIOTTYDeviceKey), kCFAllocatorDefault, 0))) {
                             // Description limited to 127 char, anything longer would not be user friendly anyway.
                             char description[128];
@@ -257,9 +257,9 @@ std::vector<SerialPortInfo> scan_serial_ports_extended()
     }
 #endif
 
-    output.erase(std::remove_if(output.begin(), output.end(), 
+    output.erase(std::remove_if(output.begin(), output.end(),
         [](const SerialPortInfo &info) {
-            return boost::starts_with(info.port, "Bluetooth") || boost::starts_with(info.port, "FireFly"); 
+            return boost::starts_with(info.port, "Bluetooth") || boost::starts_with(info.port, "FireFly");
         }),
         output.end());
     return output;

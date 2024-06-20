@@ -305,7 +305,7 @@ ConfigOption* ConfigOptionDef::create_default_option() const
     if (this->default_value)
         return (this->default_value->type() == coEnum) ?
             // Special case: For a DynamicConfig, convert a templated enum to a generic enum.
-            new ConfigOptionEnumGeneric(this->enum_def->m_enum_keys_map, this->default_value->getInt()) : 
+            new ConfigOptionEnumGeneric(this->enum_def->m_enum_keys_map, this->default_value->getInt()) :
                (this->default_value->type() == coEnums) ?
             // Special case: For a DynamicConfig, convert a templated enums to a generic enums.
             new ConfigOptionEnumsGeneric(this->enum_def->m_enum_keys_map, this->default_value->getInts()) :
@@ -361,7 +361,7 @@ std::ostream& ConfigDef::print_cli_help(std::ostream& out, bool show_defaults, s
         std::istringstream words(text);
         std::ostringstream wrapped;
         std::string word;
- 
+
         if (words >> word) {
             wrapped << word;
             size_t space_left = line_length - word.length();
@@ -385,19 +385,19 @@ std::ostream& ConfigDef::print_cli_help(std::ostream& out, bool show_defaults, s
         if (filter(def))
             categories.insert(def.category);
     }
-    
+
     for (const std::string& category : categories) {
         if (category != "") {
             out << category << ":" << std::endl;
         } else if (categories.size() > 1) {
             out << "Misc options:" << std::endl;
         }
-        
+
         for (const auto& opt : this->options) {
             const ConfigOptionDef& def = opt.second;
             if (def.category != category || def.cli == ConfigOptionDef::nocli || !filter(def))
                 continue;
-            
+
             // get all possible variations: --foo, --foobar, -f...
             std::vector<std::string> cli_args = def.cli_args(opt.first);
             if (cli_args.empty())
@@ -416,11 +416,11 @@ std::ostream& ConfigDef::print_cli_help(std::ostream& out, bool show_defaults, s
                     arg += " ABCD";
                 }
             }
-            
+
             // left: command line options
             const std::string cli = boost::algorithm::join(cli_args, ", ");
             out << " " << std::left << std::setw(20) << cli;
-            
+
             // right: option description
             std::string descr = def.tooltip;
             bool show_defaults_this = show_defaults || def.opt_key == "config_compatibility";
@@ -434,12 +434,12 @@ std::ostream& ConfigDef::print_cli_help(std::ostream& out, bool show_defaults, s
                 }
                 descr += "default: " + def.default_value->serialize() + ")";
             }
-            
+
             // wrap lines of description
             descr = wrap(descr, 80);
             std::vector<std::string> lines;
             boost::split(lines, descr, boost::is_any_of("\n"));
-            
+
             // if command line options are too long, print description in new line
             for (size_t i = 0; i < lines.size(); ++i) {
                 if (i == 0 && cli.size() > 19)
@@ -515,7 +515,7 @@ void ConfigBase::apply_only(const ConfigBase &other, const t_config_option_keys 
 
 // Are the two configs equal? Ignoring options not present in both configs.
 bool ConfigBase::equals(const ConfigBase &other) const
-{ 
+{
     for (const t_config_option_key &opt_key : this->keys()) {
         const ConfigOption *this_opt  = this->option(opt_key);
         const ConfigOption *other_opt = other.option(opt_key);
@@ -630,7 +630,7 @@ bool ConfigBase::set_deserialize_raw(const t_config_option_key &opt_key_src, con
         if (optdef == nullptr)
             throw UnknownOptionException(opt_key);
     }
-    
+
     if (! optdef->shortcut.empty()) {
         // Aliasing for example "solid_layers" to "top_solid_layers" and "bottom_solid_layers".
         for (const t_config_option_key &shortcut : optdef->shortcut)
@@ -639,7 +639,7 @@ bool ConfigBase::set_deserialize_raw(const t_config_option_key &opt_key_src, con
                 return false;
         return true;
     }
-    
+
     ConfigOption *opt = this->option(opt_key, true);
     assert(opt != nullptr);
     bool success     = false;
@@ -709,7 +709,7 @@ double ConfigBase::get_abs_value(const t_config_option_key &opt_key) const
         // Compute absolute value over the absolute value of the base option.
         //FIXME there are some ratio_over chains, which end with empty ratio_with.
         // For example, XXX_extrusion_width parameters are not handled by get_abs_value correctly.
-        return opt_def->ratio_over.empty() ? 0. : 
+        return opt_def->ratio_over.empty() ? 0. :
             static_cast<const ConfigOptionFloatOrPercent*>(raw_opt)->get_abs_value(this->get_abs_value(opt_def->ratio_over));
     }
     throw ConfigurationError("ConfigBase::get_abs_value(): Not a valid option type for get_abs_value()");
@@ -717,7 +717,7 @@ double ConfigBase::get_abs_value(const t_config_option_key &opt_key) const
 
 // Return an absolute value of a possibly relative config variable.
 // For example, return absolute infill extrusion width, either from an absolute value, or relative to a provided value.
-double ConfigBase::get_abs_value(const t_config_option_key &opt_key, double ratio_over) const 
+double ConfigBase::get_abs_value(const t_config_option_key &opt_key, double ratio_over) const
 {
     // Get stored option value.
     const ConfigOption *raw_opt = this->option(opt_key);
@@ -737,11 +737,11 @@ void ConfigBase::setenv_() const
         ss << "SLIC3R_";
         ss << *it;
         std::string envname = ss.str();
-        
+
         // capitalize environment variable name
         for (size_t i = 0; i < envname.size(); ++i)
             envname[i] = (envname[i] <= 'z' && envname[i] >= 'a') ? envname[i]-('a'-'A') : envname[i];
-        
+
         boost::nowide::setenv(envname.c_str(), this->opt_serialize(*it).c_str(), 1);
     }
 }
@@ -767,7 +767,7 @@ ConfigSubstitutions ConfigBase::load(const std::string& filename, ForwardCompati
         file_type = (is_valid_binary_gcode(*file, true, cs_buffer.data(), cs_buffer.size()) == EResult::Success) ? EFileType::BinaryGCode : EFileType::AsciiGCode;
         fclose(file);
     }
-    else 
+    else
         file_type = EFileType::Ini;
 
     switch (file_type)
@@ -1025,7 +1025,7 @@ ConfigSubstitutions ConfigBase::load_from_gcode_file(const std::string &filename
 
     if (has_delimiters)
     {
-        // PrusaSlicer starting with 2.4.0-alpha0 delimits the config section stored into G-code with 
+        // PrusaSlicer starting with 2.4.0-alpha0 delimits the config section stored into G-code with
         // ; caribouslicer_config = begin
         // ...
         // ; caribouslicer_config = end
@@ -1041,7 +1041,7 @@ ConfigSubstitutions ConfigBase::load_from_gcode_file(const std::string &filename
                 end_found = true;
                 break;
             }
-        if (! end_found) 
+        if (! end_found)
             throw Slic3r::RuntimeError(format("Configuration block closing tag \"; caribouslicer_config = end\" not found when reading %1%", filename));
         std::string key, value;
         while (reader.getline(line)) {
@@ -1064,7 +1064,7 @@ ConfigSubstitutions ConfigBase::load_from_gcode_file(const std::string &filename
                 }
             }
         }
-        if (! begin_found) 
+        if (! begin_found)
             throw Slic3r::RuntimeError(format("Configuration block opening tag \"; caribouslicer_config = begin\" not found when reading %1%", filename));
     }
     else
@@ -1223,7 +1223,7 @@ bool DynamicConfig::read_cli(int argc, const char* const argv[], t_config_option
     for (const auto &oit : this->def()->options)
         for (const std::string &t : oit.second.cli_args(oit.first))
             opts[t] = oit.first;
-    
+
     bool parse_options = true;
     for (int i = 1; i < argc; ++ i) {
         std::string token = argv[i];
@@ -1360,12 +1360,12 @@ void StaticConfig::set_defaults()
     }
 }
 
-t_config_option_keys StaticConfig::keys() const 
+t_config_option_keys StaticConfig::keys() const
 {
     t_config_option_keys keys;
     assert(this->def() != nullptr);
     for (const auto &opt_def : this->def()->options)
-        if (this->option(opt_def.first) != nullptr) 
+        if (this->option(opt_def.first) != nullptr)
             keys.push_back(opt_def.first);
     return keys;
 }
@@ -1396,8 +1396,8 @@ static inline bool dynamic_config_iterate(const DynamicConfig &lhs, const Dynami
 
 // Are the two configs equal? Ignoring options not present in both configs.
 bool DynamicConfig::equals(const DynamicConfig &other) const
-{ 
-    return ! dynamic_config_iterate(*this, other, 
+{
+    return ! dynamic_config_iterate(*this, other,
         [](const t_config_option_key & /* key */, const ConfigOption *l, const ConfigOption *r) { return *l != *r; });
 }
 
@@ -1405,12 +1405,12 @@ bool DynamicConfig::equals(const DynamicConfig &other) const
 t_config_option_keys DynamicConfig::diff(const DynamicConfig &other) const
 {
     t_config_option_keys diff;
-    dynamic_config_iterate(*this, other, 
+    dynamic_config_iterate(*this, other,
         [&diff](const t_config_option_key &key, const ConfigOption *l, const ConfigOption *r) {
             if (*l != *r)
                 diff.emplace_back(key);
             // Continue iterating.
-            return false; 
+            return false;
         });
     return diff;
 }
@@ -1419,7 +1419,7 @@ t_config_option_keys DynamicConfig::diff(const DynamicConfig &other) const
 t_config_option_keys DynamicConfig::equal(const DynamicConfig &other) const
 {
     t_config_option_keys equal;
-    dynamic_config_iterate(*this, other, 
+    dynamic_config_iterate(*this, other,
         [&equal](const t_config_option_key &key, const ConfigOption *l, const ConfigOption *r) {
             if (*l == *r)
                 equal.emplace_back(key);
@@ -1475,16 +1475,16 @@ CEREAL_REGISTER_TYPE(Slic3r::ConfigOptionEnumsGeneric)
 CEREAL_REGISTER_TYPE(Slic3r::ConfigBase)
 CEREAL_REGISTER_TYPE(Slic3r::DynamicConfig)
 
-CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<double>) 
-CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<int>) 
-CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<std::string>) 
+CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<double>)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<int>)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<std::string>)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<Slic3r::Vec2d>)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<Slic3r::Vec3d>)
-CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<bool>) 
+CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingle<bool>)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingleNullable<double>)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingleNullable<int>)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionSingleNullable<bool>)
-CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionVectorBase) 
+CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOption, Slic3r::ConfigOptionVectorBase)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOptionVectorBase, Slic3r::ConfigOptionVector<double>)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOptionVectorBase, Slic3r::ConfigOptionVector<int>)
 CEREAL_REGISTER_POLYMORPHIC_RELATION(Slic3r::ConfigOptionVectorBase, Slic3r::ConfigOptionVector<std::string>)

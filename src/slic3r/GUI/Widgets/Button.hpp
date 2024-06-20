@@ -35,9 +35,9 @@ public:
     void SetInactiveIcon(const wxString& icon);
 
     void SetMinSize(const wxSize& size) override;
-    
+
     void SetPaddingSize(const wxSize& size);
-    
+
     void SetTextColor(StateColor const &color);
 
     void SetTextColorNormal(wxColor const &color);

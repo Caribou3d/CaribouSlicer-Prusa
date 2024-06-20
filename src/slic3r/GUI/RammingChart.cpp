@@ -28,18 +28,18 @@ void Chart::draw() {
     dc.SetBrush(*wxWHITE_BRUSH);
 #endif
     dc.DrawRectangle(m_rect);
-    
+
     if (visible_area.m_width < 0.499) {
         dc.DrawText(_(L("NO RAMMING AT ALL")),wxPoint(m_rect.GetLeft()+m_rect.GetWidth()/2-legend_side,m_rect.GetBottom()-m_rect.GetHeight()/2));
         return;
     }
-    
-    
+
+
     if (!m_line_to_draw.empty()) {
         for (unsigned int i=0;i<m_line_to_draw.size()-2;++i) {
             int color = 510*((m_rect.GetBottom()-(m_line_to_draw)[i])/double(m_rect.GetHeight()));
             dc.SetPen( wxPen( wxColor(std::min(255,color),255-std::max(color-255,0),0), 1 ) );
-            dc.DrawLine(m_rect.GetLeft()+1+i,(m_line_to_draw)[i],m_rect.GetLeft()+1+i,m_rect.GetBottom());        
+            dc.DrawLine(m_rect.GetLeft()+1+i,(m_line_to_draw)[i],m_rect.GetLeft()+1+i,m_rect.GetBottom());
         }
 #ifdef _WIN32
         dc.SetPen(wxPen(GetForegroundColour()));
@@ -55,7 +55,7 @@ void Chart::draw() {
             }
         }
     }
-    
+
     // draw draggable buttons
     dc.SetBrush(*wxBLUE_BRUSH);
 #ifdef _WIN32
@@ -78,18 +78,18 @@ void Chart::draw() {
         dc.DrawText(wxString().Format(wxT("%.1f"), math_x),wxPoint(x-scale_unit,y+0.5*scale_unit));
         last_mark = x;
     }
-    
+
     // draw y-axis:
     last_mark=10000;
     for (int math_y=visible_area.m_y ; math_y < (visible_area.m_y+visible_area.m_height) ; math_y+=1) {
         int y = math_to_screen(wxPoint2DDouble(visible_area.m_x,math_y)).y;
         int x = m_rect.GetLeft();
-        if (last_mark-y < legend_side) continue;    
+        if (last_mark-y < legend_side) continue;
         dc.DrawLine(x-3,y,x+3,y);
         dc.DrawText(wxString()<<math_y,wxPoint(x-2*scale_unit,y-0.5*scale_unit));
         last_mark = y;
     }
-    
+
     // axis labels:
     wxString label = _(L("Time")) + " ("+_(L("s"))+")";
     int text_width = 0;
@@ -111,7 +111,7 @@ void Chart::mouse_right_button_clicked(wxMouseEvent& event) {
         recalculate_line();
     }
 }
-    
+
 
 
 void Chart::mouse_clicked(wxMouseEvent& event) {
@@ -120,21 +120,21 @@ void Chart::mouse_clicked(wxMouseEvent& event) {
     int button_index = which_button_is_clicked(point);
     if ( button_index != -1) {
         m_dragged = &m_buttons[button_index];
-        m_previous_mouse = point;            
+        m_previous_mouse = point;
     }
 }
-    
-    
-    
+
+
+
 void Chart::mouse_moved(wxMouseEvent& event) {
     if (!event.Dragging() || !m_dragged) return;
-    wxPoint pos = event.GetPosition();    
+    wxPoint pos = event.GetPosition();
     wxRect rect = m_rect;
     rect.Deflate(side/2.);
     if (!(rect.Contains(pos))) {  // the mouse left chart area
         mouse_left_window(event);
         return;
-    }    
+    }
     int delta_x = pos.x - m_previous_mouse.x;
     int delta_y = pos.y - m_previous_mouse.y;
 
@@ -142,9 +142,9 @@ void Chart::mouse_moved(wxMouseEvent& event) {
 
     if (m_uniform)
         for (ButtonToDrag& b : m_buttons)
-            b.move(fixed_x?0:double(delta_x)/m_rect.GetWidth() * visible_area.m_width, new_y - b.get_pos().m_y); 
+            b.move(fixed_x?0:double(delta_x)/m_rect.GetWidth() * visible_area.m_width, new_y - b.get_pos().m_y);
     else
-        m_dragged->move(fixed_x?0:double(delta_x)/m_rect.GetWidth() * visible_area.m_width, new_y - m_dragged->get_pos().m_y); 
+        m_dragged->move(fixed_x?0:double(delta_x)/m_rect.GetWidth() * visible_area.m_width, new_y - m_dragged->get_pos().m_y);
 
     m_previous_mouse = pos;
     recalculate_line();
@@ -194,7 +194,7 @@ void Chart::recalculate_line() {
         std::vector<float> lambda(N+1);
         std::vector<float> h(N+1);
         std::vector<float> rhs(N+1);
-        
+
         // let's fill in inner equations
         for (int i=1;i<=N;++i) h[i] = points[i].x-points[i-1].x;
         std::fill(diag.begin(),diag.end(),2.f);
@@ -270,14 +270,14 @@ void Chart::recalculate_line() {
 
 std::vector<float> Chart::get_ramming_speed(float sampling) const {
     std::vector<float> speeds_out;
-    
+
     const int number_of_samples = std::round( visible_area.m_width / sampling);
     if (number_of_samples>0 && !m_line_to_draw.empty()) {
         const int dx = (m_line_to_draw.size()-1) / number_of_samples;
         for (int j=0;j<number_of_samples;++j) {
             float left =  screen_to_math(wxPoint(0,m_line_to_draw[j*dx])).m_y;
             float right = screen_to_math(wxPoint(0,m_line_to_draw[(j+1)*dx])).m_y;
-            speeds_out.push_back((left+right)/2.f);            
+            speeds_out.push_back((left+right)/2.f);
         }
     }
     return speeds_out;
@@ -290,9 +290,9 @@ std::vector<std::pair<float,float>> Chart::get_buttons() const {
         buttons_out.push_back(std::make_pair(float(button.get_pos().m_x),float(button.get_pos().m_y)));
     return buttons_out;
 }
-    
-    
-    
+
+
+
 
 BEGIN_EVENT_TABLE(Chart, wxWindow)
 EVT_MOTION(Chart::mouse_moved)

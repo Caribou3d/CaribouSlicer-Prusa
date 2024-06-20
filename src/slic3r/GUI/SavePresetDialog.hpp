@@ -27,7 +27,7 @@ class SavePresetDialog : public DPIDialog
     {
         ChangePreset,
         AddPreset,
-        Switch, 
+        Switch,
         UndefAction
     };
 public:
@@ -60,7 +60,7 @@ public:
 
     private:
         Preset::Type    m_type {Preset::TYPE_INVALID};
-        std::string		m_preset_name;
+        std::string        m_preset_name;
         bool            m_use_text_ctrl {true};
 
         PrinterTechnology   m_printer_technology {ptAny};
@@ -87,7 +87,7 @@ private:
 
     wxBoxSizer*         m_presets_sizer     {nullptr};
     wxStaticText*       m_label             {nullptr};
-    wxBoxSizer*         m_radio_sizer       {nullptr};  
+    wxBoxSizer*         m_radio_sizer       {nullptr};
     ActionType          m_action            {UndefAction};
     wxCheckBox*         m_template_filament_checkbox {nullptr};
 

@@ -92,14 +92,14 @@ public:
         int dpi = get_dpi_for_window(this);
         m_scale_factor = (float)dpi / (float)DPI_DEFAULT;
         m_prev_scale_factor = m_scale_factor;
-		m_normal_font = get_default_font_for_dpi(this, dpi);
+        m_normal_font = get_default_font_for_dpi(this, dpi);
 
         if (font_point_size > 0)
             m_normal_font.SetPointSize(font_point_size);
         else if (parent)
             m_normal_font.SetPointSize(parent->GetFont().GetPointSize());
 
-        /* Because of default window font is a primary display font, 
+        /* Because of default window font is a primary display font,
          * We should set correct font for window before getting em_unit value.
          */
         this->SetFont(m_normal_font);
@@ -128,10 +128,10 @@ public:
 #ifndef __WXOSX__
 #if wxVERSION_EQUAL_OR_GREATER_THAN(3,1,3)
         this->Bind(wxEVT_DPI_CHANGED, [this](wxDPIChangedEvent& evt) {
-	            m_scale_factor = (float)evt.GetNewDPI().x / (float)DPI_DEFAULT;
-	            m_new_font_point_size = get_default_font_for_dpi(this, evt.GetNewDPI().x).GetPointSize();
-	            if (m_can_rescale && (m_force_rescale || is_new_scale_factor()))
-	                rescale(wxRect());
+                m_scale_factor = (float)evt.GetNewDPI().x / (float)DPI_DEFAULT;
+                m_new_font_point_size = get_default_font_for_dpi(this, evt.GetNewDPI().x).GetPointSize();
+                if (m_can_rescale && (m_force_rescale || is_new_scale_factor()))
+                    rescale(wxRect());
             });
 #else
         this->Bind(EVT_DPI_CHANGED_SLICER, [this](const DpiChangedEvent& evt) {
@@ -263,7 +263,7 @@ private:
         m_prev_scale_factor = m_scale_factor;
     }
 
-#if 0 //#ifdef _WIN32  // #ysDarkMSW - Allow it when we deside to support the sustem colors for application 
+#if 0 //#ifdef _WIN32  // #ysDarkMSW - Allow it when we deside to support the sustem colors for application
     bool HandleSettingChange(WXWPARAM wParam, WXLPARAM lParam) override
     {
         update_dark_ui(this);

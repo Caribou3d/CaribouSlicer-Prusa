@@ -30,7 +30,7 @@ Similarity get_similarity(const indexed_triangle_set &from,
     auto tree = AABBTreeIndirect::build_aabb_tree_over_indexed_triangle_set(
         from.vertices, from.indices);
     float sum_distance = 0.f;
-    
+
     float max_distance = 0.f;
     auto collect_distances = [&](const Vec3f &surface_point) {
         size_t hit_idx;
@@ -82,7 +82,7 @@ void is_worse_similarity(const indexed_triangle_set &its_first,
         s2.max_distance < compare.max_distance)
         CHECK(false);
 }
-    
+
 bool exist_triangle_with_twice_vertices(const std::vector<stl_triangle_vertex_indices> &indices)
 {
     for (const auto &face : indices)
@@ -181,9 +181,9 @@ TEST_CASE("Reduce to one triangle by Quadric Edge Collapse", "[its]")
                                                  its.vertices[5]};
 
     uint32_t wanted_count = 1;
-    its_quadric_edge_collapse(its, wanted_count);    
+    its_quadric_edge_collapse(its, wanted_count);
     // result should be one triangle made of vertices 0, 2, 5
-    
+
     // NOT WORK
     //CHECK(its.indices.size() == wanted_count);
     //// check all triangle vertices
@@ -196,7 +196,7 @@ TEST_CASE("Reduce to one tetrahedron by Quadric Edge Collapse", "[its]")
     indexed_triangle_set its;
     its.vertices = {
         Vec3f(0.f, 0.f, 0.f), Vec3f(1.f, 0.f, 0.f), Vec3f(2.f, 0.f, 0.f),
-        Vec3f(0.f, 1.f, 0.f), Vec3f(1.f, 1.f, 0.f), 
+        Vec3f(0.f, 1.f, 0.f), Vec3f(1.f, 1.f, 0.f),
         Vec3f(0.f, 2.f, 0.f)
         // tetrahedron extetion
         , Vec3f(0.f, 0.f, -2.f)
@@ -248,7 +248,7 @@ TEST_CASE("Simplify frog_legs.obj to 5% by IGL/qslim", "[]")
     indexed_triangle_set &its = mesh.its;
     //double       original_volume = its_volume(its);
     uint32_t     wanted_count    = its.indices.size() * 0.05;
-    
+
     Eigen::MatrixXd V(its.vertices.size(), 3);
     Eigen::MatrixXi F(its.indices.size(), 3);
     for (size_t j = 0; j < its.vertices.size(); ++j) {

@@ -180,7 +180,7 @@ enum TowerSpeeds : int {
     tsLayer8,
     tsLayer11,
     tsLayer14,
-    tsLayer18, 
+    tsLayer18,
     tsLayer22,
     tsLayer24,
 };
@@ -842,7 +842,7 @@ static inline std::string get_extrusion_axis(const GCodeConfig &cfg)
 }
 
 PRINT_CONFIG_CLASS_DERIVED_DEFINE(
-    PrintConfig, 
+    PrintConfig,
     (MachineEnvelopeConfig, GCodeConfig),
 
     ((ConfigOptionBool,               avoid_crossing_curled_overhangs))

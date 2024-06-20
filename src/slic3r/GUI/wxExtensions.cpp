@@ -33,22 +33,22 @@
 static std::map<int, std::string> msw_menuitem_bitmaps;
 void sys_color_changed_menu(wxMenu* menu)
 {
-	struct update_icons {
-		static void run(wxMenuItem* item) {
-			const auto it = msw_menuitem_bitmaps.find(item->GetId());
-			if (it != msw_menuitem_bitmaps.end()) {
-				wxBitmapBundle* item_icon = get_bmp_bundle(it->second);
-				if (item_icon->IsOk())
-					item->SetBitmap(*item_icon);
-			}
-			if (item->IsSubMenu())
-				for (wxMenuItem *sub_item : item->GetSubMenu()->GetMenuItems())
-					update_icons::run(sub_item);
-		}
-	};
+    struct update_icons {
+        static void run(wxMenuItem* item) {
+            const auto it = msw_menuitem_bitmaps.find(item->GetId());
+            if (it != msw_menuitem_bitmaps.end()) {
+                wxBitmapBundle* item_icon = get_bmp_bundle(it->second);
+                if (item_icon->IsOk())
+                    item->SetBitmap(*item_icon);
+            }
+            if (item->IsSubMenu())
+                for (wxMenuItem *sub_item : item->GetSubMenu()->GetMenuItems())
+                    update_icons::run(sub_item);
+        }
+    };
 
-	for (wxMenuItem *item : menu->GetMenuItems())
-		update_icons::run(item);
+    for (wxMenuItem *item : menu->GetMenuItems())
+        update_icons::run(item);
 }
 #endif /* no __linux__ */
 
@@ -243,8 +243,8 @@ void msw_buttons_rescale(wxDialog* dlg, const int em_unit, const std::vector<int
 
 /* Function for getting of em_unit value from correct parent.
  * In most of cases it is m_em_unit value from GUI_App,
- * but for DPIDialogs it's its own value. 
- * This value will be used to correct rescale after moving between 
+ * but for DPIDialogs it's its own value.
+ * This value will be used to correct rescale after moving between
  * Displays with different HDPI */
 int em_unit(wxWindow* win)
 {
@@ -258,7 +258,7 @@ int em_unit(wxWindow* win)
         if (frame)
             return frame->em_unit();
     }
-    
+
     return Slic3r::GUI::wxGetApp().em_unit();
 }
 
@@ -272,7 +272,7 @@ int mode_icon_px_size()
 }
 
 #ifdef __WXGTK2__
-static int scale() 
+static int scale()
 {
     return int(em_unit(nullptr) * 0.1f + 0.5f);
 }
@@ -341,9 +341,9 @@ std::vector<wxBitmapBundle*> get_extruder_color_icons(bool thin_icon/* = false*/
 }
 
 
-void apply_extruder_selector(Slic3r::GUI::BitmapComboBox** ctrl, 
+void apply_extruder_selector(Slic3r::GUI::BitmapComboBox** ctrl,
                              wxWindow* parent,
-                             const std::string& first_item/* = ""*/, 
+                             const std::string& first_item/* = ""*/,
                              wxPoint pos/* = wxDefaultPosition*/,
                              wxSize size/* = wxDefaultSize*/,
                              bool use_thin_icon/* = false*/)
@@ -394,9 +394,9 @@ void apply_extruder_selector(Slic3r::GUI::BitmapComboBox** ctrl,
 // LockButton
 // ----------------------------------------------------------------------------
 
-LockButton::LockButton( wxWindow *parent, 
-                        wxWindowID id, 
-                        const wxPoint& pos /*= wxDefaultPosition*/, 
+LockButton::LockButton( wxWindow *parent,
+                        wxWindowID id,
+                        const wxPoint& pos /*= wxDefaultPosition*/,
                         const wxSize& size /*= wxDefaultSize*/):
                         wxButton(parent, id, wxEmptyString, pos, size, wxBU_EXACTFIT | wxNO_BORDER)
 {
@@ -455,7 +455,7 @@ void LockButton::update_button_bitmaps()
 // ----------------------------------------------------------------------------
 // PrusaBitmap
 // ----------------------------------------------------------------------------
-ScalableBitmap::ScalableBitmap( wxWindow *parent, 
+ScalableBitmap::ScalableBitmap( wxWindow *parent,
                                 const std::string& icon_name,
                                 const int  width/* = 16*/,
                                 const int  height/* = -1*/,
@@ -545,7 +545,7 @@ ScalableButton::ScalableButton( wxWindow *          parent,
                                 const wxSize&       size /* = wxDefaultSize*/,
                                 const wxPoint&      pos /* = wxDefaultPosition*/,
                                 long                style /*= wxBU_EXACTFIT | wxNO_BORDER*/,
-                                int                 width/* = 16*/, 
+                                int                 width/* = 16*/,
                                 int                 height/* = -1*/) :
     m_parent(parent),
     m_current_icon_name(icon_name),
@@ -571,10 +571,10 @@ ScalableButton::ScalableButton( wxWindow *          parent,
 }
 
 
-ScalableButton::ScalableButton( wxWindow *          parent, 
+ScalableButton::ScalableButton( wxWindow *          parent,
                                 wxWindowID          id,
                                 const ScalableBitmap&  bitmap,
-                                const wxString&     label /*= wxEmptyString*/, 
+                                const wxString&     label /*= wxEmptyString*/,
                                 long                style /*= wxBU_EXACTFIT | wxNO_BORDER*/) :
     m_parent(parent),
     m_current_icon_name(bitmap.name()),

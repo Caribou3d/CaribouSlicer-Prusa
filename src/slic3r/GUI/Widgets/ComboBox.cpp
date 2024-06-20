@@ -187,7 +187,7 @@ int ComboBox::Append(const wxString         &item,
     return int(texts.size()) - 1;
 }
 
-int ComboBox::Insert(const wxString& item, 
+int ComboBox::Insert(const wxString& item,
                      const wxBitmapBundle& bitmap,
                      unsigned int pos)
 {
@@ -241,7 +241,7 @@ void ComboBox::SetString(unsigned int n, wxString const &value)
     if (int(n) == drop.GetSelection()) SetLabel(value);
 }
 
-wxBitmap ComboBox::GetItemBitmap(unsigned int n) 
+wxBitmap ComboBox::GetItemBitmap(unsigned int n)
 {
     return icons[n].GetBitmapFor(m_parent);
 }

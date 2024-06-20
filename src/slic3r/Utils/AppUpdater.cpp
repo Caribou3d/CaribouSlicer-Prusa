@@ -37,7 +37,7 @@
 namespace Slic3r {
 
 namespace {
-    
+
 #ifdef _WIN32
     bool run_file(const boost::filesystem::path& path)
     {
@@ -86,7 +86,7 @@ namespace {
     }
 #else
     bool run_file(const boost::filesystem::path& path)
-    {    
+    {
         return false;
     }
 
@@ -100,7 +100,7 @@ namespace {
         }
         return std::string();
     }
-#endif // _WIN32 / __apple__ / else 
+#endif // _WIN32 / __apple__ / else
 } // namespace
 
 wxDEFINE_EVENT(EVT_SLIC3R_VERSION_ONLINE, wxCommandEvent);
@@ -129,10 +129,10 @@ struct AppUpdater::priv {
     // gets version file via http
     void version_check(const std::string& version_check_url);
 #if 0
-    // parsing of CaribouSlicer.version2 
+    // parsing of CaribouSlicer.version2
     void parse_version_string_old(const std::string& body) const;
 #endif
-    // parses ini tree of version file, saves to m_online_version_data and queue event(s) to UI 
+    // parses ini tree of version file, saves to m_online_version_data and queue event(s) to UI
     void parse_version_string(const std::string& body);
     // thread
     std::thread                m_thread;
@@ -160,13 +160,13 @@ AppUpdater::priv::priv() :
 #else
     , m_default_dest_folder (boost::filesystem::path(data_dir()) / "cache")
 #endif //_WIN32
-{    
+{
     boost::filesystem::path downloads_path = boost::filesystem::path(get_downloads_path());
     if (!downloads_path.empty()) {
         m_default_dest_folder = std::move(downloads_path);
     }
     BOOST_LOG_TRIVIAL(trace) << "App updater default download path: " << m_default_dest_folder; //lm:Is this an error? // dk: changed to trace
-    
+
 }
 
 bool  AppUpdater::priv::http_get_file(const std::string& url, size_t size_limit, std::function<bool(Http::Progress)> progress_fn, std::function<bool(std::string /*body*/, std::string& error_message)> complete_fn, std::string& error_message) const
@@ -175,7 +175,7 @@ bool  AppUpdater::priv::http_get_file(const std::string& url, size_t size_limit,
     Http::get(url)
         .size_limit(size_limit)
         .on_progress([&, progress_fn](Http::Progress progress, bool& cancel) {
-            // progress function returns true as success (to continue) 
+            // progress function returns true as success (to continue)
             cancel = (m_cancel ? true : !progress_fn(std::move(progress)));
             if (cancel) {
                 // Lets keep error_message empty here - if there is need to show error dialog, the message will be probably shown by whatever caused the cancel.
@@ -195,7 +195,7 @@ bool  AppUpdater::priv::http_get_file(const std::string& url, size_t size_limit,
             res = complete_fn(body, error_message);
         })
         .perform_sync();
-    
+
     return res;
 }
 
@@ -236,7 +236,7 @@ boost::filesystem::path AppUpdater::priv::download_file(const DownloadAppData& d
     }
 
     std::string error_message;
-    bool res = http_get_file(data.url, 130 * 1024 * 1024 //2.4.0 windows installer is 65MB //lm:I don't know, but larger. The binaries will grow. // dk: changed to 130, to have 100% more space. We should put this information into version file. 
+    bool res = http_get_file(data.url, 130 * 1024 * 1024 //2.4.0 windows installer is 65MB //lm:I don't know, but larger. The binaries will grow. // dk: changed to 130, to have 100% more space. We should put this information into version file.
         // on_progress
         , [&last_gui_progress, expected_size](Http::Progress progress) {
             // size check
@@ -247,10 +247,10 @@ boost::filesystem::path AppUpdater::priv::download_file(const DownloadAppData& d
                 evt->SetString(message);
                 GUI::wxGetApp().QueueEvent(evt);
                 return false;
-            } else if (progress.dltotal > 0 && progress.dltotal < expected_size) { 
+            } else if (progress.dltotal > 0 && progress.dltotal < expected_size) {
                 // This is possible error, but we cannot know until the download is finished. Somehow the total size can grow during the download.
                 BOOST_LOG_TRIVIAL(info) << GUI::format("Downloading new %1% has incorrect size. The download will continue. \nExpected size: %2%\nDownload size: %3%", SLIC3R_APP_NAME, expected_size, progress.dltotal);
-            } 
+            }
             // progress event
             size_t gui_progress = progress.dltotal > 0 ? 100 * progress.dlnow / progress.dltotal : 0;
             BOOST_LOG_TRIVIAL(debug) << "App download " << gui_progress << "% " << progress.dlnow << " of " << progress.dltotal;
@@ -265,7 +265,7 @@ boost::filesystem::path AppUpdater::priv::download_file(const DownloadAppData& d
         // on_complete
         , [&file, dest_path, tmp_path, expected_size](std::string body, std::string& error_message){
             // Size check. Does always 1 char == 1 byte?
-            size_t body_size = body.size(); 
+            size_t body_size = body.size();
             if (body_size != expected_size) {
                 error_message = GUI::format(_u8L("Downloaded file has wrong size. Expected size: %1% Downloaded size: %2%"), expected_size, body_size);
                 return false;
@@ -292,11 +292,11 @@ boost::filesystem::path AppUpdater::priv::download_file(const DownloadAppData& d
     if (!res)
     {
         if (m_cancel) {
-            BOOST_LOG_TRIVIAL(info) << error_message; 
+            BOOST_LOG_TRIVIAL(info) << error_message;
             wxCommandEvent* evt = new wxCommandEvent(EVT_SLIC3R_APP_DOWNLOAD_FAILED); // FAILED with empty msg only closes progress notification
             GUI::wxGetApp().QueueEvent(evt);
         } else {
-            std::string message = (error_message.empty() 
+            std::string message = (error_message.empty()
                 ? std::string()
                 : GUI::format(_u8L("Downloading new %1% has failed:\n%2%"), SLIC3R_APP_NAME, error_message));
             wxCommandEvent* evt = new wxCommandEvent(EVT_SLIC3R_APP_DOWNLOAD_FAILED);
@@ -308,7 +308,7 @@ boost::filesystem::path AppUpdater::priv::download_file(const DownloadAppData& d
         }
         return boost::filesystem::path();
     }
-    
+
     return dest_path;
 }
 
@@ -318,7 +318,7 @@ bool AppUpdater::priv::run_downloaded_file(boost::filesystem::path path)
     return run_file(path);
 }
 
-void AppUpdater::priv::version_check(const std::string& version_check_url) 
+void AppUpdater::priv::version_check(const std::string& version_check_url)
 {
     assert(!version_check_url.empty());
     std::string error_message;
@@ -382,7 +382,7 @@ void AppUpdater::priv::parse_version_string(const std::string& body)
         std::string section_name = section.first;
 
         // online release version info
-        if (section_name == 
+        if (section_name ==
 #ifdef _WIN32
             "release:win64"
 #elif __APPLE__
@@ -656,4 +656,4 @@ bool AppUpdater::get_download_ongoing() const
     return p->get_download_ongoing();
 }
 
-} //namespace Slic3r 
+} //namespace Slic3r

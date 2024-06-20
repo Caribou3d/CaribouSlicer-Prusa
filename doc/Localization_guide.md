@@ -2,7 +2,7 @@
 
 The purpose of this guide is to describe how to contribute to the PrusaSlicer translations. We use GNUgettext for extracting string resources from the project and PoEdit for editing translations.
 
-Those can be downloaded here: 
+Those can be downloaded here:
 -    https://sourceforge.net/directory/os:windows/?q=gnu+gettext GNUgettext package contains a set of tools to extract strings from the source code and to create the translation Catalog.
 -    https://poedit.net PoEdit provides good interface for the translators.
 
@@ -29,7 +29,7 @@ Notice. When the translation is complete you need to:
     - Click "Save file" button. PrusaSlicer.mo will be created immediately
     - Both PrusaSlicer.po and PrusaSlicer.mo have to be saved here:
 https://github.com/prusa3d/PrusaSlicer/tree/master/resources/localization/fr
-( name of folder "fr" means "French" - the translation language). 
+( name of folder "fr" means "French" - the translation language).
 
 ### Scenario 3. How do I add a new text resource when implementing a feature to PrusaSlicer
 Each string resource in PrusaSlicer available for translation needs to be explicitly marked using L() macro like this:
@@ -41,7 +41,7 @@ If you add new file resource, add it to the list of files containing macro `L()`
 
 ### Scenario 4. How do I use GNUgettext to localize my own application taking PrusaSlicer as an example
 
-1.  For convenience create a list of files with this macro `L(s)`. We have 
+1.  For convenience create a list of files with this macro `L(s)`. We have
 https://github.com/prusa3d/PrusaSlicer/tree/master/resources/localization/list.txt.
 
 2.  Create template file(*.POT) with GNUgettext command:
@@ -66,7 +66,7 @@ https://github.com/prusa3d/PrusaSlicer/tree/master/resources/localization/list.t
     ```
 
 6.  Create an English translation catalog with command:
-    ```    
+    ```
         msgen -o new.po old.po
     ```
     Notice, in this Catalog it will be totally same strings for initial text and translated.

@@ -42,7 +42,7 @@
 extern void stl_internal_reverse_quads(char *buf, size_t cnt);
 #endif /* BOOST_ENDIAN_BIG_BYTE */
 
-static FILE* stl_open_count_facets(stl_file *stl, const char *file) 
+static FILE* stl_open_count_facets(stl_file *stl, const char *file)
 {
       // Open the file in binary mode first.
       FILE *fp = boost::nowide::fopen(file, "rb");
@@ -112,7 +112,7 @@ static FILE* stl_open_count_facets(stl_file *stl, const char *file)
               fclose(fp);
               return nullptr;
         }
-    
+
         // Find the number of facets.
         char linebuf[100];
         int num_lines = 1;
@@ -127,7 +127,7 @@ static FILE* stl_open_count_facets(stl_file *stl, const char *file)
         }
 
         rewind(fp);
-    
+
         // Get the header.
         int i = 0;
         for (; i < 80 && (stl->stats.header[i] = getc(fp)) != '\n'; ++ i) ;
@@ -226,7 +226,7 @@ static bool stl_read(stl_file *stl, FILE *fp, int first_facet, bool first)
         stl->facet_start[i] = facet;
         stl_facet_stats(stl, facet, first);
       }
-  
+
       stl->stats.size = stl->stats.max - stl->stats.min;
       stl->stats.bounding_diameter = stl->stats.size.norm();
       return true;
@@ -245,7 +245,7 @@ bool stl_open(stl_file *stl, const char *file)
       return result;
 }
 
-void stl_allocate(stl_file *stl) 
+void stl_allocate(stl_file *stl)
 {
       //  Allocate memory for the entire .STL file.
       stl->facet_start.assign(stl->stats.number_of_facets, stl_facet());
@@ -253,7 +253,7 @@ void stl_allocate(stl_file *stl)
       stl->neighbors_start.assign(stl->stats.number_of_facets, stl_neighbors());
 }
 
-void stl_reallocate(stl_file *stl) 
+void stl_reallocate(stl_file *stl)
 {
     stl->facet_start.resize(stl->stats.number_of_facets);
     stl->neighbors_start.resize(stl->stats.number_of_facets);

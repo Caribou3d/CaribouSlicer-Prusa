@@ -105,7 +105,7 @@ void stl_scale_versor(stl_file *stl, const stl_vertex &versor)
               stl->facet_start[i].vertex[j].array() *= s;
 }
 
-static void calculate_normals(stl_file *stl) 
+static void calculate_normals(stl_file *stl)
 {
     stl_normal normal;
     for (uint32_t i = 0; i < stl->stats.number_of_facets; ++ i) {

@@ -4,7 +4,7 @@ set(_dstdir ${${PROJECT_NAME}_DEP_INSTALL_PREFIX})
 if (MSVC)
     set(_output  ${_dstdir}/include/mpfr.h
                  ${_dstdir}/include/mpf2mpfr.h
-                 ${_dstdir}/lib/libmpfr-4.lib 
+                 ${_dstdir}/lib/libmpfr-4.lib
                  ${_dstdir}/bin/libmpfr-4.dll)
 
     add_custom_command(

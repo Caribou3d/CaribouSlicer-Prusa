@@ -72,13 +72,13 @@ struct ExtrudersSequence
     }
 
     void delete_extruder(size_t pos)
-    {            
+    {
         if (extruders.size() == 1)
             return;// last item can't be deleted
         extruders.erase(extruders.begin() + pos);
     }
 
-    void init(size_t extruders_count) 
+    void init(size_t extruders_count)
     {
         extruders.clear();
         for (size_t extruder = 0; extruder < extruders_count; extruder++)
@@ -165,8 +165,8 @@ public:
     // Means all extruders(tools) which will be used during printing from current tick to the end
     std::set<int>   get_used_extruders_for_tick(int tick, double print_z, Mode force_mode = Undef) const;
 
-    // Get active extruders for tick. 
-    // Means one current extruder for not existing tick OR 
+    // Get active extruders for tick.
+    // Means one current extruder for not existing tick OR
     // 2 extruders - for existing tick (extruder before ToolChangeCode and extruder of current existing tick)
     // Use those values to disable selection of active extruders
     std::array<int, 2> get_active_extruders_for_tick(int tick, Mode main_mode) const;
@@ -193,7 +193,7 @@ public:
     void set_callback_on_empty_auto_color_change(std::function<void()> cb)
         { m_cb_notify_empty_color_change = cb; }
 
-    void set_callback_on_check_gcode(std::function<void(Type)> cb ) 
+    void set_callback_on_check_gcode(std::function<void(Type)> cb )
          { m_cb_check_gcode_and_notify = cb; }
 
     void set_callback_on_get_custom_code(std::function<std::string(const std::string&, double)> cb)

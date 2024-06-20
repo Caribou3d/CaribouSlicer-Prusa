@@ -89,7 +89,7 @@ static const constexpr int UNARRANGED = -1;
 /// be modified during arrangement. Instead, the translation and rotation fields
 /// will mark the needed transformation for the polygon to be in the arranged
 /// position. These can also be set to an initial offset and rotation.
-/// 
+///
 /// The bed_idx field will indicate the logical bed into which the
 /// polygon belongs: UNARRANGED means no place for the polygon
 /// (also the initial state before arrange), 0..N means the index of the bed.
@@ -108,7 +108,7 @@ struct ArrangePolygon {
 
     /// Optional setter function which can store arbitrary data in its closure
     std::function<void(const ArrangePolygon&)> setter = nullptr;
-    
+
     /// Helper function to call the setter with the arrange data arguments
     void apply() const { if (setter) setter(*this); }
 
@@ -133,7 +133,7 @@ enum class Pivots {
 
 struct ArrangeParams {
 
-    /// The minimum distance which is allowed for any 
+    /// The minimum distance which is allowed for any
     /// pair of items on the print bed in any direction.
     coord_t min_obj_distance = 0;
 
@@ -155,7 +155,7 @@ struct ArrangeParams {
     /// Starting position hint for the arrangement
     Pivots starting_point = Pivots::Center;
 
-    /// Progress indicator callback called when an object gets packed. 
+    /// Progress indicator callback called when an object gets packed.
     /// The unsigned argument is the number of items remaining to pack.
     std::function<void(unsigned)> progressind;
 
@@ -171,11 +171,11 @@ struct ArrangeParams {
 /**
  * \brief Arranges the input polygons.
  *
- * WARNING: Currently, only convex polygons are supported by the libnest2d 
+ * WARNING: Currently, only convex polygons are supported by the libnest2d
  * library which is used to do the arrangement. This might change in the future
  * this is why the interface contains a general polygon capable to have holes.
  *
- * \param items Input vector of ArrangePolygons. The transformation, rotation 
+ * \param items Input vector of ArrangePolygons. The transformation, rotation
  * and bin_idx fields will be changed after the call finished and can be used
  * to apply the result on the input polygon.
  */

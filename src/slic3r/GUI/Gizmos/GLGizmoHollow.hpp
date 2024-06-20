@@ -30,11 +30,11 @@ public:
     GLGizmoHollow(GLCanvas3D& parent, const std::string& icon_filename, unsigned int sprite_id);
     void data_changed(bool is_serializing) override;
     bool gizmo_event(SLAGizmoEventType action, const Vec2d& mouse_position, bool shift_down, bool alt_down, bool control_down);
-    void delete_selected_points();    
+    void delete_selected_points();
     bool is_selection_rectangle_dragging() const override {
         return m_selection_rectangle.is_dragging();
     }
-        
+
     /// <summary>
     /// Postpone to Grabber for move
     /// Detect move of object by dragging
@@ -75,7 +75,7 @@ private:
     sla::DrainHoles m_holes_in_drilled_mesh;
 
     sla::DrainHoles m_holes_stash;
-    
+
     // This map holds all translated description texts, so they can be easily referenced during layout calculations
     // etc. When language changes, GUI is recreated and this class constructed again, so the change takes effect.
     std::map<std::string, std::string> m_desc;

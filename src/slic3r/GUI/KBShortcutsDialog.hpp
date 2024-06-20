@@ -13,7 +13,7 @@
 #include "GUI_Utils.hpp"
 #include "wxExtensions.hpp"
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 
 class KBShortcutsDialog : public DPIDialog
@@ -30,7 +30,7 @@ class KBShortcutsDialog : public DPIDialog
 
 public:
     KBShortcutsDialog();
-    
+
 protected:
     void on_dpi_changed(const wxRect &suggested_rect) override;
 

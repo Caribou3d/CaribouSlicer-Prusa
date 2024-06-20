@@ -48,7 +48,7 @@ void stl_stats_out(stl_file *stl, FILE *file, char *input_file)
       fprintf(file, "Min Z = % f, Max Z = % f\n", stl->stats.min(2), stl->stats.max(2));
       fprintf(file, "========= Facet Status ========== Original ============ Final ====\n");
       fprintf(file, "Number of facets                 : %5d               %5d\n", stl->stats.original_num_facets, stl->stats.number_of_facets);
-      fprintf(file, "Facets with 1 disconnected edge  : %5d               %5d\n", 
+      fprintf(file, "Facets with 1 disconnected edge  : %5d               %5d\n",
           stl->stats.facets_w_1_bad_edge, stl->stats.connected_facets_2_edge - stl->stats.connected_facets_3_edge);
       fprintf(file, "Facets with 2 disconnected edges : %5d               %5d\n",
         stl->stats.facets_w_2_bad_edge, stl->stats.connected_facets_1_edge - stl->stats.connected_facets_2_edge);
@@ -221,7 +221,7 @@ bool stl_write_quad_object(stl_file *stl, char *file)
   return true;
 }
 
-bool stl_write_dxf(stl_file *stl, const char *file, char *label) 
+bool stl_write_dxf(stl_file *stl, const char *file, char *label)
 {
     FILE *fp = boost::nowide::fopen(file, "w");
     if (fp == nullptr) {

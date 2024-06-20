@@ -44,10 +44,10 @@ SCENARIO("Medial Axis", "[ThinWalls]") {
 #if 0
     //FIXME this test never worked
     GIVEN("narrow rectangle with an extra vertex") {
-        ExPolygon expolygon{ Polygon::new_scale({ 
-            {100, 100}, {120, 100}, {120, 200}, 
-            {105, 200} /* extra point in the short side*/, 
-            {100, 200} 
+        ExPolygon expolygon{ Polygon::new_scale({
+            {100, 100}, {120, 100}, {120, 200},
+            {105, 200} /* extra point in the short side*/,
+            {100, 200}
         })};
         WHEN("Medial axis is extracted") {
             Polylines res = expolygon.medial_axis(scaled<double>(0.5), scaled<double>(1.));
@@ -69,7 +69,7 @@ SCENARIO("Medial Axis", "[ThinWalls]") {
     }
 #endif
     GIVEN("semicircumference") {
-        ExPolygon expolygon{{ 
+        ExPolygon expolygon{{
             {1185881,829367},{1421988,1578184},{1722442,2303558},{2084981,2999998},{2506843,3662186},{2984809,4285086},{3515250,4863959},{4094122,5394400},
             {4717018,5872368},{5379210,6294226},{6075653,6656769},{6801033,6957229},{7549842,7193328},{8316383,7363266},{9094809,7465751},{9879211,7500000},
             {10663611,7465750},{11442038,7363265},{12208580,7193327},{12957389,6957228},{13682769,6656768},{14379209,6294227},{15041405,5872366},
@@ -128,7 +128,7 @@ SCENARIO("Medial Axis", "[ThinWalls]") {
         }
     }
     GIVEN("whatever shape") {
-        ExPolygon expolygon{{ 
+        ExPolygon expolygon{{
             {-203064906,-51459966},{-219312231,-51459966},{-219335477,-51459962},{-219376095,-51459962},{-219412047,-51459966},
             {-219572094,-51459966},{-219624814,-51459962},{-219642183,-51459962},{-219656665,-51459966},{-220815482,-51459966},
             {-220815482,-37738966},{-221117540,-37738966},{-221117540,-51762024},{-203064906,-51762024},

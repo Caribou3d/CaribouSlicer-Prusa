@@ -20,7 +20,7 @@ namespace Slic3r {
 namespace PerimeterGenerator
 {
 
-struct Parameters {    
+struct Parameters {
     Parameters(
         double                      layer_height,
         int                         layer_id,
@@ -31,20 +31,20 @@ struct Parameters {
         const PrintRegionConfig    &config,
         const PrintObjectConfig    &object_config,
         const PrintConfig          &print_config,
-        const bool                  spiral_vase) :   
+        const bool                  spiral_vase) :
             layer_height(layer_height),
             layer_id(layer_id),
-            perimeter_flow(perimeter_flow), 
+            perimeter_flow(perimeter_flow),
             ext_perimeter_flow(ext_perimeter_flow),
-            overhang_flow(overhang_flow), 
+            overhang_flow(overhang_flow),
             solid_infill_flow(solid_infill_flow),
-            config(config), 
-            object_config(object_config), 
+            config(config),
+            object_config(object_config),
             print_config(print_config),
             spiral_vase(spiral_vase),
             scaled_resolution(scaled<double>(print_config.gcode_resolution.value)),
             mm3_per_mm(perimeter_flow.mm3_per_mm()),
-            ext_mm3_per_mm(ext_perimeter_flow.mm3_per_mm()), 
+            ext_mm3_per_mm(ext_perimeter_flow.mm3_per_mm()),
             mm3_per_mm_overhang(overhang_flow.mm3_per_mm())
         {
         }

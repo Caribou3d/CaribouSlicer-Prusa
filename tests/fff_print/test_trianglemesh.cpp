@@ -24,7 +24,7 @@ SCENARIO( "TriangleMesh: Basic mesh statistics") {
         std::vector<Vec3f> vertices { {20,20,0}, {20,0,0}, {0,0,0}, {0,20,0}, {20,20,20}, {0,20,20}, {0,0,20}, {20,0,20} };
         std::vector<Vec3i> facets { {0,1,2}, {0,2,3}, {4,5,6}, {4,6,7}, {0,4,7}, {0,7,1}, {1,7,6}, {1,6,2}, {2,6,5}, {2,5,3}, {4,0,3}, {4,3,5} };
         TriangleMesh cube(vertices, facets);
-        
+
         THEN( "Volume is appropriate for 20mm square cube.") {
             REQUIRE(abs(cube.volume() - 20.0*20.0*20.0) < 1e-2);
         }
@@ -137,7 +137,7 @@ SCENARIO( "TriangleMesh: Transformation functions affect mesh as expected.") {
 SCENARIO( "TriangleMesh: slice behavior.") {
     GIVEN( "A 20mm cube with one corner on the origin") {
         auto cube = make_cube();
-        
+
         WHEN("Cube is sliced with z = [0+EPSILON,2,4,8,6,8,10,12,14,16,18,20]") {
             std::vector<double> z { 0+EPSILON,2,4,8,6,8,10,12,14,16,18,20 };
             std::vector<ExPolygons> result = cube.slice(z);
@@ -205,7 +205,7 @@ SCENARIO( "make_xxx functions produce meshes.") {
                 const std::vector<Vec3f> &verts = cyl.its.vertices;
                 REQUIRE(std::count_if(verts.begin(), verts.end(), [](const Vec3f& t) { return t.x() == 0 && t.y() == 0 && t.z() == 10; } ) == 1);
             }
-            THEN("Resulting mesh has 2 + (2*PI/angle * 2) vertices.") { 
+            THEN("Resulting mesh has 2 + (2*PI/angle * 2) vertices.") {
                 REQUIRE(cyl.its.vertices.size() == (2 + ((2*PI/angle)*2)));
             }
             THEN("Resulting mesh has 2*PI/angle * 4 facets") {

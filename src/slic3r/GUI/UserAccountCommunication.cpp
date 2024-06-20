@@ -19,7 +19,7 @@
 #include <cstring>
 #include <cstdint>
 
-#if wxUSE_SECRETSTORE 
+#if wxUSE_SECRETSTORE
 #include <wx/secretstore.h>
 #endif
 
@@ -57,14 +57,14 @@ std::string get_code_from_message(const std::string& url_message)
         if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))
             out+= c;
         else
-            break;  
+            break;
     }
     return out;
 }
 
 bool is_secret_store_ok()
 {
-#if wxUSE_SECRETSTORE 
+#if wxUSE_SECRETSTORE
     wxSecretStore store = wxSecretStore::GetDefault();
     wxString errmsg;
     if (!store.IsOk(&errmsg)) {
@@ -78,7 +78,7 @@ bool is_secret_store_ok()
 }
 bool save_secret(const std::string& opt, const std::string& usr, const std::string& psswd)
 {
-#if wxUSE_SECRETSTORE 
+#if wxUSE_SECRETSTORE
     wxSecretStore store = wxSecretStore::GetDefault();
     wxString errmsg;
     if (!store.IsOk(&errmsg)) {
@@ -100,7 +100,7 @@ bool save_secret(const std::string& opt, const std::string& usr, const std::stri
 #else
     BOOST_LOG_TRIVIAL(error) << "wxUSE_SECRETSTORE not supported. Cannot save password to the system store.";
     return false;
-#endif // wxUSE_SECRETSTORE 
+#endif // wxUSE_SECRETSTORE
 }
 bool load_secret(const std::string& opt, std::string& usr, std::string& psswd)
 {
@@ -128,7 +128,7 @@ bool load_secret(const std::string& opt, std::string& usr, std::string& psswd)
 #else
     BOOST_LOG_TRIVIAL(error) << "wxUSE_SECRETSTORE not supported. Cannot load password from the system store.";
     return false;
-#endif // wxUSE_SECRETSTORE 
+#endif // wxUSE_SECRETSTORE
 }
 }
 
@@ -179,7 +179,7 @@ UserAccountCommunication::UserAccountCommunication(wxEvtHandler* evt_handler, Ap
     }
 }
 
-UserAccountCommunication::~UserAccountCommunication() 
+UserAccountCommunication::~UserAccountCommunication()
 {
     m_token_timer->Stop();
     m_polling_timer->Stop();
@@ -217,7 +217,7 @@ void UserAccountCommunication::set_username(const std::string& username)
 }
 
 void UserAccountCommunication::set_remember_session(bool b)
-{ 
+{
     m_remember_session = b;
     // tokens needs to be stored or deleted
     set_username(m_username);
@@ -281,7 +281,7 @@ void UserAccountCommunication::do_login()
         std::lock_guard<std::mutex> lock(m_session_mutex);
         if (!m_session->is_initialized()) {
             login_redirect();
-        } else { 
+        } else {
             m_session->enqueue_test_with_refresh();
         }
     }
@@ -396,7 +396,7 @@ void UserAccountCommunication::init_session_thread()
     m_thread = std::thread([this]() {
         for (;;) {
             {
-                std::unique_lock<std::mutex> lck(m_thread_stop_mutex);      
+                std::unique_lock<std::mutex> lck(m_thread_stop_mutex);
                 m_thread_stop_condition.wait_for(lck, std::chrono::seconds(88888), [this] { return m_thread_stop || m_thread_wakeup; });
             }
             if (m_thread_stop)
@@ -466,7 +466,7 @@ std::string CodeChalengeGenerator::generate_chalenge(const std::string& verifier
     }
     assert(!code_challenge.empty());
     return code_challenge;
-    
+
 }
 std::string CodeChalengeGenerator::generate_verifier()
 {
@@ -483,7 +483,7 @@ std::string CodeChalengeGenerator::base64_encode(const std::string& input)
     // save encode - replace + and / with - and _
     std::replace(output.begin(), output.end(), '+', '-');
     std::replace(output.begin(), output.end(), '/', '_');
-    // remove last '=' sign 
+    // remove last '=' sign
     while (output.back() == '=')
         output.pop_back();
     return output;

@@ -48,7 +48,7 @@ std::string escape_path_by_element(const boost::filesystem::path& path)
 }
 }
 
-PrusaConnectNew::PrusaConnectNew(DynamicPrintConfig *config) 
+PrusaConnectNew::PrusaConnectNew(DynamicPrintConfig *config)
     : m_uuid(config->opt_string("print_host"))
     , m_team_id(config->opt_string("printhost_apikey"))
 {}
@@ -58,13 +58,13 @@ const char* PrusaConnectNew::get_name() const { return "PrusaConnectNew"; }
 
 bool PrusaConnectNew::test(wxString& curl_msg) const
 {
-    // Test is not used by upload and gets list of files on a device.   
+    // Test is not used by upload and gets list of files on a device.
     const std::string name = get_name();
     std::string url = GUI::format("https://connect.prusa3d.com/app/teams/%1%/files?printer_uuid=%2%", m_team_id, m_uuid);
     const std::string access_token = GUI::wxGetApp().plater()->get_user_account()->get_access_token();
     BOOST_LOG_TRIVIAL(info) << GUI::format("%1%: Get files/raw at: %2%", name, url);
     bool res = true;
-  
+
     auto http = Http::get(std::move(url));
     http.header("Authorization", "Bearer " + access_token);
     http.on_error([&](std::string body, std::string error, unsigned status) {
@@ -78,12 +78,12 @@ bool PrusaConnectNew::test(wxString& curl_msg) const
     .perform_sync();
 
     return res;
-    
+
 }
 
 bool PrusaConnectNew::init_upload(PrintHostUpload upload_data, std::string& out) const
 {
-    // Register upload. Then upload must be performed immediately with returned "id" 
+    // Register upload. Then upload must be performed immediately with returned "id"
     bool res = true;
     boost::system::error_code ec;
     boost::uintmax_t size = boost::filesystem::file_size(upload_data.source_path, ec);
@@ -105,13 +105,13 @@ bool PrusaConnectNew::init_upload(PrintHostUpload upload_data, std::string& out)
     //    , upload_data.upload_path.generic_string()
     //    , m_uuid
     //);
-    
+
     // replace plaholder filename
     assert(request_body_json.find("%1%") != std::string::npos);
     assert(request_body_json.find("%2%") != std::string::npos);
     request_body_json = GUI::format(request_body_json, upload_filename, size);
-    
-   
+
+
     BOOST_LOG_TRIVIAL(info) << "Register upload to "<< name<<". Url: " << url << "\nBody: " << request_body_json;
     Http http = Http::post(std::move(url));
     http.header("Authorization", "Bearer " + access_token)
@@ -139,7 +139,7 @@ bool PrusaConnectNew::upload(PrintHostUpload upload_data, ProgressFn progress_fn
         error_fn(std::move(GUI::from_u8(init_out)));
         return false;
     }
- 
+
     // init reply format: {"id": 1234, "team_id": 12345, "name": "filename.gcode", "size": 123, "hash": "QhE0LD76vihC-F11Jfx9rEqGsk4.", "state": "INITIATED", "source": "CONNECT_USER", "path": "/usb/filename.bgcode"}
     std::string upload_id;
     try
@@ -184,7 +184,7 @@ bool PrusaConnectNew::upload(PrintHostUpload upload_data, ProgressFn progress_fn
         % upload_data.upload_path.filename().string()
         % upload_data.upload_path.parent_path().string()
         % (upload_data.post_action == PrintHostPostUploadAction::StartPrint ? "true" : "false");
-     
+
     Http http = Http::put(std::move(url));
     http.set_put_body(upload_data.source_path)
         .header("Content-Type", "text/x.gcode")
@@ -254,7 +254,7 @@ bool PrusaConnectNew::get_storage(wxArrayString& storage_path, wxArrayString& st
                 pt::ptree ptree;
                 pt::read_json(ss, ptree);
 
-                // what if there is more structure added in the future? Enumerate all elements? 
+                // what if there is more structure added in the future? Enumerate all elements?
                 if (ptree.front().first != "storages") {
                     res = false;
                     return;
@@ -292,9 +292,9 @@ bool PrusaConnectNew::get_storage(wxArrayString& storage_path, wxArrayString& st
             storage_name.push_back(si.name);
         }
     }
-    
+
     if (res && storage_path.empty()) {
-        if (!storage.empty()) { // otherwise error_msg is already filled 
+        if (!storage.empty()) { // otherwise error_msg is already filled
             error_msg = L"\n\n" + _L("Storages found") + L": \n";
             for (const auto& si : storage) {
                 error_msg += GUI::format_wxstr(si.read_only ?
@@ -309,7 +309,7 @@ bool PrusaConnectNew::get_storage(wxArrayString& storage_path, wxArrayString& st
         BOOST_LOG_TRIVIAL(error) << message;
         throw Slic3r::IOError(message);
     }
-    
+
     return res;
 }
 

@@ -56,13 +56,13 @@ void CreateFontImageJob::process(Ctl &ctl)
         // text start with enter
         if (enter_pos == 0) return;
         // exist enter, soo delete all after enter
-        text = text.substr(0, enter_pos);        
-    }    
+        text = text.substr(0, enter_pos);
+    }
 
     std::function<bool()> was_canceled = [&ctl, cancel = m_input.cancel]() -> bool {
         if (ctl.was_canceled()) return true;
         if (cancel->load()) return true;
-        return false; 
+        return false;
     };
 
     FontProp fp; // create default font parameters
@@ -106,16 +106,16 @@ void CreateFontImageJob::process(Ctl &ctl)
         sla::create_raster_grayscale_aa(resolution, dim, gamma);
     for (ExPolygon &shape : shapes) shape.translate(-bounding_box.min);
     for (const ExPolygon &shape : shapes) r->draw(shape);
-        
+
     // copy rastered data to pixels
     sla::RasterEncoder encoder =
         [&pix = m_result, w = m_tex_size.x(), h = m_tex_size.y(),
          gray_level = m_input.gray_level]
-    (const void *ptr, size_t width, size_t height, size_t num_components) {        
+    (const void *ptr, size_t width, size_t height, size_t num_components) {
         size_t size {static_cast<size_t>(w*h)};
         const unsigned char *ptr2 = (const unsigned char *) ptr;
         for (size_t x = 0; x < width; ++x)
-            for (size_t y = 0; y < height; ++y) { 
+            for (size_t y = 0; y < height; ++y) {
                 size_t index = y*w + x;
                 assert(index < size);
                 if (index >= size) continue;
@@ -131,7 +131,7 @@ void CreateFontImageJob::finalize(bool canceled, std::exception_ptr &)
     if (m_input.count_opened_font_files)
         --(*m_input.count_opened_font_files);
     if (canceled || m_input.cancel->load()) return;
-    
+
     *m_input.is_created = true;
 
     // Exist result bitmap with preview?
@@ -164,7 +164,7 @@ void CreateFontImageJob::finalize(bool canceled, std::exception_ptr &)
     // show rendered texture
     wxGetApp().plater()->canvas3D()->schedule_extra_frame(0);
 
-    BOOST_LOG_TRIVIAL(info) 
+    BOOST_LOG_TRIVIAL(info)
         << "Generate Preview font('" << m_input.font_name << "' id:" << m_input.index << ") "
         << "with text: '" << m_input.text << "' "
         << "texture_size " << m_input.size.x() << " x " << m_input.size.y();

@@ -37,7 +37,7 @@
 #include <inttypes.h>
 #include <functional>
 
-#include <Eigen/Geometry> 
+#include <Eigen/Geometry>
 
 #include <oneapi/tbb/scalable_allocator.h>
 
@@ -48,9 +48,9 @@
 
 //use_lines: Enables line clipping. Adds a very minor cost to performance.
 #define use_lines
-  
+
 //use_deprecated: Enables temporary support for the obsolete functions
-//#define use_deprecated  
+//#define use_deprecated
 
 #include <array>
 #include <vector>
@@ -102,7 +102,7 @@ enum PolyFillType { pftEvenOdd, pftNonZero, pftPositive, pftNegative };
 #ifdef CLIPPERLIB_INTPOINT_TYPE
 using IntPoint = CLIPPERLIB_INTPOINT_TYPE;
 #else // CLIPPERLIB_INTPOINT_TYPE
-using IntPoint = Eigen::Matrix<cInt, 
+using IntPoint = Eigen::Matrix<cInt,
 #ifdef CLIPPERLIB_USE_XYZ
   3
 #else // CLIPPERLIB_USE_XYZ
@@ -141,8 +141,8 @@ enum EndType {etClosedPolygon, etClosedLine, etOpenButt, etOpenSquare, etOpenRou
 class PolyNode;
 typedef std::vector<PolyNode*, Allocator<PolyNode*>> PolyNodes;
 
-class PolyNode 
-{ 
+class PolyNode
+{
 public:
     PolyNode() : Parent(0), Index(0), m_IsOpen(false) {}
     virtual ~PolyNode(){};
@@ -152,7 +152,7 @@ public:
     // Traversal of the polygon tree in a depth first fashion.
     PolyNode* GetNext() const { return Childs.empty() ? GetNextSiblingUp() : Childs.front(); }
     bool IsHole() const;
-    bool IsOpen() const { return m_IsOpen; }  
+    bool IsOpen() const { return m_IsOpen; }
     int  ChildCount() const { return (int)Childs.size(); }
 private:
     unsigned Index; //node index in Parent.Childs
@@ -167,12 +167,12 @@ private:
 };
 
 class PolyTree: public PolyNode
-{ 
+{
 public:
     PolyTree() {}
     PolyTree(PolyTree &&src) { *this = std::move(src); }
     virtual ~PolyTree(){Clear();};
-    PolyTree& operator=(PolyTree &&src) { 
+    PolyTree& operator=(PolyTree &&src) {
         AllNodes   = std::move(src.AllNodes);
         Contour    = std::move(src.Contour);
         Childs     = std::move(src.Childs);
@@ -183,7 +183,7 @@ public:
         m_endtype  = src.m_endtype;
         for (size_t i = 0; i < Childs.size(); ++ i)
           Childs[i]->Parent = this;
-        return *this; 
+        return *this;
     }
     PolyNode* GetFirst() const { return Childs.empty() ? nullptr : Childs.front(); }
     void Clear() {  AllNodes.clear(); Childs.clear(); }
@@ -320,9 +320,9 @@ enum EdgeSide { esLeft = 1, esRight = 2};
 class ClipperBase
 {
 public:
-  ClipperBase() : 
+  ClipperBase() :
 #ifndef CLIPPERLIB_INT32
-    m_UseFullRange(false), 
+    m_UseFullRange(false),
 #endif // CLIPPERLIB_INT32
     m_HasOpenPaths(false) {}
   ~ClipperBase() { Clear(); }
@@ -344,10 +344,10 @@ public:
       // Remove duplicate end point from a closed input path.
       // Remove duplicate points from the end of the input path.
       int highI = (int)pg.size() -1;
-      if (Closed) 
-        while (highI > 0 && (pg[highI] == pg[0])) 
+      if (Closed)
+        while (highI > 0 && (pg[highI] == pg[0]))
           --highI;
-      while (highI > 0 && (pg[highI] == pg[highI -1])) 
+      while (highI > 0 && (pg[highI] == pg[highI -1]))
         --highI;
       if ((Closed && highI < 2) || (!Closed && highI < 1))
         highI = -1;
@@ -422,7 +422,7 @@ public:
   void Clear() { ClipperBase::Clear(); DisposeAllOutRecs(); }
   bool Execute(ClipType clipType,
       Paths &solution,
-      PolyFillType fillType = pftEvenOdd) 
+      PolyFillType fillType = pftEvenOdd)
     { return Execute(clipType, solution, fillType, fillType); }
   bool Execute(ClipType clipType,
       Paths &solution,
@@ -448,7 +448,7 @@ protected:
   void Reset();
   virtual bool ExecuteInternal();
 private:
-  
+
   // Output polygons.
   std::deque<OutRec, Allocator<OutRec>>  m_PolyOuts;
   // Output points, allocated by a continuous sets of m_OutPtsChunkSize.
@@ -473,13 +473,13 @@ private:
   PolyFillType          m_SubjFillType;
   bool                  m_ReverseOutput;
   // Does the result go to a PolyTree or Paths?
-  bool                  m_UsingPolyTree; 
+  bool                  m_UsingPolyTree;
   bool                  m_StrictSimple;
 #ifdef CLIPPERLIB_USE_XYZ
-  ZFillCallback         m_ZFill; //custom callback 
+  ZFillCallback         m_ZFill; //custom callback
 #endif
   void SetWindingCount(TEdge& edge) const;
-  bool IsEvenOddFillType(const TEdge& edge) const 
+  bool IsEvenOddFillType(const TEdge& edge) const
     { return (edge.PolyTyp == ptSubject) ? m_SubjFillType == pftEvenOdd : m_ClipFillType == pftEvenOdd; }
   bool IsEvenOddAltFillType(const TEdge& edge) const
     { return (edge.PolyTyp == ptSubject) ? m_ClipFillType == pftEvenOdd : m_SubjFillType == pftEvenOdd; }
@@ -535,7 +535,7 @@ private:
 };
 //------------------------------------------------------------------------------
 
-class ClipperOffset 
+class ClipperOffset
 {
 public:
   ClipperOffset(double miterLimit = 2.0, double roundPrecision = 0.25, double shortestEdgeLength = 0.) :

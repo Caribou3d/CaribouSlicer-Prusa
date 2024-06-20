@@ -691,14 +691,14 @@ bool GLGizmoPainterBase::on_mouse(const wxMouseEvent &mouse_event)
     const Selection &selection = m_parent.get_selection();
     int selected_object_idx = selection.get_object_idx();
     if (mouse_event.LeftDown()) {
-        if ((!control_down || grabber_contains_mouse) &&            
+        if ((!control_down || grabber_contains_mouse) &&
             gizmo_event(SLAGizmoEventType::LeftDown, mouse_pos, mouse_event.ShiftDown(), mouse_event.AltDown(), false))
             // the gizmo got the event and took some action, there is no need
             // to do anything more
             return true;
     } else if (mouse_event.RightDown()){
         if (!control_down && selected_object_idx != -1 &&
-            gizmo_event(SLAGizmoEventType::RightDown, mouse_pos, false, false, false)) 
+            gizmo_event(SLAGizmoEventType::RightDown, mouse_pos, false, false, false))
             // event was taken care of
             return true;
     } else if (mouse_event.Dragging()) {
@@ -1093,7 +1093,7 @@ void TriangleSelectorGUI::update_paint_contour()
     init_data.reserve_vertices(2 * contour_edges.size());
     init_data.reserve_indices(2 * contour_edges.size());
     init_data.color = ColorRGBA::WHITE();
- 
+
     // vertices + indices
     unsigned int vertices_count = 0;
     for (const Vec2i& edge : contour_edges) {

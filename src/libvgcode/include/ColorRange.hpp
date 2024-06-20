@@ -77,7 +77,7 @@ private:
     EColorRangeType m_type{ EColorRangeType::Linear };
     //
     // The palette used by this ColorRange
-    // 
+    //
     Palette m_palette;
     //
     // [0] = min
@@ -86,7 +86,7 @@ private:
     std::array<float, 2> m_range{ FLT_MAX, -FLT_MAX };
     //
     // Count of different values passed to update()
-    // 
+    //
     std::size_t m_count{ 0 };
 
     //

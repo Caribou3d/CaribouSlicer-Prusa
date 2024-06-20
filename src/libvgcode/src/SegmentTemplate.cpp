@@ -14,14 +14,14 @@ namespace libvgcode {
 //|    / |       | \    |
 //|   2--0-------5--7   |
 //|    \ |       | /    |
-//|      3-------4      | 
+//|      3-------4      |
 static constexpr const std::array<uint8_t, 24> VERTEX_DATA = {
     0, 1, 2, // front spike
     0, 2, 3, // front spike
-    0, 3, 4, // right/bottom body 
-    0, 4, 5, // right/bottom body 
-    0, 5, 6, // left/top body 
-    0, 6, 1, // left/top body 
+    0, 3, 4, // right/bottom body
+    0, 4, 5, // right/bottom body
+    0, 5, 6, // left/top body
+    0, 6, 1, // left/top body
     5, 4, 7, // back spike
     5, 7, 6, // back spike
 };

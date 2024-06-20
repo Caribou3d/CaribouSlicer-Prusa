@@ -25,7 +25,7 @@ while getopts ":iah" opt; do
         ;;
     h ) echo "Usage: ./BuildLinuxImage.sh [-i][-a][-h]"
         echo "   -i: generate Appimage (optional)"
-	    echo "   -a: generate tgz (optional)"
+        echo "   -a: generate tgz (optional)"
         echo "   -h: help"
         exit 0
         ;;
@@ -72,7 +72,7 @@ then
 
     } &> $ROOT/Build.log # Capture all command output
     echo -e "\n... done\n"
-fi   
+fi
 
 if [[ -n "$BUILD_IMAGE" ]]
 then

@@ -13,7 +13,7 @@ class wxEvent;
 class wxSizer;
 class wxFlexGridSizer;
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 
 class PresetArchiveDatabase;
@@ -28,7 +28,7 @@ class RepositoryUpdateUIManager
         std::string     id;
         std::string     name;
         std::string     description;
-        std::string   	visibility;
+        std::string       visibility;
     };
 
     struct OfflineEntry {
@@ -39,7 +39,7 @@ class RepositoryUpdateUIManager
         std::string     id;
         std::string     name;
         std::string     description;
-        std::string   	source;
+        std::string       source;
         bool            is_ok;
         boost::filesystem::path source_path;
     };
@@ -86,7 +86,7 @@ public:
 
 protected:
     void on_dpi_changed(const wxRect &suggested_rect) override;
-    
+
 private:
 
     std::unique_ptr<RepositoryUpdateUIManager> m_manager    { nullptr };

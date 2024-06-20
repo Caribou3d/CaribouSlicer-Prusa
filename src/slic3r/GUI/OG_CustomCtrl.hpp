@@ -16,7 +16,7 @@
 
 #include "OptionsGroup.hpp"
 
-// Translate the ifdef 
+// Translate the ifdef
 #ifdef __WXOSX__
     #define wxOSX true
 #else

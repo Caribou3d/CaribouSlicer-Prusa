@@ -25,8 +25,8 @@ class GCodeWriter {
 public:
     GCodeConfig config;
     bool multiple_extruders;
-    
-    GCodeWriter() : 
+
+    GCodeWriter() :
         multiple_extruders(false), m_extrusion_axis("E"), m_extruder(nullptr),
         m_single_extruder_multi_material(false),
         m_last_acceleration(0), m_max_acceleration(0),
@@ -41,11 +41,11 @@ public:
     // Extruders are expected to be sorted in an increasing order.
     void                 set_extruders(std::vector<unsigned int> extruder_ids);
     const std::vector<Extruder>& extruders() const { return m_extruders; }
-    std::vector<unsigned int> extruder_ids() const { 
-        std::vector<unsigned int> out; 
-        out.reserve(m_extruders.size()); 
-        for (const Extruder &e : m_extruders) 
-            out.push_back(e.id()); 
+    std::vector<unsigned int> extruder_ids() const {
+        std::vector<unsigned int> out;
+        out.reserve(m_extruders.size());
+        for (const Extruder &e : m_extruders)
+            out.push_back(e.id());
         return out;
     }
     std::string preamble();
@@ -58,7 +58,7 @@ public:
     std::string reset_e(bool force = false);
     std::string update_progress(unsigned int num, unsigned int tot, bool allow_100 = false) const;
     // return false if this extruder was already selected
-    bool        need_toolchange(unsigned int extruder_id) const 
+    bool        need_toolchange(unsigned int extruder_id) const
         { return m_extruder == nullptr || m_extruder->id() != extruder_id; }
     std::string set_extruder(unsigned int extruder_id)
         { return this->need_toolchange(extruder_id) ? this->toolchange(extruder_id) : ""; }
@@ -114,7 +114,7 @@ public:
     std::string set_fan(unsigned int speed) const;
 
 private:
-	// Extruders are sorted by their ID, so that binary search is possible.
+    // Extruders are sorted by their ID, so that binary search is possible.
     std::vector<Extruder> m_extruders;
     std::string     m_extrusion_axis;
     bool            m_single_extruder_multi_material;

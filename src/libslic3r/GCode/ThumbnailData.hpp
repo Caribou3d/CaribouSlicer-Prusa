@@ -27,11 +27,11 @@ using ThumbnailsList = std::vector<ThumbnailData>;
 
 struct ThumbnailsParams
 {
-	const Vec2ds 	sizes;
-	bool 			printable_only;
-	bool 			parts_only;
-	bool 			show_bed;
-	bool 			transparent_background;
+    const Vec2ds     sizes;
+    bool             printable_only;
+    bool             parts_only;
+    bool             show_bed;
+    bool             transparent_background;
 };
 
 typedef std::function<ThumbnailsList(const ThumbnailsParams&)> ThumbnailsGeneratorCallback;

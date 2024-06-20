@@ -63,4 +63,4 @@ private:
 } // namespace GCode
 } // namespace Slic3r
 
-#endif // slic3r_GCode_WipeTowerIntegration_hpp_ 
+#endif // slic3r_GCode_WipeTowerIntegration_hpp_

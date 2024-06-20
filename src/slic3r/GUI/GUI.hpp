@@ -21,7 +21,7 @@ class wxFileDialog;
 class wxArrayString;
 class wxTopLevelWindow;
 
-namespace Slic3r { 
+namespace Slic3r {
 
 class AppConfig;
 class DynamicPrintConfig;
@@ -36,7 +36,7 @@ void enable_screensaver();
 bool debugged();
 void break_to_debugger();
 
-// Platform specific Ctrl+/Alt+ (Windows, Linux) vs. ⌘/⌥ (OSX) prefixes 
+// Platform specific Ctrl+/Alt+ (Windows, Linux) vs. ⌘/⌥ (OSX) prefixes
 extern const std::string& shortkey_ctrl_prefix();
 extern const std::string& shortkey_alt_prefix();
 
@@ -59,13 +59,13 @@ void show_substitutions_info(const ConfigSubstitutions& config_substitutions, co
 // wxString conversions:
 
 // wxString from std::string in UTF8
-wxString	from_u8(const std::string &str);
+wxString    from_u8(const std::string &str);
 // std::string in UTF8 from wxString
-std::string	into_u8(const wxString &str);
+std::string    into_u8(const wxString &str);
 // wxString from boost path
-wxString	from_path(const boost::filesystem::path &path);
+wxString    from_path(const boost::filesystem::path &path);
 // boost path from wxString
-boost::filesystem::path	into_path(const wxString &str);
+boost::filesystem::path    into_path(const wxString &str);
 
 // Display an About dialog
 extern void about();

@@ -63,14 +63,14 @@ std::string get_file_path(const wxFont& font) {
     std::string path_str = path_unescaped.ToUTF8().data();
     BOOST_LOG_TRIVIAL(trace) << "input uri(" << file_uri.c_str() << ") convert to path(" << path.c_str() << ") string(" << path_str << ").";
     return path_str;
-}    
+}
 } // namespace
 #endif // __APPLE__
 
 bool WxFontUtils::can_load(const wxFont &font)
 {
-    
-    if (!font.IsOk()) return false;    
+
+    if (!font.IsOk()) return false;
 #ifdef _WIN32
     return Emboss::can_load(font.GetHFONT()) != nullptr;
 #elif defined(__APPLE__)
@@ -91,10 +91,10 @@ std::unique_ptr<Emboss::FontFile> WxFontUtils::create_font_file(const wxFont &fo
     return Emboss::create_font_file(font.GetHFONT());
 #elif defined(__APPLE__)
     std::string file_path = get_file_path(font);
-    if (!is_valid_ttf(file_path)) {        
+    if (!is_valid_ttf(file_path)) {
         BOOST_LOG_TRIVIAL(error) << "Can not process font('" << get_human_readable_name(font) << "'), "
                                  << "file in path('" << file_path << "') is not valid TTF.";
-        return nullptr; 
+        return nullptr;
     }
     return Emboss::create_font_file(file_path.c_str());
 #elif defined(__linux__)
@@ -132,7 +132,7 @@ EmbossStyle WxFontUtils::create_emboss_style(const wxFont &font, const std::stri
     EmbossStyle::Type type = get_current_type();
 
     // synchronize font property with actual font
-    FontProp font_prop; 
+    FontProp font_prop;
 
     // The point size is defined as 1/72 of the Anglo-Saxon inch (25.4 mm): it
     // is approximately 0.0139 inch or 352.8 um. But it is too small, so I
@@ -172,7 +172,7 @@ std::string WxFontUtils::store_wxFont(const wxFont &font)
 {
     // wxString os = wxPlatformInfo::Get().GetOperatingSystemIdName();
     wxString font_descriptor = font.GetNativeFontInfoDesc();
-    BOOST_LOG_TRIVIAL(trace) << "'" << font_descriptor << "' wx string get from GetNativeFontInfoDesc. wxFont " << 
+    BOOST_LOG_TRIVIAL(trace) << "'" << font_descriptor << "' wx string get from GetNativeFontInfoDesc. wxFont " <<
         "IsOk(" << font.IsOk() << "), " <<
         "isNull(" << font.IsNull() << ")" <<
         // "IsFree(" << font.IsFree() << "), " << // on MacOs is no function is free
@@ -193,7 +193,7 @@ wxFont WxFontUtils::load_wxFont(const std::string &font_descriptor)
 }
 
 using TypeToFamily = boost::bimap<wxFontFamily, std::string_view>;
-const TypeToFamily WxFontUtils::type_to_family = 
+const TypeToFamily WxFontUtils::type_to_family =
     boost::assign::list_of<TypeToFamily::relation>
         (wxFONTFAMILY_DEFAULT,    "default")
         (wxFONTFAMILY_DECORATIVE, "decorative")
@@ -292,7 +292,7 @@ void WxFontUtils::update_property(FontProp &font_prop, const wxFont &font)
 
 bool WxFontUtils::is_italic(const wxFont &font) {
     wxFontStyle wx_style = font.GetStyle();
-    return wx_style == wxFONTSTYLE_ITALIC || 
+    return wx_style == wxFONTSTYLE_ITALIC ||
         wx_style == wxFONTSTYLE_SLANT;
 }
 
@@ -308,11 +308,11 @@ std::unique_ptr<Emboss::FontFile> WxFontUtils::set_italic(wxFont &font, const Em
         wxFontStyle::wxFONTSTYLE_SLANT
     };
     wxFontStyle orig_style = font.GetStyle();
-    for (wxFontStyle style : italic_styles) { 
+    for (wxFontStyle style : italic_styles) {
         font.SetStyle(style);
         std::unique_ptr<Emboss::FontFile> new_font_file =
             WxFontUtils::create_font_file(font);
-        
+
         // can create italic font?
         if (new_font_file == nullptr) continue;
 
@@ -335,7 +335,7 @@ std::unique_ptr<Emboss::FontFile> WxFontUtils::set_bold(wxFont &font, const Embo
         wxFontWeight::wxFONTWEIGHT_EXTRAHEAVY
     };
     wxFontWeight orig_weight = font.GetWeight();
-    for (wxFontWeight weight : bold_weight) { 
+    for (wxFontWeight weight : bold_weight) {
         font.SetWeight(weight);
         std::unique_ptr<Emboss::FontFile> new_font_file =
             WxFontUtils::create_font_file(font);

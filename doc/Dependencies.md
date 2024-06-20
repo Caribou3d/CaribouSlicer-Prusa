@@ -10,9 +10,9 @@
 * expat
 * openssl
 * nlopt
-* openvdb: This library depends on other libs, namely boost, zlib, openexr, blosc (not strictly), etc... 
+* openvdb: This library depends on other libs, namely boost, zlib, openexr, blosc (not strictly), etc...
 * CGAL: Needs additional dependencies
-    * MPFR 
+    * MPFR
     * GMP
 
 ## External libraries in source tree

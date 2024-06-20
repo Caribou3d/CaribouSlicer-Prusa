@@ -104,7 +104,7 @@ GalleryDialog::GalleryDialog(wxWindow* parent) :
     buttons->GetCancelButton()->Bind(wxEVT_BUTTON, [this](wxCommandEvent&){ this->EndModal(wxID_CLOSE); });
     this->SetEscapeId(wxID_CLOSE);
     auto add_btn = [this, buttons]( size_t pos, int& ID, wxString title, wxString tooltip,
-                                    void (GalleryDialog::* method)(wxEvent&), 
+                                    void (GalleryDialog::* method)(wxEvent&),
                                     std::function<bool()> enable_fn = []() {return true; }) {
         ID = NewControlId();
         wxButton* btn = new wxButton(this, ID, title);
@@ -147,7 +147,7 @@ GalleryDialog::~GalleryDialog()
         delete m_image_list;
 }
 
-int GalleryDialog::show(bool show_from_menu) 
+int GalleryDialog::show(bool show_from_menu)
 {
     m_ok_btn->SetLabel(  show_from_menu ? _L("Add to bed")                       : _L("OK"));
     m_ok_btn->SetToolTip(show_from_menu ? _L("Add selected shape(s) to the bed") : "");
@@ -155,7 +155,7 @@ int GalleryDialog::show(bool show_from_menu)
     return this->ShowModal();
 }
 
-bool GalleryDialog::can_delete() 
+bool GalleryDialog::can_delete()
 {
     if (m_selected_items.empty())
         return false;
@@ -165,7 +165,7 @@ bool GalleryDialog::can_delete()
     return true;
 }
 
-bool GalleryDialog::can_change_thumbnail() 
+bool GalleryDialog::can_change_thumbnail()
 {
     return (m_selected_items.size() == 1 && !m_selected_items[0].is_system);
 }
@@ -185,7 +185,7 @@ void GalleryDialog::on_dpi_changed(const wxRect& suggested_rect)
     Refresh();
 }
 
-static void add_lock(wxImage& image, wxWindow* parent_win) 
+static void add_lock(wxImage& image, wxWindow* parent_win)
 {
     wxBitmapBundle* bmp_bndl = get_bmp_bundle("lock", 22);
 #ifdef __APPLE__
@@ -202,7 +202,7 @@ static void add_lock(wxImage& image, wxWindow* parent_win)
     auto lock_a_data = (uint8_t*)lock_image.GetAlpha();
     int lock_width  = lock_image.GetWidth();
     int lock_height = lock_image.GetHeight();
-    
+
     auto px_data = (uint8_t*)image.GetData();
     auto a_data = (uint8_t*)image.GetAlpha();
 
@@ -260,7 +260,7 @@ static fs::path get_dir(bool sys_dir)
     return fs::absolute(fs::path(sys_dir ? sys_shapes_dir() : custom_shapes_dir())).make_preferred();
 }
 
-static std::string get_dir_path(bool sys_dir) 
+static std::string get_dir_path(bool sys_dir)
 {
     fs::path dir = get_dir(sys_dir);
 #ifdef __WXMSW__
@@ -341,7 +341,7 @@ void GalleryDialog::load_label_icon_list()
         std::vector<std::string> sorted_names;
         for (auto& dir_entry : fs::directory_iterator(dir)) {
             TriangleMesh mesh;
-            if ((is_gallery_file(dir_entry, ".stl") && mesh.ReadSTLFile(dir_entry.path().string().c_str())) || 
+            if ((is_gallery_file(dir_entry, ".stl") && mesh.ReadSTLFile(dir_entry.path().string().c_str())) ||
                 (is_gallery_file(dir_entry, ".obj") && load_obj(dir_entry.path().string().c_str(), &mesh) )    )
                 sorted_names.push_back(dir_entry.path().filename().string());
         }
@@ -575,7 +575,7 @@ bool GalleryDialog::load_files(const wxArrayString& input_files)
     for (size_t i = 0; i < input_files.size(); ++i) {
         std::string input_file = into_u8(input_files.Item(i));
 
-        TriangleMesh mesh; 
+        TriangleMesh mesh;
         if (is_gallery_file(input_file, ".stl") && !mesh.ReadSTLFile(input_file.c_str())) {
             show_warning(format_wxstr(_L("Loading of the \"%1%\""), input_file), "STL");
             continue;
@@ -602,11 +602,11 @@ bool GalleryDialog::load_files(const wxArrayString& input_files)
                                 file_idx++;
                             continue;
                         }
-                        
+
                         if (name.find(filename) != 0 ||
                             name[filename.size()] != ' ' || name[filename.size()+1] != '(' || name[name.size()-1] != ')')
                             continue;
-                        std::string idx_str = name.substr(filename.size() + 2, name.size() - filename.size() - 3);                        
+                        std::string idx_str = name.substr(filename.size() + 2, name.size() - filename.size() - 3);
                         if (int cur_idx = atoi(idx_str.c_str()); file_idx <= cur_idx)
                             file_idx = cur_idx+1;
                     }

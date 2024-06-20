@@ -143,7 +143,7 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
                 GCodeReader reader;
                 reader.apply_config(print.config());
                 reader.parse_buffer(gcode, [&final_z, &reset] (GCodeReader& self, const GCodeReader::GCodeLine& line) {
-                    if (final_z > 0 && std::abs(self.z() - 0.3) < 0.01 ) { 
+                    if (final_z > 0 && std::abs(self.z() - 0.3) < 0.01 ) {
                         reset = (final_z > 20.0);
                     } else {
                         final_z = std::max(final_z, static_cast<double>(self.z())); // record the highest Z point we reach

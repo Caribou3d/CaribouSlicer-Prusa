@@ -282,7 +282,7 @@ void DropDown::render(wxDC &dc)
     if (texts.size() == 0) return;
     int states = state_handler.states();
 
-    const wxSize size = GetSize(); 
+    const wxSize size = GetSize();
     if (radius > 0. && !wxOSX)
         SetTransparentBG(dc, this);
 

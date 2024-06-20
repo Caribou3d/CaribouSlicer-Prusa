@@ -44,12 +44,12 @@ indexed_triangle_set its_create_torus(const Slic3r::Polygon &polygon, float radi
         points_d.push_back(unscale(point).cast<float>());
 
     // pre calculate normalized line directions
-    auto calc_line_norm = [](const Vec2f &f, const Vec2f &s) -> Vec2f { return  (s - f).normalized(); };    
+    auto calc_line_norm = [](const Vec2f &f, const Vec2f &s) -> Vec2f { return  (s - f).normalized(); };
     std::vector<Vec2f> line_norm(points_d.size());
     for (size_t i = 0; i < count - 1; ++i)
         line_norm[i] = calc_line_norm(points_d[i], points_d[i + 1]);
     line_norm.back() = calc_line_norm(points_d.back(), points_d.front());
-        
+
     // precalculate sinus and cosinus
     double angle_step = 2 * M_PI / steps;
     std::vector<std::pair<double, float>> sin_cos;
@@ -57,11 +57,11 @@ indexed_triangle_set its_create_torus(const Slic3r::Polygon &polygon, float radi
     for (size_t s = 0; s < steps; ++s) {
         double angle = s * angle_step;
         sin_cos.emplace_back(
-            radius * std::sin(angle), 
+            radius * std::sin(angle),
             static_cast<float>(radius * std::cos(angle))
         );
     }
-    
+
     indexed_triangle_set sphere = its_make_sphere(radius, 2 * PI / steps);
 
     // create torus model along polygon path
@@ -88,7 +88,7 @@ indexed_triangle_set its_create_torus(const Slic3r::Polygon &polygon, float radi
 
         double angle = calc_angle(opposit_prev_dir, dir);
         double allowed_preccission = 1e-6;
-        if (angle >= (PI - allowed_preccission) || 
+        if (angle >= (PI - allowed_preccission) ||
             angle <= (-PI + allowed_preccission))
             continue; // it is almost line
 
@@ -156,7 +156,7 @@ TextLines select_closest_contour(const std::vector<Polygons> &line_contours) {
 
         size_t line_idx = 0;
         Vec2d  hit_point;
-        // double distance = 
+        // double distance =
         AABBTreeLines::squared_distance_to_indexed_lines(linesf, tree, zero, line_idx, hit_point);
 
         // conversion between index of point and expolygon
@@ -176,7 +176,7 @@ TextLines select_closest_contour(const std::vector<Polygons> &line_contours) {
 
 inline Eigen::AngleAxis<double> get_rotation() { return Eigen::AngleAxis(-M_PI_2, Vec3d::UnitX()); }
 
-indexed_triangle_set create_its(const TextLines &lines, float radius) 
+indexed_triangle_set create_its(const TextLines &lines, float radius)
 {
     indexed_triangle_set its;
     // create model from polygons
@@ -215,7 +215,7 @@ GLModel::Geometry create_geometry(const TextLines &lines, float radius, bool is_
         for (Vec3i t : its.indices)
             geometry.add_triangle(t[0], t[1], t[2]);
     }
-    return geometry;    
+    return geometry;
 }
 } // namespace
 
@@ -248,9 +248,9 @@ void TextLinesModel::init(const Transform3d      &text_tr,
     m_model.reset();
     m_lines.clear();
 
-    // size_in_mm .. contain volume scale and should be ascent value in mm 
+    // size_in_mm .. contain volume scale and should be ascent value in mm
     double line_offset = fp.size_in_mm * ascent_ratio_offset;
-    double first_line_center = line_offset + get_align_y_offset_in_mm(align, count_lines, ff, fp);    
+    double first_line_center = line_offset + get_align_y_offset_in_mm(align, count_lines, ff, fp);
     std::vector<float> line_centers(count_lines);
     for (size_t i = 0; i < count_lines; ++i)
         line_centers[i] = static_cast<float>(first_line_center - i * line_height_mm);

@@ -27,17 +27,17 @@ using MapMatrixXiUnaligned = Eigen::Map<const Eigen::Matrix<int,   Eigen::Dynami
 TriangleMesh eigen_to_triangle_mesh(const EigenMesh &emesh)
 {
     auto &VC = emesh.first; auto &FC = emesh.second;
-    
+
     indexed_triangle_set its;
     its.vertices.reserve(size_t(VC.rows()));
     its.indices.reserve(size_t(FC.rows()));
-    
+
     for (Eigen::Index i = 0; i < VC.rows(); ++i)
         its.vertices.emplace_back(VC.row(i).cast<float>());
-    
+
     for (Eigen::Index i = 0; i < FC.rows(); ++i)
         its.indices.emplace_back(FC.row(i));
-    
+
     return TriangleMesh { std::move(its) };
 }
 
@@ -58,12 +58,12 @@ void minus(EigenMesh &A, const EigenMesh &B)
 {
     auto &[VA, FA] = A;
     auto &[VB, FB] = B;
-    
+
     Eigen::MatrixXd VC;
     Eigen::MatrixXi FC;
     igl::MeshBooleanType boolean_type(igl::MESH_BOOLEAN_TYPE_MINUS);
     igl::copyleft::cgal::mesh_boolean(VA, FA, VB, FB, boolean_type, VC, FC);
-    
+
     VA = std::move(VC); FA = std::move(FC);
 }
 
@@ -82,7 +82,7 @@ void self_union(EigenMesh &A)
 
     igl::MeshBooleanType boolean_type(igl::MESH_BOOLEAN_TYPE_UNION);
     igl::copyleft::cgal::mesh_boolean(V, F, Eigen::MatrixXd(), Eigen::MatrixXi(), boolean_type, VC, FC);
-    
+
     A = std::move(result);
 }
 
@@ -147,7 +147,7 @@ indexed_triangle_set cgal_to_indexed_triangle_set(const _Mesh &cgalmesh)
     indexed_triangle_set its;
     its.vertices.reserve(cgalmesh.num_vertices());
     its.indices.reserve(cgalmesh.num_faces());
-    
+
     const auto &faces = cgalmesh.faces();
     const auto &vertices = cgalmesh.vertices();
     int vsize = int(vertices.size());
@@ -171,7 +171,7 @@ indexed_triangle_set cgal_to_indexed_triangle_set(const _Mesh &cgalmesh)
         if (i == 3)
             its.indices.emplace_back(facet);
     }
-    
+
     return its;
 }
 
@@ -252,9 +252,9 @@ template<class Op> void _mesh_boolean_do(Op &&op, indexed_triangle_set &A, const
     CGALMesh meshB;
     triangle_mesh_to_cgal(A.vertices, A.indices, meshA.m);
     triangle_mesh_to_cgal(B.vertices, B.indices, meshB.m);
-    
+
     _cgal_do(op, meshA, meshB);
-    
+
     A = cgal_to_indexed_triangle_set(meshA.m);
 }
 

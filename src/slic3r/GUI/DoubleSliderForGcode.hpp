@@ -16,7 +16,7 @@ public:
     DSForGcode( int lowerPos,
                 int higherPos,
                 int minPos,
-                int maxPos) 
+                int maxPos)
     {
         Init(lowerPos, higherPos, minPos, maxPos, "moves_slider", true);
     }
@@ -25,7 +25,7 @@ public:
     void Render(const int canvas_width, const int canvas_height, float extra_scale = 1.f, float offset = 0.f) override;
 
     void set_render_as_disabled(bool value) { m_render_as_disabled = value; }
-    bool is_rendering_as_disabled() const   { return m_render_as_disabled; }   
+    bool is_rendering_as_disabled() const   { return m_render_as_disabled; }
 
 private:
 

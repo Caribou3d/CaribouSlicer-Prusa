@@ -33,7 +33,7 @@ enum DownloaderUserAction
     DownloadUserOpenedFolder
 };
 
-class Download { 
+class Download {
 public:
     Download(int ID, std::string url, wxEvtHandler* evt_handler, const boost::filesystem::path& dest_folder);
     void start();
@@ -47,7 +47,7 @@ public:
     DownloadState get_state() const { return m_state; }
     void set_state(DownloadState state) { m_state = state; }
     std::string get_dest_folder() { return m_dest_folder.string(); }
-private: 
+private:
     const int m_id;
     std::string m_filename;
     boost::filesystem::path m_final_path;
@@ -59,12 +59,12 @@ private:
 class Downloader : public wxEvtHandler {
 public:
     Downloader();
-    
+
     bool get_initialized() { return m_initialized; }
-    void init(const boost::filesystem::path& dest_folder) 
-    { 
+    void init(const boost::filesystem::path& dest_folder)
+    {
         m_dest_folder = dest_folder;
-        m_initialized = true; 
+        m_initialized = true;
     }
     void start_download(const std::string& full_url);
     // cancel = false -> just pause

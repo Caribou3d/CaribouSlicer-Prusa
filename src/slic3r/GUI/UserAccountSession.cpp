@@ -24,7 +24,7 @@ wxDEFINE_EVENT(EVT_UA_ID_USER_SUCCESS, UserAccountSuccessEvent);
 wxDEFINE_EVENT(EVT_UA_SUCCESS, UserAccountSuccessEvent);
 wxDEFINE_EVENT(EVT_UA_PRUSACONNECT_STATUS_SUCCESS, UserAccountSuccessEvent);
 wxDEFINE_EVENT(EVT_UA_PRUSACONNECT_PRINTER_MODELS_SUCCESS, UserAccountSuccessEvent);
-wxDEFINE_EVENT(EVT_UA_AVATAR_SUCCESS, UserAccountSuccessEvent); 
+wxDEFINE_EVENT(EVT_UA_AVATAR_SUCCESS, UserAccountSuccessEvent);
 wxDEFINE_EVENT(EVT_UA_PRUSACONNECT_PRINTER_DATA_SUCCESS, UserAccountSuccessEvent);
 wxDEFINE_EVENT(EVT_UA_FAIL, UserAccountFailEvent);
 wxDEFINE_EVENT(EVT_UA_RESET, UserAccountFailEvent);
@@ -105,7 +105,7 @@ void UserAccountSession::enqueue_action(UserAccountActionID id, UserActionSucces
 
 void UserAccountSession::init_with_code(const std::string& code, const std::string& code_verifier)
 {
-    // Data we have       
+    // Data we have
     const std::string REDIRECT_URI = "prusaslicer://login";
     std::string post_fields = "code=" + code +
         "&client_id=" + client_id() +
@@ -193,7 +193,7 @@ void UserAccountSession::enqueue_test_with_refresh()
 void UserAccountSession::enqueue_refresh(const std::string& body)
 {
     assert(!m_refresh_token.empty());
-    std::string post_fields = "grant_type=refresh_token" 
+    std::string post_fields = "grant_type=refresh_token"
         "&client_id=" + client_id() +
         "&refresh_token=" + m_refresh_token;
 

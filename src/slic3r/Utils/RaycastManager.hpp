@@ -21,12 +21,12 @@ namespace Slic3r::GUI{
 class RaycastManager
 {
 // Public structures used by RaycastManager
-public: 
+public:
 
     //                   ModelVolume.id
     using Mesh = std::pair<size_t, std::unique_ptr<AABBMesh> >;
     using Meshes = std::vector<Mesh>;
-    
+
     // Key for transformation consist of unique volume and instance id ... ObjectId()
     //                 ModelInstance, ModelVolume
     using TrKey = std::pair<size_t, size_t>;
@@ -49,7 +49,7 @@ public:
     };
 
     // TODO: it is more general object move outside of this class
-    template<typename T> 
+    template<typename T>
     struct SurfacePoint {
         using Vec3 = Eigen::Matrix<T, 3, 1, Eigen::DontAlign>;
         Vec3 position = Vec3::Zero();
@@ -60,7 +60,7 @@ public:
     {
         TrKey tr_key;
         double squared_distance;
-    };    
+    };
 
     struct ClosePoint
     {
@@ -108,7 +108,7 @@ public:
         AllowVolumes(std::vector<size_t> allowed_id) : allowed_id(allowed_id) {}
         bool skip(const size_t &model_volume_id) const override {
             auto it = std::find(allowed_id.begin(), allowed_id.end(), model_volume_id);
-            return it == allowed_id.end(); 
+            return it == allowed_id.end();
         }
     };
 

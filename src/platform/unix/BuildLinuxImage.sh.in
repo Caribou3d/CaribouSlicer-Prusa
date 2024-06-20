@@ -35,7 +35,7 @@ while getopts ":ihag" opt; do
     h ) echo "Usage: ./BuildLinuxImage.sh [-g][-i][-a][-h]"
         echo "   -g: force gtk2 build"
         echo "   -i: generate Appimage (optional)"
-	    echo "   -a: generate tgz (optional)"
+        echo "   -a: generate tgz (optional)"
         echo "   -h: help"
         exit 0
         ;;
