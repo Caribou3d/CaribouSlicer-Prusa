@@ -63,7 +63,7 @@
    id="g4"
    style="fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1"
    transform="matrix(0.7,0,0,0.7,2.4,2.4)">
-	<circle
+    <circle
    cx="8"
    cy="8"
    r="3"
