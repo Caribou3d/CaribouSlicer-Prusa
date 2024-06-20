@@ -156,7 +156,10 @@ namespace ImGuiPureWrap
     const ImVec4 COL_GREY_DARK         = { 0.33f, 0.33f, 0.33f, 1.0f };
     const ImVec4 COL_GREY_LIGHT        = { 0.4f, 0.4f, 0.4f, 1.0f };
     const ImVec4 COL_GREENC_DARK       = { 0.063f, 0.353f, 0.094f, 1.0f };
-    const ImVec4 COL_GREENC_LIGHT      = { 0.923f, 0.504f, 0.264f, 1.0f };
+//    const ImVec4 COL_GREENC_LIGHT       = { 0.063f, 0.353f, 0.094f, 1.0f };
+//    const ImVec4 COL_GREENC_LIGHT       = { 0.447f, 0.929f, 0.482f, 1.0f };
+    const ImVec4 COL_GREENC_LIGHT       = { 0.102f, 0.522f, 0.153f, 1.0f};
+//    const ImVec4 COL_GREENC_LIGHT      = { 0.923f, 0.504f, 0.264f, 1.0f }; 
     const ImVec4 COL_WINDOW_BACKGROUND = { 0.13f, 0.13f, 0.13f, 0.8f };
     const ImVec4 COL_BUTTON_BACKGROUND = COL_GREENC_DARK;
     const ImVec4 COL_BUTTON_HOVERED    = COL_GREENC_LIGHT;

@@ -1197,6 +1197,33 @@ static void init_macos_application_menu(wxMenuBar* menu_bar, MainFrame* main_fra
 }
 #endif // __APPLE__
 
+/* static wxMenu* generate_calibration_menu()
+{
+    wxMenu* calibrationMenu = nullptr;
+
+    if (wxGetApp().is_editor())
+    {
+        calibrationMenu = new wxMenu();
+        append_menu_item(calibrationMenu, wxID_ANY, _(L("First layer patttern calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
+           [this](wxCommandEvent&) { wxGetApp().calibration_first_layer_dialog(); });
+        append_menu_item(calibrationMenu, wxID_ANY, _(L("First layer patch calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
+           [this](wxCommandEvent&) { wxGetApp().calibration_first_layer_patch_dialog(); });
+        calibrationMenu->AppendSeparator();
+        append_menu_item(calibrationMenu, wxID_ANY, _(L("Filament Flow Wall calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
+           [this](wxCommandEvent&) { wxGetApp().flow_walls_dialog(); });
+        calibrationMenu->AppendSeparator();
+        append_menu_item(calibrationMenu, wxID_ANY, _(L("Filament temperature calibration")), _(L("Create a test print to help you to set your filament temperature.")),
+           [this](wxCommandEvent&) { wxGetApp().filament_temperature_dialog(); });
+        calibrationMenu->AppendSeparator();
+        append_menu_item(calibrationMenu, wxID_ANY,
+               _(L("Calibration cube")), _(L("Print a calibration cube, for various calibration goals.")),
+            [this](wxCommandEvent&) { wxGetApp().calibration_cube_dialog(); });
+
+    }
+    return calibrationMenu;
+}
+ */
+
 static wxMenu* generate_help_menu()
 {
     wxMenu* helpMenu = new wxMenu();

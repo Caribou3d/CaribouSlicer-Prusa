@@ -283,7 +283,8 @@ static void delete_buffers(unsigned int& id)
 static const std::array<Color, size_t(EGCodeExtrusionRole::COUNT)> DEFAULT_EXTRUSION_ROLES_COLORS = { {
     { 230, 179, 179 }, // None
     { 255, 230,  77 }, // Perimeter
-    { 255, 125,  56 }, // ExternalPerimeter
+   // { 255, 125,  56 }, // ExternalPerimeter
+    { 0, 179,  0 }, // ExternalPerimeter    
     {  31,  31, 255 }, // OverhangPerimeter
     { 176,  48,  41 }, // InternalInfill
     { 150,  84, 204 }, // SolidInfill

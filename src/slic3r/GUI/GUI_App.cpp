@@ -1026,7 +1026,7 @@ void GUI_App::legacy_app_config_vendor_check()
         return;
     }
 
-    BOOST_LOG_TRIVIAL(warning) << "PrusaSlicer has found legacy SLA printers. The printers will be "
+    BOOST_LOG_TRIVIAL(warning) << "CaribouSlicerhas found legacy SLA printers. The printers will be "
                                   "moved to new vendor and its ini file will be installed. Configuration snapshot will be taken.";
 
      // Take snapshot now, since creation of new vendors in appconfig, snapshots wont be compatible in older slicers.
@@ -1658,9 +1658,9 @@ void GUI_App::init_ui_colours()
     m_color_label_default           = is_dark_mode ? wxColour(250, 250, 250): wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     m_color_highlight_label_default = is_dark_mode ? wxColour(230, 230, 230): wxSystemSettings::GetColour(/*wxSYS_COLOUR_HIGHLIGHTTEXT*/wxSYS_COLOUR_WINDOWTEXT);
     m_color_highlight_default       = is_dark_mode ? wxColour(78, 78, 78)   : wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT);
-    m_color_hovered_btn_label       = is_dark_mode ? wxColour(253, 111, 40) : wxColour(252, 77, 1);
-    m_color_default_btn_label       = is_dark_mode ? wxColour(255, 181, 100): wxColour(203, 61, 0);
-    m_color_selected_btn_bg         = is_dark_mode ? wxColour(95, 73, 62)   : wxColour(228, 220, 216);
+    m_color_hovered_btn_label       = is_dark_mode ? wxColour(24, 180, 36) : wxColour(0, 219, 8); // wxColour(253, 111, 40) : wxColour(252, 77, 1);
+    m_color_default_btn_label       = is_dark_mode ? wxColour(101, 235, 112): wxColour(1, 140, 13); // wxColour(255, 181, 100): wxColour(203, 61, 0);
+    m_color_selected_btn_bg         = is_dark_mode ? wxColour(62, 112, 72)   : wxColour(218, 230, 220); //wxColour(95, 73, 62)   : wxColour(228, 220, 216);
 //#else
 //    m_color_label_default = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 //#endif
@@ -2079,74 +2079,74 @@ void GUI_App::keyboard_shortcuts()
     dlg.ShowModal();
 }
 
-// void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialog* new_one)
-// {
-//     if (have_to_destroy == nullptr) {
-//         wxDialog* to_destroy = nullptr;
-//         {
-//             //hove to ensure that this release is "atomic"
-//             std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-//             to_destroy = not_modal_dialog;
-//             not_modal_dialog = nullptr;
-//         }
-//         if (to_destroy != nullptr) {
-//             to_destroy->Destroy();
-//         }
-//     } else {
-//         //hove to ensure that these two command are "atomic"
-//         std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-//         if (not_modal_dialog == have_to_destroy) {
-//             not_modal_dialog = nullptr;
-//         }
-//     }
-//     if (new_one != nullptr) {
-//         {
-//             //hove to ensure that these command are "atomic"
-//             std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-//             if (not_modal_dialog != nullptr)
-//                 not_modal_dialog->Destroy();
-//             not_modal_dialog = new_one;
-//         }
-//         new_one->Show();
-//     }
-// }
+void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialog* new_one)
+{
+    if (have_to_destroy == nullptr) {
+        wxDialog* to_destroy = nullptr;
+        {
+            //hove to ensure that this release is "atomic"
+            std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
+            to_destroy = not_modal_dialog;
+            not_modal_dialog = nullptr;
+        }
+        if (to_destroy != nullptr) {
+            to_destroy->Destroy();
+        }
+    } else {
+        //hove to ensure that these two command are "atomic"
+        std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
+        if (not_modal_dialog == have_to_destroy) {
+            not_modal_dialog = nullptr;
+        }
+    }
+    if (new_one != nullptr) {
+        {
+            //hove to ensure that these command are "atomic"
+            std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
+            if (not_modal_dialog != nullptr)
+                not_modal_dialog->Destroy();
+            not_modal_dialog = new_one;
+        }
+        new_one->Show();
+    }
+}
 
-//void GUI_App::html_dialog()
-//{
-//    change_calibration_dialog(nullptr, new HtmlDialog(this, mainframe,"Introduction to calibrations", "/calibration", "introduction.html"));
-//}
+void GUI_App::html_dialog()
+{
+   change_calibration_dialog(nullptr, new HtmlDialog(this, mainframe,"Introduction to calibrations", "/calibration", "introduction.html"));
+}
 
 
 
-// void GUI_App::flow_walls_dialog()
-// {//
-//    change_calibration_dialog(nullptr, new CalibrationWallsDialog(this, mainframe));
-// }
-// void GUI_App::flow_ratio_dialog()
-// {//
-//    change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
-// }
-// void GUI_App::calibration_retraction_dialog()
-// {//
-//   change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
-// }
-// void GUI_App::calibration_first_layer_dialog()
-// {//
-    //change_calibration_dialog(nullptr, new CalibrationFirstLayerDialog(this, mainframe));
-// }
-// void GUI_App::calibration_first_layer_patch_dialog()
-// {//
-//    change_calibration_dialog(nullptr, new CalibrationFirstLayerPatchDialog(this, mainframe));
-// }
-// void GUI_App::filament_temperature_dialog()
-// {//
-//    change_calibration_dialog(nullptr, new CalibrationTempDialog(this, mainframe));
-// }
-//
-// void GUI_App::calibration_cube_dialog()
-// {
-//     change_calibration_dialog(nullptr, new CalibrationCubeDialog(this, mainframe));
-// }
+void GUI_App::flow_walls_dialog()
+{//
+   change_calibration_dialog(nullptr, new CalibrationWallsDialog(this, mainframe));
+}
+void GUI_App::flow_ratio_dialog()
+{//
+   change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
+}
+void GUI_App::calibration_retraction_dialog()
+{//
+  change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
+}
+void GUI_App::calibration_first_layer_dialog()
+{//
+    change_calibration_dialog(nullptr, new CalibrationFirstLayerDialog(this, mainframe));
+}
+void GUI_App::calibration_first_layer_patch_dialog()
+{//
+   change_calibration_dialog(nullptr, new CalibrationFirstLayerPatchDialog(this, mainframe));
+}
+void GUI_App::filament_temperature_dialog()
+{//
+   change_calibration_dialog(nullptr, new CalibrationTempDialog(this, mainframe));
+}
+
+void GUI_App::calibration_cube_dialog()
+{
+    change_calibration_dialog(nullptr, new CalibrationCubeDialog(this, mainframe));
+}
 
 // static method accepting a wxWindow object as first parameter
 bool GUI_App::catch_error(std::function<void()> cb,
@@ -2540,7 +2540,7 @@ bool GUI_App::load_language(wxString language, bool initial)
 	}
 
     if (language_info == nullptr) {
-        // PrusaSlicer does not support the Right to Left languages yet.
+        // CaribouSlicerdoes not support the Right to Left languages yet.
         if (m_language_info_system != nullptr && m_language_info_system->LayoutDirection != wxLayout_RightToLeft)
             language_info = m_language_info_system;
         if (m_language_info_best != nullptr && m_language_info_best->LayoutDirection != wxLayout_RightToLeft)
