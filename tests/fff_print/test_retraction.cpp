@@ -38,7 +38,7 @@ void check_gcode(std::initializer_list<TestMesh> meshes, const DynamicPrintConfi
         file << gcode;
     }
 
-	GCodeReader parser;
+    GCodeReader parser;
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
         std::regex regex{"^T(\\d+)"};
         std::smatch matches;
@@ -150,7 +150,7 @@ void test_slicing(std::initializer_list<TestMesh> meshes, DynamicPrintConfig& co
 TEST_CASE("Slicing with retraction and lifing", "[retraction]") {
     DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
     config.set_deserialize_strict({
-	    { "nozzle_diameter", "0.6,0.6,0.6,0.6" },
+        { "nozzle_diameter", "0.6,0.6,0.6,0.6" },
         { "first_layer_height", config.opt_float("layer_height") },
         { "first_layer_speed", "100%" },
         { "start_gcode", "" },  // To avoid dealing with the nozzle lift in start G-code
@@ -198,7 +198,7 @@ TEST_CASE("Z moves", "[retraction]") {
         file << gcode;
     }
 
-	GCodeReader parser;
+    GCodeReader parser;
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
         if (line.retracting(self)) {
             retracted = true;
@@ -236,7 +236,7 @@ TEST_CASE("Firmware retraction handling", "[retraction]") {
     unsigned double_unretractions = 0;
 
     std::string gcode = Slic3r::Test::slice({TestMesh::cube_20x20x20}, config);
-	GCodeReader parser;
+    GCodeReader parser;
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
         if (line.cmd_is("G10")) {
             if (retracted)
@@ -265,7 +265,7 @@ TEST_CASE("Firmware retraction when length is 0", "[retraction]") {
     bool retracted = false;
 
     std::string gcode = Slic3r::Test::slice({TestMesh::cube_20x20x20}, config);
-	GCodeReader parser;
+    GCodeReader parser;
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
         if (line.cmd_is("G10")) {
             retracted = true;
@@ -282,7 +282,7 @@ std::vector<double> get_lift_layers(const DynamicPrintConfig& config) {
     std::string gcode = Test::gcode(print);
 
     std::vector<double> result;
-	GCodeReader parser;
+    GCodeReader parser;
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
         if (line.cmd_is("G1") && line.dist_Z(self) < 0) {
             result.push_back(line.new_Z(self));
@@ -304,22 +304,22 @@ TEST_CASE("Lift above/bellow layers", "[retraction]") {
 
     DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
     config.set_deserialize_strict({
-	    { "nozzle_diameter", "0.6,0.6,0.6,0.6" },
-	    { "start_gcode", "" },
+        { "nozzle_diameter", "0.6,0.6,0.6,0.6" },
+        { "start_gcode", "" },
         { "retract_lift", "3,4" },
     });
 
     config.set_deserialize_strict({
-	    { "retract_lift_above", "0, 0" },
-	    { "retract_lift_below", "0, 0" },
+        { "retract_lift_above", "0, 0" },
+        { "retract_lift_below", "0, 0" },
     });
     std::vector<double> lift_layers = get_lift_layers(config);
     INFO("lift takes place when above/below == 0");
     CHECK(!lift_layers.empty());
 
     config.set_deserialize_strict({
-	    { "retract_lift_above", "5, 6" },
-	    { "retract_lift_below", "15, 13" },
+        { "retract_lift_above", "5, 6" },
+        { "retract_lift_below", "15, 13" },
     });
     lift_layers = get_lift_layers(config);
     INFO("lift takes place when above/below != 0");
@@ -344,8 +344,8 @@ TEST_CASE("Lift above/bellow layers", "[retraction]") {
     CHECK(!lift_layers.empty());
 
     config.set_deserialize_strict({
-	    { "retract_lift_above", "5, 6" },
-	    { "retract_lift_below", "15, 13" },
+        { "retract_lift_above", "5, 6" },
+        { "retract_lift_below", "15, 13" },
     });
     lift_layers = get_lift_layers(config);
     INFO("lift takes place when above/below != 0 for 2. extruder");

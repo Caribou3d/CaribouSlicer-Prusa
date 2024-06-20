@@ -157,10 +157,10 @@ public:
         int             volume_id;
         // Instance ID, which is equal to the index of the respective ModelInstance in ModelObject.instances array.
         int             instance_id;
-		bool operator==(const CompositeID &rhs) const { return object_id == rhs.object_id && volume_id == rhs.volume_id && instance_id == rhs.instance_id; }
-		bool operator!=(const CompositeID &rhs) const { return ! (*this == rhs); }
-		bool operator< (const CompositeID &rhs) const 
-			{ return object_id < rhs.object_id || (object_id == rhs.object_id && (volume_id < rhs.volume_id || (volume_id == rhs.volume_id && instance_id < rhs.instance_id))); }
+        bool operator==(const CompositeID &rhs) const { return object_id == rhs.object_id && volume_id == rhs.volume_id && instance_id == rhs.instance_id; }
+        bool operator!=(const CompositeID &rhs) const { return ! (*this == rhs); }
+        bool operator< (const CompositeID &rhs) const 
+            { return object_id < rhs.object_id || (object_id == rhs.object_id && (volume_id < rhs.volume_id || (volume_id == rhs.volume_id && instance_id < rhs.instance_id))); }
     };
     CompositeID         composite_id;
     // Fingerprint of the source geometry. For ModelVolumes, it is the ModelVolume::ID and ModelInstanceID, 
@@ -169,30 +169,30 @@ public:
     // Valid geometry_id should always be positive.
     std::pair<size_t, size_t> geometry_id;
     // An ID containing the extruder ID (used to select color).
-    int                 	extruder_id;
+    int                     extruder_id;
 
     // Various boolean flags.
     struct {
-	    // Is this object selected?
-	    bool                selected : 1;
-	    // Is this object disabled from selection?
-	    bool                disabled : 1;
-	    // Is this object printable?
-	    bool                printable : 1;
-	    // Whether or not this volume is active for rendering
-	    bool                is_active : 1;
-	    // Whether or not to use this volume when applying zoom_to_volumes()
-	    bool                zoom_to_volumes : 1;
-	    // Wheter or not this volume is enabled for outside print volume detection in shader.
-	    bool                shader_outside_printer_detection_enabled : 1;
-	    // Wheter or not this volume is outside print volume.
-	    bool                is_outside : 1;
-	    // Wheter or not this volume has been generated from a modifier
-	    bool                is_modifier : 1;
-	    // Wheter or not this volume has been generated from the wipe tower
-	    bool                is_wipe_tower : 1;
-	    // Wheter or not this volume has been generated from an extrusion path
-	    bool                is_extrusion_path : 1;
+        // Is this object selected?
+        bool                selected : 1;
+        // Is this object disabled from selection?
+        bool                disabled : 1;
+        // Is this object printable?
+        bool                printable : 1;
+        // Whether or not this volume is active for rendering
+        bool                is_active : 1;
+        // Whether or not to use this volume when applying zoom_to_volumes()
+        bool                zoom_to_volumes : 1;
+        // Wheter or not this volume is enabled for outside print volume detection in shader.
+        bool                shader_outside_printer_detection_enabled : 1;
+        // Wheter or not this volume is outside print volume.
+        bool                is_outside : 1;
+        // Wheter or not this volume has been generated from a modifier
+        bool                is_modifier : 1;
+        // Wheter or not this volume has been generated from the wipe tower
+        bool                is_wipe_tower : 1;
+        // Wheter or not this volume has been generated from an extrusion path
+        bool                is_extrusion_path : 1;
         // Whether or not always use the volume's own color (not using SELECTED/HOVER/DISABLED/OUTSIDE)
 	    bool                force_native_color : 1;
         // Whether or not render this volume in neutral

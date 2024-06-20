@@ -12,8 +12,8 @@ SCENARIO("Reading 3mf file", "[3mf]") {
     GIVEN("umlauts in the path of the file") {
         Model model;
         WHEN("3mf model is read") {
-        	std::string path = std::string(TEST_DATA_DIR) + "/test_3mf/Geräte/Büchse.3mf";
-        	DynamicPrintConfig config;
+            std::string path = std::string(TEST_DATA_DIR) + "/test_3mf/Geräte/Büchse.3mf";
+            DynamicPrintConfig config;
             ConfigSubstitutionContext ctxt{ ForwardCompatibilitySubstitutionRule::Disable };
             bool ret = load_3mf(path.c_str(), config, ctxt, &model, false);
             THEN("load should succeed") {

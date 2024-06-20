@@ -19,17 +19,17 @@ using namespace Test;
 constexpr bool debug_files = false;
 
 SCENARIO("Origin manipulation", "[GCode]") {
-	Slic3r::GCodeGenerator gcodegen;
-	WHEN("set_origin to (10,0)") {
-    	gcodegen.set_origin(Vec2d(10,0));
-    	REQUIRE(gcodegen.origin() == Vec2d(10, 0));
+    Slic3r::GCodeGenerator gcodegen;
+    WHEN("set_origin to (10,0)") {
+        gcodegen.set_origin(Vec2d(10,0));
+        REQUIRE(gcodegen.origin() == Vec2d(10, 0));
     }
-	WHEN("set_origin to (10,0) and translate by (5, 5)") {
-		gcodegen.set_origin(Vec2d(10,0));
-		gcodegen.set_origin(gcodegen.origin() + Vec2d(5, 5));
-		THEN("origin returns reference to point") {
-    		REQUIRE(gcodegen.origin() == Vec2d(15,5));
-    	}
+    WHEN("set_origin to (10,0) and translate by (5, 5)") {
+        gcodegen.set_origin(Vec2d(10,0));
+        gcodegen.set_origin(gcodegen.origin() + Vec2d(5, 5));
+        THEN("origin returns reference to point") {
+            REQUIRE(gcodegen.origin() == Vec2d(15,5));
+        }
     }
 }
 
@@ -37,7 +37,7 @@ SCENARIO("Origin manipulation", "[GCode]") {
 TEST_CASE("Wiping speeds", "[GCode]") {
     DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
     config.set_deserialize_strict({
-	    { "wipe", "1" },
+        { "wipe", "1" },
         { "retract_layer_change", "0" },
     });
     bool have_wipe = false;
@@ -45,7 +45,7 @@ TEST_CASE("Wiping speeds", "[GCode]") {
     bool extruded_on_this_layer = false;
     bool wiping_on_new_layer = false;
 
-	GCodeReader parser;
+    GCodeReader parser;
     std::string gcode = Slic3r::Test::slice({TestMesh::cube_20x20x20}, config);
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
         if (line.travel() && line.dist_Z(self) != 0) {
@@ -71,7 +71,7 @@ TEST_CASE("Wiping speeds", "[GCode]") {
 }
 
 bool has_moves_below_z_offset(const DynamicPrintConfig& config) {
-	GCodeReader parser;
+    GCodeReader parser;
     std::string gcode = Slic3r::Test::slice({TestMesh::cube_20x20x20}, config);
 
     unsigned moves_below_z_offset{};
@@ -87,7 +87,7 @@ bool has_moves_below_z_offset(const DynamicPrintConfig& config) {
 TEST_CASE("Z moves with offset", "[GCode]") {
     DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
     config.set_deserialize_strict({
-	    { "z_offset", 5 },
+        { "z_offset", 5 },
         { "start_gcode", "" },
     });
 
@@ -139,7 +139,7 @@ TEST_CASE("Extrusion, travels, temeperatures", "[GCode]") {
     Points extrusions;
     std::vector<double> temps;
 
-	GCodeReader parser;
+    GCodeReader parser;
 
     Print print;
     Model model;
@@ -199,7 +199,7 @@ TEST_CASE("Used filament", "[GCode]") {
         { "use_relative_e_distances", 1 },
         { "layer_gcode", "G92 E0\n" },
     });
-	GCodeReader parser;
+    GCodeReader parser;
     Print print;
     Model model;
     Test::init_print({TestMesh::cube_20x20x20}, print, model, config);
@@ -214,7 +214,7 @@ void check_m73s(Print& print){
     bool got_100 = false;
     bool extruding_after_100 = 0;
 
-	GCodeReader parser;
+    GCodeReader parser;
     std::string gcode = Slic3r::Test::gcode(print);
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
 
@@ -303,11 +303,11 @@ TEST_CASE("M73s have correct percent values", "[GCode]") {
 TEST_CASE("M201 for acceleation reset", "[GCode]") {
     DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
     config.set_deserialize_strict({
-	    { "gcode_flavor", "repetier" },
+        { "gcode_flavor", "repetier" },
         { "default_acceleration", 1337 },
     });
 
-	GCodeReader parser;
+    GCodeReader parser;
     std::string gcode = Slic3r::Test::slice({TestMesh::cube_with_hole}, config);
 
     bool has_accel = false;

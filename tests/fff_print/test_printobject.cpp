@@ -14,10 +14,10 @@ SCENARIO("PrintObject: object layer heights", "[PrintObject]") {
         WHEN("generate_object_layers() is called for 2mm layer heights and nozzle diameter of 3mm") {
             Slic3r::Print print;
             Slic3r::Test::init_and_process_print({TestMesh::cube_20x20x20}, print, {
-        		{ "first_layer_height", 2 },
-				{ "layer_height", 		2 },
-	            { "nozzle_diameter", 	3 }
-	        });
+                { "first_layer_height", 2 },
+                { "layer_height",         2 },
+                { "nozzle_diameter",     3 }
+            });
             SpanOfConstPtrs<Layer> layers = print.objects().front()->layers();
             THEN("The output vector has 10 entries") {
                 REQUIRE(layers.size() == 10);
@@ -33,12 +33,12 @@ SCENARIO("PrintObject: object layer heights", "[PrintObject]") {
         WHEN("generate_object_layers() is called for 10mm layer heights and nozzle diameter of 11mm") {
             Slic3r::Print print;
             Slic3r::Test::init_and_process_print({TestMesh::cube_20x20x20}, print, {
-        		{ "first_layer_height", 2 },
-				{ "layer_height", 		10 },
-	            { "nozzle_diameter", 	11 }
-	        });
+                { "first_layer_height", 2 },
+                { "layer_height",         10 },
+                { "nozzle_diameter",     11 }
+            });
             SpanOfConstPtrs<Layer> layers = print.objects().front()->layers();
-			THEN("The output vector has 3 entries") {
+            THEN("The output vector has 3 entries") {
                 REQUIRE(layers.size() == 3);
             }
             AND_THEN("Layer 0 is at 2mm") {
@@ -51,12 +51,12 @@ SCENARIO("PrintObject: object layer heights", "[PrintObject]") {
         WHEN("generate_object_layers() is called for 15mm layer heights and nozzle diameter of 16mm") {
             Slic3r::Print print;
             Slic3r::Test::init_and_process_print({TestMesh::cube_20x20x20}, print, {
-        		{ "first_layer_height", 2 },
-				{ "layer_height", 		15 },
-	            { "nozzle_diameter", 	16 }
-	        });
+                { "first_layer_height", 2 },
+                { "layer_height",         15 },
+                { "nozzle_diameter",     16 }
+            });
             SpanOfConstPtrs<Layer> layers = print.objects().front()->layers();
-			THEN("The output vector has 2 entries") {
+            THEN("The output vector has 2 entries") {
                 REQUIRE(layers.size() == 2);
             }
             AND_THEN("Layer 0 is at 2mm") {
@@ -70,12 +70,12 @@ SCENARIO("PrintObject: object layer heights", "[PrintObject]") {
         WHEN("generate_object_layers() is called for 15mm layer heights and nozzle diameter of 5mm") {
             Slic3r::Print print;
             Slic3r::Test::init_and_process_print({TestMesh::cube_20x20x20}, print, {
-        		{ "first_layer_height", 2 },
-				{ "layer_height", 		15 },
-	            { "nozzle_diameter", 	5 }
-	        });
-			const std::vector<Slic3r::Layer*> &layers = print.objects().front()->layers();
-			THEN("The layer height is limited to 5mm.") {
+                { "first_layer_height", 2 },
+                { "layer_height",         15 },
+                { "nozzle_diameter",     5 }
+            });
+            const std::vector<Slic3r::Layer*> &layers = print.objects().front()->layers();
+            THEN("The layer height is limited to 5mm.") {
                 CHECK(layers.size() == 5);
                 coordf_t last = 2.0;
                 for (size_t i = 1; i < layers.size(); i++) {

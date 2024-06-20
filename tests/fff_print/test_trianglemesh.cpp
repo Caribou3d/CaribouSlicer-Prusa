@@ -140,7 +140,7 @@ SCENARIO( "TriangleMesh: slice behavior.") {
         
         WHEN("Cube is sliced with z = [0+EPSILON,2,4,8,6,8,10,12,14,16,18,20]") {
             std::vector<double> z { 0+EPSILON,2,4,8,6,8,10,12,14,16,18,20 };
-			std::vector<ExPolygons> result = cube.slice(z);
+            std::vector<ExPolygons> result = cube.slice(z);
             THEN( "The correct number of polygons are returned per layer.") {
                 for (size_t i = 0U; i < z.size(); i++) {
                     REQUIRE(result.at(i).size() == 1);
@@ -157,10 +157,10 @@ SCENARIO( "TriangleMesh: slice behavior.") {
         const std::vector<Vec3f> vertices {{0,0,0},{0,0,20},{0,5,0},{0,5,20},{50,0,0},{50,0,20},{15,5,0},{35,5,0},{15,20,0},{50,5,0},{35,20,0},{15,5,10},{50,5,20},{35,5,10},{35,20,10},{15,20,10}};
         const std::vector<Vec3i> facets {{0,1,2},{2,1,3},{1,0,4},{5,1,4},{0,2,4},{4,2,6},{7,6,8},{4,6,7},{9,4,7},{7,8,10},{2,3,6},{11,3,12},{7,12,9},{13,12,7},{6,3,11},{11,12,13},{3,1,5},{12,3,5},{5,4,9},{12,5,9},{13,7,10},{14,13,10},{8,15,10},{10,15,14},{6,11,8},{8,11,15},{15,11,13},{14,15,13}};
 
-		auto cube = make_cube();
+        auto cube = make_cube();
         WHEN(" a top tangent plane is sliced") {
             // At Z = 10 we have a top horizontal surface.
-			std::vector<ExPolygons> slices = cube.slice({5.0, 10.0});
+            std::vector<ExPolygons> slices = cube.slice({5.0, 10.0});
             THEN( "its area is included") {
                 REQUIRE(slices.at(0).at(0).area() > 0);
                 REQUIRE(slices.at(1).at(0).area() > 0);
@@ -168,7 +168,7 @@ SCENARIO( "TriangleMesh: slice behavior.") {
         }
         WHEN(" a model that has been transformed is sliced") {
             cube.mirror_z();
-			std::vector<ExPolygons> slices = cube.slice({-5.0, -10.0});
+            std::vector<ExPolygons> slices = cube.slice({-5.0, -10.0});
             THEN( "it is sliced properly (mirrored bottom plane area is included)") {
                 REQUIRE(slices.at(0).at(0).area() > 0);
                 REQUIRE(slices.at(1).at(0).area() > 0);
@@ -180,7 +180,7 @@ SCENARIO( "TriangleMesh: slice behavior.") {
 SCENARIO( "make_xxx functions produce meshes.") {
     GIVEN("make_cube() function") {
         WHEN("make_cube() is called with arguments 20,20,20") {
-			TriangleMesh cube = make_cube(20,20,20);
+            TriangleMesh cube = make_cube(20,20,20);
             THEN("The resulting mesh has one and only one vertex at 0,0,0") {
                 const std::vector<Vec3f> &verts = cube.its.vertices;
                 REQUIRE(std::count_if(verts.begin(), verts.end(), [](const Vec3f& t) { return t.x() == 0 && t.y() == 0 && t.z() == 0; } ) == 1);
@@ -240,7 +240,7 @@ SCENARIO( "make_xxx functions produce meshes.") {
 
 SCENARIO( "TriangleMesh: split functionality.") {
     GIVEN( "A 20mm cube with one corner on the origin") {
-		auto cube = make_cube();
+        auto cube = make_cube();
         WHEN( "The mesh is split into its component parts.") {
             std::vector<TriangleMesh> meshes = cube.split();
             THEN(" The bounding box statistics are propagated to the split copies") {
@@ -250,8 +250,8 @@ SCENARIO( "TriangleMesh: split functionality.") {
         }
     }
     GIVEN( "Two 20mm cubes, each with one corner on the origin, merged into a single TriangleMesh") {
-		auto cube = make_cube();
-		TriangleMesh cube2(cube);
+        auto cube = make_cube();
+        TriangleMesh cube2(cube);
 
         cube.merge(cube2);
         WHEN( "The combined mesh is split") {
@@ -268,8 +268,8 @@ SCENARIO( "TriangleMesh: split functionality.") {
 
 SCENARIO( "TriangleMesh: Mesh merge functions") {
     GIVEN( "Two 20mm cubes, each with one corner on the origin") {
-		auto cube = make_cube();
-		TriangleMesh cube2(cube);
+        auto cube = make_cube();
+        TriangleMesh cube2(cube);
 
         WHEN( "The two meshes are merged") {
             cube.merge(cube2);
@@ -282,7 +282,7 @@ SCENARIO( "TriangleMesh: Mesh merge functions") {
 
 SCENARIO( "TriangleMeshSlicer: Cut behavior.") {
     GIVEN( "A 20mm cube with one corner on the origin") {
-		auto cube = make_cube();
+        auto cube = make_cube();
         WHEN( "Object is cut at the bottom") {
             indexed_triangle_set upper {};
             indexed_triangle_set lower {};

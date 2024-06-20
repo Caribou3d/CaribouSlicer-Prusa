@@ -149,9 +149,9 @@ SCENARIO(" Bridge flow specifics.", "[Flow]") {
 /// spacing, etc
 SCENARIO("Flow: Flow math for non-bridges", "[Flow]") {
     GIVEN("Nozzle Diameter of 0.4, a desired width of 1mm and layer height of 0.5") {
-        ConfigOptionFloatOrPercent	width(1.0, false);
-        float nozzle_diameter	= 0.4f;
-        float layer_height		= 0.4f;
+        ConfigOptionFloatOrPercent    width(1.0, false);
+        float nozzle_diameter    = 0.4f;
+        float layer_height        = 0.4f;
 
         // Spacing for non-bridges is has some overlap
         THEN("External perimeter flow has spacing fixed to 1.125 * nozzle_diameter") {
@@ -172,8 +172,8 @@ SCENARIO("Flow: Flow math for non-bridges", "[Flow]") {
     }
     /// Check the min/max
     GIVEN("Nozzle Diameter of 0.25") {
-        float nozzle_diameter	= 0.25f;
-        float layer_height		= 0.5f;
+        float nozzle_diameter    = 0.25f;
+        float layer_height        = 0.5f;
         WHEN("layer height is set to 0.2") {
             layer_height = 0.15f;
             THEN("Max width is set.") {
@@ -211,8 +211,8 @@ SCENARIO("Flow: Flow math for non-bridges", "[Flow]") {
 /// Spacing, width calculation for bridge extrusions
 SCENARIO("Flow: Flow math for bridges", "[Flow]") {
     GIVEN("Nozzle Diameter of 0.4, a desired width of 1mm and layer height of 0.5") {
-		float nozzle_diameter	= 0.4f;
-		float bridge_flow		= 1.0f;
+        float nozzle_diameter    = 0.4f;
+        float bridge_flow        = 1.0f;
         WHEN("Flow role is frExternalPerimeter") {
             auto flow = Flow::bridging_flow(nozzle_diameter * sqrt(bridge_flow), nozzle_diameter);
             THEN("Bridge width is same as nozzle diameter") {

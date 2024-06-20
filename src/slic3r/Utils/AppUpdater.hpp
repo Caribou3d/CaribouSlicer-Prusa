@@ -21,44 +21,44 @@ std::string get_downloads_path_mac();
 
 struct DownloadAppData
 {
-	std::string				url;
-	bool					start_after;
-	boost::optional<Semver> version;
-	size_t				    size;
-	boost::filesystem::path target_path;
+    std::string                url;
+    bool                    start_after;
+    boost::optional<Semver> version;
+    size_t                    size;
+    boost::filesystem::path target_path;
 };
 
 class AppUpdater
 {
 public:
-	AppUpdater();
-	~AppUpdater();
-	AppUpdater(AppUpdater&&) = delete;
-	AppUpdater(const AppUpdater&) = delete;
-	AppUpdater& operator=(AppUpdater&&) = delete;
-	AppUpdater& operator=(const AppUpdater&) = delete;
+    AppUpdater();
+    ~AppUpdater();
+    AppUpdater(AppUpdater&&) = delete;
+    AppUpdater(const AppUpdater&) = delete;
+    AppUpdater& operator=(AppUpdater&&) = delete;
+    AppUpdater& operator=(const AppUpdater&) = delete;
 
-	// downloads app file
-	void sync_download();
-	// downloads version file
-	void sync_version(const std::string& version_check_url, bool from_user);
-	void cancel();
-	bool cancel_callback();
+    // downloads app file
+    void sync_download();
+    // downloads version file
+    void sync_version(const std::string& version_check_url, bool from_user);
+    void cancel();
+    bool cancel_callback();
 
-	std::string get_default_dest_folder();
+    std::string get_default_dest_folder();
 
-	static std::string get_filename_from_url(const std::string& url);
-	static std::string get_file_extension_from_url(const std::string& url);
+    static std::string get_filename_from_url(const std::string& url);
+    static std::string get_file_extension_from_url(const std::string& url);
 
-	// atomic bool
-	bool				get_triggered_by_user() const;
-	bool				get_download_ongoing() const;
-	// mutex access
-	void				set_app_data(DownloadAppData data);
-	DownloadAppData		get_app_data();
+    // atomic bool
+    bool                get_triggered_by_user() const;
+    bool                get_download_ongoing() const;
+    // mutex access
+    void                set_app_data(DownloadAppData data);
+    DownloadAppData        get_app_data();
 private:
-	struct priv;
-	std::unique_ptr<priv> p;
+    struct priv;
+    std::unique_ptr<priv> p;
 };
 
 wxDECLARE_EVENT(EVT_SLIC3R_VERSION_ONLINE, wxCommandEvent);

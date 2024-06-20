@@ -362,29 +362,29 @@ static void stb__OptimizeColorsBlock(unsigned char *block, unsigned short *pmax1
 #   define RANGE(a,b,n)  int min##n = MIN(a,b); int max##n = a+b - min##n; muv += a+b;
 #   define MINMAX(a,b,n) int min##n = MIN(min##a, min##b); int max##n = MAX(max##a, max##b); 
 
-	muv = 0;
-	RANGE(bp[0],  bp[4],  1);
-	RANGE(bp[8],  bp[12], 2);
-	RANGE(bp[16], bp[20], 3);
-	RANGE(bp[24], bp[28], 4);
-	RANGE(bp[32], bp[36], 5);
-	RANGE(bp[40], bp[44], 6);
-	RANGE(bp[48], bp[52], 7);
-	RANGE(bp[56], bp[60], 8);
+    muv = 0;
+    RANGE(bp[0],  bp[4],  1);
+    RANGE(bp[8],  bp[12], 2);
+    RANGE(bp[16], bp[20], 3);
+    RANGE(bp[24], bp[28], 4);
+    RANGE(bp[32], bp[36], 5);
+    RANGE(bp[40], bp[44], 6);
+    RANGE(bp[48], bp[52], 7);
+    RANGE(bp[56], bp[60], 8);
 
-	MINMAX(1,2,9);
-	MINMAX(3,4,10);
-	MINMAX(5,6,11);
-	MINMAX(7,8,12);
+    MINMAX(1,2,9);
+    MINMAX(3,4,10);
+    MINMAX(5,6,11);
+    MINMAX(7,8,12);
 
-	MINMAX(9,10,13);
-	MINMAX(11,12,14);
+    MINMAX(9,10,13);
+    MINMAX(11,12,14);
 
-	minv = MIN(min13,min14);
-	maxv = MAX(max13,max14);
+    minv = MIN(min13,min14);
+    maxv = MAX(max13,max14);
 
 #else
-	muv = minv = maxv = bp[0];
+    muv = minv = maxv = bp[0];
     for(i=4;i<64;i+=4)
     {
       muv += bp[i];
@@ -464,7 +464,7 @@ static void stb__OptimizeColorsBlock(unsigned char *block, unsigned short *pmax1
       if (dot < mind) {
          mind = dot;
          minp = block+i*4;
-		 continue;
+         continue;
       }
 
       if (dot > maxd) {
@@ -500,7 +500,7 @@ inline static int stb__sclamp(float y, int p0, int p1)
    int x = (int) y;
 
 #ifdef NEW_OPTIMISATIONS
-	x = x>p1 ? p1 : x;
+    x = x>p1 ? p1 : x;
     return x<p0 ? p0 : x;
 #else
    if (x < p0) return p0;
@@ -548,7 +548,7 @@ static int stb__RefineBlock(unsigned char *block, unsigned short *pmax16, unsign
       At1_r = At1_g = At1_b = 0;
       At2_r = At2_g = At2_b = 0;
       for (i=0;i<16;++i,cm>>=2) 
-	  {
+      {
          int step = cm&3;
          int w1 = w1Tab[step];
          int r = block[i*4+0];
@@ -624,7 +624,7 @@ static void stb__CompressColorBlock(unsigned char *dest, unsigned char *block, i
       // second step: pca+map along principal axis
       stb__OptimizeColorsBlock(dither ? dblock : block,&max16,&min16);
       if (max16 != min16) 
-	  {
+      {
          stb__EvalColors(color,max16,min16);
          mask = stb__MatchColorsBlock(block,color,dither);
       } else
@@ -635,13 +635,13 @@ static void stb__CompressColorBlock(unsigned char *dest, unsigned char *block, i
          unsigned int lastmask = mask;
          
          if (stb__RefineBlock(dither ? dblock : block,&max16,&min16,mask)) 
-		 {
+         {
             if (max16 != min16) 
-			{
+            {
                stb__EvalColors(color,max16,min16);
                mask = stb__MatchColorsBlock(block,color,dither);
             } else 
-			{
+            {
                mask = 0;
                break;
             }
@@ -695,47 +695,47 @@ static void stb__CompressAlphaBlock(unsigned char *dest,unsigned char *src,int m
    // mono-alpha shortcut
    if (mn==mx)
    {
-	   *(unsigned short*)dest = 0;
-	   dest += 2;
-	   *(unsigned int*)dest = 0;
-	   return;
+       *(unsigned short*)dest = 0;
+       dest += 2;
+       *(unsigned int*)dest = 0;
+       return;
    }
 #endif
 
-	// determine bias and emit color indices
-	// given the choice of mx/mn, these indices are optimal:
-	// http://fgiesen.wordpress.com/2009/12/15/dxt5-alpha-block-index-determination/
-	dist = mx-mn;
-	//printf("mn = %i; mx = %i; dist = %i\n", mn, mx, dist);
-	dist4 = dist*4;
-	dist2 = dist*2;
-	bias = (dist < 8) ? (dist - 1) : (dist/2 + 2);
-	bias -= mn * 7;
-	bits = 0, mask=0;
+    // determine bias and emit color indices
+    // given the choice of mx/mn, these indices are optimal:
+    // http://fgiesen.wordpress.com/2009/12/15/dxt5-alpha-block-index-determination/
+    dist = mx-mn;
+    //printf("mn = %i; mx = %i; dist = %i\n", mn, mx, dist);
+    dist4 = dist*4;
+    dist2 = dist*2;
+    bias = (dist < 8) ? (dist - 1) : (dist/2 + 2);
+    bias -= mn * 7;
+    bits = 0, mask=0;
    
-	for (i=0;i<16;i++) 
-	{
-		int a = src[i*4+3]*7 + bias;
-		int ind,t;
+    for (i=0;i<16;i++) 
+    {
+        int a = src[i*4+3]*7 + bias;
+        int ind,t;
 
-		// select index. this is a "linear scale" lerp factor between 0 (val=min) and 7 (val=max).
-		t = (a >= dist4) ? -1 : 0; ind =  t & 4; a -= dist4 & t;
-		t = (a >= dist2) ? -1 : 0; ind += t & 2; a -= dist2 & t;
-		ind += (a >= dist);
+        // select index. this is a "linear scale" lerp factor between 0 (val=min) and 7 (val=max).
+        t = (a >= dist4) ? -1 : 0; ind =  t & 4; a -= dist4 & t;
+        t = (a >= dist2) ? -1 : 0; ind += t & 2; a -= dist2 & t;
+        ind += (a >= dist);
       
-		// turn linear scale into DXT index (0/1 are extremal pts)
-		ind = -ind & 7;
-		ind ^= (2 > ind);
+        // turn linear scale into DXT index (0/1 are extremal pts)
+        ind = -ind & 7;
+        ind ^= (2 > ind);
 
-		// write index
-		mask |= ind << bits;
-		if((bits += 3) >= 8) 
-		{
-			*dest++ = mask; 
-			mask >>= 8;     
-			bits -= 8;
-		}
-	}
+        // write index
+        mask |= ind << bits;
+        if((bits += 3) >= 8) 
+        {
+            *dest++ = mask; 
+            mask >>= 8;     
+            bits -= 8;
+        }
+    }
 }
 
 
@@ -792,18 +792,18 @@ static void extractBlock(const unsigned char *src, int x, int y,
 #ifdef NEW_OPTIMISATIONS
    if ((w-x >=4) && (h-y >=4))
    {
-	   // Full Square shortcut
-	   src += x*4;
-	   src += y*w*4;
-	   for (i=0; i < 4; ++i)
-	   {
-		   *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
-		   *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
-		   *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
-		   *(unsigned int*)block = *(unsigned int*) src; block += 4; 
-		   src += (w*4) - 12;
-	   }
-	   return;
+       // Full Square shortcut
+       src += x*4;
+       src += y*w*4;
+       for (i=0; i < 4; ++i)
+       {
+           *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
+           *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
+           *(unsigned int*)block = *(unsigned int*) src; block += 4; src += 4;
+           *(unsigned int*)block = *(unsigned int*) src; block += 4; 
+           src += (w*4) - 12;
+       }
+       return;
    }
 #endif
 

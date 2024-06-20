@@ -6,14 +6,14 @@
 using namespace Slic3r;
 
 SCENARIO("Placeholder parser scripting", "[PlaceholderParser]") {
-	PlaceholderParser 	parser;
-	auto 				config = DynamicPrintConfig::full_print_config();
+    PlaceholderParser     parser;
+    auto                 config = DynamicPrintConfig::full_print_config();
 
-	config.set_deserialize_strict( {
-		{ "printer_notes", "  PRINTER_VENDOR_PRUSA3D  PRINTER_MODEL_MK2  " },
-	    { "nozzle_diameter", "0.6;0.6;0.6;0.6" },
-	    { "temperature", "357;359;363;378" }
-	});
+    config.set_deserialize_strict( {
+        { "printer_notes", "  PRINTER_VENDOR_PRUSA3D  PRINTER_MODEL_MK2  " },
+        { "nozzle_diameter", "0.6;0.6;0.6;0.6" },
+        { "temperature", "357;359;363;378" }
+    });
     // To test the "first_layer_extrusion_width" over "first_layer_heigth".
     // "first_layer_heigth" over "layer_height" is no more supported after first_layer_height was moved from PrintObjectConfig to PrintConfig.
 //  config.option<ConfigOptionFloatOrPercent>("first_layer_height")->value = 150.;
@@ -28,9 +28,9 @@ SCENARIO("Placeholder parser scripting", "[PlaceholderParser]") {
     opt_filament_retract_length->values = { 5., ConfigOptionFloatsNullable::nil_value(), 3. };
 
     parser.apply_config(config);
-	parser.set("foo", 0);
-	parser.set("bar", 2);
-	parser.set("num_extruders", 4);
+    parser.set("foo", 0);
+    parser.set("bar", 2);
+    parser.set("num_extruders", 4);
     parser.set("gcode_flavor", "marlin");
 
     SECTION("nested config options (legacy syntax)") { REQUIRE(parser.process("[temperature_[foo]]") == "357"); }
@@ -178,8 +178,8 @@ SCENARIO("Placeholder parser scripting", "[PlaceholderParser]") {
 }
 
 SCENARIO("Placeholder parser variables", "[PlaceholderParser]") {
-    PlaceholderParser 	parser;
-    auto 				config = DynamicPrintConfig::full_print_config();
+    PlaceholderParser     parser;
+    auto                 config = DynamicPrintConfig::full_print_config();
 
     config.set_deserialize_strict({
         { "filament_notes", "testnotes" },

@@ -153,33 +153,33 @@ private:
 #endif
     std::vector<std::string>     m_mode_palette;
 
-    wxFont		    m_small_font;
-    wxFont		    m_bold_font;
-	wxFont			m_normal_font;
-	wxFont			m_code_font;
-    wxFont		    m_link_font;
+    wxFont            m_small_font;
+    wxFont            m_bold_font;
+    wxFont            m_normal_font;
+    wxFont            m_code_font;
+    wxFont            m_link_font;
 
     int             m_em_unit; // width of a "m"-symbol in pixels for current system font
                                // Note: for 100% Scale m_em_unit = 10 -> it's a good enough coefficient for a size setting of controls
 
-    std::unique_ptr<wxLocale> 	  m_wxLocale;
+    std::unique_ptr<wxLocale>       m_wxLocale;
     // System language, from locales, owned by wxWidgets.
-    const wxLanguageInfo		 *m_language_info_system = nullptr;
+    const wxLanguageInfo         *m_language_info_system = nullptr;
     // Best translation language, provided by Windows or OSX, owned by wxWidgets.
-    const wxLanguageInfo		 *m_language_info_best   = nullptr;
+    const wxLanguageInfo         *m_language_info_best   = nullptr;
 
     OpenGLManager m_opengl_mgr;
 
     std::unique_ptr<RemovableDriveManager>          m_removable_drive_manager;
     std::unique_ptr<ImGuiWrapper>                   m_imgui;
     std::unique_ptr<PrintHostJobQueue>              m_printhost_job_queue;
-	std::unique_ptr<OtherInstanceMessageHandler>    m_other_instance_message_handler;
+    std::unique_ptr<OtherInstanceMessageHandler>    m_other_instance_message_handler;
     std::unique_ptr<AppUpdater>                     m_app_updater;
     std::unique_ptr<wxSingleInstanceChecker>        m_single_instance_checker;
     std::unique_ptr<Downloader>                     m_downloader;
 
     std::string m_instance_hash_string;
-	size_t m_instance_hash_int;
+    size_t m_instance_hash_int;
 
     Search::OptionsSearcher* m_searcher{ nullptr };
 
@@ -234,7 +234,7 @@ public:
     void            UpdateAllStaticTextDarkUI(wxWindow* parent);
     void            SetWindowVariantForButton(wxButton* btn);
     void            init_fonts();
-	void            update_fonts(const MainFrame *main_frame = nullptr);
+    void            update_fonts(const MainFrame *main_frame = nullptr);
     void            set_label_clr_modified(const wxColour& clr);
     void            set_label_clr_sys(const wxColour& clr);
 
@@ -318,8 +318,8 @@ public:
     void            load_current_presets(bool check_printer_presets = true);
 
     wxString        current_language_code() const { return m_wxLocale->GetCanonicalName(); }
-	// Translate the language code to a code, for which Prusa Research maintains translations. Defaults to "en_US".
-    wxString 		current_language_code_safe() const;
+    // Translate the language code to a code, for which Prusa Research maintains translations. Defaults to "en_US".
+    wxString         current_language_code_safe() const;
     bool            is_localized() const { return m_wxLocale->GetLocale() != "English"; }
 
     void            open_preferences(const std::string& highlight_option = std::string(), const std::string& tab_name = std::string());
@@ -343,7 +343,7 @@ public:
     ObjectLayers*        obj_layers();
     Plater*              plater();
     const Plater*        plater() const;
-    Model&      		 model();
+    Model&               model();
     NotificationManager* notification_manager();
     GalleryDialog *      gallery_dialog();
     Downloader*          downloader();
@@ -359,7 +359,7 @@ public:
     std::mutex      not_modal_dialog_mutex;
     wxDialog*       not_modal_dialog = nullptr;
 
-	PresetUpdater*  get_preset_updater() { return preset_updater; }
+    PresetUpdater*  get_preset_updater() { return preset_updater; }
 
     wxBookCtrlBase* tab_panel() const ;
     int             extruders_cnt() const;
@@ -367,14 +367,14 @@ public:
 
     std::vector<Tab *>      tabs_list;
 
-	RemovableDriveManager* removable_drive_manager() { return m_removable_drive_manager.get(); }
-	OtherInstanceMessageHandler* other_instance_message_handler() { return m_other_instance_message_handler.get(); }
+    RemovableDriveManager* removable_drive_manager() { return m_removable_drive_manager.get(); }
+    OtherInstanceMessageHandler* other_instance_message_handler() { return m_other_instance_message_handler.get(); }
     wxSingleInstanceChecker* single_instance_checker() {return m_single_instance_checker.get();}
 
-	void        init_single_instance_checker(const std::string &name, const std::string &path);
-	void        set_instance_hash (const size_t hash) { m_instance_hash_int = hash; m_instance_hash_string = std::to_string(hash); }
+    void        init_single_instance_checker(const std::string &name, const std::string &path);
+    void        set_instance_hash (const size_t hash) { m_instance_hash_int = hash; m_instance_hash_string = std::to_string(hash); }
     std::string get_instance_hash_string ()           { return m_instance_hash_string; }
-	size_t      get_instance_hash_int ()              { return m_instance_hash_int; }
+    size_t      get_instance_hash_int ()              { return m_instance_hash_int; }
 
     ImGuiWrapper* imgui() { return m_imgui.get(); }
 
@@ -441,7 +441,7 @@ public:
 
 private:
     bool            on_init_inner();
-	void            init_app_config();
+    void            init_app_config();
     // returns old config path to copy from if such exists,
     // returns an empty string if such config path does not exists or if it cannot be loaded.
     std::string     check_older_app_config(Semver current_version, bool backup);
@@ -454,7 +454,7 @@ private:
     bool            config_wizard_startup();
     // Returns true if the configuration is fine.
     // Returns true if the configuration is not compatible and the user decided to rather close the slicer instead of reconfiguring.
-	bool            check_updates(const bool invoked_automatically);
+    bool            check_updates(const bool invoked_automatically);
     void            on_version_read(wxCommandEvent& evt);
     // if the data from version file are already downloaded, shows dialogs to start download of new version of app
     void            app_updater(bool from_user);

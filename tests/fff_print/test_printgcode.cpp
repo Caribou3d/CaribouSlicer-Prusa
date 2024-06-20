@@ -21,11 +21,11 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
             Slic3r::Print print;
             Slic3r::Model model;
             Slic3r::Test::init_print({TestMesh::cube_20x20x20}, print, model, {
-                { "layer_height",					0.2 },
-                { "first_layer_height",				0.2 },
-                { "first_layer_extrusion_width",	0 },
-                { "gcode_comments",					true },
-                { "start_gcode",					"" }
+                { "layer_height",                    0.2 },
+                { "first_layer_height",                0.2 },
+                { "first_layer_extrusion_width",    0 },
+                { "gcode_comments",                    true },
+                { "start_gcode",                    "" }
                 });
             std::string gcode = Slic3r::Test::gcode(print);
             THEN("Some text output is generated.") {
@@ -65,7 +65,7 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
                 REQUIRE(boost::regex_search(gcode, has_match, infill_regex));
             }
             THEN("Perimeters are emitted.") {
-				boost::smatch has_match;
+                boost::smatch has_match;
                 REQUIRE(boost::regex_search(gcode, has_match, perimeters_regex));
             }
             THEN("Skirt is emitted.") {
@@ -176,7 +176,7 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
             }
         }
         WHEN("the output is executed with a separate first layer extrusion width") {
-			std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
+            std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
                 { "first_layer_extrusion_width", "0.5" }
                 });
             THEN("Some text output is generated.") {
@@ -193,8 +193,8 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
             }
         }
         WHEN("Cooling is enabled and the fan is disabled.") {
-			std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
-				{ "cooling",                    true },
+            std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
+                { "cooling",                    true },
                 { "disable_fan_first_layers",   5 }
                 });
             THEN("GCode to disable fan is emitted."){
@@ -202,8 +202,8 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
             }
         }
         WHEN("end_gcode exists with layer_num and layer_z") {
-			std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
-				{ "end_gcode",              "; Layer_num [layer_num]\n; Layer_z [layer_z]" },
+            std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
+                { "end_gcode",              "; Layer_num [layer_num]\n; Layer_z [layer_z]" },
                 { "layer_height",           0.1 },
                 { "first_layer_height",     0.1 }
                 });
@@ -214,14 +214,14 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
         }
         WHEN("current_extruder exists in start_gcode") {
             {
-				std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
-					{ "start_gcode", "; Extruder [current_extruder]" }
+                std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20 }, {
+                    { "start_gcode", "; Extruder [current_extruder]" }
                 });
                 THEN("current_extruder is processed in the start gcode and set for first extruder") {
                     REQUIRE(gcode.find("; Extruder 0") != std::string::npos);
                 }
             }
-			{
+            {
                 DynamicPrintConfig config = DynamicPrintConfig::full_print_config();
                 config.set_num_extruders(4);
                 config.set_deserialize_strict({
@@ -240,32 +240,32 @@ SCENARIO( "PrintGCode basic functionality", "[PrintGCode]") {
         }
 
         WHEN("layer_num represents the layer's index from z=0") {
-			std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20, TestMesh::cube_20x20x20 }, {
-				{ "complete_objects",               true },
+            std::string gcode = ::Test::slice({ TestMesh::cube_20x20x20, TestMesh::cube_20x20x20 }, {
+                { "complete_objects",               true },
                 { "gcode_comments",                 true },
                 { "layer_gcode",                    ";Layer:[layer_num] ([layer_z] mm)" },
                 { "layer_height",                   0.1 },
                 { "first_layer_height",             0.1 }
                 });
-			// End of the 1st object.
+            // End of the 1st object.
             std::string token = ";Layer:199 ";
-			size_t pos = gcode.find(token);
-			THEN("First and second object last layer is emitted") {
-				// First object
-				REQUIRE(pos != std::string::npos);
-				pos += token.size();
-				REQUIRE(pos < gcode.size());
-				double z = 0;
-				REQUIRE((sscanf(gcode.data() + pos, "(%lf mm)", &z) == 1));
-				REQUIRE(z == Approx(20.));
-				// Second object
-				pos = gcode.find(";Layer:399 ", pos);
-				REQUIRE(pos != std::string::npos);
-				pos += token.size();
-				REQUIRE(pos < gcode.size());
-				REQUIRE((sscanf(gcode.data() + pos, "(%lf mm)", &z) == 1));
-				REQUIRE(z == Approx(20.));
-			}
+            size_t pos = gcode.find(token);
+            THEN("First and second object last layer is emitted") {
+                // First object
+                REQUIRE(pos != std::string::npos);
+                pos += token.size();
+                REQUIRE(pos < gcode.size());
+                double z = 0;
+                REQUIRE((sscanf(gcode.data() + pos, "(%lf mm)", &z) == 1));
+                REQUIRE(z == Approx(20.));
+                // Second object
+                pos = gcode.find(";Layer:399 ", pos);
+                REQUIRE(pos != std::string::npos);
+                pos += token.size();
+                REQUIRE(pos < gcode.size());
+                REQUIRE((sscanf(gcode.data() + pos, "(%lf mm)", &z) == 1));
+                REQUIRE(z == Approx(20.));
+            }
         }
     }
 }

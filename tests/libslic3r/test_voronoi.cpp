@@ -2018,7 +2018,7 @@ TEST_CASE("Voronoi missing vertex 2", "[VoronoiMissingVertex2]")
 TEST_CASE("Voronoi missing vertex 3", "[VoronoiMissingVertex3]")
 {
     Polygons poly = {
-        Polygon	{
+        Polygon    {
             {-29715088, -29310899},
             {-29022573, -28618384},
             {-27771147, -27366958},
@@ -2026,7 +2026,7 @@ TEST_CASE("Voronoi missing vertex 3", "[VoronoiMissingVertex3]")
             {-30619013, -28586348},
             {-29812018, -29407830},
         },
-        Polygon	{
+        Polygon    {
             {-27035112, -28071875},
             {-27367482, -27770679},
             {-28387008, -28790205},

@@ -15,7 +15,7 @@ using namespace Slic3r;
 static inline Slic3r::Point random_point(float LO=-50, float HI=50) 
 {
     Vec2f pt = Vec2f(LO, LO) + (Vec2d(rand(), rand()) * (HI-LO) / RAND_MAX).cast<float>();
-	return pt.cast<coord_t>();
+    return pt.cast<coord_t>();
 }
 
 // build a sample extrusion entity collection with random start and end points.
@@ -311,13 +311,13 @@ SCENARIO("ExtrusionEntityCollection: Polygon flattening", "[ExtrusionEntity]")
         sample.append(sub_sort);
 
         WHEN("The EEC is flattened with default options (preserve_order=false)") {
-			output = sample.flatten();
+            output = sample.flatten();
             THEN("The output EEC contains no Extrusion Entity Collections") {
                 CHECK(std::count_if(output.entities.cbegin(), output.entities.cend(), [=](const ExtrusionEntity* e) {return e->is_collection();}) == 0);
             }
         }
         WHEN("The EEC is flattened with preservation (preserve_order=true)") {
-			output = sample.flatten(true);
+            output = sample.flatten(true);
             THEN("The output EECs contains one EEC.") {
                 CHECK(std::count_if(output.entities.cbegin(), output.entities.cend(), [=](const ExtrusionEntity* e) {return e->is_collection();}) == 1);
             }

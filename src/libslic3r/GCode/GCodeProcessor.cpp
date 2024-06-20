@@ -1818,7 +1818,7 @@ template<typename T>
         // Legacy conversion, which is costly due to having to make a copy of the string before conversion.
         try {
             assert(sv.size() < 1024);
-	    assert(sv.data() != nullptr);
+        assert(sv.data() != nullptr);
             std::string str { sv };
             size_t read = 0;
             if constexpr (std::is_same_v<T, int>)
@@ -1981,7 +1981,7 @@ bool GCodeProcessor::process_producers_tags(const std::string_view comment)
     case EProducer::Slic3rPE:
     case EProducer::Slic3r: 
     case EProducer::SuperSlicer:
-    case EProducer::PrusaSlicer:    { return process_prusaslicer_tags(comment); }
+    case EProducer::PrusaSlicer:   { return process_prusaslicer_tags(comment); }
     case EProducer::CaribouSlicer: { return process_caribouslicer_tags(comment); }
     case EProducer::Cura:        { return process_cura_tags(comment); }
     case EProducer::Simplify3D:  { return process_simplify3d_tags(comment); }

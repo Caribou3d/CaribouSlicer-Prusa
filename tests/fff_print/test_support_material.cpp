@@ -10,11 +10,11 @@ using namespace Slic3r;
 
 TEST_CASE("SupportMaterial: Three raft layers created", "[SupportMaterial]")
 {
-	Slic3r::Print print;
-	Slic3r::Test::init_and_process_print({ TestMesh::cube_20x20x20 }, print, {
-		{ "support_material", 1 },
-		{ "raft_layers",      3 }
-		});
+    Slic3r::Print print;
+    Slic3r::Test::init_and_process_print({ TestMesh::cube_20x20x20 }, print, {
+        { "support_material", 1 },
+        { "raft_layers",      3 }
+        });
     REQUIRE(print.objects().front()->support_layers().size() == 3);
 }
 
@@ -25,96 +25,96 @@ SCENARIO("SupportMaterial: support_layers_z and contact_distance", "[SupportMate
     mesh.rotate_x(float(M_PI / 2));
 //    mesh.write_binary("d:\\temp\\cube_with_hole.stl");
 
-	auto check = [](Slic3r::Print &print, bool &first_support_layer_height_ok, bool &layer_height_minimum_ok, bool &layer_height_maximum_ok, bool &top_spacing_ok)
-	{
+    auto check = [](Slic3r::Print &print, bool &first_support_layer_height_ok, bool &layer_height_minimum_ok, bool &layer_height_maximum_ok, bool &top_spacing_ok)
+    {
         SpanOfConstPtrs<SupportLayer> support_layers = print.objects().front()->support_layers();
 
-		first_support_layer_height_ok = support_layers.front()->print_z == print.config().first_layer_height.value;
+        first_support_layer_height_ok = support_layers.front()->print_z == print.config().first_layer_height.value;
 
-		layer_height_minimum_ok = true;
-		layer_height_maximum_ok = true;
-		double min_layer_height = print.config().min_layer_height.values.front();
-		double max_layer_height = print.config().nozzle_diameter.values.front();
-		if (print.config().max_layer_height.values.front() > EPSILON)
-			max_layer_height = std::min(max_layer_height, print.config().max_layer_height.values.front());
-		for (size_t i = 1; i < support_layers.size(); ++ i) {
-			if (support_layers[i]->print_z - support_layers[i - 1]->print_z < min_layer_height - EPSILON)
-				layer_height_minimum_ok = false;
-			if (support_layers[i]->print_z - support_layers[i - 1]->print_z > max_layer_height + EPSILON)
-				layer_height_maximum_ok = false;
-		}
+        layer_height_minimum_ok = true;
+        layer_height_maximum_ok = true;
+        double min_layer_height = print.config().min_layer_height.values.front();
+        double max_layer_height = print.config().nozzle_diameter.values.front();
+        if (print.config().max_layer_height.values.front() > EPSILON)
+            max_layer_height = std::min(max_layer_height, print.config().max_layer_height.values.front());
+        for (size_t i = 1; i < support_layers.size(); ++ i) {
+            if (support_layers[i]->print_z - support_layers[i - 1]->print_z < min_layer_height - EPSILON)
+                layer_height_minimum_ok = false;
+            if (support_layers[i]->print_z - support_layers[i - 1]->print_z > max_layer_height + EPSILON)
+                layer_height_maximum_ok = false;
+        }
 
 #if 0
-		double expected_top_spacing = print.default_object_config().layer_height + print.config().nozzle_diameter.get_at(0);
-		bool wrong_top_spacing = 0;
+        double expected_top_spacing = print.default_object_config().layer_height + print.config().nozzle_diameter.get_at(0);
+        bool wrong_top_spacing = 0;
         std::vector<coordf_t> top_z { 1.1 };
-		for (coordf_t top_z_el : top_z) {
-			// find layer index of this top surface.
-			size_t layer_id = -1;
-			for (size_t i = 0; i < support_z.size(); ++ i) {
-				if (abs(support_z[i] - top_z_el) < EPSILON) {
-					layer_id = i;
-					i = static_cast<int>(support_z.size());
-				}
-			}
+        for (coordf_t top_z_el : top_z) {
+            // find layer index of this top surface.
+            size_t layer_id = -1;
+            for (size_t i = 0; i < support_z.size(); ++ i) {
+                if (abs(support_z[i] - top_z_el) < EPSILON) {
+                    layer_id = i;
+                    i = static_cast<int>(support_z.size());
+                }
+            }
 
-			// check that first support layer above this top surface (or the next one) is spaced with nozzle diameter
-			if (abs(support_z[layer_id + 1] - support_z[layer_id] - expected_top_spacing) > EPSILON && 
-				abs(support_z[layer_id + 2] - support_z[layer_id] - expected_top_spacing) > EPSILON) {
-				wrong_top_spacing = 1;
-			}
-		}
-		d = ! wrong_top_spacing;
+            // check that first support layer above this top surface (or the next one) is spaced with nozzle diameter
+            if (abs(support_z[layer_id + 1] - support_z[layer_id] - expected_top_spacing) > EPSILON && 
+                abs(support_z[layer_id + 2] - support_z[layer_id] - expected_top_spacing) > EPSILON) {
+                wrong_top_spacing = 1;
+            }
+        }
+        d = ! wrong_top_spacing;
 #else
-		top_spacing_ok = true;
+        top_spacing_ok = true;
 #endif
-	};
+    };
 
     GIVEN("A print object having one modelObject") {
         WHEN("First layer height = 0.4") {
-			Slic3r::Print print;
-			Slic3r::Test::init_and_process_print({ mesh }, print, {
-				{ "support_material",	1 },
-				{ "layer_height",		0.2 },
-				{ "first_layer_height", 0.4 },
+            Slic3r::Print print;
+            Slic3r::Test::init_and_process_print({ mesh }, print, {
+                { "support_material",    1 },
+                { "layer_height",        0.2 },
+                { "first_layer_height", 0.4 },
                 { "dont_support_bridges", false },
-			});
-			bool a, b, c, d;
+            });
+            bool a, b, c, d;
             check(print, a, b, c, d);
-            THEN("First layer height is honored")					{ REQUIRE(a == true); }
-            THEN("No null or negative support layers")				{ REQUIRE(b == true); }
-            THEN("No layers thicker than nozzle diameter")			{ REQUIRE(c == true); }
-//            THEN("Layers above top surfaces are spaced correctly")	{ REQUIRE(d == true); }
+            THEN("First layer height is honored")                    { REQUIRE(a == true); }
+            THEN("No null or negative support layers")                { REQUIRE(b == true); }
+            THEN("No layers thicker than nozzle diameter")            { REQUIRE(c == true); }
+//            THEN("Layers above top surfaces are spaced correctly")    { REQUIRE(d == true); }
         }
         WHEN("Layer height = 0.2 and, first layer height = 0.3") {
-			Slic3r::Print print;
-			Slic3r::Test::init_and_process_print({ mesh }, print, {
-				{ "support_material",	1 },
-				{ "layer_height",		0.2 },
-				{ "first_layer_height", 0.3 },
+            Slic3r::Print print;
+            Slic3r::Test::init_and_process_print({ mesh }, print, {
+                { "support_material",    1 },
+                { "layer_height",        0.2 },
+                { "first_layer_height", 0.3 },
                 { "dont_support_bridges", false },
             });
             bool a, b, c, d;
             check(print, a, b, c, d);
-            THEN("First layer height is honored")					{ REQUIRE(a == true); }
-            THEN("No null or negative support layers")				{ REQUIRE(b == true); }
-            THEN("No layers thicker than nozzle diameter")			{ REQUIRE(c == true); }
-//            THEN("Layers above top surfaces are spaced correctly")	{ REQUIRE(d == true); }
+            THEN("First layer height is honored")                    { REQUIRE(a == true); }
+            THEN("No null or negative support layers")                { REQUIRE(b == true); }
+            THEN("No layers thicker than nozzle diameter")            { REQUIRE(c == true); }
+//            THEN("Layers above top surfaces are spaced correctly")    { REQUIRE(d == true); }
         }
         WHEN("Layer height = nozzle_diameter[0]") {
-			Slic3r::Print print;
-			Slic3r::Test::init_and_process_print({ mesh }, print, {
-				{ "support_material",	1 },
-				{ "layer_height",		0.2 },
-				{ "first_layer_height", 0.3 },
+            Slic3r::Print print;
+            Slic3r::Test::init_and_process_print({ mesh }, print, {
+                { "support_material",    1 },
+                { "layer_height",        0.2 },
+                { "first_layer_height", 0.3 },
                 { "dont_support_bridges", false },
             });
             bool a, b, c, d;
             check(print, a, b, c, d);
-            THEN("First layer height is honored")					{ REQUIRE(a == true); }
-            THEN("No null or negative support layers")				{ REQUIRE(b == true); }
-            THEN("No layers thicker than nozzle diameter")			{ REQUIRE(c == true); }
-//            THEN("Layers above top surfaces are spaced correctly")	{ REQUIRE(d == true); }
+            THEN("First layer height is honored")                    { REQUIRE(a == true); }
+            THEN("No null or negative support layers")                { REQUIRE(b == true); }
+            THEN("No layers thicker than nozzle diameter")            { REQUIRE(c == true); }
+//            THEN("Layers above top surfaces are spaced correctly")    { REQUIRE(d == true); }
         }
     }
 }
@@ -159,20 +159,20 @@ TEST_CASE("SupportMaterial: forced support is generated", "[SupportMaterial]")
 // TODO
 bool test_6_checks(Print& print)
 {
-	bool has_bridge_speed = true;
+    bool has_bridge_speed = true;
 
-	// Pre-Processing.
-	PrintObject* print_object = print.objects.front();
-	print_object->infill();
-	SupportMaterial* support_material = print.objects.front()->_support_material();
-	support_material->generate(print_object);
-	// TODO but not needed in test 6 (make brims and make skirts).
+    // Pre-Processing.
+    PrintObject* print_object = print.objects.front();
+    print_object->infill();
+    SupportMaterial* support_material = print.objects.front()->_support_material();
+    support_material->generate(print_object);
+    // TODO but not needed in test 6 (make brims and make skirts).
 
-	// Exporting gcode.
-	// TODO validation found in Simple.pm
+    // Exporting gcode.
+    // TODO validation found in Simple.pm
 
 
-	return has_bridge_speed;
+    return has_bridge_speed;
 }
 
 // Test 6.

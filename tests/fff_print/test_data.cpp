@@ -22,26 +22,26 @@ namespace Slic3r { namespace Test {
 
 // Mesh enumeration to name mapping
 const std::unordered_map<TestMesh, const char*, TestMeshHash> mesh_names {
-    std::pair<TestMesh, const char*>(TestMesh::A,						"A"),
-    std::pair<TestMesh, const char*>(TestMesh::L,						"L"), 
-    std::pair<TestMesh, const char*>(TestMesh::V,						"V"), 
-    std::pair<TestMesh, const char*>(TestMesh::_40x10,					"40x10"), 
-    std::pair<TestMesh, const char*>(TestMesh::cube_20x20x20,			"cube_20x20x20"), 
+    std::pair<TestMesh, const char*>(TestMesh::A,                        "A"),
+    std::pair<TestMesh, const char*>(TestMesh::L,                        "L"), 
+    std::pair<TestMesh, const char*>(TestMesh::V,                        "V"), 
+    std::pair<TestMesh, const char*>(TestMesh::_40x10,                    "40x10"), 
+    std::pair<TestMesh, const char*>(TestMesh::cube_20x20x20,            "cube_20x20x20"), 
     std::pair<TestMesh, const char*>(TestMesh::cube_2x20x10,            "cube_2x20x10"), 
-    std::pair<TestMesh, const char*>(TestMesh::sphere_50mm,				"sphere_50mm"), 
-    std::pair<TestMesh, const char*>(TestMesh::bridge,					"bridge"), 
-    std::pair<TestMesh, const char*>(TestMesh::bridge_with_hole,		"bridge_with_hole"), 
-    std::pair<TestMesh, const char*>(TestMesh::cube_with_concave_hole,	"cube_with_concave_hole"),
-    std::pair<TestMesh, const char*>(TestMesh::cube_with_hole,			"cube_with_hole"), 
-    std::pair<TestMesh, const char*>(TestMesh::gt2_teeth,				"gt2_teeth"), 
-    std::pair<TestMesh, const char*>(TestMesh::ipadstand,				"ipadstand"), 
-    std::pair<TestMesh, const char*>(TestMesh::overhang,				"overhang"), 
-    std::pair<TestMesh, const char*>(TestMesh::pyramid,					"pyramid"), 
-    std::pair<TestMesh, const char*>(TestMesh::sloping_hole,			"sloping_hole"), 
-    std::pair<TestMesh, const char*>(TestMesh::slopy_cube,				"slopy_cube"), 
-    std::pair<TestMesh, const char*>(TestMesh::small_dorito,			"small_dorito"), 
-    std::pair<TestMesh, const char*>(TestMesh::step,					"step"), 
-    std::pair<TestMesh, const char*>(TestMesh::two_hollow_squares,		"two_hollow_squares")
+    std::pair<TestMesh, const char*>(TestMesh::sphere_50mm,                "sphere_50mm"), 
+    std::pair<TestMesh, const char*>(TestMesh::bridge,                    "bridge"), 
+    std::pair<TestMesh, const char*>(TestMesh::bridge_with_hole,        "bridge_with_hole"), 
+    std::pair<TestMesh, const char*>(TestMesh::cube_with_concave_hole,    "cube_with_concave_hole"),
+    std::pair<TestMesh, const char*>(TestMesh::cube_with_hole,            "cube_with_hole"), 
+    std::pair<TestMesh, const char*>(TestMesh::gt2_teeth,                "gt2_teeth"), 
+    std::pair<TestMesh, const char*>(TestMesh::ipadstand,                "ipadstand"), 
+    std::pair<TestMesh, const char*>(TestMesh::overhang,                "overhang"), 
+    std::pair<TestMesh, const char*>(TestMesh::pyramid,                    "pyramid"), 
+    std::pair<TestMesh, const char*>(TestMesh::sloping_hole,            "sloping_hole"), 
+    std::pair<TestMesh, const char*>(TestMesh::slopy_cube,                "slopy_cube"), 
+    std::pair<TestMesh, const char*>(TestMesh::small_dorito,            "small_dorito"), 
+    std::pair<TestMesh, const char*>(TestMesh::step,                    "step"), 
+    std::pair<TestMesh, const char*>(TestMesh::two_hollow_squares,        "two_hollow_squares")
 };
 
 TriangleMesh mesh(TestMesh m)
@@ -162,12 +162,12 @@ TriangleMesh mesh(TestMesh m)
             break;
         case TestMesh::pyramid:
             mesh = TriangleMesh(
-            	{ {10.f,10.f,40.f}, {0.f,0.f,0.f}, {20.f,0.f,0.f}, {20.f,20.f,0.f}, {0.f,20.f,0.f} },
-            	{ {0,1,2}, {0,3,4}, {3,1,4}, {1,3,2}, {3,0,2}, {4,1,0} });
+                { {10.f,10.f,40.f}, {0.f,0.f,0.f}, {20.f,0.f,0.f}, {20.f,20.f,0.f}, {0.f,20.f,0.f} },
+                { {0,1,2}, {0,3,4}, {3,1,4}, {1,3,2}, {3,0,2}, {4,1,0} });
             break;
         case TestMesh::two_hollow_squares:
             mesh = TriangleMesh(
-            	{ {66.7133483886719f,104.286666870117f,0}, {66.7133483886719f,95.7133331298828f,0}, {65.6666870117188f,94.6666717529297f,0}, {75.2866821289062f,95.7133331298828f,0}, {76.3333435058594f,105.333335876465f,0},
+                { {66.7133483886719f,104.286666870117f,0}, {66.7133483886719f,95.7133331298828f,0}, {65.6666870117188f,94.6666717529297f,0}, {75.2866821289062f,95.7133331298828f,0}, {76.3333435058594f,105.333335876465f,0},
                   {76.3333435058594f,94.6666717529297f,0}, {65.6666870117188f,105.33332824707f,0}, {75.2866821289062f,104.286666870117f,0}, {71.1066818237305f,104.58666229248f,2.79999995231628f}, {66.4133529663086f,104.58666229248f,2.79999995231628f},
                   {75.5866851806641f,104.58666229248f,2.79999995231628f}, {66.4133529663086f,99.8933334350586f,2.79999995231628f}, {66.4133529663086f,95.4133377075195f,2.79999995231628f}, {71.1066818237305f,95.4133377075195f,2.79999995231628f}, 
                   {75.5866851806641f,95.4133377075195f,2.79999995231628f}, {75.5866851806641f,100.106666564941f,2.79999995231628f}, {74.5400161743164f,103.540000915527f,2.79999995231628f}, {70.0320129394531f,103.540000915527f,2.79999995231628f},
@@ -178,36 +178,36 @@ TriangleMesh mesh(TestMesh m)
                   {133.586669921875f,100.106666564941f,2.79999995231628f}, {124.713317871094f,104.286666870117f,0}, {124.713317871094f,95.7133331298828f,0}, {133.286712646484f,95.7133331298828f,0}, {133.286712646484f,104.286666870117f,0},
                   {132.540023803711f,103.540000915527f,2.79999995231628f}, {128.032028198242f,103.540008544922f,2.79999995231628f}, {125.460006713867f,103.540000915527f,2.79999995231628f}, {125.460006713867f,100.968002319336f,2.79999995231628f},
                   {125.460006713867f,96.4599990844727f,2.79999995231628f}, {132.540023803711f,99.0319976806641f,2.79999995231628f}, {132.540023803711f,96.4599990844727f,2.79999995231628f}, {128.032028198242f,96.4599990844727f,2.79999995231628f} },
-	            { {0,1,2}, {3,4,5}, {6,4,0}, {6,0,2}, {2,1,5}, {7,4,3}, {1,3,5}, {0,4,7}, {4,6,8}, {6,9,8}, {4,8,10}, {6,2,9}, {2,11,9}, {2,12,11}, {2,5,12}, {5,13,12}, {5,14,13}, {4,10,15}, {5,4,14}, {4,15,14}, {7,16,17}, {0,7,18}, {7,17,18}, {1,19,20}, {1,0,19}, {0,18,19}, {7,3,21}, {3,22,21}, {7,21,16}, {3,23,22}, {3,1,23}, {1,20,23}, {24,25,26}, {25,27,26}, {25,28,27}, {29,24,30}, {24,31,30}, {24,26,31}, {32,29,33}, {29,30,33}, {32,33,34}, {32,34,35}, {25,32,28}, {32,35,28}, {36,37,24}, {38,32,25}, {29,32,36}, {29,36,24}, {24,37,25}, {39,32,38}, {37,38,25}, {36,32,39}, {39,40,41}, {36,39,42}, {39,41,42}, {37,43,44}, {37,36,43}, {36,42,43}, {39,38,45}, {38,46,45}, {39,45,40}, {38,47,46}, {38,37,47}, {37,44,47}, {16,8,9}, {16,10,8}, {10,16,15}, {15,16,21}, {22,15,21}, {15,22,14}, {22,23,14}, {23,20,14}, {17,16,9}, {18,17,9}, {19,18,9}, {19,9,11}, {19,11,20}, {13,14,20}, {20,11,12}, {13,20,12}, {41,40,30}, {42,41,30}, {43,42,30}, {43,30,31}, {43,31,44}, {27,28,44}, {44,31,26}, {27,44,26}, {40,33,30}, {40,34,33}, {34,40,35}, {35,40,45}, {46,35,45}, {35,46,28}, {46,47,28}, {47,44,28} });
+                { {0,1,2}, {3,4,5}, {6,4,0}, {6,0,2}, {2,1,5}, {7,4,3}, {1,3,5}, {0,4,7}, {4,6,8}, {6,9,8}, {4,8,10}, {6,2,9}, {2,11,9}, {2,12,11}, {2,5,12}, {5,13,12}, {5,14,13}, {4,10,15}, {5,4,14}, {4,15,14}, {7,16,17}, {0,7,18}, {7,17,18}, {1,19,20}, {1,0,19}, {0,18,19}, {7,3,21}, {3,22,21}, {7,21,16}, {3,23,22}, {3,1,23}, {1,20,23}, {24,25,26}, {25,27,26}, {25,28,27}, {29,24,30}, {24,31,30}, {24,26,31}, {32,29,33}, {29,30,33}, {32,33,34}, {32,34,35}, {25,32,28}, {32,35,28}, {36,37,24}, {38,32,25}, {29,32,36}, {29,36,24}, {24,37,25}, {39,32,38}, {37,38,25}, {36,32,39}, {39,40,41}, {36,39,42}, {39,41,42}, {37,43,44}, {37,36,43}, {36,42,43}, {39,38,45}, {38,46,45}, {39,45,40}, {38,47,46}, {38,37,47}, {37,44,47}, {16,8,9}, {16,10,8}, {10,16,15}, {15,16,21}, {22,15,21}, {15,22,14}, {22,23,14}, {23,20,14}, {17,16,9}, {18,17,9}, {19,18,9}, {19,9,11}, {19,11,20}, {13,14,20}, {20,11,12}, {13,20,12}, {41,40,30}, {42,41,30}, {43,42,30}, {43,30,31}, {43,31,44}, {27,28,44}, {44,31,26}, {27,44,26}, {40,33,30}, {40,34,33}, {34,40,35}, {35,40,45}, {46,35,45}, {35,46,28}, {46,47,28}, {47,44,28} });
             break;
         case TestMesh::small_dorito:
             mesh = TriangleMesh(
-            	{ {6.00058937072754f,-22.9982089996338f,0}, {22.0010242462158f,-49.9998741149902f,0}, {-9.99957847595215f,-49.999870300293f,0}, {6.00071382522583f,-32.2371635437012f,28.0019245147705f},
+                { {6.00058937072754f,-22.9982089996338f,0}, {22.0010242462158f,-49.9998741149902f,0}, {-9.99957847595215f,-49.999870300293f,0}, {6.00071382522583f,-32.2371635437012f,28.0019245147705f},
                   {11.1670551300049f,-37.9727020263672f,18.9601669311523f}, {6.00060224533081f,-26.5392456054688f,10.7321853637695f} },
-            	{ {0,1,2}, {3,4,5}, {2,1,4}, {2,4,3}, {2,3,5}, {2,5,0}, {5,4,1}, {5,1,0} });
+                { {0,1,2}, {3,4,5}, {2,1,4}, {2,4,3}, {2,3,5}, {2,5,0}, {5,4,1}, {5,1,0} });
             break;
         case TestMesh::bridge:
             mesh = TriangleMesh(
-            	{ {75,84.5f,8}, {125,84.5f,8}, {75,94.5f,8}, {120,84.5f,5}, {125,94.5f,8}, {75,84.5f,0}, {80,84.5f,5}, {125,84.5f,0}, {125,94.5f,0}, {80,94.5f,5}, {75,94.5f,0}, {120,94.5f,5}, {120,84.5f,0}, {80,94.5f,0}, {80,84.5f,0}, {120,94.5f,0} },
-            	{ {0,1,2}, {1,0,3}, {2,1,4}, {2,5,0}, {0,6,3}, {1,3,7}, {1,8,4}, {4,9,2}, {10,5,2}, {5,6,0}, {6,11,3}, {3,12,7}, {7,8,1}, {4,8,11}, {4,11,9}, {9,10,2}, {10,13,5}, {14,6,5}, {9,11,6}, {11,12,3}, {12,8,7}, {11,8,15}, {13,10,9}, {5,13,14}, {14,13,6}, {6,13,9}, {15,12,11}, {15,8,12} });
+                { {75,84.5f,8}, {125,84.5f,8}, {75,94.5f,8}, {120,84.5f,5}, {125,94.5f,8}, {75,84.5f,0}, {80,84.5f,5}, {125,84.5f,0}, {125,94.5f,0}, {80,94.5f,5}, {75,94.5f,0}, {120,94.5f,5}, {120,84.5f,0}, {80,94.5f,0}, {80,84.5f,0}, {120,94.5f,0} },
+                { {0,1,2}, {1,0,3}, {2,1,4}, {2,5,0}, {0,6,3}, {1,3,7}, {1,8,4}, {4,9,2}, {10,5,2}, {5,6,0}, {6,11,3}, {3,12,7}, {7,8,1}, {4,8,11}, {4,11,9}, {9,10,2}, {10,13,5}, {14,6,5}, {9,11,6}, {11,12,3}, {12,8,7}, {11,8,15}, {13,10,9}, {5,13,14}, {14,13,6}, {6,13,9}, {15,12,11}, {15,8,12} });
             break;
         case TestMesh::bridge_with_hole:
             mesh = TriangleMesh(
-            	{ {75,69.5f,8}, {80,76.9091644287109f,8}, {75,94.5f,8}, {125,69.5f,8}, {120,76.9091644287109f,8}, {120,87.0908355712891f,8}, {80,87.0908355712891f,8}, {125,94.5f,8}, {80,87.0908355712891f,5}, {120,87.0908355712891f,5}, {125,94.5f,0}, {120,69.5f,0}, {120,94.5f,0}, {125,69.5f,0}, {120,94.5f,5}, {80,94.5f,5}, {80,94.5f,0}, {75,94.5f,0}, {80,69.5f,5}, {80,69.5f,0}, {80,76.9091644287109f,5}, {120,69.5,5}, {75,69.5f,0}, {120,76.9091644287109f,5} },
-            	{ {0,1,2}, {1,0,3}, {1,3,4}, {4,3,5}, {2,6,7}, {6,2,1}, {7,6,5}, {7,5,3}, {5,8,9}, {8,5,6}, {10,11,12}, {11,10,13}, {14,8,15}, {8,14,9}, {2,16,17}, {16,2,15}, {15,2,14}, {14,10,12}, {10,14,7}, {7,14,2}, {16,18,19}, {18,16,20}, {20,16,1}, {1,16,8}, {8,16,15}, {6,1,8}, {3,11,13}, {11,3,21}, {21,3,18}, {18,22,19}, {22,18,0}, {0,18,3}, {16,22,17}, {22,16,19}, {2,22,0}, {22,2,17}, {5,23,4}, {23,11,21}, {11,23,12}, {12,23,9}, {9,23,5}, {12,9,14}, {23,18,20}, {18,23,21}, {10,3,13}, {3,10,7}, {1,23,20}, {23,1,4} });
+                { {75,69.5f,8}, {80,76.9091644287109f,8}, {75,94.5f,8}, {125,69.5f,8}, {120,76.9091644287109f,8}, {120,87.0908355712891f,8}, {80,87.0908355712891f,8}, {125,94.5f,8}, {80,87.0908355712891f,5}, {120,87.0908355712891f,5}, {125,94.5f,0}, {120,69.5f,0}, {120,94.5f,0}, {125,69.5f,0}, {120,94.5f,5}, {80,94.5f,5}, {80,94.5f,0}, {75,94.5f,0}, {80,69.5f,5}, {80,69.5f,0}, {80,76.9091644287109f,5}, {120,69.5,5}, {75,69.5f,0}, {120,76.9091644287109f,5} },
+                { {0,1,2}, {1,0,3}, {1,3,4}, {4,3,5}, {2,6,7}, {6,2,1}, {7,6,5}, {7,5,3}, {5,8,9}, {8,5,6}, {10,11,12}, {11,10,13}, {14,8,15}, {8,14,9}, {2,16,17}, {16,2,15}, {15,2,14}, {14,10,12}, {10,14,7}, {7,14,2}, {16,18,19}, {18,16,20}, {20,16,1}, {1,16,8}, {8,16,15}, {6,1,8}, {3,11,13}, {11,3,21}, {21,3,18}, {18,22,19}, {22,18,0}, {0,18,3}, {16,22,17}, {22,16,19}, {2,22,0}, {22,2,17}, {5,23,4}, {23,11,21}, {11,23,12}, {12,23,9}, {9,23,5}, {12,9,14}, {23,18,20}, {18,23,21}, {10,3,13}, {3,10,7}, {1,23,20}, {23,1,4} });
             break;
         case TestMesh::step:
             mesh = TriangleMesh(
-            	{ {0,20,5}, {0,20,0}, {0,0,5}, {0,0,0}, {20,0,0}, {20,0,5}, {1,19,5}, {1,1,5}, {19,1,5}, {20,20,5}, {19,19,5}, {20,20,0}, {19,19,10}, {1,19,10}, {1,1,10}, {19,1,10} },
-            	{ {0,1,2}, {1,3,2}, {3,4,5}, {2,3,5}, {6,0,2}, {6,2,7}, {5,8,7}, {5,7,2}, {9,10,8}, {9,8,5}, {9,0,6}, {9,6,10}, {9,11,1}, {9,1,0}, {3,1,11}, {4,3,11}, {5,11,9}, {5,4,11}, {12,10,6}, {12,6,13}, {6,7,14}, {13,6,14}, {7,8,15}, {14,7,15}, {15,8,10}, {15,10,12}, {12,13,14}, {12,14,15} });
+                { {0,20,5}, {0,20,0}, {0,0,5}, {0,0,0}, {20,0,0}, {20,0,5}, {1,19,5}, {1,1,5}, {19,1,5}, {20,20,5}, {19,19,5}, {20,20,0}, {19,19,10}, {1,19,10}, {1,1,10}, {19,1,10} },
+                { {0,1,2}, {1,3,2}, {3,4,5}, {2,3,5}, {6,0,2}, {6,2,7}, {5,8,7}, {5,7,2}, {9,10,8}, {9,8,5}, {9,0,6}, {9,6,10}, {9,11,1}, {9,1,0}, {3,1,11}, {4,3,11}, {5,11,9}, {5,4,11}, {12,10,6}, {12,6,13}, {6,7,14}, {13,6,14}, {7,8,15}, {14,7,15}, {15,8,10}, {15,10,12}, {12,13,14}, {12,14,15} });
             break;
         case TestMesh::slopy_cube:
             mesh = TriangleMesh(
-            	{ {-10,-10,0}, {-10,-10,20}, {-10,10,0}, {-10,10,20}, {0,-10,10}, {10,-10,0}, {2.92893f,-10,10}, {10,-10,2.92893f}, {0,-10,20}, {10,10,0}, {0,10,10}, {0,10,20}, {2.92893f,10,10}, {10,10,2.92893f} },
-            	{ {0,1,2}, {2,1,3}, {4,0,5}, {4,1,0}, {6,4,7}, {7,4,5}, {4,8,1}, {0,2,5}, {5,2,9}, {2,10,9}, {10,3,11}, {2,3,10}, {9,10,12}, {13,9,12}, {3,1,8}, {11,3,8}, {10,11,8}, {4,10,8}, {6,12,10}, {4,6,10}, {7,13,12}, {6,7,12}, {7,5,9}, {13,7,9} });
+                { {-10,-10,0}, {-10,-10,20}, {-10,10,0}, {-10,10,20}, {0,-10,10}, {10,-10,0}, {2.92893f,-10,10}, {10,-10,2.92893f}, {0,-10,20}, {10,10,0}, {0,10,10}, {0,10,20}, {2.92893f,10,10}, {10,10,2.92893f} },
+                { {0,1,2}, {2,1,3}, {4,0,5}, {4,1,0}, {6,4,7}, {7,4,5}, {4,8,1}, {0,2,5}, {5,2,9}, {2,10,9}, {10,3,11}, {2,3,10}, {9,10,12}, {13,9,12}, {3,1,8}, {11,3,8}, {10,11,8}, {4,10,8}, {6,12,10}, {4,6,10}, {7,13,12}, {6,7,12}, {7,5,9}, {13,7,9} });
             break;
         default:
-        	throw Slic3r::InvalidArgument("Slic3r::Test::mesh(): called with invalid mesh ID");
+            throw Slic3r::InvalidArgument("Slic3r::Test::mesh(): called with invalid mesh ID");
             break;        
     }
 
@@ -231,25 +231,25 @@ static bool verbose_gcode()
 {
     const char *v = std::getenv("SLIC3R_TESTS_GCODE");
     if (v == nullptr)
-    	return false;
+        return false;
     std::string s(v);
     return s == "1" || s == "on" || s == "yes";
 }
 
 void init_print(std::vector<TriangleMesh> &&meshes, Slic3r::Print &print, Slic3r::Model &model, const DynamicPrintConfig &config_in, bool comments, unsigned duplicate_count)
 {
-	DynamicPrintConfig config = DynamicPrintConfig::full_print_config();
+    DynamicPrintConfig config = DynamicPrintConfig::full_print_config();
     config.apply(config_in);
 
     if (verbose_gcode())
         config.set_key_value("gcode_comments", new ConfigOptionBool(true));
 
     for (const TriangleMesh &t : meshes) {
-		ModelObject *object = model.add_object();
-		object->name += "object.stl";
-		object->add_volume(t);
-		object->add_instance();
-	}
+        ModelObject *object = model.add_object();
+        object->name += "object.stl";
+        object->add_volume(t);
+        object->add_instance();
+    }
 
     double distance = min_object_distance(config);
     arr2::ArrangeSettings arrange_settings{};
@@ -261,93 +261,93 @@ void init_print(std::vector<TriangleMesh> &&meshes, Slic3r::Print &print, Slic3r
 
     arrange_objects(model, bed, arrange_settings);
     model.center_instances_around_point({100, 100});
-	for (ModelObject *mo : model.objects) {
+    for (ModelObject *mo : model.objects) {
         mo->ensure_on_bed();
-		print.auto_assign_extruders(mo);
+        print.auto_assign_extruders(mo);
     }
 
-	print.apply(model, config);
+    print.apply(model, config);
     print.validate();
     print.set_status_silent();
 }
 
 void init_print(std::initializer_list<TestMesh> test_meshes, Slic3r::Print &print, Slic3r::Model &model, const Slic3r::DynamicPrintConfig &config_in, bool comments, unsigned duplicate_count)
 {
-	std::vector<TriangleMesh> triangle_meshes;
-	triangle_meshes.reserve(test_meshes.size());
-	for (const TestMesh test_mesh : test_meshes)
-		triangle_meshes.emplace_back(mesh(test_mesh));
-	init_print(std::move(triangle_meshes), print, model, config_in, comments, duplicate_count);
+    std::vector<TriangleMesh> triangle_meshes;
+    triangle_meshes.reserve(test_meshes.size());
+    for (const TestMesh test_mesh : test_meshes)
+        triangle_meshes.emplace_back(mesh(test_mesh));
+    init_print(std::move(triangle_meshes), print, model, config_in, comments, duplicate_count);
 }
 
 void init_print(std::initializer_list<TriangleMesh> input_meshes, Slic3r::Print &print, Slic3r::Model &model, const DynamicPrintConfig &config_in, bool comments, unsigned duplicate_count)
 {
-	std::vector<TriangleMesh> triangle_meshes;
-	triangle_meshes.reserve(input_meshes.size());
-	for (const TriangleMesh &input_mesh : input_meshes)
-		triangle_meshes.emplace_back(input_mesh);
-	init_print(std::move(triangle_meshes), print, model, config_in, comments, duplicate_count);
+    std::vector<TriangleMesh> triangle_meshes;
+    triangle_meshes.reserve(input_meshes.size());
+    for (const TriangleMesh &input_mesh : input_meshes)
+        triangle_meshes.emplace_back(input_mesh);
+    init_print(std::move(triangle_meshes), print, model, config_in, comments, duplicate_count);
 }
 
 void init_print(std::initializer_list<TestMesh> meshes, Slic3r::Print &print, Slic3r::Model &model, std::initializer_list<Slic3r::ConfigBase::SetDeserializeItem> config_items, bool comments, unsigned duplicate_count)
 {
-	Slic3r::DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
-	config.set_deserialize_strict(config_items);
-	init_print(meshes, print, model, config, comments, duplicate_count);
+    Slic3r::DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
+    config.set_deserialize_strict(config_items);
+    init_print(meshes, print, model, config, comments, duplicate_count);
 }
 
 void init_print(std::initializer_list<TriangleMesh> meshes, Slic3r::Print &print, Slic3r::Model &model, std::initializer_list<Slic3r::ConfigBase::SetDeserializeItem> config_items, bool comments, unsigned duplicate_count)
 {
-	Slic3r::DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
-	config.set_deserialize_strict(config_items);
-	init_print(meshes, print, model, config, comments, duplicate_count);
+    Slic3r::DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
+    config.set_deserialize_strict(config_items);
+    init_print(meshes, print, model, config, comments, duplicate_count);
 }
 
 void init_and_process_print(std::initializer_list<TestMesh> meshes, Slic3r::Print &print, const DynamicPrintConfig &config, bool comments)
 {
-	Slic3r::Model model;
-	init_print(meshes, print, model, config, comments);
-	print.process();
+    Slic3r::Model model;
+    init_print(meshes, print, model, config, comments);
+    print.process();
 }
 
 void init_and_process_print(std::initializer_list<TriangleMesh> meshes, Slic3r::Print &print, const DynamicPrintConfig &config, bool comments)
 {
-	Slic3r::Model model;
-	init_print(meshes, print, model, config, comments);
-	print.process();
+    Slic3r::Model model;
+    init_print(meshes, print, model, config, comments);
+    print.process();
 }
 
 void init_and_process_print(std::initializer_list<TestMesh> meshes, Slic3r::Print &print, std::initializer_list<Slic3r::ConfigBase::SetDeserializeItem> config_items, bool comments)
 {
-	Slic3r::Model model;
-	init_print(meshes, print, model, config_items, comments);
-	print.process();
+    Slic3r::Model model;
+    init_print(meshes, print, model, config_items, comments);
+    print.process();
 }
 
 void init_and_process_print(std::initializer_list<TriangleMesh> meshes, Slic3r::Print &print, std::initializer_list<Slic3r::ConfigBase::SetDeserializeItem> config_items, bool comments)
 {
-	Slic3r::Model model;
-	init_print(meshes, print, model, config_items, comments);
-	print.process();
+    Slic3r::Model model;
+    init_print(meshes, print, model, config_items, comments);
+    print.process();
 }
 
 std::string gcode(Print & print)
 {
-	boost::filesystem::path temp = boost::filesystem::unique_path();
+    boost::filesystem::path temp = boost::filesystem::unique_path();
     print.set_status_silent();
     print.process();
     print.export_gcode(temp.string(), nullptr, nullptr);
     boost::nowide::ifstream t(temp.string());
-	std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-	boost::nowide::remove(temp.string().c_str());
-	return str;
+    std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+    boost::nowide::remove(temp.string().c_str());
+    return str;
 }
 
 Slic3r::Model model(const std::string &model_name, TriangleMesh &&_mesh)
 {
     Slic3r::Model result;
-	ModelObject *object = result.add_object();
-	object->name += model_name + ".stl";
+    ModelObject *object = result.add_object();
+    object->name += model_name + ".stl";
     object->add_volume(_mesh);
     object->add_instance();
     return result;
@@ -355,34 +355,34 @@ Slic3r::Model model(const std::string &model_name, TriangleMesh &&_mesh)
 
 std::string slice(std::initializer_list<TestMesh> meshes, const DynamicPrintConfig &config, bool comments)
 {
-	Slic3r::Print print;
-	Slic3r::Model model;
-	init_print(meshes, print, model, config, comments);
-	return gcode(print);
+    Slic3r::Print print;
+    Slic3r::Model model;
+    init_print(meshes, print, model, config, comments);
+    return gcode(print);
 }
 
 std::string slice(std::initializer_list<TriangleMesh> meshes, const DynamicPrintConfig &config, bool comments)
 {
-	Slic3r::Print print;
-	Slic3r::Model model;
-	init_print(meshes, print, model, config, comments);
-	return gcode(print);
+    Slic3r::Print print;
+    Slic3r::Model model;
+    init_print(meshes, print, model, config, comments);
+    return gcode(print);
 }
 
 std::string slice(std::initializer_list<TestMesh> meshes, std::initializer_list<Slic3r::ConfigBase::SetDeserializeItem> config_items, bool comments)
 {
-	Slic3r::Print print;
-	Slic3r::Model model;
-	init_print(meshes, print, model, config_items, comments);
-	return gcode(print);
+    Slic3r::Print print;
+    Slic3r::Model model;
+    init_print(meshes, print, model, config_items, comments);
+    return gcode(print);
 }
 
 std::string slice(std::initializer_list<TriangleMesh> meshes, std::initializer_list<Slic3r::ConfigBase::SetDeserializeItem> config_items, bool comments)
 {
-	Slic3r::Print print;
-	Slic3r::Model model;
-	init_print(meshes, print, model, config_items, comments);
-	return gcode(print);
+    Slic3r::Print print;
+    Slic3r::Model model;
+    init_print(meshes, print, model, config_items, comments);
+    return gcode(print);
 }
 
 bool contains(const std::string &data, const std::string &pattern)
@@ -401,32 +401,32 @@ bool contains_regex(const std::string &data, const std::string &pattern)
 #include <catch2/catch.hpp>
 
 SCENARIO("init_print functionality", "[test_data]") {
-	GIVEN("A default config") {
-		Slic3r::DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
-		WHEN("init_print is called with a single mesh.") {
-			Slic3r::Model model;
-			Slic3r::Print print;
-			Slic3r::Test::init_print({ Slic3r::Test::TestMesh::cube_20x20x20 }, print, model, config, true);
-			THEN("One mesh/printobject is in the resulting Print object.") {
-				REQUIRE(print.objects().size() == 1);
-			}
-			THEN("print.process() doesn't crash.") {
-				REQUIRE_NOTHROW(print.process());
-			}
-			THEN("Export gcode functions outputs text.") {
-				REQUIRE(! Slic3r::Test::gcode(print).empty());
-			}
+    GIVEN("A default config") {
+        Slic3r::DynamicPrintConfig config = Slic3r::DynamicPrintConfig::full_print_config();
+        WHEN("init_print is called with a single mesh.") {
+            Slic3r::Model model;
+            Slic3r::Print print;
+            Slic3r::Test::init_print({ Slic3r::Test::TestMesh::cube_20x20x20 }, print, model, config, true);
+            THEN("One mesh/printobject is in the resulting Print object.") {
+                REQUIRE(print.objects().size() == 1);
+            }
+            THEN("print.process() doesn't crash.") {
+                REQUIRE_NOTHROW(print.process());
+            }
+            THEN("Export gcode functions outputs text.") {
+                REQUIRE(! Slic3r::Test::gcode(print).empty());
+            }
 #if 0
-			THEN("Embedded meshes exported") {
-				std::string path = "C:\\data\\temp\\embedded_meshes\\";
-				for (auto kvp : Slic3r::Test::mesh_names) {
-					Slic3r::TriangleMesh m = mesh(kvp.first);
-					std::string name = kvp.second;
-					REQUIRE(Slic3r::store_stl((path + name + ".stl").c_str(), &m, true) == true);
-					REQUIRE(Slic3r::store_obj((path + name + ".obj").c_str(), &m) == true);
-				}
-			}
+            THEN("Embedded meshes exported") {
+                std::string path = "C:\\data\\temp\\embedded_meshes\\";
+                for (auto kvp : Slic3r::Test::mesh_names) {
+                    Slic3r::TriangleMesh m = mesh(kvp.first);
+                    std::string name = kvp.second;
+                    REQUIRE(Slic3r::store_stl((path + name + ".stl").c_str(), &m, true) == true);
+                    REQUIRE(Slic3r::store_obj((path + name + ".obj").c_str(), &m) == true);
+                }
+            }
 #endif
-		}
-	}
+        }
+    }
 }

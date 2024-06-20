@@ -9,7 +9,7 @@ using namespace Slic3r;
 using namespace Slic3r::Test;
 
 void check_layers(const DynamicPrintConfig& config) {
-	GCodeReader parser;
+    GCodeReader parser;
     std::string gcode = Slic3r::Test::slice({TestMesh::cube_20x20x20}, config);
 
     std::vector<double> z;
@@ -91,7 +91,7 @@ TEST_CASE("GCode has reasonable height", "[Layers]") {
 
     std::vector<double> z;
 
-	GCodeReader parser;
+    GCodeReader parser;
     parser.parse_buffer(gcode, [&] (Slic3r::GCodeReader &self, const Slic3r::GCodeReader::GCodeLine &line) {
         if (line.dist_Z(self) != Approx(0)) {
             z.emplace_back(line.z());

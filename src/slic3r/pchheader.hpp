@@ -3,13 +3,13 @@
 ///|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
 ///|/
 #ifdef WIN32
-	#ifndef WIN32_LEAN_AND_MEAN
-		#define WIN32_LEAN_AND_MEAN
-	#endif
-	#ifndef NOMINMAX
-		#define NOMINMAX
-	#endif
-	#include <Windows.h>
+    #ifndef WIN32_LEAN_AND_MEAN
+        #define WIN32_LEAN_AND_MEAN
+    #endif
+    #ifndef NOMINMAX
+        #define NOMINMAX
+    #endif
+    #include <Windows.h>
 #endif
 
 #include <float.h>
@@ -99,8 +99,8 @@
 #include <tbb/spin_mutex.h>
 
 #ifdef _MSC_VER
-	// avoid some "macro redefinition" warnings
-	#include <urlmon.h>
+    // avoid some "macro redefinition" warnings
+    #include <urlmon.h>
 #endif /* _MSC_VER */
 
 #include <wx/app.h>

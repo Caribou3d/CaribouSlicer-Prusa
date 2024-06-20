@@ -86,12 +86,12 @@ extern size_t get_utf8_sequence_length(const char *seq, size_t size);
 extern std::error_code rename_file(const std::string &from, const std::string &to);
 
 enum CopyFileResult {
-	SUCCESS = 0,
-	FAIL_COPY_FILE,
-	FAIL_FILES_DIFFERENT,
-	FAIL_RENAMING,
-	FAIL_CHECK_ORIGIN_NOT_OPENED,
-	FAIL_CHECK_TARGET_NOT_OPENED
+    SUCCESS = 0,
+    FAIL_COPY_FILE,
+    FAIL_FILES_DIFFERENT,
+    FAIL_RENAMING,
+    FAIL_CHECK_ORIGIN_NOT_OPENED,
+    FAIL_CHECK_TARGET_NOT_OPENED
 };
 // Copy a file, adjust the access attributes, so that the target is writable.
 CopyFileResult copy_file_inner(const std::string &from, const std::string &to, std::string& error_message);
@@ -202,17 +202,17 @@ template<class VectorType> void reserve_more_power_of_2(VectorType &vector, size
 template<typename INDEX_TYPE>
 inline INDEX_TYPE prev_idx_modulo(INDEX_TYPE idx, const INDEX_TYPE count)
 {
-	if (idx == 0)
-		idx = count;
-	return -- idx;
+    if (idx == 0)
+        idx = count;
+    return -- idx;
 }
 
 template<typename INDEX_TYPE>
 inline INDEX_TYPE next_idx_modulo(INDEX_TYPE idx, const INDEX_TYPE count)
 {
-	if (++ idx == count)
-		idx = 0;
-	return idx;
+    if (++ idx == count)
+        idx = 0;
+    return idx;
 }
 
 
@@ -226,37 +226,37 @@ inline INDEX_TYPE round_up_divide(const INDEX_TYPE dividend, const INDEX_TYPE di
 template<typename CONTAINER_TYPE>
 inline typename CONTAINER_TYPE::size_type prev_idx_modulo(typename CONTAINER_TYPE::size_type idx, const CONTAINER_TYPE &container) 
 { 
-	return prev_idx_modulo(idx, container.size());
+    return prev_idx_modulo(idx, container.size());
 }
 
 template<typename CONTAINER_TYPE>
 inline typename CONTAINER_TYPE::size_type next_idx_modulo(typename CONTAINER_TYPE::size_type idx, const CONTAINER_TYPE &container)
 { 
-	return next_idx_modulo(idx, container.size());
+    return next_idx_modulo(idx, container.size());
 }
 
 template<typename CONTAINER_TYPE>
 inline const typename CONTAINER_TYPE::value_type& prev_value_modulo(typename CONTAINER_TYPE::size_type idx, const CONTAINER_TYPE &container)
 { 
-	return container[prev_idx_modulo(idx, container.size())];
+    return container[prev_idx_modulo(idx, container.size())];
 }
 
 template<typename CONTAINER_TYPE>
 inline typename CONTAINER_TYPE::value_type& prev_value_modulo(typename CONTAINER_TYPE::size_type idx, CONTAINER_TYPE &container) 
 { 
-	return container[prev_idx_modulo(idx, container.size())];
+    return container[prev_idx_modulo(idx, container.size())];
 }
 
 template<typename CONTAINER_TYPE>
 inline const typename CONTAINER_TYPE::value_type& next_value_modulo(typename CONTAINER_TYPE::size_type idx, const CONTAINER_TYPE &container)
 { 
-	return container[next_idx_modulo(idx, container.size())];
+    return container[next_idx_modulo(idx, container.size())];
 }
 
 template<typename CONTAINER_TYPE>
 inline typename CONTAINER_TYPE::value_type& next_value_modulo(typename CONTAINER_TYPE::size_type idx, CONTAINER_TYPE &container)
 { 
-	return container[next_idx_modulo(idx, container.size())];
+    return container[next_idx_modulo(idx, container.size())];
 }
 
 extern std::string xml_escape(std::string text, bool is_marked = false);

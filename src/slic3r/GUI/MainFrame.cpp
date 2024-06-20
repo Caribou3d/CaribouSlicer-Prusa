@@ -481,14 +481,14 @@ void MainFrame::update_layout()
 void MainFrame::shutdown()
 {
 #ifdef _WIN32
-	if (m_hDeviceNotify) {
-		::UnregisterDeviceNotification(HDEVNOTIFY(m_hDeviceNotify));
-		m_hDeviceNotify = nullptr;
-	}
- 	if (m_ulSHChangeNotifyRegister) {
+    if (m_hDeviceNotify) {
+        ::UnregisterDeviceNotification(HDEVNOTIFY(m_hDeviceNotify));
+        m_hDeviceNotify = nullptr;
+    }
+     if (m_ulSHChangeNotifyRegister) {
         SHChangeNotifyDeregister(m_ulSHChangeNotifyRegister);
         m_ulSHChangeNotifyRegister = 0;
- 	}
+     }
 #endif // _WIN32
 
     if (m_plater != nullptr) {
@@ -527,8 +527,8 @@ void MainFrame::shutdown()
 
     // Stop the background thread of the removable drive manager, so that no new updates will be sent to the Plater.
     wxGetApp().removable_drive_manager()->shutdown();
-	//stop listening for messages from other instances
-	wxGetApp().other_instance_message_handler()->shutdown(this);
+    //stop listening for messages from other instances
+    wxGetApp().other_instance_message_handler()->shutdown(this);
     // Save the slic3r.ini.Usually the ini file is saved from "on idle" callback,
     // but in rare cases it may not have been called yet.
     if (wxGetApp().app_config->dirty())
@@ -569,19 +569,19 @@ void MainFrame::update_title()
     std::string build_id = SLIC3R_BUILD_ID;
     if (! wxGetApp().is_editor())
         boost::replace_first(build_id, SLIC3R_APP_NAME, GCODEVIEWER_APP_NAME);
-    size_t 		idx_plus = build_id.find('+');
+    size_t         idx_plus = build_id.find('+');
     if (idx_plus != build_id.npos) {
-    	// Parse what is behind the '+'. If there is a number, then it is a build number after the label, and full build ID is shown.
-    	int commit_after_label;
-    	if (! boost::starts_with(build_id.data() + idx_plus + 1, "UNKNOWN") &&
+        // Parse what is behind the '+'. If there is a number, then it is a build number after the label, and full build ID is shown.
+        int commit_after_label;
+        if (! boost::starts_with(build_id.data() + idx_plus + 1, "UNKNOWN") &&
             (build_id.at(idx_plus + 1) == '-' || sscanf(build_id.data() + idx_plus + 1, "%d-", &commit_after_label) == 0)) {
-    		// It is a release build.
-    		build_id.erase(build_id.begin() + idx_plus, build_id.end());
+            // It is a release build.
+            build_id.erase(build_id.begin() + idx_plus, build_id.end());
 #if defined(_WIN32) && ! defined(_WIN64)
-    		// People are using 32bit slicer on a 64bit machine by mistake. Make it explicit.
+            // People are using 32bit slicer on a 64bit machine by mistake. Make it explicit.
             build_id += " 32 bit";
 #endif
-    	}
+        }
     }
 
     title += wxString(build_id);
@@ -1003,23 +1003,23 @@ bool MainFrame::can_send_gcode() const
 
 bool MainFrame::can_export_gcode_sd() const
 {
-	if (m_plater == nullptr)
-		return false;
+    if (m_plater == nullptr)
+        return false;
 
-	if (m_plater->model().objects.empty())
-		return false;
+    if (m_plater->model().objects.empty())
+        return false;
 
-	if (m_plater->is_export_gcode_scheduled())
-		return false;
+    if (m_plater->is_export_gcode_scheduled())
+        return false;
 
-	// TODO:: add other filters
+    // TODO:: add other filters
 
-	return wxGetApp().removable_drive_manager()->status().has_removable_drives;
+    return wxGetApp().removable_drive_manager()->status().has_removable_drives;
 }
 
 bool MainFrame::can_eject() const
 {
-	return wxGetApp().removable_drive_manager()->status().has_eject;
+    return wxGetApp().removable_drive_manager()->status().has_eject;
 }
 
 bool MainFrame::can_slice() const
@@ -1389,9 +1389,9 @@ void MainFrame::init_menubar_as_editor()
             [this](wxCommandEvent&) { if (m_plater) m_plater->send_gcode(); }, "export_gcode", nullptr,
             [this](){return can_send_gcode(); }, this);
         m_changeable_menu_items.push_back(item_send_gcode);
-		append_menu_item(export_menu, wxID_ANY, _L("Export G-code to SD Card / Flash Drive") + dots + "\tCtrl+U", _L("Export current plate as G-code to SD card / Flash drive"),
-			[this](wxCommandEvent&) { if (m_plater) m_plater->export_gcode(true); }, "export_to_sd", nullptr,
-			[this]() {return can_export_gcode_sd(); }, this);
+        append_menu_item(export_menu, wxID_ANY, _L("Export G-code to SD Card / Flash Drive") + dots + "\tCtrl+U", _L("Export current plate as G-code to SD card / Flash drive"),
+            [this](wxCommandEvent&) { if (m_plater) m_plater->export_gcode(true); }, "export_to_sd", nullptr,
+            [this]() {return can_export_gcode_sd(); }, this);
         export_menu->AppendSeparator();
         append_menu_item(export_menu, wxID_ANY, _L("Export Plate as &STL/OBJ") + dots, _L("Export current plate as STL/OBJ"),
             [this](wxCommandEvent&) { if (m_plater) m_plater->export_stl_obj(); }, "export_plater", nullptr,
@@ -1424,9 +1424,9 @@ void MainFrame::init_menubar_as_editor()
             []() { return true; }, this);
         append_submenu(fileMenu, convert_menu, wxID_ANY, _L("&Convert"), "");
 
-		append_menu_item(fileMenu, wxID_ANY, _L("Ejec&t SD Card / Flash Drive") + dots + "\tCtrl+T", _L("Eject SD card / Flash drive after the G-code was exported to it."),
-			[this](wxCommandEvent&) { if (m_plater) m_plater->eject_drive(); }, "eject_sd", nullptr,
-			[this]() {return can_eject(); }, this);
+        append_menu_item(fileMenu, wxID_ANY, _L("Ejec&t SD Card / Flash Drive") + dots + "\tCtrl+T", _L("Eject SD card / Flash drive after the G-code was exported to it."),
+            [this](wxCommandEvent&) { if (m_plater) m_plater->eject_drive(); }, "eject_sd", nullptr,
+            [this]() {return can_eject(); }, this);
 
         fileMenu->AppendSeparator();
 
@@ -1918,7 +1918,7 @@ void MainFrame::export_configbundle(bool export_physical_printers /*= false*/)
         try {
             wxGetApp().preset_bundle->export_configbundle(file.ToUTF8().data(), false, export_physical_printers, load_password);
         } catch (const std::exception &ex) {
-			show_error(this, ex.what());
+            show_error(this, ex.what());
         }
     }
 }
@@ -1937,7 +1937,7 @@ void MainFrame::load_configbundle(wxString file/* = wxEmptyString, const bool re
         if (dlg.ShowModal() != wxID_OK)
             return;
         file = dlg.GetPath();
-	}
+    }
 
     wxGetApp().app_config->update_config_dir(get_dir_name(file));
 
@@ -1956,7 +1956,7 @@ void MainFrame::load_configbundle(wxString file/* = wxEmptyString, const bool re
         show_substitutions_info(config_substitutions);
 
     // Load the currently selected preset into the GUI, update the preset selection box.
-	wxGetApp().load_current_presets();
+    wxGetApp().load_current_presets();
 
     const auto message = wxString::Format(_L("%d presets successfully imported."), presets_imported);
     Slic3r::GUI::show_info(this, message, wxString("Info"));
@@ -1966,23 +1966,23 @@ void MainFrame::load_configbundle(wxString file/* = wxEmptyString, const bool re
 // Also update the plater with the new presets.
 void MainFrame::load_config(const DynamicPrintConfig& config)
 {
-	PrinterTechnology printer_technology = wxGetApp().preset_bundle->printers.get_edited_preset().printer_technology();
-	const auto       *opt_printer_technology = config.option<ConfigOptionEnum<PrinterTechnology>>("printer_technology");
-	if (opt_printer_technology != nullptr && opt_printer_technology->value != printer_technology) {
-		printer_technology = opt_printer_technology->value;
-		this->plater()->set_printer_technology(printer_technology);
-	}
+    PrinterTechnology printer_technology = wxGetApp().preset_bundle->printers.get_edited_preset().printer_technology();
+    const auto       *opt_printer_technology = config.option<ConfigOptionEnum<PrinterTechnology>>("printer_technology");
+    if (opt_printer_technology != nullptr && opt_printer_technology->value != printer_technology) {
+        printer_technology = opt_printer_technology->value;
+        this->plater()->set_printer_technology(printer_technology);
+    }
 #if 0
-	for (auto tab : wxGetApp().tabs_list)
-		if (tab->supports_printer_technology(printer_technology)) {
-			if (tab->type() == Slic3r::Preset::TYPE_PRINTER)
-				static_cast<TabPrinter*>(tab)->update_pages();
-			tab->load_config(config);
-		}
+    for (auto tab : wxGetApp().tabs_list)
+        if (tab->supports_printer_technology(printer_technology)) {
+            if (tab->type() == Slic3r::Preset::TYPE_PRINTER)
+                static_cast<TabPrinter*>(tab)->update_pages();
+            tab->load_config(config);
+        }
     if (m_plater)
         m_plater->on_config_change(config);
 #else
-	// Load the currently selected preset into the GUI, update the preset selection box.
+    // Load the currently selected preset into the GUI, update the preset selection box.
     //FIXME this is not quite safe for multi-extruder printers,
     // as the number of extruders is not adjusted for the vector values.
     // (see PresetBundle::update_multi_material_filament_presets())
@@ -1990,10 +1990,10 @@ void MainFrame::load_config(const DynamicPrintConfig& config)
     for (auto tab : wxGetApp().tabs_list)
         if (tab->supports_printer_technology(printer_technology)) {
             // Only apply keys, which are present in the tab's config. Ignore the other keys.
-			for (const std::string &opt_key : tab->get_config()->diff(config))
-				// Ignore print_settings_id, printer_settings_id, filament_settings_id etc.
-				if (! boost::algorithm::ends_with(opt_key, "_settings_id"))
-					tab->get_config()->option(opt_key)->set(config.option(opt_key));
+            for (const std::string &opt_key : tab->get_config()->diff(config))
+                // Ignore print_settings_id, printer_settings_id, filament_settings_id etc.
+                if (! boost::algorithm::ends_with(opt_key, "_settings_id"))
+                    tab->get_config()->option(opt_key)->set(config.option(opt_key));
         }
 
     wxGetApp().load_current_presets();
@@ -2182,7 +2182,7 @@ std::string MainFrame::get_base_name(const wxString &full_name, const char *exte
 {
     boost::filesystem::path filename = boost::filesystem::path(full_name.wx_str()).filename();
     if (extension != nullptr)
-		filename = filename.replace_extension(extension);
+        filename = filename.replace_extension(extension);
     return filename.string();
 }
 
