@@ -64,7 +64,7 @@ fi
 
 BUILD_ARCH=$(uname -m)
 
-while getopts ":idaxbhcstwr" opt; do
+while getopts ":idaxbhcsltwr" opt; do
   case ${opt} in
     i )
         BUILD_IMAGE="1"
@@ -86,6 +86,9 @@ while getopts ":idaxbhcstwr" opt; do
     s )
         BUILD_CARIBOUSLICER="1"
         ;;
+    l )
+        UPDATE_POTFILE="1"
+        ;;
     c)
         BUILD_XCODE="1"
         ;;
@@ -95,18 +98,18 @@ while getopts ":idaxbhcstwr" opt; do
     r )
         BUILD_CLEANDEPEND="1"
     ;;
-    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
+    h ) echo "Usage: ./BuildMacOS.sh  [-h][-w][-a][-r][-x][-b][-c][-d][-s][-l][-t][-i]"
         echo "   -h: this message"
         echo "   -w: wipe build directories bfore building"
-        echo "   -d: build dependencies"
         echo "   -a: build for arm64 (Apple Silicon)"
         echo "   -r: clean dependencies"
         echo "   -x: build for x86_64 (Intel)"
         echo "   -b: build with debug symbols"
         echo "   -c: build for XCode"
+        echo "   -d: build dependencies"
         echo "   -s: build CaribouSlicer"
         echo "   -t: build tests (in combination with -s)"
-        echo "   -i: generate DMG image (optional)\n"
+        echo "   -i: generate .tgz and DMG image (optional)\n"
         exit 0
         ;;
   esac
@@ -114,18 +117,18 @@ done
 
 if [ $OPTIND -eq 1 ]
 then
-    echo "Usage: ./BuildLinux.sh [-h][-w][-d][-a][-r][-x][-b][-c][-s][-t][-i]"
+    echo "Usage: ./BuildLinux.sh [-h][-w][-a][-r][-x][-b][-c][-d][-s][-l][-t][-i]"
     echo "   -h: this message"
     echo "   -w: wipe build directories bfore building"
-    echo "   -d: build dependencies"
     echo "   -a: Build for arm64 (Apple Silicon)"
     echo "   -r: clean dependencies"
     echo "   -x: build for x86_64 (Intel)"
     echo "   -b: build with debug symbols"
     echo "   -c: build for XCode"
+    echo "   -d: build dependencies"
     echo "   -s: build CaribouSlicer"
     echo "   -t: build tests (in combination with -s)"
-    echo -e "   -i: Generate DMG image (optional)\n"
+    echo -e "   -i: Generate .tgz and DMG image (optional)\n"
     exit 0
 fi
 
@@ -158,7 +161,7 @@ then
     fi
     # cmake deps
     echo "Cmake command: cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET=\"10.15\" ${BUILD_ARCH} "
-    pushd deps/build
+    pushd deps/build > /dev/null
     cmake .. -DCMAKE_OSX_DEPLOYMENT_TARGET="10.15" $BUILD_ARGS
 
     echo -e "\n ... done\n"
@@ -184,7 +187,7 @@ fi
 if [[ -n "$BUILD_CLEANDEPEND" ]]
 then
     echo -e "[4/9] Cleaning dependencies...\n"
-    pushd deps/build
+    pushd deps/build > /dev/null
     pwd
     rm -fr dep_*
     popd > /dev/null
@@ -230,9 +233,8 @@ then
     fi
 
     # cmake
-    pushd build
-    cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.15" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
-    echo "Cmake command: cmake .. -DCMAKE_PREFIX_PATH=\"$PWD/../deps/build/destdir/usr/local\" -DCMAKE_OSX_DEPLOYMENT_TARGET=\"10.15\" -DSLIC3R_STATIC=1 ${BUILD_ARCH} "
+    pushd build > /dev/null
+    cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.14" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo -e "\n ... done"
 
     # make Slic3r
@@ -245,6 +247,10 @@ then
 
     echo -e "\n[7/9] Generating language files ...\n"
     #make .mo
+    if [[ -n "$UPDATE_POTFILE" ]]
+    then
+        make gettext_make_pot
+    fi
     make gettext_po_to_mo
 
     popd  > /dev/null
