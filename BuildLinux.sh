@@ -291,6 +291,8 @@ then
     # make CaribouSlicer
     echo -e "\n[6/9] Building CaribouSlicer ...\n"
     make -j$NCORES CaribouSlicer
+    # make OCCTWrapper.so
+    make OCCTWrapper
     echo -e "\n ... done"
 
     echo -e "\n[7/9] Generating language files ...\n"
