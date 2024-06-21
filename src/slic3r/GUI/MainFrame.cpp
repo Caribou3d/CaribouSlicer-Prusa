@@ -494,8 +494,8 @@ void MainFrame::shutdown()
     if (m_plater != nullptr) {
         m_plater->get_ui_job_worker().cancel_all();
 
-        //close calibration dialog if opened
- //       wxGetApp().change_calibration_dialog(nullptr, nullptr);
+        // close calibration dialog if opened
+        wxGetApp().change_calibration_dialog(nullptr, nullptr);
 
         // Unbinding of wxWidgets event handling in canvases needs to be done here because on MAC,
         // when closing the application using Command+Q, a mouse event is triggered after this lambda is completed,
@@ -1197,32 +1197,28 @@ static void init_macos_application_menu(wxMenuBar* menu_bar, MainFrame* main_fra
 }
 #endif // __APPLE__
 
-/* static wxMenu* generate_calibration_menu()
+static wxMenu* generate_calibration_menu()
 {
-    wxMenu* calibrationMenu = nullptr;
+    wxMenu* calibrationMenu = new wxMenu();
 
-    if (wxGetApp().is_editor())
-    {
-        calibrationMenu = new wxMenu();
-        append_menu_item(calibrationMenu, wxID_ANY, _(L("First layer patttern calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
-           [this](wxCommandEvent&) { wxGetApp().calibration_first_layer_dialog(); });
-        append_menu_item(calibrationMenu, wxID_ANY, _(L("First layer patch calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
-           [this](wxCommandEvent&) { wxGetApp().calibration_first_layer_patch_dialog(); });
-        calibrationMenu->AppendSeparator();
-        append_menu_item(calibrationMenu, wxID_ANY, _(L("Filament Flow Wall calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
-           [this](wxCommandEvent&) { wxGetApp().flow_walls_dialog(); });
-        calibrationMenu->AppendSeparator();
-        append_menu_item(calibrationMenu, wxID_ANY, _(L("Filament temperature calibration")), _(L("Create a test print to help you to set your filament temperature.")),
-           [this](wxCommandEvent&) { wxGetApp().filament_temperature_dialog(); });
-        calibrationMenu->AppendSeparator();
-        append_menu_item(calibrationMenu, wxID_ANY,
-               _(L("Calibration cube")), _(L("Print a calibration cube, for various calibration goals.")),
-            [this](wxCommandEvent&) { wxGetApp().calibration_cube_dialog(); });
+    append_menu_item(calibrationMenu, wxID_ANY, _(L("First layer patttern calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
+        [](wxCommandEvent&) { wxGetApp().calibration_first_layer_dialog(); });
+    append_menu_item(calibrationMenu, wxID_ANY, _(L("First layer patch calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
+        [](wxCommandEvent&) { wxGetApp().calibration_first_layer_patch_dialog(); });
+    calibrationMenu->AppendSeparator();
+    append_menu_item(calibrationMenu, wxID_ANY, _(L("Filament Flow Wall calibration")), _(L("Create a test print to help you to set your filament extrusion multiplier.")),
+        [](wxCommandEvent&) { wxGetApp().flow_walls_dialog(); });
+    calibrationMenu->AppendSeparator();
+    append_menu_item(calibrationMenu, wxID_ANY, _(L("Filament temperature calibration")), _(L("Create a test print to help you to set your filament temperature.")),
+        [](wxCommandEvent&) { wxGetApp().filament_temperature_dialog(); });
+    calibrationMenu->AppendSeparator();
+    append_menu_item(calibrationMenu, wxID_ANY,
+            _(L("Calibration cube")), _(L("Print a calibration cube, for various calibration goals.")),
+        [](wxCommandEvent&) { wxGetApp().calibration_cube_dialog(); });
 
-    }
     return calibrationMenu;
 }
- */
+
 
 static wxMenu* generate_help_menu()
 {
@@ -1586,6 +1582,9 @@ void MainFrame::init_menubar_as_editor()
 #endif // __APPLE__
     }
 
+    // Calibration menu
+    auto calibrationMenu = generate_calibration_menu();
+
     // Help menu
     auto helpMenu = generate_help_menu();
 
@@ -1606,6 +1605,10 @@ void MainFrame::init_menubar_as_editor()
 
     m_bar_menus.AppendMenuSeparaorItem();
 
+    m_bar_menus.AppendMenuItem(calibrationMenu, _L("&Calibration"));
+
+    m_bar_menus.AppendMenuSeparaorItem();
+
     m_bar_menus.AppendMenuItem(helpMenu, _L("&Help"));
 
 #else
@@ -1619,7 +1622,8 @@ void MainFrame::init_menubar_as_editor()
     if (editMenu) m_menubar->Append(editMenu, _L("&Edit"));
     m_menubar->Append(windowMenu, _L("&Window"));
     if (viewMenu) m_menubar->Append(viewMenu, _L("&View"));
- //   if (m_calibration_menu) m_menubar->Append(m_calibration_menu, _L("C&alibration"));
+    m_bar_menus.AppendMenuSeparaorItem();
+    if (m_calibration_menu) m_menubar->Append(m_calibration_menu, _L("C&alibration"));
     // Add additional menus from C++
     m_menubar->Append(wxGetApp().get_config_menu(), _L("&Configuration"));
     m_menubar->Append(helpMenu, _L("&Help"));
