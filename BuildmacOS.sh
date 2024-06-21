@@ -233,8 +233,9 @@ then
     fi
 
     # cmake
+    DEPSDIR=$PWD/deps/build/destdir/usr/local
     pushd build > /dev/null
-    cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.14" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
+    cmake .. -DCMAKE_PREFIX_PATH="$DEPSDIR" -DCMAKE_OSX_DEPLOYMENT_TARGET="10.15" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo -e "\n ... done"
 
     # make Slic3r

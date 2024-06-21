@@ -285,8 +285,9 @@ then
    fi
 
     # cmake
+    DEPSDIR=$PWD/deps/build/destdir/usr/local
     pushd build > /dev/null
-    cmake .. -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
+    cmake .. -DCMAKE_PREFIX_PATH="$DEPSDIR" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo " ... done"
     # make CaribouSlicer
     echo -e "\n[6/9] Building CaribouSlicer ...\n"
