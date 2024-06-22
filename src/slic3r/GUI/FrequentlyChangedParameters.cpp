@@ -111,6 +111,21 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     Line line = Line { "", "" };
 
+    Option option = m_og_fff->get_option("top_solid_layers");
+    option.opt.label = L("Layers top");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+    option = m_og_fff->get_option("bottom_solid_layers");
+    option.opt.label = L("bottom");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+    m_og_fff->append_line(line);
+
+    line = Line { "", "" };
+
+
     ConfigOptionDef support_def;
     support_def.label = L("Supports");
     support_def.type = coStrings;
@@ -122,7 +137,7 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
         L("Everywhere")
     });
     support_def.set_default_value(new ConfigOptionStrings{ "None" });
-    Option option = Option(support_def, "support");
+    option = Option(support_def, "support");
     option.opt.full_width = true;
     line.append_option(option);
 
