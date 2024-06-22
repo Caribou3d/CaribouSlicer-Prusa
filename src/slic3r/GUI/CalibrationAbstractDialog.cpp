@@ -39,9 +39,7 @@ namespace GUI {
 
         // fonts
         const wxFont& font = wxGetApp().normal_font();
-        const wxFont& bold_font = wxGetApp().bold_font();
         SetFont(font);
-
     }
 
 void CalibrationAbstractDialog::create(boost::filesystem::path html_path, std::string html_name, wxSize dialog_size){

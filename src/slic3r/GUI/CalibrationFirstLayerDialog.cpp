@@ -68,13 +68,11 @@ void CalibrationFirstLayerDialog::create_geometry() {
 
     assert(objs_idx.size() == 1);
     const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_PRINT)->get_config();
-    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
     const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
     const ConfigOptionPoints* bed_shape = printerConfig->option<ConfigOptionPoints>("bed_shape");
 
     const BuildVolume::Type type = plat->build_volume().type();
 
-    bool isRect = (type == BuildVolume::Type::Rectangle);
     bool isCirc = (type == BuildVolume::Type::Circle);
 
     Vec2d bed_size = BoundingBoxf(bed_shape->values).size();
@@ -109,7 +107,6 @@ void CalibrationFirstLayerDialog::create_geometry() {
 
     const ConfigOptionFloatOrPercent* first_layer_height_setting = printConfig->option<ConfigOptionFloatOrPercent>("first_layer_height");
     double first_layer_height = first_layer_height_setting->get_abs_value(nozzle_diameter);
-    double layer_height = nozzle_diameter / 2.;
 
     zScale = std::max(first_layer_height, nozzle_diameter / 2.0) / 0.2;
 

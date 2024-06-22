@@ -52,14 +52,6 @@ void CalibrationWallsDialog::create_geometry() {
             (boost::filesystem::path(Slic3r::resources_dir()) / "calibration"/"walls"/ "low_cube.3mf").string()}, true, false, false);
 
     assert(objs_idx.size() == 1);
-    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
-    const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
-
-    /// --- scale ---
-    //model is created for a 0.4 nozzle, scale xy with nozzle size.
-    const ConfigOptionFloats* nozzle_diameter_config = printerConfig->option<ConfigOptionFloats>("nozzle_diameter");
-    assert(nozzle_diameter_config->values.size() > 0);
-    float nozzle_diameter = nozzle_diameter_config->values[0];
 
     int idx_scale = dimension->GetSelection();
     double xyScale = 1;

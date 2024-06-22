@@ -44,7 +44,6 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     plat->new_project();
 
     const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_PRINT)->get_config();
-    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
     const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
 
     //GLCanvas3D::set_warning_freeze(true);
@@ -97,7 +96,6 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
         model.objects[objs_idx[3]]->translate({ -xyshift, -xyshift, 0 });
     }
 
-
    /// --- scale ---
     // model is created for a 0.4 nozzle, scale xy with nozzle size.
     const ConfigOptionFloats* nozzle_diameter_config = printerConfig->option<ConfigOptionFloats>("nozzle_diameter");
@@ -117,51 +115,6 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     float zscale = first_layer_height + 5 * layer_height;
 
     std::cout << "scale: " << xyScale << "  " << zscale << std::endl;
-/*
-
-    //do scaling
-    if (xyScale < 0.9 || 1.2 < xyScale) {
-        for (size_t i = 0; i < 5; i++)
-            model.objects[objs_idx[i]]->scale(xyScale, xyScale, zscale); // base: 10 10 1
-    } else {
-        for (size_t i = 0; i < 5; i++)
-            model.objects[objs_idx[i]]->scale(1, 1, zscale);
-    }
-
-    //add sub-part after scale
-    float zscale_number = (first_layer_height + layer_height) / 0.4;
-    /* zshift is calculated using the following:
-    (zscale / 2) represents the midpoint of the filament_flow_test_cube
-    ((first_layer_height + layer_height) / 2) represents the midpoint of our indicator tab (it is scaled to be 2 layers tall)
-    The 0.3 constant is the same as the delta calculated in add_part below, this should probably be calculated per the model object
-
-    float zshift = -(zscale / 2) + ((first_layer_height + layer_height) / 2) + 0.3;
-
-    std::cout << "xyScale " << xyScale << " zscale  " << zscale << std::endl;
-    std::cout << "zshift " << zshift << std::endl;
-
-    if (delta == 10.f && start == 80.f) {
-        add_part(model.objects[objs_idx[0]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m20.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number});
-        add_part(model.objects[objs_idx[1]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m10.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number });
-        add_part(model.objects[objs_idx[2]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "_0.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number });
-        add_part(model.objects[objs_idx[3]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p10.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number });
-        add_part(model.objects[objs_idx[4]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "p20.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number });
-    } else if (delta == 2.f && start == 92.f) {
-        add_part(model.objects[objs_idx[0]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m8.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number});
-        add_part(model.objects[objs_idx[1]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m6.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number});
-        add_part(model.objects[objs_idx[2]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m4.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number});
-        add_part(model.objects[objs_idx[3]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "m2.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number});
-        add_part(model.objects[objs_idx[4]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "_0.3mf").string(), Vec3d{ 0,10 * xyScale,zshift }, Vec3d{ xyScale , xyScale, zscale_number});
-    }
-    for (size_t i = 0; i < 5; i++) {
-        add_part(model.objects[objs_idx[i]], (boost::filesystem::path(Slic3r::resources_dir()) / "calibration" / "filament_flow" / "O.3mf").string(), Vec3d{ 0,0,zscale/2.f + 0.5 }, Vec3d{xyScale , xyScale, layer_height / 0.2}); // base: 0.2mm height
-    }
-
-
-
-
-
-*/
 
     /// --- custom config ---
     for (size_t i = 0; i < 5; i++) {
@@ -174,17 +127,6 @@ void CalibrationFlowDialog::create_geometry(float start, float delta) {
     model.objects[objs_idx[i]]->config.set_key_value("brim_width", new ConfigOptionFloat(1.6));
     model.objects[objs_idx[i]]->config.set_key_value("layer_height", new ConfigOptionFloat(layer_height));
     model.objects[objs_idx[i]]->config.set_key_value("first_layer_height", new ConfigOptionFloatOrPercent(first_layer_height, false));
-
-
-
- //        model.objects[objs_idx[i]]->config.set_key_value("only_one_perimeter_top", new ConfigOptionBool(true));
-//        model.objects[objs_idx[i]]->config.set_key_value("enforce_full_fill_volume", new ConfigOptionBool(true));
-//         model.objects[objs_idx[i]]->config.set_key_value("thin_walls", new ConfigOptionBool(true));
-//        model.objects[objs_idx[i]]->config.set_key_value("thin_walls_min_width", new ConfigOptionFloatOrPercent(50,true));
-//        model.objects[objs_idx[i]]->config.set_key_value("gap_fill_enabled", new ConfigOptionBool(true));
-//        model.objects[objs_idx[i]]->config.set_key_value("external_infill_margin", new ConfigOptionFloatOrPercent(100, true));
-//        model.objects[objs_idx[i]]->config.set_key_value("solid_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipRectilinearWGapFill));
-//        model.objects[objs_idx[i]]->config.set_key_value("top_fill_pattern", new ConfigOptionEnum<InfillPattern>(ipSmooth));
 
        //disable ironing post-process
         model.objects[objs_idx[i]]->config.set_key_value("ironing", new ConfigOptionBool(false));
