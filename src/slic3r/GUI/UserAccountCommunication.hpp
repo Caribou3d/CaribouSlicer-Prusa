@@ -89,7 +89,7 @@ private:
     bool                                    m_remember_session { true }; // if default is true, on every login Remember me will be checked.
 
     wxTimer*                                m_token_timer;
-    wxEvtHandler*                           m_timer_evt_handler;
+//    wxEvtHandler*                           m_timer_evt_handler;
 
     void wakeup_session_thread();
     void init_session_thread();
