@@ -149,7 +149,7 @@ ObjectManipulation::ObjectManipulation(wxWindow* parent) :
     OG_Settings(parent, true)
 {
     m_imperial_units = wxGetApp().app_config->get_bool("use_inches");
-    m_use_colors     = wxGetApp().app_config->get_bool("color_mapinulation_panel");
+    m_use_colors     = wxGetApp().app_config->get_bool("color_manipulation_panel");
 
     m_manifold_warning_bmp = ScalableBitmap(parent, "exclamation");
 
@@ -619,8 +619,8 @@ void ObjectManipulation::update_ui_from_settings()
     }
     CheckBox::SetValue(m_check_inch, m_imperial_units);
 
-    if (m_use_colors != wxGetApp().app_config->get_bool("color_mapinulation_panel")) {
-        m_use_colors  = wxGetApp().app_config->get_bool("color_mapinulation_panel");
+    if (m_use_colors != wxGetApp().app_config->get_bool("color_manipulation_panel")) {
+        m_use_colors  = wxGetApp().app_config->get_bool("color_manipulation_panel");
         // update colors for edit-boxes
         int axis_id = 0;
         for (ManipulationEditor* editor : m_editors) {
