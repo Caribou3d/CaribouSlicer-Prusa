@@ -97,7 +97,7 @@ void RepositoryUpdateUIManager::fill_grids()
 
         // header
 
-        for (const wxString& l : std::initializer_list<wxString>{ _L("Use"), "", _L("Name"), _L("Descrition") }) {
+        for (const wxString& l : std::initializer_list<wxString>{ _L("Use"), "", _L("Name"), _L("Description") }) {
             auto text = new wxStaticText(m_parent, wxID_ANY, l);
             text->SetFont(wxGetApp().bold_font());
             add(text);
@@ -137,8 +137,7 @@ void RepositoryUpdateUIManager::fill_grids()
         auto add = [this](wxWindow* win) { m_offline_sizer->Add(win, 0, wxALIGN_CENTER_VERTICAL); };
 
         // header
-
-        for (const wxString& l : std::initializer_list<wxString>{ _L("Use"), _L("Name"), _L("Descrition"), "", _L("Source file"), "", "" }) {
+        for (const wxString& l : std::initializer_list<wxString>{ _L("Use"), _L("Name                "), _L("Description                    "), "", _L("Source file"), "", "" }) {
             auto text = new wxStaticText(m_parent, wxID_ANY, l);
             text->SetFont(wxGetApp().bold_font());
             add(text);
