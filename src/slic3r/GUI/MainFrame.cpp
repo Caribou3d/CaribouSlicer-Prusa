@@ -1623,7 +1623,7 @@ void MainFrame::init_menubar_as_editor()
     m_menubar->Append(windowMenu, _L("&Window"));
     if (viewMenu) m_menubar->Append(viewMenu, _L("&View"));
     m_bar_menus.AppendMenuSeparaorItem();
-    if (m_calibration_menu) m_menubar->Append(m_calibration_menu, _L("C&alibration"));
+    if (calibrationMenu) m_menubar->Append(calibrationMenu, _L("C&alibration"));
     // Add additional menus from C++
     m_menubar->Append(wxGetApp().get_config_menu(), _L("&Configuration"));
     m_menubar->Append(helpMenu, _L("&Help"));
