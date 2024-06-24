@@ -30,6 +30,9 @@ namespace Slic3r{
     class AppConfig;
     class GLVolume;
     enum class ModelVolumeType : int;
+    namespace GUI::Emboss {
+        struct CreateVolumeParams;
+    }
 }
 
 namespace Slic3r::GUI {
@@ -64,7 +67,6 @@ public:
     /// <returns>True on success start job otherwise False</returns>
     bool do_mirror(size_t axis);
 
-
     /// <summary>
     /// Call on change inside of object conatining projected volume
     /// </summary>
@@ -88,7 +90,7 @@ protected:
     void on_disable_grabber(unsigned int id) override { m_rotate_gizmo.disable_grabber(); }
     void on_start_dragging() override;
     void on_stop_dragging() override;
-    void on_dragging(const UpdateData &data) override;
+    void on_dragging(const UpdateData &data) override;    
 
     /// <summary>
     /// Rotate by text on dragging rotate grabers
@@ -114,7 +116,7 @@ private:
     void reset_volume();
 
     // create volume from text - main functionality
-    bool process(bool make_snapshot = true);
+    bool process(bool make_snapshot = true, std::optional<Transform3d> volume_transformation = std::nullopt);
     void close();
     void draw_window();
     void draw_text_input();
@@ -139,6 +141,17 @@ private:
     bool draw_bold_button();
     void draw_advanced();
 
+    void draw_use_surface();
+    void draw_per_glyph();
+    void draw_align();
+    void draw_char_gap();
+    void draw_line_gap();
+    void draw_boldness();
+    void draw_skew();
+    void draw_rotation();
+
+    void draw_surface_distance();
+
     bool select_facename(const wxString& facename);
 
     template<typename T> bool rev_input_mm(const std::string &name, T &value, const T *default_value,
@@ -146,18 +159,16 @@ private:
 
     /// <summary>
     /// Reversible input float with option to restor default value
-    /// TODO: make more general, static and move to ImGuiWrapper
+    /// TODO: make more general, static and move to ImGuiWrapper 
     /// </summary>
     /// <returns>True when value changed otherwise FALSE.</returns>
-    template<typename T> bool rev_input(const std::string &name, T &value, const T *default_value,
+    template<typename T> bool rev_input(const std::string &name, T &value, const T *default_value, 
         const std::string &undo_tooltip, T step, T step_fast, const char *format, ImGuiInputTextFlags flags = 0) const;
     bool rev_checkbox(const std::string &name, bool &value, const bool* default_value, const std::string  &undo_tooltip) const;
-    bool rev_slider(const std::string &name, std::optional<int>& value, const std::optional<int> *default_value,
-        const std::string &undo_tooltip, int v_min, int v_max, const std::string &format, const wxString &tooltip) const;
     bool rev_slider(const std::string &name, std::optional<float>& value, const std::optional<float> *default_value,
-        const std::string &undo_tooltip, float v_min, float v_max, const std::string &format, const wxString &tooltip) const;
-    bool rev_slider(const std::string &name, float &value, const float *default_value,
-        const std::string &undo_tooltip, float v_min, float v_max, const std::string &format, const wxString &tooltip) const;
+        const std::string &undo_tooltip, const MinMax<float>& min_max, const std::string &format, const wxString &tooltip) const;
+    bool rev_slider(const std::string &name, float &value, const float *default_value, 
+        const std::string &undo_tooltip, const MinMax<float>& min_max, const std::string &format, const wxString &tooltip) const;
     template<typename T, typename Draw> bool revertible(const std::string &name, T &value, const T *default_value,
         const std::string &undo_tooltip, float undo_offset, Draw draw) const;
 
@@ -175,6 +186,9 @@ private:
     void create_notification_not_valid_font(const TextConfiguration& tc);
     void create_notification_not_valid_font(const std::string& text);
     void remove_notification_not_valid_font();
+
+    // initialize data for create volume in job
+    Emboss::CreateVolumeParams create_input(ModelVolumeType volume_type);
 
     struct GuiCfg;
     std::unique_ptr<const GuiCfg> m_gui_cfg;
@@ -201,11 +215,11 @@ private:
     // When true keep up vector otherwise relative rotation
     bool m_keep_up = true;
 
-    // current selected volume
+    // current selected volume 
     // NOTE: Be carefull could be uninitialized (removed from Model)
     ModelVolume *m_volume = nullptr;
 
-    // When work with undo redo stack there could be situation that
+    // When work with undo redo stack there could be situation that 
     // m_volume point to unexisting volume so One need also objectID
     ObjectID m_volume_id;
 
@@ -227,13 +241,14 @@ private:
     // Keep data about dragging only during drag&drop
     std::optional<SurfaceDrag> m_surface_drag;
 
-    // Keep old scene triangle data in AABB trees,
+    // Keep old scene triangle data in AABB trees, 
     // all the time it need actualize before use.
     RaycastManager m_raycast_manager;
 
     // For text on scaled objects
     std::optional<float> m_scale_height;
     std::optional<float> m_scale_depth;
+    std::optional<float> m_scale_width;
     void calculate_scale();
 
     // drawing icons

@@ -21,7 +21,7 @@ namespace GUI {
 class NotificationManager; // for simplify suggestion
 
 class GLGizmoSimplify: public GLGizmoBase
-{
+{    
 public:
     GLGizmoSimplify(GLCanvas3D& parent);
     virtual ~GLGizmoSimplify();
@@ -77,7 +77,7 @@ private:
     Configuration m_configuration;
 
     bool m_move_to_center; // opening gizmo
-
+        
     std::set<ObjectID> m_volume_ids; // keep pointers to actual working volumes
     std::string  m_volumes_name;
     size_t       m_original_triangle_count;

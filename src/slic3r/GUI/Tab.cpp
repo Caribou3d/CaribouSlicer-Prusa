@@ -1116,6 +1116,12 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         og_freq_chng_params->set_value("brim", val);
     }
 
+    if (opt_key == "perimeters")
+    {
+        int val = m_config->opt_int("perimeters");
+        og_freq_chng_params->set_value("perimeters", val);
+    }
+
     if (opt_key == "wipe_tower" || opt_key == "single_extruder_multi_material" || opt_key == "extruders_count" )
         update_wiping_button_visibility();
 
@@ -1401,6 +1407,7 @@ void Tab::update_frequently_changed_parameters()
     if (is_fff)
     {
         og_freq_chng_params->set_value("brim", bool(m_config->opt_float("brim_width") > 0.0));
+        og_freq_chng_params->set_value("perimeters", m_config->opt_int("perimeters"));
         update_wiping_button_visibility();
     }
 }
@@ -1430,7 +1437,7 @@ void TabPrint::build()
             return description_line_widget(parent, &m_top_bottom_shell_thickness_explanation);
         };
         optgroup->append_line(line);
-        
+
         optgroup = page->new_optgroup(L("Layer height"));
         optgroup->append_single_option_line("layer_height", category_path + "layer-height");
         optgroup->append_single_option_line("first_layer_height", category_path + "first-layer-height");

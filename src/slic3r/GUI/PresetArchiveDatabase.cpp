@@ -30,13 +30,13 @@ static const char* TMP_EXTENSION = ".download";
 namespace {
 bool unzip_repository(const fs::path& source_path, const fs::path& target_path)
 {
-    mz_zip_archive archive;
-    mz_zip_zero_struct(&archive);
-    if (!open_zip_reader(&archive, source_path.string())) {
-        BOOST_LOG_TRIVIAL(error) << "Couldn't open zipped Archive Repository. " << source_path;
-        return false;
-    }
-    size_t num_files = mz_zip_reader_get_num_files(&archive);
+	mz_zip_archive archive;
+	mz_zip_zero_struct(&archive);
+	if (!open_zip_reader(&archive, source_path.string())) {
+		BOOST_LOG_TRIVIAL(error) << "Couldn't open zipped Archive source. " << source_path;
+		return false;
+	}
+	size_t num_files = mz_zip_reader_get_num_files(&archive);
 
     for (size_t i = 0; i < num_files; ++i) {
         mz_zip_archive_file_stat file_stat;
@@ -66,38 +66,38 @@ bool unzip_repository(const fs::path& source_path, const fs::path& target_path)
 
 bool extract_repository_header(const pt::ptree& ptree, ArchiveRepository::RepositoryManifest& data)
 {
-    // mandatory atributes
-    if (const auto name = ptree.get_optional<std::string>("name"); name){
-        data.name = *name;
-    } else {
-        BOOST_LOG_TRIVIAL(error) << "Failed to find \"name\" parameter in repository manifest. Repository is invalid.";
-        return false;
-    }
-    if (const auto id = ptree.get_optional<std::string>("id"); id) {
-        data.id = *id;
-    }
-    else {
-        BOOST_LOG_TRIVIAL(error) << "Failed to find \"id\" parameter in repository manifest. Repository is invalid.";
-        return false;
-    }
-    if (const auto url = ptree.get_optional<std::string>("url"); url) {
-        data.url = *url;
-    }
-    else {
-        BOOST_LOG_TRIVIAL(error) << "Failed to find \"url\" parameter in repository manifest. Repository is invalid.";
-        return false;
-    }
-    // optional atributes
-    if (const auto index_url = ptree.get_optional<std::string>("index_url"); index_url) {
-        data.index_url = *index_url;
-    }
-    if (const auto description = ptree.get_optional<std::string>("description"); description) {
-        data.description = *description;
-    }
-    if (const auto visibility = ptree.get_optional<std::string>("visibility"); visibility) {
-        data.visibility = *visibility;
-    }
-    return true;
+	// mandatory atributes
+	if (const auto name = ptree.get_optional<std::string>("name"); name){
+		data.name = *name;
+	} else {
+		BOOST_LOG_TRIVIAL(error) << "Failed to find \"name\" parameter in source manifest. Source is invalid.";
+		return false;
+	}
+	if (const auto id = ptree.get_optional<std::string>("id"); id) {
+		data.id = *id;
+	}
+	else {
+		BOOST_LOG_TRIVIAL(error) << "Failed to find \"id\" parameter in source manifest. Source is invalid.";
+		return false;
+	}
+	if (const auto url = ptree.get_optional<std::string>("url"); url) {
+		data.url = *url;
+	}
+	else {
+		BOOST_LOG_TRIVIAL(error) << "Failed to find \"url\" parameter in source manifest. Source is invalid.";
+		return false;
+	}
+	// optional atributes
+	if (const auto index_url = ptree.get_optional<std::string>("index_url"); index_url) {
+		data.index_url = *index_url;
+	}
+	if (const auto description = ptree.get_optional<std::string>("description"); description) {
+		data.description = *description;
+	}
+	if (const auto visibility = ptree.get_optional<std::string>("visibility"); visibility) {
+		data.visibility = *visibility;
+	}
+	return true;
 }
 
 void delete_path_recursive(const fs::path& path)
@@ -131,25 +131,25 @@ bool extract_local_archive_repository( ArchiveRepository::RepositoryManifest& ma
     fs::create_directories(manifest_data.tmp_path);
     // Unzip repository zip to unique path in temp directory.
     if (!unzip_repository(manifest_data.source_path, manifest_data.tmp_path)) {
-        return false;
-    }
-    // Read the manifest file.
-    fs::path manifest_path = manifest_data.tmp_path / "manifest.json";
-    try
-    {
-        pt::ptree ptree;
-        pt::read_json(manifest_path.string(), ptree);
-        if (!extract_repository_header(ptree, manifest_data)) {
-            BOOST_LOG_TRIVIAL(error) << "Failed to load repository: " << manifest_data.tmp_path;
-            return false;
-        }
-    }
-    catch (const std::exception& e)
-    {
-        BOOST_LOG_TRIVIAL(error) << "Failed to read repository manifest JSON " << manifest_path << ". reason: " << e.what();
-        return false;
-    }
-    return true;
+		return false;
+	}
+	// Read the manifest file.
+	fs::path manifest_path = manifest_data.tmp_path / "manifest.json";
+	try
+	{
+		pt::ptree ptree;
+		pt::read_json(manifest_path.string(), ptree);
+		if (!extract_repository_header(ptree, manifest_data)) {
+            BOOST_LOG_TRIVIAL(error) << "Failed to load source " << manifest_data.tmp_path;
+			return false;
+		}
+	}
+	catch (const std::exception& e)
+	{
+		BOOST_LOG_TRIVIAL(error) << "Failed to read source manifest JSON " << manifest_path << ". reason: " << e.what();
+		return false;
+	}
+	return true;
 }
 
 // void deserialize_string(const std::string& opt, std::vector<std::string>& result)
@@ -353,39 +353,39 @@ bool PresetArchiveDatabase::set_selected_repositories(const std::vector<std::str
             if (!archive->is_extracted()) {
                 // non existent local repo since start selected
                 msg = GUI::format(
-                    _L("Cannot select offline repository from path: %1%. It was not extracted."),
+                    _L("Cannot select local source from path: %1%. It was not extracted."),
                     archive->get_manifest().source_path
                 );
                 return false;
             }
-            break;
-        }
-        assert(!id.empty());
-        if (auto it = used_set.find(id); it != used_set.end()) {
-            msg = GUI::format(_L("Cannot select two repositories with the same id: %1% and %2%"), it->second, name);
-            return false;
-        }
-        used_set.emplace(id, name);
-    }
-    // deselect all first
-    for (auto& pair : m_selected_repositories_uuid) {
-        pair.second = false;
-    }
-    for (const std::string& uuid : selected_uuids) {
-        m_selected_repositories_uuid[uuid] = true;
-    }
-    save_app_manifest_json();
-    return true;
+		    break;
+		}
+		assert(!id.empty());
+		if (auto it = used_set.find(id); it != used_set.end()) {
+			msg = GUI::format(_L("Cannot select two sources with the same id: %1% and %2%"), it->second, name);
+			return false;
+		}
+		used_set.emplace(id, name);
+	}
+	// deselect all first
+	for (auto& pair : m_selected_repositories_uuid) {
+		pair.second = false;
+	}
+	for (const std::string& uuid : selected_uuids) {
+		m_selected_repositories_uuid[uuid] = true;
+	}
+	save_app_manifest_json();
+	return true;
 }
 bool PresetArchiveDatabase::extract_archives_with_check(std::string &msg)
 {
     extract_local_archives();
-    for (auto &pair : m_selected_repositories_uuid) {
+    for (const std::pair<std::string, bool>& pair : m_selected_repositories_uuid) {
         if (!pair.second) {
             continue;
         }
-        std::string uuid = pair.first;
-        auto compare_repo = [uuid](const std::unique_ptr<ArchiveRepository> &repo) {
+        const std::string uuid = pair.first;
+        auto compare_repo = [&uuid](const std::unique_ptr<ArchiveRepository> &repo) {
             return repo->get_uuid() == uuid;
         };
 
@@ -393,10 +393,7 @@ bool PresetArchiveDatabase::extract_archives_with_check(std::string &msg)
         assert(archives_it != m_archive_repositories.end());
         if (!archives_it->get()->is_extracted()) {
             // non existent local repo since start selected
-            msg += GUI::format(
-                _L("Offline repository from path: %1% was not extracted.\n"),
-                archives_it->get()->get_manifest().source_path
-            );
+            msg += std::string(msg.empty() ? "" : "\n") + archives_it->get()->get_manifest().source_path.string();
         }
     }
     return msg.empty();
@@ -490,25 +487,25 @@ void PresetArchiveDatabase::load_app_manifest_json()
 {
     const fs::path path = get_stored_manifest_path();
     boost::system::error_code ec;
-    if (!fs::exists(path, ec) || ec) {
-        copy_initial_manifest();
-    }
-    std::ifstream file(path.string());
-    std::string data;
-    if (file.is_open()) {
-        std::string line;
-        while (getline(file, line)) {
-            data += line;
-        }
-        file.close();
-    }
-    else {
-        assert(true);
-        BOOST_LOG_TRIVIAL(error) << "Failed to read Archive Repository Manifest at " << path;
-    }
-    if (data.empty()) {
-        return;
-    }
+	if (!fs::exists(path, ec) || ec) {
+		copy_initial_manifest();
+	}
+	std::ifstream file(path.string());
+	std::string data;
+	if (file.is_open()) {
+		std::string line;
+		while (getline(file, line)) {
+			data += line;
+		}
+		file.close();
+	}
+	else {
+		assert(true);
+		BOOST_LOG_TRIVIAL(error) << "Failed to read Archive Source Manifest at " << path;
+	}
+	if (data.empty()) {
+		return;
+	}
 
     m_archive_repositories.clear();
     m_selected_repositories_uuid.clear();
@@ -540,18 +537,18 @@ void PresetArchiveDatabase::load_app_manifest_json()
                     assert(true);
                     m_has_installed_printer_repositories_uuid[uuid] = false;
                 }
-                m_archive_repositories.emplace_back(std::make_unique<LocalArchiveRepository>(std::move(uuid), std::move(manifest), extracted));
+				m_archive_repositories.emplace_back(std::make_unique<LocalArchiveRepository>(std::move(uuid), std::move(manifest), extracted));
 
-                continue;
-            }
-            // online repo
-            ArchiveRepository::RepositoryManifest manifest;
-            std::string uuid = get_next_uuid();
-            if (!extract_repository_header(subtree.second, manifest)) {
-                assert(true);
-                BOOST_LOG_TRIVIAL(error) << "Failed to read one of repository headers.";
-                continue;
-            }
+				continue;
+			}
+			// online repo
+			ArchiveRepository::RepositoryManifest manifest;
+			std::string uuid = get_next_uuid();
+			if (!extract_repository_header(subtree.second, manifest)) {
+				assert(true);
+				BOOST_LOG_TRIVIAL(error) << "Failed to read one of source headers.";
+				continue;
+			}
             // "selected" flag
             if (const auto used = subtree.second.get_optional<bool>("selected"); used) {
                 m_selected_repositories_uuid[uuid] = *used;
@@ -877,17 +874,17 @@ bool sync_inner(std::string& manifest)
     auto http = Http::get(std::move(url));
     add_authorization_header(http);
     http
-        .timeout_max(30)
-        .on_error([&](std::string body, std::string error, unsigned http_status) {
-            BOOST_LOG_TRIVIAL(error) << "Failed to get online archive repository manifests: "<< body << " ; " << error << " ; " << http_status;
-            ret = false;
-        })
-        .on_complete([&](std::string body, unsigned /* http_status */) {
-            manifest = body;
-            ret = true;
-        })
-        .perform_sync();
-    return ret;
+		.timeout_max(30)
+		.on_error([&](std::string body, std::string error, unsigned http_status) {
+			BOOST_LOG_TRIVIAL(error) << "Failed to get online archive source manifests: "<< body << " ; " << error << " ; " << http_status;
+			ret = false;
+		})
+		.on_complete([&](std::string body, unsigned /* http_status */) {
+			manifest = body;
+			ret = true;
+		})
+		.perform_sync();
+	return ret;
 }
 }
 

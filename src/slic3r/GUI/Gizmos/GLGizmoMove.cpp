@@ -11,7 +11,7 @@
 
 #include <GL/glew.h>
 
-#include <wx/utils.h>
+#include <wx/utils.h> 
 
 namespace Slic3r {
 namespace GUI {
@@ -91,7 +91,7 @@ void GLGizmoMove3D::on_dragging(const UpdateData& data)
         m_displacement.y() = calc_projection(data);
     else if (m_hover_id == 2)
         m_displacement.z() = calc_projection(data);
-
+        
     Selection &selection = m_parent.get_selection();
     TransformationType trafo_type;
     trafo_type.set_relative();

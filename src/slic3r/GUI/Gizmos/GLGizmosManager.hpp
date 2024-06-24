@@ -242,7 +242,7 @@ private:
                      bool              shift_down     = false,
                      bool              alt_down       = false,
                      bool              control_down   = false);
-
+    
     void render_background(float left, float top, float right, float bottom, float border_w, float border_h) const;
 
     void do_render_overlay() const;

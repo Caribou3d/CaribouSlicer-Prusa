@@ -77,9 +77,9 @@ public:
 
     void start_dragging();
     void stop_dragging();
-
+       
     void enable_grabber();
-    void disable_grabber();
+    void disable_grabber(); 
 
     void set_highlight_color(const ColorRGBA &color);
 
@@ -166,7 +166,7 @@ protected:
     void on_start_dragging() override;
     void on_stop_dragging() override;
     void on_dragging(const UpdateData &data) override;
-
+        
     void on_render() override;
     virtual void on_register_raycasters_for_picking() override;
     virtual void on_unregister_raycasters_for_picking() override;

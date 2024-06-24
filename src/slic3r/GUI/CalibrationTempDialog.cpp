@@ -70,12 +70,8 @@ void CalibrationTempDialog::create_geometry(wxCommandEvent& event_args) {
 
     assert(objs_idx.size() == 1);
     const DynamicPrintConfig* printConfig = this->gui_app->get_tab(Preset::TYPE_PRINT)->get_config();
-    const DynamicPrintConfig* filamentConfig = this->gui_app->get_tab(Preset::TYPE_FILAMENT)->get_config();
-    const DynamicPrintConfig* printerConfig = this->gui_app->get_tab(Preset::TYPE_PRINTER)->get_config();
 
     // -- get temps
-    const ConfigOptionInts* temperature_config = filamentConfig->option<ConfigOptionInts>("temperature");
-    assert(temperature_config->values.size() >= 1);
 
     long temp_items_val1 = 1;
     temp_low->GetValue().ToLong(&temp_items_val1);

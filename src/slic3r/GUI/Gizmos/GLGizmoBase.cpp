@@ -176,9 +176,9 @@ void GLGizmoBase::set_hover_id(int id)
     // allow empty grabbers when not using grabbers but use hover_id - flatten, rotate
 //    if (!m_grabbers.empty() && id >= (int) m_grabbers.size())
 //        return;
-
+    
     m_hover_id = id;
-    on_set_hover_id();
+    on_set_hover_id();    
 }
 
 bool GLGizmoBase::update_items_state()
@@ -232,12 +232,12 @@ void GLGizmoBase::render_grabbers(size_t first, size_t last, float size, bool fo
 // call start_dragging, stop_dragging, on_dragging
 bool GLGizmoBase::use_grabbers(const wxMouseEvent &mouse_event) {
     bool is_dragging_finished = false;
-    if (mouse_event.Moving()) {
+    if (mouse_event.Moving()) { 
         // it should not happen but for sure
         assert(!m_dragging);
         if (m_dragging) is_dragging_finished = true;
-        else return false;
-    }
+        else return false; 
+    } 
 
     if (mouse_event.LeftDown()) {
         Selection &selection = m_parent.get_selection();
@@ -249,7 +249,7 @@ bool GLGizmoBase::use_grabbers(const wxMouseEvent &mouse_event) {
             for (auto &grabber : m_grabbers) grabber.dragging = false;
 //            if (!m_grabbers.empty() && m_hover_id < int(m_grabbers.size()))
 //                m_grabbers[m_hover_id].dragging = true;
-
+            
             on_start_dragging();
 
             // Let the plater know that the dragging started
