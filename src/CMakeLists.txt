@@ -253,9 +253,7 @@ else ()
     if (APPLE)
         # On OSX, the name of the binary matches the name of the Application.
         add_custom_command(TARGET CaribouSlicer POST_BUILD
-            COMMAND ln -sf CaribouSlicer CaribouSlicer
             COMMAND ln -sf CaribouSlicer CaribouGcodeviewer
-            COMMAND ln -sf CaribouSlicer PrusaGCodeViewer
             WORKING_DIRECTORY "$<TARGET_FILE_DIR:CaribouSlicer>"
             COMMENT "Symlinking the G-code viewer to CaribouSlicer, symlinking to CaribouSlicer and CaribouGcodeviewer"
             VERBATIM)
