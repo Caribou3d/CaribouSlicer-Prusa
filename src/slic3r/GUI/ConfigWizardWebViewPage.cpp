@@ -9,7 +9,7 @@
 
 #include <wx/webview.h>
 
-namespace Slic3r { 
+namespace Slic3r {
 namespace GUI {
 wxDEFINE_EVENT(EVT_LOGIN_VIA_WIZARD, Event<std::string>);
 
@@ -32,7 +32,7 @@ ConfigWizardWebViewPage::ConfigWizardWebViewPage(ConfigWizard *parent)
     }
     if (logged) {
         // TRN Config wizard page with a log in web.
-        m_text = new wxStaticText(this, wxID_ANY, format_wxstr("You are logged as %1%.", p_user_account->get_username()));       
+        m_text = new wxStaticText(this, wxID_ANY, format_wxstr("You are logged as %1%.", p_user_account->get_username()));
     } else {
         // TRN Config wizard page with a log in web. first line of text.
         m_text = new wxStaticText(this, wxID_ANY, _L("Please log into your Prusa Account."));
@@ -65,7 +65,7 @@ bool ConfigWizardWebViewPage::login_changed()
     return logged;
 }
 
-void ConfigWizardWebViewPage::on_error(wxWebViewEvent &evt) 
+void ConfigWizardWebViewPage::on_error(wxWebViewEvent &evt)
 {
 #define WX_ERROR_CASE(type) \
 case type: \
@@ -88,12 +88,12 @@ case type: \
     BOOST_LOG_TRIVIAL(error) << "WebViewPanel error: " << category;
 }
 
-void ConfigWizardWebViewPage::on_navigation_request(wxWebViewEvent &evt) 
+void ConfigWizardWebViewPage::on_navigation_request(wxWebViewEvent &evt)
 {
     wxString url = evt.GetURL();
     if (url.starts_with(L"prusaslicer")) {
         evt.Veto();
-        wxPostEvent(wxGetApp().plater(), Event<std::string>(EVT_LOGIN_VIA_WIZARD, into_u8(url)));	
+        wxPostEvent(wxGetApp().plater(), Event<std::string>(EVT_LOGIN_VIA_WIZARD, into_u8(url)));
     }
 }
 

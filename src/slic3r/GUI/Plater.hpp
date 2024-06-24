@@ -227,7 +227,7 @@ public:
     void suppress_background_process(const bool stop_background_process) ;
     void send_gcode();
     void send_gcode_inner(DynamicPrintConfig* physical_printer_config);
-	void eject_drive();
+    void eject_drive();
     void connect_gcode();
     std::string get_upload_filename();
 
@@ -242,7 +242,7 @@ public:
     void redo_to(int selection);
     bool undo_redo_string_getter(const bool is_undo, int idx, const char** out_text);
     void undo_redo_topmost_string_getter(const bool is_undo, std::string& out_text);
-    // For the memory statistics. 
+    // For the memory statistics.
     const Slic3r::UndoRedo::Stack& undo_redo_stack_main() const;
     void clear_undo_redo_stack_main();
     // Enter / leave the Gizmos specific Undo / Redo stack. To be used by the SLA support point editing gizmo.
@@ -270,7 +270,7 @@ public:
     void set_project_filename(const wxString& filename);
 
     bool is_export_gcode_scheduled() const;
-    
+
     const Selection& get_selection() const;
     int get_selected_object_idx();
     bool is_single_full_object_selection() const;
@@ -279,7 +279,7 @@ public:
     GLCanvas3D* get_current_canvas3D();
 
     void render_sliders(GLCanvas3D& canvas);
-    
+
     void arrange();
     void arrange(Worker &w, bool selected);
 
@@ -353,7 +353,7 @@ public:
     const Mouse3DController& get_mouse3d_controller() const;
     Mouse3DController& get_mouse3d_controller();
 
-	void set_bed_shape() const;
+    void set_bed_shape() const;
     void set_bed_shape(const Pointfs& shape, const double max_print_height, const std::string& custom_texture, const std::string& custom_model, bool force_as_custom = false) const;
     void set_default_bed_shape() const;
 
@@ -372,33 +372,33 @@ public:
     void init_notification_manager();
 
     void bring_instance_forward();
-    
+
     // ROII wrapper for suppressing the Undo / Redo snapshot to be taken.
-	class SuppressSnapshots
-	{
-	public:
-		SuppressSnapshots(Plater *plater) : m_plater(plater)
-		{
-			m_plater->suppress_snapshots();
-		}
-		~SuppressSnapshots()
-		{
-			m_plater->allow_snapshots();
-		}
-	private:
-		Plater *m_plater;
-	};
+    class SuppressSnapshots
+    {
+    public:
+        SuppressSnapshots(Plater *plater) : m_plater(plater)
+        {
+            m_plater->suppress_snapshots();
+        }
+        ~SuppressSnapshots()
+        {
+            m_plater->allow_snapshots();
+        }
+    private:
+        Plater *m_plater;
+    };
 
     // RAII wrapper for taking an Undo / Redo snapshot while disabling the snapshot taking by the methods called from inside this snapshot.
-	class TakeSnapshot
-	{
-	public:
+    class TakeSnapshot
+    {
+    public:
         TakeSnapshot(Plater *plater, const std::string &snapshot_name);
-		TakeSnapshot(Plater *plater, const wxString &snapshot_name) : m_plater(plater)
-		{
-			m_plater->take_snapshot(snapshot_name);
-			m_plater->suppress_snapshots();
-		}
+        TakeSnapshot(Plater *plater, const wxString &snapshot_name) : m_plater(plater)
+        {
+            m_plater->take_snapshot(snapshot_name);
+            m_plater->suppress_snapshots();
+        }
         TakeSnapshot(Plater* plater, const std::string& snapshot_name, UndoRedo::SnapshotType snapshot_type);
         TakeSnapshot(Plater *plater, const wxString &snapshot_name, UndoRedo::SnapshotType snapshot_type) : m_plater(plater)
         {
@@ -406,13 +406,13 @@ public:
             m_plater->suppress_snapshots();
         }
 
-		~TakeSnapshot()
-		{
-			m_plater->allow_snapshots();
-		}
-	private:
-		Plater *m_plater;
-	};
+        ~TakeSnapshot()
+        {
+            m_plater->allow_snapshots();
+        }
+    private:
+        Plater *m_plater;
+    };
 
     bool inside_snapshot_capture();
 
@@ -421,8 +421,8 @@ public:
 
     void set_keep_current_preview_type(bool value);
 
-	// Wrapper around wxWindow::PopupMenu to suppress error messages popping out while tracking the popup menu.
-	bool PopupMenu(wxMenu *menu, const wxPoint& pos = wxDefaultPosition);
+    // Wrapper around wxWindow::PopupMenu to suppress error messages popping out while tracking the popup menu.
+    bool PopupMenu(wxMenu *menu, const wxPoint& pos = wxDefaultPosition);
     bool PopupMenu(wxMenu *menu, int x, int y) { return this->PopupMenu(menu, wxPoint(x, y)); }
 
     // get same Plater/ObjectList menus
@@ -445,7 +445,7 @@ private:
     // Set true during PopupMenu() tracking to suppress immediate error message boxes.
     // The error messages are collected to m_tracking_popup_menu_error_message instead and these error messages
     // are shown after the pop-up dialog closes.
-    bool 	 m_tracking_popup_menu = false;
+    bool      m_tracking_popup_menu = false;
     wxString m_tracking_popup_menu_error_message;
 
     wxString m_last_loaded_gcode;

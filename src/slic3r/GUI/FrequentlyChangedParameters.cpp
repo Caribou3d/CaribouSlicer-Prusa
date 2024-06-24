@@ -47,7 +47,7 @@ wxDEFINE_EVENT(EVT_SCHEDULE_BACKGROUND_PROCESS,     SimpleEvent);
 
 FreqChangedParams::FreqChangedParams(wxWindow* parent)
 {
-    DynamicPrintConfig*	config = &wxGetApp().preset_bundle->prints.get_edited_preset().config;
+    DynamicPrintConfig*    config = &wxGetApp().preset_bundle->prints.get_edited_preset().config;
 
     // Frequently changed parameters for FFF_technology
 
@@ -214,7 +214,7 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_sla = std::make_shared<ConfigOptionsGroup>(parent, "");
     m_og_sla->hide_labels();
-    DynamicPrintConfig*	config_sla = &wxGetApp().preset_bundle->sla_prints.get_edited_preset().config;
+    DynamicPrintConfig*    config_sla = &wxGetApp().preset_bundle->sla_prints.get_edited_preset().config;
     m_og_sla->set_config(config_sla);
 
     m_og_sla->on_change = [config_sla](t_config_option_key opt_key, boost::any value) {

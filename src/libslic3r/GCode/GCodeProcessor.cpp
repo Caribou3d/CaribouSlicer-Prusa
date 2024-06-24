@@ -1847,7 +1847,7 @@ template<typename T>
         // Legacy conversion, which is costly due to having to make a copy of the string before conversion.
         try {
             assert(sv.size() < 1024);
-	    assert(sv.data() != nullptr);
+        assert(sv.data() != nullptr);
             std::string str { sv };
             size_t read = 0;
             if constexpr (std::is_same_v<T, int>)
