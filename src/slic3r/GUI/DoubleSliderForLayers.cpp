@@ -43,7 +43,7 @@ DSForLayers::DSForLayers(   int lowerValue,
     m_ctrl.ShowLabelOnMouseMove(true);
 
     m_ctrl.set_get_label_on_move_cb([this](int pos) {
-        m_pos_on_move = pos;
+        m_pos_on_move = pos; 
         return m_show_estimated_times ? get_label(pos, ltEstimatedTime) : "";
     });
     m_ctrl.set_extra_draw_cb([this](const ImRect& draw_rc) {return draw_ticks(draw_rc); });
@@ -179,7 +179,7 @@ void DSForLayers::draw_ticks(const ImRect& slideable_region)
     if (m_ticks.empty() || m_draw_mode == dmSlaPrint)
         return;
 
-    // distance form center           begin  end
+    // distance form center           begin  end 
     const ImVec2 tick_border = ImVec2(23.0f, 2.0f) * m_scale;
 
     const float inner_x     = 11.f * m_scale;
@@ -969,8 +969,7 @@ void DSForLayers::Render(const int canvas_width, const int canvas_height, float 
 
 void DSForLayers::force_ruler_update()
 {
-    if (m_show_ruler)
-        m_ruler.invalidate();
+    m_ruler.invalidate();
 }
 
 bool DSForLayers::is_wipe_tower_layer(int tick) const

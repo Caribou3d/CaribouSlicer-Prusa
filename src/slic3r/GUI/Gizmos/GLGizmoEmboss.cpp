@@ -140,6 +140,16 @@ struct TextDataBase : public DataBase
     /// </summary>
     /// <param name="volume">Place to write Text emboss data</param>
     void write(ModelVolume &volume) const override;
+    
+    /// <summary>
+    /// Used only with text for embossing per glyph.
+    /// Create text lines only for new added volume to object 
+    /// otherwise textline is already setted before
+    /// </summary>
+    /// <param name="tr">Embossed volume final transformation in object</param>
+    /// <param name="vols">Volumes to be sliced to text lines</param>
+    /// <returns>True on succes otherwise False(Per glyph shoud be disabled)</returns>
+    bool create_text_lines(const Transform3d &tr, const ModelVolumePtrs &vols) override; 
 
     /// <summary>
     /// Used only with text for embossing per glyph.
@@ -357,9 +367,9 @@ bool GLGizmoEmboss::create_volume(ModelVolumeType volume_type)
 CreateVolumeParams GLGizmoEmboss::create_input(ModelVolumeType volume_type)
 {
     // NOTE: change style manager - be carefull with order changes
-    DataBasePtr base = create_emboss_data_base(m_text, m_style_manager, m_text_lines,
+    DataBasePtr base = create_emboss_data_base(m_text, m_style_manager, m_text_lines, 
         m_parent.get_selection(), volume_type, m_job_cancel);
-
+    
     const StyleManager::Style &style = m_style_manager.get_style();
     auto gizmo = static_cast<unsigned char>(GLGizmosManager::Emboss);
     const GLVolume *gl_volume = get_first_hovered_gl_volume(m_parent);
@@ -2894,7 +2904,6 @@ void GLGizmoEmboss::draw_align()
             reinit_text_lines(m_text_lines.get_lines().size());
 
         // TODO: move with text in finalize to not change position
-
         process();
     }
 }
@@ -2916,7 +2925,6 @@ void GLGizmoEmboss::draw_char_gap()
     double font_point_to_world_mm = font_point_to_volume_mm * m_scale_width.value_or(1.f);
     double scale = font_point_to_world_mm;
     std::string units_fmt = "%.2f mm";
-
     bool use_inch = wxGetApp().app_config->get_bool("use_inches");
     if (use_inch){
         scale *= ObjectManipulation::mm_to_in;
@@ -2967,7 +2975,6 @@ void GLGizmoEmboss::draw_line_gap() {
     const FontFile &ff = *m_style_manager.get_font_file_with_cache().font_file;
     const FontProp &fp = m_style_manager.get_font_prop();
     const FontFile::Info &font_info = get_font_info(ff, fp);
-
     double font_point_to_volume_mm = fp.size_in_mm / (double) font_info.unit_per_em;
     double font_point_to_world_mm = font_point_to_volume_mm * m_scale_width.value_or(1.f);
     double scale = font_point_to_world_mm;
@@ -3252,7 +3259,6 @@ void GLGizmoEmboss::draw_rotation() {
         const IconManager::Icon &icon_disable = get_icon(m_icons, m_keep_up ? IconType::lock : IconType::unlock, IconState::disabled);
         if (button(icon, icon_hover, icon_disable))
             m_keep_up = !m_keep_up;
-
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("%s", (m_keep_up?
                 _u8L("Unlock the text's rotation when moving text along the object's surface."):

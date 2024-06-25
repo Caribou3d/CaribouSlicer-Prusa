@@ -612,7 +612,6 @@ bool start_create_volume_without_position(CreateVolumeParams &input)
     input.gl_volume = ::find_closest(selection, screen_center, camera, objects, &coor);
     if (input.gl_volume == nullptr)
         return ::start_create_object_job(input, screen_center);
-
     bool try_no_coor = false;
     return ::start_create_volume_on_surface_job(input, coor, try_no_coor);
 }
@@ -1589,7 +1588,6 @@ bool start_create_volume_on_surface_job(CreateVolumeParams &input, const Vec2d &
 
     // Create text lines for Per Glyph projection when needed
     input.data->create_text_lines(transform, prepare_volumes_to_slice(*object));
-
     // Try to cast ray into scene and find object for add volume
     return start_create_volume_job(input.worker, *object, transform, std::move(input.data), input.volume_type, gizmo_type);
 }

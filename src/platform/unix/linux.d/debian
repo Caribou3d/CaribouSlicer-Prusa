@@ -10,6 +10,7 @@ REQUIRED_DEV_PACKAGES=(
     git
     libcurl4-openssl-dev
     libdbus-1-dev
+    libglu1-mesa-dev    
     libglew-dev
 #    libgstreamerd-3-dev
     libmspack-dev
@@ -18,7 +19,7 @@ REQUIRED_DEV_PACKAGES=(
     libssl-dev
     libtool
     libudev-dev
-#    libwebkit2gtk-4.0-dev
+    libwebkit2gtk-4.0-dev
 #    ninja-build
     m4
     texinfo

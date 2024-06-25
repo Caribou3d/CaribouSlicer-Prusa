@@ -882,7 +882,6 @@ Plater::priv::priv(Plater *q, MainFrame *main_frame)
             }
             user_account->on_login_code_recieved(dialog_msg);
         });
-
         this->q->Bind(EVT_UA_LOGGEDOUT, [this](UserAccountSuccessEvent& evt) {
             user_account->clear();
             std::string text = _u8L("Logged out from Prusa Account.");
@@ -3325,8 +3324,8 @@ void Plater::priv::reset_canvas_volumes()
 
 bool Plater::priv::init_view_toolbar()
 {
-    if (wxGetApp().is_gcode_viewer())
-        return true;
+    //if (wxGetApp().is_gcode_viewer())
+    //    return true;
 
     if (view_toolbar.get_items_count() > 0)
         // already initialized
@@ -3367,16 +3366,20 @@ bool Plater::priv::init_view_toolbar()
     if (!view_toolbar.add_item(item))
         return false;
 
+    if (!view_toolbar.generate_icons_texture())
+        return false;
+
     view_toolbar.select_item("3D");
-    view_toolbar.set_enabled(true);
+    if (wxGetApp().is_editor())
+        view_toolbar.set_enabled(true);
 
     return true;
 }
 
 bool Plater::priv::init_collapse_toolbar()
 {
-    if (wxGetApp().is_gcode_viewer())
-        return true;
+    //if (wxGetApp().is_gcode_viewer())
+    //    return true;
 
     if (collapse_toolbar.get_items_count() > 0)
         // already initialized
@@ -3411,9 +3414,13 @@ bool Plater::priv::init_collapse_toolbar()
     if (!collapse_toolbar.add_item(item))
         return false;
 
+    if (!collapse_toolbar.generate_icons_texture())
+        return false;
+
     // Now "collapse" sidebar to current state. This is done so the tooltip
     // is updated before the toolbar is first used.
-    wxGetApp().plater()->collapse_sidebar(wxGetApp().plater()->is_sidebar_collapsed());
+    if (wxGetApp().is_editor())
+        wxGetApp().plater()->collapse_sidebar(wxGetApp().plater()->is_sidebar_collapsed());
     return true;
 }
 

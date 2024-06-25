@@ -80,14 +80,14 @@ static bool behavior(ImGuiID id, const ImRect& region,
     return value_changed;
 }
 
-static bool lclicked_on_thumb(ImGuiID id, const ImRect& region,
-                             const ImS32 v_min, const ImS32 v_max,
+static bool lclicked_on_thumb(ImGuiID id, const ImRect& region, 
+                             const ImS32 v_min, const ImS32 v_max, 
                              const ImRect& thumb, ImGuiSliderFlags flags = 0)
 {
     ImGuiContext& context = *GImGui;
 
-    if (context.ActiveId == id && context.ActiveIdSource == ImGuiInputSource_Mouse &&
-        context.IO.MouseReleased[0])
+    if (context.ActiveId == id && context.ActiveIdSource == ImGuiInputSource_Mouse && 
+        context.IO.MouseReleased[0]) 
     {
         const ImGuiAxis axis = (flags & ImGuiSliderFlags_Vertical) ? ImGuiAxis_Y : ImGuiAxis_X;
 
@@ -538,12 +538,17 @@ bool ImGuiControl::draw_slider( int* higher_pos, int* lower_pos,
             m_active_thumb = active_thumb;
             m_suppress_process_behavior = true;
         }
-        else if (ImGui::ItemHoverable(active_thumb, id) && context.IO.MouseReleased[0]) {
+        else if (ImGui::ItemHoverable(active_thumb, id) && context.IO.MouseReleased[0]) { 
             const ImRect& slideable_region = m_selection == ssHigher ? m_regions.higher_slideable_region : m_regions.lower_slideable_region;
             if (lclicked_on_thumb(id, slideable_region, m_min_pos, m_max_pos, m_active_thumb, m_flags)) {
                 m_suppress_process_behavior = true;
                 m_lclick_on_selected_thumb = true;
             }
+        }
+
+        if (ImGui::ItemHoverable(active_thumb, id) && ImGui::IsMouseDragging(0)) {
+            // invalidate active thumb clicking
+            m_active_thumb = ImRect(0.f, 0.f, 0.f, 0.f);
         }
     }
 
@@ -621,7 +626,8 @@ bool ImGuiControl::draw_slider( int* higher_pos, int* lower_pos,
     }
 
     // draw label on mouse move
-    draw_label(move_label, mouse_pos_rc, false, true);
+    if (m_show_move_label)
+        draw_label(move_label, mouse_pos_rc, false, true);
 
     return pos_changed;
 }

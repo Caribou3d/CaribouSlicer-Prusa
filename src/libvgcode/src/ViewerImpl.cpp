@@ -1879,8 +1879,12 @@ void ViewerImpl::render_segments(const Mat4x4& view_matrix, const Mat4x4& projec
         m_segment_template.render(count);
     }
 #else
-    int curr_bound_texture = 0;
-    glsafe(glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, &curr_bound_texture));
+    std::array<int, 4> curr_bound_texture = { 0, 0, 0, 0 };
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
+        glsafe(glActiveTexture(GL_TEXTURE0 + i));
+        glsafe(glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, &curr_bound_texture[i]));
+        //assert(curr_bound_texture[i] == 0);
+    }
 
     glsafe(glActiveTexture(GL_TEXTURE0));
     glsafe(glBindTexture(GL_TEXTURE_BUFFER, m_positions_tex_id));
@@ -1905,7 +1909,10 @@ void ViewerImpl::render_segments(const Mat4x4& view_matrix, const Mat4x4& projec
 #ifdef ENABLE_OPENGL_ES
     glsafe(glBindTexture(GL_TEXTURE_2D, curr_bound_texture));
 #else
-    glsafe(glBindTexture(GL_TEXTURE_BUFFER, curr_bound_texture));
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
+        glsafe(glActiveTexture(GL_TEXTURE0 + i));
+        glsafe(glBindTexture(GL_TEXTURE_BUFFER, curr_bound_texture[i]));
+    }
 #endif // ENABLE_OPENGL_ES
     glsafe(glActiveTexture(curr_active_texture));
 }
@@ -1959,8 +1966,12 @@ void ViewerImpl::render_options(const Mat4x4& view_matrix, const Mat4x4& project
         m_option_template.render(count);
     }
 #else
-    int curr_bound_texture = 0;
-    glsafe(glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, &curr_bound_texture));
+    std::array<int, 4> curr_bound_texture = { 0, 0, 0, 0 };
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
+        glsafe(glActiveTexture(GL_TEXTURE0 + i));
+        glsafe(glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, &curr_bound_texture[i]));
+        //assert(curr_bound_texture[i] == 0);
+    }
 
     glsafe(glActiveTexture(GL_TEXTURE0));
     glsafe(glBindTexture(GL_TEXTURE_BUFFER, m_positions_tex_id));
@@ -1985,7 +1996,10 @@ void ViewerImpl::render_options(const Mat4x4& view_matrix, const Mat4x4& project
 #ifdef ENABLE_OPENGL_ES
     glsafe(glBindTexture(GL_TEXTURE_2D, curr_bound_texture));
 #else
-    glsafe(glBindTexture(GL_TEXTURE_BUFFER, curr_bound_texture));
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
+        glsafe(glActiveTexture(GL_TEXTURE0 + i));
+        glsafe(glBindTexture(GL_TEXTURE_BUFFER, curr_bound_texture[i]));
+    }
 #endif // ENABLE_OPENGL_ES
     glsafe(glActiveTexture(curr_active_texture));
 }
