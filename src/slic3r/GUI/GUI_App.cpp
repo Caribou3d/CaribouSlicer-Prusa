@@ -876,7 +876,7 @@ GUI_App::GUI_App(EAppMode mode)
     , m_other_instance_message_handler(std::make_unique<OtherInstanceMessageHandler>())
     , m_downloader(std::make_unique<Downloader>())
 {
-    //app config initializes early becasuse it is used in instance checking in PrusaSlicer.cpp
+    //app config initializes early becasuse it is used in instance checking in CaribouSlicer.cpp
     this->init_app_config();
     // init app downloader after path to datadir is set
     m_app_updater = std::make_unique<AppUpdater>();
@@ -2477,10 +2477,10 @@ bool GUI_App::load_language(wxString language, bool initial)
     if (initial) {
         // There is a static list of lookup path prefixes in wxWidgets. Add ours.
         wxFileTranslationsLoader::AddCatalogLookupPathPrefix(from_u8(localization_dir()));
-        // Get the active language from PrusaSlicer.ini, or empty string if the key does not exist.
+        // Get the active language from CaribouSlicer.ini, or empty string if the key does not exist.
         language = app_config->get("translation_language");
         if (! language.empty())
-            BOOST_LOG_TRIVIAL(trace) << boost::format("translation_language provided by PrusaSlicer.ini: %1%") % language;
+            BOOST_LOG_TRIVIAL(trace) << boost::format("translation_language provided by CaribouSlicer.ini: %1%") % language;
 
         // Get the system language.
         {
@@ -2504,7 +2504,7 @@ bool GUI_App::load_language(wxString language, bool initial)
 #endif // __WXOSX__
             // Set the current translation's language to default, otherwise GetBestTranslation() may not work (see the wxWidgets source code).
             wxTranslations::Get()->SetLanguage(wxLANGUAGE_DEFAULT);
-            // Let the wxFileTranslationsLoader enumerate all translation dictionaries for PrusaSlicer
+            // Let the wxFileTranslationsLoader enumerate all translation dictionaries for CaribouSlicer
             // and try to match them with the system specific "preferred languages".
             // There seems to be a support for that on Windows and OSX, while on Linuxes the code just returns wxLocale::GetSystemLanguage().
             // The last parameter gets added to the list of detected dictionaries. This is a workaround
@@ -2533,7 +2533,7 @@ bool GUI_App::load_language(wxString language, bool initial)
     }
 
     if (language_info != nullptr && language_info->LayoutDirection == wxLayout_RightToLeft) {
-        BOOST_LOG_TRIVIAL(trace) << boost::format("The following language code requires right to left layout, which is not supported by PrusaSlicer: %1%") % language_info->CanonicalName.ToUTF8().data();
+        BOOST_LOG_TRIVIAL(trace) << boost::format("The following language code requires right to left layout, which is not supported by CaribouSlicer: %1%") % language_info->CanonicalName.ToUTF8().data();
         language_info = nullptr;
     }
 
@@ -3180,7 +3180,7 @@ void GUI_App::MacOpenFiles(const wxArrayString &fileNames)
 void GUI_App::MacOpenURL(const wxString& url)
 {
     std::string narrow_url = into_u8(url);
-    if (boost::starts_with(narrow_url, "prusaslicer://open?file=")) {
+    if (boost::starts_with(narrow_url, "CaribouSlicer://open?file=")) {
         // This app config field applies only to downloading file
         // (we need to handle login URL even if this flag is set off)
         if (app_config && !app_config->get_bool("downloader_url_registered"))
@@ -3191,7 +3191,7 @@ void GUI_App::MacOpenURL(const wxString& url)
         }
 
         start_download(std::move(narrow_url));
-    } else if (boost::starts_with(narrow_url, "prusaslicer://login")) {
+    } else if (boost::starts_with(narrow_url, "CaribouSlicer://login")) {
         plater()->get_user_account()->on_login_code_recieved(std::move(narrow_url));
     } else {
         BOOST_LOG_TRIVIAL(error) << "MacOpenURL recieved improper URL: " << url;
@@ -3665,7 +3665,7 @@ bool GUI_App::open_login_browser_with_dialog(const wxString& url, wxWindow* pare
 {
     bool auth_login_dialog_confirmed = app_config->get_bool("auth_login_dialog_confirmed");
     if (!auth_login_dialog_confirmed) {
-        RichMessageDialog dialog(parent, _L("Open default browser with Prusa Account Log in page?\n(If you select 'Yes', you will not be asked again.)"), _L("PrusaSlicer: Open Log in page"), wxICON_QUESTION | wxYES_NO);
+        RichMessageDialog dialog(parent, _L("Open default browser with Prusa Account Log in page?\n(If you select 'Yes', you will not be asked again.)"), _L("CaribouSlicer: Open Log in page"), wxICON_QUESTION | wxYES_NO);
          if (dialog.ShowModal() != wxID_YES)
              return false;
          app_config->set("auth_login_dialog_confirmed", "1");

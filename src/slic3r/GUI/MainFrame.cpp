@@ -637,10 +637,10 @@ void MainFrame::set_callbacks_for_topbar_menus()
         [this]() -> void {
             wxString preferences_item = _L("Show Log in button in application top bar");
             wxString msg =
-                _L("PrusaSlicer will remember your choice.") + "\n\n" +
+                _L("CaribouSlicer will remember your choice.") + "\n\n" +
                 format_wxstr(_L("Visit \"Preferences\" and check \"%1%\"\nto changes your choice."), preferences_item);
 
-            MessageDialog msg_dlg(this, msg, _L("PrusaSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
+            MessageDialog msg_dlg(this, msg, _L("CaribouSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
             if (msg_dlg.ShowModal() == wxID_OK) {
                 wxGetApp().app_config->set("show_login_button", "0");
 

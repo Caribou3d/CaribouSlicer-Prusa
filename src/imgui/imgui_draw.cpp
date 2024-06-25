@@ -3282,7 +3282,7 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
 
 const ImFontGlyph* ImFont::FindGlyph(ImWchar c) const
 {
-    // PrusaSlicer extension: call the following function whenever the fallback is needed.
+    // CaribouSlicer extension: call the following function whenever the fallback is needed.
     // The goal is to not modify ImGui code too much.
     void imgui_rendered_fallback_glyph(ImWchar c);
 

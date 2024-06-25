@@ -553,7 +553,8 @@ namespace Slic3r {
             CraftWare,
             ideaMaker,
             KissSlicer,
-            BambuStudio
+            BambuStudio,
+            CaribouSlicer
         };
 
         static const std::vector<std::pair<GCodeProcessor::EProducer, std::string>> Producers;

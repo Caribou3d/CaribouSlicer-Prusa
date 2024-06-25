@@ -360,7 +360,7 @@ std::string AppConfig::load(const std::string &path)
 #endif // WIN32
             BOOST_LOG_TRIVIAL(info) << format(R"(Failed to parse configuration file "%1%": %2%)", path, ex.what());
         if (!recovered) {
-            // Report the initial error of parsing PrusaSlicer.ini.
+            // Report the initial error of parsing CaribouSlicer.ini.
             // Error while parsing config file. We'll customize the error message and rethrow to be displayed.
             // ! But to avoid the use of _utf8 (related to use of wxWidgets)
             // we will rethrow this exception from the place of load() call, if returned value wouldn't be empty
@@ -499,7 +499,7 @@ void AppConfig::save()
 #endif
 
     // Rename the config atomically.
-    // On Windows, the rename is likely NOT atomic, thus it may fail if PrusaSlicer crashes on another thread in the meanwhile.
+    // On Windows, the rename is likely NOT atomic, thus it may fail if CaribouSlicer crashes on another thread in the meanwhile.
     // To cope with that, we already made a backup of the config on Windows.
     rename_file(path_pid, path);
     m_dirty = false;

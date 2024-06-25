@@ -29,6 +29,10 @@ if (SLIC3R_ENABLE_FORMAT_STEP)
     add_subdirectory(occt_wrapper)
 endif ()
 
+if (UNIX)
+    set(wxUSE_WEBVIEW ON)
+endif ()
+
 if (SLIC3R_GUI)
     add_subdirectory(imgui)
     add_subdirectory(libvgcode)

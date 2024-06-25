@@ -231,7 +231,7 @@ static void copy_dir(const boost::filesystem::path& from_dir, const boost::files
     }
 }
 
-// Import newer configuration from alternate PrusaSlicer configuration directory.
+// Import newer configuration from alternate CaribouSlicer configuration directory.
 // AppConfig from the alternate location is already loaded.
 // User profiles are being merged (old files are not being deleted),
 // while old vendors and cache folders are being deleted before newer are copied.
@@ -239,7 +239,7 @@ void PresetBundle::import_newer_configs(const std::string& from)
 {
     boost::filesystem::path data_dir = boost::filesystem::path(Slic3r::data_dir());
     // Clean-up vendors from the target directory, as the existing vendors will not be referenced
-    // by the copied PrusaSlicer.ini
+    // by the copied CaribouSlicer.ini
     try {
         boost::filesystem::remove_all(data_dir / "cache");
     } catch (const std::exception &ex) {

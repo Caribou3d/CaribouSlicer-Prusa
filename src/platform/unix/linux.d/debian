@@ -70,7 +70,12 @@ else
         for PKG in ${NEEDED_PKGS[@]}; do
             echo  "   ${PKG}"
         done
-        echo -e "\n ... or run sudo BuildLinux -u\n"
+        if [[ -n "$FORCE_GTK2" ]]
+        then
+            echo -e "\n ... or run sudo ./BuildLinux.sh -gu\n"
+        else
+            echo -e "\n ... or run sudo ./BuildLinux.sh -u\n"
+        fi
         exit 0
     fi
     echo -e "\n ... done"
