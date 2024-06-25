@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Kalibrierungsw&uuml;rfel</title>
+  <title>Extrusionsfaktor-Kalibrierung (W&auml;nde)</title>
 </head>
 <body>
 
@@ -10,14 +10,13 @@
 <tbody>
 <tr>
 <td style="text-align: center;">
-<h1>Kalibrierungsw&uuml;rfel</h1>
+<h1>Extrusionsfaktor-Kalibrierung (W&auml;nde)</h1>
 </td>
 </tr>
 <tr>
 <td style="text-align: right;"><strong>
-    <table><tr><td>Bedarf:</td>
+    <table><tr><td>Voraussetzung:</td>
         <td style="text-align: left;">Bettnivellierung</td>
-        <td style="text-align: left;">Fluss</td>
         <td style="text-align: left;">Temperatur</td></tr>
     </table>
     </strong>
@@ -25,17 +24,112 @@
 </tbody>
 </table>
 
-<p>Auf dieser Seite kannst du den beliebten Kalibrierungsw&uuml;rfel ausdrucken. Er ist n&uuml;tzlich, um zu sehen, ob dein Drucker genau ist und um einige Einstellungen zu kalibrieren. Als Erstes musst du dein Ziel ausw&auml;hlen.</p>
-<h2>Ziel: Ma&szlig;haltigkeit</h2>
-<p>Du sollst zwei W&uuml;rfel mit unterschiedlichen Gr&ouml;&szlig;en drucken. Wenn die Ma&szlig;genauigkeit mit der Gr&ouml;&szlig;e der W&uuml;rfel w&auml;chst, m&uuml;ssen die Schritte/mm deiner Stepper angepasst werden (Achtung: Wenn das der Fall ist, solltest du auch den Durchfluss anpassen und vielleicht einige Kalibrierungen wiederholen, wenn die Ver&auml;nderung gro&szlig; ist). Wenn er nicht skaliert, kannst du ihn korrigieren, indem du die xy-Kompensation anpasst (Reiter Slicing). Mit dem Voron-W&uuml;rfel kannst du auch die Kalibrierung der L&ouml;cher testen, da diese oft zu klein sind. Das Loch an der Oberseite sollte gerade so gro&szlig; sein (bei der 30-mm-Version), dass ein Lager aufgeschoben werden kann.</p>
-<h2>Ziel: F&uuml;llung/Perimeter&uuml;berlappung</h2>
-<p>Dieser Test soll zeigen, ob das Muster der F&uuml;llung an den R&auml;ndern zu sehen ist. Versuche, die F&uuml;llung so weit wie m&ouml;glich zu reduzieren, aber &uuml;berpr&uuml;fe die obere F&uuml;llung, da sie Artefakte erzeugen kann, wenn sie zu niedrig ist. Mit dem Standardw&uuml;rfel ist es besser, da du eine gr&ouml;&szlig;ere obere Fl&auml;che hast.</p>
-<!-- <h2>Ziel: &Uuml;berlappung des Au&szlig;enumfangs</h2> -->
-<!-- <p>Da die &auml;u&szlig;ere Begrenzung zuletzt gedruckt wird, h&auml;ngt die tats&auml;chliche Position von der Lage und dem Verlauf der gesamten Ebene ab. Du musst also sicher sein, dass dein Fluss perfekt ist, bevor du diesen Test machst. Der Hauptunterschied besteht zwischen massiven und sp&auml;rlichen F&uuml;llschichten, da die massiven F&uuml;llschichten den &auml;u&szlig;eren Rand nach au&szlig;en dr&uuml;cken k&ouml;nnen. Wenn du die &Uuml;berlappung zwischen F&uuml;llung und Perimeter verringerst, kann das helfen, diesen Effekt zu reduzieren.</p> -->
-<h2>Hinweise</h2>
-<p>Diese Tests sollten die letzten sein.</p>
-<p>Die Standardgr&ouml;&szlig;e des Standardw&uuml;rfels ist 20mm und die Standardgr&ouml;&szlig;e des Voron-W&uuml;rfels ist 30mm.</p>
-<p>Lizenz f&uuml;r den Standard-Kalibrierungsw&uuml;rfel: CC BY-SA 3.0, <a href="https://www.thingiverse.com/thing:1278865">gemacht von iDig3Dprinting</a></p>
-<p>Lizenz f&uuml;r den Voron-Kalibrierungsw&uuml;rfel: GPL V3, <a href="https://github.com/VoronDesign/Voron-2">hergestellt von VORONDesign</a></p>
+<p>Testw&uuml;rfel, der zum Testen des Extrusionsmultiplikators oder der
+Schichtqualit&auml;t verwendet werden kann
+(z. B. Z-Banding oder inkonsistente Extrusion).
+Er hat eine kleine Verrundung an einer Ecke, um die Druckausrichtung im Auge
+zu behalten.</p>
+
+<p>Der Extrusionsfaktor ist f&uuml;r jede Art von Filament unterschiedlich und
+die Kalibrierung sollte f&uuml;r jeden Typ vorgenommen werden!</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./lowcube.png" width="600" height="441"/></td>
+</tr>
+<tr>
+
+<p>F&uuml;r die folgenden Schritte empfehlen wir einen Mikrometer anstelle
+eines Messschiebers.
+Messschieber sind nicht pr&auml;zise genug, um so kleine Werte zu messen,
+und eine Messschraube
+verf&uuml;gt &uuml;ber ein Ratschensystem, mit dem bei allen Messungen der gleiche
+Druck ausge&uuml;bt wird.</p>
+
+<p> Wenn Sie dennoch einen Messschieber verwenden wollen, achten Sie darauf,
+dass Sie immer den gleichen
+Druck beim Messen und dr&uuml;cken Sie nicht zu stark.</p>
+
+
+<h2>Verfahrensweise </h2>
+<p>Messen Sie zun&auml;chst den Durchmesser des Fadens. messen Sie an mehreren
+Stellen und berechnen Sie den Durchschnitt.</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./filamentmeasure.png" width="750" height="562"/></td>
+</tr>
+<tr>
+
+<p>Geben Sie den Durchmesser im Slicer unter Filamenteinstellungen ein.</p>
+
+<p>Vergewissern Sie sich, dass der Exrusionsmultiplikator bei der ersten Messungen
+auf 1 eingestellt ist!</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./filamentslicer_de.png" width="750" height="435"/></td>
+</tr>
+<tr>
+
+<p>Jetzt k&ouml;nnen Sie den G-Code generieren (empfohlene Gr&ouml;&szlig;e 80mm
+oder 100mm) und drucken den G-Code drucken.</p>
+
+<p>Messen Sie die Dicke aller Umf&auml;nge und berechnen Sie den Durchschnitt.
+Am zuverl&auml;ssigsten ist die Messung in der Mitte jeder Wand, wie in der
+ Abbildung.</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./printmeasure.png" width="750" height="562"/></td>
+</tr>
+<tr>
+
+<p>Berechnen Sie den neuen Extrusionsfaktor, wie in diesem Beispiel:</p>
+
+<table >
+<tbody>
+<tr>
+<td><img src="./formula_de.png" width="759" height="160"/></td>
+</tr>
+<tr>
+
+<ul>
+<li>Ihr urspr&uuml;nglicher Extrusionsmultiplikator = 1,00 und Ihre durchschnittliche
+Umfangs
+Dicke = 0,47 mm.</li>
+<li>Sie verwenden eine 0,4 mm-D&uuml;se, also betr&auml;gt Ihre angestrebte / erwartete
+Extrusionsbreite 0,45 mm betr&auml;gt.</li>
+<li>Your new extrusion multiplier = (1.00 x 0.45) / 0.47 = 0.957</li>
+</ui>
+
+<p>Ihr neuer Extrusionsfaktor= (1,00 - 0,45)/0,47 = 0,957</p>
+
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./filamentslicer2_de.png" width="750" height="445"/></td>
+</tr>
+<tr>
+
+<p>Slicen und drucken Sie das Kalibrierungsmodell erneut mit dem neuen
+Extrusionsfaktor
+ Wert. &Uuml;berpr&uuml;fen Sie die Wandst&auml;rke mit Ihrem Mikrometer. Wiederholen Sie die
+ vorherigen Schritte  wenn eine Verfeinerung erforderlich ist.</p>
+
+ <h2>Anmerkungen</h2>
+ <p>Der Extrusionsmultiplikator ist im Allgemeinen f&uuml;r eine ganze Spule konstant
+ (wenn Sie die Temperatur nicht &auml;ndern), aber der Filamentdurchmesser &auml;ndert sich.
+ Messen Sie daher vor dem Schneiden eines Teils den Filamentdurchmesser, den Sie
+ Filamentdurchmesser, den Sie verwenden wollen, und geben ihn in den Slicer ein.</p>
+
+<p>Basiert auf dem Verfahren von <a href="https://guides.bear-lab.com/Guide/Extrusion+multiplier+and+filament+diameter/8?lang=en">
+ Gr&#233;goire Saunier</a> .<p>
+
 </body>
 </html>

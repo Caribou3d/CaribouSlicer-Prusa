@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Calibration Cube</title>
+  <title>Extrusion Multiplier Calibration (Walls)</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
 <tbody>
 <tr>
 <td style="text-align: center;">
-<h1>Calibration Extrusion Multiplier (Walls)</h1>
+<h1>Extrusion Multiplier Calibration (Walls)</h1>
 </td>
 </tr>
 <tr>
@@ -27,24 +27,99 @@
 <p>Test cube that can be used to test extrusion multiplier or layer quality
 (like Z banding or inconsistent extrusion).
 It has a small fillet on one corner to keep in mind print orientation.</p>
+
+<p>The extrusion multiplier will be different for each type of filament and
+the clibration should be done for each type!</p>
+
 <table width="100%">
 <tbody>
 <tr>
-<td><img src="./wall.png" width="265" height="281"/></td>
+<td><img src="./lowcube.png" width="600" height="441"/></td>
 </tr>
 <tr>
-</table>
 
-<h2>Goal: Dimensional accuracy</h2>
-<p>You have to print two cubes, with different sizes. If the dimensional inaccuracy scale with the size of the cubes, then it's the steps/mm of your steppers that needs some adjustments (note: if it's the case, you should also adjust the flow, and maybe redo some calibrations if the change is big). If it doesn't scale, you can correct it by adjusting your xy compensation (slicing tab). With the Voron cube, you can also test the hole calibration, as these are often too small. The hole on the top should be just enough (on the 30mm version) for a bearing to be pushed onto.</p>
-<h2>Goal: infill/perimeter overlap</h2>
-<p>This test is to see if the pattern of the infill can be seen on the perimeters. Try to reduce it as low as you can but check the top solid fill, as it can create artifacts if it's too low. It's better with the standard cube, as you have a larger top surface.</p>
+<p>We recommend a micrometer instead of a caliper for the following steps.
+Calipers are not precise enough to measure such small values and a micrometer
+has a ratchet system made to apply same pressure for all measures.</p>
 
-<!-- <h2>Goal: external perimeter overlap</h2> -->
-<!-- <p>As the external perimeter is printed last, the real position depends on the position and flow of the whole layer. So you have to be sure that your flow is perfect before doing this test. The main difference is between solid infill layers and sparse infill layers, as the solid one can push the external perimeter outwards. Decreasing the infill/perimeter overlap, decreasing the external perimeter overlap can help to reduce this effect.</p> -->
-<h2>Notes</h2>
-<p>These tests should be the last ones.</p>
-<p>Default size of the standard cube is 20mm and the standard size of the Voron cube is 30mm.</p>
-<p>Based on <a href="https://guides.bear-lab.com/Guide/Extrusion+multiplier+and+filament+diameter/8?lang=en"></a></p>
+<p> If you still want to use caliper, make sure to always use the same
+pressure when you measure and don't press too strongly.</p>
+
+
+<h2>Proceduere </h2>
+<p>First measure the diameter of the filament. measure at several
+places and calculate the average.</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./filamentmeasure.png" width="750" height="562"/></td>
+</tr>
+<tr>
+
+<p>Enter the diameter into the slicer under filament settings.</p>
+
+<p>Make sure the exrusion multiplier is set to 1!</p>
+
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./filamentslicer.png" width="750" height="435"/></td>
+</tr>
+<tr>
+
+<p>Now you can generate the gcode (recommended size 80mm or 100mm) and print
+the gcode.</p>
+
+<P>Measure thickness of all the perimeters and calculate the average.
+The most reliable measure is on the center of each walls as shown on the
+ image.</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./printmeasure.png" width="750" height="562"/></td>
+</tr>
+<tr>
+
+<p>Calculate the new extrusion multiplier, like in this example:</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./formula.png" width="750" height="160"/></td>
+</tr>
+<tr>
+
+<ul>
+<li>Your original extrusion multiplier = 1.00 and your average perimeter thickness = 0.47mm.</li>
+<li>Your are using a 0.4mm nozzle, so your target / expected extrusion width is 0.45mm.</li>
+<li>Your new extrusion multiplier = (1.00 x 0.45) / 0.47 = 0.957</li>
+</ui>
+<p>Enter the new extrusion multiplier value in the filament settings page of
+the slicer:</p>
+
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./filamentslicer2.png" width="750" height="445"/></td>
+</tr>
+<tr>
+
+<p>Slice and print the calibration model again with the new extrusion multiplier
+ value. Verify the wall thickness with your micrometer. Repeat the previous steps
+  if refinement is needed.</p>
+
+ <h2>Notes</h2>
+ <p>The extrusion multiplier is generally constant for a whole spool
+ (if you do not change temperature) but the filament diameter will change.
+ Therefore, before slicing a part, measure the filament diameter you are going
+ to use and enter it into the slicer.</p>
+
+<p>Based on the procedure created by <a href="https://guides.bear-lab.com/Guide/Extrusion+multiplier+and+filament+diameter/8?lang=en">
+ Gr&#233;goire Saunier</a> .<p>
+
 </body>
 </html>

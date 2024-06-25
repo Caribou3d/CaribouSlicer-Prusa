@@ -15,7 +15,7 @@
 </tr>
 <tr>
 <td style="text-align: right;"><strong>
-    <table><tr><td>Anforderung:</td>
+    <table><tr><td>Voraussetzung:</td>
         <td style="text-align: left;">Bettnivellierung</td>
         <td style="text-align: left;">Fluss</td>
         <td style="text-align: left;">Temperatur</td></tr>
@@ -25,17 +25,54 @@
 </tbody>
 </table>
 
-<p>Auf dieser Seite kannst du den beliebten Kalibrierungsw&uuml;rfel ausdrucken. Er ist n&uuml;tzlich, um zu sehen, ob dein Drucker genau ist und um einige Einstellungen zu kalibrieren. Als Erstes musst du dein Ziel ausw&auml;hlen.</p>
+<p>Auf dieser Seite k&ouml;nnen Sie den beliebten Kalibrierungsw&uuml;rfel ausdrucken. Er ist
+n&uuml;tzlich, um zu sehen, ob der Drucker genau ist und um einige Einstellungen zu
+kalibrieren. Als Erstes m&uuml;ssen Sie ein Ziel ausw&auml;hlen.</p>
+
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./cubes.png" width="750 height="520"/></td>
+</tr>
+<tr>
+</tbody>
+</table>
+
 <h2>Ziel: Ma&szlig;haltigkeit</h2>
-<p>Du sollst zwei W&uuml;rfel mit unterschiedlichen Gr&ouml;&szlig;en drucken. Wenn die Ma&szlig;genauigkeit mit der Gr&ouml;&szlig;e der W&uuml;rfel w&auml;chst, m&uuml;ssen die Schritte/mm deiner Stepper angepasst werden (Achtung: Wenn das der Fall ist, solltest du auch den Durchfluss anpassen und vielleicht einige Kalibrierungen wiederholen, wenn die Ver&auml;nderung gro&szlig; ist). Wenn er nicht skaliert, kannst du ihn korrigieren, indem du die xy-Kompensation anpasst (Reiter Slicing). Mit dem Voron-W&uuml;rfel kannst du auch die Kalibrierung der L&ouml;cher testen, da diese oft zu klein sind. Das Loch an der Oberseite sollte gerade so gro&szlig; sein (bei der 30-mm-Version), dass ein Lager aufgeschoben werden kann.</p>
+<p>Sie sollten zwei W&uuml;rfel mit unterschiedlichen Gr&ouml;&szlig;en drucken. Wenn die
+Ma&szlig;genauigkeit mit der Gr&ouml;&szlig;e der W&uuml;rfel w&auml;chst, m&uuml;ssen die
+Schritte/mm Ihrer Steppermotoren angepasst werden (Achtung: Wenn das der Fall ist, sollten Sie
+auch den Durchfluss anpassen und vielleicht einige Kalibrierungen wiederholen, wenn die
+Ver&auml;nderung gro&szlig; ist). Wenn er nicht skaliert, k&ouml;nnen Sie ihn korrigieren,
+indem Sie die xy-Kompensation anpassen (Reiter Slicing). Mit dem Voron-W&uuml;rfel k&ouml;nnen Sie
+ auch die Kalibrierung der L&ouml;cher testen, da diese oft zu klein sind. Das Loch
+an der Oberseite sollte gerade so gro&szlig; sein (bei der 30-mm-Version), dass ein
+Lager aufgeschoben werden kann.</p>
+
+
 <h2>Ziel: F&uuml;llung / Wand&uuml;berlappung</h2>
-<p>Dieser Test soll zeigen, ob das Muster der F&uuml;llung an den R&auml;ndern zu sehen ist. Versuche, die F&uuml;llung so weit wie m&ouml;glich zu reduzieren, aber &uuml;berpr&uuml;fe die obere F&uuml;llung, da sie Artefakte erzeugen kann, wenn sie zu niedrig ist. Mit dem Standardw&uuml;rfel ist es besser, da du eine gr&ouml;&szlig;ere obere Fl&auml;che hast.</p>
-<!-- <h2>Ziel: &Uuml;berlappung des Au&szlig;enumfangs</h2> -->
-<!-- <p>Da die &auml;u&szlig;ere Begrenzung zuletzt gedruckt wird, h&auml;ngt die tats&auml;chliche Position von der Lage und dem Verlauf der gesamten Ebene ab. Du musst also sicher sein, dass dein Fluss perfekt ist, bevor du diesen Test machst. Der Hauptunterschied besteht zwischen massiven und sp&auml;rlichen F&uuml;llschichten, da die massiven F&uuml;llschichten den &auml;u&szlig;eren Rand nach au&szlig;en dr&uuml;cken k&ouml;nnen. Wenn du die &Uuml;berlappung zwischen F&uuml;llung und Perimeter verringerst, kann das helfen, diesen Effekt zu reduzieren.</p> -->
+<p>Dieser Test soll zeigen, ob das Muster der F&uuml;llung an den R&auml;ndern zu sehen
+ist. Versuchen Sie, die F&uuml;llung so weit wie m&ouml;glich zu reduzieren, aber
+&uuml;berpr&uuml;fe die obere F&uuml;llung, da sie Artefakte erzeugen kann, wenn sie
+zu niedrig ist. Mit dem Standardw&uuml;rfel ist es besser, da Sie eine gr&ouml;&szlig;ere
+obere Fl&auml;che haben.</p>
+
+
+<!-- <h2>Ziel: &Uuml;berlappung des Au&szlig;enumfangs</h2>
+<p>Da die &auml;u&szlig;ere Begrenzung zuletzt gedruckt wird, h&auml;ngt die
+tats&auml;chliche Position von der Lage und dem Verlauf der gesamten Ebene ab. Sie
+m&uuml;ssen also sicher sein, dass der Fluss perfekt ist, bevor Sie diesen Test machen.
+Der Hauptunterschied besteht zwischen massiven und sp&auml;rlichen F&uuml;llschichten,
+ da die massiven F&uuml;llschichten den &auml;u&szlig;eren Rand nach au&szlig;en
+ dr&uuml;cken k&ouml;nnen. Wenn Sie die &Uuml;berlappung zwischen F&uuml;llung und
+ Perimeter verringern, kann das helfen, diesen Effekt zu reduzieren.</p> -->
+
 <h2>Hinweise</h2>
-<p>Diese Tests sollten die letzten sein.</p>
-<p>Die Standardgr&ouml;&szlig;e des Standardw&uuml;rfels ist 20mm und die Standardgr&ouml;&szlig;e des Voron-W&uuml;rfels ist 30mm.</p>
-<p>Lizenz f&uuml;r den Standard-Kalibrierungsw&uuml;rfel: CC BY-SA 3.0, <a href="https://www.thingiverse.com/thing:1278865">gemacht von iDig3Dprinting</a></p>
-<p>Lizenz f&uuml;r den Voron-Kalibrierungsw&uuml;rfel: GPL V3, <a href="https://github.com/VoronDesign/Voron-2">hergestellt von VORONDesign</a></p>
+
+<p>Die Standardgr&ouml;&szlig;e des Standardw&uuml;rfels ist 20mm und die
+Standardgr&ouml;&szlig;e des Voron-W&uuml;rfels ist 30mm.</p>
+
+<p>Lizenz f&uuml;r den Voron-Kalibrierungsw&uuml;rfel: GPL V3,
+ <a href="https://github.com/VoronDesign/Voron-2">hergestellt von VORONDesign</a></p>
 </body>
 </html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Filamentenfluss-Kalibrierung</title>
+</head>
+<body>
+
+<table width="100%">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<h1>Filamentenfluss-Kalibrierung</h1>
+</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>
+    <table><tr><td>Voraussetzung:</td>
+        <td style="text-align: left;">Bettnivellierung</td></tr>
+    </table>
+    </strong>
+</tr>
+</tbody>
+</table>
+
+<p>Sie m&uuml;ssen die Bettnivellierung vor dieser Kalibrierung durchf&uuml;hren.
+Dieser Test wird f&uuml;nf Testmuster mit verschiedenen Flussstufen drucken. Sie
+k&ouml;nnen den Flussunterschied zwischen den einzelnen Schritten w&auml;hlen.
+Sie sollten mit dem 10%-igen beginnen. Nach &Uuml;berpr&uuml;fung des Ergebnisses
+mit Hilfe der untenstehenden Tabelle m&uuml;ssen Sie den
+Filamentextrusionsmultiplikator in Ihrer Filamentvorgabe &auml;ndern
+(wenn -20 der beste Wert ist, &auml;ndern Sie den Multiplikator von 1 auf 0.8,
+siehe Formel unten). Vergessen Sie nicht, ihn danach zu speichern! Sie
+k&ouml;nnen mit dem Schritt von 2,5 fortfahren, wenn Sie etwas mehr
+Pr&auml;zision w&uuml;nschen.</p>
+<h2>Ergebnisse</h2>
+<h4>Beispiel</h4>
+<table width="100%">
+<tbody>
+<tr>
+<td><img src="./m20.jpg" width="150" height="150" /></td>
+<td><img src="./m10.jpg" width="150" height="150" /></td>
+<td><img src="./0_v1.jpg" width="150" height="150" /></td>
+<td><img src="./p10.jpg" width="150" height="150" /></td>
+<td><img src="./p20.jpg" width="150" height="150" /></td>
+</tr>
+<tr>
+<td style="text-align: center;">Nicht flach</td>
+<td style="text-align: center;">Nicht flach</td>
+<td style="text-align: center;">Nicht flach</td>
+<td style="text-align: center;">Flach<br />aber der Kreis<br />ist nicht gut</td>
+<td style="text-align: center;">Flache Oberfl&auml;che<br />und guter Kreis</td>
+</tr>
+</table>
+<p>Der Fluss, den Sie w&auml;hlen m&ouml;chten, ist der niedrigste, der keine
+ L&uuml;cken auf der Oberfl&auml;che erzeugt. In diesem Beispiel scheint der
+ gute Fluss unter +20 zu liegen. Sie m&uuml;ssen also Ihren
+ Extrusionsmultiplikator auf 1.2 &auml;ndern und den zweiten Testsatz
+ drucken (oder auf 1.15 setzen und es dabei belassen).</p>
+<p>Schauen Sie nicht auf die Oberfl&auml;chenqualit&auml;t des Buchstabens,
+sie sollte nur beim 0 gut sein, da wir f&uuml;r diesen Fluss die Bett-H&ouml;he
+kalibriert haben. Hier, wenn Sie mit +20% Fluss gehen, sollten Sie das Bett etwas
+ absenken (die Bett-Nivellierungskalibrierung wiederholen).</p>
+<h4>Zweiter Schritt, beginnend bei +20%:</h4>
+<table>
+<tbody>
+<tr>
+<td><img src="./m8.jpg" width="150" height="150" /></td>
+<td><img src="./m6.jpg" width="150" height="150" /></td>
+<td><img src="./m4.jpg" width="150" height="150" /></td>
+<td><img src="./m2.jpg" width="150" height="150" /></td>
+<td><img src="./0_v2.jpg" width="150" height="150" /></td>
+</tr>
+<tr>
+<td style="text-align: center;">Nicht gut</td>
+<td style="text-align: center;">Nicht gut</td>
+<td style="text-align: center;">Fast gut</td>
+<td style="text-align: center;">Gut, aber<br />der Kreis hat<br />
+Unregelm&auml;&szlig;igkeiten</td>
+<td style="text-align: center;">Gut</td>
+</tr>
+</table>
+<p>Hier sehen wir, dass der Kreis bei -8 und -6 nicht sehr gut ist.
+Das -4 ist fast rund, aber nicht ganz, also zeigt es an, dass die
+D&uuml;se Druck verloren hat. -2 ist fast gut, aber das 0 ist das einzige,
+das als "gut" betrachtet werden kann, und selbst hier ist der Kreis nicht
+perfekt.</p>
+
+<h2>Wie Sie Ihren Drucker einstellen</h2>
+
+<p>Sie m&uuml;ssen den Extrusionsmultiplikator f&uuml;r das Filament &auml;ndern,
+ f&uuml;r das Sie kalibrieren (und ihn speichern). Formel f&uuml;r den neuen
+  Extrusionsmultiplikator: new_multiplier =
+  ((100 + gew&auml;hlte_nummer) / 100) * alter_multiplier
+Beispiel: Erster Schritt, ich w&auml;hle das -10, also habe ich
+((100-10)/100) * 1 = (0.9) * 1 = 0.9. Zweiter Schritt, ich w&auml;hle +5,
+also habe ich ((100+5)/100) * 0.9 = (1.05) * 0.9 = 0.945.
+</p>
+<p>Wenn Sie diese &Auml;nderung dauerhaft machen und Ihren Extrusionsmultiplikator
+ in Slicer auf 1 lassen m&ouml;chten, k&ouml;nnen Sie Ihre Firmware-Konfiguration
+ &auml;ndern, indem Sie die "Extruder-Geschwindigkeits-Einstellung"
+ (E-Schritt, Schritt-Abstand) um diesen Extrusionsmultiplikator multiplizieren
+ (oder dividieren, je nach Firmware/Einstellung).</p>
+
+
+<h2>Hinweise</h2>
+
+<p>Bevor Sie diesen Test durchf&uuml;hren, ist es ratsam, Ihren Extruder zu
+kalibrieren (es ist einfacher bei einem Bowden-Setup):</p>
+<ul>
+<li>Entfernen Sie das Extruder-Bowdenrohr vom Ausgang des Extruders
+(oder entfernen Sie die Extruderbaugruppe von der D&uuml;senbaugruppe, wenn Sie
+einen Direkt-Extruder haben).</li>
+<li>F&uuml;hren Sie das Filament hindurch (per Hand oder mit der Softwaresteuerung).
+</li>
+<li>Schneiden Sie das Filament b&uuml;ndig mit dem Ausgang des Extruders ab.
+Messen Sie mit Ihrem Federstahl-Lineal, dass Sie genau 0 mm messen. Wenn nicht,
+notieren Sie den Wert und vergessen Sie nicht, ihn von jeder anderen Messung
+zu entfernen, die Sie durchf&uuml;hren.</li>
+<li>Fordern Sie Ihren Extruder auf, 200 mm Filament zu extrudieren
+(G-Code: G1 E200).</li>
+<li>Messen Sie die L&auml;nge des extrudierten Filaments. Wiederholen Sie diesen
+ Vorgang zweimal mehr,
+wenn Sie eine h&ouml;here Genauigkeit w&uuml;nschen.</li>
+<li>Sie m&uuml;ssen Ihren Extruder-Multiplikator (E-Schritt, Schritt-Abstand)
+&auml;ndern, indem Sie den aktuellen Wert mit
+ (200 / durchschnittlich_gemessener_wert) multiplizieren
+ (oder dividieren, je nach Firmware).</li>
+<p>Beachten Sie, dass dieser Wert sich &auml;ndern kann, wenn Sie den
+Druck &auml;ndern, den der Extruder auf das Filament aus&uuml;bt.</p>
+</ul>
+<h2>Anmerkungen</h2>
+<p>Es ist sehr schwierig, den Fluss unterhalb des 2%-Markers einzustellen, und
+kein Filament ist konsistent genug, um dies zu rechtfertigen. Filamente,
+ die eine Garantie von +-0.03 mm haben, weisen eine ~7%ige Variation zwischen
+ dem niedrigen und hohen Querschnitt auf.</p>
+
+<p>Die meisten Kalibrierungen m&uuml;ssen in der richtigen Reihenfolge
+durchgef&uuml;hrt werden. Diese sollte die zweite sein.</p>
+
+<p>Sie sollten die Bett-Nivellierungskalibrierung m&ouml;glicherweise
+wiederholen, wenn das Ergebnis unter 0.9 oder &uuml;ber 1.1 liegt.</p>
+
+
+<p>Beachten Sie, dass der Filamentextrusionsmultiplikator bei einem anderen
+ Filamentmaterial anders sein kann, da ein weicheres Filament vom Extruder
+ st&auml;rker gequetscht/beschnitten werden kann und daher einen kleineren
+  Durchmesser in den Extruderzahnr&auml;dern hat.</p>
+
+<p>Beachten Sie, dass der Filamentextrusionsmultiplikator bei einem anderen
+ Filamentmaterial anders sein kann, da ein weicheres Filament vom Extruder
+ st&auml;rker gequetscht/beschnitten werden kann und daher einen kleineren
+ Durchmesser in den Extruderzahnr&auml;dern hat.
+Wenn Ihr Drucker-Extruder das Filament "frisst" und die obere Schicht nicht
+fertigstellen kann, m&uuml;ssen Sie die B&uuml;geleisendistribution erh&ouml;hen
+(in 5%igen Schritten). (Experten-Einstellung, Drucken -> Infill).</p>
+
+<p>Dieser Test setzt die Einstellung "Einzelne Objekte vollst&auml;ndig" auf
+true, daher sollten Sie m&ouml;glicherweise Ihre Druckeinstellungen
+zur&uuml;cksetzen.</p>
+
+<p>Lizenz f&uuml;r die f&uuml;r diesen Kalibrierungstest verwendeten Modelle:
+CC BY-SA 3.0</p>
+</body>
+</html>

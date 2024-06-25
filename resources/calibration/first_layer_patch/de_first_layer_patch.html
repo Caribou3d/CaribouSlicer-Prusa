@@ -2,29 +2,33 @@
 <html lang="de">
 <Kopf>
   <meta charset="utf-8">
-  <title>Kalibrierung der Betth&ouml;he</title>
+  <title>Kalibrierung der ersten Schicht (Fl&auml;che)</title>
 </head>
 <K&ouml;rper>
 <table width="100%">
 <tbody>
 <tr>
 <td style="text-align: center;">
-<h1 style="text-align: center;">Patch-Kalibrierung der ersten Ebene</h1>
+<h1 style="text-align: center;">Kalibrierung der ersten Schicht (Fl&auml;che)</h1>
 </td>
 </tr>
 <tr>
-    <td style="text-align: right;">
-        <table><tr><td>Bed&uuml;rfnisse:</td>
-            <td style="text-align: left;">Kalibrierung der ersten Ebene/td></tr>
+    <td style="text-align: right;"><strong>
+        <table><tr><td>Voraussetzung:</td>
+            <td style="text-align: left;">keine</td></tr>
         </table>
+        </strong>
 </tr>
 </tbody>
 </table>
-<p>Mit diesem Kalibrierungstest k&ouml;nnen Sie die Ebenheit des gesamten Bettes &uuml;berpr&uuml;fen.</p>
+<p>Mit diesem Kalibrierungstest k&ouml;nnen Sie die Ebenheit des gesamten Bettes
+   &uuml;berpr&uuml;fen.</p>
 <h2>Wie es funktioniert</h2>
-<p>W&auml;hlen Sie zun&auml;chst Ihren Drucker und Ihr Standarddruckprofil mit dem Filamentprofil f&uuml;r das Filament aus, das Sie haben.
-Beachten Sie, dass diese Kalibrierung nur mit Ihrem ersten Extruder funktioniert, wenn Sie mehrere haben.</p>
-<p> Der Slicer generiert einen Patch (60 % – 100 %) der Bettgr&ouml;&szlig;e. </p>
+<p>W&auml;hlen Sie zun&auml;chst Ihren Drucker und Ihr Standarddruckprofil mit dem
+  Filamentprofil f&uuml;r das Filament aus, das Sie haben.
+Beachten Sie, dass diese Kalibrierung nur mit Ihrem ersten Extruder funktioniert, wenn
+Sie mehrere haben.</p>
+<p> Der Slicer generiert einen Patch (60% - 100%) der Bettgr&ouml;&szlig;e. </p>
 <table width="100%">
 <tbody>
 <tr>
@@ -33,10 +37,14 @@ Beachten Sie, dass diese Kalibrierung nur mit Ihrem ersten Extruder funktioniert
 <td><img src="./circ100.png" width="265" height="281"/></td>
 </tr>
 <tr>
-<p>Wenn Sie auf die Schaltfl&auml;che „Generieren“ klicken, erstellt das Programm den Testdruck und schneidet ihn in Scheiben. Sie m&uuml;ssen es an senden
-Ihren Drucker und drucken Sie es aus. Beobachten Sie w&auml;hrend des Drucks das Ergebnis der Flicken anhand der Fotos unten. Beim Drucken
-Sie k&ouml;nnen bereits Anpassungen vornehmen. Sie m&uuml;ssen Ihren Drucker/Ihre Firmware anpassen, um die H&ouml;he zu korrigieren. Sobald Sie es gefunden haben
-Mit der richtigen H&ouml;he k&ouml;nnen Sie bei Bedarf einen vollst&auml;ndigen Ausdruck des Musters wiederholen.</p>
+<p>Wenn Sie auf die Schaltfl&auml;che "Generieren" klicken, erstellt das Programm den Testdruck
+  und schneidet ihn in Scheiben. Sie m&uuml;ssen es an senden
+Ihren Drucker und drucken Sie es aus. Beobachten Sie w&auml;hrend des Drucks das Ergebnis der
+ Flicken anhand der Fotos unten. Beim Drucken
+Sie k&ouml;nnen bereits Anpassungen vornehmen. Sie m&uuml;ssen Ihren Drucker / Ihre Firmware
+ anpassen, um die H&ouml;he zu korrigieren. Sobald Sie es gefunden haben
+Mit der richtigen H&ouml;he k&ouml;nnen Sie bei Bedarf einen vollst&auml;ndigen Ausdruck des
+Musters wiederholen.</p>
 <p>Lesen Sie die Hinweise und Ratschl&auml;ge unten f&uuml;r weitere Informationen.</p>
 <h2>Ergebnisse</h2>
 <table width="100%">
@@ -56,23 +64,50 @@ Mit der richtigen H&ouml;he k&ouml;nnen Sie bei Bedarf einen vollst&auml;ndigen 
 <td style="text-align: center;">Zu weit:<br />Man erkennt<br />eine kleine L&uuml;cke</td>
 <td style="text-align: center;">Perfekt</td>
 <td style="text-align: center;">Zu nah</td>
-<td style="text-align: center;">Achtung!<br />Es ist zu nah:<br />&Uuml;berpr&uuml;fen Sie die Dicke<br />mit Ihren Fingern!</td>
+<td style="text-align: center;">Achtung!<br />Es ist zu nah:<br />&Uuml;berpr&uuml;fen Sie die
+  Dicke<br />mit Ihren Fingern!</td>
 <td style="text-align: center;">Viel zu nah<br />Gef&auml;hrlich<br />f&uuml;r das Bett</td>
 </tr>
 </table>
 <h2>So optimieren Sie Ihren Drucker</h2>
-<p><strong>Wenn Ihr Drucker &uuml;ber Bettschrauben verf&uuml;gt</strong>, verwenden Sie diese, um das Bett entsprechend dem Bereich anzuheben oder abzusenken, der angepasst werden muss. Vergessen Sie nicht, den Test nach der Anpassung erneut auszudrucken, um die Kompensation zu &uuml;berpr&uuml;fen. Seien Sie vorsichtig, denn in den meisten F&auml;llen entspricht eine halbe Umdrehung einer H&ouml;henverstellung von 0,2 mm, was normalerweise der H&ouml;he der ersten Schicht entspricht. Wenn Sie das Bett anheben, drehen Sie es niemals weiter und verstellen Sie es in der Regel h&ouml;chstens um eine Vierteldrehung.</p>
-<p><strong>Wenn es keine Bettschrauben hat</strong>, m&uuml;ssen Sie die Software verwenden oder die Firmware-Konfiguration &auml;ndern. Weitere Informationen finden Sie im Handbuch Ihres Druckers.</p>
+<p><strong>Wenn Ihr Drucker &uuml;ber Bettschrauben verf&uuml;gt</strong>, verwenden Sie diese,
+  um das Bett entsprechend dem Bereich anzuheben oder abzusenken, der angepasst werden muss.
+  Vergessen Sie nicht, den Test nach der Anpassung erneut auszudrucken, um die Kompensation
+   zu &uuml;berpr&uuml;fen. Seien Sie vorsichtig, denn in den meisten F&auml;llen entspricht
+   eine halbe Umdrehung einer H&ouml;henverstellung von 0.2 mm, was normalerweise der H&ouml;he
+   der ersten Schicht entspricht. Wenn Sie das Bett anheben, drehen Sie es niemals weiter
+   und verstellen Sie es in der Regel h&ouml;chstens um eine Vierteldrehung.</p>
+<p><strong>Wenn es keine Bettschrauben hat</strong>, m&uuml;ssen Sie die Software verwenden
+  oder die Firmware-Konfiguration &auml;ndern. Weitere Informationen finden Sie im Handbuch
+  Ihres Druckers.</p>
 <h2>Ratschl&auml;ge</h2>
-<p>Wenn es Ihrem Filament schwerf&auml;llt, am Bett zu haften, k&ouml;nnen Sie Folgendes versuchen:</p>
+<p>Wenn es Ihrem Filament schwerf&auml;llt, am Bett zu haften, k&ouml;nnen Sie Folgendes
+  versuchen:</p>
 <ul>
-<li>Erh&ouml;hen Sie die Breite der ersten Schicht, um den Quetschdruck (Druck) ohne &Uuml;berextrusion zu erh&ouml;hen. Sie k&ouml;nnen eine D&uuml;senbreite von bis zu 200 % erreichen, aber 150 % sollten ausreichen. (Erweiterte Einstellung, Drucken -> Breite)</li>
-<li>Reduzieren Sie die Druckgeschwindigkeit der ersten Schicht, damit sie Zeit zum Kleben hat. (Erweiterte Einstellung, Drucken -> Geschwindigkeit)</li>
-<li>Sie k&ouml;nnen Z-Hop f&uuml;r die erste Ebene deaktivieren/aktivieren, indem Sie „nur Z-Lift“ erh&ouml;hen-&gt; &uuml;ber Z" auf einen h&ouml;heren Wert als die H&ouml;he Ihrer ersten Schicht. Wenn Sie diese Funktion aktivieren, wird das Filament m&ouml;glicherweise aus dem Bett gezogen, und wenn Sie sie deaktivieren, trifft die D&uuml;se m&ouml;glicherweise auf das Bett und dr&uuml;ckt das abgelegte Filament. Sie m&uuml;ssen also testen, um den optimalen Wert zu finden. ( Erweiterte Einstellung, Drucker -> Extruder)</li>
+<li>Erh&ouml;hen Sie die Breite der ersten Schicht, um den Quetschdruck (Druck)
+  ohne &Uuml;berextrusion zu erh&ouml;hen. Sie k&ouml;nnen eine D&uuml;senbreite von bis
+   zu 200% erreichen, aber 150% sollten ausreichen. (Erweiterte Einstellung, Drucken -> Breite)</li>
+<li>Reduzieren Sie die Druckgeschwindigkeit der ersten Schicht, damit sie Zeit zum Kleben hat.
+  (Erweiterte Einstellung, Drucken -> Geschwindigkeit)</li>
+<li>Sie k&ouml;nnen Z-Hop f&uuml;r die erste Ebene deaktivieren/aktivieren, indem Sie
+  "nur Z-Lift" erh&ouml;hen-&gt; &uuml;ber Z" auf einen h&ouml;heren Wert als die H&ouml;he
+   Ihrer ersten Schicht. Wenn Sie diese Funktion aktivieren, wird das Filament
+    m&ouml;glicherweise aus dem Bett gezogen, und wenn Sie sie deaktivieren, trifft
+    die D&uuml;se m&ouml;glicherweise auf das Bett und dr&uuml;ckt das abgelegte Filament.
+    Sie m&uuml;ssen also testen, um den optimalen Wert zu finden. (Erweiterte Einstellung,
+     Drucker -> Extruder)</li>
 </ul>
-<h2>Notizen</h2>
-<p>F&uuml;r diesen Test wird Ihre aktuelle H&ouml;he der ersten Schicht verwendet. M&ouml;glicherweise m&ouml;chten Sie diese jedoch auf bis zu 80 % Ihrer D&uuml;senh&ouml;he erh&ouml;hen (bevor Sie „Generieren“ verwenden), wenn Sie Ihr Bett zum ersten Mal nivellieren, um das Risiko zu verringern eines D&uuml;senabsturzes.</p>
-<p>Wenn sich nach der Filamentflusskalibrierung herausstellt, dass der Fluss sehr falsch war, m&ouml;chten Sie diese Kalibrierung m&ouml;glicherweise ein anderes Mal wiederholen.</p>
-<p>Die meisten Kalibrierungen m&uuml;ssen in der richtigen Reihenfolge durchgef&uuml;hrt werden. Dies ist der erste Schritt. Wenn Sie jedoch gute Ergebnisse erzielen m&ouml;chten, m&uuml;ssen Sie Ihren Extruder kalibrieren, z. B.: Wenn Sie ihn auffordern, 100 mm Filament zu extrudieren, ist das genau die L&auml;nge des Filaments, die der Extruder ben&ouml;tigt, um in die D&uuml;se zu dr&uuml;cken.</p>
+<h2>Anmerkungen</h2>
+<p>F&uuml;r diesen Test wird Ihre aktuelle H&ouml;he der ersten Schicht verwendet.
+   M&ouml;glicherweise m&ouml;chten Sie diese jedoch auf bis zu 80% Ihrer D&uuml;senh&ouml;he
+   erh&ouml;hen (bevor Sie "Generieren" verwenden), wenn Sie Ihr Bett zum ersten Mal nivellieren,
+    um das Risiko zu verringern eines D&uuml;senabsturzes.</p>
+<p>Wenn sich nach der Filamentflusskalibrierung herausstellt, dass der Fluss sehr falsch war,
+   m&ouml;chten Sie diese Kalibrierung m&ouml;glicherweise ein anderes Mal wiederholen.</p>
+<p>Die meisten Kalibrierungen m&uuml;ssen in der richtigen Reihenfolge durchgef&uuml;hrt werden.
+   Dies ist der erste Schritt. Wenn Sie jedoch gute Ergebnisse erzielen m&ouml;chten,
+   m&uuml;ssen Sie Ihren Extruder kalibrieren, z. B.: Wenn Sie ihn auffordern, 100mm Filament
+   zu extrudieren, ist das genau die L&auml;nge des Filaments, die der Extruder ben&ouml;tigt,
+   um in die D&uuml;se zu dr&uuml;cken.</p>
 </body>
 </html>
