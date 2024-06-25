@@ -151,16 +151,6 @@ struct TextDataBase : public DataBase
     /// <returns>True on succes otherwise False(Per glyph shoud be disabled)</returns>
     bool create_text_lines(const Transform3d &tr, const ModelVolumePtrs &vols) override; 
 
-    /// <summary>
-    /// Used only with text for embossing per glyph.
-    /// Create text lines only for new added volume to object
-    /// otherwise textline is already setted before
-    /// </summary>
-    /// <param name="tr">Embossed volume final transformation in object</param>
-    /// <param name="vols">Volumes to be sliced to text lines</param>
-    /// <returns>True on succes otherwise False(Per glyph shoud be disabled)</returns>
-    bool create_text_lines(const Transform3d &tr, const ModelVolumePtrs &vols) override;
-
 private:
     //  Keep pointer on Data of font (glyph shapes)
     FontFileWithCache m_font_file;

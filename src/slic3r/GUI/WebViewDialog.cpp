@@ -264,10 +264,6 @@ void WebViewPanel::on_page_will_load()
 {
 }
 
-void WebViewPanel::on_page_will_load()
-{
-}
-
 /**
     * Invoked when user selects the "View Source" menu item
     */
