@@ -428,11 +428,31 @@ void ReversePolyPtLinks(OutPt *pp)
 
 inline void InitEdge(TEdge* e, TEdge* eNext, TEdge* ePrev, const IntPoint& Pt)
 {
-  std::memset(e, 0, sizeof(TEdge));
+  // std::memset(e, 0, sizeof(TEdge));
+  // e->Next = eNext;
+  // e->Prev = ePrev;
+  // e->Curr = Pt;
+  // e->OutIdx = Unassigned;
+
+ // Initialize all members explicitly
+  e->Bot = IntPoint();        // Assuming IntPoint has a default constructor
+  e->Curr = Pt;
+  e->Top = IntPoint();        // Assuming IntPoint has a default constructor
+  e->Dx = 0.0;
+  e->PolyTyp = PolyType();    // Assuming PolyType is an enum or has a default constructor
+  e->Side = EdgeSide();       // Assuming EdgeSide is an enum or has a default constructor
+  e->WindDelta = 0;
+  e->WindCnt = 0;
+  e->WindCnt2 = 0;
+  e->OutIdx = Unassigned;
   e->Next = eNext;
   e->Prev = ePrev;
-  e->Curr = Pt;
-  e->OutIdx = Unassigned;
+  e->NextInLML = nullptr;
+  e->NextInAEL = nullptr;
+  e->PrevInAEL = nullptr;
+  e->NextInSEL = nullptr;
+  e->PrevInSEL = nullptr;
+
 }
 //------------------------------------------------------------------------------
 

@@ -380,7 +380,8 @@ bool PresetArchiveDatabase::set_selected_repositories(const std::vector<std::str
 bool PresetArchiveDatabase::extract_archives_with_check(std::string &msg)
 {
     extract_local_archives();
-    for (const std::pair<std::string, bool>& pair : m_selected_repositories_uuid) {
+//    for (const std::pair<std::string, bool>& pair : m_selected_repositories_uuid) {
+    for (const std::pair<const std::string, bool>& pair : m_selected_repositories_uuid) {        
         if (!pair.second) {
             continue;
         }

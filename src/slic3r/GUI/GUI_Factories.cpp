@@ -1415,7 +1415,8 @@ void MenuFactory::update_menu_items_instance_manipulation(MenuType type)
     // Remove/Prepend "increase/decrease instances" menu items according to the view mode.
     // Suppress to show those items for a Simple mode
     if (wxGetApp().get_mode() == comSimple) {
-        if (menu->FindItem(_L("Add instance")) != wxNOT_FOUND)
+        // if (menu->FindItem(_L("Add instance")) != wxNOT_FOUND)
+        if (menu != nullptr && menu->FindItem(_L("Add instance")) != wxNOT_FOUND) 
         {
             // Detach an items from the menu, but don't delete them
             // so that they can be added back later
@@ -1426,7 +1427,8 @@ void MenuFactory::update_menu_items_instance_manipulation(MenuType type)
         }
     }
     else {
-        if (menu->FindItem(_L("Add instance")) == wxNOT_FOUND)
+        // if (menu->FindItem(_L("Add instance")) == wxNOT_FOUND)
+        if (menu != nullptr && menu->FindItem(_L("Add instance")) != wxNOT_FOUND)         
         {
             // Prepend items to the menu, if those aren't not there
             menu->Prepend(items_set_number_of_copies[type]);

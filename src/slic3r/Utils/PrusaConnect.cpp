@@ -21,20 +21,20 @@ namespace pt = boost::property_tree;
 namespace Slic3r {
 namespace
 {
-std::string escape_string(const std::string& unescaped)
-{
-    std::string ret_val;
-    CURL* curl = curl_easy_init();
-    if (curl) {
-        char* decoded = curl_easy_escape(curl, unescaped.c_str(), unescaped.size());
-        if (decoded) {
-            ret_val = std::string(decoded);
-            curl_free(decoded);
-        }
-        curl_easy_cleanup(curl);
-    }
-    return ret_val;
-}
+// std::string escape_string(const std::string& unescaped)
+// {
+//     std::string ret_val;
+//     CURL* curl = curl_easy_init();
+//     if (curl) {
+//         char* decoded = curl_easy_escape(curl, unescaped.c_str(), unescaped.size());
+//         if (decoded) {
+//             ret_val = std::string(decoded);
+//             curl_free(decoded);
+//         }
+//         curl_easy_cleanup(curl);
+//     }
+//     return ret_val;
+// }
 // std::string escape_path_by_element(const boost::filesystem::path& path)
 // {
 //     std::string ret_val = escape_string(path.filename().string());

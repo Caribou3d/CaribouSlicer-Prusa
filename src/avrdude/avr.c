@@ -85,9 +85,9 @@ int avr_tpi_chip_erase(PROGRAMMER * pgm, AVRPART * p)
 
     while (avr_tpi_poll_nvmbsy(pgm));
 
-        err = pgm->cmd_tpi(pgm, cmd, sizeof(cmd), NULL, 0);
-        if(err)
-            return err;
+    err = pgm->cmd_tpi(pgm, cmd, sizeof(cmd), NULL, 0);
+    if(err)
+        return err;
 
     while (avr_tpi_poll_nvmbsy(pgm));
 

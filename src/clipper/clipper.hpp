@@ -141,30 +141,61 @@ enum EndType {etClosedPolygon, etClosedLine, etOpenButt, etOpenSquare, etOpenRou
 class PolyNode;
 typedef std::vector<PolyNode*, Allocator<PolyNode*>> PolyNodes;
 
-class PolyNode
-{
+// class PolyNode
+// {
+// public:
+//     PolyNode() : Parent(0), Index(0), m_IsOpen(false) {}
+//     virtual ~PolyNode(){};
+//     Path Contour;
+//     PolyNodes Childs;
+//     PolyNode* Parent;
+//     // Traversal of the polygon tree in a depth first fashion.
+//     PolyNode* GetNext() const { return Childs.empty() ? GetNextSiblingUp() : Childs.front(); }
+//     bool IsHole() const;
+//     bool IsOpen() const { return m_IsOpen; }
+//     int  ChildCount() const { return (int)Childs.size(); }
+// private:
+//     unsigned Index; //node index in Parent.Childs
+//     bool m_IsOpen;
+//     JoinType m_jointype;
+//     EndType m_endtype;
+//     PolyNode* GetNextSiblingUp() const { return Parent ? ((Index == Parent->Childs.size() - 1) ? Parent->GetNextSiblingUp() : Parent->Childs[Index + 1]) : nullptr; }
+//     void AddChild(PolyNode& child);
+//     friend class Clipper; //to access Index
+//     friend class ClipperOffset;
+//     friend class PolyTree; //to implement the PolyTree::move operator
+// };
+
+class PolyNode {
 public:
-    PolyNode() : Parent(0), Index(0), m_IsOpen(false) {}
-    virtual ~PolyNode(){};
+    PolyNode() : Parent(nullptr), Index(0), m_IsOpen(false), m_jointype(JoinType()), m_endtype(EndType()) {}
+    virtual ~PolyNode() {}
+    
     Path Contour;
     PolyNodes Childs;
     PolyNode* Parent;
-    // Traversal of the polygon tree in a depth first fashion.
+
+    // Traversal of the polygon tree in a depth-first fashion.
     PolyNode* GetNext() const { return Childs.empty() ? GetNextSiblingUp() : Childs.front(); }
     bool IsHole() const;
     bool IsOpen() const { return m_IsOpen; }
-    int  ChildCount() const { return (int)Childs.size(); }
+    int  ChildCount() const { return static_cast<int>(Childs.size()); }
+
 private:
-    unsigned Index; //node index in Parent.Childs
+    unsigned Index; // Node index in Parent.Childs
     bool m_IsOpen;
     JoinType m_jointype;
     EndType m_endtype;
+
     PolyNode* GetNextSiblingUp() const { return Parent ? ((Index == Parent->Childs.size() - 1) ? Parent->GetNextSiblingUp() : Parent->Childs[Index + 1]) : nullptr; }
+
     void AddChild(PolyNode& child);
-    friend class Clipper; //to access Index
+
+    friend class Clipper; // To access Index
     friend class ClipperOffset;
-    friend class PolyTree; //to implement the PolyTree::move operator
+    friend class PolyTree; // To implement the PolyTree::move operator
 };
+
 
 class PolyTree: public PolyNode
 {

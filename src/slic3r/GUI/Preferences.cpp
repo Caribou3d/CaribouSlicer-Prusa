@@ -132,19 +132,19 @@ void PreferencesDialog::show(const std::string& highlight_opt_key /*= std::strin
     if (wxGetApp().is_editor()) {
         auto app_config = get_app_config();
 
-		for (const std::string& opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button"})
-			m_optgroup_other->set_value(opt_key, app_config->get_bool(opt_key));
-		// by default "Log in" button is visible
-		if (!app_config->has("show_login_button"))
-			m_optgroup_other->set_value("show_login_button", true);
-
-        for (const std::string& opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button"})
+        for (const std::string opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button"})
             m_optgroup_other->set_value(opt_key, app_config->get_bool(opt_key));
         // by default "Log in" button is visible
         if (!app_config->has("show_login_button"))
             m_optgroup_other->set_value("show_login_button", true);
 
-        for (const std::string& opt_key : { "default_action_on_close_application"
+        for (const std::string opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button"})
+            m_optgroup_other->set_value(opt_key, app_config->get_bool(opt_key));
+        // by default "Log in" button is visible
+        if (!app_config->has("show_login_button"))
+            m_optgroup_other->set_value("show_login_button", true);
+
+        for (const std::string opt_key : { "default_action_on_close_application"
                                            ,"default_action_on_new_project"
                                            ,"default_action_on_select_preset" })
             m_optgroup_general->set_value(opt_key, app_config->get(opt_key) == "none");
@@ -626,22 +626,22 @@ void PreferencesDialog::build()
                       "checking this option will result in the export of G-code in binary format."),
                     app_config->get_bool("use_binary_gcode_when_supported"));
 
-		append_bool_option(m_optgroup_other, "suppress_hyperlinks",
-			L("Suppress to open hyperlink in browser"),
-			L("If enabled, CaribouSlicer will not open a hyperlinks in your browser."),
-			//L("If enabled, the descriptions of configuration parameters in settings tabs wouldn't work as hyperlinks. "
-			//  "If disabled, the descriptions of configuration parameters in settings tabs will work as hyperlinks."),
-			app_config->get_bool("suppress_hyperlinks"));
+        append_bool_option(m_optgroup_other, "suppress_hyperlinks",
+            L("Suppress to open hyperlink in browser"),
+            L("If enabled, CaribouSlicer will not open a hyperlinks in your browser."),
+            //L("If enabled, the descriptions of configuration parameters in settings tabs wouldn't work as hyperlinks. "
+            //  "If disabled, the descriptions of configuration parameters in settings tabs will work as hyperlinks."),
+            app_config->get_bool("suppress_hyperlinks"));
 
-		append_bool_option(m_optgroup_other, "show_login_button",
-			L("Show \"Log in\" button in application top bar"),
-			L("If enabled, CaribouSlicer will show up \"Log in\" button in application top bar."),
-			app_config->get_bool("show_login_button"));
-		
-		append_bool_option(m_optgroup_other, "downloader_url_registered",
-			L("Allow downloads from Printables.com"),
-			L("If enabled, CaribouSlicer will be allowed to download from Printables.com"),
-			app_config->get_bool("downloader_url_registered"));
+        append_bool_option(m_optgroup_other, "show_login_button",
+            L("Show \"Log in\" button in application top bar"),
+            L("If enabled, CaribouSlicer will show up \"Log in\" button in application top bar."),
+            app_config->get_bool("show_login_button"));
+        
+        append_bool_option(m_optgroup_other, "downloader_url_registered",
+            L("Allow downloads from Printables.com"),
+            L("If enabled, CaribouSlicer will be allowed to download from Printables.com"),
+            app_config->get_bool("downloader_url_registered"));
 
         append_bool_option(m_optgroup_other, "show_login_button",
             L("Show \"Log in\" button in application top bar"),
@@ -801,7 +801,7 @@ void PreferencesDialog::accept(wxEvent&)
         m_seq_top_layer_only_changed = app_config->get("seq_top_layer_only") != it->second;
 
     m_settings_layout_changed = false;
-    for (const std::string& key : { "old_settings_layout_mode",
+    for (const std::string key : { "old_settings_layout_mode",
                                     "dlg_settings_layout_mode" })
     {
         auto it = m_values.find(key);

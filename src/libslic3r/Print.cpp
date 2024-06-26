@@ -1717,17 +1717,36 @@ DynamicConfig PrintStatistics::config() const
     return config;
 }
 
+// DynamicConfig PrintStatistics::placeholders()
+// {
+//     DynamicConfig config;
+//     for (const std::string &key : {       
+//         "print_time", "normal_print_time", "silent_print_time",
+//         "used_filament", "extruded_volume", "total_cost", "total_weight",
+//         "total_toolchanges", "total_wipe_tower_cost", "total_wipe_tower_filament",
+//         "initial_tool", "initial_extruder", "initial_filament_type", "printing_filament_types", "num_printing_extruders" })
+//         config.set_key_value(key, new ConfigOptionString(std::string("{") + key + "}"));
+//     return config;
+// }
+
 DynamicConfig PrintStatistics::placeholders()
 {
     DynamicConfig config;
-    for (const std::string &key : {
+    const std::vector<std::string> keys = {
         "print_time", "normal_print_time", "silent_print_time",
         "used_filament", "extruded_volume", "total_cost", "total_weight",
         "total_toolchanges", "total_wipe_tower_cost", "total_wipe_tower_filament",
-        "initial_tool", "initial_extruder", "initial_filament_type", "printing_filament_types", "num_printing_extruders" })
+        "initial_tool", "initial_extruder", "initial_filament_type", "printing_filament_types", "num_printing_extruders"
+    };
+
+    for (const std::string &key : keys)
+    {
         config.set_key_value(key, new ConfigOptionString(std::string("{") + key + "}"));
+    }
+
     return config;
 }
+
 
 std::string PrintStatistics::finalize_output_path(const std::string &path_in) const
 {

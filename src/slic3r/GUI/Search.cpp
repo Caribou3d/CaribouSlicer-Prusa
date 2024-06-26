@@ -830,7 +830,10 @@ void SearchDialog::on_sys_color_changed()
 SearchListModel::SearchListModel(wxWindow* parent) : wxDataViewVirtualListModel(0)
 {
     int icon_id = 0;
-    for (const std::string& icon : { "cog", "printer", "sla_printer", "spool", "resin", "notification_preferences" })
+    // for (const std::string& icon : { "cog", "printer", "sla_printer", "spool", "resin", "notification_preferences" })
+    for (const std::string icon : { "cog", "printer", "sla_printer", "spool", "resin", "notification_preferences" }) 
+    // Use icon as needed
+
         m_icon[icon_id++] = ScalableBitmap(parent, icon);
 }
 
