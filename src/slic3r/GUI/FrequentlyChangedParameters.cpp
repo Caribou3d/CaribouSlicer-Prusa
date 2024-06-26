@@ -57,9 +57,10 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_fff->on_change = [config, this](t_config_option_key opt_key, boost::any value) {
         Tab* tab_print = wxGetApp().get_tab(Preset::TYPE_PRINT);
+        std::cout << "opt_key " <<  opt_key << std::endl;
         if (!tab_print) return;
 
-        if (opt_key == "fill_density") {
+        if ((opt_key == "fill_density")|| (opt_key == "perimeters" )) {
             tab_print->update_dirty();
             tab_print->reload_config();
             tab_print->update();
@@ -111,6 +112,17 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     Line line = Line { "", "" };
 
+    Option option = m_og_fff->get_option("perimeters");
+    option.opt.label = L("Perimeters");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+
+    m_og_fff->append_line(line);
+
+
+    line = Line { "", "" };
+
     ConfigOptionDef support_def;
     support_def.label = L("Supports");
     support_def.type = coStrings;
@@ -122,7 +134,7 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
         L("Everywhere")
     });
     support_def.set_default_value(new ConfigOptionStrings{ "None" });
-    Option option = Option(support_def, "support");
+    option = Option(support_def, "support");
     option.opt.full_width = true;
     line.append_option(option);
 
@@ -149,6 +161,8 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     option.opt.width = 8;
     option.opt.sidetext = "   ";
     line.append_option(option);
+
+    line = Line { "", "" };
 
     m_brim_width = config->opt_float("brim_width");
     ConfigOptionDef def;
