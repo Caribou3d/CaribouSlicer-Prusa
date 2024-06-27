@@ -59,7 +59,10 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
         Tab* tab_print = wxGetApp().get_tab(Preset::TYPE_PRINT);
         if (!tab_print) return;
 
-        if (opt_key == "fill_density") {
+        if ((opt_key == "perimeters" )
+            || (opt_key == "top_solid_layers") || (opt_key == "bottom_solid_layers" )
+            || (opt_key == "fill_density") 
+            || (opt_key == "skirts") || (opt_key == "skirt_height")) {
             tab_print->update_dirty();
             tab_print->reload_config();
             tab_print->update();
@@ -111,6 +114,29 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     Line line = Line { "", "" };
 
+    Option option = m_og_fff->get_option("perimeters");
+    option.opt.label = L("Perimeters");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+    m_og_fff->append_line(line);
+
+    line = Line { "", "" };
+    option = m_og_fff->get_option("top_solid_layers");
+    option.opt.label = L("Layers Top");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+
+    option = m_og_fff->get_option("bottom_solid_layers");
+    option.opt.label = L("Bottom");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+    m_og_fff->append_line(line);
+
+    line = Line { "", "" };
+
     ConfigOptionDef support_def;
     support_def.label = L("Supports");
     support_def.type = coStrings;
@@ -122,7 +148,7 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
         L("Everywhere")
     });
     support_def.set_default_value(new ConfigOptionStrings{ "None" });
-    Option option = Option(support_def, "support");
+    option = Option(support_def, "support");
     option.opt.full_width = true;
     line.append_option(option);
 
@@ -204,6 +230,23 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     };
     line.append_widget(wiping_dialog_btn);
     m_og_fff->append_line(line);
+
+
+
+    line = Line { "", "" };
+    option = m_og_fff->get_option("skirts");
+    option.opt.label = L("Skirt Loops");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+
+    option = m_og_fff->get_option("skirt_height");
+    option.opt.label = L("Height");
+    option.opt.width = 8;
+    line.append_option(option);
+    m_og_fff->append_line(line);
+
+
 
     m_og_fff->activate();
 
