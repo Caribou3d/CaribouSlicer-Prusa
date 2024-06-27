@@ -1437,10 +1437,10 @@ void Tab::update_frequently_changed_parameters()
     {
         og_freq_chng_params->set_value("perimeters", m_config->opt_int("perimeters"));
         og_freq_chng_params->set_value("top_solid_layers", m_config->opt_int("top_solid_layers"));
-        og_freq_chng_params->set_value("bottom_solid_layers", m_config->opt_int("bottom_solid_layers")); 
+        og_freq_chng_params->set_value("bottom_solid_layers", m_config->opt_int("bottom_solid_layers"));
         og_freq_chng_params->set_value("brim", bool(m_config->opt_float("brim_width") > 0.0));
-        og_freq_chng_params->set_value("skirts", m_config->opt_int("skirts"));     
-        og_freq_chng_params->set_value("skirt_height", m_config->opt_int("skirt_height"));          
+        og_freq_chng_params->set_value("skirts", m_config->opt_int("skirts"));
+        og_freq_chng_params->set_value("skirt_height", m_config->opt_int("skirt_height"));
         update_wiping_button_visibility();
     }
 }
@@ -1653,39 +1653,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("max_volumetric_extrusion_rate_slope_positive", "pressure-equlizer_331504");
         optgroup->append_single_option_line("max_volumetric_extrusion_rate_slope_negative", "pressure-equlizer_331504");
 
-    page = add_options_page(L("Multiple Extruders"), "funnel");
-        optgroup = page->new_optgroup(L("Extruders"));
-        optgroup->append_single_option_line("perimeter_extruder");
-        optgroup->append_single_option_line("infill_extruder");
-        optgroup->append_single_option_line("solid_infill_extruder");
-        optgroup->append_single_option_line("support_material_extruder");
-        optgroup->append_single_option_line("support_material_interface_extruder");
-        optgroup->append_single_option_line("wipe_tower_extruder");
-
-        optgroup = page->new_optgroup(L("Ooze prevention"));
-        optgroup->append_single_option_line("ooze_prevention");
-        optgroup->append_single_option_line("standby_temperature_delta");
-
-        optgroup = page->new_optgroup(L("Wipe tower"));
-        optgroup->append_single_option_line("wipe_tower");
-        optgroup->append_single_option_line("wipe_tower_x");
-        optgroup->append_single_option_line("wipe_tower_y");
-        optgroup->append_single_option_line("wipe_tower_width");
-        optgroup->append_single_option_line("wipe_tower_rotation_angle");
-        optgroup->append_single_option_line("wipe_tower_brim_width");
-        optgroup->append_single_option_line("wipe_tower_bridging");
-        optgroup->append_single_option_line("wipe_tower_cone_angle");
-        optgroup->append_single_option_line("wipe_tower_extra_spacing");
-        optgroup->append_single_option_line("wipe_tower_extra_flow");
-        optgroup->append_single_option_line("wipe_tower_no_sparse_layers");
-        optgroup->append_single_option_line("single_extruder_multi_material_priming");
-
-        optgroup = page->new_optgroup(L("Advanced"));
-        optgroup->append_single_option_line("interface_shells");
-        optgroup->append_single_option_line("mmu_segmented_region_max_width");
-        optgroup->append_single_option_line("mmu_segmented_region_interlocking_depth");
-
-    page = add_options_page(L("Advanced"), "wrench");
+    page = add_options_page(L("Extrusion width"), "wrench");
         optgroup = page->new_optgroup(L("Extrusion width"));
         optgroup->append_single_option_line("extrusion_width");
         optgroup->append_single_option_line("first_layer_extrusion_width");
@@ -1718,6 +1686,38 @@ void TabPrint::build()
         optgroup->append_single_option_line("wall_distribution_count");
         optgroup->append_single_option_line("min_bead_width");
         optgroup->append_single_option_line("min_feature_size");
+
+    page = add_options_page(L("Multiple Extruders"), "funnel");
+        optgroup = page->new_optgroup(L("Extruders"));
+        optgroup->append_single_option_line("perimeter_extruder");
+        optgroup->append_single_option_line("infill_extruder");
+        optgroup->append_single_option_line("solid_infill_extruder");
+        optgroup->append_single_option_line("support_material_extruder");
+        optgroup->append_single_option_line("support_material_interface_extruder");
+        optgroup->append_single_option_line("wipe_tower_extruder");
+
+        optgroup = page->new_optgroup(L("Ooze prevention"));
+        optgroup->append_single_option_line("ooze_prevention");
+        optgroup->append_single_option_line("standby_temperature_delta");
+
+        optgroup = page->new_optgroup(L("Wipe tower"));
+        optgroup->append_single_option_line("wipe_tower");
+        optgroup->append_single_option_line("wipe_tower_x");
+        optgroup->append_single_option_line("wipe_tower_y");
+        optgroup->append_single_option_line("wipe_tower_width");
+        optgroup->append_single_option_line("wipe_tower_rotation_angle");
+        optgroup->append_single_option_line("wipe_tower_brim_width");
+        optgroup->append_single_option_line("wipe_tower_bridging");
+        optgroup->append_single_option_line("wipe_tower_cone_angle");
+        optgroup->append_single_option_line("wipe_tower_extra_spacing");
+        optgroup->append_single_option_line("wipe_tower_extra_flow");
+        optgroup->append_single_option_line("wipe_tower_no_sparse_layers");
+        optgroup->append_single_option_line("single_extruder_multi_material_priming");
+
+        optgroup = page->new_optgroup(L("Advanced"));
+        optgroup->append_single_option_line("interface_shells");
+        optgroup->append_single_option_line("mmu_segmented_region_max_width");
+        optgroup->append_single_option_line("mmu_segmented_region_interlocking_depth");
 
     page = add_options_page(L("Output options"), "output+page_white");
         optgroup = page->new_optgroup(L("Sequential printing"));
@@ -2226,6 +2226,31 @@ void TabFilament::build()
         line.append_option(optgroup->get_option("chamber_minimal_temperature"));
         optgroup->append_line(line);
 
+        optgroup = page->new_optgroup(L("Filament properties"));
+        // Set size as all another fields for a better alignment
+        Option option = optgroup->get_option("filament_type");
+        option.opt.width = Field::def_width();
+        optgroup->append_single_option_line(option);
+        optgroup->append_single_option_line("filament_soluble");
+
+        optgroup = page->new_optgroup(L("Shrinkage compensation"));
+        optgroup->append_single_option_line("filament_shrinkage_compensation_xy");
+        optgroup->append_single_option_line("filament_shrinkage_compensation_z");
+
+        optgroup = page->new_optgroup(L("Print speed override"));
+        optgroup->append_single_option_line("filament_max_volumetric_speed", "max-volumetric-speed_127176");
+
+        line = { "", "" };
+        line.full_width = 1;
+        line.widget = [this](wxWindow* parent) {
+            return description_line_widget(parent, &m_volumetric_speed_description_line);
+        };
+        optgroup->append_line(line);
+
+        optgroup->append_single_option_line("filament_infill_max_speed", "max-simple-infill-speed");
+        optgroup->append_single_option_line("filament_infill_max_crossing_speed", "max-crossing-infill-speed");
+
+
     page = add_options_page(L("Cooling"), "cooling");
         std::string category_path = "cooling_127569#";
         optgroup = page->new_optgroup(L("Enable"));
@@ -2262,31 +2287,7 @@ void TabFilament::build()
         optgroup->append_single_option_line("slowdown_below_layer_time", category_path + "cooling-thresholds");
         optgroup->append_single_option_line("min_print_speed", category_path + "cooling-thresholds");
 
-    page = add_options_page(L("Advanced"), "wrench");
-        optgroup = page->new_optgroup(L("Filament properties"));
-        // Set size as all another fields for a better alignment
-        Option option = optgroup->get_option("filament_type");
-        option.opt.width = Field::def_width();
-        optgroup->append_single_option_line(option);
-        optgroup->append_single_option_line("filament_soluble");
-
-        optgroup = page->new_optgroup(L("Print speed override"));
-        optgroup->append_single_option_line("filament_max_volumetric_speed", "max-volumetric-speed_127176");
-
-        line = { "", "" };
-        line.full_width = 1;
-        line.widget = [this](wxWindow* parent) {
-            return description_line_widget(parent, &m_volumetric_speed_description_line);
-        };
-        optgroup->append_line(line);
-
-        optgroup->append_single_option_line("filament_infill_max_speed", "max-simple-infill-speed");
-        optgroup->append_single_option_line("filament_infill_max_crossing_speed", "max-crossing-infill-speed");
-
-        optgroup = page->new_optgroup(L("Shrinkage compensation"));
-        optgroup->append_single_option_line("filament_shrinkage_compensation_xy");
-        optgroup->append_single_option_line("filament_shrinkage_compensation_z");
-
+    page = add_options_page(L("Multimaterial"), "wrench");
         optgroup = page->new_optgroup(L("Wipe tower parameters"));
         optgroup->append_single_option_line("filament_minimal_purge_on_wipe_tower");
 
@@ -2560,7 +2561,7 @@ bool TabFilament::save_current_preset(const std::string &new_name, bool detach)
     if (is_saved)
         m_preset_bundle->reset_extruder_filaments();
 
-    // Saved preset have to be selected for active extruder in any case 
+    // Saved preset have to be selected for active extruder in any case
     m_preset_bundle->extruders_filaments[m_active_extruder].select_filament(m_presets->get_idx_selected());
     return is_saved;
 }
@@ -2609,26 +2610,26 @@ void TabPrinter::build()
     m_printer_technology == ptSLA ? build_sla() : build_fff();
 }
 
-void TabPrinter::build_print_host_upload_group(Page* page)
-{
-    ConfigOptionsGroupShp optgroup = page->new_optgroup(L("Print Host upload"));
+// void TabPrinter::build_print_host_upload_group(Page* page)
+// {
+//     ConfigOptionsGroupShp optgroup = page->new_optgroup(L("Print Host upload"));
 
-    wxString description_line_text = _L(""
-        "Note: All parameters from this group are moved to the Physical Printer settings (see changelog).\n\n"
-        "A new Physical Printer profile is created by clicking on the \"cog\" icon right of the Printer profiles combo box, "
-        "by selecting the \"Add physical printer\" item in the Printer combo box. The Physical Printer profile editor opens "
-        "also when clicking on the \"cog\" icon in the Printer settings tab. The Physical Printer profiles are being stored "
-        "into CaribouSlicer/physical_printer directory.");
+//     wxString description_line_text = _L(""
+//         "Note: All parameters from this group are moved to the Physical Printer settings (see changelog).\n\n"
+//         "A new Physical Printer profile is created by clicking on the \"cog\" icon right of the Printer profiles combo box, "
+//         "by selecting the \"Add physical printer\" item in the Printer combo box. The Physical Printer profile editor opens "
+//         "also when clicking on the \"cog\" icon in the Printer settings tab. The Physical Printer profiles are being stored "
+//         "into CaribouSlicer/physical_printer directory.");
 
-    Line line = { "", "" };
-    line.full_width = 1;
-    line.widget = [this, description_line_text](wxWindow* parent) {
-        return description_line_widget(parent, m_presets->get_selected_preset().printer_technology() == ptFFF ?
-                                       &m_fff_print_host_upload_description_line : &m_sla_print_host_upload_description_line,
-                                       description_line_text);
-    };
-    optgroup->append_line(line);
-}
+//     Line line = { "", "" };
+//     line.full_width = 1;
+//     line.widget = [this, description_line_text](wxWindow* parent) {
+//         return description_line_widget(parent, m_presets->get_selected_preset().printer_technology() == ptFFF ?
+//                                        &m_fff_print_host_upload_description_line : &m_sla_print_host_upload_description_line,
+//                                        description_line_text);
+//     };
+//     optgroup->append_line(line);
+// }
 
 static wxString get_info_klipper_string()
 {
@@ -2737,7 +2738,7 @@ void TabPrinter::build_fff()
             });
         };
 
-        build_print_host_upload_group(page.get());
+//        build_print_host_upload_group(page.get());
 
         optgroup = page->new_optgroup(L("Firmware"));
         optgroup->append_single_option_line("gcode_flavor");
@@ -3013,7 +3014,7 @@ void TabPrinter::build_sla()
     optgroup->append_single_option_line("sla_archive_format");
     optgroup->append_single_option_line("sla_output_precision");
 
-    build_print_host_upload_group(page.get());
+//    build_print_host_upload_group(page.get());
 
     const int notes_field_height = 25; // 250
 

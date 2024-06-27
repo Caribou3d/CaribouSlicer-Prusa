@@ -19405,7 +19405,7 @@ msgstr "Größe und Koordinaten"
 #: src/slic3r/GUI/Tab.cpp:2665 src/slic3r/GUI/UnsavedChangesDialog.cpp:1335
 #: src/slic3r/GUI/UnsavedChangesDialog.cpp:1913
 msgid "Capabilities"
-msgstr "Fähigkeiten"
+msgstr "Eigenschaften"
 
 #: src/slic3r/GUI/Tab.cpp:2670
 msgid "Number of extruders of the printer."
