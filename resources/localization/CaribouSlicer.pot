@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-27 17:24+0200\n"
+"POT-Creation-Date: 2024-06-27 18:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6888,7 +6888,7 @@ msgid "Load..."
 msgstr ""
 
 #: src/slic3r/GUI/BedShapeDialog.cpp:310 src/slic3r/GUI/BedShapeDialog.cpp:382
-#: src/slic3r/GUI/Tab.cpp:4491 src/slic3r/GUI/UpdatesUIManager.cpp:196
+#: src/slic3r/GUI/Tab.cpp:4491 src/slic3r/GUI/UpdatesUIManager.cpp:231
 msgid "Remove"
 msgstr ""
 
@@ -7929,6 +7929,35 @@ msgstr ""
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4160
 msgid "Configuration &Assistent"
+msgstr ""
+
+#. TRN Config wizard page headline.
+#: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:18
+msgid "Log in with Your Prusa Account (optional)"
+msgstr ""
+
+#: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:18
+msgid "Log in (optional)"
+msgstr ""
+
+#. TRN Config wizard page with a log in page.
+#: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:29
+msgid "Failed to load a web browser. Logging in is not possible in the moment."
+msgstr ""
+
+#. TRN Config wizard page with a log in web.
+#: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:35
+#: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:60
+#, possible-boost-format
+msgid "You are logged as %1%."
+msgstr ""
+
+#. TRN Config wizard page with a log in web. first line of text.
+#: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:38
+#: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:63
+msgid ""
+"Log in to control your printers remotely through the built-in Connect in "
+"PrusaSlicer."
 msgstr ""
 
 #: src/slic3r/GUI/DesktopIntegrationDialog.cpp:238
@@ -12077,7 +12106,7 @@ msgstr ""
 msgid "Remove the selected object"
 msgstr ""
 
-#: src/slic3r/GUI/GUI_Factories.cpp:546 src/slic3r/GUI/UpdatesUIManager.cpp:59
+#: src/slic3r/GUI/GUI_Factories.cpp:546 src/slic3r/GUI/UpdatesUIManager.cpp:94
 msgid "Load"
 msgstr ""
 
@@ -12317,8 +12346,8 @@ msgstr ""
 #. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
-#: src/slic3r/GUI/UpdatesUIManager.cpp:108
-#: src/slic3r/GUI/UpdatesUIManager.cpp:149
+#: src/slic3r/GUI/UpdatesUIManager.cpp:143
+#: src/slic3r/GUI/UpdatesUIManager.cpp:184
 msgid "Name"
 msgstr ""
 
@@ -18115,56 +18144,69 @@ msgstr ""
 msgid "Your %1% is up to date."
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:29
+#: src/slic3r/GUI/UpdatesUIManager.cpp:30
 msgid "Online sources"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:43
+#: src/slic3r/GUI/UpdatesUIManager.cpp:35
+msgid "Please, select online sources you want to update profiles from"
+msgstr ""
+
+#: src/slic3r/GUI/UpdatesUIManager.cpp:49
 msgid "Local sources"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:108
-#: src/slic3r/GUI/UpdatesUIManager.cpp:149
+#: src/slic3r/GUI/UpdatesUIManager.cpp:68
+#, possible-boost-format
+msgid ""
+"As an alternative to online sources, profiles can also be updated by "
+"manually loading files containing the updates. This is mostly useful on "
+"computers that are not connected to the internet. Files containing the "
+"configuration updates can be downloaded from <a href=%1%>our website</a>."
+msgstr ""
+
+#: src/slic3r/GUI/UpdatesUIManager.cpp:143
+#: src/slic3r/GUI/UpdatesUIManager.cpp:184
 msgid "Description"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:149
+#: src/slic3r/GUI/UpdatesUIManager.cpp:184
 msgid "Source file"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:176
+#: src/slic3r/GUI/UpdatesUIManager.cpp:211
 msgid "File exists"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:176
+#: src/slic3r/GUI/UpdatesUIManager.cpp:211
 msgid "File does NOT exist"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:188
+#: src/slic3r/GUI/UpdatesUIManager.cpp:223
 msgid "Open folder"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:243
+#: src/slic3r/GUI/UpdatesUIManager.cpp:278
 msgid "Choose one or more ZIP files"
 msgstr ""
 
-#: src/slic3r/GUI/UpdatesUIManager.cpp:308
+#: src/slic3r/GUI/UpdatesUIManager.cpp:343
 msgid "Manage Updates"
 msgstr ""
 
-#: src/slic3r/GUI/WebViewDialog.cpp:106 src/slic3r/GUI/WebViewDialog.cpp:867
+#: src/slic3r/GUI/WebViewDialog.cpp:107 src/slic3r/GUI/WebViewDialog.cpp:868
 msgid "Failed to load a web browser."
 msgstr ""
 
-#: src/slic3r/GUI/WebViewDialog.cpp:1223
+#: src/slic3r/GUI/WebViewDialog.cpp:1224
 msgid "Choose a printer"
 msgstr ""
 
-#: src/slic3r/GUI/WebViewDialog.cpp:1318
+#: src/slic3r/GUI/WebViewDialog.cpp:1333
 msgid "Log in dialog"
 msgstr ""
 
-#: src/slic3r/GUI/WebViewDialog.cpp:1338
+#: src/slic3r/GUI/WebViewDialog.cpp:1360
 msgid "Logout dialog"
 msgstr ""
 
@@ -18527,18 +18569,18 @@ msgstr ""
 msgid "Could not connect to PrusaLink"
 msgstr ""
 
-#: src/slic3r/Utils/OctoPrint.cpp:783 src/slic3r/Utils/PrusaConnect.cpp:298
+#: src/slic3r/Utils/OctoPrint.cpp:783 src/slic3r/Utils/PrusaConnect.cpp:318
 msgid "Storages found"
 msgstr ""
 
 #. TRN %1% = storage path
-#: src/slic3r/Utils/OctoPrint.cpp:787 src/slic3r/Utils/PrusaConnect.cpp:302
+#: src/slic3r/Utils/OctoPrint.cpp:787 src/slic3r/Utils/PrusaConnect.cpp:322
 #, possible-boost-format
 msgid "%1% : read only"
 msgstr ""
 
 #. TRN %1% = storage path
-#: src/slic3r/Utils/OctoPrint.cpp:789 src/slic3r/Utils/PrusaConnect.cpp:304
+#: src/slic3r/Utils/OctoPrint.cpp:789 src/slic3r/Utils/PrusaConnect.cpp:324
 #, possible-boost-format
 msgid "%1% : no free space"
 msgstr ""
@@ -18627,16 +18669,16 @@ msgid "Open G-code file:"
 msgstr ""
 
 #. TRN %1% = host
-#: src/slic3r/Utils/PrusaConnect.cpp:308
+#: src/slic3r/Utils/PrusaConnect.cpp:328
 #, possible-boost-format
 msgid "Upload has failed. There is no suitable storage found at %1%. "
 msgstr ""
 
-#: src/slic3r/Utils/PrusaConnect.cpp:318
+#: src/slic3r/Utils/PrusaConnect.cpp:338
 msgid "Test passed."
 msgstr ""
 
-#: src/slic3r/Utils/PrusaConnect.cpp:322
+#: src/slic3r/Utils/PrusaConnect.cpp:342
 msgid "Test failed."
 msgstr ""
 

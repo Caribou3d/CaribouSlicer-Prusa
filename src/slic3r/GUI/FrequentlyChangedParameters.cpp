@@ -168,7 +168,6 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_fff->append_line(line);
 
-
     line = Line { "", "" };
 
     option = m_og_fff->get_option("fill_density");
@@ -176,8 +175,6 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     option.opt.width = 8;
     option.opt.sidetext = "   ";
     line.append_option(option);
-
-    line = Line { "", "" };
 
     m_brim_width = config->opt_float("brim_width");
     ConfigOptionDef def;
