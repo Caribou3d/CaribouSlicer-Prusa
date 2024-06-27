@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-27 18:20+0200\n"
+"POT-Creation-Date: 2024-06-27 22:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1165,7 +1165,7 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:1791 src/libslic3r/PrintConfig.cpp:1830
 #: src/libslic3r/PrintConfig.cpp:2712 src/libslic3r/PrintConfig.cpp:2729
 #: src/libslic3r/PrintConfig.cpp:3560 src/slic3r/GUI/ConfigManipulation.cpp:199
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:175
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:174
 #: src/slic3r/GUI/GUI_Factories.cpp:87 src/slic3r/GUI/GUI_Factories.cpp:160
 #: src/slic3r/GUI/Tab.cpp:1517 src/slic3r/GUI/Tab.cpp:1519
 msgid "Infill"
@@ -1738,7 +1738,7 @@ msgstr ""
 #. TRN - Input label. Be short as possible
 #. Height of one text line - Font Ascent
 #: src/libslic3r/PrintConfig.cpp:1033
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:247
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:244
 #: src/slic3r/GUI/GCodeViewer.cpp:371
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3904
 msgid "Height"
@@ -2375,7 +2375,7 @@ msgstr ""
 #: src/slic3r/GUI/ConfigWizard.cpp:894 src/slic3r/GUI/FileArchiveDialog.cpp:272
 #: src/slic3r/GUI/FileArchiveDialog.cpp:290
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:146
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:326
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:323
 #: src/slic3r/GUI/Gizmos/GLGizmoMeasure.cpp:2014
 #: src/slic3r/GUI/Preferences.cpp:584
 msgid "None"
@@ -3591,7 +3591,7 @@ msgid "Loops (minimum)"
 msgstr ""
 
 #: src/libslic3r/PrintConfig.cpp:2680
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:241
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:238
 msgid "Skirt Loops"
 msgstr ""
 
@@ -5156,7 +5156,7 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:4389 src/libslic3r/PrintConfig.cpp:4396
 #: src/libslic3r/PrintConfig.cpp:4403 src/libslic3r/PrintConfig.cpp:4414
 #: src/libslic3r/PrintConfig.cpp:4423 src/libslic3r/PrintConfig.cpp:4432
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:322
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:319
 #: src/slic3r/GUI/GUI_Factories.cpp:173 src/slic3r/GUI/Tab.cpp:5837
 #: src/slic3r/GUI/Tab.cpp:5838 src/slic3r/GUI/Tab.cpp:5903
 msgid "Pad"
@@ -8710,30 +8710,30 @@ msgstr ""
 msgid "Everywhere"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:184
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:181
 #: src/slic3r/GUI/Tab.cpp:1556
 msgid "Brim"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:186
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:183
 msgid ""
 "This flag enables the brim that will be printed around each object on the "
 "first layer."
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:194
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:191
 msgid "Purging volumes"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:324
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:321
 msgid "Select what kind of pad do you need"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:327
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:324
 msgid "Below object"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:328
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:325
 msgid "Around object"
 msgstr ""
 
