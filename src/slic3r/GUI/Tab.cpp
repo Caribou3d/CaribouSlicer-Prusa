@@ -1089,11 +1089,50 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
 
     const bool is_fff = supports_printer_technology(ptFFF);
     ConfigOptionsGroup* og_freq_chng_params = wxGetApp().sidebar().og_freq_chng_params(is_fff);
+
+    if (opt_key == "perimeters")
+    {
+        int val = m_config->opt_int("perimeters");
+        og_freq_chng_params->set_value("perimeters", val);
+    }
+
+    if (opt_key == "top_solid_layers")
+    {
+        int val = m_config->opt_int("top_solid_layers");
+        og_freq_chng_params->set_value("top_solid_layers", val);
+    }
+
+    if (opt_key == "bottom_solid_layers")
+    {
+        int val = m_config->opt_int("bottom_solid_layers");
+        og_freq_chng_params->set_value("bottom_solid_layers", val);
+    }
+
     if (opt_key == "fill_density" || opt_key == "pad_enable")
     {
         boost::any val = og_freq_chng_params->get_config_value(*m_config, opt_key);
         og_freq_chng_params->set_value(opt_key, val);
     }
+
+    if (opt_key == "brim_width")
+    {
+        bool val = m_config->opt_float("brim_width") > 0.0 ? true : false;
+        og_freq_chng_params->set_value("brim", val);
+    }
+
+
+    if (opt_key == "skirts")
+    {
+        int val = m_config->opt_int("skirts");
+        og_freq_chng_params->set_value("skirts", val);
+    }
+
+    if (opt_key == "skirt_height")
+    {
+        int val = m_config->opt_int("skirt_height");
+        og_freq_chng_params->set_value("skirt_height", val);
+    }
+
 
     if (opt_key == "pad_around_object") {
         for (PageShp &pg : m_pages) {
@@ -1110,17 +1149,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
     if (! is_fff && (opt_key == "pad_enable" || opt_key == "pad_around_object"))
         og_freq_chng_params->set_value("pad", pad_combo_value_for_config(*m_config));
 
-    if (opt_key == "brim_width")
-    {
-        bool val = m_config->opt_float("brim_width") > 0.0 ? true : false;
-        og_freq_chng_params->set_value("brim", val);
-    }
 
-    if (opt_key == "perimeters")
-    {
-        int val = m_config->opt_int("perimeters");
-        og_freq_chng_params->set_value("perimeters", val);
-    }
 
     if (opt_key == "wipe_tower" || opt_key == "single_extruder_multi_material" || opt_key == "extruders_count" )
         update_wiping_button_visibility();
@@ -1406,8 +1435,12 @@ void Tab::update_frequently_changed_parameters()
 
     if (is_fff)
     {
-        og_freq_chng_params->set_value("brim", bool(m_config->opt_float("brim_width") > 0.0));
         og_freq_chng_params->set_value("perimeters", m_config->opt_int("perimeters"));
+        og_freq_chng_params->set_value("top_solid_layers", m_config->opt_int("top_solid_layers"));
+        og_freq_chng_params->set_value("bottom_solid_layers", m_config->opt_int("bottom_solid_layers")); 
+        og_freq_chng_params->set_value("brim", bool(m_config->opt_float("brim_width") > 0.0));
+        og_freq_chng_params->set_value("skirts", m_config->opt_int("skirts"));     
+        og_freq_chng_params->set_value("skirt_height", m_config->opt_int("skirt_height"));          
         update_wiping_button_visibility();
     }
 }

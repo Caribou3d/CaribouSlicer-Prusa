@@ -8659,11 +8659,6 @@ msgstr "Standard"
 msgid "All"
 msgstr "Alle"
 
-#: src/slic3r/GUI/ConfigWizard.cpp:614
-#, c-format, boost-format
-msgid "Welcome to the %s Configuration Assistant"
-msgstr "Willkommen zum %s Konfigurations-Assistent"
-
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
 msgid "Welcome to the %s Configuration Assistent"
@@ -9264,7 +9259,7 @@ msgstr "Der benutzerdefinierte Drucker wurde installiert und wird aktiviert."
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -9336,12 +9331,6 @@ msgstr "Konfigurations-Assistent"
 #: src/slic3r/GUI/ConfigWizard.cpp:4157
 msgid "Configuration &Assistant"
 msgstr "Konfigurations-&Assistent"
-
-#: src/slic3r/GUI/ConfigWizard.cpp:4159
-#, fuzzy
-#| msgid "Configuration Assistant"
-msgid "Configuration Assistent"
-msgstr "Konfigurations-Assistent"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4160
 #, fuzzy
@@ -13517,7 +13506,7 @@ msgstr ""
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3348
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr "Lade den Konfigurationsassistenten..."
 
 #: src/slic3r/GUI/GUI_App.cpp:3384
@@ -14025,7 +14014,7 @@ msgstr "Schichtbereich entfernen"
 msgid "Add layer range"
 msgstr "Schichtbereich hinzufügen"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -17604,7 +17593,7 @@ msgstr "Unterdrückung der \" Vorlagen\"-Filamentvoreinstellungen"
 
 #: src/slic3r/GUI/Preferences.cpp:360
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr ""
 "Unterdrückung der \" Vorlagen\"-Filamentvoreinstellungen im "
@@ -21584,7 +21573,7 @@ msgstr ""
 #~ msgid "Configuration &Wizard"
 #~ msgstr "&Konfigurations-Assistent"
 
-#~ msgid "Configuration Wizard"
+#~ msgid "Configuration Assistent"
 #~ msgstr "Konfigurations-Assistent"
 
 #~ msgid "Developed by Prusa Research."
@@ -21592,9 +21581,6 @@ msgstr ""
 
 #~ msgid "Licensed under GNU AGPLv3."
 #~ msgstr "Lizensiert unter GNU AGPLv3."
-
-#~ msgid "Opening Configuration Wizard"
-#~ msgstr "Öffne Konfigurationsassistent"
 
 #~ msgid "Open the Prusa3D drivers download page in your browser"
 #~ msgstr "Download-Seite für die Prusa3D-Treiber in Ihrem Browser öffnen"
@@ -21618,10 +21604,6 @@ msgstr ""
 #, c-format, boost-format
 #~ msgid "%s &Website"
 #~ msgstr "%s &Webseite"
-
-#, c-format, boost-format
-#~ msgid "Welcome to the %s Configuration Wizard"
-#~ msgstr "Willkommen zum %s Konfigurations-Assistent"
 
 #~ msgid ""
 #~ "\n"

@@ -366,7 +366,7 @@ MsgUpdateForced::MsgUpdateForced(const std::vector<Update>& updates) :
         versions->Add(new wxStaticText(this, wxID_ANY, update.version.to_string()));
 
         if (!update.comment.empty()) {
-            versions->Add(new wxStaticText(this, wxID_ANY, _(L("Comment:")))/*, 0, wxALIGN_RIGHT*/);//uncoment if align to right (might not look good if 1  vedor name is longer than other names)
+            versions->Add(new wxStaticText(this, wxID_ANY, _(L("Comment:")))/*, 0, wxALIGN_RIGHT*/);//uncoment if align to right (might not look good if 1  vendor name is longer than other names)
             auto* update_comment = new wxStaticText(this, wxID_ANY, from_u8(update.comment));
             update_comment->Wrap(CONTENT_WIDTH * wxGetApp().em_unit());
             versions->Add(update_comment);

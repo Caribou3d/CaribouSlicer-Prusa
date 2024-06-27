@@ -8055,7 +8055,7 @@ msgstr "Bem-vindo ao  %s Assistente de config"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Bem-vindo ao  %s Assistente de config"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:618
@@ -8618,7 +8618,7 @@ msgstr "A impressora personalizada foi instalada e será ativada."
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -8685,7 +8685,7 @@ msgid "Configuration &Assistant"
 msgstr "Assistente &de config"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4159
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Assistente de config"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4160
@@ -12748,7 +12748,7 @@ msgstr "Verifique a lista de objetos antes de alterar a predefinição."
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3272
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:3308
@@ -12859,7 +12859,7 @@ msgstr ""
 #: src/slic3r/GUI/GUI_App.cpp:3769
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 
 #. TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present
@@ -13224,7 +13224,7 @@ msgstr "Remover limite da camada"
 msgid "Add layer range"
 msgstr "Adicionar limite da camada"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -16665,7 +16665,7 @@ msgstr ""
 
 #: src/slic3r/GUI/Preferences.cpp:357
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr ""
 
@@ -19217,7 +19217,7 @@ msgid "Download path is %1%. Do you wish to continue?"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Abrindo o Assistente de Configuração"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275 src/slic3r/GUI/UpdateDialogs.cpp:456
@@ -19227,7 +19227,7 @@ msgstr "Atualização de config"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicer não está usando a configuração mais recente disponível.\n"

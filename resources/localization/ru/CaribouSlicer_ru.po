@@ -8351,7 +8351,7 @@ msgstr "Приветствуем вас в мастере настройки %s"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Приветствуем вас в мастере настройки %s"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:618
@@ -8927,7 +8927,7 @@ msgstr "Пользовательский принтер установлен и 
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -8994,7 +8994,7 @@ msgid "Configuration &Assistant"
 msgstr "Помощник по &настройке"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4159
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Мастер настройки"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4160
@@ -13116,7 +13116,7 @@ msgstr "Пожалуйста, проверьте список моделей п�
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3272
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:3308
@@ -13233,7 +13233,7 @@ msgstr "Идёт загрузка новой версии. Хотите прод
 #: src/slic3r/GUI/GUI_App.cpp:3769
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 "Не удалось запустить загрузку по URL-адресу. Не задана папка назначения. "
 "Пожалуйста, задайте папку назначения в мастере настройки."
@@ -13601,7 +13601,7 @@ msgstr "Удалить диапазон слоёв"
 msgid "Add layer range"
 msgstr "Добавить диапазон слоёв"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -17137,7 +17137,7 @@ msgstr "Подавлять шаблонные профили прутка"
 
 #: src/slic3r/GUI/Preferences.cpp:357
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr ""
 "Подавлять шаблонные профили пластиковой нити в мастере настройки и видимости "
@@ -19784,7 +19784,7 @@ msgid "Download path is %1%. Do you wish to continue?"
 msgstr "Путь загрузки: %1%. Продолжить?"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Открытие мастера настройки"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275 src/slic3r/GUI/UpdateDialogs.cpp:456
@@ -19794,7 +19794,7 @@ msgstr "Обновление конфигурации"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicer не использует последнюю доступную конфигурацию.\n"

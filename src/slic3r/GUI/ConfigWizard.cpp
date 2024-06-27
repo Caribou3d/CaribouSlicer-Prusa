@@ -3778,7 +3778,7 @@ bool ConfigWizard::priv::can_clear_printer_pages()
         return true;
 
     // TRN: %1% contains list of pages to be removed, each on its own line and ending with a line break.
-    wxString message = format_wxstr( _L("Following Configuration Wizard pages will be removed after the configuration update:\n\n%1%\n"
+    wxString message = format_wxstr( _L("Following Configuration Assistent pages will be removed after the configuration update:\n\n%1%\n"
                                         "Installed presets for the respective printers will also be removed.\n"
                                         "Do you want to continue?"), msg);
 

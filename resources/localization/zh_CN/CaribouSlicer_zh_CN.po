@@ -7640,7 +7640,7 @@ msgstr "欢迎访问 %s 配置助手"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "欢迎访问 %s 配置向导"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:618
@@ -8173,7 +8173,7 @@ msgstr "已安装自定义打印机，它将被激活。"
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -8240,7 +8240,7 @@ msgid "Configuration &Assistant"
 msgstr "配置助手(&A)"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4159
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "配置向导"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4160
@@ -12238,7 +12238,7 @@ msgstr "请在预设更改之前检查对象列表。"
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3272
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:3308
@@ -12349,7 +12349,7 @@ msgstr "正在下载新版本。是否要继续？"
 #: src/slic3r/GUI/GUI_App.cpp:3769
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr "无法启动URL下载。目标文件夹没有设置。请在配置向导中选择目标文件夹。"
 
 #. TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present
@@ -12711,7 +12711,7 @@ msgstr "移除图层范围"
 msgid "Add layer range"
 msgstr "添加图层范围"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -16052,7 +16052,7 @@ msgstr "控制 \" 模板 \" 耗材预设"
 
 #: src/slic3r/GUI/Preferences.cpp:357
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr "在配置向导和侧边栏可见性中控制“模板”耗材预设。"
 
@@ -18493,7 +18493,7 @@ msgid "Download path is %1%. Do you wish to continue?"
 msgstr "下载路径为%1%。是否要继续？"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "打开配置向导"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275 src/slic3r/GUI/UpdateDialogs.cpp:456
@@ -18503,7 +18503,7 @@ msgstr "配置更新"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicer 未使用可用的最新配置。\n"

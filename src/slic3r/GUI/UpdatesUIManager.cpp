@@ -104,7 +104,7 @@ void RepositoryUpdateUIManager::fill_grids()
 
         // header
 
-        // TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+        // TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
         for (const wxString& l : std::initializer_list<wxString>{ "", "", _L("Name"), _L("Description")}) {
             auto text = new wxStaticText(m_parent, wxID_ANY, l);
             text->SetFont(wxGetApp().bold_font());

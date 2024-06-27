@@ -60,7 +60,10 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
         std::cout << "opt_key " <<  opt_key << std::endl;
         if (!tab_print) return;
 
-        if ((opt_key == "fill_density")|| (opt_key == "perimeters" )) {
+        if ((opt_key == "perimeters" )
+            || (opt_key == "top_solid_layers") || (opt_key == "bottom_solid_layers" )
+            || (opt_key == "fill_density") 
+            || (opt_key == "skirts") || (opt_key == "skirt_height")) {
             tab_print->update_dirty();
             tab_print->reload_config();
             tab_print->update();
@@ -117,9 +120,21 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     option.opt.width = 8;
     option.opt.sidetext = "   ";
     line.append_option(option);
-
     m_og_fff->append_line(line);
 
+    line = Line { "", "" };
+    option = m_og_fff->get_option("top_solid_layers");
+    option.opt.label = L("Layers Top");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+
+    option = m_og_fff->get_option("bottom_solid_layers");
+    option.opt.label = L("Bottom");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+    m_og_fff->append_line(line);
 
     line = Line { "", "" };
 
@@ -218,6 +233,23 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     };
     line.append_widget(wiping_dialog_btn);
     m_og_fff->append_line(line);
+
+
+
+    line = Line { "", "" };
+    option = m_og_fff->get_option("skirts");
+    option.opt.label = L("Skirt Loops");
+    option.opt.width = 8;
+    option.opt.sidetext = "   ";
+    line.append_option(option);
+
+    option = m_og_fff->get_option("skirt_height");
+    option.opt.label = L("Height");
+    option.opt.width = 8;
+    line.append_option(option);
+    m_og_fff->append_line(line);
+
+
 
     m_og_fff->activate();
 

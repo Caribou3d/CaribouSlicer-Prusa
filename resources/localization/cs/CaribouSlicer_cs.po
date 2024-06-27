@@ -2960,7 +2960,7 @@ msgid "Configuration &Wizard"
 msgstr "Průvodce &nastavením"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4159
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Průvodce nastavením"
 
 #: src/slic3r/GUI/FirmwareDialog.cpp:924
@@ -3379,7 +3379,7 @@ msgstr "Nelze získat prostředky pro vytvoření nového spojení"
 #: src/slic3r/GUI/GUI_App.cpp:3769
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 "Nelze spustit stahování z URL. Cílová složka není nastavena. Zvolte cílovou "
 "složku v průvodci nastavení."
@@ -6399,7 +6399,7 @@ msgstr "Průtok pro rapidní extruzi před výměnou nástroje."
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -9076,7 +9076,7 @@ msgstr "Načítání konfigurace"
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3272
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr "Načítání Průvodce konfigurací..."
 
 #: src/slic3r/GUI/GUI_ObjectList.cpp:1583 src/slic3r/GUI/Plater.cpp:1200
@@ -10385,7 +10385,7 @@ msgstr "Objem rapidní extruze pro tiskárnu s více nástroji"
 msgid "N/A"
 msgstr "N/A"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -11382,7 +11382,7 @@ msgid "Open hyperlink in default browser?"
 msgstr "Otevřít hypertextový odkaz ve výchozím prohlížeči?"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Otevírání průvodce nastavením"
 
 #: src/slic3r/GUI/GUI_App.cpp:2968
@@ -12928,7 +12928,7 @@ msgstr "CaribouSlicer se zavírá"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicer nepoužívá nejnovější dostupnou konfiguraci.\n"
@@ -16638,7 +16638,7 @@ msgstr "Potlačit \"Template\" přednastavení filamentů"
 
 #: src/slic3r/GUI/Preferences.cpp:357
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr ""
 "Potlačit \"Template\" filamenty v průvodci konfigurace a v postranním panelu."
@@ -20132,7 +20132,7 @@ msgstr "Vítejte v  %s Konfiguračním Asistentu"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Vítejte v %s Konfiguračním průvodci"
 
 #: src/slic3r/GUI/SavePresetDialog.cpp:495

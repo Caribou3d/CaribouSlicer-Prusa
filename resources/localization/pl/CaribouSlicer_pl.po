@@ -2985,7 +2985,7 @@ msgid "Configuration &Wizard"
 msgstr "Asystent Ko&nfiguracji"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4159
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Asystent Konfiguracji"
 
 #: src/slic3r/GUI/FirmwareDialog.cpp:924
@@ -3405,7 +3405,7 @@ msgstr "Brak zasobów do utworzenia nowego połączenia"
 #: src/slic3r/GUI/GUI_App.cpp:3769
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 "Nie można rozpocząć pobierania z adresu URL. Folder docelowy nie jest "
 "ustawiony. Proszę wybrać folder docelowy w Kreatorze konfiguracji."
@@ -6453,7 +6453,7 @@ msgstr "Przepływ używany do wyciskania filamentu przed zmianą narzędzia."
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -9150,7 +9150,7 @@ msgstr "Wczytywanie konfiguracji"
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3272
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr "Wczytywanie asystenta konfiguracji"
 
 #: src/slic3r/GUI/GUI_ObjectList.cpp:1583 src/slic3r/GUI/Plater.cpp:1200
@@ -10467,7 +10467,7 @@ msgstr "Objętość wyciskania Multitool"
 msgid "N/A"
 msgstr "N/D"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -11475,7 +11475,7 @@ msgid "Open hyperlink in default browser?"
 msgstr "Otworzyć hiperłącze w domyślnej przeglądarce?"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Otwieranie Asystenta Konfiguracji"
 
 #: src/slic3r/GUI/GUI_App.cpp:2968
@@ -13029,7 +13029,7 @@ msgstr "CaribouSlicer jest zamykany"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicer nie używa najnowszej dostępnej konfiguracji.\n"
@@ -16746,7 +16746,7 @@ msgstr "Wyłącz ustawienia filamentu typu \"Szablon\""
 
 #: src/slic3r/GUI/Preferences.cpp:357
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr ""
 "Wyłączenie ustawień filamentu typu \"Szablon\" w kreatorze konfiguracji i "
@@ -20299,7 +20299,7 @@ msgstr "Witamy w Asystencie Konfiguracji %s"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Witamy w Asystencie Konfiguracji %s"
 
 #: src/slic3r/GUI/SavePresetDialog.cpp:495

@@ -3345,7 +3345,7 @@ bool GUI_App::run_wizard(ConfigWizard::RunReason reason, ConfigWizard::StartPage
     // in UI thread, so displaying a nice modal dialog and letting the CW start in a worker thread
     // is not an option. Let's at least show a modeless dialog before the UI thread freezes.
     // TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
-    auto cw_loading_dlg =  new ConfigWizardLoadingDialog(mainframe, _L("Loading Configuration Wizard..."));
+    auto cw_loading_dlg =  new ConfigWizardLoadingDialog(mainframe, _L("Loading Configuration Assistent..."));
     cw_loading_dlg->CenterOnParent();
     cw_loading_dlg->Show();
     wxYield();

@@ -117,7 +117,7 @@ public:
     DynamicPrintConfig          full_config_secure() const;
 
     // Load user configuration and store it into the user profiles.
-    // This method is called by the configuration wizard.
+    // This method is called by the Configuration Assistent.
     void                        load_config_from_wizard(const std::string &name, DynamicPrintConfig config)
         { this->load_config_file_config(name, false, std::move(config)); }
 

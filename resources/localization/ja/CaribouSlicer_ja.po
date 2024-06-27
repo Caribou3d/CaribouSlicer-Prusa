@@ -2918,7 +2918,7 @@ msgid "Configuration &Wizard"
 msgstr "構成ウィザード(&W)"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4159
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "構成ウィザード"
 
 #: src/slic3r/GUI/FirmwareDialog.cpp:924
@@ -3335,7 +3335,7 @@ msgstr "新しい接続を作成するためのリソースを取得できませ
 #: src/slic3r/GUI/GUI_App.cpp:3769
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 "URLのダウンロードを開始できませんでした。保存先フォルダが設定されていません。"
 "設定ウィザードで保存先フォルダーを選択してください。"
@@ -6353,7 +6353,7 @@ msgstr "ツールチェンジ前のフィラメントのラミングに使うフ
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -8985,7 +8985,7 @@ msgstr "構成のロード"
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3272
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr "構成ウィザードのロード中..."
 
 #: src/slic3r/GUI/GUI_ObjectList.cpp:1583 src/slic3r/GUI/Plater.cpp:1200
@@ -10287,7 +10287,7 @@ msgstr "マルチツールラミング量"
 msgid "N/A"
 msgstr "N/A"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -11251,7 +11251,7 @@ msgid "Open hyperlink in default browser?"
 msgstr "デフォルトのブラウザでリンクを開きますか？"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "構成ウィザードを開く"
 
 #: src/slic3r/GUI/GUI_App.cpp:2968
@@ -12789,7 +12789,7 @@ msgstr "CaribouSlicerを終了します"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicerは、利用可能な最新の構成を使用していません。\n"
@@ -16478,7 +16478,7 @@ msgstr "\"テンプレート\"フィラメントプリセットの抑制"
 
 #: src/slic3r/GUI/Preferences.cpp:357
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr ""
 "設定ウィザードとサイドバーの表示で、\"テンプレート\" フィラメントプリセットが"
@@ -19887,7 +19887,7 @@ msgstr "%s構成アシスタントへようこそ"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "%s構成ウィザードへようこそ"
 
 #: src/slic3r/GUI/SavePresetDialog.cpp:495

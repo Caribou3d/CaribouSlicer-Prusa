@@ -357,7 +357,7 @@ void PreferencesDialog::build()
 
         append_bool_option(m_optgroup_general, "no_templates",
             L("Suppress \" Template \" filament presets"),
-            L("Suppress \" Template \" filament presets in configuration wizard and sidebar visibility."),
+            L("Suppress \" Template \" filament presets in Configuration Assistent and sidebar visibility."),
             app_config->get_bool("no_templates"));
 
         append_bool_option(m_optgroup_general, "show_incompatible_presets",

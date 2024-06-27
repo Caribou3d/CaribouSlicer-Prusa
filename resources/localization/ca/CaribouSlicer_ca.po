@@ -8304,7 +8304,7 @@ msgstr "Benvingut al %s Assistent de Configuració"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:616
 #, c-format, boost-format
-msgid "Welcome to the %s Configuration Wizard"
+msgid "Welcome to the %s Configuration Assistent"
 msgstr "Benvingut al %s Ajudant de Configuració"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:618
@@ -8889,7 +8889,7 @@ msgstr "Una nova impressora personalitzada s'ha instal·lat i s'activarà."
 #: src/slic3r/GUI/ConfigWizard.cpp:3781
 #, boost-format
 msgid ""
-"Following Configuration Wizard pages will be removed after the configuration "
+"Following Configuration Assistent pages will be removed after the configuration "
 "update:\n"
 "\n"
 "%1%\n"
@@ -8956,7 +8956,7 @@ msgid "Configuration &Assistant"
 msgstr "&Assistent de configuració"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4159
-msgid "Configuration Wizard"
+msgid "Configuration Assistent"
 msgstr "Ajudant de configuració"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4160
@@ -13075,7 +13075,7 @@ msgstr ""
 
 #. TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
 #: src/slic3r/GUI/GUI_App.cpp:3272
-msgid "Loading Configuration Wizard..."
+msgid "Loading Configuration Assistent..."
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:3308
@@ -13192,7 +13192,7 @@ msgstr "La descàrrega de la nova versió ja està en curs. Vols continuar?"
 #: src/slic3r/GUI/GUI_App.cpp:3769
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Wizard."
+"destination folder in Configuration Assistent."
 msgstr ""
 "No s'ha pogut iniciar la descàrrega d'URL. La carpeta de destinació no està "
 "definida. Trieu la carpeta de destinació a l'Auxiliar de configuració."
@@ -13559,7 +13559,7 @@ msgstr "Retirar rang de capes"
 msgid "Add layer range"
 msgstr "Afegir rang de capes"
 
-#. TRN: This string appears in Configuration Wizard in the 'Configuration Manager' step.
+#. TRN: This string appears in Configuration Assistent in the 'Configuration Manager' step.
 #: src/slic3r/GUI/GUI_ObjectList.cpp:340
 #: src/slic3r/GUI/GUI_ObjectManipulation.cpp:181
 #: src/slic3r/GUI/UpdatesUIManager.cpp:108
@@ -17057,7 +17057,7 @@ msgstr "Suprimir \" Plantilla \" de predefinits de filament"
 
 #: src/slic3r/GUI/Preferences.cpp:357
 msgid ""
-"Suppress \" Template \" filament presets in configuration wizard and sidebar "
+"Suppress \" Template \" filament presets in Configuration Assistent and sidebar "
 "visibility."
 msgstr ""
 "Suprimiu els predefinits de filament \"Plantilla\" a l'assistent de "
@@ -19691,7 +19691,7 @@ msgid "Download path is %1%. Do you wish to continue?"
 msgstr "La ruta de descàrrega és %1%. Vols continuar?"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275
-msgid "Opening Configuration Wizard"
+msgid "Opening Configuration Assistent"
 msgstr "Obrint Assistent de Configuració"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:275 src/slic3r/GUI/UpdateDialogs.cpp:456
@@ -19701,7 +19701,7 @@ msgstr "Actualització de la configuració"
 #: src/slic3r/GUI/UpdateDialogs.cpp:276
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
-"Configuration Wizard may not offer the latest printers, filaments and SLA "
+"Configuration Assistent may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 "CaribouSlicer no està utilitzant la configuració més recent disponible.\n"

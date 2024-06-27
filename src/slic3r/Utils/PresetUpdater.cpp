@@ -333,7 +333,7 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const GUI::Archi
     // Download profiles archive zip
     fs::path archive_path(cache_path / "vendor_indices.zip");
     if (!archive_repository->get_archive(archive_path)) {
-        BOOST_LOG_TRIVIAL(error) << "Download of vedor profiles archive zip failed.";
+        BOOST_LOG_TRIVIAL(error) << "Download of vendor profiles archive zip failed.";
         return;
     }
     if (cancel) {
@@ -870,7 +870,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
                     // The config bundle from the cache directory matches the recommended version of the index from the cache directory.
                     // This is the newest known recommended config. Use it.
                     if (!PresetUtils::vendor_profile_has_all_resources(new_vp)) {
-                        BOOST_LOG_TRIVIAL(warning) << "Some resources are missing for update of vedor " << new_vp.id;
+                        BOOST_LOG_TRIVIAL(warning) << "Some resources are missing for update of vendor " << new_vp.id;
                     }
                     std::vector<std::string> new_printers;
                     PresetUtils::compare_vendor_profile_printers(old_vp, new_vp, new_printers);
