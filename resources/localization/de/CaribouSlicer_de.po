@@ -19159,8 +19159,6 @@ msgid "Vertical shells"
 msgstr "Vertikale Konturhüllen"
 
 #: src/slic3r/GUI/Tab.cpp:1489
-#, fuzzy
-#| msgid "Print mode"
 msgid "Print order"
 msgstr "Druckreihenfolge"
 
@@ -19173,8 +19171,6 @@ msgid "Only one perimeter"
 msgstr "Nur ein Perimeter"
 
 #: src/slic3r/GUI/Tab.cpp:1518
-#, fuzzy
-#| msgid "Bridging angle"
 msgid "Bridging / Overhangs"
 msgstr "Überbrückungen / Überhänge"
 
