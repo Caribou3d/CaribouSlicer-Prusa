@@ -21,31 +21,31 @@ namespace pt = boost::property_tree;
 namespace Slic3r {
 namespace
 {
-std::string escape_string(const std::string& unescaped)
-{
-    std::string ret_val;
-    CURL* curl = curl_easy_init();
-    if (curl) {
-        char* decoded = curl_easy_escape(curl, unescaped.c_str(), unescaped.size());
-        if (decoded) {
-            ret_val = std::string(decoded);
-            curl_free(decoded);
-        }
-        curl_easy_cleanup(curl);
-    }
-    return ret_val;
-}
-std::string escape_path_by_element(const boost::filesystem::path& path)
-{
-    std::string ret_val = escape_string(path.filename().string());
-    boost::filesystem::path parent(path.parent_path());
-    while (!parent.empty() && parent.string() != "/") // "/" check is for case "/file.gcode" was inserted. Then boost takes "/" as parent_path.
-    {
-        ret_val = escape_string(parent.filename().string()) + "/" + ret_val;
-        parent = parent.parent_path();
-    }
-    return ret_val;
-}
+// std::string escape_string(const std::string& unescaped)
+// {
+//     std::string ret_val;
+//     CURL* curl = curl_easy_init();
+//     if (curl) {
+//         char* decoded = curl_easy_escape(curl, unescaped.c_str(), unescaped.size());
+//         if (decoded) {
+//             ret_val = std::string(decoded);
+//             curl_free(decoded);
+//         }
+//         curl_easy_cleanup(curl);
+//     }
+//     return ret_val;
+// }
+// std::string escape_path_by_element(const boost::filesystem::path& path)
+// {
+//     std::string ret_val = escape_string(path.filename().string());
+//     boost::filesystem::path parent(path.parent_path());
+//     while (!parent.empty() && parent.string() != "/") // "/" check is for case "/file.gcode" was inserted. Then boost takes "/" as parent_path.
+//     {
+//         ret_val = escape_string(parent.filename().string()) + "/" + ret_val;
+//         parent = parent.parent_path();
+//     }
+//     return ret_val;
+// }
 
 boost::optional<std::string> get_error_message_from_response_body(const std::string& body)
 {

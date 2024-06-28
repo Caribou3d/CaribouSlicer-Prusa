@@ -602,8 +602,11 @@ bool GCodeProcessor::contains_reserved_tags(const std::string& gcode, unsigned i
     return ret;
 }
 
+//GCodeProcessor::GCodeProcessor()
+//: m_options_z_corrector(m_result)
 GCodeProcessor::GCodeProcessor()
-: m_options_z_corrector(m_result)
+: m_result(), // Initialize m_result first
+  m_options_z_corrector(m_result)
 {
     reset();
     m_time_processor.machines[static_cast<size_t>(PrintEstimatedStatistics::ETimeMode::Normal)].line_m73_main_mask = "M73 P%s R%s\n";
@@ -4711,7 +4714,7 @@ void GCodeProcessor::calculate_time(GCodeProcessorResult& result, size_t keep_la
         const auto& [new_pos, new_moves] = *it;
         if (new_moves.empty())
             continue;
-        for (int i = last_pos; i >= new_pos + new_moves.size(); --i) // Move the elements to their final place.
+        for (size_t i = last_pos; i >= new_pos + new_moves.size(); --i) // Move the elements to their final place.
             m[i] = m[i - offset];
         std::copy(new_moves.begin(), new_moves.end(), m.begin() + new_pos);
         last_pos = new_pos - 1;
