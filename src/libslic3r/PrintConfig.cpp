@@ -1004,7 +1004,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("extra_perimeters", coBool);
-    def->label = L("Extra perimeters if needed");
+    def->label = L("if needed");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("Add more perimeters when needed for avoiding gaps in sloping walls. "
                    "Slic3r keeps adding perimeters, until more than 70% of the loop immediately above "
@@ -1013,7 +1013,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(true));
 
     def = this->add("extra_perimeters_on_overhangs", coBool);
-    def->label = L("Extra perimeters on overhangs (Experimental)");
+    def->label = L("on overhangs");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("Detect overhang areas where bridges cannot be anchored, and fill them with "
                     "extra perimeter paths. These paths are anchored to the nearby non-overhang area when possible.");
