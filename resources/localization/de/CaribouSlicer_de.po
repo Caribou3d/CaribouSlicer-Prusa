@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-28 13:53+0200\n"
+"POT-Creation-Date: 2024-06-28 14:12+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19162,13 +19162,11 @@ msgstr "Vertikale Konturhüllen"
 #, fuzzy
 #| msgid "Print mode"
 msgid "Print order"
-msgstr "Druckmodus"
+msgstr "Druckreihenfolge"
 
 #: src/slic3r/GUI/Tab.cpp:1496
-#, fuzzy
-#| msgid "Pad wall slope"
 msgid "Extra wall loops"
-msgstr "Grundschicht Wandneigung"
+msgstr "Extra Wandschlaufen"
 
 #: src/slic3r/GUI/Tab.cpp:1508
 msgid "Only one perimeter"
@@ -19178,7 +19176,7 @@ msgstr "Nur ein Perimeter"
 #, fuzzy
 #| msgid "Bridging angle"
 msgid "Bridging / Overhangs"
-msgstr "Überbrückungswinkel"
+msgstr "Überbrückungen / Überhänge"
 
 #: src/slic3r/GUI/Tab.cpp:1535
 msgid "Fuzzy skin (experimental)"
