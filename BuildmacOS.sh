@@ -149,7 +149,7 @@ then
     then
     mkdir deps/build
     fi
-    echo -e " \n[1/9] Configuring dependencies ... \n"
+    echo -e " \n[1/10] Configuring dependencies ... \n"
     BUILD_ARGS=""
     if [[ -n "$BUILD_ARCH" ]]
     then
@@ -166,14 +166,14 @@ then
 
     echo -e "\n ... done\n"
 
-    echo -e "[2/9] Building dependencies ...\n"
+    echo -e "[2/10] Building dependencies ...\n"
 
     # make deps
     make -j1
 
     echo -e "\n ... done\n"
 
-    echo -e "[3/9] Renaming wxscintilla library ...\n"
+    echo -e "[3/10] Renaming wxscintilla library ...\n"
 
     # rename wxscintilla
     pushd destdir/usr/local/lib > /dev/null
@@ -186,7 +186,7 @@ fi
 
 if [[ -n "$BUILD_CLEANDEPEND" ]]
 then
-    echo -e "[4/9] Cleaning dependencies...\n"
+    echo -e "[4/10] Cleaning dependencies...\n"
     pushd deps/build > /dev/null
     pwd
     rm -fr dep_*
@@ -196,7 +196,7 @@ fi
 
 if [[ -n "$BUILD_CARIBOUSLICER" ]]
 then
-    echo -e "[5/9] Configuring CaribouSlicer ...\n"
+    echo -e "[5/10] Configuring CaribouSlicer ...\n"
 
     if [[ -n $BUILD_WIPE ]]
     then
@@ -241,12 +241,12 @@ then
     # make Slic3r
     if [[ -z "$BUILD_XCODE" ]]
     then
-        echo -e "\n[6/9] Building CaribouSlicer ...\n"
+        echo -e "\n[6/10] Building CaribouSlicer ...\n"
         make -j1
         echo -e "\n ... done"
     fi
 
-    echo -e "\n[7/9] Generating language files ...\n"
+    echo -e "\n[7/10] Generating language files ...\n"
     #make .mo
     if [[ -n "$UPDATE_POTFILE" ]]
     then

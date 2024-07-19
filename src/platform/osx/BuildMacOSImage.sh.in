@@ -35,7 +35,7 @@ done
 if [[ -n "$BUILD_APP" ]]
 then
 
-    echo -e "\n[8/9] Generating macOS app ..."
+    echo -e "\n[8/10] Generating macOS app ..."
     {
     # update Info.plist
         pushd src

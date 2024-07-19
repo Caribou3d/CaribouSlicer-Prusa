@@ -44,7 +44,7 @@ done
 
 if [[ -n "$BUILD_APP" ]]
 then
-    echo -e "\n[8/9] Generating Linux app ..."
+    echo -e "\n[8/10] Generating Linux app ..."
 
     # create directory and copy into it
     if [ -d "package" ]

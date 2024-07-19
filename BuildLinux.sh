@@ -199,7 +199,7 @@ then
     then
     mkdir deps/build
     fi
-    echo -e "[1/9] Configuring dependencies ...\n"
+    echo -e "[1/10] Configuring dependencies ...\n"
     BUILD_ARGS=""
     if [[ -n "$FOUND_GTK3_DEV" ]]
     then
@@ -224,13 +224,13 @@ then
     cmake .. $BUILD_ARGS
     echo -e "\n ... done\n"
 
-    echo -e "\n[2/9] Building dependencies...\n"
+    echo -e "\n[2/10] Building dependencies...\n"
     # make deps
     make -j$NCORES
     echo -e "\n ... done\n"
 
     # rename wxscintilla
-    echo "[3/9] Renaming wxscintilla library..."
+    echo "[3/10] Renaming wxscintilla library..."
     pushd destdir/usr/local/lib  > /dev/null
     if [[ -z "$FOUND_GTK3_DEV" ]]
     then
@@ -245,7 +245,7 @@ fi
 
 if [[ -n "$BUILD_CLEANDEPEND" ]]
 then
-    echo -e "[4/9] Cleaning dependencies...\n"
+    echo -e "[4/10] Cleaning dependencies...\n"
     pushd deps/build > /dev/null
     rm -fr dep_*
     popd > /dev/null
@@ -254,7 +254,7 @@ fi
 
 if [[ -n "$BUILD_CARIBOUSLICER" ]]
 then
-    echo -e "[5/9] Configuring CaribouSlicer ...\n"
+    echo -e "[5/10] Configuring CaribouSlicer ...\n"
     if [[ -n $BUILD_WIPE ]]
     then
        echo -e "\n wiping build directory ...\n"
@@ -290,13 +290,13 @@ then
     cmake .. -DCMAKE_PREFIX_PATH="$DEPSDIR" -DSLIC3R_STATIC=1 ${BUILD_ARGS}
     echo " ... done"
     # make CaribouSlicer
-    echo -e "\n[6/9] Building CaribouSlicer ...\n"
+    echo -e "\n[6/10] Building CaribouSlicer ...\n"
     make -j$NCORES CaribouSlicer
     # make OCCTWrapper.so
     make OCCTWrapper
     echo -e "\n ... done"
 
-    echo -e "\n[7/9] Generating language files ...\n"
+    echo -e "\n[7/10] Generating language files ...\n"
     #make .mo
     if [[ -n "$UPDATE_POTFILE" ]]
     then
@@ -322,4 +322,22 @@ then
     pushd build  > /dev/null
     $ROOT/build/src/BuildLinuxImage.sh -i $FORCE_GTK2
     popd  > /dev/null
+fi
+
+if [[ -n "$BUILD_TESTS" ]]
+then
+    echo -e "\n[10/10] Building test files ...\n"
+    pushd build > /dev/null
+    make -j$NCORES arrange_tests
+    make -j$NCORES cpp17test
+    make -j$NCORES fff_print_tests
+    make -j$NCORES libslic3r_tests
+    make -j$NCORES sla_print_tests
+    make -j$NCORES slic3rutils_tests
+    make -j$NCORES thumbnails_tests
+    popd  > /dev/null
+    echo -e "\n   To run the tests:"
+    echo -e "          'cd build'"
+    echo -e " and then 'make test'"    
+    echo -e "\n ... done"
 fi
