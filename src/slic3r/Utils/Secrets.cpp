@@ -1,6 +1,7 @@
 #include "Secrets.hpp"
-#include <stdio.h>
-#if wxUSE_SECRETSTORE
+
+#include <cstdio>
+#if wxUSE_SECRETSTORE 
 #include <wx/secretstore.h>
 #endif
 namespace Slic3r {

@@ -132,19 +132,16 @@ void PreferencesDialog::show(const std::string& highlight_opt_key /*= std::strin
     if (wxGetApp().is_editor()) {
         auto app_config = get_app_config();
 
-        for (const std::string opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button"})
+		downloader->set_path_name(app_config->get("url_downloader_dest"));
+		downloader->allow(!app_config->has("downloader_url_registered") || app_config->get_bool("downloader_url_registered"));
+
+		for (const std::string& opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button"})
             m_optgroup_other->set_value(opt_key, app_config->get_bool(opt_key));
         // by default "Log in" button is visible
         if (!app_config->has("show_login_button"))
             m_optgroup_other->set_value("show_login_button", true);
 
-        for (const std::string opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button"})
-            m_optgroup_other->set_value(opt_key, app_config->get_bool(opt_key));
-        // by default "Log in" button is visible
-        if (!app_config->has("show_login_button"))
-            m_optgroup_other->set_value("show_login_button", true);
-
-        for (const std::string opt_key : { "default_action_on_close_application"
+		for (const std::string& opt_key : { "default_action_on_close_application"
                                            ,"default_action_on_new_project"
                                            ,"default_action_on_select_preset" })
             m_optgroup_general->set_value(opt_key, app_config->get(opt_key) == "none");
@@ -154,14 +151,17 @@ void PreferencesDialog::show(const std::string& highlight_opt_key /*= std::strin
         update_color(m_sys_colour, wxGetApp().get_label_clr_sys());
         update_color(m_mod_colour, wxGetApp().get_label_clr_modified());
 
-        // update color pickers for mode palette
-        const auto palette = wxGetApp().get_mode_palette();
-        std::vector<wxColourPickerCtrl*> color_pickres = {m_mode_simple, m_mode_advanced, m_mode_expert};
-        for (size_t mode = 0; mode < color_pickres.size(); ++mode)
-            update_color(color_pickres[mode], palette[mode]);
-    }
+		// update color pickers for mode palette
+		const auto palette = wxGetApp().get_mode_palette(); 
+		std::vector<wxColourPickerCtrl*> color_pickres = {m_mode_simple, m_mode_advanced, m_mode_expert};
+		for (size_t mode = 0; mode < color_pickres.size(); ++mode)
+			update_color(color_pickres[mode], palette[mode]);
+	}
 
-    this->ShowModal();
+	// invalidate this flag before show preferences
+	m_settings_layout_changed = false;
+
+	this->ShowModal();
 }
 
 static std::shared_ptr<ConfigOptionsGroup>create_options_tab(const wxString& title, wxBookCtrlBase* tabs)
@@ -640,17 +640,7 @@ void PreferencesDialog::build()
         
         append_bool_option(m_optgroup_other, "downloader_url_registered",
             L("Allow downloads from Printables.com"),
-            L("If enabled, CaribouSlicer will be allowed to download from Printables.com"),
-            app_config->get_bool("downloader_url_registered"));
-
-        append_bool_option(m_optgroup_other, "show_login_button",
-            L("Show \"Log in\" button in application top bar"),
-            L("If enabled, CaribouSlicer will show up \"Log in\" button in application top bar."),
-            app_config->get_bool("show_login_button"));
-
-        append_bool_option(m_optgroup_other, "downloader_url_registered",
-            L("Allow downloads from Printables.com"),
-            L("If enabled, CaribouSlicer will be allowed to download from Printables.com"),
+	    L("If enabled, CaribouSlicer will be allowed to download from Printables.com"),
             app_config->get_bool("downloader_url_registered"));
 
         activate_options_tab(m_optgroup_other);
@@ -800,16 +790,15 @@ void PreferencesDialog::accept(wxEvent&)
     if (auto it = m_values.find("seq_top_layer_only"); it != m_values.end())
         m_seq_top_layer_only_changed = app_config->get("seq_top_layer_only") != it->second;
 
-    m_settings_layout_changed = false;
-    for (const std::string key : { "old_settings_layout_mode",
-                                    "dlg_settings_layout_mode" })
-    {
-        auto it = m_values.find(key);
-        if (it != m_values.end() && app_config->get(key) != it->second) {
-            m_settings_layout_changed = true;
-            break;
-        }
-    }
+	for (const std::string& key : { "old_settings_layout_mode",
+								    "dlg_settings_layout_mode" })
+	{
+	    auto it = m_values.find(key);
+	    if (it != m_values.end() && app_config->get(key) != it->second) {
+			m_settings_layout_changed = true;
+			break;
+	    }
+	}
 
 #if 0 //#ifdef _WIN32 // #ysDarkMSW - Allow it when we deside to support the sustem colors for application
     if (m_values.find("always_dark_color_mode") != m_values.end())
