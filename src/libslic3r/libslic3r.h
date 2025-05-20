@@ -19,9 +19,14 @@
 #define GCODEVIEWER_APP_KEY  "CaribouGcodeviewer"
 
 // Profiles for the alpha are stored into the PrusaSlicer-alpha directory to not mix with the current release.
-//#define SLIC3R_APP_FULL_NAME SLIC3R_APP_KEY
-//#define SLIC3R_APP_FULL_NAME SLIC3R_APP_KEY "-alpha"
-#define SLIC3R_APP_FULL_NAME SLIC3R_APP_KEY "-beta"
+   #define SLIC3R_APP_FULL_NAME SLIC3R_APP_KEY
+// #define SLIC3R_APP_FULL_NAME SLIC3R_APP_KEY "-alpha"
+// #define SLIC3R_APP_FULL_NAME SLIC3R_APP_KEY "-beta"
+
+
+
+#define GCODEVIEWER_APP_NAME "PrusaSlicer G-code Viewer"
+#define GCODEVIEWER_APP_KEY  "PrusaSlicerGcodeViewer"
 
 // this needs to be included early for MSVC (listing it in Build.PL is not enough)
 #include <memory>
@@ -112,16 +117,18 @@ using deque =
 template<typename T, typename Q>
 inline T unscale(Q v) { return T(v) * T(SCALING_FACTOR); }
 
+constexpr size_t MAX_NUMBER_OF_BEDS = 9;
+
 enum Axis {
-    X=0,
-    Y,
-    Z,
-    E,
-    F,
-    NUM_AXES,
-    // For the GCodeReader to mark a parsed axis, which is not in "XYZEF", it was parsed correctly.
-    UNKNOWN_AXIS = NUM_AXES,
-    NUM_AXES_WITH_UNKNOWN,
+	X=0,
+	Y,
+	Z,
+	E,
+	F,
+	NUM_AXES,
+	// For the GCodeReader to mark a parsed axis, which is not in "XYZEF", it was parsed correctly.
+	UNKNOWN_AXIS = NUM_AXES,
+	NUM_AXES_WITH_UNKNOWN,
 };
 
 template <typename T, typename Alloc, typename Alloc2>
@@ -482,6 +489,11 @@ Fn for_each_in_tuple(Fn fn, Tup &&tup)
     std::apply(mpfn, tup);
 
     return fn;
+}
+
+template<typename T>
+inline bool is_in_range(const T &value, const T &low, const T &high) {
+    return low <= value && value <= high;
 }
 
 } // namespace Slic3r

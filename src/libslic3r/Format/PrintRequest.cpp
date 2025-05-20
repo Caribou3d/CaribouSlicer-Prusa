@@ -5,7 +5,7 @@
 #include <boost/log/trivial.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
-#include <fast_float/fast_float.h>
+#include <fast_float.h>
 
 #include "libslic3r/Exception.hpp"
 #include "libslic3r/Model.hpp"
@@ -18,15 +18,15 @@ namespace pt = boost::property_tree;
 namespace {
 void read_file(const char* input_file, pt::ptree& tree)
 {
-    boost::filesystem::path path(input_file);
+	boost::filesystem::path path(input_file);
 
-    boost::nowide::ifstream ifs(path.string());
-    try {
-        pt::read_xml(ifs, tree);
-    }
-    catch (const boost::property_tree::xml_parser::xml_parser_error& err) {
-        throw Slic3r::RuntimeError("Failed reading PrintRequest file. File format is corrupt.");
-    }
+	boost::nowide::ifstream ifs(path.string());
+	try {
+		pt::read_xml(ifs, tree);
+	}
+	catch (const boost::property_tree::xml_parser::xml_parser_error&) {
+		throw Slic3r::RuntimeError("Failed reading PrintRequest file. File format is corrupt.");
+	}
 }
 
 void read_tree(const boost::property_tree::ptree::value_type& section, boost::filesystem::path& model_path, std::string& material, std::string& material_color, std::vector<std::string>& transformation_matrix)

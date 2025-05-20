@@ -102,7 +102,7 @@ void CalibrationAbstractDialog::create(boost::filesystem::path html_path, std::s
 ModelObject* CalibrationAbstractDialog::add_part(ModelObject* model_object, std::string input_file, Vec3d move, Vec3d scale) {
     Model model;
     try {
-        model = Model::read_from_file(input_file);
+//***********        model = Model::read_from_file(input_file);
     }
     catch (std::exception & e) {
         auto msg = _L("Error!") + " " + input_file + " : " + e.what() + ".";

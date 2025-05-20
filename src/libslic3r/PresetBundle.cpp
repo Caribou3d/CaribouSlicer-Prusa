@@ -477,7 +477,7 @@ void PresetBundle::reset_extruder_filaments()
         this->extruders_filaments.emplace_back(ExtruderFilaments(&filaments, id, names[id]));
 }
 
-PresetCollection&PresetBundle::get_presets(Preset::Type type)
+const PresetCollection& PresetBundle::get_presets(Preset::Type type) const
 {
     assert(type >= Preset::TYPE_PRINT && type <= Preset::TYPE_PRINTER);
 
@@ -485,6 +485,12 @@ PresetCollection&PresetBundle::get_presets(Preset::Type type)
             type == Preset::TYPE_SLA_PRINT      ? sla_prints    :
             type == Preset::TYPE_FILAMENT       ? filaments     :
             type == Preset::TYPE_SLA_MATERIAL   ? sla_materials : printers;
+}
+
+
+PresetCollection& PresetBundle::get_presets(Preset::Type type)
+{
+    return const_cast<PresetCollection&>(const_cast<const PresetBundle*>(this)->get_presets(type));
 }
 
 
@@ -1527,12 +1533,6 @@ std::pair<PresetsConfigSubstitutions, size_t> PresetBundle::load_configbundle(
                 if (dst)
                     unescape_strings_cstyle(kvp.second.data(), *dst);
             }
-        } else if (section.first == "settings") {
-            // Load the settings.
-            for (auto &kvp : section.second) {
-                if (kvp.first == "autocenter") {
-                }
-            }
         } else
             // Ignore an unknown section.
             continue;
@@ -2039,13 +2039,6 @@ void PresetBundle::export_configbundle(const std::string &path, bool export_syst
 
     if (export_physical_printers && this->physical_printers.get_selected_idx() >= 0)
         c << "physical_printer = " << this->physical_printers.get_selected_printer_name() << std::endl;
-#if 0
-    // Export the following setting values from the provided setting repository.
-    static const char *settings_keys[] = { "autocenter" };
-    c << "[settings]" << std::endl;
-    for (size_t i = 0; i < sizeof(settings_keys) / sizeof(settings_keys[0]); ++ i)
-        c << settings_keys[i] << " = " << settings.serialize(settings_keys[i]) << std::endl;
-#endif
 
     c.close();
 }

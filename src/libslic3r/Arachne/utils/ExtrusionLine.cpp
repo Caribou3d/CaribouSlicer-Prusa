@@ -2,15 +2,28 @@
 //CuraEngine is released under the terms of the AGPLv3 or higher.
 
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
 
 #include "ExtrusionLine.hpp"
-#include "linearAlg2D.hpp"
 #include "../../PerimeterGenerator.hpp"
+#include "libslic3r/Arachne/utils/ExtrusionJunction.hpp"
+#include "libslic3r/BoundingBox.hpp"
+#include "libslic3r/ExtrusionEntity.hpp"
+#include "libslic3r/Line.hpp"
+#include "libslic3r/Polygon.hpp"
+#include "libslic3r/Polyline.hpp"
+
+namespace Slic3r {
+class Flow;
+}  // namespace Slic3r
 
 namespace Slic3r::Arachne
 {
 
 ExtrusionLine::ExtrusionLine(const size_t inset_idx, const bool is_odd) : inset_idx(inset_idx), is_odd(is_odd), is_closed(false) {}
+
+ExtrusionLine::ExtrusionLine(const size_t inset_idx, const bool is_odd, const bool is_closed) : inset_idx(inset_idx), is_odd(is_odd), is_closed(is_closed) {}
 
 int64_t ExtrusionLine::getLength() const
 {

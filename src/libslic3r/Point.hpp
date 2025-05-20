@@ -12,26 +12,34 @@
 #ifndef slic3r_Point_hpp_
 #define slic3r_Point_hpp_
 
-#include "libslic3r.h"
+#include <oneapi/tbb/scalable_allocator.h>
+#include <assert.h>
 #include <cstddef>
 #include <vector>
 #include <cmath>
 #include <string>
 #include <sstream>
 #include <unordered_map>
-
-#include <oneapi/tbb/scalable_allocator.h>
-
-
 #include <Eigen/Geometry>
+#include <algorithm>
+#include <cstdint>
+#include <iterator>
+#include <limits>
+#include <optional>
+#include <type_traits>
+#include <utility>
+#include <cassert>
 
+#include "libslic3r.h"
 #include "LocalesUtils.hpp"
+#include "libslic3r/Point.hpp"
 
 namespace Slic3r {
 
 class BoundingBox;
 class BoundingBoxf;
 class Point;
+
 using Vector = Point;
 
 // Base template for eigen derived vectors
@@ -190,8 +198,8 @@ public:
     Point(int64_t x, int64_t y) : Vec2crd(coord_t(x), coord_t(y)) {}
     Point(double x, double y) : Vec2crd(coord_t(std::round(x)), coord_t(std::round(y))) {}
     Point(const Point &rhs) { *this = rhs; }
-    explicit Point(const Vec2d& rhs) : Vec2crd(coord_t(std::round(rhs.x())), coord_t(std::round(rhs.y()))) {}
-    // This constructor allows you to construct Point from Eigen expressions
+	explicit Point(const Vec2d& rhs) : Vec2crd(coord_t(std::round(rhs.x())), coord_t(std::round(rhs.y()))) {}
+	// This constructor allows you to construct Point from Eigen expressions
     // This constructor has to be implicit (non-explicit) to allow implicit conversion from Eigen expressions.
     template<typename OtherDerived>
     Point(const Eigen::MatrixBase<OtherDerived> &other) : Vec2crd(other) {}
@@ -209,7 +217,7 @@ public:
 
     Point& operator+=(const Point& rhs) { this->x() += rhs.x(); this->y() += rhs.y(); return *this; }
     Point& operator-=(const Point& rhs) { this->x() -= rhs.x(); this->y() -= rhs.y(); return *this; }
-    Point& operator*=(const double &rhs) { this->x() = coord_t(this->x() * rhs); this->y() = coord_t(this->y() * rhs); return *this; }
+	Point& operator*=(const double &rhs) { this->x() = coord_t(this->x() * rhs); this->y() = coord_t(this->y() * rhs); return *this; }
     Point operator*(const double &rhs) { return Point(this->x() * rhs, this->y() * rhs); }
 
     void   rotate(double angle) { this->rotate(std::cos(angle), std::sin(angle)); }
@@ -238,32 +246,32 @@ inline Point operator* (const Point& l, const double &r)
 
 inline bool is_approx(const Point &p1, const Point &p2, coord_t epsilon = coord_t(SCALED_EPSILON))
 {
-    Point d = (p2 - p1).cwiseAbs();
-    return d.x() < epsilon && d.y() < epsilon;
+	Point d = (p2 - p1).cwiseAbs();
+	return d.x() < epsilon && d.y() < epsilon;
 }
 
 inline bool is_approx(const Vec2f &p1, const Vec2f &p2, float epsilon = float(EPSILON))
 {
-    Vec2f d = (p2 - p1).cwiseAbs();
-    return d.x() < epsilon && d.y() < epsilon;
+	Vec2f d = (p2 - p1).cwiseAbs();
+	return d.x() < epsilon && d.y() < epsilon;
 }
 
 inline bool is_approx(const Vec2d &p1, const Vec2d &p2, double epsilon = EPSILON)
 {
-    Vec2d d = (p2 - p1).cwiseAbs();
-    return d.x() < epsilon && d.y() < epsilon;
+	Vec2d d = (p2 - p1).cwiseAbs();
+	return d.x() < epsilon && d.y() < epsilon;
 }
 
 inline bool is_approx(const Vec3f &p1, const Vec3f &p2, float epsilon = float(EPSILON))
 {
-    Vec3f d = (p2 - p1).cwiseAbs();
-    return d.x() < epsilon && d.y() < epsilon && d.z() < epsilon;
+	Vec3f d = (p2 - p1).cwiseAbs();
+	return d.x() < epsilon && d.y() < epsilon && d.z() < epsilon;
 }
 
 inline bool is_approx(const Vec3d &p1, const Vec3d &p2, double epsilon = EPSILON)
 {
-    Vec3d d = (p2 - p1).cwiseAbs();
-    return d.x() < epsilon && d.y() < epsilon && d.z() < epsilon;
+	Vec3d d = (p2 - p1).cwiseAbs();
+	return d.x() < epsilon && d.y() < epsilon && d.z() < epsilon;
 }
 
 inline bool is_approx(const Matrix3d &m1, const Matrix3d &m2, double epsilon = EPSILON)
@@ -368,35 +376,35 @@ template<typename ValueType, typename PointAccessor> class ClosestPointInRadiusL
 {
 public:
     ClosestPointInRadiusLookup(coord_t search_radius, PointAccessor point_accessor = PointAccessor()) :
-        m_search_radius(search_radius), m_point_accessor(point_accessor), m_grid_log2(0)
+		m_search_radius(search_radius), m_point_accessor(point_accessor), m_grid_log2(0)
     {
         // Resolution of a grid, twice the search radius + some epsilon.
-        coord_t gridres = 2 * m_search_radius + 4;
+		coord_t gridres = 2 * m_search_radius + 4;
         m_grid_resolution = gridres;
         assert(m_grid_resolution > 0);
         assert(m_grid_resolution < (coord_t(1) << 30));
-        // Compute m_grid_log2 = log2(m_grid_resolution)
-        if (m_grid_resolution > 32767) {
-            m_grid_resolution >>= 16;
-            m_grid_log2 += 16;
-        }
-        if (m_grid_resolution > 127) {
-            m_grid_resolution >>= 8;
-            m_grid_log2 += 8;
-        }
-        if (m_grid_resolution > 7) {
-            m_grid_resolution >>= 4;
-            m_grid_log2 += 4;
-        }
-        if (m_grid_resolution > 1) {
-            m_grid_resolution >>= 2;
-            m_grid_log2 += 2;
-        }
-        if (m_grid_resolution > 0)
-            ++ m_grid_log2;
-        m_grid_resolution = 1 << m_grid_log2;
-        assert(m_grid_resolution >= gridres);
-        assert(gridres > m_grid_resolution / 2);
+		// Compute m_grid_log2 = log2(m_grid_resolution)
+		if (m_grid_resolution > 32767) {
+			m_grid_resolution >>= 16;
+			m_grid_log2 += 16;
+		}
+		if (m_grid_resolution > 127) {
+			m_grid_resolution >>= 8;
+			m_grid_log2 += 8;
+		}
+		if (m_grid_resolution > 7) {
+			m_grid_resolution >>= 4;
+			m_grid_log2 += 4;
+		}
+		if (m_grid_resolution > 1) {
+			m_grid_resolution >>= 2;
+			m_grid_log2 += 2;
+		}
+		if (m_grid_resolution > 0)
+			++ m_grid_log2;
+		m_grid_resolution = 1 << m_grid_log2;
+		assert(m_grid_resolution >= gridres);
+		assert(gridres > m_grid_resolution / 2);
     }
 
     void insert(const ValueType &value) {
@@ -610,6 +618,7 @@ static bool apply(T &val, const MinMax<T> &limit)
 // start Boost
 #include <boost/version.hpp>
 #include <boost/polygon/polygon.hpp>
+
 namespace boost { namespace polygon {
     template <>
     struct geometry_concept<Slic3r::Point> { using type = point_concept; };
@@ -637,6 +646,7 @@ namespace boost { namespace polygon {
 // end Boost
 
 #include <cereal/cereal.hpp>
+
 // Serialization through the Cereal library
 namespace cereal {
 //    template<class Archive> void serialize(Archive& archive, Slic3r::Vec2crd &v) { archive(v.x(), v.y()); }

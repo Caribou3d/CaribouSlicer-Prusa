@@ -3,9 +3,16 @@
 ///|/
 ///|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
 ///|/
-#include "Print.hpp"
-#include "ToolOrdering.hpp"
-#include "Layer.hpp"
+#include "libslic3r/Print.hpp"
+#include "libslic3r/Layer.hpp"
+#include "libslic3r/GCode/ToolOrdering.hpp"
+#include "libslic3r/CustomGCode.hpp"
+#include "libslic3r/ExtrusionEntity.hpp"
+#include "libslic3r/ExtrusionEntityCollection.hpp"
+#include "libslic3r/ExtrusionRole.hpp"
+#include "libslic3r/LayerRegion.hpp"
+#include "libslic3r/Model.hpp"
+#include "tcbspan/span.hpp"
 
 // #define SLIC3R_DEBUG
 
@@ -16,12 +23,12 @@
     #undef NDEBUG
 #endif
 
+#include <boost/log/trivial.hpp>
+#include <libslic3r/libslic3r.h>
 #include <cassert>
 #include <limits>
-
-#include <boost/log/trivial.hpp>
-
-#include <libslic3r.h>
+#include <cmath>
+#include <cstring>
 
 namespace Slic3r {
 
@@ -157,18 +164,18 @@ ToolOrdering::ToolOrdering(const Print &print, unsigned int first_extruder, bool
     // Do it only if all the objects were configured to be printed with a single extruder.
     std::vector<std::pair<double, unsigned int>> per_layer_extruder_switches;
     auto num_extruders = unsigned(print.config().nozzle_diameter.size());
-    if (num_extruders > 1 && print.object_extruders().size() == 1 && // the current Print's configuration is CustomGCode::MultiAsSingle
-        print.model().custom_gcode_per_print_z.mode == CustomGCode::MultiAsSingle) {
-        // Printing a single extruder platter on a printer with more than 1 extruder (or single-extruder multi-material).
-        // There may be custom per-layer tool changes available at the model.
-        per_layer_extruder_switches = custom_tool_changes(print.model().custom_gcode_per_print_z, num_extruders);
-    }
+	if (num_extruders > 1 && print.object_extruders().size() == 1 && // the current Print's configuration is CustomGCode::MultiAsSingle
+		print.model().custom_gcode_per_print_z().mode == CustomGCode::MultiAsSingle) {
+		// Printing a single extruder platter on a printer with more than 1 extruder (or single-extruder multi-material).
+		// There may be custom per-layer tool changes available at the model.
+		per_layer_extruder_switches = custom_tool_changes(print.model().custom_gcode_per_print_z(), num_extruders);
+	}
 
     // Color changes for each layer to determine which extruder needs to be picked before color change.
     // This is done just for multi-extruder printers without enabled Single Extruder Multi Material (tool changer printers).
     std::vector<std::pair<double, unsigned int>> per_layer_color_changes;
-    if (num_extruders > 1 && print.model().custom_gcode_per_print_z.mode == CustomGCode::MultiExtruder && !print.config().single_extruder_multi_material) {
-        per_layer_color_changes = custom_color_changes(print.model().custom_gcode_per_print_z, num_extruders);
+    if (num_extruders > 1 && print.model().custom_gcode_per_print_z().mode == CustomGCode::MultiExtruder && !print.config().single_extruder_multi_material) {
+        per_layer_color_changes = custom_color_changes(print.model().custom_gcode_per_print_z(), num_extruders);
     }
 
     // Collect extruders required to print the layers.
@@ -605,22 +612,22 @@ void ToolOrdering::assign_custom_gcodes(const Print &print)
     // Only valid for non-sequential print.
     assert(! print.config().complete_objects.value);
 
-    const CustomGCode::Info    &custom_gcode_per_print_z = print.model().custom_gcode_per_print_z;
-    if (custom_gcode_per_print_z.gcodes.empty())
-        return;
+	const CustomGCode::Info	&custom_gcode_per_print_z = print.model().custom_gcode_per_print_z();
+	if (custom_gcode_per_print_z.gcodes.empty())
+		return;
 
-    auto                         num_extruders = unsigned(print.config().nozzle_diameter.size());
-    CustomGCode::Mode             mode          =
-        (num_extruders == 1) ? CustomGCode::SingleExtruder :
-        print.object_extruders().size() == 1 ? CustomGCode::MultiAsSingle : CustomGCode::MultiExtruder;
-    CustomGCode::Mode           model_mode    = print.model().custom_gcode_per_print_z.mode;
-    std::vector<unsigned char>     extruder_printing_above(num_extruders, false);
-    auto                         custom_gcode_it = custom_gcode_per_print_z.gcodes.rbegin();
-    // Tool changes and color changes will be ignored, if the model's tool/color changes were entered in mm mode and the print is in non mm mode
-    // or vice versa.
-    bool                         ignore_tool_and_color_changes = (mode == CustomGCode::MultiExtruder) != (model_mode == CustomGCode::MultiExtruder);
-    // If printing on a single extruder machine, make the tool changes trigger color change (M600) events.
-    bool                         tool_changes_as_color_changes = mode == CustomGCode::SingleExtruder && model_mode == CustomGCode::MultiAsSingle;
+	auto 						num_extruders = unsigned(print.config().nozzle_diameter.size());
+	CustomGCode::Mode 			mode          =
+		(num_extruders == 1) ? CustomGCode::SingleExtruder :
+		print.object_extruders().size() == 1 ? CustomGCode::MultiAsSingle : CustomGCode::MultiExtruder;
+	CustomGCode::Mode           model_mode    = print.model().custom_gcode_per_print_z().mode;
+	std::vector<unsigned char> 	extruder_printing_above(num_extruders, false);
+	auto 						custom_gcode_it = custom_gcode_per_print_z.gcodes.rbegin();
+	// Tool changes and color changes will be ignored, if the model's tool/color changes were entered in mm mode and the print is in non mm mode
+	// or vice versa.
+	bool 						ignore_tool_and_color_changes = (mode == CustomGCode::MultiExtruder) != (model_mode == CustomGCode::MultiExtruder);
+	// If printing on a single extruder machine, make the tool changes trigger color change (M600) events.
+	bool 						tool_changes_as_color_changes = mode == CustomGCode::SingleExtruder && model_mode == CustomGCode::MultiAsSingle;
 
     // From the last layer to the first one:
     for (auto it_lt = m_layer_tools.rbegin(); it_lt != m_layer_tools.rend(); ++ it_lt) {

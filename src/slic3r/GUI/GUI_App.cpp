@@ -8,7 +8,7 @@
 ///|/
 #include "libslic3r/Technologies.hpp"
 #include "GUI_App.hpp"
-#include "GUI_Init.hpp"
+#include "GUI_Init.hpp" // IWYU pragma: keep
 #include "GUI_ObjectList.hpp"
 #include "GUI_ObjectManipulation.hpp"
 #include "GUI_Factories.hpp"
@@ -75,40 +75,35 @@
 #include "GLCanvas3D.hpp"
 
 #include "../Utils/PresetUpdater.hpp"
+#include "../Utils/PresetUpdaterWrapper.hpp"
 #include "../Utils/PrintHost.hpp"
 #include "../Utils/Process.hpp"
 #include "../Utils/MacDarkMode.hpp"
 #include "../Utils/AppUpdater.hpp"
 #include "../Utils/WinRegistry.hpp"
 #include "slic3r/Config/Snapshot.hpp"
-#include "CalibrationCubeDialog.hpp"
-#include "CalibrationWallsDialog.hpp"
-#include "CalibrationFirstLayerDialog.hpp"
-#include "CalibrationFirstLayerPatchDialog.hpp"
-#include "CalibrationFlowDialog.hpp"
-#include "CalibrationTempDialog.hpp"
 #include "ConfigSnapshotDialog.hpp"
 #include "FirmwareDialog.hpp"
-#include "Preferences.hpp"
+#include "slic3r/GUI/Preferences.hpp" // IWYU pragma: keep
 #include "Tab.hpp"
 #include "SysInfoDialog.hpp"
 #include "KBShortcutsDialog.hpp"
 #include "UpdateDialogs.hpp"
 #include "Mouse3DController.hpp"
 #include "RemovableDriveManager.hpp"
-#include "InstanceCheck.hpp"
+#include "InstanceCheck.hpp" // IWYU pragma: keep
 #include "NotificationManager.hpp"
 #include "UnsavedChangesDialog.hpp"
 #include "SavePresetDialog.hpp"
-#include "PrintHostDialogs.hpp"
+#include "PrintHostDialogs.hpp" // IWYU pragma: keep
 #include "DesktopIntegrationDialog.hpp"
 #include "SendSystemInfoDialog.hpp"
 #include "Downloader.hpp"
 #include "PhysicalPrinterDialog.hpp"
 #include "WifiConfigDialog.hpp"
 #include "UserAccount.hpp"
-#include "WebViewDialog.hpp"
-#include "LoginDialog.hpp"
+#include "UserAccountUtils.hpp"
+#include "LoginDialog.hpp" // IWYU pragma: keep
 #include "PresetArchiveDatabase.hpp"
 
 #include "BitmapCache.hpp"
@@ -190,7 +185,7 @@ public:
             memDC.SelectObject(bitmap);
 
             memDC.SetFont(m_action_font);
-            memDC.SetTextForeground(wxColour(16, 124, 24));
+            memDC.SetTextForeground(wxColour(237, 107, 33));
             memDC.DrawText(text, int(m_scale * 60), m_action_line_y_position);
 
             memDC.SelectObject(wxNullBitmap);
@@ -307,15 +302,14 @@ private:
             version = _L("Version") + " " + std::string(SLIC3R_VERSION);
 
             // credits infornation
-            credits = title + " " +
-                _L("is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill.") + "\n" +
-                _L("Both are based on Slic3r by Alessandro Ranellucci and the RepRap community.") + "\n\n" +
-                title + " " + _L("is licensed under the") + " " + _L("GNU Affero General Public License, version 3") + ".\n\n" +
-                _L("Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra Iushchenko, Lukas Matena, Vojtech Kral, David Kocik and numerous others.") + "\n\n";
+            credits = "\n" + title + " " +
+                _L("is based on Slic3r by Alessandro Ranellucci and the RepRap community.") + "\n\n" +
+                _L("Developed by Prusa Research.") + "\n\n" +
+                _L("Licensed under GNU AGPLv3.") + "\n\n\n\n\n\n\n";
 
             title_font = version_font = credits_font = init_font;
         }
-    }
+    } 
     m_constant_text;
 
     void init_constant_text()
@@ -473,11 +467,11 @@ static bool run_updater_win()
 {
     // find updater exe
     boost::filesystem::path path_updater = boost::dll::program_location().parent_path() / "prusaslicer-updater.exe";
-    // run updater. Original args: /silent -restartapp caribou-slicer.exe -startappfirst
+    // run updater. Original args: /silent -restartapp prusa-slicer.exe -startappfirst
     std::string msg;
     bool res = create_process(path_updater, L"/silent", msg);
     if (!res)
-        BOOST_LOG_TRIVIAL(error) << msg;
+        BOOST_LOG_TRIVIAL(error) << msg; 
     return res;
 }
 #endif // 0
@@ -489,12 +483,12 @@ struct FileWildcards {
 };
 
 
-
+ 
 static const FileWildcards file_wildcards_by_type[FT_SIZE] = {
     /* FT_STL */     { "STL files"sv,       { ".stl"sv } },
     /* FT_OBJ */     { "OBJ files"sv,       { ".obj"sv } },
     /* FT_OBJECT */  { "Object files"sv,    { ".stl"sv, ".obj"sv } },
-    /* FT_STEP */    { "STEP files"sv,      { ".stp"sv, ".step"sv } },
+    /* FT_STEP */    { "STEP files"sv,      { ".stp"sv, ".step"sv } },    
     /* FT_AMF */     { "AMF files"sv,       { ".amf"sv, ".zip.amf"sv, ".xml"sv } },
     /* FT_3MF */     { "3MF files"sv,       { ".3mf"sv } },
     /* FT_GCODE */   { "G-code files"sv,    { ".gcode"sv, ".gco"sv, ".bgcode"sv, ".bgc"sv, ".g"sv, ".ngc"sv } },
@@ -637,30 +631,30 @@ static void register_win32_device_notification_event()
         if (plater == nullptr)
             // Maybe some other top level window like a dialog or maybe a pop-up menu?
             return true;
-        PDEV_BROADCAST_HDR lpdb = (PDEV_BROADCAST_HDR)lParam;
+		PDEV_BROADCAST_HDR lpdb = (PDEV_BROADCAST_HDR)lParam;
         switch (wParam) {
         case DBT_DEVICEARRIVAL:
-            if (lpdb->dbch_devicetype == DBT_DEVTYP_VOLUME)
-                plater->GetEventHandler()->AddPendingEvent(VolumeAttachedEvent(EVT_VOLUME_ATTACHED));
-            else if (lpdb->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
-                PDEV_BROADCAST_DEVICEINTERFACE lpdbi = (PDEV_BROADCAST_DEVICEINTERFACE)lpdb;
-//                if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_VOLUME) {
-//                    printf("DBT_DEVICEARRIVAL %d - Media has arrived: %ws\n", msg_count, lpdbi->dbcc_name);
-                if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_HID)
-                    plater->GetEventHandler()->AddPendingEvent(HIDDeviceAttachedEvent(EVT_HID_DEVICE_ATTACHED, into_u8(lpdbi->dbcc_name)));
-            }
+			if (lpdb->dbch_devicetype == DBT_DEVTYP_VOLUME)
+		        plater->GetEventHandler()->AddPendingEvent(VolumeAttachedEvent(EVT_VOLUME_ATTACHED));
+			else if (lpdb->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
+				PDEV_BROADCAST_DEVICEINTERFACE lpdbi = (PDEV_BROADCAST_DEVICEINTERFACE)lpdb;
+//				if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_VOLUME) {
+//					printf("DBT_DEVICEARRIVAL %d - Media has arrived: %ws\n", msg_count, lpdbi->dbcc_name);
+				if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_HID)
+			        plater->GetEventHandler()->AddPendingEvent(HIDDeviceAttachedEvent(EVT_HID_DEVICE_ATTACHED, into_u8(lpdbi->dbcc_name)));
+			}
             break;
-        case DBT_DEVICEREMOVECOMPLETE:
-            if (lpdb->dbch_devicetype == DBT_DEVTYP_VOLUME)
+		case DBT_DEVICEREMOVECOMPLETE:
+			if (lpdb->dbch_devicetype == DBT_DEVTYP_VOLUME)
                 plater->GetEventHandler()->AddPendingEvent(VolumeDetachedEvent(EVT_VOLUME_DETACHED));
-            else if (lpdb->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
-                PDEV_BROADCAST_DEVICEINTERFACE lpdbi = (PDEV_BROADCAST_DEVICEINTERFACE)lpdb;
-//                if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_VOLUME)
-//                    printf("DBT_DEVICEARRIVAL %d - Media was removed: %ws\n", msg_count, lpdbi->dbcc_name);
-                if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_HID)
-                    plater->GetEventHandler()->AddPendingEvent(HIDDeviceDetachedEvent(EVT_HID_DEVICE_DETACHED, into_u8(lpdbi->dbcc_name)));
-            }
-            break;
+			else if (lpdb->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
+				PDEV_BROADCAST_DEVICEINTERFACE lpdbi = (PDEV_BROADCAST_DEVICEINTERFACE)lpdb;
+//				if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_VOLUME)
+//					printf("DBT_DEVICEARRIVAL %d - Media was removed: %ws\n", msg_count, lpdbi->dbcc_name);
+				if (lpdbi->dbcc_classguid == GUID_DEVINTERFACE_HID)
+        			plater->GetEventHandler()->AddPendingEvent(HIDDeviceDetachedEvent(EVT_HID_DEVICE_DETACHED, into_u8(lpdbi->dbcc_name)));
+			}
+			break;
         default:
             break;
         }
@@ -695,10 +689,10 @@ static void register_win32_device_notification_event()
             plater->GetEventHandler()->AddPendingEvent(VolumeDetachedEvent(EVT_VOLUME_DETACHED));
             break;
         }
-        default:
+	    default:
 //          printf("Unknown\n");
             break;
-        }
+	    }
         return true;
     });
 
@@ -708,23 +702,23 @@ static void register_win32_device_notification_event()
 //        if (wParam == RIM_INPUTSINK && plater != nullptr && main_frame->IsActive()) {
         if (wParam == RIM_INPUT && plater != nullptr && main_frame->IsActive()) {
         RAWINPUT raw;
-            UINT rawSize = sizeof(RAWINPUT);
-            ::GetRawInputData((HRAWINPUT)lParam, RID_INPUT, &raw, &rawSize, sizeof(RAWINPUTHEADER));
-            if (raw.header.dwType == RIM_TYPEHID && plater->get_mouse3d_controller().handle_raw_input_win32(raw.data.hid.bRawData, raw.data.hid.dwSizeHid))
-                return true;
-        }
+			UINT rawSize = sizeof(RAWINPUT);
+			::GetRawInputData((HRAWINPUT)lParam, RID_INPUT, &raw, &rawSize, sizeof(RAWINPUTHEADER));
+			if (raw.header.dwType == RIM_TYPEHID && plater->get_mouse3d_controller().handle_raw_input_win32(raw.data.hid.bRawData, raw.data.hid.dwSizeHid))
+				return true;
+		}
         return false;
     });
 
-    wxWindow::MSWRegisterMessageHandler(WM_COPYDATA, [](wxWindow* win, WXUINT /* nMsg */, WXWPARAM wParam, WXLPARAM lParam) {
-        COPYDATASTRUCT* copy_data_structure = { 0 };
-        copy_data_structure = (COPYDATASTRUCT*)lParam;
-        if (copy_data_structure->dwData == 1) {
-            LPCWSTR arguments = (LPCWSTR)copy_data_structure->lpData;
-            Slic3r::GUI::wxGetApp().other_instance_message_handler()->handle_message(into_u8(arguments));
-        }
-        return true;
-        });
+	wxWindow::MSWRegisterMessageHandler(WM_COPYDATA, [](wxWindow* win, WXUINT /* nMsg */, WXWPARAM wParam, WXLPARAM lParam) {
+		COPYDATASTRUCT* copy_data_structure = { 0 };
+		copy_data_structure = (COPYDATASTRUCT*)lParam;
+		if (copy_data_structure->dwData == 1) {
+			LPCWSTR arguments = (LPCWSTR)copy_data_structure->lpData;
+			Slic3r::GUI::wxGetApp().other_instance_message_handler()->handle_message(into_u8(arguments));
+		}
+		return true;
+		});
 }
 #endif // WIN32
 
@@ -755,8 +749,8 @@ static void generic_exception_handle()
         BOOST_LOG_TRIVIAL(error) << boost::format("std::bad_alloc exception: %1%") % ex.what();
         std::terminate();
     } catch (const boost::io::bad_format_string& ex) {
-        wxString errmsg = _L("CaribouSlicer has encountered a localization error. "
-                             "Please report to CaribouSlicer team, what language was active and in which scenario "
+        wxString errmsg = _L("PrusaSlicer has encountered a localization error. "
+                             "Please report to PrusaSlicer team, what language was active and in which scenario "
                              "this issue happened. Thank you.\n\nThe application will now terminate.");
         wxMessageBox(errmsg + "\n\n" + wxString(ex.what()), _L("Critical error"), wxOK | wxICON_ERROR);
         BOOST_LOG_TRIVIAL(error) << boost::format("Uncaught exception: %1%") % ex.what();
@@ -806,9 +800,7 @@ void GUI_App::post_init()
             if (plater()->load_files(fns) && this->init_params->input_files.size() == 1) {
                 // Update application titlebar when opening a project file
                 const std::string& filename = this->init_params->input_files.front();
-                if (boost::algorithm::iends_with(filename, ".amf") ||
-                    boost::algorithm::iends_with(filename, ".amf.xml") ||
-                    boost::algorithm::iends_with(filename, ".3mf"))
+                if (boost::algorithm::iends_with(filename, ".3mf"))
                     this->plater()->set_project_filename(from_u8(filename));
             }
             if (this->init_params->delete_after_load) {
@@ -818,11 +810,31 @@ void GUI_App::post_init()
                     if (ec) {
                         BOOST_LOG_TRIVIAL(error) << ec.message();
                     }
-                }
+                } 
             }
         }
         if (! this->init_params->extra_config.empty())
             this->mainframe->load_config(this->init_params->extra_config);
+
+        if (this->init_params->selected_presets.has_valid_data()) {
+            if (Tab* printer_tab = get_tab(Preset::TYPE_PRINTER))
+                printer_tab->select_preset(this->init_params->selected_presets.printer);
+
+            const bool is_fff = preset_bundle->printers.get_selected_preset().printer_technology() == ptFFF;
+            if (Tab* print_tab = get_tab(is_fff ? Preset::TYPE_PRINT : Preset::TYPE_SLA_PRINT))
+                print_tab->select_preset(this->init_params->selected_presets.print);
+
+            if (Tab* print_tab = get_tab(is_fff ? Preset::TYPE_FILAMENT : Preset::TYPE_SLA_MATERIAL)) {
+                const auto& materials = this->init_params->selected_presets.materials;
+                print_tab->select_preset(materials[0]);
+
+                if (is_fff && materials.size() > 1) {
+                    for (size_t idx = 1; idx < materials.size(); idx++)
+                        preset_bundle->set_filament_preset(idx, materials[idx]);
+                    sidebar().update_all_filament_comboboxes();
+                }
+            }
+        }
     }
 
     // show "Did you know" notification
@@ -833,30 +845,24 @@ void GUI_App::post_init()
     // to popup a modal dialog on start without screwing combo boxes.
     // This is ugly but I honestly found no better way to do it.
     // Neither wxShowEvent nor wxWindowCreateEvent work reliably.
-    if (this->preset_updater) { // G-Code Viewer does not initialize preset_updater.
-
-#if 0 // This code was moved to EVT_CONFIG_UPDATER_SYNC_DONE bind - after preset_updater finishes synchronization.
-        if (! this->check_updates(false))
-            // Configuration is not compatible and reconfigure was refused by the user. Application is closing.
-            return;
-#endif
+    if (this->get_preset_updater_wrapper()) { // G-Code Viewer does not initialize preset_updater.
         CallAfter([this] {
             // preset_updater->sync downloads profile updates and than via event checks updates and incompatible presets. We need to run it on startup.
             // start before cw so it is canceled by cw if needed?
-            this->preset_updater->sync(preset_bundle, this, std::move(plater()->get_preset_archive_database()->get_selected_archive_repositories()));
+            this->get_preset_updater_wrapper()->sync_preset_updater(this, preset_bundle);
             bool cw_showed = this->config_wizard_startup();
             if (! cw_showed) {
                 // The CallAfter is needed as well, without it, GL extensions did not show.
                 // Also, we only want to show this when the wizard does not, so the new user
                 // sees something else than "we want something" on the first start.
-                // show_send_system_info_dialog_if_needed();
-            }
+                show_send_system_info_dialog_if_needed();   
+            }  
             // app version check is asynchronous and triggers blocking dialog window, better call it last
             this->app_version_check(false);
         });
     }
 
-    // Set CaribouSlicer version and save to CaribouSlicer.ini or CaribouGcodeviewer.ini.
+    // Set PrusaSlicer version and save to PrusaSlicer.ini or PrusaSlicerGcodeViewer.ini.
     app_config->set("version", SLIC3R_VERSION);
 
 #ifdef _WIN32
@@ -872,12 +878,12 @@ GUI_App::GUI_App(EAppMode mode)
     , m_app_mode(mode)
     , m_em_unit(10)
     , m_imgui(new ImGuiWrapper())
-    , m_removable_drive_manager(std::make_unique<RemovableDriveManager>())
-    , m_other_instance_message_handler(std::make_unique<OtherInstanceMessageHandler>())
+	, m_removable_drive_manager(std::make_unique<RemovableDriveManager>())
+	, m_other_instance_message_handler(std::make_unique<OtherInstanceMessageHandler>())
     , m_downloader(std::make_unique<Downloader>())
 {
-    //app config initializes early becasuse it is used in instance checking in CaribouSlicer.cpp
-    this->init_app_config();
+	//app config initializes early becasuse it is used in instance checking in PrusaSlicer.cpp
+	this->init_app_config();
     // init app downloader after path to datadir is set
     m_app_updater = std::make_unique<AppUpdater>();
 }
@@ -886,7 +892,6 @@ GUI_App::~GUI_App()
 {
     delete app_config;
     delete preset_bundle;
-    delete preset_updater;
 }
 
 // If formatted for github, plaintext with OpenGL extensions enclosed into <details>.
@@ -902,7 +907,7 @@ wxGLContext* GUI_App::init_glcontext(wxGLCanvas& canvas)
     return m_opengl_mgr.init_glcontext(canvas);
 #else
     return m_opengl_mgr.init_glcontext(canvas, init_params != nullptr ? init_params->opengl_version : std::make_pair(0, 0),
-        init_params != nullptr ? init_params->opengl_compatibiity_profile : false, init_params != nullptr ? init_params->opengl_debug : false);
+        init_params != nullptr ? init_params->opengl_compatibility_profile : false, init_params != nullptr ? init_params->opengl_debug : false);
 #endif // SLIC3R_OPENGL_ES
 }
 
@@ -913,14 +918,14 @@ bool GUI_App::init_opengl()
     return status;
 }
 
-// gets path to CaribouSlicer.ini, returns semver from first line comment
-static boost::optional<Semver> parse_semver_from_ini(std::string path)
+// gets path to PrusaSlicer.ini, returns semver from first line comment
+static boost::optional<Semver> parse_semver_from_ini(const std::string& path)
 {
-    std::ifstream stream(path);
+    boost::nowide::ifstream stream(path);
     std::stringstream buffer;
     buffer << stream.rdbuf();
     std::string body = buffer.str();
-    size_t start = body.find("CaribouSlicer ");
+    size_t start = body.find("PrusaSlicer ");
     if (start == std::string::npos)
         return boost::none;
     body = body.substr(start + 12);
@@ -932,24 +937,24 @@ static boost::optional<Semver> parse_semver_from_ini(std::string path)
 
 void GUI_App::init_app_config()
 {
-    SetAppName(SLIC3R_APP_FULL_NAME);
+	SetAppName(SLIC3R_APP_FULL_NAME);
 
-    if (!app_config)
+	if (!app_config)
         app_config = new AppConfig(is_editor() ? AppConfig::EAppMode::Editor : AppConfig::EAppMode::GCodeViewer);
 
-    // load settings
-    m_app_conf_exists = app_config->exists();
-    if (m_app_conf_exists) {
+	// load settings
+	m_app_conf_exists = app_config->exists();
+	if (m_app_conf_exists) {
         std::string error = app_config->load();
         if (!error.empty()) {
             // Error while parsing config file. We'll customize the error message and rethrow to be displayed.
             if (is_editor()) {
-                throw Slic3r::RuntimeError(format("Error parsing CaribouSlicer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing PrusaSlicer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error. Your user profiles will not be affected."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
             else {
-                throw Slic3r::RuntimeError(format("Error parsing CaribouGCodeViewer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing PrusaGCodeViewer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
@@ -980,7 +985,7 @@ void copy_vendor_ini(const std::vector<std::string>& vendors)
 
 void GUI_App::legacy_app_config_vendor_check()
 {
-    // Expected state:
+    // Expected state: 
     // User runs 2.8.0+ for the first time. They have Prusa SLA printers installed.
     // Prusa SLA printers moved from PrusaResearch.ini to PrusaResearchSLA.ini
     // We expect this is detected and fixed on the first run, when PrusaResearchSLA is not installed yet.
@@ -997,7 +1002,7 @@ void GUI_App::legacy_app_config_vendor_check()
     std::map<std::string, std::string> vendors_from_to;
     vendors_from_to["PrusaResearch"] = "PrusaResearchSLA";
     vendors_from_to["Anycubic"] = "AnycubicSLA";
-    // resulting
+    // resulting 
     std::vector<std::string> vendors_to_create;
 
     const std::map<std::string, std::map<std::string, std::set<std::string>>>& vendor_map = app_config->vendors();
@@ -1011,7 +1016,7 @@ void GUI_App::legacy_app_config_vendor_check()
             }
         }
     }
-
+    
     if (vendors_to_create.empty()) {
         // If there are no printers to move, also do check if "new" vendors really has ini file in vendor folder.
         // In case of running older and current slicer back and forth, there might be vendors in appconfig without ini.
@@ -1025,7 +1030,7 @@ void GUI_App::legacy_app_config_vendor_check()
         return;
     }
 
-    BOOST_LOG_TRIVIAL(warning) << "CaribouSlicerhas found legacy SLA printers. The printers will be "
+    BOOST_LOG_TRIVIAL(warning) << "PrusaSlicer has found legacy SLA printers. The printers will be "
                                   "moved to new vendor and its ini file will be installed. Configuration snapshot will be taken.";
 
      // Take snapshot now, since creation of new vendors in appconfig, snapshots wont be compatible in older slicers.
@@ -1059,10 +1064,62 @@ void GUI_App::legacy_app_config_vendor_check()
         }
     }
     app_config->set_vendors(new_vendor_map);
-
+    
     // copy new vendors ini file to vendors
-    copy_vendor_ini(vendors_to_create);
+    copy_vendor_ini(vendors_to_create);  
 }
+
+std::array<std::string, 3> get_possible_app_names() {
+    const std::array<std::string, 3> suffixes{"-alpha", "-beta", ""};
+    std::array<std::string, 3> result;
+    std::transform(
+        suffixes.begin(),
+        suffixes.end(),
+        result.begin(),
+        [](const std::string &suffix){
+            return SLIC3R_APP_KEY + suffix;
+        }
+    );
+    return result;
+}
+
+constexpr bool is_linux =
+#if defined(__linux__)
+true
+#else
+false
+#endif
+;
+
+namespace fs = boost::filesystem;
+
+std::vector<fs::path> get_app_config_dir_candidates(
+    const std::string &current_app_name
+) {
+    std::vector<fs::path> candidates;
+
+    // e.g. $HOME/.config
+    const fs::path config_dir{fs::path{data_dir()}.parent_path()};
+    const std::array<std::string, 3> possible_app_names{get_possible_app_names()};
+
+    for (const std::string &possible_app_name : possible_app_names){
+        if (possible_app_name != current_app_name) {
+            candidates.emplace_back(config_dir / possible_app_name);
+        }
+    }
+
+    if constexpr (is_linux) {
+        const std::optional<fs::path> home_config_dir{get_home_config_dir()};
+        if (home_config_dir && config_dir != home_config_dir) {
+            for (const std::string &possible_app_name : possible_app_names){
+                candidates.emplace_back(*home_config_dir / possible_app_name);
+            }
+        }
+    }
+
+    return candidates;
+}
+
 
 // returns old config path to copy from if such exists,
 // returns an empty string if such config path does not exists or if it cannot be loaded.
@@ -1075,22 +1132,20 @@ std::string GUI_App::check_older_app_config(Semver current_version, bool backup)
         return {};
 
     // find other version app config (alpha / beta / release)
-    std::string             config_path = app_config->config_path();
-    boost::filesystem::path parent_file_path(config_path);
-    std::string             filename = parent_file_path.filename().string();
-    parent_file_path.remove_filename().remove_filename();
+    const fs::path app_config_path{app_config->config_path()};
+    const std::string filename{app_config_path.filename().string()};
 
-    std::vector<boost::filesystem::path> candidates;
-
-    if (SLIC3R_APP_KEY "-alpha" != GetAppName()) candidates.emplace_back(parent_file_path / SLIC3R_APP_KEY "-alpha" / filename);
-    if (SLIC3R_APP_KEY "-beta" != GetAppName())  candidates.emplace_back(parent_file_path / SLIC3R_APP_KEY "-beta" / filename);
-    if (SLIC3R_APP_KEY != GetAppName())          candidates.emplace_back(parent_file_path / SLIC3R_APP_KEY / filename);
+    const std::string current_app_name{GetAppName().ToStdString()};
+    const std::vector<fs::path> app_config_dir_candidates{get_app_config_dir_candidates(
+        current_app_name
+    )};
 
     Semver last_semver = current_version;
-    for (const auto& candidate : candidates) {
+    for (const fs::path& candidate_dir : app_config_dir_candidates) {
+        const fs::path candidate{candidate_dir / filename};
         if (boost::filesystem::exists(candidate)) {
             // parse
-            boost::optional<Semver>other_semver = parse_semver_from_ini(candidate.string());
+            const boost::optional<Semver>other_semver = parse_semver_from_ini(candidate.string());
             if (other_semver && *other_semver > last_semver) {
                 last_semver = *other_semver;
                 older_data_dir_path = candidate.parent_path().string();
@@ -1103,7 +1158,7 @@ std::string GUI_App::check_older_app_config(Semver current_version, bool backup)
     // ask about using older data folder
     InfoDialog msg(nullptr
         , format_wxstr(_L("You are opening %1% version %2%."), SLIC3R_APP_NAME, SLIC3R_VERSION)
-        , backup ?
+        , backup ? 
         format_wxstr(_L(
             "The active configuration was created by <b>%1% %2%</b>,"
             "\nwhile a newer configuration was found in <b>%3%</b>"
@@ -1146,12 +1201,12 @@ std::string GUI_App::check_older_app_config(Semver current_version, bool backup)
         if (!error.empty()) {
             // Error while parsing config file. We'll customize the error message and rethrow to be displayed.
             if (is_editor()) {
-                throw Slic3r::RuntimeError(format("Error parsing CaribouSlicer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing PrusaSlicer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error. Your user profiles will not be affected."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
             else {
-                throw Slic3r::RuntimeError(format("Error parsing CaribouGCodeViewer config file, it is probably corrupted. "
+                throw Slic3r::RuntimeError(format("Error parsing PrusaGCodeViewer config file, it is probably corrupted. "
                         "Try to manually delete the file to recover from the error."
                         "\n\n%1%\n\n%2%", app_config->config_path(), error));
             }
@@ -1166,7 +1221,7 @@ std::string GUI_App::check_older_app_config(Semver current_version, bool backup)
 
 void GUI_App::init_single_instance_checker(const std::string &name, const std::string &path)
 {
-    BOOST_LOG_TRIVIAL(debug) << "init wx instance checker " << name << " "<< path;
+    BOOST_LOG_TRIVIAL(debug) << "init wx instance checker " << name << " "<< path; 
     m_single_instance_checker = std::make_unique<wxSingleInstanceChecker>(boost::nowide::widen(name), boost::nowide::widen(path));
 }
 
@@ -1254,6 +1309,31 @@ static int get_app_font_pt_size(const AppConfig* app_config)
     return (font_pt_size > max_font_pt_size) ? max_font_pt_size : font_pt_size;
 }
 
+#if defined(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION)  
+void GUI_App::remove_desktop_files_dialog()
+{
+    // Find all old existing desktop file
+    std::vector<boost::filesystem::path> found_desktop_files;
+    DesktopIntegrationDialog::find_all_desktop_files(found_desktop_files);
+    if(found_desktop_files.empty()) {
+        return;
+    }
+    // Delete files.
+    std::vector<boost::filesystem::path> fails;
+    DesktopIntegrationDialog::remove_desktop_file_list(found_desktop_files, fails);
+    if (fails.empty()) {
+        return;
+    }
+    // Inform about fails.
+    std::string text = "Failed to remove desktop files:"; 
+    text += "\n";
+    for (const boost::filesystem::path& entry : fails) { 
+        text += GUI::format("%1%\n",entry.string());
+    }
+    BOOST_LOG_TRIVIAL(error) << text;
+}
+#endif //(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION)
+
 bool GUI_App::on_init_inner()
 {
     // TODO: remove this when all asserts are gone.
@@ -1262,15 +1342,19 @@ bool GUI_App::on_init_inner()
     // Set initialization of image handlers before any UI actions - See GH issue #7469
     wxInitAllImageHandlers();
 
+    // Set our own gui log as an active target
+    m_log_gui = new LogGui();
+    wxLog::SetActiveTarget(m_log_gui);
+
 #if defined(_WIN32) && ! defined(_WIN64)
     // Win32 32bit build.
     if (wxPlatformInfo::Get().GetArchName().substr(0, 2) == "64") {
         RichMessageDialog dlg(nullptr,
-            _L("You are running a 32 bit build of CaribouSlicer on 64-bit Windows."
-                "\n32 bit build of CaribouSlicer will likely not be able to utilize all the RAM available in the system."
-                "\nPlease download and install a 64 bit build of CaribouSlicer from https://www.prusa3d.cz/prusaslicer/."
+            _L("You are running a 32 bit build of PrusaSlicer on 64-bit Windows."
+                "\n32 bit build of PrusaSlicer will likely not be able to utilize all the RAM available in the system."
+                "\nPlease download and install a 64 bit build of PrusaSlicer from https://www.prusa3d.cz/prusaslicer/."
                 "\nDo you wish to continue?"),
-            "CaribouSlicer", wxICON_QUESTION | wxYES_NO);
+            "PrusaSlicer", wxICON_QUESTION | wxYES_NO);
         if (dlg.ShowModal() != wxID_YES)
             return false;
     }
@@ -1286,8 +1370,7 @@ bool GUI_App::on_init_inner()
 
     // Verify resources path
     const wxString resources_dir = from_u8(Slic3r::resources_dir());
-    wxCHECK_MSG(wxDirExists(resources_dir), false,
-        wxString::Format("Resources path does not exist or is not a directory: %s", resources_dir));
+    wxCHECK_MSG(wxDirExists(resources_dir), false, wxString::Format("Resources path does not exist or is not a directory: %s", resources_dir));
 
 #ifdef __linux__
     if (! check_old_linux_datadir(GetAppName())) {
@@ -1354,7 +1437,7 @@ bool GUI_App::on_init_inner()
             RichMessageDialog
                 dlg(nullptr,
                     wxString::Format(_L("%s\nDo you want to continue?"), msg),
-                    "CaribouSlicer", wxICON_QUESTION | wxYES_NO);
+                    "PrusaSlicer", wxICON_QUESTION | wxYES_NO);
             dlg.ShowCheckBox(_L("Remember my choice"));
             if (dlg.ShowModal() != wxID_YES) return false;
 
@@ -1388,7 +1471,7 @@ bool GUI_App::on_init_inner()
         }
 
         // create splash screen with updated bmp
-        scrn = new SplashScreen(bmp.IsOk() ? bmp : get_bmp_bundle("CaribouSlicer", 400)->GetPreferredBitmapSizeAtScale(1.0),
+        scrn = new SplashScreen(bmp.IsOk() ? bmp : get_bmp_bundle("PrusaSlicer", 400)->GetPreferredBitmapSizeAtScale(1.0), 
                                 wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT, 4000, splashscreen_pos);
 
         if (!default_splashscreen_pos)
@@ -1405,20 +1488,20 @@ bool GUI_App::on_init_inner()
     // just checking for existence of Slic3r::data_dir is not enough : it may be an empty directory
     // supplied as argument to --datadir; in that case we should still run the wizard
     preset_bundle->setup_directories();
-
+    
     if (! older_data_dir_path.empty()) {
         preset_bundle->import_newer_configs(older_data_dir_path);
     }
 
     if (is_editor()) {
-#ifdef __WXMSW__
+#ifdef __WXMSW__ 
         if (app_config->get_bool("associate_3mf"))
             associate_3mf_files();
         if (app_config->get_bool("associate_stl"))
             associate_stl_files();
 #endif // __WXMSW__
 
-        preset_updater = new PresetUpdater();
+        m_preset_updater_wrapper = std::make_unique<PresetUpdaterWrapper>();
         Bind(EVT_SLIC3R_VERSION_ONLINE, &GUI_App::on_version_read, this);
         Bind(EVT_SLIC3R_EXPERIMENTAL_VERSION_ONLINE, [this](const wxCommandEvent& evt) {
             if (this->plater_ != nullptr && (m_app_updater->get_triggered_by_user() || app_config->get("notify_release") == "all")) {
@@ -1429,7 +1512,7 @@ bool GUI_App::on_init_inner()
                         , NotificationManager::NotificationLevel::ImportantNotificationLevel
                         , Slic3r::format(_u8L("New prerelease version %1% is available."), evt_string)
                         , _u8L("See Releases page.")
-                        , [](wxEvtHandler* evnthndlr) {wxGetApp().open_browser_with_warning_dialog("https://github.com/caribou3d/CaribouSlicer-Prusa/releases"); return true; }
+                        , [](wxEvtHandler* evnthndlr) {wxGetApp().open_browser_with_warning_dialog("https://github.com/prusa3d/PrusaSlicer/releases"); return true; }
                     );
                 }
             }
@@ -1449,22 +1532,38 @@ bool GUI_App::on_init_inner()
 
         Bind(EVT_SLIC3R_APP_OPEN_FAILED, [](const wxCommandEvent& evt) {
             show_error(nullptr, evt.GetString());
-        });
+        }); 
 
         Bind(EVT_CONFIG_UPDATER_SYNC_DONE, [this](const wxCommandEvent& evt) {
             this->check_updates(false);
         });
 
+        Bind(EVT_CONFIG_UPDATER_FAILED_ARCHIVE, [this](const wxCommandEvent& evt) {
+            assert(!evt.GetString().empty());
+            // TRN Notification text, %1% is list of vendors.
+            std::string notification_text = format(_u8L("Update check failed for the following vendors:\n\n%1%\nThis may be due to an account logout or a lost connection. Please verify your account status and internet connection. Then select \"Check for Configuration Updates\" to repeat."), evt.GetString());
+            notification_manager()->push_notification(NotificationType::FailedSecretVendorUpdateSync,
+                NotificationManager::NotificationLevel::WarningNotificationLevel,
+                notification_text);
+        });
+
+        Bind(wxEVT_ACTIVATE_APP, [this](const wxActivateEvent &evt) {
+            if (plater_) {
+                if (auto user_account = plater_->get_user_account())
+                    user_account->on_activate_app(evt.GetActive());
+            }
+        });
+
     }
     else {
-#ifdef __WXMSW__
+#ifdef __WXMSW__ 
         if (app_config->get_bool("associate_gcode"))
             associate_gcode_files();
         if (app_config->get_bool("associate_bgcode"))
             associate_bgcode_files();
 #endif // __WXMSW__
     }
-
+    
     std::string delayed_error_load_presets;
     // Suppress the '- default -' presets.
     preset_bundle->set_default_suppressed(app_config->get_bool("no_defaults"));
@@ -1474,7 +1573,7 @@ bool GUI_App::on_init_inner()
         // installation of a compatible system preset, thus nullifying the system preset substitutions.
         init_params->preset_substitutions = preset_bundle->load_presets(*app_config, ForwardCompatibilitySubstitutionRule::EnableSystemSilent);
     } catch (const std::exception &ex) {
-        delayed_error_load_presets = ex.what();
+        delayed_error_load_presets = ex.what(); 
     }
 
 #ifdef WIN32
@@ -1501,6 +1600,10 @@ bool GUI_App::on_init_inner()
 
     // Call this check only after appconfig was loaded to mainframe, otherwise there will be duplicity error.
     legacy_app_config_vendor_check();
+
+#if defined(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION) 
+    remove_desktop_files_dialog();
+#endif //(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION) 
 
     sidebar().obj_list()->init_objects(); // propagate model objects to object list
     update_mode(); // mode sizer doesn't exist anymore, so we came update mode here, before load_current_presets
@@ -1538,6 +1641,10 @@ bool GUI_App::on_init_inner()
 
     show_printer_webview_tab();
 
+#ifdef _WIN32
+    mainframe->update_title(); // To ensure taskbar icons is updated.
+#endif
+
 #ifdef __APPLE__
     other_instance_message_handler()->bring_instance_forward();
 #endif //__APPLE__
@@ -1551,7 +1658,7 @@ bool GUI_App::on_init_inner()
 
         // An ugly solution to GH #5537 in which GUI_App::init_opengl (normally called from events wxEVT_PAINT
         // and wxEVT_SET_FOCUS before GUI_App::post_init is called) wasn't called before GUI_App::post_init and OpenGL wasn't initialized.
-        // Since issue #9774 Where same problem occurred on MacOS Ventura, we decided to have this check on MacOS as well.
+        // Since issue #9774 Where same problem occured on MacOS Ventura, we decided to have this check on MacOS as well.
 
 #if defined(__linux__) || defined(__APPLE__)
         if (!m_post_initialized && m_opengl_initialized) {
@@ -1577,8 +1684,8 @@ bool GUI_App::on_init_inner()
     {
         wxString preferences_item = _L("Restore window position on start");
         InfoDialog dialog(nullptr,
-            _L("CaribouSlicer started after a crash"),
-            format_wxstr(_L("CaribouSlicer crashed last time when attempting to set window position.\n"
+            _L("PrusaSlicer started after a crash"),
+            format_wxstr(_L("PrusaSlicer crashed last time when attempting to set window position.\n"
                 "We are sorry for the inconvenience, it unfortunately happens with certain multiple-monitor setups.\n"
                 "More precise reason for the crash: \"%1%\".\n"
                 "For more information see our GitHub issue tracker: \"%2%\" and \"%3%\"\n\n"
@@ -1592,7 +1699,7 @@ bool GUI_App::on_init_inner()
 
         dialog.SetButtonLabel(wxID_YES, format_wxstr(_L("Disable \"%1%\""), preferences_item));
         dialog.SetButtonLabel(wxID_NO,  format_wxstr(_L("Leave \"%1%\" enabled") , preferences_item));
-
+        
         auto answer = dialog.ShowModal();
         if (answer == wxID_YES)
             app_config->set("restore_win_position", "0");
@@ -1638,7 +1745,7 @@ const wxColour GUI_App::get_label_default_clr_system()
 
 const wxColour GUI_App::get_label_default_clr_modified()
 {
-    return dark_mode() ? wxColour(24, 180, 36) : wxColour(0, 219, 8);
+    return dark_mode() ? wxColour(253, 111, 40) : wxColour(252, 77, 1);
 }
 
 const std::vector<std::string> GUI_App::get_mode_default_palette()
@@ -1657,9 +1764,9 @@ void GUI_App::init_ui_colours()
     m_color_label_default           = is_dark_mode ? wxColour(250, 250, 250): wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     m_color_highlight_label_default = is_dark_mode ? wxColour(230, 230, 230): wxSystemSettings::GetColour(/*wxSYS_COLOUR_HIGHLIGHTTEXT*/wxSYS_COLOUR_WINDOWTEXT);
     m_color_highlight_default       = is_dark_mode ? wxColour(78, 78, 78)   : wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT);
-    m_color_hovered_btn_label       = is_dark_mode ? wxColour(24, 180, 36) : wxColour(0, 219, 8); // wxColour(253, 111, 40) : wxColour(252, 77, 1);
-    m_color_default_btn_label       = is_dark_mode ? wxColour(101, 235, 112): wxColour(1, 140, 13); // wxColour(255, 181, 100): wxColour(203, 61, 0);
-    m_color_selected_btn_bg         = is_dark_mode ? wxColour(62, 112, 72)   : wxColour(218, 230, 220); //wxColour(95, 73, 62)   : wxColour(228, 220, 216);
+    m_color_hovered_btn_label       = is_dark_mode ? wxColour(253, 111, 40) : wxColour(252, 77, 1);
+    m_color_default_btn_label       = is_dark_mode ? wxColour(255, 181, 100): wxColour(203, 61, 0);
+    m_color_selected_btn_bg         = is_dark_mode ? wxColour(95, 73, 62)   : wxColour(228, 220, 216);
 //#else
 //    m_color_label_default = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 //#endif
@@ -1711,7 +1818,7 @@ static bool is_focused(HWND hWnd)
     wxTopLevelWindow* tlw = find_toplevel_parent(win);
     if (!tlw)
         return false;
-
+        
     return win == tlw->GetDefaultItem();
 }
 
@@ -1783,7 +1890,7 @@ static void update_dark_children_ui(wxWindow* window, bool just_buttons_update =
         wxGetApp().UpdateDarkUI(window, is_btn);
 
     auto children = window->GetChildren();
-    for (auto child : children) {
+    for (auto child : children) {        
         update_dark_children_ui(child);
     }
 }
@@ -1872,8 +1979,8 @@ void GUI_App::update_fonts(const MainFrame *main_frame)
      * To avoid same rescaling twice, just fill this values
      * from rescaled MainFrame
      */
-    if (main_frame == nullptr)
-        main_frame = this->mainframe;
+	if (main_frame == nullptr)
+		main_frame = this->mainframe;
     m_normal_font   = main_frame->normal_font();
     m_small_font    = m_normal_font;
     m_bold_font     = main_frame->normal_font().Bold();
@@ -1882,7 +1989,7 @@ void GUI_App::update_fonts(const MainFrame *main_frame)
     m_code_font.SetPointSize(m_normal_font.GetPointSize());
 }
 
-void GUI_App::set_label_clr_modified(const wxColour& clr)
+void GUI_App::set_label_clr_modified(const wxColour& clr) 
 {
     if (m_color_label_modified == clr)
         return;
@@ -2013,7 +2120,7 @@ void GUI_App::check_printer_presets()
     for (const std::string& preset_name : preset_names)
         msg_text += "\n    \"" + from_u8(preset_name) + "\",";
     msg_text.RemoveLast();
-    msg_text += "\n\n" + _L("But since this version of CaribouSlicer we don't show this information in Printer Settings anymore.\n"
+    msg_text += "\n\n" + _L("But since this version of PrusaSlicer we don't show this information in Printer Settings anymore.\n"
                             "Settings will be available in physical printers settings.") + "\n\n" +
                          _L("By default new Printer devices will be named as \"Printer N\" during its creation.\n"
                             "Note: This name can be changed later from the physical printers settings");
@@ -2075,75 +2182,6 @@ void GUI_App::keyboard_shortcuts()
 {
     KBShortcutsDialog dlg;
     dlg.ShowModal();
-}
-
-void GUI_App::change_calibration_dialog(const wxDialog* have_to_destroy, wxDialog* new_one)
-{
-    if (have_to_destroy == nullptr) {
-        wxDialog* to_destroy = nullptr;
-        {
-            //hove to ensure that this release is "atomic"
-            std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-            to_destroy = not_modal_dialog;
-            not_modal_dialog = nullptr;
-        }
-        if (to_destroy != nullptr) {
-            to_destroy->Destroy();
-        }
-    } else {
-        //hove to ensure that these two command are "atomic"
-        std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-        if (not_modal_dialog == have_to_destroy) {
-            not_modal_dialog = nullptr;
-        }
-    }
-    if (new_one != nullptr) {
-        {
-            //hove to ensure that these command are "atomic"
-            std::unique_lock<std::mutex> lock(not_modal_dialog_mutex);
-            if (not_modal_dialog != nullptr)
-                not_modal_dialog->Destroy();
-            not_modal_dialog = new_one;
-        }
-        new_one->Show();
-    }
-}
-
-void GUI_App::html_dialog()
-{
-   change_calibration_dialog(nullptr, new HtmlDialog(this, mainframe,"Introduction to calibrations", "/calibration", "introduction.html"));
-}
-
-
-
-void GUI_App::flow_walls_dialog()
-{//
-   change_calibration_dialog(nullptr, new CalibrationWallsDialog(this, mainframe));
-}
-void GUI_App::flow_ratio_dialog()
-{//
-   change_calibration_dialog(nullptr, new CalibrationFlowDialog(this, mainframe));
-}
-// void GUI_App::calibration_retraction_dialog()
-// {//
-//   change_calibration_dialog(nullptr, new CalibrationRetractionDialog(this, mainframe));
-// }
-void GUI_App::calibration_first_layer_dialog()
-{//
-    change_calibration_dialog(nullptr, new CalibrationFirstLayerDialog(this, mainframe));
-}
-void GUI_App::calibration_first_layer_patch_dialog()
-{//
-   change_calibration_dialog(nullptr, new CalibrationFirstLayerPatchDialog(this, mainframe));
-}
-void GUI_App::filament_temperature_dialog()
-{//
-   change_calibration_dialog(nullptr, new CalibrationTempDialog(this, mainframe));
-}
-
-void GUI_App::calibration_cube_dialog()
-{
-    change_calibration_dialog(nullptr, new CalibrationCubeDialog(this, mainframe));
 }
 
 // static method accepting a wxWindow object as first parameter
@@ -2409,52 +2447,52 @@ int GUI_App::GetSingleChoiceIndex(const wxString& message,
 // select language from the list of installed languages
 bool GUI_App::select_language()
 {
-    wxArrayString translations = wxTranslations::Get()->GetAvailableTranslations(SLIC3R_APP_KEY);
+	wxArrayString translations = wxTranslations::Get()->GetAvailableTranslations(SLIC3R_APP_KEY);
     std::vector<const wxLanguageInfo*> language_infos;
     language_infos.emplace_back(wxLocale::GetLanguageInfo(wxLANGUAGE_ENGLISH));
     for (size_t i = 0; i < translations.GetCount(); ++ i) {
-        const wxLanguageInfo *langinfo = wxLocale::FindLanguageInfo(translations[i]);
+	    const wxLanguageInfo *langinfo = wxLocale::FindLanguageInfo(translations[i]);
         if (langinfo != nullptr)
             language_infos.emplace_back(langinfo);
     }
     sort_remove_duplicates(language_infos);
-    std::sort(language_infos.begin(), language_infos.end(), [](const wxLanguageInfo* l, const wxLanguageInfo* r) { return l->Description < r->Description; });
+	std::sort(language_infos.begin(), language_infos.end(), [](const wxLanguageInfo* l, const wxLanguageInfo* r) { return l->Description < r->Description; });
 
     wxArrayString names;
     names.Alloc(language_infos.size());
 
     // Some valid language should be selected since the application start up.
     const wxLanguage current_language = wxLanguage(m_wxLocale->GetLanguage());
-    int              init_selection           = -1;
-    int              init_selection_alt     = -1;
-    int              init_selection_default = -1;
+    int 		     init_selection   		= -1;
+    int 			 init_selection_alt     = -1;
+    int 			 init_selection_default = -1;
     for (size_t i = 0; i < language_infos.size(); ++ i) {
         if (wxLanguage(language_infos[i]->Language) == current_language)
-            // The dictionary matches the active language and country.
+        	// The dictionary matches the active language and country.
             init_selection = i;
         else if ((language_infos[i]->CanonicalName.BeforeFirst('_') == m_wxLocale->GetCanonicalName().BeforeFirst('_')) ||
-                 // if the active language is Slovak, mark the Czech language as active.
-                 (language_infos[i]->CanonicalName.BeforeFirst('_') == "cs" && m_wxLocale->GetCanonicalName().BeforeFirst('_') == "sk"))
-            // The dictionary matches the active language, it does not necessarily match the country.
-            init_selection_alt = i;
+        		 // if the active language is Slovak, mark the Czech language as active.
+        	     (language_infos[i]->CanonicalName.BeforeFirst('_') == "cs" && m_wxLocale->GetCanonicalName().BeforeFirst('_') == "sk"))
+        	// The dictionary matches the active language, it does not necessarily match the country.
+        	init_selection_alt = i;
         if (language_infos[i]->CanonicalName.BeforeFirst('_') == "en")
-            // This will be the default selection if the active language does not match any dictionary.
-            init_selection_default = i;
+        	// This will be the default selection if the active language does not match any dictionary.
+        	init_selection_default = i;
         names.Add(language_infos[i]->Description);
     }
     if (init_selection == -1)
-        // This is the dictionary matching the active language.
-        init_selection = init_selection_alt;
+    	// This is the dictionary matching the active language.
+    	init_selection = init_selection_alt;
     if (init_selection != -1)
-        // This is the language to highlight in the choice dialog initially.
-        init_selection_default = init_selection;
+    	// This is the language to highlight in the choice dialog initially.
+    	init_selection_default = init_selection;
 
     const long index = GetSingleChoiceIndex(_L("Select the language"), _L("Language"), names, init_selection_default);
-    // Try to load a new language.
+	// Try to load a new language.
     if (index != -1 && (init_selection == -1 || init_selection != index)) {
-        const wxLanguageInfo *new_language_info = language_infos[index];
-        if (this->load_language(new_language_info->CanonicalName, false)) {
-            // Save language at application config.
+    	const wxLanguageInfo *new_language_info = language_infos[index];
+    	if (this->load_language(new_language_info->CanonicalName, false)) {
+			// Save language at application config.
             // Which language to save as the selected dictionary language?
             // 1) Hopefully the language set to wxTranslations by this->load_language(), but that API is weird and we don't want to rely on its
             //    stability in the future:
@@ -2462,9 +2500,9 @@ bool GUI_App::select_language()
             // 2) Current locale language may not match the dictionary name, see GH issue #3901
             //    m_wxLocale->GetCanonicalName()
             // 3) new_language_info->CanonicalName is a safe bet. It points to a valid dictionary name.
-            app_config->set("translation_language", new_language_info->CanonicalName.ToUTF8().data());
-            return true;
-        }
+			app_config->set("translation_language", new_language_info->CanonicalName.ToUTF8().data());            
+    		return true;
+    	}
     }
 
     return false;
@@ -2475,45 +2513,45 @@ bool GUI_App::select_language()
 bool GUI_App::load_language(wxString language, bool initial)
 {
     if (initial) {
-        // There is a static list of lookup path prefixes in wxWidgets. Add ours.
-        wxFileTranslationsLoader::AddCatalogLookupPathPrefix(from_u8(localization_dir()));
-        // Get the active language from CaribouSlicer.ini, or empty string if the key does not exist.
+    	// There is a static list of lookup path prefixes in wxWidgets. Add ours.
+	    wxFileTranslationsLoader::AddCatalogLookupPathPrefix(from_u8(localization_dir()));
+    	// Get the active language from PrusaSlicer.ini, or empty string if the key does not exist.
         language = app_config->get("translation_language");
         if (! language.empty())
-            BOOST_LOG_TRIVIAL(trace) << boost::format("translation_language provided by CaribouSlicer.ini: %1%") % language;
+        	BOOST_LOG_TRIVIAL(trace) << boost::format("translation_language provided by PrusaSlicer.ini: %1%") % language;
 
         // Get the system language.
         {
-            const wxLanguage lang_system = wxLanguage(wxLocale::GetSystemLanguage());
-            if (lang_system != wxLANGUAGE_UNKNOWN) {
-                m_language_info_system = wxLocale::GetLanguageInfo(lang_system);
-                BOOST_LOG_TRIVIAL(trace) << boost::format("System language detected (user locales and such): %1%") % m_language_info_system->CanonicalName.ToUTF8().data();
-            }
-        }
+	        const wxLanguage lang_system = wxLanguage(wxLocale::GetSystemLanguage());
+	        if (lang_system != wxLANGUAGE_UNKNOWN) {
+				m_language_info_system = wxLocale::GetLanguageInfo(lang_system);
+	        	BOOST_LOG_TRIVIAL(trace) << boost::format("System language detected (user locales and such): %1%") % m_language_info_system->CanonicalName.ToUTF8().data();
+	        }
+		}
         {
-            // Allocating a temporary locale will switch the default wxTranslations to its internal wxTranslations instance.
-            wxLocale temp_locale;
+	    	// Allocating a temporary locale will switch the default wxTranslations to its internal wxTranslations instance.
+	    	wxLocale temp_locale;
 #ifdef __WXOSX__
             // ysFIXME - temporary workaround till it isn't fixed in wxWidgets:
             // Use English as an initial language, because of under OSX it try to load "inappropriate" language for wxLANGUAGE_DEFAULT.
-            // For example in our case it's trying to load "en_CZ" and as a result CaribouSlicer catch warning message.
+            // For example in our case it's trying to load "en_CZ" and as a result PrusaSlicer catch warning message.
             // But wxWidgets guys work on it.
             temp_locale.Init(wxLANGUAGE_ENGLISH);
 #else
             temp_locale.Init();
 #endif // __WXOSX__
-            // Set the current translation's language to default, otherwise GetBestTranslation() may not work (see the wxWidgets source code).
-            wxTranslations::Get()->SetLanguage(wxLANGUAGE_DEFAULT);
-            // Let the wxFileTranslationsLoader enumerate all translation dictionaries for CaribouSlicer
-            // and try to match them with the system specific "preferred languages".
-            // There seems to be a support for that on Windows and OSX, while on Linuxes the code just returns wxLocale::GetSystemLanguage().
-            // The last parameter gets added to the list of detected dictionaries. This is a workaround
-            // for not having the English dictionary. Let's hope wxWidgets of various versions process this call the same way.
-            wxString best_language = wxTranslations::Get()->GetBestTranslation(SLIC3R_APP_KEY, wxLANGUAGE_ENGLISH);
-            if (! best_language.IsEmpty()) {
-                m_language_info_best = wxLocale::FindLanguageInfo(best_language);
-                BOOST_LOG_TRIVIAL(trace) << boost::format("Best translation language detected (may be different from user locales): %1%") % m_language_info_best->CanonicalName.ToUTF8().data();
-            }
+	    	// Set the current translation's language to default, otherwise GetBestTranslation() may not work (see the wxWidgets source code).
+	    	wxTranslations::Get()->SetLanguage(wxLANGUAGE_DEFAULT);
+	    	// Let the wxFileTranslationsLoader enumerate all translation dictionaries for PrusaSlicer
+	    	// and try to match them with the system specific "preferred languages". 
+	    	// There seems to be a support for that on Windows and OSX, while on Linuxes the code just returns wxLocale::GetSystemLanguage().
+	    	// The last parameter gets added to the list of detected dictionaries. This is a workaround 
+	    	// for not having the English dictionary. Let's hope wxWidgets of various versions process this call the same way.
+			wxString best_language = wxTranslations::Get()->GetBestTranslation(SLIC3R_APP_KEY, wxLANGUAGE_ENGLISH);
+			if (! best_language.IsEmpty()) {
+				m_language_info_best = wxLocale::FindLanguageInfo(best_language);
+	        	BOOST_LOG_TRIVIAL(trace) << boost::format("Best translation language detected (may be different from user locales): %1%") % m_language_info_best->CanonicalName.ToUTF8().data();
+			}
             #ifdef __linux__
             wxString lc_all;
             if (wxGetEnv("LC_ALL", &lc_all) && ! lc_all.IsEmpty()) {
@@ -2522,39 +2560,39 @@ bool GUI_App::load_language(wxString language, bool initial)
                 m_language_info_best = nullptr;
             }
             #endif
-        }
+		}
     }
 
-    const wxLanguageInfo *language_info = language.empty() ? nullptr : wxLocale::FindLanguageInfo(language);
-    if (! language.empty() && (language_info == nullptr || language_info->CanonicalName.empty())) {
-        // Fix for wxWidgets issue, where the FindLanguageInfo() returns locales with undefined ANSII code (wxLANGUAGE_KONKANI or wxLANGUAGE_MANIPURI).
-        language_info = nullptr;
-        BOOST_LOG_TRIVIAL(error) << boost::format("Language code \"%1%\" is not supported") % language.ToUTF8().data();
-    }
+	const wxLanguageInfo *language_info = language.empty() ? nullptr : wxLocale::FindLanguageInfo(language);
+	if (! language.empty() && (language_info == nullptr || language_info->CanonicalName.empty())) {
+		// Fix for wxWidgets issue, where the FindLanguageInfo() returns locales with undefined ANSII code (wxLANGUAGE_KONKANI or wxLANGUAGE_MANIPURI).
+		language_info = nullptr;
+    	BOOST_LOG_TRIVIAL(error) << boost::format("Language code \"%1%\" is not supported") % language.ToUTF8().data();
+	}
 
-    if (language_info != nullptr && language_info->LayoutDirection == wxLayout_RightToLeft) {
-        BOOST_LOG_TRIVIAL(trace) << boost::format("The following language code requires right to left layout, which is not supported by CaribouSlicer: %1%") % language_info->CanonicalName.ToUTF8().data();
-        language_info = nullptr;
-    }
+	if (language_info != nullptr && language_info->LayoutDirection == wxLayout_RightToLeft) {
+    	BOOST_LOG_TRIVIAL(trace) << boost::format("The following language code requires right to left layout, which is not supported by PrusaSlicer: %1%") % language_info->CanonicalName.ToUTF8().data();
+		language_info = nullptr;
+	}
 
     if (language_info == nullptr) {
-        // CaribouSlicerdoes not support the Right to Left languages yet.
+        // PrusaSlicer does not support the Right to Left languages yet.
         if (m_language_info_system != nullptr && m_language_info_system->LayoutDirection != wxLayout_RightToLeft)
             language_info = m_language_info_system;
         if (m_language_info_best != nullptr && m_language_info_best->LayoutDirection != wxLayout_RightToLeft)
-            language_info = m_language_info_best;
-        if (language_info == nullptr)
-            language_info = wxLocale::GetLanguageInfo(wxLANGUAGE_ENGLISH_US);
+        	language_info = m_language_info_best;
+	    if (language_info == nullptr)
+			language_info = wxLocale::GetLanguageInfo(wxLANGUAGE_ENGLISH_US);
     }
 
-    BOOST_LOG_TRIVIAL(trace) << boost::format("Switching wxLocales to %1%") % language_info->CanonicalName.ToUTF8().data();
+	BOOST_LOG_TRIVIAL(trace) << boost::format("Switching wxLocales to %1%") % language_info->CanonicalName.ToUTF8().data();
 
     // Alternate language code.
     wxLanguage language_dict = wxLanguage(language_info->Language);
     if (language_info->CanonicalName.BeforeFirst('_') == "sk") {
-        // Slovaks understand Czech well. Give them the Czech translation.
-        language_dict = wxLANGUAGE_CZECH;
-        BOOST_LOG_TRIVIAL(trace) << "Using Czech dictionaries for Slovak language";
+    	// Slovaks understand Czech well. Give them the Czech translation.
+    	language_dict = wxLANGUAGE_CZECH;
+		BOOST_LOG_TRIVIAL(trace) << "Using Czech dictionaries for Slovak language";
     }
 
     // Select language for locales. This language may be different from the language of the dictionary.
@@ -2579,19 +2617,19 @@ bool GUI_App::load_language(wxString language, bool initial)
 #endif
 
     if (! wxLocale::IsAvailable(language_info->Language)) {
-        // Loading the language dictionary failed.
-        wxString message = "Switching CaribouSlicer to language " + language_info->CanonicalName + " failed.";
+    	// Loading the language dictionary failed.
+    	wxString message = "Switching PrusaSlicer to language " + language_info->CanonicalName + " failed.";
 #if !defined(_WIN32) && !defined(__APPLE__)
         // likely some linux system
         message += "\nYou may need to reconfigure the missing locales, likely by running the \"locale-gen\" and \"dpkg-reconfigure locales\" commands.\n";
 #endif
         if (initial)
-            message + "\n\nApplication will close.";
-        wxMessageBox(message, "CaribouSlicer - Switching language failed", wxOK | wxICON_ERROR);
+        	message + "\n\nApplication will close.";
+        wxMessageBox(message, "PrusaSlicer - Switching language failed", wxOK | wxICON_ERROR);
         if (initial)
-            std::exit(EXIT_FAILURE);
-        else
-            return false;
+			std::exit(EXIT_FAILURE);
+		else
+			return false;
     }
 
     // Release the old locales, create new locales.
@@ -2607,7 +2645,7 @@ bool GUI_App::load_language(wxString language, bool initial)
     //FIXME This is a temporary workaround, the correct solution is to switch to "C" locale during file import / export only.
     //wxSetlocale(LC_NUMERIC, "C");
     Preset::update_suffix_modified(format(" (%1%)", _L("modified")));
-    return true;
+	return true;
 }
 
 Tab* GUI_App::get_tab(Preset::Type type)
@@ -2624,11 +2662,11 @@ ConfigOptionMode GUI_App::get_mode()
         return comSimple;
 
     const auto mode = app_config->get("view_mode");
-    return mode == "expert" ? comExpert :
+    return mode == "expert" ? comExpert : 
            mode == "simple" ? comSimple : comAdvanced;
 }
 
-bool GUI_App::save_mode(const /*ConfigOptionMode*/int mode)
+bool GUI_App::save_mode(const /*ConfigOptionMode*/int mode) 
 {
     const std::string mode_str = mode == comExpert ? "expert" :
                                  mode == comSimple ? "simple" : "advanced";
@@ -2684,16 +2722,14 @@ wxMenu* GUI_App::get_config_menu(MainFrame* main_frame)
     // Cmd+, is standard on OS X - what about other operating systems?
     if (is_editor()) {
         local_menu->Append(config_id_base + ConfigMenuWizard, config_wizard_name + dots, config_wizard_tooltip);
-        local_menu->AppendSeparator();
         local_menu->Append(config_id_base + ConfigMenuSnapshots, _L("&Configuration Snapshots") + dots, _L("Inspect / activate configuration snapshots"));
         local_menu->Append(config_id_base + ConfigMenuTakeSnapshot, _L("Take Configuration &Snapshot"), _L("Capture a configuration snapshot"));
-        local_menu->AppendSeparator();
         local_menu->Append(config_id_base + ConfigMenuUpdateConf, _L("Check for Configuration Updates"), _L("Check for configuration updates"));
         local_menu->Append(config_id_base + ConfigMenuUpdateApp, _L("Check for Application Updates"), _L("Check for new version of application"));
-#if defined(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)
+#if defined(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION) 
         //if (DesktopIntegrationDialog::integration_possible())
-        local_menu->Append(config_id_base + ConfigMenuDesktopIntegration, _L("Desktop Integration"), _L("Desktop Integration"));
-#endif //(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)
+        local_menu->Append(config_id_base + ConfigMenuDesktopIntegration, _L("Desktop Integration"), _L("Desktop Integration"));    
+#endif //(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)        
         local_menu->AppendSeparator();
     }
 #ifdef __APPLE__
@@ -2718,8 +2754,8 @@ wxMenu* GUI_App::get_config_menu(MainFrame* main_frame)
         case ConfigMenuWizard:
             run_wizard(ConfigWizard::RR_USER);
             break;
-        case ConfigMenuUpdateConf:
-            check_updates(true);
+        case ConfigMenuUpdateConf: 
+            check_updates(true); 
             break;
         case ConfigMenuUpdateApp:
             app_version_check(true);
@@ -2727,7 +2763,7 @@ wxMenu* GUI_App::get_config_menu(MainFrame* main_frame)
 #ifdef __linux__
         case ConfigMenuDesktopIntegration:
             show_desktop_integration_dialog();
-            break;
+            break;   
 #endif
         case ConfigMenuTakeSnapshot:
             // Take a configuration snapshot.
@@ -2735,8 +2771,8 @@ wxMenu* GUI_App::get_config_menu(MainFrame* main_frame)
                 check_and_save_current_preset_changes(action_name, _L("Some presets are modified and the unsaved changes will not be captured by the configuration snapshot."), false, true)) {
                 wxTextEntryDialog dlg(nullptr, action_name, _L("Snapshot name"));
                 UpdateDlgDarkUI(&dlg);
-
-                // set current normal font for dialog children,
+                
+                // set current normal font for dialog children, 
                 // because of just dlg.SetFont(normal_font()) has no result;
                 for (auto child : dlg.GetChildren())
                     child->SetFont(normal_font());
@@ -2756,7 +2792,7 @@ wxMenu* GUI_App::get_config_menu(MainFrame* main_frame)
                 ConfigSnapshotDialog dlg(Slic3r::GUI::Config::SnapshotDB::singleton(), on_snapshot);
                 dlg.ShowModal();
                 if (!dlg.snapshot_to_activate().empty()) {
-                    if (! Config::SnapshotDB::singleton().is_on_snapshot(*app_config) &&
+                    if (! Config::SnapshotDB::singleton().is_on_snapshot(*app_config) && 
                         ! Config::take_config_snapshot_cancel_on_error(*app_config, Config::Snapshot::SNAPSHOT_BEFORE_ROLLBACK, "",
                                 GUI::format(_L("Continue to activate a configuration snapshot %1%?"), dlg.snapshot_to_activate())))
                         break;
@@ -2827,7 +2863,7 @@ wxMenu* GUI_App::get_config_menu(MainFrame* main_frame)
             break;
         }
     });
-
+    
     return local_menu;
 }
 
@@ -2859,7 +2895,7 @@ void GUI_App::open_preferences(const std::string& highlight_option /*= std::stri
     if (mainframe->preferences_dialog->settings_layout_changed()) {
         // hide full main_sizer for mainFrame
         mainframe->GetSizer()->Show(false);
-        mainframe->update_layout();
+        mainframe->update_layout();  
         mainframe->select_tab(size_t(0));
     }
 }
@@ -2934,7 +2970,7 @@ bool GUI_App::check_and_save_current_preset_changes(const wxString& caption, con
 
             load_current_presets(false);
 
-            // if we saved changes to the new presets, we should to
+            // if we saved changes to the new presets, we should to 
             // synchronize config.ini with the current selections.
             preset_bundle->export_selections(*app_config);
 
@@ -2994,19 +3030,19 @@ bool GUI_App::check_and_keep_current_preset_changes(const wxString& caption, con
                 for (const std::pair<std::string, Preset::Type>& nt : preset_names_and_types)
                     preset_bundle->save_changes_for_preset(nt.first, nt.second, dlg.get_unselected_options(nt.second));
 
-                // if we saved changes to the new presets, we should to
+                // if we saved changes to the new presets, we should to 
                 // synchronize config.ini with the current selections.
                 preset_bundle->export_selections(*app_config);
 
                 wxString text = dlg.msg_success_saved_modifications(preset_names_and_types.size());
                 if (!is_called_from_configwizard)
-                    text += "\n\n" + _L("For new project all modifications will be reset");
+                    text += "\n\n" + _L("For new project all modifications will be reseted");
 
                 MessageDialog(nullptr, text).ShowModal();
                 reset_modifications();
             }
             else if (dlg.transfer_changes() && (dlg.has_unselected_options() || is_called_from_configwizard)) {
-                // execute this part of code only if not all modifications are keeping to the new project
+                // execute this part of code only if not all modifications are keeping to the new project 
                 // OR this function is called when ConfigWizard is closed and "Keep modifications" is selected
                 for (const std::pair<std::string, Preset::Type>& nt : preset_names_and_types) {
                     Preset::Type type = nt.second;
@@ -3040,7 +3076,7 @@ bool GUI_App::can_load_project()
 {
     int saved_project = plater()->save_project_if_dirty(_L("Loading a new project while the current project is modified."));
     if (saved_project == wxID_CANCEL ||
-        (plater()->is_project_dirty() && saved_project == wxID_NO &&
+        (plater()->is_project_dirty() && saved_project == wxID_NO && 
          !check_and_save_current_preset_changes(_L("Project is loading"), _L("Opening new project while some presets are unsaved."))))
         return false;
     return true;
@@ -3091,19 +3127,19 @@ void GUI_App::load_current_presets(bool check_printer_presets_ /*= true*/)
         check_printer_presets();
 
     PrinterTechnology printer_technology = preset_bundle->printers.get_edited_preset().printer_technology();
-    this->plater()->set_printer_technology(printer_technology);
+	this->plater()->set_printer_technology(printer_technology);
     for (Tab *tab : tabs_list)
-        if (tab->supports_printer_technology(printer_technology)) {
-            if (tab->type() == Preset::TYPE_PRINTER) {
-                static_cast<TabPrinter*>(tab)->update_pages();
-                // Mark the plater to update print bed by tab->load_current_preset() from Plater::on_config_change().
-                this->plater()->force_print_bed_update();
-            }
+		if (tab->supports_printer_technology(printer_technology)) {
+			if (tab->type() == Preset::TYPE_PRINTER) {
+				static_cast<TabPrinter*>(tab)->update_pages();
+				// Mark the plater to update print bed by tab->load_current_preset() from Plater::on_config_change().
+				this->plater()->force_print_bed_update();
+			}
             else if (tab->type() == Preset::TYPE_FILAMENT)
                 // active extruder can be changed in a respect to the new loaded configurations, if some filament preset will be modified
                 static_cast<TabFilament*>(tab)->invalidate_active_extruder();
-            tab->load_current_preset();
-        }
+			tab->load_current_preset();
+		}
 }
 
 bool GUI_App::OnExceptionInMainLoop()
@@ -3123,7 +3159,7 @@ void GUI_App::OSXStoreOpenFiles(const wxArrayString &fileNames)
         if (is_gcode_file(into_u8(filename)))
             ++ num_gcodes;
     if (fileNames.size() == num_gcodes) {
-        // Opening CaribouSlicer by drag & dropping a G-Code onto CaribouSlicer icon in Finder,
+        // Opening PrusaSlicer by drag & dropping a G-Code onto PrusaSlicer icon in Finder,
         // just G-codes were passed. Switch to G-code viewer mode.
         m_app_mode = EAppMode::GCodeViewer;
         unlock_lockfile(get_instance_hash_string() + ".lock", data_dir() + "/cache/");
@@ -3151,14 +3187,14 @@ void GUI_App::MacOpenFiles(const wxArrayString &fileNames)
     if (m_app_mode == EAppMode::GCodeViewer) {
         // Running in G-code viewer.
         // Load the first G-code into the G-code viewer.
-        // Or if no G-codes, send other files to slicer.
+        // Or if no G-codes, send other files to slicer. 
         if (! gcode_files.empty()) {
             if (m_post_initialized)
                 this->plater()->load_gcode(gcode_files.front());
             else
                 this->init_params->input_files = { into_u8(gcode_files.front()) };
         }
-        if (!non_gcode_files.empty())
+        if (!non_gcode_files.empty()) 
             start_new_slicer(non_gcode_files, true);
     } else {
         if (! files.empty()) {
@@ -3180,7 +3216,7 @@ void GUI_App::MacOpenFiles(const wxArrayString &fileNames)
 void GUI_App::MacOpenURL(const wxString& url)
 {
     std::string narrow_url = into_u8(url);
-    if (boost::starts_with(narrow_url, "CaribouSlicer://open?file=")) {
+    if (boost::starts_with(narrow_url, "prusaslicer://open?file=")) {
         // This app config field applies only to downloading file
         // (we need to handle login URL even if this flag is set off)
         if (app_config && !app_config->get_bool("downloader_url_registered"))
@@ -3191,7 +3227,7 @@ void GUI_App::MacOpenURL(const wxString& url)
         }
 
         start_download(std::move(narrow_url));
-    } else if (boost::starts_with(narrow_url, "CaribouSlicer://login")) {
+    } else if (boost::starts_with(narrow_url, "prusaslicer://login")) {
         plater()->get_user_account()->on_login_code_recieved(std::move(narrow_url));
     } else {
         BOOST_LOG_TRIVIAL(error) << "MacOpenURL recieved improper URL: " << url;
@@ -3279,37 +3315,37 @@ int GUI_App::extruders_edited_cnt() const
 
 wxString GUI_App::current_language_code_safe() const
 {
-    // Translate the language code to a code, for which Prusa Research maintains translations.
-    const std::map<wxString, wxString> mapping {
-        { "cs",     "cs_CZ", },
-        { "sk",     "cs_CZ", },
-        { "de",     "de_DE", },
-        { "es",     "es_ES", },
-        { "fr",     "fr_FR", },
-        { "it",     "it_IT", },
-        { "ja",     "ja_JP", },
-        { "ko",     "ko_KR", },
-        { "pl",     "pl_PL", },
-        //{ "uk",     "uk_UA", },
-        //{ "zh",     "zh_CN", },
-        //{ "ru",     "ru_RU", },
-    };
-    wxString language_code = this->current_language_code().BeforeFirst('_');
-    auto it = mapping.find(language_code);
-    if (it != mapping.end())
-        language_code = it->second;
-    else
-        language_code = "en_US";
-    return language_code;
+	// Translate the language code to a code, for which Prusa Research maintains translations.
+	const std::map<wxString, wxString> mapping {
+		{ "cs", 	"cs_CZ", },
+		{ "sk", 	"cs_CZ", },
+		{ "de", 	"de_DE", },
+		{ "es", 	"es_ES", },
+		{ "fr", 	"fr_FR", },
+		{ "it", 	"it_IT", },
+		{ "ja", 	"ja_JP", },
+		{ "ko", 	"ko_KR", },
+		{ "pl", 	"pl_PL", },
+		//{ "uk", 	"uk_UA", },
+		//{ "zh", 	"zh_CN", },
+		//{ "ru", 	"ru_RU", },
+	};
+	wxString language_code = this->current_language_code().BeforeFirst('_');
+	auto it = mapping.find(language_code);
+	if (it != mapping.end())
+		language_code = it->second;
+	else
+		language_code = "en_US";
+	return language_code;
 }
 
 void GUI_App::open_web_page_localized(const std::string &http_address)
 {
-    open_browser_with_warning_dialog(http_address + "&lng=" + this->current_language_code_safe(), nullptr, false);
+    open_browser_with_warning_dialog(from_u8(http_address + "&lng=") + this->current_language_code_safe(), nullptr, false);
 }
 
-// If we are switching from the FFF-preset to the SLA, we should to control the printed objects if they have a part(s).
-// Because of we can't to print the multi-part objects with SLA technology.
+// If we are switching from the FFF-preset to the SLA, we should to control the printed objects if they have modifiers.
+// Modifiers are not supported in SLA mode.
 bool GUI_App::may_switch_to_SLA_preset(const wxString& caption)
 {
     if (model_has_parameter_modifiers_in_objects(model())) {
@@ -3326,47 +3362,15 @@ bool GUI_App::run_wizard(ConfigWizard::RunReason reason, ConfigWizard::StartPage
 {
     wxCHECK_MSG(mainframe != nullptr, false, "Internal error: Main frame not created / null");
 
-    // Cancel sync before starting wizard to prevent two downloads at same time.
-    preset_updater->cancel_sync();
-    // Show login dialog before wizard.
-#if 0
-    bool user_was_logged = plater()->get_user_account()->is_logged();
-    if (!user_was_logged) {
-        m_login_dialog = std::make_unique<LoginDialog>(mainframe, plater()->get_user_account());
-        m_login_dialog->ShowModal();
-        mainframe->RemoveChild(m_login_dialog.get());
-        m_login_dialog->Destroy();
-        // Destructor does not call Destroy.
-        m_login_dialog.reset();
-    }
-#endif // 0
-
-    // ConfigWizard can take some time to start. Because it is a wxWidgets window, it has to be done
-    // in UI thread, so displaying a nice modal dialog and letting the CW start in a worker thread
-    // is not an option. Let's at least show a modeless dialog before the UI thread freezes.
-    // TRN: Text showing while the ConfigWizard is loading, so the user knows something is happening.
-    auto cw_loading_dlg =  new ConfigWizardLoadingDialog(mainframe, _L("Loading Configuration Assistent..."));
-    cw_loading_dlg->CenterOnParent();
-    cw_loading_dlg->Show();
-    wxYield();
-
-    // We have to update repos
-    plater()->get_preset_archive_database()->sync_blocking();
-
-    if (reason == ConfigWizard::RunReason::RR_USER) {
-        // Since there might be new repos, we need to sync preset updater
-        const SharedArchiveRepositoryVector &repos = plater()->get_preset_archive_database()->get_selected_archive_repositories();
-        preset_updater->sync_blocking(preset_bundle, this, repos);
-        preset_updater->update_index_db();
-        // Offer update installation.
-        preset_updater->config_update(app_config->orig_version(), PresetUpdater::UpdateParams::SHOW_TEXT_BOX, repos);
-    }
-
+    // Loading of Config Wizard takes some time. 
+    // First part is to download neccessary data.
+    // That is done on worker thread while nice modal progress is shown.
+    // TRN: Progress dialog title
+    get_preset_updater_wrapper()->wizard_sync(preset_bundle, app_config->orig_version(), mainframe, reason == ConfigWizard::RunReason::RR_USER, _L("Opening Configuration Wizard"));
+    // Then the wizard itself will start and that also takes time.
+    // But for now no ui is shown until then. (Showing modal progress dialog while showing another would be a headacke)
     m_config_wizard = new ConfigWizard(mainframe);
-    cw_loading_dlg->Close();
-
     const bool res = m_config_wizard->run(reason, start_page);
-
 
     // !!! Deallocate memory after close ConfigWizard.
     // Note, that mainframe is a parent of ConfigWizard.
@@ -3379,9 +3383,13 @@ bool GUI_App::run_wizard(ConfigWizard::RunReason reason, ConfigWizard::StartPage
     if (res) {
         load_current_presets();
 
-        // #ysFIXME - delete after testing: This part of code looks redundant. All checks are inside ConfigWizard::priv::apply_config()
-        if (preset_bundle->printers.get_edited_preset().printer_technology() == ptSLA)
-            may_switch_to_SLA_preset(_L("Configuration is editing from ConfigWizard"));
+        for (Tab* tab : tabs_list) {
+            if (tab->type() == Preset::TYPE_PRINTER) {
+                if (!tab->IsShown())
+                    mainframe->select_tab(size_t(0));
+                break;
+            }
+        }
     }
     return res;
 }
@@ -3415,8 +3423,8 @@ void GUI_App::show_downloader_registration_dialog()
         , true, wxYES_NO);
     if (msg.ShowModal() == wxID_YES) {
         auto downloader_worker = new DownloaderUtils::Worker(nullptr);
-        downloader_worker->perform_register(app_config->get("url_downloader_dest"));
-#if defined(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)
+        downloader_worker->perform_download_register(app_config->get("url_downloader_dest"));
+#if defined(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION) 
         if (DownloaderUtils::Worker::perform_registration_linux)
             DesktopIntegrationDialog::perform_downloader_desktop_integration();
 #endif //(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)
@@ -3569,8 +3577,8 @@ bool GUI_App::config_wizard_startup()
 
         run_wizard(ConfigWizard::RR_DATA_LEGACY);
         return true;
-    }
-#ifndef __APPLE__
+    } 
+#ifndef __APPLE__    
     else if (is_editor() && m_last_app_conf_lower_version && app_config->get_bool("downloader_url_registered")) {
         show_downloader_registration_dialog();
         return true;
@@ -3580,84 +3588,87 @@ bool GUI_App::config_wizard_startup()
 }
 
 bool GUI_App::check_updates(const bool invoked_by_user)
-{
-     if (invoked_by_user) {
-        // do preset_updater sync so if user runs slicer for a long time, check for updates actually delivers updates.
-        // for preset_updater sync we need to sync archive database first
-        plater()->get_preset_archive_database()->sync_blocking();
-        // Now re-extract offline repos
-        std::string failed_paths;
-        if (!plater()->get_preset_archive_database()->extract_archives_with_check(failed_paths)) {
-            int cnt = std::count(failed_paths.begin(), failed_paths.end(), '\n') + 1;
-            // TRN: %1% contains paths from which loading failed. They are separated by \n, there is no \n at the end.
-            failed_paths = GUI::format(_L_PLURAL("It was not possible to extract data from %1%. The source will not be updated.",
-                "It was not possible to extract data for following local sources. They will not be updated.\n\n %1%", cnt), failed_paths);
-            show_error(nullptr, failed_paths);
-        }
-        // then its time for preset_updater sync
-        preset_updater->sync_blocking(preset_bundle, this, plater()->get_preset_archive_database()->get_selected_archive_repositories());
-        // and then we check updates
-    }
-
+{	
     PresetUpdater::UpdateResult updater_result;
-    try {
-        preset_updater->update_index_db();
-        updater_result = preset_updater->config_update(app_config->orig_version(), invoked_by_user ? PresetUpdater::UpdateParams::SHOW_TEXT_BOX : PresetUpdater::UpdateParams::SHOW_NOTIFICATION, plater()->get_preset_archive_database()->get_selected_archive_repositories());
-        if (updater_result == PresetUpdater::R_INCOMPAT_EXIT) {
-            mainframe->Close();
-            // Applicaiton is closing.
-            return false;
-        }
-        else if (updater_result == PresetUpdater::R_INCOMPAT_CONFIGURED) {
-            m_app_conf_exists = true;
-        }
-        else if (invoked_by_user && updater_result == PresetUpdater::R_NOOP) {
-            MsgNoUpdates dlg;
-            dlg.ShowModal();
-        }
+    if (invoked_by_user)
+    {
+         updater_result = get_preset_updater_wrapper()->check_updates_on_user_request(preset_bundle, app_config->orig_version(), mainframe);
+    } else {
+        updater_result = get_preset_updater_wrapper()->check_updates_on_startup( app_config->orig_version());
     }
-    catch (const std::exception & ex) {
-        show_error(nullptr, ex.what());
-    }
+	if (updater_result == PresetUpdater::R_INCOMPAT_EXIT) {
+		mainframe->Close();
+        // Applicaiton is closing.
+        return false;
+	}
+	else if (updater_result == PresetUpdater::R_INCOMPAT_CONFIGURED) {
+        m_app_conf_exists = true;
+	}
+	else if (invoked_by_user && updater_result == PresetUpdater::R_NOOP) {
+		MsgNoUpdates dlg;
+		dlg.ShowModal();
+	}
     // Applicaiton will continue.
     return true;
 }
+namespace {
+bool open_dialog_hyperlink_checkbox(wxWindow* parent, AppConfig* app_config)
+{
+    RichMessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("PrusaSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
+    dialog.ShowCheckBox(_L("Remember my choice"));
+    auto answer = dialog.ShowModal();
+    bool launch = answer == wxID_YES;
+    if (dialog.IsCheckBoxChecked()) {
+        wxString preferences_item = _L("Suppress to open hyperlink in browser");
+        wxString msg =
+            _L("PrusaSlicer will remember your choice.") + "\n\n" +
+            _L("You will not be asked about it again on hyperlinks hovering.") + "\n\n" +
+            format_wxstr(_L("Visit \"Preferences\" and check \"%1%\"\nto changes your choice."), preferences_item);
 
+        MessageDialog msg_dlg(parent, msg, _L("PrusaSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
+        if (msg_dlg.ShowModal() == wxID_CANCEL)
+            return false;
+        app_config->set("suppress_hyperlinks", answer == wxID_NO ? "1" : "0");
+    }
+    return launch;
+}
+bool open_dialog_hyperlink(wxWindow* parent)
+{
+    MessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("PrusaSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
+    return dialog.ShowModal() == wxID_YES;
+}
+}
 bool GUI_App::open_browser_with_warning_dialog(const wxString& url, wxWindow* parent/* = nullptr*/, bool force_remember_choice /*= true*/, int flags/* = 0*/)
 {
+    enum class SupressHyperLinksOption{
+        SHLO_UNCHECKED,
+        SHLO_ALWAYS_SUPRESS,
+        SHLO_ALWAYS_ALLOW
+    };
+    bool empty = app_config->get("suppress_hyperlinks").empty();
+    bool checked = app_config->get_bool("suppress_hyperlinks");
+    SupressHyperLinksOption opt_val = 
+        (empty 
+            ? SupressHyperLinksOption::SHLO_UNCHECKED
+            : (checked  
+                ? SupressHyperLinksOption::SHLO_ALWAYS_SUPRESS 
+                : SupressHyperLinksOption::SHLO_ALWAYS_ALLOW));
     bool launch = true;
-
-    // warning dialog containes a "Remember my choice" checkbox
-    std::string option_key = "suppress_hyperlinks";
-    if (force_remember_choice || app_config->get(option_key).empty()) {
-        if (app_config->get(option_key).empty()) {
-            RichMessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("CaribouSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
-            dialog.ShowCheckBox(_L("Remember my choice"));
-            auto answer = dialog.ShowModal();
-            launch = answer == wxID_YES;
-            if (dialog.IsCheckBoxChecked()) {
-                wxString preferences_item = _L("Suppress to open hyperlink in browser");
-                wxString msg =
-                    _L("CaribouSlicer will remember your choice.") + "\n\n" +
-                    _L("You will not be asked about it again on hyperlinks hovering.") + "\n\n" +
-                    format_wxstr(_L("Visit \"Preferences\" and check \"%1%\"\nto changes your choice."), preferences_item);
-
-                MessageDialog msg_dlg(parent, msg, _L("CaribouSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
-                if (msg_dlg.ShowModal() == wxID_CANCEL)
-                    return false;
-                app_config->set(option_key, answer == wxID_NO ? "1" : "0");
-            }
-        }
-        if (launch)
-            launch = !app_config->get_bool(option_key);
-    }
-    // warning dialog doesn't containe a "Remember my choice" checkbox
-    // and will be shown only when "Suppress to open hyperlink in browser" is ON.
-    else if (app_config->get_bool(option_key)) {
-        MessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("CaribouSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
-        launch = dialog.ShowModal() == wxID_YES;
-    }
-
+    if (opt_val == SupressHyperLinksOption::SHLO_UNCHECKED) {
+        // no previous action from user
+        // open dialog with remember checkbox
+        launch = open_dialog_hyperlink_checkbox(parent, app_config);
+    } else if (opt_val == SupressHyperLinksOption::SHLO_ALWAYS_ALLOW) {
+        // user already set checkbox to always open
+        launch = true;
+    } else if (opt_val == SupressHyperLinksOption::SHLO_ALWAYS_SUPRESS && force_remember_choice) {
+        // user already set checkbox or preferences to always supress
+        launch = false;
+    } else if (opt_val == SupressHyperLinksOption::SHLO_ALWAYS_SUPRESS && !force_remember_choice) {
+        // user already set checkbox or preferences to always supress but it is overriden
+        // no checkbox in dialog
+        launch = open_dialog_hyperlink(parent);
+    } 
     return  launch && wxLaunchDefaultBrowser(url, flags);
 }
 
@@ -3665,7 +3676,7 @@ bool GUI_App::open_login_browser_with_dialog(const wxString& url, wxWindow* pare
 {
     bool auth_login_dialog_confirmed = app_config->get_bool("auth_login_dialog_confirmed");
     if (!auth_login_dialog_confirmed) {
-        RichMessageDialog dialog(parent, _L("Open default browser with Prusa Account Log in page?\n(If you select 'Yes', you will not be asked again.)"), _L("CaribouSlicer: Open Log in page"), wxICON_QUESTION | wxYES_NO);
+        RichMessageDialog dialog(parent, _L("Open default browser with Prusa Account Log in page?\n(If you select 'Yes', you will not be asked again.)"), _L("PrusaSlicer: Open Log in page"), wxICON_QUESTION | wxYES_NO);
          if (dialog.ShowModal() != wxID_YES)
              return false;
          app_config->set("auth_login_dialog_confirmed", "1");
@@ -3692,7 +3703,7 @@ bool GUI_App::open_login_browser_with_dialog(const wxString& url, wxWindow* pare
 //     // try harder to attract user attention on OS X
 //     if (!frame->IsActive())
 //         frame->RequestUserAttention(defined(__WXOSX__/*&Wx::wxMAC */)? wxUSER_ATTENTION_ERROR : wxUSER_ATTENTION_INFO);
-//
+// 
 //     // There used to be notifier using a Growl application for OSX, but Growl is dead.
 //     // The notifier also supported the Linux X D - bus notifications, but that support was broken.
 //     //TODO use wxNotificationMessage ?
@@ -3702,22 +3713,22 @@ bool GUI_App::open_login_browser_with_dialog(const wxString& url, wxWindow* pare
 #ifdef __WXMSW__
 void GUI_App::associate_3mf_files()
 {
-    associate_file_type(L".3mf", L"Caribou.Slicer.1", L"CaribouSlicer", true);
+    associate_file_type(L".3mf", L"Prusa.Slicer.1", L"PrusaSlicer", true);
 }
 
 void GUI_App::associate_stl_files()
 {
-    associate_file_type(L".stl", L"Caribou.Slicer.1", L"CaribouSlicer", true);
+    associate_file_type(L".stl", L"Prusa.Slicer.1", L"PrusaSlicer", true);
 }
 
 void GUI_App::associate_gcode_files()
 {
-    associate_file_type(L".gcode", L"Caribou.GCodeViewer.1", L"CaribouGcodeviewer", true);
+    associate_file_type(L".gcode", L"PrusaSlicer.GCodeViewer.1", L"PrusaSlicerGCodeViewer", true);
 }
 
 void GUI_App::associate_bgcode_files()
 {
-    associate_file_type(L".bgcode", L"Caribou.GCodeViewer.1", L"CaribouGcodeviewer", true);
+    associate_file_type(L".bgcode", L"PrusaSlicer.GCodeViewer.1", L"PrusaSlicerGCodeViewer", true);
 }
 #endif // __WXMSW__
 
@@ -3732,7 +3743,7 @@ void GUI_App::on_version_read(wxCommandEvent& evt)
     if (*Semver::parse(SLIC3R_VERSION) >= *Semver::parse(into_u8(evt.GetString()))) {
         if (m_app_updater->get_triggered_by_user())
         {
-            std::string text = (*Semver::parse(into_u8(evt.GetString())) == Semver())
+            std::string text = (*Semver::parse(into_u8(evt.GetString())) == Semver()) 
                 ? _u8L("Check for application update has failed.")
                 : Slic3r::format(_u8L("You are currently running the latest released version %1%."), evt.GetString());
 
@@ -3757,7 +3768,7 @@ void GUI_App::on_version_read(wxCommandEvent& evt)
         , [](wxEvtHandler* evnthndlr) {wxGetApp().open_web_page_localized("https://www.prusa3d.com/slicerweb"); return true; }
     );
     */
-    // updater
+    // updater 
     // read triggered_by_user that was set when calling  GUI_App::app_version_check
     app_updater(m_app_updater->get_triggered_by_user());
 }
@@ -3779,7 +3790,7 @@ void GUI_App::app_updater(bool from_user)
     assert(!app_data.target_path.empty());
 
     // dialog with new version info
-    AppUpdateAvailableDialog dialog(*Semver::parse(SLIC3R_VERSION), *app_data.version, from_user);
+    AppUpdateAvailableDialog dialog(*Semver::parse(SLIC3R_VERSION), *app_data.version, from_user, app_data.action == AppUpdaterURLAction::AUUA_OPEN_IN_BROWSER);
     auto dialog_result = dialog.ShowModal();
     // checkbox "do not show again"
     if (dialog.disable_version_check()) {
@@ -3787,6 +3798,10 @@ void GUI_App::app_updater(bool from_user)
     }
     // Doesn't wish to update
     if (dialog_result != wxID_OK) {
+        return;
+    }
+    if (app_data.action == AppUpdaterURLAction::AUUA_OPEN_IN_BROWSER) {
+        open_browser_with_warning_dialog(from_u8(app_data.url), nullptr, false);
         return;
     }
     // dialog with new version download (installer or app dependent on system) including path selection
@@ -3821,7 +3836,7 @@ void GUI_App::start_download(std::string url)
 {
     if (!plater_) {
         BOOST_LOG_TRIVIAL(error) << "Could not start URL download: plater is nullptr.";
-        return;
+        return; 
     }
 
     #if defined(__APPLE__) || (defined(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION))
@@ -3833,10 +3848,10 @@ void GUI_App::start_download(std::string url)
     }
     #endif //defined(__APPLE__) || (defined(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION))
 
-    //lets always init so if the download dest folder was changed, new dest is used
+    //lets always init so if the download dest folder was changed, new dest is used 
         boost::filesystem::path dest_folder(app_config->get("url_downloader_dest"));
         if (dest_folder.empty() || !boost::filesystem::is_directory(dest_folder)) {
-            std::string msg = _u8L("Could not start URL download. Destination folder is not set. Please choose destination folder in Configuration Assistent.");
+            std::string msg = _u8L("Could not start URL download. Destination folder is not set. Please choose destination folder in Configuration Wizard.");
             BOOST_LOG_TRIVIAL(error) << msg;
             show_error(nullptr, msg);
             return;
@@ -3857,15 +3872,15 @@ void GUI_App::open_wifi_config_dialog(bool forced, const wxString& drive_path/* 
         // dialog was already declined this run, show only notification
         notification_manager()->push_notification(NotificationType::WifiConfigFileDetected
             , NotificationManager::NotificationLevel::ImportantNotificationLevel
-            // TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present
+            // TRN Text of notification when Slicer starts and usb stick with printer settings ini file is present 
             , _u8L("Printer configuration file detected on removable media.")
-            // TRN Text of hypertext of notification when Slicer starts and usb stick with printer settings ini file is present
+            // TRN Text of hypertext of notification when Slicer starts and usb stick with printer settings ini file is present 
             , _u8L("Write Wi-Fi credentials."), [drive_path](wxEvtHandler* evt_hndlr) {
                 wxGetApp().open_wifi_config_dialog(true, drive_path);
                 return true; });
         return;
     }
-
+    
     m_wifi_config_dialog_shown = true;
     std::string file_path;
     WifiConfigDialog dialog(mainframe, file_path, removable_drive_manager(), drive_path);
@@ -3897,19 +3912,95 @@ bool GUI_App::select_printer_preset(const Preset* preset)
         preset_bundle->printers.select_preset(preset_id);
         is_installed = true;
     }
-
+            
     get_tab(Preset::Type::TYPE_PRINTER)->select_preset(preset->name);
     return is_installed;
 }
 
+namespace {
+const Preset* find_preset_by_nozzle_and_options(
+    const PrinterPresetCollection& collection
+    , const std::string& model_id
+    , std::map<std::string, std::vector<std::string>>& options) 
+{
+    // find all matching presets when repo prefix is ommited
+    std::vector<const Preset*> results;
+    for (const Preset &preset : collection) {
+        // trim repo prefix
+        std::string printer_model = preset.config.opt_string("printer_model");
+        const PresetWithVendorProfile& printer_with_vendor = collection.get_preset_with_vendor_profile(preset);
+        printer_model = preset.trim_vendor_repo_prefix(printer_model, printer_with_vendor.vendor);
+       
+        if (!preset.is_system || printer_model != model_id)
+            continue;
+        // options (including nozzle_diameter)
+        bool failed = false;
+        for (const auto& opt : options) {
+            assert(preset.config.has(opt.first));
+            // We compare only first value now, but options contains data for all (some might be empty tho)
+            std::string opt_val;
+            if (preset.config.option(opt.first)->is_scalar()) {
+                opt_val = preset.config.option(opt.first)->serialize();
+            } else {
+                switch (preset.config.option(opt.first)->type()) {
+                case coInts:     opt_val = std::to_string(static_cast<const ConfigOptionInts*>(preset.config.option(opt.first))->values[0]); break;
+                case coFloats:   
+                    opt_val = into_u8(double_to_string(static_cast<const ConfigOptionFloats*>(preset.config.option(opt.first))->values[0]));
+                    if (size_t pos = opt_val.find(",") != std::string::npos)
+                        opt_val.replace(pos, 1, 1, '.');
+                    break;
+                case coStrings:  opt_val = static_cast<const ConfigOptionStrings*>(preset.config.option(opt.first))->values[0]; break;
+                case coBools:    opt_val = static_cast<const ConfigOptionBools*>(preset.config.option(opt.first))->values[0] ? "1" : "0"; break;
+                default:
+                   assert(false);
+                   continue;
+                }
+            }
+           
+            if (opt_val != opt.second[0])
+            {
+                failed = true;
+                break;
+            }
+        }
+        if (!failed) {
+            results.push_back(&preset);
+        }
+    }
+    // find visible without prefix
+    for (const Preset *preset : results) {
+        if (preset->is_visible && preset->config.opt_string("printer_model") == model_id) {
+            return preset;
+        }
+    }
+    // find one visible
+    for (const Preset *preset : results) {
+        if (preset->is_visible) {
+            return preset;
+        }
+    }
+    // find one without prefix
+    for (const Preset* preset : results) {
+        if (preset->config.opt_string("printer_model") == model_id) {
+            return preset;
+        }
+    }
+    if (results.size() != 0) {
+       return results.front();
+    }
+    return nullptr;
+}
+}
+
 bool GUI_App::select_printer_from_connect(const std::string& msg)
 {
-    // parse message
-    std::string model_name = plater()->get_user_account()->get_keyword_from_json(msg, "printer_model");
-    std::string uuid = plater()->get_user_account()->get_keyword_from_json(msg, "uuid");
+    // parse message "binary_gcode"
+    boost::property_tree::ptree ptree;
+    std::string model_name = UserAccountUtils::get_keyword_from_json(ptree, msg, "printer_model");
+    std::string uuid = UserAccountUtils::get_keyword_from_json(ptree, msg, "uuid");
     if (model_name.empty()) {
         std::vector<std::string> compatible_printers;
-        plater()->get_user_account()->fill_supported_printer_models_from_json(msg, compatible_printers);
+        UserAccountUtils::fill_supported_printer_models_from_json(ptree, compatible_printers);
         if (!compatible_printers.empty())  {
             model_name = compatible_printers.front();
         }
@@ -3918,10 +4009,23 @@ bool GUI_App::select_printer_from_connect(const std::string& msg)
         BOOST_LOG_TRIVIAL(error) << "Failed to select printer from Connect. Printer_model is empty.";
         return false;
     }
-    std::string nozzle = plater()->get_user_account()->get_nozzle_from_json(msg);
-    BOOST_LOG_TRIVIAL(info) << "Select printer from Connect. Model: " << model_name << "nozzle: " << nozzle;
+    std::map<std::string, std::vector<std::string>> config_options_to_match; 
+    UserAccountUtils::fill_config_options_from_json(ptree, config_options_to_match);
+    // prevent not having nozzle diameter
+    if (config_options_to_match.find("nozzle_diameter") == config_options_to_match.end()) {
+        std::string diameter = UserAccountUtils::get_keyword_from_json(ptree, msg, "nozzle_diameter");
+        if (!diameter.empty())
+             config_options_to_match["nozzle_diameter"] = {diameter};
+    }
+    // log
+    BOOST_LOG_TRIVIAL(info) << "Select printer from Connect. Model: " << model_name;
+    for(const auto& pair :config_options_to_match) {
+        std::string out;
+        for(const std::string& val :pair.second) { out += val + ",";}
+        BOOST_LOG_TRIVIAL(info) << pair.first << ": " << out;
+    }
     // select printer
-    const Preset* printer_preset = preset_bundle->printers.find_system_preset_by_model_and_variant(model_name, nozzle);
+    const Preset* printer_preset = find_preset_by_nozzle_and_options(preset_bundle->printers, model_name, config_options_to_match);
     bool is_installed = printer_preset && select_printer_preset(printer_preset);
     // notification
     std::string out = printer_preset ?
@@ -3942,7 +4046,7 @@ bool GUI_App::select_filament_preset(const Preset* preset, size_t extruder_index
     assert(preset && preset->is_compatible);
 
     if (!preset->is_visible) {
-        // To correct update of presets visibility call select_preset for preset_bundle->filaments()
+        // To correct update of presets visibility call select_preset for preset_bundle->filaments() 
         size_t preset_id = preset_bundle->filaments.get_preset_idx_by_name(preset->name);
         assert(preset_id != size_t(-1));
         preset_bundle->filaments.select_preset(preset_id);
@@ -3950,11 +4054,14 @@ bool GUI_App::select_filament_preset(const Preset* preset, size_t extruder_index
     assert(preset->is_visible);
     return preset_bundle->extruders_filaments[extruder_index].select_filament(preset->name);
 }
-void GUI_App::search_and_select_filaments(const std::string& material, size_t extruder_index, std::string& out_message)
+void GUI_App::search_and_select_filaments(const std::string& material, bool avoid_abrasive, size_t extruder_index, std::string& out_message)
 {
     const Preset* preset = preset_bundle->extruders_filaments[extruder_index].get_selected_preset();
     // selected is ok
-    if (!preset->is_default && preset->config.has("filament_type") && preset->config.option("filament_type")->serialize() == material) {
+    if (!preset->is_default && preset->config.has("filament_type")
+        && (!avoid_abrasive || preset->config.option<ConfigOptionBools>("filament_abrasive")->values[0] == false) 
+        && preset->config.option("filament_type")->serialize() == material) 
+    {
         return;
     }
     // find installed compatible filament that is Prusa with suitable type and select it
@@ -3964,6 +4071,7 @@ void GUI_App::search_and_select_filaments(const std::string& material, size_t ex
             && filament.preset->is_visible
             && (!filament.preset->vendor || !filament.preset->vendor->templates_profile)
             && filament.preset->config.has("filament_type")
+            && (!avoid_abrasive || filament.preset->config.option<ConfigOptionBools>("filament_abrasive")->values[0] == false)
             && filament.preset->config.option("filament_type")->serialize() == material
             && filament.preset->name.compare(0, 9, "Prusament") == 0
             && select_filament_preset(filament.preset, extruder_index)
@@ -3982,6 +4090,7 @@ void GUI_App::search_and_select_filaments(const std::string& material, size_t ex
             && filament.preset->is_visible
             && (!filament.preset->vendor || !filament.preset->vendor->templates_profile)
             && filament.preset->config.has("filament_type")
+            && (!avoid_abrasive || filament.preset->config.option<ConfigOptionBools>("filament_abrasive")->values[0] == false)
             && filament.preset->config.option("filament_type")->serialize() == material
             && select_filament_preset(filament.preset, extruder_index)
             )
@@ -3999,6 +4108,7 @@ void GUI_App::search_and_select_filaments(const std::string& material, size_t ex
             && !filament.preset->is_default
             && (!filament.preset->vendor || !filament.preset->vendor->templates_profile)
             && filament.preset->config.has("filament_type")
+            && (!avoid_abrasive || filament.preset->config.option<ConfigOptionBools>("filament_abrasive")->values[0] == false)
             && filament.preset->config.option("filament_type")->serialize() == material
             && filament.preset->name.compare(0, 9, "Prusament") == 0
             && select_filament_preset(filament.preset, extruder_index))
@@ -4014,49 +4124,53 @@ void GUI_App::select_filament_from_connect(const std::string& msg)
 {
     // parse message
     std::vector<std::string> materials;
-    plater()->get_user_account()->fill_material_from_json(msg, materials);
+    std::vector<bool> avoid_abrasive;
+    UserAccountUtils::fill_material_from_json(msg, materials, avoid_abrasive);
     if (materials.empty()) {
         BOOST_LOG_TRIVIAL(error) << "Failed to select filament from Connect. No material data.";
         return;
     }
     // test if currently selected is same type
     size_t extruder_count = preset_bundle->extruders_filaments.size();
-    if (extruder_count != materials.size()) {
+    if (extruder_count < materials.size()) {
         BOOST_LOG_TRIVIAL(error) << format("Failed to select filament from Connect. Selected printer has %1% extruders while data from Connect contains %2% materials.", extruder_count, materials.size());
+        plater()->get_notification_manager()->close_notification_of_type(NotificationType::SelectFilamentFromConnect);
+        // TRN: Notification text.
+        plater()->get_notification_manager()->push_notification(NotificationType::SelectFilamentFromConnect, NotificationManager::NotificationLevel::ImportantNotificationLevel, _u8L("Failed to select filament from Connect."));
         return;
     }
     std::string notification_text;
-    for (size_t i = 0; i < extruder_count; i++) {
-        search_and_select_filaments(materials[i], i, notification_text);
+    for (size_t i = 0; i < materials.size(); i++) {
+        search_and_select_filaments(materials[i], avoid_abrasive.size() > i ? avoid_abrasive[i] : false, i, notification_text);
     }
 
-    // When all filaments are selected/intalled,
+    // When all filaments are selected/intalled, 
     // then update preset comboboxes on sidebar
     sidebar().update_presets(Preset::TYPE_FILAMENT);
     // and filaments tab
     TabFilament* tab = dynamic_cast<TabFilament*>(get_tab(Preset::TYPE_FILAMENT));
     tab->select_preset(preset_bundle->extruders_filaments[tab->get_active_extruder()].get_selected_preset_name());
-
+    
     if (!notification_text.empty()) {
         plater()->get_notification_manager()->close_notification_of_type(NotificationType::SelectFilamentFromConnect);
         plater()->get_notification_manager()->push_notification(NotificationType::SelectFilamentFromConnect, NotificationManager::NotificationLevel::ImportantNotificationLevel, notification_text);
     }
 }
 
-void GUI_App::handle_connect_request_printer_select(const std::string& msg)
+void GUI_App::handle_connect_request_printer_select(const std::string& msg) 
 {
     // Here comes code from ConnectWebViewPanel
     // It only contains uuid of a printer to be selected
     // Lets queue it and wait on result. The result is send via event to plater, where it is send to handle_connect_request_printer_select_inner
-    std::string uuid = plater()->get_user_account()->get_keyword_from_json(msg, "uuid");
+    boost::property_tree::ptree ptree;
+    std::string uuid = UserAccountUtils::get_keyword_from_json(ptree, msg, "uuid");
     plater()->get_user_account()->enqueue_printer_data_action(uuid);
 }
 void GUI_App::handle_connect_request_printer_select_inner(const std::string & msg)
 {
-    BOOST_LOG_TRIVIAL(debug) << "Handling web request: " << msg;
+     BOOST_LOG_TRIVIAL(debug) << "Handling web request: " << msg;
     // return to plater
     this->mainframe->select_tab(size_t(0));
-
     if (!select_printer_from_connect(msg)) {
         // If printer was not selected, do not select filament.
         return;
@@ -4071,6 +4185,81 @@ void GUI_App::handle_connect_request_printer_select_inner(const std::string & ms
 void GUI_App::show_printer_webview_tab()
 {
     mainframe->show_printer_webview_tab(preset_bundle->physical_printers.get_selected_printer_config());
+}
+
+
+void GUI_App::printables_download_request(const std::string& download_url, const std::string& model_url)
+{
+    //this->mainframe->select_tab(size_t(0));
+
+    //lets always init so if the download dest folder was changed, new dest is used 
+    boost::filesystem::path dest_folder(app_config->get("url_downloader_dest"));
+    if (dest_folder.empty() || !boost::filesystem::is_directory(dest_folder)) {
+        std::string msg = _u8L("Could not start URL download. Destination folder is not set. Please choose destination folder in Configuration Wizard.");
+        BOOST_LOG_TRIVIAL(error) << msg;
+        show_error(nullptr, msg);
+        return;
+    }
+    m_downloader->init(dest_folder);
+    m_downloader->start_download_printables(download_url, false, model_url, this);
+}
+void GUI_App::printables_slice_request(const std::string& download_url, const std::string& model_url)
+{
+    this->mainframe->select_tab(size_t(0));
+    
+    //lets always init so if the download dest folder was changed, new dest is used 
+    boost::filesystem::path dest_folder(app_config->get("url_downloader_dest"));
+    if (dest_folder.empty() || !boost::filesystem::is_directory(dest_folder)) {
+        std::string msg = _u8L("Could not start URL download. Destination folder is not set. Please choose destination folder in Configuration Wizard.");
+        BOOST_LOG_TRIVIAL(error) << msg;
+        show_error(nullptr, msg);
+        return;
+    }
+    m_downloader->init(dest_folder);
+    m_downloader->start_download_printables(download_url, true, model_url, this);
+}
+
+void GUI_App::printables_login_request()
+{
+    plater_->get_user_account()->do_login();
+}
+
+void GUI_App::open_link_in_printables(const std::string& url)
+{
+    mainframe->show_printables_tab(url);
+}
+
+ bool GUI_App::is_account_logged_in() const
+ {
+     if (!plater_ || !plater_->get_user_account()) {
+         return false;
+     }
+     return plater_->get_user_account()->is_logged();
+ }
+
+bool LogGui::ignorred_message(const wxString& msg)
+{    
+    for(const wxString& err : std::initializer_list<wxString>{ wxString("cHRM chunk does not match sRGB"),
+                                                               wxString("known incorrect sRGB profile"),
+                                                               wxString("Error running JavaScript")}) {
+        if (msg.Contains(err))
+            return true;
+    }
+    return false;
+}
+
+void LogGui::DoLogText(const wxString& msg)
+{
+    if (ignorred_message(msg))
+        return;
+    wxLogGui::DoLogText(msg);
+}
+
+void LogGui::DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info)
+{
+    if (ignorred_message(msg))
+        return;
+    wxLogGui::DoLogRecord(level, msg, info);
 }
 
 } // GUI

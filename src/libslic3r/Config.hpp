@@ -23,6 +23,17 @@
 #define slic3r_Config_hpp_
 
 #include <assert.h>
+#include <float.h>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/format/format_fwd.hpp>
+#include <boost/functional/hash.hpp>
+#include <boost/property_tree/ptree_fwd.hpp>
+#include <cereal/access.hpp>
+#include <cereal/types/base_class.hpp>
+#include <ctype.h>
+#include <boost/container_hash/hash.hpp>
+#include <cereal/cereal.hpp>
 #include <map>
 #include <climits>
 #include <limits>
@@ -35,26 +46,30 @@
 #include <string_view>
 #include <type_traits>
 #include <vector>
-#include <float.h>
+#include <algorithm>
+#include <cmath>
+#include <initializer_list>
+#include <memory>
+#include <optional>
+#include <utility>
+#include <variant>
+#include <cassert>
+#include <cctype>
+#include <cfloat>
+
 #include "libslic3r.h"
 #include "clonable_ptr.hpp"
 #include "Exception.hpp"
 #include "Point.hpp"
-
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/trim.hpp>
-#include <boost/format/format_fwd.hpp>
-#include <boost/functional/hash.hpp>
-#include <boost/property_tree/ptree_fwd.hpp>
-
-#include <cereal/access.hpp>
-#include <cereal/types/base_class.hpp>
+#include "LocalesUtils.hpp"
 
 namespace Slic3r {
     struct FloatOrPercent
     {
         double  value;
         bool    percent;
+
+        double get_abs_value(double ratio_over) const { return this->percent ? (ratio_over * this->value / 100) : this->value; }
 
     private:
         friend class cereal::access;
@@ -254,6 +269,7 @@ enum ForwardCompatibilitySubstitutionRule
 class  ConfigDef;
 class  ConfigOption;
 class  ConfigOptionDef;
+
 // For forward definition of ConfigOption in ConfigOptionUniquePtr, we have to define a custom deleter.
 struct ConfigOptionDeleter { void operator()(ConfigOption* p); };
 using  ConfigOptionUniquePtr = std::unique_ptr<ConfigOption, ConfigOptionDeleter>;
@@ -956,8 +972,9 @@ public:
     // Special "nil" value to be stored into the vector if this->supports_nil().
     static int                 nil_value() { return std::numeric_limits<int>::max(); }
     // A scalar is nil, or all values of a vector are nil.
-    bool                     is_nil() const override { for (auto v : this->values) if (v != nil_value()) return false; return true; }
-    bool                     is_nil(size_t idx) const override { return values[idx < this->values.size() ? idx : 0] == nil_value(); }
+    bool 					is_nil() const override { for (auto v : this->values) if (v != nil_value()) return false; return true; }
+    bool 					is_nil(size_t idx) const override { return values[idx < this->values.size() ? idx : 0] == nil_value(); }
+    std::vector<int>        getInts() const override { return this->values; }
 
     std::string serialize() const override
     {
@@ -2253,74 +2270,76 @@ public:
     template<class Archive> ConfigOption* load_option_from_archive(Archive &archive) const {
         if (this->nullable) {
             switch (this->type) {
-            case coFloat:           { auto opt = new ConfigOptionFloatNullable();    archive(*opt); return opt; }
-            case coInt:             { auto opt = new ConfigOptionIntNullable();        archive(*opt); return opt; }
-            case coFloats:          { auto opt = new ConfigOptionFloatsNullable();    archive(*opt); return opt; }
-            case coInts:            { auto opt = new ConfigOptionIntsNullable();    archive(*opt); return opt; }
-            case coPercents:        { auto opt = new ConfigOptionPercentsNullable();archive(*opt); return opt; }
-            case coBools:           { auto opt = new ConfigOptionBoolsNullable();    archive(*opt); return opt; }
-            default:                throw ConfigurationError(std::string("ConfigOptionDef::load_option_from_archive(): Unknown nullable option type for option ") + this->opt_key);
+            case coFloat:            { auto opt = new ConfigOptionFloatNullable();            archive(*opt); return opt; }
+            case coInt:              { auto opt = new ConfigOptionIntNullable();              archive(*opt); return opt; }
+            case coFloats:           { auto opt = new ConfigOptionFloatsNullable();           archive(*opt); return opt; }
+            case coInts:             { auto opt = new ConfigOptionIntsNullable();             archive(*opt); return opt; }
+            case coPercents:         { auto opt = new ConfigOptionPercentsNullable();         archive(*opt); return opt; }
+            case coBools:            { auto opt = new ConfigOptionBoolsNullable();            archive(*opt); return opt; }
+            case coFloatsOrPercents: { auto opt = new ConfigOptionFloatsOrPercentsNullable(); archive(*opt); return opt; }
+            default:                 throw ConfigurationError(std::string("ConfigOptionDef::load_option_from_archive(): Unknown nullable option type for option ") + this->opt_key);
             }
         } else {
-            switch (this->type) {
-            case coFloat:           { auto opt = new ConfigOptionFloat();              archive(*opt); return opt; }
-            case coFloats:          { auto opt = new ConfigOptionFloats();             archive(*opt); return opt; }
-            case coInt:             { auto opt = new ConfigOptionInt();                archive(*opt); return opt; }
-            case coInts:            { auto opt = new ConfigOptionInts();               archive(*opt); return opt; }
-            case coString:          { auto opt = new ConfigOptionString();             archive(*opt); return opt; }
-            case coStrings:         { auto opt = new ConfigOptionStrings();         archive(*opt); return opt; }
-            case coPercent:         { auto opt = new ConfigOptionPercent();         archive(*opt); return opt; }
-            case coPercents:        { auto opt = new ConfigOptionPercents();         archive(*opt); return opt; }
-            case coFloatOrPercent:  { auto opt = new ConfigOptionFloatOrPercent();     archive(*opt); return opt; }
-            case coFloatsOrPercents:{ auto opt = new ConfigOptionFloatsOrPercents();archive(*opt); return opt; }
-            case coPoint:           { auto opt = new ConfigOptionPoint();             archive(*opt); return opt; }
-            case coPoints:          { auto opt = new ConfigOptionPoints();             archive(*opt); return opt; }
-            case coPoint3:          { auto opt = new ConfigOptionPoint3();             archive(*opt); return opt; }
-            case coBool:            { auto opt = new ConfigOptionBool();             archive(*opt); return opt; }
-            case coBools:           { auto opt = new ConfigOptionBools();             archive(*opt); return opt; }
-            case coEnum:            { auto opt = new ConfigOptionEnumGeneric(this->enum_def->m_enum_keys_map); archive(*opt); return opt; }
-            case coEnums:           { auto opt = new ConfigOptionEnumsGeneric(this->enum_def->m_enum_keys_map); archive(*opt); return opt; }
-            default:                throw ConfigurationError(std::string("ConfigOptionDef::load_option_from_archive(): Unknown option type for option ") + this->opt_key);
-            }
-        }
-    }
+		    switch (this->type) {
+		    case coFloat:           { auto opt = new ConfigOptionFloat();  			archive(*opt); return opt; }
+		    case coFloats:          { auto opt = new ConfigOptionFloats(); 			archive(*opt); return opt; }
+		    case coInt:             { auto opt = new ConfigOptionInt();    			archive(*opt); return opt; }
+		    case coInts:            { auto opt = new ConfigOptionInts();   			archive(*opt); return opt; }
+		    case coString:          { auto opt = new ConfigOptionString(); 			archive(*opt); return opt; }
+		    case coStrings:         { auto opt = new ConfigOptionStrings(); 		archive(*opt); return opt; }
+		    case coPercent:         { auto opt = new ConfigOptionPercent(); 		archive(*opt); return opt; }
+		    case coPercents:        { auto opt = new ConfigOptionPercents(); 		archive(*opt); return opt; }
+		    case coFloatOrPercent:  { auto opt = new ConfigOptionFloatOrPercent(); 	archive(*opt); return opt; }
+		    case coFloatsOrPercents:{ auto opt = new ConfigOptionFloatsOrPercents();archive(*opt); return opt; }
+		    case coPoint:           { auto opt = new ConfigOptionPoint(); 			archive(*opt); return opt; }
+		    case coPoints:          { auto opt = new ConfigOptionPoints(); 			archive(*opt); return opt; }
+		    case coPoint3:          { auto opt = new ConfigOptionPoint3(); 			archive(*opt); return opt; }
+		    case coBool:            { auto opt = new ConfigOptionBool(); 			archive(*opt); return opt; }
+		    case coBools:           { auto opt = new ConfigOptionBools(); 			archive(*opt); return opt; }
+		    case coEnum:            { auto opt = new ConfigOptionEnumGeneric(this->enum_def->m_enum_keys_map); archive(*opt); return opt; }
+		    case coEnums:           { auto opt = new ConfigOptionEnumsGeneric(this->enum_def->m_enum_keys_map); archive(*opt); return opt; }
+		    default:                throw ConfigurationError(std::string("ConfigOptionDef::load_option_from_archive(): Unknown option type for option ") + this->opt_key);
+		    }
+		}
+	}
 
     template<class Archive> ConfigOption* save_option_to_archive(Archive &archive, const ConfigOption *opt) const {
         if (this->nullable) {
             switch (this->type) {
-            case coFloat:           archive(*static_cast<const ConfigOptionFloatNullable*>(opt));  break;
-            case coInt:             archive(*static_cast<const ConfigOptionIntNullable*>(opt));  break;
-            case coFloats:          archive(*static_cast<const ConfigOptionFloatsNullable*>(opt));  break;
-            case coInts:            archive(*static_cast<const ConfigOptionIntsNullable*>(opt));    break;
-            case coPercents:        archive(*static_cast<const ConfigOptionPercentsNullable*>(opt));break;
-            case coBools:           archive(*static_cast<const ConfigOptionBoolsNullable*>(opt));     break;
-            default:                throw ConfigurationError(std::string("ConfigOptionDef::save_option_to_archive(): Unknown nullable option type for option ") + this->opt_key);
+            case coFloat:            archive(*static_cast<const ConfigOptionFloatNullable*>(opt));            break;
+            case coInt:              archive(*static_cast<const ConfigOptionIntNullable*>(opt));              break;
+            case coFloats:           archive(*static_cast<const ConfigOptionFloatsNullable*>(opt));           break;
+            case coInts:             archive(*static_cast<const ConfigOptionIntsNullable*>(opt));             break;
+            case coPercents:         archive(*static_cast<const ConfigOptionPercentsNullable*>(opt));         break;
+            case coBools:            archive(*static_cast<const ConfigOptionBoolsNullable*>(opt));            break;
+            case coFloatsOrPercents: archive(*static_cast<const ConfigOptionFloatsOrPercentsNullable*>(opt)); break;
+            default:                 throw ConfigurationError(std::string("ConfigOptionDef::save_option_to_archive(): Unknown nullable option type for option ") + this->opt_key);
             }
-        } else {
-            switch (this->type) {
-            case coFloat:           archive(*static_cast<const ConfigOptionFloat*>(opt));              break;
-            case coFloats:          archive(*static_cast<const ConfigOptionFloats*>(opt));             break;
-            case coInt:             archive(*static_cast<const ConfigOptionInt*>(opt));              break;
-            case coInts:            archive(*static_cast<const ConfigOptionInts*>(opt));              break;
-            case coString:          archive(*static_cast<const ConfigOptionString*>(opt));             break;
-            case coStrings:         archive(*static_cast<const ConfigOptionStrings*>(opt));         break;
-            case coPercent:         archive(*static_cast<const ConfigOptionPercent*>(opt));         break;
-            case coPercents:        archive(*static_cast<const ConfigOptionPercents*>(opt));         break;
-            case coFloatOrPercent:  archive(*static_cast<const ConfigOptionFloatOrPercent*>(opt));    break;
-            case coFloatsOrPercents:archive(*static_cast<const ConfigOptionFloatsOrPercents*>(opt));break;
-            case coPoint:           archive(*static_cast<const ConfigOptionPoint*>(opt));             break;
-            case coPoints:          archive(*static_cast<const ConfigOptionPoints*>(opt));             break;
-            case coPoint3:          archive(*static_cast<const ConfigOptionPoint3*>(opt));             break;
-            case coBool:            archive(*static_cast<const ConfigOptionBool*>(opt));             break;
-            case coBools:           archive(*static_cast<const ConfigOptionBools*>(opt));             break;
-            case coEnum:            archive(*static_cast<const ConfigOptionEnumGeneric*>(opt));     break;
-            case coEnums:           archive(*static_cast<const ConfigOptionEnumsGeneric*>(opt));     break;
-            default:                throw ConfigurationError(std::string("ConfigOptionDef::save_option_to_archive(): Unknown option type for option ") + this->opt_key);
-            }
-        }
-        // Make the compiler happy, shut up the warnings.
-        return nullptr;
-    }
+		} else {
+		    switch (this->type) {
+		    case coFloat:           archive(*static_cast<const ConfigOptionFloat*>(opt));  			break;
+		    case coFloats:          archive(*static_cast<const ConfigOptionFloats*>(opt)); 			break;
+		    case coInt:             archive(*static_cast<const ConfigOptionInt*>(opt)); 	 		break;
+		    case coInts:            archive(*static_cast<const ConfigOptionInts*>(opt)); 	 		break;
+		    case coString:          archive(*static_cast<const ConfigOptionString*>(opt)); 			break;
+		    case coStrings:         archive(*static_cast<const ConfigOptionStrings*>(opt)); 		break;
+		    case coPercent:         archive(*static_cast<const ConfigOptionPercent*>(opt)); 		break;
+		    case coPercents:        archive(*static_cast<const ConfigOptionPercents*>(opt)); 		break;
+		    case coFloatOrPercent:  archive(*static_cast<const ConfigOptionFloatOrPercent*>(opt));	break;
+		    case coFloatsOrPercents:archive(*static_cast<const ConfigOptionFloatsOrPercents*>(opt));break;
+		    case coPoint:           archive(*static_cast<const ConfigOptionPoint*>(opt)); 			break;
+		    case coPoints:          archive(*static_cast<const ConfigOptionPoints*>(opt)); 			break;
+		    case coPoint3:          archive(*static_cast<const ConfigOptionPoint3*>(opt)); 			break;
+		    case coBool:            archive(*static_cast<const ConfigOptionBool*>(opt)); 			break;
+		    case coBools:           archive(*static_cast<const ConfigOptionBools*>(opt)); 			break;
+		    case coEnum:            archive(*static_cast<const ConfigOptionEnumGeneric*>(opt)); 	break;
+		    case coEnums:           archive(*static_cast<const ConfigOptionEnumsGeneric*>(opt)); 	break;
+		    default:                throw ConfigurationError(std::string("ConfigOptionDef::save_option_to_archive(): Unknown option type for option ") + this->opt_key);
+		    }
+		}
+		// Make the compiler happy, shut up the warnings.
+		return nullptr;
+	}
 
     // Usually empty.
     // Special values - "i_enum_open", "f_enum_open" to provide combo box for int or float selection,
@@ -2503,11 +2522,6 @@ public:
         return out;
     }
     bool                    empty() const { return options.empty(); }
-
-    // Iterate through all of the CLI options and write them to a stream.
-    std::ostream&           print_cli_help(
-        std::ostream& out, bool show_defaults,
-        std::function<bool(const ConfigOptionDef &)> filter = [](const ConfigOptionDef &){ return true; }) const;
 
 protected:
     ConfigOptionDef*        add(const t_config_option_key &opt_key, ConfigOptionType type);
@@ -2879,9 +2893,6 @@ public:
     t_config_option_keys diff(const DynamicConfig &other) const;
     // Returns options being equal in the two configs, ignoring options not present in both configs.
     t_config_option_keys equal(const DynamicConfig &other) const;
-
-    // Command line processing
-    bool                read_cli(int argc, const char* const argv[], t_config_option_keys* extra, t_config_option_keys* keys = nullptr);
 
     std::map<t_config_option_key, std::unique_ptr<ConfigOption>>::const_iterator cbegin() const { return options.cbegin(); }
     std::map<t_config_option_key, std::unique_ptr<ConfigOption>>::const_iterator cend()   const { return options.cend(); }

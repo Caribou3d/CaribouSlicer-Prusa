@@ -15,6 +15,8 @@
 #include "libslic3r/Semver.hpp"
 #include "MsgDialog.hpp"
 
+#include "slic3r/Utils/PresetUpdater.hpp"
+
 class wxBoxSizer;
 class wxCheckBox;
 
@@ -46,12 +48,12 @@ private:
 class AppUpdateAvailableDialog : public MsgDialog
 {
 public:
-    AppUpdateAvailableDialog(const Semver& ver_current, const Semver& ver_online, bool from_user);
-    AppUpdateAvailableDialog(AppUpdateAvailableDialog&&) = delete;
-    AppUpdateAvailableDialog(const AppUpdateAvailableDialog&) = delete;
-    AppUpdateAvailableDialog& operator=(AppUpdateAvailableDialog&&) = delete;
-    AppUpdateAvailableDialog& operator=(const AppUpdateAvailableDialog&) = delete;
-    virtual ~AppUpdateAvailableDialog();
+	AppUpdateAvailableDialog(const Semver& ver_current, const Semver& ver_online, bool from_user, bool browser_on_next);
+	AppUpdateAvailableDialog(AppUpdateAvailableDialog&&) = delete;
+	AppUpdateAvailableDialog(const AppUpdateAvailableDialog&) = delete;
+	AppUpdateAvailableDialog& operator=(AppUpdateAvailableDialog&&) = delete;
+	AppUpdateAvailableDialog& operator=(const AppUpdateAvailableDialog&) = delete;
+	virtual ~AppUpdateAvailableDialog();
 
     // Tells whether the user checked the "don't bother me again" checkbox
     bool disable_version_check() const;
@@ -101,13 +103,13 @@ public:
         {}
     };
 
-    // force_before_wizard - indicates that check of updated is forced before ConfigWizard opening
-    MsgUpdateConfig(const std::vector<Update> &updates, bool force_before_wizard = false);
-    MsgUpdateConfig(MsgUpdateConfig &&) = delete;
-    MsgUpdateConfig(const MsgUpdateConfig &) = delete;
-    MsgUpdateConfig &operator=(MsgUpdateConfig &&) = delete;
-    MsgUpdateConfig &operator=(const MsgUpdateConfig &) = delete;
-    ~MsgUpdateConfig();
+	// force_before_wizard - indicates that check of updated is forced before ConfigWizard opening
+	MsgUpdateConfig(const std::vector<Update> &updates, PresetUpdater::UpdateParams update_params);
+	MsgUpdateConfig(MsgUpdateConfig &&) = delete;
+	MsgUpdateConfig(const MsgUpdateConfig &) = delete;
+	MsgUpdateConfig &operator=(MsgUpdateConfig &&) = delete;
+	MsgUpdateConfig &operator=(const MsgUpdateConfig &) = delete;
+	~MsgUpdateConfig();
 };
 
 // Informs about currently installed bundles not being compatible with the running Slic3r. Asks about action.

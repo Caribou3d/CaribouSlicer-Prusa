@@ -34,7 +34,7 @@ namespace Slic3r {
 
 class AppConfig;
 class PresetBundle;
-class PresetUpdater;
+class PresetUpdaterWrapper;
 class ModelObject;
 class PrintHostJobQueue;
 class Model;
@@ -119,6 +119,20 @@ static wxString dots("…", wxConvUTF8);
     #define SUPPORTS_MARKUP
 #endif
 
+
+// A wrapper class to allow ignoring some known warnings 
+// and not bothering users with redundant messages. 
+// see https://github.com/prusa3d/PrusaSlicer/issues/12920
+class LogGui : public wxLogGui
+{
+protected:
+    void DoLogText(const wxString& msg) override;
+    void DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info) override;
+
+private:
+    bool ignorred_message(const wxString& msg);
+};
+
 class GUI_App : public wxApp
 {
 public:
@@ -152,35 +166,36 @@ private:
 #endif
     std::vector<std::string>     m_mode_palette;
 
-    wxFont            m_small_font;
-    wxFont            m_bold_font;
-    wxFont            m_normal_font;
-    wxFont            m_code_font;
-    wxFont            m_link_font;
+    wxFont		    m_small_font;
+    wxFont		    m_bold_font;
+	wxFont			m_normal_font;
+	wxFont			m_code_font;
+    wxFont		    m_link_font;
 
     int             m_em_unit; // width of a "m"-symbol in pixels for current system font
                                // Note: for 100% Scale m_em_unit = 10 -> it's a good enough coefficient for a size setting of controls
 
-    std::unique_ptr<wxLocale>       m_wxLocale;
+    std::unique_ptr<wxLocale> 	  m_wxLocale;
     // System language, from locales, owned by wxWidgets.
-    const wxLanguageInfo         *m_language_info_system = nullptr;
+    const wxLanguageInfo		 *m_language_info_system = nullptr;
     // Best translation language, provided by Windows or OSX, owned by wxWidgets.
-    const wxLanguageInfo         *m_language_info_best   = nullptr;
+    const wxLanguageInfo		 *m_language_info_best   = nullptr;
 
     OpenGLManager m_opengl_mgr;
 
     std::unique_ptr<RemovableDriveManager>          m_removable_drive_manager;
     std::unique_ptr<ImGuiWrapper>                   m_imgui;
     std::unique_ptr<PrintHostJobQueue>              m_printhost_job_queue;
-    std::unique_ptr<OtherInstanceMessageHandler>    m_other_instance_message_handler;
+	std::unique_ptr<OtherInstanceMessageHandler>    m_other_instance_message_handler;
     std::unique_ptr<AppUpdater>                     m_app_updater;
     std::unique_ptr<wxSingleInstanceChecker>        m_single_instance_checker;
     std::unique_ptr<Downloader>                     m_downloader;
-
+    
     std::string m_instance_hash_string;
-    size_t m_instance_hash_int;
+	size_t m_instance_hash_int;
 
     Search::OptionsSearcher* m_searcher{ nullptr };
+    LogGui*                  m_log_gui { nullptr };
 
 public:
     bool            OnInit() override;
@@ -193,7 +208,7 @@ public:
     bool is_editor() const { return m_app_mode == EAppMode::Editor; }
     bool is_gcode_viewer() const { return m_app_mode == EAppMode::GCodeViewer; }
     bool is_recreating_gui() const { return m_is_recreating_gui; }
-    std::string logo_name() const { return is_editor() ? "CaribouSlicer" : "CaribouGcodeviewer"; }
+    std::string logo_name() const { return is_editor() ? "PrusaSlicer" : "PrusaSlicer-gcodeviewer"; }
 
     Search::OptionsSearcher& searcher() noexcept { return *m_searcher; }
     void                     set_searcher(Search::OptionsSearcher* searcher) { m_searcher = searcher; }
@@ -233,7 +248,7 @@ public:
     void            UpdateAllStaticTextDarkUI(wxWindow* parent);
     void            SetWindowVariantForButton(wxButton* btn);
     void            init_fonts();
-    void            update_fonts(const MainFrame *main_frame = nullptr);
+	void            update_fonts(const MainFrame *main_frame = nullptr);
     void            set_label_clr_modified(const wxColour& clr);
     void            set_label_clr_sys(const wxColour& clr);
 
@@ -275,20 +290,10 @@ public:
     void            recreate_GUI(const wxString& message);
     void            system_info();
     void            keyboard_shortcuts();
-    void            flow_ratio_dialog();
-    void            flow_walls_dialog();
-    void            calibration_first_layer_dialog();
-    void            calibration_first_layer_patch_dialog();
-    void            calibration_retraction_dialog();
-    void            filament_temperature_dialog();
-    void            change_calibration_dialog(const wxDialog* have_to_destroy = nullptr, wxDialog* new_one = nullptr);
-    void            html_dialog();
     void            load_project(wxWindow *parent, wxString& input_file) const;
     void            import_model(wxWindow *parent, wxArrayString& input_files) const;
     void            import_zip(wxWindow* parent, wxString& input_file) const;
     void            load_gcode(wxWindow* parent, wxString& input_file) const;
-
-    void            calibration_cube_dialog();
 
     static bool     catch_error(std::function<void()> cb, const std::string& err);
 
@@ -317,8 +322,8 @@ public:
     void            load_current_presets(bool check_printer_presets = true);
 
     wxString        current_language_code() const { return m_wxLocale->GetCanonicalName(); }
-    // Translate the language code to a code, for which Prusa Research maintains translations. Defaults to "en_US".
-    wxString         current_language_code_safe() const;
+	// Translate the language code to a code, for which Prusa Research maintains translations. Defaults to "en_US".
+    wxString 		current_language_code_safe() const;
     bool            is_localized() const { return m_wxLocale->GetLocale() != "English"; }
 
     void            open_preferences(const std::string& highlight_option = std::string(), const std::string& tab_name = std::string());
@@ -342,7 +347,7 @@ public:
     ObjectLayers*        obj_layers();
     Plater*              plater();
     const Plater*        plater() const;
-    Model&               model();
+    Model&      		 model();
     NotificationManager* notification_manager();
     GalleryDialog *      gallery_dialog();
     Downloader*          downloader();
@@ -352,13 +357,9 @@ public:
 
     AppConfig*      app_config{ nullptr };
     PresetBundle*   preset_bundle{ nullptr };
-    PresetUpdater*  preset_updater{ nullptr };
     MainFrame*      mainframe{ nullptr };
     Plater*         plater_{ nullptr };
-    std::mutex      not_modal_dialog_mutex;
-    wxDialog*       not_modal_dialog = nullptr;
-
-    PresetUpdater*  get_preset_updater() { return preset_updater; }
+	PresetUpdaterWrapper*  get_preset_updater_wrapper() { return m_preset_updater_wrapper.get(); }
 
     wxBookCtrlBase* tab_panel() const ;
     int             extruders_cnt() const;
@@ -366,14 +367,14 @@ public:
 
     std::vector<Tab *>      tabs_list;
 
-    RemovableDriveManager* removable_drive_manager() { return m_removable_drive_manager.get(); }
-    OtherInstanceMessageHandler* other_instance_message_handler() { return m_other_instance_message_handler.get(); }
+	RemovableDriveManager* removable_drive_manager() { return m_removable_drive_manager.get(); }
+	OtherInstanceMessageHandler* other_instance_message_handler() { return m_other_instance_message_handler.get(); }
     wxSingleInstanceChecker* single_instance_checker() {return m_single_instance_checker.get();}
 
-    void        init_single_instance_checker(const std::string &name, const std::string &path);
-    void        set_instance_hash (const size_t hash) { m_instance_hash_int = hash; m_instance_hash_string = std::to_string(hash); }
+	void        init_single_instance_checker(const std::string &name, const std::string &path);
+	void        set_instance_hash (const size_t hash) { m_instance_hash_int = hash; m_instance_hash_string = std::to_string(hash); }
     std::string get_instance_hash_string ()           { return m_instance_hash_string; }
-    size_t      get_instance_hash_int ()              { return m_instance_hash_int; }
+	size_t      get_instance_hash_int ()              { return m_instance_hash_int; }
 
     ImGuiWrapper* imgui() { return m_imgui.get(); }
 
@@ -406,20 +407,12 @@ public:
 #endif // __WXMSW__
 
 
-    // URL download - CaribouSlicer gets system call to open CaribouSlicer:// URL which should contain address of download
+    // URL download - PrusaSlicer gets system call to open prusaslicer:// URL which should contain address of download
     void            start_download(std::string url);
 
     void            open_wifi_config_dialog(bool forced, const wxString& drive_path = {});
     bool            get_wifi_config_dialog_shown() const { return m_wifi_config_dialog_shown; }
-
-    void            request_login(bool show_user_info = false) {}
-    bool            check_login() { return false; }
-    void            get_login_info() {}
-    bool            is_user_login() { return true; }
-
-    void            request_user_login(int online_login) {}
-    void            request_user_logout() {}
-    int             request_user_unbind(std::string dev_id) { return 0; }
+    
     bool            select_printer_from_connect(const std::string& cmd);
     void            select_filament_from_connect(const std::string& cmd);
     void            handle_connect_request_printer_select(const std::string& cmd);
@@ -428,17 +421,21 @@ public:
     // return true if preset vas invisible and we have to installed it to make it selectable
     bool            select_printer_preset(const Preset* printer_preset);
     bool            select_filament_preset(const Preset* filament_preset, size_t extruder_index);
-    void            search_and_select_filaments(const std::string& material, size_t extruder_index, std::string& out_message);
+    void            search_and_select_filaments(const std::string& material, bool avoid_abrasive, size_t extruder_index, std::string& out_message);
     void            handle_script_message(std::string msg) {}
     void            request_model_download(std::string import_json) {}
     void            download_project(std::string project_id) {}
     void            request_project_download(std::string project_id) {}
     void            request_open_project(std::string project_id) {}
     void            request_remove_project(std::string project_id) {}
-
+    void            printables_download_request(const std::string& download_url, const std::string& model_url);
+    void            printables_slice_request(const std::string& download_url, const std::string& model_url);
+    void            printables_login_request();
+    void            open_link_in_printables(const std::string& url);
+    bool            is_account_logged_in() const;
 private:
     bool            on_init_inner();
-    void            init_app_config();
+	void            init_app_config();
     // returns old config path to copy from if such exists,
     // returns an empty string if such config path does not exists or if it cannot be loaded.
     std::string     check_older_app_config(Semver current_version, bool backup);
@@ -449,14 +446,17 @@ private:
     bool            select_language();
 
     bool            config_wizard_startup();
-    // Returns true if the configuration is fine.
+    // Returns true if the configuration is fine. 
     // Returns true if the configuration is not compatible and the user decided to rather close the slicer instead of reconfiguring.
-    bool            check_updates(const bool invoked_automatically);
+	bool            check_updates(const bool invoked_automatically);
     void            on_version_read(wxCommandEvent& evt);
     // if the data from version file are already downloaded, shows dialogs to start download of new version of app
     void            app_updater(bool from_user);
     // inititate read of version file online in separate thread
     void            app_version_check(bool from_user);
+#if defined(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION) 
+    void            remove_desktop_files_dialog();
+#endif //(__linux__) && !defined(SLIC3R_DESKTOP_INTEGRATION)
 
     bool                    m_wifi_config_dialog_shown { false };
     bool                    m_wifi_config_dialog_was_declined { false };
@@ -465,7 +465,7 @@ private:
     std::map< ConfigMenuIDs, wxMenuItem*> m_config_menu_updatable_items;
 
     ConfigWizard* m_config_wizard {nullptr};
-    
+    std::unique_ptr<PresetUpdaterWrapper> m_preset_updater_wrapper; 
 };
 
 DECLARE_APP(GUI_App)

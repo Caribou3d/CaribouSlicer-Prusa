@@ -163,6 +163,7 @@ namespace Slic3r {
         bool spiral_vase_mode;
 
         ConflictResultOpt conflict_result;
+        std::optional<std::pair<std::string, std::string>> sequential_collision_detected;
 
         void reset();
     };
@@ -181,9 +182,6 @@ namespace Slic3r {
             Height,
             Width,
             Layer_Change,
-            Layer_Change_Travel,
-            Layer_Change_Retraction_Start,
-            Layer_Change_Retraction_End,
             Color_Change,
             Pause_Print,
             Custom_Code,
@@ -193,7 +191,7 @@ namespace Slic3r {
         };
 
         static const std::string& reserved_tag(ETags tag) { return Reserved_Tags[static_cast<unsigned char>(tag)]; }
-        // checks the given gcode for reserved tags and returns true when finding the 1st (which is returned into found_tag) 
+        // checks the given gcode for reserved tags and returns true when finding the 1st (which is returned into found_tag)
         static bool contains_reserved_tag(const std::string& gcode, std::string& found_tag);
         // checks the given gcode for reserved tags and returns true when finding any
         // (the first max_count found tags are returned into found_tag)
@@ -343,7 +341,9 @@ namespace Slic3r {
             // hard limit for the travel acceleration, to which the firmware will clamp.
             float max_travel_acceleration; // mm/s^2
             float extrude_factor_override_percentage;
-            float time; // s
+            // We accumulate total print time in doubles to reduce the loss of precision
+            // while adding big floating numbers with small float numbers.
+            double time; // s
             struct StopTime
             {
                 unsigned int g1_line_id;
@@ -544,6 +544,7 @@ namespace Slic3r {
         enum class EProducer
         {
             Unknown,
+            CaribouSlicer,
             PrusaSlicer,
             Slic3rPE,
             Slic3r,
@@ -553,8 +554,7 @@ namespace Slic3r {
             CraftWare,
             ideaMaker,
             KissSlicer,
-            BambuStudio,
-            CaribouSlicer
+            BambuStudio
         };
 
         static const std::vector<std::pair<GCodeProcessor::EProducer, std::string>> Producers;
@@ -672,7 +672,7 @@ namespace Slic3r {
 
         // Return to Saved Position
         void process_G61(const GCodeReader::GCodeLine& line);
- 
+
         // Set to Absolute Positioning
         void process_G90(const GCodeReader::GCodeLine& line);
 
@@ -780,6 +780,7 @@ namespace Slic3r {
         void update_estimated_statistics();
 
         double extract_absolute_position_on_axis(Axis axis, const GCodeReader::GCodeLine& line, double area_filament_cross_section);
+
    };
 
 } /* namespace Slic3r */
