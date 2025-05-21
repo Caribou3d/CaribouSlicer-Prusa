@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-21 18:52+0200\n"
+"POT-Creation-Date: 2025-05-21 23:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -820,6 +820,8 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:4455 src/libslic3r/PrintConfig.cpp:4471
 #: src/libslic3r/PrintConfig.cpp:4495 src/libslic3r/PrintConfig.cpp:4522
 #: src/libslic3r/PrintConfig.cpp:4582 src/slic3r/GUI/BedShapeDialog.cpp:74
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:43
+#: src/slic3r/GUI/CalibrationWallsDialog.cpp:38
 #: src/slic3r/GUI/ConfigWizard.cpp:384 src/slic3r/GUI/ConfigWizard.cpp:2130
 #: src/slic3r/GUI/ConfigWizard.cpp:2166 src/slic3r/GUI/ConfigWizard.cpp:2180
 #: src/slic3r/GUI/ExtruderSequenceDialog.cpp:105
@@ -7053,6 +7055,145 @@ msgstr ""
 msgid "Buttons And Text Colors Description"
 msgstr ""
 
+#: src/slic3r/GUI/CalibrationAbstractDialog.cpp:84
+#: src/slic3r/GUI/FirmwareDialog.cpp:868
+#: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:346
+#: src/slic3r/GUI/Mouse3DController.cpp:548
+#: src/slic3r/GUI/PrintHostDialogs.cpp:317
+#: src/slic3r/GUI/SendSystemInfoDialog.cpp:129
+msgid "Close"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationAbstractDialog.cpp:108
+#: src/slic3r/GUI/GUI_ObjectList.cpp:1611 src/slic3r/GUI/Plater.cpp:1251
+msgid "Error!"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationAbstractDialog.cpp:175
+#: src/slic3r/GUI/KBShortcutsDialog.cpp:289
+msgid "Keyboard shortcuts"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:30
+msgid ""
+"You can choose the dimension of the cube. It's a simple scale, you can "
+"modify it in the right panel yourself if you prefer. It's just quicker to "
+"select it here."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:34
+msgid "Dimensional accuracy (default)"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:35
+msgid ""
+"Select a goal, this will change settings to increase the effects to search."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:39
+#: src/slic3r/GUI/CalibrationWallsDialog.cpp:34
+msgid "Dimension:"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:45
+msgid "Goal:"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:49
+msgid "Standard Cube"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:51
+msgid ""
+"Standard cubic xyz cube, with a flat top. Better for infill/perimeter "
+"overlap calibration."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:54
+msgid "CaribouCube"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:56
+msgid ""
+"Caribou cubic xyz cube, with a flat top. Better for infill/perimeter overlap "
+"calibration."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:59
+msgid "Voron Cube"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationCubeDialog.cpp:61
+msgid ""
+"Voron cubic cube with many features inside, with a bearing slot on top. "
+"Better to check dimensional accuracy."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationFlowDialog.cpp:31
+#, possible-c-format, possible-boost-format
+msgid "Generate 10% intervals around current value"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationFlowDialog.cpp:34
+#, possible-c-format, possible-boost-format
+msgid "Generate 2% intervals below current value"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationWallsDialog.cpp:30
+#: src/slic3r/GUI/CalibrationFirstLayerDialog.cpp:37
+#: src/slic3r/GUI/CalibrationFirstLayerDialog.cpp:46
+msgid ""
+"You can choose the size of the cube. It's a simple scale, you can modify it "
+"in the right panel yourself if you prefer. It's just quicker to select it "
+"here."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationWallsDialog.cpp:40
+#: src/slic3r/GUI/CalibrationFirstLayerDialog.cpp:52
+#: src/slic3r/GUI/CalibrationFirstLayerPatchDialog.cpp:40
+#: src/slic3r/GUI/CalibrationTempDialog.cpp:57
+msgid "Generate"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationFirstLayerDialog.cpp:40
+msgid "Quantity:"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationFirstLayerPatchDialog.cpp:30
+msgid ""
+"You can choose the size of the patch. It's a simple scale, you can modify it "
+"in the right panel yourself if you prefer. It's just quicker to select it "
+"here."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationFirstLayerPatchDialog.cpp:34
+msgid "Size:"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationTempDialog.cpp:32
+msgid "Select the step in celcius between two tests."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationTempDialog.cpp:37
+msgid "Select the lower temperature."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationTempDialog.cpp:41
+msgid "Select the higher temperature."
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationTempDialog.cpp:44
+msgid "Lower temp:"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationTempDialog.cpp:48
+msgid "Upper temp:"
+msgstr ""
+
+#: src/slic3r/GUI/CalibrationTempDialog.cpp:52
+msgid "Steps:"
+msgstr ""
+
 #: src/slic3r/GUI/ConfigManipulation.cpp:54
 msgid ""
 "Layer height is not valid.\n"
@@ -8557,14 +8698,6 @@ msgstr ""
 
 #: src/slic3r/GUI/FirmwareDialog.cpp:857
 msgid "Advanced: Output log"
-msgstr ""
-
-#: src/slic3r/GUI/FirmwareDialog.cpp:868
-#: src/slic3r/GUI/Gizmos/GLGizmoSimplify.cpp:346
-#: src/slic3r/GUI/Mouse3DController.cpp:548
-#: src/slic3r/GUI/PrintHostDialogs.cpp:317
-#: src/slic3r/GUI/SendSystemInfoDialog.cpp:129
-msgid "Close"
 msgstr ""
 
 #: src/slic3r/GUI/FirmwareDialog.cpp:923
@@ -12394,10 +12527,6 @@ msgstr ""
 msgid "Loading file"
 msgstr ""
 
-#: src/slic3r/GUI/GUI_ObjectList.cpp:1611 src/slic3r/GUI/Plater.cpp:1251
-msgid "Error!"
-msgstr ""
-
 #: src/slic3r/GUI/GUI_ObjectList.cpp:1703
 msgid "Add Generic Subobject"
 msgstr ""
@@ -13546,10 +13675,6 @@ msgstr ""
 msgid ""
 "The following shortcuts are applicable in G-code preview when the horizontal "
 "slider is active"
-msgstr ""
-
-#: src/slic3r/GUI/KBShortcutsDialog.cpp:289
-msgid "Keyboard shortcuts"
 msgstr ""
 
 #: src/slic3r/GUI/MainFrame.cpp:94 src/slic3r/GUI/MainFrame.cpp:108
