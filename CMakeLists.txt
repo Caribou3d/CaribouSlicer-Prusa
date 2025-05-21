@@ -662,3 +662,7 @@ else ()
 endif ()
 
 configure_file(src/platform/unix/fhs.hpp.in ${LIBDIR_BIN}/platform/unix/fhs.hpp)
+
+if (NOT WIN32 AND NOT APPLE)
+   configure_file(src/platform/unix/build_appimage.sh.in ${LIBDIR_BIN}/build_appimage.sh @ONLY)
+endif()
