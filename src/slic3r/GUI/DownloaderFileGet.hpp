@@ -17,20 +17,20 @@ namespace Slic3r {
 namespace GUI {
 class FileGet : public std::enable_shared_from_this<FileGet> {
 private:
-    struct priv;
+	struct priv;
 public:
-    FileGet(int ID, std::string url, const std::string& filename, wxEvtHandler* evt_handler,const boost::filesystem::path& dest_folder);
-    FileGet(FileGet&& other);
-    ~FileGet();
+	FileGet(int ID, std::string url, const std::string& filename, wxEvtHandler* evt_handler,const boost::filesystem::path& dest_folder);
+	FileGet(FileGet&& other);
+	~FileGet();
 
-    void get();
-    void cancel();
-    void pause();
-    void resume();
-    static std::string    escape_url(const std::string& url);
-    static bool            is_subdomain(const std::string& url, const std::string& domain);
+	void get();
+	void cancel();
+	void pause();
+	void resume();
+	static std::string	escape_url(const std::string& url);
+	static bool			is_subdomain(const std::string& url, const std::string& domain);
 private:
-    std::unique_ptr<priv> p;
+	std::unique_ptr<priv> p;
 };
 // int = DOWNLOAD ID; string = file path
 wxDECLARE_EVENT(EVT_DWNLDR_FILE_COMPLETE, wxCommandEvent);

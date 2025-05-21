@@ -1,6 +1,7 @@
 #include "PresetArchiveDatabase.hpp"
 
 #include "slic3r/Utils/Http.hpp"
+#include "slic3r/Utils/ServiceConfig.hpp"
 #include "slic3r/GUI/format.hpp"
 #include "slic3r/GUI/GUI_App.hpp"
 #include "slic3r/GUI/Plater.hpp"
@@ -11,6 +12,7 @@
 
 #include <boost/log/trivial.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/nowide/fstream.hpp> // IWYU pragma: keep
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/uuid/uuid.hpp>
@@ -381,7 +383,7 @@ bool PresetArchiveDatabase::extract_archives_with_check(std::string &msg)
 {
     extract_local_archives();
 //    for (const std::pair<std::string, bool>& pair : m_selected_repositories_uuid) {
-    for (const std::pair<const std::string, bool>& pair : m_selected_repositories_uuid) {        
+    for (const std::pair<const std::string, bool>& pair : m_selected_repositories_uuid) {
         if (!pair.second) {
             continue;
         }
@@ -408,23 +410,46 @@ void PresetArchiveDatabase::set_installed_printer_repositories(const std::vector
     }
     // set correct repos as having installed printer
     for (const std::string &used_id : used_ids) {
-        // find archive with id and is used
+		// find archive with id and is used
+        std::vector<std::string> selected_uuid;
+        std::vector<std::string> unselected_uuid;
         for (const auto &archive : m_archive_repositories) {
             if (archive->get_manifest().id != used_id) {
-                continue;
+				continue;
+			}
+			const std::string uuid = archive->get_uuid();
+            if (m_selected_repositories_uuid[uuid]) {
+                selected_uuid.emplace_back(uuid);
+            } else {
+                unselected_uuid.emplace_back(uuid);
             }
-            const std::string uuid = archive->get_uuid();
+		}
 
-            const auto& it = m_selected_repositories_uuid.find(uuid);
-            assert(it != m_selected_repositories_uuid.end());
-            if (it->second == false) {
-                continue;
+        if (selected_uuid.empty() && unselected_uuid.empty()) {
+            // there is id in used_ids that is not in m_archive_repositories - BAD
+            assert(true);
+            continue;
+        } else if (selected_uuid.size() == 1){
+            // regular case
+             m_has_installed_printer_repositories_uuid[selected_uuid.front()] = true;
+        } else if (selected_uuid.size() > 1) {
+            // this should not happen, only one repo of same id should be selected (online / local conflict)
+            assert(true);
+            // select first one to solve the conflict
+            m_has_installed_printer_repositories_uuid[selected_uuid.front()] = true;
+            // unselect the rest
+            for (size_t i = 1; i < selected_uuid.size(); i++) {
+                m_selected_repositories_uuid[selected_uuid[i]] = false;
             }
-
-            // set archive as has installed printer
-            m_has_installed_printer_repositories_uuid[uuid] = true;
+        } else if (selected_uuid.empty()) {
+            // This is a rare case, where there are no selected repos with matching id but id has installed printers
+            // Repro: install printer, unselect repo in the next run of wizard, next, cancel wizard, run wizard again and press finish.
+            // Solution: Select the first unselected
+            m_has_installed_printer_repositories_uuid[unselected_uuid.front()] = true;
+            m_selected_repositories_uuid[unselected_uuid.front()] = true;
         }
-    }
+
+	}
     save_app_manifest_json();
 }
 
@@ -488,25 +513,25 @@ void PresetArchiveDatabase::load_app_manifest_json()
 {
     const fs::path path = get_stored_manifest_path();
     boost::system::error_code ec;
-    if (!fs::exists(path, ec) || ec) {
-        copy_initial_manifest();
-    }
-    std::ifstream file(path.string());
-    std::string data;
-    if (file.is_open()) {
-        std::string line;
-        while (getline(file, line)) {
-            data += line;
-        }
-        file.close();
-    }
-    else {
-        assert(true);
-        BOOST_LOG_TRIVIAL(error) << "Failed to read Archive Source Manifest at " << path;
-    }
-    if (data.empty()) {
-        return;
-    }
+	if (!fs::exists(path, ec) || ec) {
+		copy_initial_manifest();
+	}
+	boost::nowide::ifstream file(path.string());
+	std::string data;
+	if (file.is_open()) {
+		std::string line;
+		while (getline(file, line)) {
+			data += line;
+		}
+		file.close();
+	}
+	else {
+		assert(true);
+		BOOST_LOG_TRIVIAL(error) << "Failed to read Archive Source Manifest at " << path;
+	}
+	if (data.empty()) {
+		return;
+	}
 
     m_archive_repositories.clear();
     m_selected_repositories_uuid.clear();
@@ -657,15 +682,15 @@ void PresetArchiveDatabase::save_app_manifest_json() const
     }
     data += "]";
 
-    std::string path = get_stored_manifest_path().string();
-    std::ofstream file(path);
-    if (file.is_open()) {
-        file << data;
-        file.close();
-    } else {
-        assert(true);
-        BOOST_LOG_TRIVIAL(error) << "Failed to write Archive Repository Manifest to " << path;
-    }
+	std::string path = get_stored_manifest_path().string();
+	boost::nowide::ofstream file(path);
+	if (file.is_open()) {
+		file << data;
+		file.close();
+	} else {
+		assert(true);
+		BOOST_LOG_TRIVIAL(error) << "Failed to write Archive Repository Manifest to " << path;
+	}
 }
 
 fs::path PresetArchiveDatabase::get_stored_manifest_path() const
@@ -687,9 +712,9 @@ bool PresetArchiveDatabase::has_installed_printers(const std::string &uuid) cons
 }
 void PresetArchiveDatabase::clear_online_repos()
 {
-    auto it = m_archive_repositories.begin();
-    while (it != m_archive_repositories.end()) {
-        // Do not clean repos with local path (local repo) and with visibility filled (secret repo)
+	auto it = m_archive_repositories.begin();
+	while (it != m_archive_repositories.end()) {
+		// Do not clean repos with local path (local repo).
         if ((*it)->get_manifest().tmp_path.empty()) {
             it = m_archive_repositories.erase(it);
         } else {
@@ -866,12 +891,8 @@ std::string PresetArchiveDatabase::get_next_uuid()
 namespace {
 bool sync_inner(std::string& manifest)
 {
-    bool ret = false;
-#ifdef SLIC3R_REPO_URL
-    std::string url = SLIC3R_REPO_URL;
-#else
-    std::string url = "https://caribou3d.com/CaribouSlicer/preset-repo/ArchiveRepositoryManifest.json";
-#endif
+	bool ret = false;
+    std::string url = Utils::ServiceConfig::instance().preset_repo_repos_url();
     auto http = Http::get(std::move(url));
     add_authorization_header(http);
     http

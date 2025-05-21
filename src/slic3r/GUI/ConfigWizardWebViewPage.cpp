@@ -6,8 +6,12 @@
 #include "Plater.hpp"
 #include "slic3r/GUI/I18N.hpp"
 #include "format.hpp"
+#include "Event.hpp"
+#include "slic3r/GUI/WebViewPlatformUtils.hpp"
 
 #include <wx/webview.h>
+
+wxDEFINE_EVENT(EVT_OPEN_EXTERNAL_LOGIN_WIZARD, wxCommandEvent);
 
 namespace Slic3r {
 namespace GUI {
@@ -23,7 +27,7 @@ ConfigWizardWebViewPage::ConfigWizardWebViewPage(ConfigWizard *parent)
 
     // Create the webview
     m_browser_sizer = new wxBoxSizer(wxHORIZONTAL);
-    m_browser = WebView::CreateWebView(this, p_user_account->get_login_redirect_url(), {});
+    m_browser = WebView::CreateWebView(this, p_user_account->generate_login_redirect_url(), {});
     if (!m_browser) {
         // TRN Config wizard page with a log in page.
         wxStaticText* fail_text = new wxStaticText(this, wxID_ANY, _L("Failed to load a web browser. Logging in is not possible in the moment."));
@@ -32,7 +36,7 @@ ConfigWizardWebViewPage::ConfigWizardWebViewPage(ConfigWizard *parent)
     }
     if (logged) {
         // TRN Config wizard page with a log in web.
-        m_text = new wxStaticText(this, wxID_ANY, format_wxstr(_L("You are logged as %1%."), p_user_account->get_username()));       
+        m_text = new wxStaticText(this, wxID_ANY, format_wxstr(_L("You are logged as %1%."), p_user_account->get_username()));
     } else {
         // TRN Config wizard page with a log in web. first line of text.
         m_text = new wxStaticText(this, wxID_ANY, _L("Log in to control your printers remotely through the built-in Connect in PrusaSlicer."));
@@ -117,14 +121,28 @@ void ConfigWizardWebViewPage::on_idle(wxIdleEvent &WXUNUSED(evt)) {
 }
 
 
-void ConfigWizardWebViewPage::on_navigation_request(wxWebViewEvent &evt) 
+void ConfigWizardWebViewPage::on_navigation_request(wxWebViewEvent &evt)
 {
     wxString url = evt.GetURL();
     if (url.starts_with(L"prusaslicer")) {
+        delete_cookies(m_browser, "https://account.prusa3d.com");
+        delete_cookies(m_browser, "https://accounts.google.com");
+        delete_cookies(m_browser, "https://appleid.apple.com");
+        delete_cookies(m_browser, "https://facebook.com");
         evt.Veto();
         m_vetoed = true;
-        wxPostEvent(wxGetApp().plater(), Event<std::string>(EVT_LOGIN_VIA_WIZARD, into_u8(url)));	
+        wxPostEvent(wxGetApp().plater(), Event<std::string>(EVT_LOGIN_VIA_WIZARD, into_u8(url)));
+    } else if (url.Find("accounts.google.com") != wxString::npos
+        || url.Find("appleid.apple.com") != wxString::npos
+        || url.Find("facebook.com") != wxString::npos)
+    {
+        auto& sc = Utils::ServiceConfig::instance();
+        if (!m_evt_sent && !url.starts_with(GUI::from_u8(sc.account_url()))) {
+            wxCommandEvent evt(EVT_OPEN_EXTERNAL_LOGIN_WIZARD);
+            evt.SetString(url);
+            wxPostEvent(wxGetApp().plater(), evt);
+            m_evt_sent = true;
+        }
     }
 }
-
 }} // namespace Slic3r::GUI

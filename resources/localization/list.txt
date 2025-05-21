@@ -16,6 +16,7 @@ src/libslic3r/SLA/Hollowing.cpp
 src/libslic3r/SLA/Pad.cpp
 src/libslic3r/SLAPrint.cpp
 src/libslic3r/SLAPrintSteps.cpp
+src/libslic3r/Utils.cpp
 src/libslic3r/Zipper.cpp
 src/slic3r/Config/Snapshot.cpp
 src/slic3r/GUI/AboutDialog.cpp
@@ -25,13 +26,6 @@ src/slic3r/GUI/BedShapeDialog.cpp
 src/slic3r/GUI/BedShapeDialog.hpp
 src/slic3r/GUI/BonjourDialog.cpp
 src/slic3r/GUI/ButtonsDescription.cpp
-src/slic3r/GUI/CalibrationAbstractDialog.cpp
-src/slic3r/GUI/CalibrationCubeDialog.cpp
-src/slic3r/GUI/CalibrationFlowDialog.cpp
-src/slic3r/GUI/CalibrationWallsDialog.cpp
-src/slic3r/GUI/CalibrationFirstLayerDialog.cpp
-src/slic3r/GUI/CalibrationFirstLayerPatchDialog.cpp
-src/slic3r/GUI/CalibrationTempDialog.cpp
 src/slic3r/GUI/ConfigManipulation.cpp
 src/slic3r/GUI/ConfigSnapshotDialog.cpp
 src/slic3r/GUI/ConfigWizard.cpp

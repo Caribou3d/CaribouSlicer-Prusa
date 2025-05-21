@@ -46,12 +46,12 @@ private:
 class AppUpdateAvailableDialog : public MsgDialog
 {
 public:
-    AppUpdateAvailableDialog(const Semver& ver_current, const Semver& ver_online, bool from_user);
-    AppUpdateAvailableDialog(AppUpdateAvailableDialog&&) = delete;
-    AppUpdateAvailableDialog(const AppUpdateAvailableDialog&) = delete;
-    AppUpdateAvailableDialog& operator=(AppUpdateAvailableDialog&&) = delete;
-    AppUpdateAvailableDialog& operator=(const AppUpdateAvailableDialog&) = delete;
-    virtual ~AppUpdateAvailableDialog();
+	AppUpdateAvailableDialog(const Semver& ver_current, const Semver& ver_online, bool from_user, bool browser_on_next);
+	AppUpdateAvailableDialog(AppUpdateAvailableDialog&&) = delete;
+	AppUpdateAvailableDialog(const AppUpdateAvailableDialog&) = delete;
+	AppUpdateAvailableDialog& operator=(AppUpdateAvailableDialog&&) = delete;
+	AppUpdateAvailableDialog& operator=(const AppUpdateAvailableDialog&) = delete;
+	virtual ~AppUpdateAvailableDialog();
 
     // Tells whether the user checked the "don't bother me again" checkbox
     bool disable_version_check() const;
