@@ -16,7 +16,6 @@ src/libslic3r/SLA/Hollowing.cpp
 src/libslic3r/SLA/Pad.cpp
 src/libslic3r/SLAPrint.cpp
 src/libslic3r/SLAPrintSteps.cpp
-src/libslic3r/Utils.cpp
 src/libslic3r/Zipper.cpp
 src/slic3r/Config/Snapshot.cpp
 src/slic3r/GUI/AboutDialog.cpp
