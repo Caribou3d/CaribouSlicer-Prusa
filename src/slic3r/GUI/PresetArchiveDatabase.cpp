@@ -893,6 +893,7 @@ bool sync_inner(std::string& manifest)
 {
 	bool ret = false;
     std::string url = Utils::ServiceConfig::instance().preset_repo_repos_url();
+    BOOST_LOG_TRIVIAL(error) << "URL " << url;
     auto http = Http::get(std::move(url));
     add_authorization_header(http);
     http

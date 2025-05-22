@@ -459,7 +459,7 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const GUI::Archi
         // See if a there's a new version to download
         const auto recommended_it = index.recommended();
         if (recommended_it == index.end()) {
-            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index?", vendor.name);
+            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 1: %1%, invalid index?", vendor.name);
             continue;
         }
 
@@ -532,7 +532,7 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const GUI::Archi
             }
             const auto recommended_it = index.recommended();
             if (recommended_it == index.end()) {
-                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index? (%2%)", vendor.first, idx_path_in_archive);
+                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 2: %1%, invalid index? (%2%)", vendor.first, idx_path_in_archive);
                 continue;
             }
             const auto recommended = recommended_it->config_version;
@@ -607,7 +607,7 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const GUI::Archi
             }
             const auto recommended_it_cache = index_cache.recommended();
             if (recommended_it_cache == index_cache.end()) {
-                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index? (%2%)", vendor.first, idx_path_in_cache);
+                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 3: %1%, invalid index? (%2%)", vendor.first, idx_path_in_cache);
                 continue;
             }
             const auto recommended_cache = recommended_it_cache->config_version;
@@ -622,7 +622,7 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const GUI::Archi
             }
             const auto recommended_it_archive = index_archive.recommended();
             if (recommended_it_archive == index_archive.end()) {
-                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index? (%2%)", vendor.first, idx_path_in_archive);
+                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 4: %1%, invalid index? (%2%)", vendor.first, idx_path_in_archive);
                 continue;
             }
             const auto recommended_archive = recommended_it_archive->config_version;
@@ -797,7 +797,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
         // from the internet, or installed / updated from the installation resources.
         auto recommended = idx.recommended();
         if (recommended == idx.end()) {
-            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index? Giving up.", idx.vendor());
+            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 5: %1%, invalid index? Giving up.", idx.vendor());
             // XXX: what should be done here?
             continue;
         }
