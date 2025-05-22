@@ -21,7 +21,7 @@
     #define _DEBUG
     #include "SVG.hpp"
 
-    #undef assert
+    #undef assert 
     #include <cassert>
 #endif
 
@@ -66,14 +66,14 @@ coordf_t Slicing::max_layer_height_from_nozzle(const DynamicPrintConfig &print_c
 }
 
 SlicingParameters SlicingParameters::create_from_config(
-    const PrintConfig                 &print_config,
-    const PrintObjectConfig         &object_config,
-    coordf_t                         object_height,
+	const PrintConfig 		        &print_config,
+	const PrintObjectConfig         &object_config,
+	coordf_t				         object_height,
     const std::vector<unsigned int> &object_extruders,
     const Vec3d                     &object_shrinkage_compensation)
 {
     assert(! print_config.first_layer_height.percent);
-    coordf_t first_layer_height                      = (print_config.first_layer_height.value <= 0) ?
+    coordf_t first_layer_height                      = (print_config.first_layer_height.value <= 0) ? 
         object_config.layer_height.value : print_config.first_layer_height.value;
     // If object_config.support_material_extruder == 0 resp. object_config.support_material_interface_extruder == 0,
     // print_config.nozzle_diameter.get_at(size_t(-1)) returns the 0th nozzle diameter,
@@ -101,10 +101,10 @@ SlicingParameters SlicingParameters::create_from_config(
     if (object_config.support_material.value || params.base_raft_layers > 0 || object_config.support_material_enforce_layers > 0) {
         // Has some form of support. Add the support layers to the minimum / maximum layer height limits.
         params.min_layer_height = std::max(
-            min_layer_height_from_nozzle(print_config, object_config.support_material_extruder),
+            min_layer_height_from_nozzle(print_config, object_config.support_material_extruder), 
             min_layer_height_from_nozzle(print_config, object_config.support_material_interface_extruder));
         params.max_layer_height = std::min(
-            max_layer_height_from_nozzle(print_config, object_config.support_material_extruder),
+            max_layer_height_from_nozzle(print_config, object_config.support_material_extruder), 
             max_layer_height_from_nozzle(print_config, object_config.support_material_interface_extruder));
         params.max_suport_layer_height = params.max_layer_height;
     }
@@ -129,7 +129,7 @@ SlicingParameters SlicingParameters::create_from_config(
     }
 
     if (params.base_raft_layers > 0) {
-        params.interface_raft_layers = (params.base_raft_layers + 1) / 2;
+		params.interface_raft_layers = (params.base_raft_layers + 1) / 2;
         params.base_raft_layers -= params.interface_raft_layers;
         // Use as large as possible layer height for the intermediate raft layers.
         params.base_raft_layer_height       = std::max(params.layer_height, 0.75 * support_material_extruder_dmr);
@@ -142,19 +142,19 @@ SlicingParameters SlicingParameters::create_from_config(
     if (params.has_raft()) {
         // Raise first object layer Z by the thickness of the raft itself plus the extra distance required by the support material logic.
         //FIXME The last raft layer is the contact layer, which shall be printed with a bridging flow for ease of separation. Currently it is not the case.
-        if (params.raft_layers() == 1) {
+		if (params.raft_layers() == 1) {
             // There is only the contact layer.
             params.contact_raft_layer_height = first_layer_height;
             params.raft_contact_top_z        = first_layer_height;
-        } else {
+		} else {
             assert(params.base_raft_layers > 0);
             assert(params.interface_raft_layers > 0);
             // Number of the base raft layers is decreased by the first layer.
             params.raft_base_top_z       = first_layer_height + coordf_t(params.base_raft_layers - 1) * params.base_raft_layer_height;
             // Number of the interface raft layers is decreased by the contact layer.
             params.raft_interface_top_z  = params.raft_base_top_z + coordf_t(params.interface_raft_layers - 1) * params.interface_raft_layer_height;
-            params.raft_contact_top_z    = params.raft_interface_top_z + params.contact_raft_layer_height;
-        }
+			params.raft_contact_top_z    = params.raft_interface_top_z + params.contact_raft_layer_height;
+		}
         coordf_t print_z = params.raft_contact_top_z + params.gap_raft_object;
         params.object_print_z_min  = print_z;
         params.object_print_z_max += print_z;
@@ -168,15 +168,15 @@ SlicingParameters SlicingParameters::create_from_config(
 // Convert layer_config_ranges to layer_height_profile. Both are referenced to z=0, meaning the raft layers are not accounted for
 // in the height profile and the printed object may be lifted by the raft thickness at the time of the G-code generation.
 std::vector<coordf_t> layer_height_profile_from_ranges(
-    const SlicingParameters     &slicing_params,
-    const t_layer_config_ranges &layer_config_ranges)
+	const SlicingParameters 	&slicing_params,
+	const t_layer_config_ranges &layer_config_ranges)
 {
     // 1) If there are any height ranges, trim one by the other to make them non-overlapping. Insert the 1st layer if fixed.
     std::vector<std::pair<t_layer_height_range,coordf_t>> ranges_non_overlapping;
     ranges_non_overlapping.reserve(layer_config_ranges.size() * 4);
     if (slicing_params.first_object_layer_height_fixed())
         ranges_non_overlapping.push_back(std::pair<t_layer_height_range,coordf_t>(
-            t_layer_height_range(0., slicing_params.first_object_layer_height),
+            t_layer_height_range(0., slicing_params.first_object_layer_height), 
             slicing_params.first_object_layer_height));
     // The height ranges are sorted lexicographically by low / high layer boundaries.
     for (t_layer_config_ranges::const_iterator it_range = layer_config_ranges.begin(); it_range != layer_config_ranges.end(); ++ it_range) {
@@ -237,7 +237,7 @@ std::vector<coordf_t> layer_height_profile_from_ranges(
         lh_append(slicing_params.object_print_z_uncompensated_height(), slicing_params.layer_height);
     }
 
-       return layer_height_profile;
+   	return layer_height_profile;
 }
 
 // Based on the work of @platsch
@@ -249,7 +249,7 @@ std::vector<double> layer_height_profile_adaptive(const SlicingParameters& slici
     as.set_slicing_parameters(slicing_params);
     as.prepare(object);
 
-    // 2) Generate layers using the algorithm of @platsch
+    // 2) Generate layers using the algorithm of @platsch 
     std::vector<double> layer_height_profile;
     layer_height_profile.push_back(0.0);
     layer_height_profile.push_back(slicing_params.first_object_layer_height);
@@ -301,12 +301,12 @@ std::vector<double> layer_height_profile_adaptive(const SlicingParameters& slici
             $height = $height - unscale((scale($height)) % (scale($gradation)));
         }
         */
-
+    
         // look for an applicable custom range
         /*
         if (my $range = first { $_->[0] <= $print_z && $_->[1] > $print_z } @{$self->layer_height_ranges}) {
             $height = $range->[2];
-
+    
             # if user set custom height to zero we should just skip the range and resume slicing over it
             if ($height == 0) {
                 $print_z += $range->[1] - $range->[0];
@@ -314,7 +314,7 @@ std::vector<double> layer_height_profile_adaptive(const SlicingParameters& slici
             }
         }
         */
-
+        
         layer_height_profile.push_back(print_z);
         layer_height_profile.push_back(height);
         print_z += height;
@@ -358,7 +358,7 @@ std::vector<double> smooth_height_profile(const std::vector<double>& profile, co
         // not enough data to smmoth
         if ((int)profile.size() - (int)skip_count < 6)
             return profile;
-
+        
         unsigned int radius = std::max(smoothing_params.radius, (unsigned int)1);
         std::vector<double> kernel = gauss_kernel(radius);
         int two_radius = 2 * (int)radius;
@@ -415,21 +415,21 @@ std::vector<double> smooth_height_profile(const std::vector<double>& profile, co
 
 void adjust_layer_height_profile(
     const SlicingParameters     &slicing_params,
-    std::vector<coordf_t>         &layer_height_profile,
-    coordf_t                      z,
-    coordf_t                      layer_thickness_delta,
-    coordf_t                      band_width,
+    std::vector<coordf_t> 		&layer_height_profile,
+    coordf_t 					 z,
+    coordf_t 					 layer_thickness_delta,
+    coordf_t 					 band_width,
     LayerHeightEditActionType    action)
 {
      // Constrain the profile variability by the 1st layer height.
-    std::pair<coordf_t, coordf_t> z_span_variable =
+    std::pair<coordf_t, coordf_t> z_span_variable = 
         std::pair<coordf_t, coordf_t>(
             slicing_params.first_object_layer_height_fixed() ? slicing_params.first_object_layer_height : 0.,
             slicing_params.object_print_z_uncompensated_height());
     if (z < z_span_variable.first || z > z_span_variable.second)
         return;
 
-    assert(layer_height_profile.size() >= 2);
+	assert(layer_height_profile.size() >= 2);
     assert(std::abs(layer_height_profile[layer_height_profile.size() - 2] - slicing_params.object_print_z_uncompensated_height()) < EPSILON);
 
     // 1) Get the current layer thickness at z.
@@ -444,7 +444,7 @@ void adjust_layer_height_profile(
             coordf_t z2 = layer_height_profile[i + 2];
             coordf_t h2 = layer_height_profile[i + 3];
             current_layer_height = lerp(h1, h2, (z - z1) / (z2 - z1));
-            break;
+			break;
         }
     }
 
@@ -477,7 +477,7 @@ void adjust_layer_height_profile(
     }
 
     // 3) Densify the profile inside z +- band_width/2, remove duplicate Zs from the height profile inside the band.
-    coordf_t lo = std::max(z_span_variable.first,  z - 0.5 * band_width);
+	coordf_t lo = std::max(z_span_variable.first,  z - 0.5 * band_width);
     // Do not limit the upper side of the band, so that the modifications to the top point of the profile will be allowed.
     coordf_t hi = z + 0.5 * band_width;
     coordf_t z_step = 0.1;
@@ -488,8 +488,8 @@ void adjust_layer_height_profile(
 
     std::vector<double> profile_new;
     profile_new.reserve(layer_height_profile.size());
-    assert(idx >= 0 && idx + 1 < layer_height_profile.size());
-    profile_new.insert(profile_new.end(), layer_height_profile.begin(), layer_height_profile.begin() + idx + 2);
+	assert(idx >= 0 && idx + 1 < layer_height_profile.size());
+	profile_new.insert(profile_new.end(), layer_height_profile.begin(), layer_height_profile.begin() + idx + 2);
     coordf_t zz = lo;
     size_t i_resampled_start = profile_new.size();
     while (zz < hi) {
@@ -537,7 +537,7 @@ void adjust_layer_height_profile(
             }
             profile_new.push_back(zz);
             profile_new.push_back(height);
-            idx = layer_height_profile.size();
+			idx = layer_height_profile.size();
             break;
         }
         // Avoid entering a too short segment.
@@ -546,7 +546,7 @@ void adjust_layer_height_profile(
             profile_new.push_back(height);
         }
         // Limit zz to the object height, so the next iteration the last profile point will be set.
-        zz = std::min(zz + z_step, z_span_variable.second);
+		zz = std::min(zz + z_step, z_span_variable.second);
         idx = next;
         while (idx < layer_height_profile.size() && layer_height_profile[idx] < zz)
             idx += 2;
@@ -556,21 +556,21 @@ void adjust_layer_height_profile(
     idx += 2;
     assert(idx > 0);
     size_t i_resampled_end = profile_new.size();
-    if (idx < layer_height_profile.size()) {
+	if (idx < layer_height_profile.size()) {
         assert(zz >= layer_height_profile[idx - 2]);
         assert(zz <= layer_height_profile[idx]);
-        profile_new.insert(profile_new.end(), layer_height_profile.begin() + idx, layer_height_profile.end());
-    }
-    else if (profile_new[profile_new.size() - 2] + 0.5 * EPSILON < z_span_variable.second) {
-        profile_new.insert(profile_new.end(), layer_height_profile.end() - 2, layer_height_profile.end());
-    }
+		profile_new.insert(profile_new.end(), layer_height_profile.begin() + idx, layer_height_profile.end());
+	}
+	else if (profile_new[profile_new.size() - 2] + 0.5 * EPSILON < z_span_variable.second) { 
+		profile_new.insert(profile_new.end(), layer_height_profile.end() - 2, layer_height_profile.end());
+	}
     layer_height_profile = std::move(profile_new);
 
     if (action == LAYER_HEIGHT_EDIT_ACTION_SMOOTH) {
         if (i_resampled_start == 0)
             ++ i_resampled_start;
-        if (i_resampled_end == layer_height_profile.size())
-            i_resampled_end -= 2;
+		if (i_resampled_end == layer_height_profile.size())
+			i_resampled_end -= 2;
         size_t n_rounds = 6;
         for (size_t i_round = 0; i_round < n_rounds; ++ i_round) {
             profile_new = layer_height_profile;
@@ -588,24 +588,24 @@ void adjust_layer_height_profile(
         }
     }
 
-    assert(layer_height_profile.size() > 2);
-    assert(layer_height_profile.size() % 2 == 0);
-    assert(layer_height_profile[0] == 0.);
+	assert(layer_height_profile.size() > 2);
+	assert(layer_height_profile.size() % 2 == 0);
+	assert(layer_height_profile[0] == 0.);
     assert(std::abs(layer_height_profile[layer_height_profile.size() - 2] - slicing_params.object_print_z_uncompensated_height()) < EPSILON);
 #ifdef _DEBUG
-    for (size_t i = 2; i < layer_height_profile.size(); i += 2)
-        assert(layer_height_profile[i - 2] <= layer_height_profile[i]);
-    for (size_t i = 1; i < layer_height_profile.size(); i += 2) {
-        assert(layer_height_profile[i] > slicing_params.min_layer_height - EPSILON);
-        assert(layer_height_profile[i] < slicing_params.max_layer_height + EPSILON);
-    }
+	for (size_t i = 2; i < layer_height_profile.size(); i += 2)
+		assert(layer_height_profile[i - 2] <= layer_height_profile[i]);
+	for (size_t i = 1; i < layer_height_profile.size(); i += 2) {
+		assert(layer_height_profile[i] > slicing_params.min_layer_height - EPSILON);
+		assert(layer_height_profile[i] < slicing_params.max_layer_height + EPSILON);
+	}
 #endif /* _DEBUG */
 }
 
 // Produce object layers as pairs of low / high layer boundaries, stored into a linear vector.
 std::vector<coordf_t> generate_object_layers(
-    const SlicingParameters     &slicing_params,
-    const std::vector<coordf_t> &layer_height_profile)
+	const SlicingParameters 	&slicing_params,
+	const std::vector<coordf_t> &layer_height_profile)
 {
     assert(! layer_height_profile.empty());
 
@@ -673,7 +673,7 @@ bool check_object_layers_fixed(
         return false;
 
     bool fixed_step1 = is_approx(layer_height_profile[1], layer_height_profile[3]);
-    bool fixed_step2 = layer_height_profile.size() == 4 ||
+    bool fixed_step2 = layer_height_profile.size() == 4 || 
             (layer_height_profile[2] == layer_height_profile[4] && is_approx(layer_height_profile[5], layer_height_profile[7]));
 
     if (! fixed_step1 || ! fixed_step2)
@@ -695,9 +695,9 @@ bool check_object_layers_fixed(
 }
 
 int generate_layer_height_texture(
-    const SlicingParameters     &slicing_params,
-    const std::vector<coordf_t> &layers,
-    void *data, int rows, int cols, bool level_of_detail_2nd_level)
+	const SlicingParameters 	&slicing_params,
+	const std::vector<coordf_t> &layers,
+	void *data, int rows, int cols, bool level_of_detail_2nd_level)
 {
 // https://github.com/aschn/gnuplot-colorbrewer
     std::vector<Vec3crd> palette_raw;
@@ -711,7 +711,7 @@ int generate_layer_height_texture(
     palette_raw.push_back(Vec3crd(0x0D7, 0x030, 0x027));
 
     // Clear the main texture and the 2nd LOD level.
-//    memset(data, 0, rows * cols * (level_of_detail_2nd_level ? 5 : 4));
+//	memset(data, 0, rows * cols * (level_of_detail_2nd_level ? 5 : 4));
     // 2nd LOD level data start
     unsigned char *data1 = reinterpret_cast<unsigned char*>(data) + rows * cols * 4;
     int ncells  = std::min((cols-1) * rows, int(ceil(16. * (slicing_params.object_print_z_height() / slicing_params.min_layer_height))));
@@ -721,24 +721,24 @@ int generate_layer_height_texture(
     coordf_t cell_to_z = slicing_params.object_print_z_height() / coordf_t(ncells-1);
     coordf_t z_to_cell1 = coordf_t(ncells1-1) / slicing_params.object_print_z_height();
     // for color scaling
-    coordf_t hscale = 2.f * std::max(slicing_params.max_layer_height - slicing_params.layer_height, slicing_params.layer_height - slicing_params.min_layer_height);
-    if (hscale == 0)
-        // All layers have the same height. Provide some height scale to avoid division by zero.
-        hscale = slicing_params.layer_height;
+	coordf_t hscale = 2.f * std::max(slicing_params.max_layer_height - slicing_params.layer_height, slicing_params.layer_height - slicing_params.min_layer_height);
+	if (hscale == 0)
+		// All layers have the same height. Provide some height scale to avoid division by zero.
+		hscale = slicing_params.layer_height;
     for (size_t idx_layer = 0; idx_layer < layers.size(); idx_layer += 2) {
         coordf_t lo  = layers[idx_layer];
-        coordf_t hi  = layers[idx_layer + 1];
+		coordf_t hi  = layers[idx_layer + 1];
         coordf_t mid = 0.5f * (lo + hi);
-        assert(mid <= slicing_params.object_print_z_height());
-        coordf_t h = hi - lo;
-        hi = std::min(hi, slicing_params.object_print_z_height());
+		assert(mid <= slicing_params.object_print_z_height());
+		coordf_t h = hi - lo;
+		hi = std::min(hi, slicing_params.object_print_z_height());
         int cell_first = std::clamp(int(ceil(lo * z_to_cell)), 0, ncells-1);
         int cell_last  = std::clamp(int(floor(hi * z_to_cell)), 0, ncells-1);
         for (int cell = cell_first; cell <= cell_last; ++ cell) {
             coordf_t idxf = (0.5 * hscale + (h - slicing_params.layer_height)) * coordf_t(palette_raw.size()-1) / hscale;
             int idx1 = std::clamp(int(floor(idxf)), 0, int(palette_raw.size() - 1));
             int idx2 = std::min(int(palette_raw.size() - 1), idx1 + 1);
-            coordf_t t = idxf - coordf_t(idx1);
+			coordf_t t = idxf - coordf_t(idx1);
             const Vec3crd &color1 = palette_raw[idx1];
             const Vec3crd &color2 = palette_raw[idx2];
             coordf_t z = cell_to_z * coordf_t(cell);
@@ -747,13 +747,13 @@ int generate_layer_height_texture(
             coordf_t intensity = cos(M_PI * 0.7 * (mid - z) / h);
             // Color mapping from layer height to RGB.
             Vec3d color(
-                intensity * lerp(coordf_t(color1(0)), coordf_t(color2(0)), t),
+                intensity * lerp(coordf_t(color1(0)), coordf_t(color2(0)), t), 
                 intensity * lerp(coordf_t(color1(1)), coordf_t(color2(1)), t),
                 intensity * lerp(coordf_t(color1(2)), coordf_t(color2(2)), t));
             int row = cell / (cols - 1);
             int col = cell - row * (cols - 1);
-            assert(row >= 0 && row < rows);
-            assert(col >= 0 && col < cols);
+			assert(row >= 0 && row < rows);
+			assert(col >= 0 && col < cols);
             unsigned char *ptr = (unsigned char*)data + (row * cols + col) * 4;
             ptr[0] = (unsigned char)std::clamp(int(floor(color(0) + 0.5)), 0, 255);
             ptr[1] = (unsigned char)std::clamp(int(floor(color(1) + 0.5)), 0, 255);
@@ -774,18 +774,18 @@ int generate_layer_height_texture(
                 coordf_t idxf = (0.5 * hscale + (h - slicing_params.layer_height)) * coordf_t(palette_raw.size()-1) / hscale;
                 int idx1 = std::clamp(int(floor(idxf)), 0, int(palette_raw.size() - 1));
                 int idx2 = std::min(int(palette_raw.size() - 1), idx1 + 1);
-                coordf_t t = idxf - coordf_t(idx1);
+    			coordf_t t = idxf - coordf_t(idx1);
                 const Vec3crd &color1 = palette_raw[idx1];
                 const Vec3crd &color2 = palette_raw[idx2];
                 // Color mapping from layer height to RGB.
                 Vec3d color(
-                    lerp(coordf_t(color1(0)), coordf_t(color2(0)), t),
+                    lerp(coordf_t(color1(0)), coordf_t(color2(0)), t), 
                     lerp(coordf_t(color1(1)), coordf_t(color2(1)), t),
                     lerp(coordf_t(color1(2)), coordf_t(color2(2)), t));
                 int row = cell / (cols1 - 1);
                 int col = cell - row * (cols1 - 1);
-                assert(row >= 0 && row < rows/2);
-                assert(col >= 0 && col < cols/2);
+    			assert(row >= 0 && row < rows/2);
+    			assert(col >= 0 && col < cols/2);
                 unsigned char *ptr = data1 + (row * cols1 + col) * 4;
                 ptr[0] = (unsigned char)std::clamp(int(floor(color(0) + 0.5)), 0, 255);
                 ptr[1] = (unsigned char)std::clamp(int(floor(color(1) + 0.5)), 0, 255);

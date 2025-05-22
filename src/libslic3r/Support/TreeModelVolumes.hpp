@@ -53,10 +53,10 @@ class TreeModelVolumes
 public:
     TreeModelVolumes() = default;
     explicit TreeModelVolumes(const PrintObject &print_object, const BuildVolume &build_volume,
-        coord_t max_move, coord_t max_move_slow, size_t current_mesh_idx,
+        coord_t max_move, coord_t max_move_slow, size_t current_mesh_idx, 
 #ifdef SLIC3R_TREESUPPORTS_PROGRESS
-        double progress_multiplier,
-        double progress_offset,
+        double progress_multiplier, 
+        double progress_offset, 
 #endif // SLIC3R_TREESUPPORTS_PROGRESS
         const std::vector<Polygons> &additional_excluded_areas = {});
     TreeModelVolumes(TreeModelVolumes&&) = default;
@@ -65,12 +65,12 @@ public:
     TreeModelVolumes(const TreeModelVolumes&) = delete;
     TreeModelVolumes& operator=(const TreeModelVolumes&) = delete;
 
-    void clear() {
+    void clear() { 
         this->clear_all_but_object_collision();
         m_collision_cache.clear();
         m_placeable_areas_cache.clear();
     }
-    void clear_all_but_object_collision() {
+    void clear_all_but_object_collision() { 
         //m_collision_cache.clear_all_but_radius0();
         m_collision_cache_holefree.clear();
         m_avoidance_cache.clear();
@@ -154,7 +154,7 @@ public:
     /*!
      * \brief Round \p radius upwards to either a multiple of m_radius_sample_resolution or a exponentially increasing value
      *
-     *    It also adds the difference between the minimum xy distance and the regular one.
+     *	It also adds the difference between the minimum xy distance and the regular one.
      *
      * \param radius The radius of the node of interest
      * \param min_xy_dist is the minimum xy distance used.
@@ -162,7 +162,7 @@ public:
      */
     coord_t ceilRadius(const coord_t radius, const bool min_xy_dist) const {
         assert(radius >= 0);
-        return min_xy_dist ?
+        return min_xy_dist ? 
             this->ceilRadius(radius) :
             // special case as if a radius 0 is requested it could be to ensure correct xy distance. As such it is beneficial if the collision is as close to the configured values as possible.
             radius > 0 ? this->ceilRadius(radius + m_current_min_xy_dist_delta) : m_current_min_xy_dist_delta;
@@ -302,7 +302,7 @@ private:
         [[nodiscard]] std::vector<std::pair<RadiusLayerPair, std::reference_wrapper<const Polygons>>> sorted() const;
 
         void clear() { m_data.clear(); }
-        void clear_all_but_radius0() {
+        void clear_all_but_radius0() { 
             for (LayerData &l : m_data) {
                 auto begin = l.begin();
                 auto end = l.end();
@@ -522,7 +522,7 @@ private:
     RadiusLayerPolygonCache     m_placeable_areas_cache;
 
     /*!
-     * \brief Caches to avoid holes smaller than the radius until which the radius is always increased, as they are free of holes.
+     * \brief Caches to avoid holes smaller than the radius until which the radius is always increased, as they are free of holes. 
      * Also called safe avoidances, as they are safe regarding not running into holes.
      */
     RadiusLayerPolygonCache     m_avoidance_cache_holefree;
@@ -556,9 +556,9 @@ private:
      */
     RadiusLayerPolygonCache     m_wall_restrictions_cache;
 
-    // A different cache for min_xy_dist as the maximal safe distance an influence area can be increased(guaranteed overlap of two walls in consecutive layer)
-    // is much smaller when min_xy_dist is used. This causes the area of the wall restriction to be thinner and as such just using the min_xy_dist wall
-    // restriction would be slower.
+    // A different cache for min_xy_dist as the maximal safe distance an influence area can be increased(guaranteed overlap of two walls in consecutive layer) 
+    // is much smaller when min_xy_dist is used. This causes the area of the wall restriction to be thinner and as such just using the min_xy_dist wall 
+    // restriction would be slower.    
     RadiusLayerPolygonCache     m_wall_restrictions_cache_min;
 
 #ifdef SLIC3R_TREESUPPORTS_PROGRESS

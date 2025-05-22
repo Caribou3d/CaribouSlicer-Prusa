@@ -18,14 +18,14 @@ namespace Slic3r {
 #if 0
 void filter_by_extrusion_role_in_place(ExtrusionEntitiesPtr &extrusion_entities, ExtrusionRole role)
 {
-    if (role != ExtrusionRole::Mixed) {
-        auto first  = extrusion_entities.begin();
-        auto last   = extrusion_entities.end();
+	if (role != ExtrusionRole::Mixed) {
+		auto first  = extrusion_entities.begin();
+		auto last   = extrusion_entities.end();
         extrusion_entities.erase(
             std::remove_if(first, last, [&role](const ExtrusionEntity* ee) {
                 return ee->role() != role; }),
             last);
-    }
+	}
 }
 #endif
 
@@ -52,8 +52,8 @@ void ExtrusionEntityCollection::swap(ExtrusionEntityCollection &c)
 
 void ExtrusionEntityCollection::clear()
 {
-    for (size_t i = 0; i < this->entities.size(); ++i)
-        delete this->entities[i];
+	for (size_t i = 0; i < this->entities.size(); ++i)
+		delete this->entities[i];
     this->entities.clear();
 }
 
@@ -78,7 +78,7 @@ void ExtrusionEntityCollection::reverse()
         // Don't reverse it if it's a loop, as it doesn't change anything in terms of elements ordering
         // and caller might rely on winding order
         if (! ptr->is_loop())
-            ptr->reverse();
+        	ptr->reverse();
     std::reverse(this->entities.begin(), this->entities.end());
 }
 
@@ -121,25 +121,25 @@ size_t ExtrusionEntityCollection::items_count() const
 // Returns a single vector of pointers to all non-collection items contained in this one.
 ExtrusionEntityCollection ExtrusionEntityCollection::flatten(bool preserve_ordering) const
 {
-    struct Flatten {
-        Flatten(bool preserve_ordering) : preserve_ordering(preserve_ordering) {}
-        ExtrusionEntityCollection out;
-        bool                         preserve_ordering;
-        void recursive_do(const ExtrusionEntityCollection &collection) {
-            if (collection.no_sort && preserve_ordering) {
-                // Don't flatten whatever happens below this level.
-                out.append(collection);
-            } else {
-                for (const ExtrusionEntity *entity : collection.entities)
-                    if (entity->is_collection())
-                        this->recursive_do(*static_cast<const ExtrusionEntityCollection*>(entity));
-                    else
-                        out.append(*entity);
-            }
-        }
-    } flatten(preserve_ordering);
+	struct Flatten {
+		Flatten(bool preserve_ordering) : preserve_ordering(preserve_ordering) {}
+		ExtrusionEntityCollection out;
+		bool   					  preserve_ordering;
+		void recursive_do(const ExtrusionEntityCollection &collection) {
+		    if (collection.no_sort && preserve_ordering) {
+		    	// Don't flatten whatever happens below this level.
+		    	out.append(collection);
+		    } else {
+				for (const ExtrusionEntity *entity : collection.entities)
+					if (entity->is_collection())
+						this->recursive_do(*static_cast<const ExtrusionEntityCollection*>(entity));
+					else
+						out.append(*entity);
+			}
+		}
+	} flatten(preserve_ordering);
 
-    flatten.recursive_do(*this);
+	flatten.recursive_do(*this);
     return flatten.out;
 }
 
@@ -147,7 +147,7 @@ double ExtrusionEntityCollection::min_mm3_per_mm() const
 {
     double min_mm3_per_mm = std::numeric_limits<double>::max();
     for (const ExtrusionEntity *entity : this->entities)
-        min_mm3_per_mm = std::min(min_mm3_per_mm, entity->min_mm3_per_mm());
+    	min_mm3_per_mm = std::min(min_mm3_per_mm, entity->min_mm3_per_mm());
     return min_mm3_per_mm;
 }
 

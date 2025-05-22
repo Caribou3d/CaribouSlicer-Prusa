@@ -372,9 +372,9 @@ void SVG::export_expolygons(const char *path, const std::vector<std::pair<Slic3r
         }
     }
     for (const auto &exp_with_attr : expolygons_with_attributes)
-        if (exp_with_attr.second.radius_points > 0)
-            for (const ExPolygon &expoly : exp_with_attr.first)
-                svg.draw(to_points(expoly), exp_with_attr.second.color_points, exp_with_attr.second.radius_points);
+    	if (exp_with_attr.second.radius_points > 0)
+			for (const ExPolygon &expoly : exp_with_attr.first)
+    			svg.draw(to_points(expoly), exp_with_attr.second.color_points, exp_with_attr.second.radius_points);
 
     // Export legend.
     // 1st row

@@ -33,6 +33,11 @@ namespace Slic3r {
 
 static const std::string VENDOR_PREFIX = "vendor:";
 static const std::string MODEL_PREFIX = "model:";
+// Because of a crash in PrusaSlicer 2.3.0/2.3.1 when showing an update notification with some locales, we don't want PrusaSlicer 2.3.0/2.3.1
+// to show this notification. On the other hand, we would like PrusaSlicer 2.3.2 to show an update notification of the upcoming PrusaSlicer 2.4.0.
+// Thus we will let PrusaSlicer 2.3.2 and couple of follow-up versions to download the version number from an alternate file until the PrusaSlicer 2.3.0/2.3.1
+// are phased out, then we will revert to the original name.
+// For 2.6.0-alpha1 we have switched back to the original. The file should contain data for AppUpdater.cpp
 //The file contains data for AppUpdater.cpp
 static const std::string VERSION_CHECK_URL = "https://caribou3d.com/CaribouSlicer/CaribouSlicer.version";
 // Url to index archive zip that contains latest indicies
@@ -58,9 +63,6 @@ void AppConfig::reset()
 void AppConfig::set_defaults()
 {
     if (m_mode == EAppMode::Editor) {
-        // Reset the empty fields to defaults.
-        if (get("autocenter").empty())
-            set("autocenter", "0");
         // Disable background processing by default as it is not stable.
         if (get("background_processing").empty())
             set("background_processing", "0");
@@ -151,11 +153,8 @@ void AppConfig::set_defaults()
         if (get("default_action_on_new_project").empty())
             set("default_action_on_new_project", "none");       // , "keep(transfer)", "discard" or "save"
 
-        if (get("show_collapse_button").empty())
-            set("show_collapse_button", "1");
-
-        if (get("color_manipulation_panel").empty())
-            set("color_manipulation_panel", "1");
+        if (get("color_mapinulation_panel").empty())
+            set("color_mapinulation_panel", "0");
 
         if (get("order_volumes").empty())
             set("order_volumes", "1");
@@ -360,7 +359,7 @@ std::string AppConfig::load(const std::string &path)
 #endif // WIN32
             BOOST_LOG_TRIVIAL(info) << format(R"(Failed to parse configuration file "%1%": %2%)", path, ex.what());
         if (!recovered) {
-            // Report the initial error of parsing CaribouSlicer.ini.
+            // Report the initial error of parsing PrusaSlicer.ini.
             // Error while parsing config file. We'll customize the error message and rethrow to be displayed.
             // ! But to avoid the use of _utf8 (related to use of wxWidgets)
             // we will rethrow this exception from the place of load() call, if returned value wouldn't be empty
@@ -370,13 +369,13 @@ std::string AppConfig::load(const std::string &path)
 
     // 2) Parse the property_tree, extract the sections and key / value pairs.
     for (const auto &section : tree) {
-        if (section.second.empty()) {
-            // This may be a top level (no section) entry, or an empty section.
-            std::string data = section.second.data();
-            if (! data.empty())
-                // If there is a non-empty data, then it must be a top-level (without a section) config entry.
-                m_storage[""][section.first] = data;
-        } else if (boost::starts_with(section.first, VENDOR_PREFIX)) {
+    	if (section.second.empty()) {
+    		// This may be a top level (no section) entry, or an empty section.
+    		std::string data = section.second.data();
+    		if (! data.empty())
+    			// If there is a non-empty data, then it must be a top-level (without a section) config entry.
+    			m_storage[""][section.first] = data;
+    	} else if (boost::starts_with(section.first, VENDOR_PREFIX)) {
             // This is a vendor section listing enabled model / variants
             const auto vendor_name = section.first.substr(VENDOR_PREFIX.size());
             auto &vendor = m_vendors[vendor_name];
@@ -389,11 +388,11 @@ std::string AppConfig::load(const std::string &path)
                     vendor[model_name].insert(variant);
                 }
             }
-        } else {
-            // This must be a section name. Read the entries of a section.
-            std::map<std::string, std::string> &storage = m_storage[section.first];
+    	} else {
+    		// This must be a section name. Read the entries of a section.
+    		std::map<std::string, std::string> &storage = m_storage[section.first];
             for (auto &kvp : section.second)
-                storage[kvp.first] = kvp.second.data();
+            	storage[kvp.first] = kvp.second.data();
         }
     }
 
@@ -453,12 +452,12 @@ void AppConfig::save()
         config_ss << kvp.first << " = " << kvp.second << std::endl;
     // Write the other categories.
     for (const auto& category : m_storage) {
-        if (category.first.empty())
-            continue;
+    	if (category.first.empty())
+    		continue;
         config_ss << std::endl << "[" << category.first << "]" << std::endl;
         for (const auto& kvp : category.second)
             config_ss << kvp.first << " = " << kvp.second << std::endl;
-    }
+	}
     // Write vendor sections
     for (const auto &vendor : m_vendors) {
         size_t size_sum = 0;
@@ -499,7 +498,7 @@ void AppConfig::save()
 #endif
 
     // Rename the config atomically.
-    // On Windows, the rename is likely NOT atomic, thus it may fail if CaribouSlicer crashes on another thread in the meanwhile.
+    // On Windows, the rename is likely NOT atomic, thus it may fail if PrusaSlicer crashes on another thread in the meanwhile.
     // To cope with that, we already made a backup of the config on Windows.
     rename_file(path_pid, path);
     m_dirty = false;
@@ -701,21 +700,21 @@ bool AppConfig::update_skein_dir(const std::string &dir)
 
 std::string AppConfig::get_last_output_dir(const std::string& alt, const bool removable) const
 {
-    std::string s1 = (removable ? "last_output_path_removable" : "last_output_path");
-    std::string s2 = (removable ? "remember_output_path_removable" : "remember_output_path");
-    const auto it = m_storage.find("");
-    if (it != m_storage.end()) {
-        const auto it2 = it->second.find(s1);
-        const auto it3 = it->second.find(s2);
-        if (it2 != it->second.end() && it3 != it->second.end() && !it2->second.empty() && it3->second == "1")
-            return it2->second;
-    }
-    return is_shapes_dir(alt) ? get_last_dir() : alt;
+	std::string s1 = (removable ? "last_output_path_removable" : "last_output_path");
+	std::string s2 = (removable ? "remember_output_path_removable" : "remember_output_path");
+	const auto it = m_storage.find("");
+	if (it != m_storage.end()) {
+		const auto it2 = it->second.find(s1);
+		const auto it3 = it->second.find(s2);
+		if (it2 != it->second.end() && it3 != it->second.end() && !it2->second.empty() && it3->second == "1")
+			return it2->second;
+	}
+	return is_shapes_dir(alt) ? get_last_dir() : alt;
 }
 
 bool AppConfig::update_last_output_dir(const std::string& dir, const bool removable)
 {
-    return this->set("", (removable ? "last_output_path_removable" : "last_output_path"), dir);
+	return this->set("", (removable ? "last_output_path_removable" : "last_output_path"), dir);
 }
 
 

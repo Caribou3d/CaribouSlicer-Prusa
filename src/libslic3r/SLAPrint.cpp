@@ -22,6 +22,8 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/log/trivial.hpp>
 
+#include "libslic3r/MultipleBeds.hpp"
+
 // #define SLAPRINT_DO_BENCHMARK
 
 #ifdef SLAPRINT_DO_BENCHMARK
@@ -106,16 +108,16 @@ sla::SupportTreeConfig make_support_cfg(const SLAPrintObjectConfig& c)
         break;
     }
     }
-
+    
     return scfg;
 }
 
 sla::PadConfig::EmbedObject builtin_pad_cfg(const SLAPrintObjectConfig& c)
 {
     sla::PadConfig::EmbedObject ret;
-
+    
     ret.enabled = is_zero_elevation(c);
-
+    
     if(ret.enabled) {
         ret.everywhere           = c.pad_around_object_everywhere.getBool();
         ret.object_gap_mm        = c.pad_object_gap.getFloat();
@@ -124,24 +126,24 @@ sla::PadConfig::EmbedObject builtin_pad_cfg(const SLAPrintObjectConfig& c)
         ret.stick_penetration_mm = c.pad_object_connector_penetration
                                        .getFloat();
     }
-
+    
     return ret;
 }
 
 sla::PadConfig make_pad_cfg(const SLAPrintObjectConfig& c)
 {
     sla::PadConfig pcfg;
-
+    
     pcfg.wall_thickness_mm = c.pad_wall_thickness.getFloat();
     pcfg.wall_slope = c.pad_wall_slope.getFloat() * PI / 180.0;
-
+    
     pcfg.max_merge_dist_mm = c.pad_max_merge_distance.getFloat();
     pcfg.wall_height_mm = c.pad_wall_height.getFloat();
     pcfg.brim_size_mm = c.pad_brim_size.getFloat();
-
+    
     // set builtin pad implicitly ON
     pcfg.embed_object = builtin_pad_cfg(c);
-
+    
     return pcfg;
 }
 
@@ -193,8 +195,8 @@ static std::vector<SLAPrintObject::Instance> sla_instances(const ModelObject &mo
     return instances;
 }
 
-std::vector<ObjectID> SLAPrint::print_object_ids() const
-{
+std::vector<ObjectID> SLAPrint::print_object_ids() const 
+{ 
     std::vector<ObjectID> out;
     // Reserve one more for the caller to append the ID of the Print itself.
     out.reserve(m_objects.size() + 1);
@@ -297,6 +299,16 @@ SLAPrint::ApplyStatus SLAPrint::apply(const Model &model, DynamicPrintConfig con
         update_apply_status(this->invalidate_state_by_config_options(printer_diff, invalidate_all_model_objects));
     if (! material_diff.empty())
         update_apply_status(this->invalidate_state_by_config_options(material_diff, invalidate_all_model_objects));
+
+    // Multiple beds hack: We currently use one SLAPrint for all beds. It must be invalidated
+    // when beds are switched. If not done explicitly, supports from previously sliced object
+    // might end up with wrong offset.
+    static int last_bed_idx = s_multiple_beds.get_active_bed();
+    int current_bed = s_multiple_beds.get_active_bed();
+    if (current_bed != last_bed_idx) {
+        invalidate_all_model_objects = true;
+        last_bed_idx = current_bed;
+    }
 
     // Apply variables to placeholder parser. The placeholder parser is currently used
     // only to generate the output file name.
@@ -514,7 +526,7 @@ SLAPrint::ApplyStatus SLAPrint::apply(const Model &model, DynamicPrintConfig con
                     model_object.sla_support_points = model_object_new.sla_support_points;
                 }
                 model_object.sla_points_status = model_object_new.sla_points_status;
-
+                
                 // Invalidate hollowing if drain holes have changed
                 if (model_object.sla_drain_holes != model_object_new.sla_drain_holes)
                 {
@@ -626,15 +638,15 @@ std::string SLAPrint::validate(std::vector<std::string>*) const
         sla::SupportTreeConfig cfg = make_support_cfg(po->config());
 
         double elv = cfg.object_elevation_mm;
-
+        
         sla::PadConfig padcfg = make_pad_cfg(po->config());
         sla::PadConfig::EmbedObject &builtinpad = padcfg.embed_object;
-
+        
         if(supports_en && !builtinpad.enabled && elv < cfg.head_fullwidth())
             return _u8L(
                 "Elevation is too low for object. Use the \"Pad around "
                 "object\" feature to print the object without elevation.");
-
+        
         if(supports_en && builtinpad.enabled &&
            cfg.pillar_base_safety_distance_mm < builtinpad.object_gap_mm) {
             return _u8L(
@@ -643,7 +655,7 @@ std::string SLAPrint::validate(std::vector<std::string>*) const
                 "distance' has to be greater than the 'Pad object gap' "
                 "parameter to avoid this.");
         }
-
+        
         std::string pval = padcfg.validate();
         if (!pval.empty()) return pval;
     }
@@ -662,10 +674,7 @@ std::string SLAPrint::validate(std::vector<std::string>*) const
     if (iexpt_cur < iexpt_min || iexpt_cur > iexpt_max)
         return _u8L("Initial exposition time is out of printer profile bounds.");
 
-    // for (const std::string& prefix : { "", "branching" }) {
-
-    std::vector<std::string> keys = {  "", "branching" };
-    for (const std::string &prefix : keys) {  
+    for (const std::string& prefix : { "", "branching" }) {
 
         double head_penetration = m_full_print_config.opt_float(prefix + "support_head_penetration");
         double head_width       = m_full_print_config.opt_float(prefix + "support_head_width");
@@ -704,6 +713,16 @@ void SLAPrint::export_print(const std::string &fname, const ThumbnailsList &thum
     }
 }
 
+bool SLAPrint::is_prusa_print(const std::string& printer_model)
+{
+    static const std::vector<std::string> prusa_printer_models = { "SL1", "SL1S", "M1", "SLX" };
+    for (const std::string& model : prusa_printer_models)
+        if (model == printer_model)
+            return true;
+
+    return false;
+}
+
 bool SLAPrint::invalidate_step(SLAPrintStep step)
 {
     bool invalidated = Inherited::invalidate_step(step);
@@ -725,7 +744,7 @@ void SLAPrint::process()
 
     // Assumption: at this point the print objects should be populated only with
     // the model objects we have to process and the instances are also filtered
-
+    
     Steps printsteps(this);
 
     // We want to first process all objects...
@@ -739,7 +758,7 @@ void SLAPrint::process()
     };
 
     SLAPrintStep print_steps[] = { slapsMergeSlicesAndEval, slapsRasterize };
-
+    
     double st = Steps::min_objstatus;
 
     BOOST_LOG_TRIVIAL(info) << "Start slicing process.";
@@ -779,7 +798,7 @@ void SLAPrint::process()
                     throw_if_canceled();
                     po->set_done(step);
                 }
-
+                
                 incr = printsteps.progressrange(step);
             }
         }
@@ -801,7 +820,7 @@ void SLAPrint::process()
             throw_if_canceled();
             set_done(currentstep);
         }
-
+        
         st += printsteps.progressrange(currentstep);
     }
 

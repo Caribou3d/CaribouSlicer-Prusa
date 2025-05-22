@@ -193,7 +193,16 @@ static const t_config_enum_values s_keys_map_SeamPosition {
     { "aligned",        spAligned },
     { "rear",           spRear }
 };
+
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(SeamPosition)
+
+static const t_config_enum_values s_keys_map_ScarfSeamPlacement {
+    { "nowhere",        static_cast<int>(ScarfSeamPlacement::nowhere) },
+    { "contours",       static_cast<int>(ScarfSeamPlacement::countours) },
+    { "everywhere",     static_cast<int>(ScarfSeamPlacement::everywhere) }
+};
+
+CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(ScarfSeamPlacement)
 
 static const t_config_enum_values s_keys_map_SLADisplayOrientation = {
     { "landscape",      sladoLandscape},
@@ -305,6 +314,13 @@ static const t_config_enum_values s_keys_map_TiltSpeeds{
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(TiltSpeeds)
 
+static const t_config_enum_values s_keys_map_EnsureVerticalShellThickness {
+    { "disabled", int(EnsureVerticalShellThickness::Disabled) },
+    { "partial",  int(EnsureVerticalShellThickness::Partial)  },
+    { "enabled",  int(EnsureVerticalShellThickness::Enabled)  },
+};
+CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(EnsureVerticalShellThickness)
+
 static void assign_printer_technology_to_unknown(t_optiondef_map &options, PrinterTechnology printer_technology)
 {
     for (std::pair<const t_config_option_key, ConfigOptionDef> &kvp : options)
@@ -415,7 +431,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-
+    
     def = this->add("printhost_port", coString);
     def->label = L("Printer");
     def->tooltip = L("Name of the printer");
@@ -423,7 +439,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-
+    
     def = this->add("printhost_cafile", coString);
     def->label = L("HTTPS CA File");
     def->tooltip = L("Custom CA certificate file can be specified for HTTPS OctoPrint connections, in crt/pem format. "
@@ -431,16 +447,16 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-
+    
     // Options used by physical printers
-
+    
     def = this->add("printhost_user", coString);
     def->label = L("User");
 //    def->tooltip = L("");
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
-
+    
     def = this->add("printhost_password", coString);
     def->label = L("Password");
 //    def->tooltip = L("");
@@ -457,7 +473,7 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionBool(false));
-
+    
     def = this->add("preset_names", coStrings);
     def->label = L("Printer preset names");
     def->tooltip = L("Names of presets related to the physical printer");
@@ -474,6 +490,20 @@ void PrintConfigDef::init_common_params()
     def->mode = comAdvanced;
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionEnum<AuthorizationType>(atKeyPassword));
+
+    def = this->add("profile_vendor", coString);
+    def->label = L("Profile vendor");
+    def->tooltip = L("Name of profile vendor");
+    def->mode = comAdvanced;
+    def->cli = ConfigOptionDef::nocli;
+    def->set_default_value(new ConfigOptionString(""));
+
+    def = this->add("profile_version", coString);
+    def->label = L("Profile version");
+    def->tooltip = L("Version of profile");
+    def->mode = comAdvanced;
+    def->cli = ConfigOptionDef::nocli;
+    def->set_default_value(new ConfigOptionString(""));
 
     // temporary workaround for compatibility with older Slicer
     {
@@ -496,6 +526,31 @@ void PrintConfigDef::init_fff_params()
     });
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionEnum<ArcFittingType>(ArcFittingType::Disabled));
+
+    def = this->add("automatic_extrusion_widths", coBool);
+    def->label = L("Automatic extrusion widths calculation");
+    def->category = L("Extrusion Width");
+    def->tooltip = L("Automatically calculates extrusion widths based on the nozzle diameter of the currently used extruder. "
+                     "This setting is essential for printing with different nozzle diameters.");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("automatic_infill_combination", coBool);
+    def->label = L("Automatic infill combination");
+    def->category = L("Infill");
+    def->tooltip = L("This feature automatically combines infill of several layers and speeds up your print by extruding thicker "
+                     "infill layers while preserving thin perimeters, thus maintaining accuracy.");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("automatic_infill_combination_max_layer_height", coFloatOrPercent);
+    def->label = L("Automatic infill combination - Max layer height");
+    def->category = L("Infill");
+    def->tooltip = L("Maximum layer height for combining infill when automatic infill combining is enabled. "
+                     "Maximum layer height could be specified either as an absolute in millimeters value or as a percentage of nozzle diameter. "
+                     "For printing with different nozzle diameters, it is recommended to use percentage value over absolute value.");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionFloatOrPercent(100., true));
 
     // Maximum extruder temperature, bumped to 1500 to support printing of glass.
     const int max_temp = 1500;
@@ -596,7 +651,7 @@ void PrintConfigDef::init_fff_params()
     def->label = L_CONTEXT("Bottom", "Layers");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("The number of bottom solid layers is increased above bottom_solid_layers if necessary to satisfy "
-                     "minimum thickness of bottom shell.");
+    				 "minimum thickness of bottom shell.");
     def->full_label = L("Minimum bottom shell thickness");
     def->sidetext = L("mm");
     def->min = 0;
@@ -788,7 +843,7 @@ void PrintConfigDef::init_fff_params()
         { "no_brim",         L("No brim") },
         { "outer_only",      L("Outer brim only") },
         { "inner_only",      L("Inner brim only") },
-        { "outer_and_inner", L("Outer and inner brim") }
+        { "outer_and_inner", L("Outer and inner brim") } 
     });
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionEnum<BrimType>(btOuterOnly));
@@ -930,7 +985,7 @@ void PrintConfigDef::init_fff_params()
     def = this->add("end_gcode", coString);
     def->label = L("End G-code");
     def->tooltip = L("This end procedure is inserted at the end of the output file. "
-                   "Note that you can use placeholder variables for all CaribouSlicer settings.");
+                   "Note that you can use placeholder variables for all PrusaSlicer settings.");
     def->multiline = true;
     def->full_width = true;
     def->height = 12;
@@ -941,13 +996,27 @@ void PrintConfigDef::init_fff_params()
     def->label = L("End G-code");
     def->tooltip = L("This end procedure is inserted at the end of the output file, before the printer end gcode (and "
                    "before any toolchange from this filament in case of multimaterial printers). "
-                   "Note that you can use placeholder variables for all CaribouSlicer settings. "
+                   "Note that you can use placeholder variables for all PrusaSlicer settings. "
                    "If you have multiple extruders, the gcode is processed in extruder order.");
     def->multiline = true;
     def->full_width = true;
     def->height = 120;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionStrings { "; Filament-specific end gcode \n;END gcode for filament\n" });
+
+    def = this->add("ensure_vertical_shell_thickness", coEnum);
+    def->label = L("Ensure vertical shell thickness");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Add solid infill near sloping surfaces to guarantee the vertical shell thickness "
+                   "(top+bottom solid layers).");
+    def->set_enum<EnsureVerticalShellThickness>({
+        { "disabled", L("Disabled") },
+        // TRN: This is a drop-down option for 'Ensure vertical shell thickness' parameter.
+        { "partial",  L("Partial")  },
+        { "enabled",  L("Enabled")  },
+    });
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionEnum<EnsureVerticalShellThickness>(EnsureVerticalShellThickness::Enabled));
 
     auto def_top_fill_pattern = def = this->add("top_fill_pattern", coEnum);
     def->label = L("Top fill pattern");
@@ -1011,7 +1080,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("extra_perimeters", coBool);
-    def->label = L("if needed");
+    def->label = L("Extra perimeters if needed");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("Add more perimeters when needed for avoiding gaps in sloping walls. "
                    "Slic3r keeps adding perimeters, until more than 70% of the loop immediately above "
@@ -1020,7 +1089,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionBool(true));
 
     def = this->add("extra_perimeters_on_overhangs", coBool);
-    def->label = L("on overhangs");
+    def->label = L("Extra perimeters on overhangs (Experimental)");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("Detect overhang areas where bridges cannot be anchored, and fill them with "
                     "extra perimeter paths. These paths are anchored to the nearby non-overhang area when possible.");
@@ -1033,7 +1102,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The extruder to use (unless more specific extruder settings are specified). "
                    "This value overrides perimeter and infill extruders, but not the support extruders.");
     def->min = 0;  // 0 = inherit defaults
-    def->set_enum_labels(ConfigOptionDef::GUIType::i_enum_open,
+    def->set_enum_labels(ConfigOptionDef::GUIType::i_enum_open, 
         { L("default"), "1", "2", "3", "4", "5" }); // override label for item 0
 
     def = this->add("extruder_clearance_height", coFloat);
@@ -1341,11 +1410,11 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The filament material type for use in custom G-codes.");
     def->gui_flags = "show_value";
     def->set_enum_values(ConfigOptionDef::GUIType::select_open, {
-        "PLA",
+        "PLA", 
         "PET",
         "ABS",
         "ASA",
-        "FLEX",
+        "FLEX", 
         "HIPS",
         "EDGE",
         "NGEN",
@@ -1469,7 +1538,7 @@ void PrintConfigDef::init_fff_params()
     def->set_enum<InfillPattern>({
         { "rectilinear",        L("Rectilinear") },
         { "alignedrectilinear", L("Aligned Rectilinear") },
-        { "grid",               L("Grid") },
+        { "grid",               L("Grid") }, 
         { "triangles",          L("Triangles")},
         { "stars",              L("Stars")},
         { "cubic",              L("Cubic")},
@@ -1643,7 +1712,7 @@ void PrintConfigDef::init_fff_params()
     def->label = L("G-code flavor");
     def->tooltip = L("Some G/M-code commands, including temperature control and others, are not universal. "
                    "Set this option to your printer's firmware to get a compatible output. "
-                   "The \"No extrusion\" flavor prevents CaribouSlicer from exporting any extrusion value at all.");
+                   "The \"No extrusion\" flavor prevents PrusaSlicer from exporting any extrusion value at all.");
     def->set_enum<GCodeFlavor>({
         { "reprap",         "RepRap/Sprinter" },
         { "reprapfirmware", "RepRapFirmware" },
@@ -1752,7 +1821,7 @@ void PrintConfigDef::init_fff_params()
     def->category = L("Advanced");
     def->tooltip = L("Connect an infill line to an internal perimeter with a short segment of an additional perimeter. "
                      "If expressed as percentage (example: 15%) it is calculated over infill extrusion width. "
-                     "CaribouSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
+                     "PrusaSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
                      "shorter than infill_anchor_max is found, the infill line is connected to a perimeter segment at just one side "
                      "and the length of the perimeter segment taken is limited to this parameter, but no longer than anchor_length_max. "
                      "Set this parameter to zero to disable anchoring perimeters connected to a single infill line.");
@@ -1775,7 +1844,7 @@ void PrintConfigDef::init_fff_params()
     def->category    = def_infill_anchor_min->category;
     def->tooltip = L("Connect an infill line to an internal perimeter with a short segment of an additional perimeter. "
                      "If expressed as percentage (example: 15%) it is calculated over infill extrusion width. "
-                     "CaribouSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
+                     "PrusaSlicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment "
                      "shorter than this parameter is found, the infill line is connected to a perimeter segment at just one side "
                      "and the length of the perimeter segment taken is limited to infill_anchor, but no longer than this parameter. "
                      "Set this parameter to zero to disable anchoring.");
@@ -2553,7 +2622,7 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("travel_lift_before_obstacle", coBools);
     def->label = L("Steeper ramp before obstacles");
-    def->tooltip = L("If enabled, CaribouSlicer detects obstacles along the travel path and makes the slope steeper "
+    def->tooltip = L("If enabled, PrusaSlicer detects obstacles along the travel path and makes the slope steeper "
                      "in case an obstacle might be hit during the initial phase of the travel.");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionBools{false});
@@ -2625,6 +2694,17 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloats { 0. });
 
+    def = this->add("seam_gap_distance", coFloatOrPercent);
+    def->label = L("Seam gap distance");
+    def->tooltip = L("The distance between the endpoints of a closed loop perimeter. "
+                   "Positive values will shorten and interrupt the loop slightly to reduce the seam. "
+                   "Negative values will extend the loop, causing the endpoints to overlap slightly. "
+                   "When percents are used, the distance is derived from the nozzle diameter. "
+                   "Set to zero to disable this feature.");
+    def->sidetext = L("mm or %");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionFloatOrPercent{ 15., true });
+
     def = this->add("seam_position", coEnum);
     def->label = L("Seam position");
     def->category = L("Layers and Perimeters");
@@ -2642,6 +2722,69 @@ void PrintConfigDef::init_fff_params()
     def->label = L("Staggered inner seams");
     // TRN PrintSettings: "Staggered inner seams"
     def->tooltip = L("This option causes the inner seams to be shifted backwards based on their depth, forming a zigzag pattern.");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("scarf_seam_placement", coEnum);
+    def->label = L("Scarf joint placement");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Where to place scarf joint seam.");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionEnum<ScarfSeamPlacement>(ScarfSeamPlacement::nowhere));
+    def->set_enum<ScarfSeamPlacement>({
+        // TRN: Drop-down option for 'Scarf joint placement' parameter.
+        { "nowhere", L("Nowhere") },
+        // TRN: Drop-down option for 'Scarf joint placement' parameter.
+        { "contours", L("Contours") },
+        { "everywhere", L("Everywhere") }
+    });
+
+    def = this->add("scarf_seam_only_on_smooth", coBool);
+    def->label = L("Scarf joint only on smooth perimeters");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Only use the scarf joint when the perimeter is smooth.");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionBool(true));
+
+    def = this->add("scarf_seam_start_height", coPercent);
+    def->label = L("Scarf start height");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Start height of the scarf joint specified as fraction of the current layer height.");
+    def->sidetext = L("%");
+    def->min = 0;
+    def->max = 100;
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionPercent(0));
+
+    def = this->add("scarf_seam_entire_loop", coBool);
+    def->label = L("Scarf joint around entire perimeter");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Extend the scarf around entire length of the perimeter.");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionBool(false));
+
+    def = this->add("scarf_seam_length", coFloat);
+    def->label = L("Scarf joint length");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Length of the scarf joint.");
+    def->sidetext = L("mm");
+    def->min = 0;
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionFloat(20));
+
+    def = this->add("scarf_seam_max_segment_length", coFloat);
+    def->label = L("Max scarf joint segment length");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Maximum length of any scarf joint segment.");
+    def->sidetext = L("mm");
+    def->min = 0.15f;
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionFloat(1.0));
+
+    def = this->add("scarf_seam_on_inner_perimeters", coBool);
+    def->label = L("Scarf joint on inner perimeters");
+    def->category = L("Layers and Perimeters");
+    def->tooltip = L("Use scarf joint on inner perimeters.");
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionBool(false));
 
@@ -2686,7 +2829,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("With draft shield active, the skirt will be printed skirt_distance from the object, possibly intersecting brim.\n"
                      "Enabled = skirt is as tall as the highest printed object.\n"
                      "Limited = skirt is as tall as specified by skirt_height.\n"
-                     "This is useful to protect an ABS or ASA print from warping and detaching from print bed due to wind draft.");
+    				 "This is useful to protect an ABS or ASA print from warping and detaching from print bed due to wind draft.");
     def->set_enum<DraftShield>({
         { "disabled",   L("Disabled") },
         { "limited",    L("Limited") },
@@ -2818,16 +2961,16 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("autoemit_temperature_commands", coBool);
     def->label = L("Emit temperature commands automatically");
-    def->tooltip = L("When enabled, CaribouSlicer will check whether your custom Start G-Code contains G-codes to set "
+    def->tooltip = L("When enabled, PrusaSlicer will check whether your custom Start G-Code contains G-codes to set "
                      "extruder, bed or chamber temperature (M104, M109, M140, M190, M141 and M191). "
                      "If so, the temperatures will not be emitted automatically so you're free to customize "
                      "the order of heating commands and other custom actions. Note that you can use "
-                     "placeholder variables for all CaribouSlicer settings, so you can put "
+                     "placeholder variables for all PrusaSlicer settings, so you can put "
                      "a \"M109 S[first_layer_temperature]\" command wherever you want.\n"
                      "If your custom Start G-Code does NOT contain these G-codes, "
-                     "CaribouSlicer will execute the Start G-Code after heated chamber was set to its temperature, "
+                     "PrusaSlicer will execute the Start G-Code after heated chamber was set to its temperature, "
                      "bed reached its target temperature and extruder just started heating.\n\n"
-                     "When disabled, CaribouSlicer will NOT emit commands to heat up extruder, bed or chamber, "
+                     "When disabled, PrusaSlicer will NOT emit commands to heat up extruder, bed or chamber, "
                      "leaving all to Custom Start G-Code.");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionBool(true));
@@ -2846,11 +2989,11 @@ void PrintConfigDef::init_fff_params()
     def->label = L("Start G-code");
     def->tooltip = L("This start procedure is inserted at the beginning, after any printer start gcode (and "
                    "after any toolchange to this filament in case of multi-material printers). "
-                   "This is used to override settings for a specific filament. If CaribouSlicer detects "
+                   "This is used to override settings for a specific filament. If PrusaSlicer detects "
                    "M104, M109, M140 or M190 in your custom codes, such commands will "
                    "not be prepended automatically so you're free to customize the order "
                    "of heating commands and other custom actions. Note that you can use placeholder variables "
-                   "for all CaribouSlicer settings, so you can put a \"M109 S[first_layer_temperature]\" command "
+                   "for all PrusaSlicer settings, so you can put a \"M109 S[first_layer_temperature]\" command "
                    "wherever you want. If you have multiple extruders, the gcode is processed "
                    "in extruder order.");
     def->multiline = true;
@@ -3168,7 +3311,7 @@ void PrintConfigDef::init_fff_params()
                      "will create more stable supports, while snug support towers will save material and reduce "
                      "object scarring.");
     def->set_enum<SupportMaterialStyle>({
-        { "grid", L("Grid") },
+        { "grid", L("Grid") }, 
         { "snug", L("Snug") },
         { "organic", L("Organic") }
     });
@@ -3255,7 +3398,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(2));
 
     def = this->add("support_tree_branch_diameter_angle", coFloat);
-    // TRN PrintSettings: #lmFIXME
+    // TRN PrintSettings: #lmFIXME 
     def->label = L("Branch Diameter Angle");
     def->category = L("Support material");
     // TRN PrintSettings: "Organic supports" > "Branch Diameter Angle"
@@ -3281,10 +3424,10 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(3));
 
     // Tree Support Branch Distance
-    // How far apart the branches need to be when they touch the model. Making this distance small will cause
+    // How far apart the branches need to be when they touch the model. Making this distance small will cause 
     // the tree support to touch the model at more points, causing better overhang but making support harder to remove.
     def = this->add("support_tree_branch_distance", coFloat);
-    // TRN PrintSettings: #lmFIXME
+    // TRN PrintSettings: #lmFIXME 
     def->label = L("Branch Distance");
     def->category = L("Support material");
     // TRN PrintSettings: "Organic supports" > "Branch Distance"
@@ -3336,9 +3479,9 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("toolchange_gcode", coString);
     def->label = L("Tool change G-code");
-    def->tooltip = L("This custom code is inserted before every toolchange. Placeholder variables for all CaribouSlicer settings "
+    def->tooltip = L("This custom code is inserted before every toolchange. Placeholder variables for all PrusaSlicer settings "
                      "as well as {toolchange_z}, {previous_extruder} and {next_extruder} can be used. When a tool-changing command "
-                     "which changes to the correct extruder is included (such as T{next_extruder}), CaribouSlicer will emit no other such command. "
+                     "which changes to the correct extruder is included (such as T{next_extruder}), PrusaSlicer will emit no other such command. "
                      "It is therefore possible to script custom behaviour both before and after the toolchange.");
     def->multiline = true;
     def->full_width = true;
@@ -3386,8 +3529,8 @@ void PrintConfigDef::init_fff_params()
     def->label = L_CONTEXT("Top", "Layers");
     def->category = L("Layers and Perimeters");
     def->tooltip = L("The number of top solid layers is increased above top_solid_layers if necessary to satisfy "
-                     "minimum thickness of top shell."
-                     " This is useful to prevent pillowing effect when printing with variable layer height.");
+    				 "minimum thickness of top shell."
+    				 " This is useful to prevent pillowing effect when printing with variable layer height.");
     def->full_label = L("Minimum top shell thickness");
     def->sidetext = L("mm");
     def->min = 0;
@@ -3465,7 +3608,7 @@ void PrintConfigDef::init_fff_params()
 
     def = this->add("wiping_volumes_matrix", coFloats);
     def->label = L("Purging volumes - matrix");
-    def->tooltip = L("This matrix describes volumes (in cubic millimetres) required to purge the"
+    def->tooltip = L("This matrix describes volumes (in cubic milimetres) required to purge the"
                      " new filament on the wipe tower for any given pair of tools.");
     def->set_default_value(new ConfigOptionFloats {   0., 140., 140., 140., 140.,
                                                     140.,   0., 140., 140., 140.,
@@ -3478,33 +3621,12 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = "";
     def->set_default_value(new ConfigOptionBool{ false });
 
-    def = this->add("wipe_tower_x", coFloat);
-    def->label = L("Position X");
-    def->tooltip = L("X coordinate of the left front corner of a wipe tower");
-    def->sidetext = L("mm");
-    def->mode = comAdvanced;
-    def->set_default_value(new ConfigOptionFloat(180.));
-
-    def = this->add("wipe_tower_y", coFloat);
-    def->label = L("Position Y");
-    def->tooltip = L("Y coordinate of the left front corner of a wipe tower");
-    def->sidetext = L("mm");
-    def->mode = comAdvanced;
-    def->set_default_value(new ConfigOptionFloat(140.));
-
     def = this->add("wipe_tower_width", coFloat);
     def->label = L("Width");
     def->tooltip = L("Width of a wipe tower");
     def->sidetext = L("mm");
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(60.));
-
-    def = this->add("wipe_tower_rotation_angle", coFloat);
-    def->label = L("Wipe tower rotation angle");
-    def->tooltip = L("Wipe tower rotation angle with respect to x-axis.");
-    def->sidetext = L("°");
-    def->mode = comAdvanced;
-    def->set_default_value(new ConfigOptionFloat(0.));
 
     def = this->add("wipe_tower_brim_width", coFloat);
     def->label = L("Wipe tower brim width");
@@ -3706,9 +3828,9 @@ void PrintConfigDef::init_fff_params()
         auto it_opt = options.find(opt_key);
         assert(it_opt != options.end());
         def = this->add_nullable(std::string("filament_") + opt_key, it_opt->second.type);
-        def->label         = it_opt->second.label;
+        def->label      = it_opt->second.label;
         def->full_label = it_opt->second.full_label;
-        def->tooltip     = it_opt->second.tooltip;
+        def->tooltip    = it_opt->second.tooltip;
         def->sidetext   = it_opt->second.sidetext;
         def->mode       = it_opt->second.mode;
         switch (def->type) {
@@ -3716,6 +3838,44 @@ void PrintConfigDef::init_fff_params()
         case coPercents : def->set_default_value(new ConfigOptionPercentsNullable(static_cast<const ConfigOptionPercents*>(it_opt->second.default_value.get())->values)); break;
         case coBools    : def->set_default_value(new ConfigOptionBoolsNullable   (static_cast<const ConfigOptionBools*   >(it_opt->second.default_value.get())->values)); break;
         default: assert(false);
+        }
+    }
+
+    // Declare values for filament profile, overriding printer's profile.
+    for (const char *opt_key : {
+        // Floats or Percents
+        "seam_gap_distance"}) {
+
+        auto it_opt = options.find(opt_key);
+        assert(it_opt != options.end());
+
+        switch (it_opt->second.type) {
+            case coFloatOrPercent: {
+                def = this->add_nullable(std::string("filament_") + opt_key, coFloatsOrPercents);
+                break;
+            }
+            default: {
+                assert(false);
+                break;
+            }
+        }
+
+        def->label      = it_opt->second.label;
+        def->full_label = it_opt->second.full_label;
+        def->tooltip    = it_opt->second.tooltip;
+        def->sidetext   = it_opt->second.sidetext;
+        def->mode       = it_opt->second.mode;
+
+        switch (def->type) {
+            case coFloatsOrPercents: {
+                const auto &default_value = *static_cast<const ConfigOptionFloatOrPercent *>(it_opt->second.default_value.get());
+                def->set_default_value(new ConfigOptionFloatsOrPercentsNullable{{default_value.value, default_value.percent}});
+                break;
+            }
+            default: {
+                assert(false);
+                break;
+            }
         }
     }
 }
@@ -3821,7 +3981,7 @@ void PrintConfigDef::init_sla_support_params(const std::string &prefix)
     def->label = L("Max weight on model");
     def->category = L("Supports");
     def->tooltip  = L(
-        "Maximum weight of sub-trees that terminate on the model instead of the print bed. The weight is the sum of the lengths of all "
+        "Maximum weight of sub-trees that terminate on the model instead of the print bed. The weight is the sum of the lenghts of all "
         "branches emanating from the endpoint.");
     def->sidetext = L("mm");
     def->min = 0;
@@ -3851,7 +4011,7 @@ void PrintConfigDef::init_sla_support_params(const std::string &prefix)
     def->label = L("Pillar widening factor");
     def->category = L("Supports");
 
-    def->tooltip  =
+    def->tooltip  = 
         L("Merging bridges or pillars into another pillars can "
         "increase the radius. Zero means no increase, one means "
         "full increase. The exact amount of increase is unspecified and can "
@@ -4074,7 +4234,7 @@ void PrintConfigDef::init_sla_params()
     def->sidetext = L("mm");
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.0));
-
+    
     def = this->add("elefant_foot_min_width", coFloat);
     def->label = L("Elephant foot minimum width");
     def->category = L("Advanced");
@@ -4254,7 +4414,7 @@ void PrintConfigDef::init_sla_params()
     def->full_width = true;
     def->height = 13;
     // TODO currently notes are the only way to pass data
-    // for non-PrusaResearch printers. We therefore need to always show them
+    // for non-PrusaResearch printers. We therefore need to always show them 
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionString(""));
 
@@ -4359,7 +4519,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 30;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.));
-
+    
     def = this->add("pad_brim_size", coFloat);
     def->label = L("Pad brim size");
     def->tooltip = L("How far should the pad extend around the contained geometry");
@@ -4410,7 +4570,7 @@ void PrintConfigDef::init_sla_params()
     def->tooltip = L("Create pad around object and ignore the support elevation");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(false));
-
+    
     def = this->add("pad_around_object_everywhere", coBool);
     def->label = L("Pad around object everywhere");
     def->category = L("Pad");
@@ -4456,14 +4616,14 @@ void PrintConfigDef::init_sla_params()
     def->min = 0;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.3));
-
+    
     def = this->add("hollowing_enable", coBool);
     def->label = L("Enable hollowing");
     def->category = L("Hollowing");
     def->tooltip = L("Hollow out a model to have an empty interior");
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionBool(false));
-
+    
     def = this->add("hollowing_min_thickness", coFloat);
     def->label = L("Wall thickness");
     def->category = L("Hollowing");
@@ -4473,7 +4633,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 10;
     def->mode = comSimple;
     def->set_default_value(new ConfigOptionFloat(3.));
-
+    
     def = this->add("hollowing_quality", coFloat);
     def->label = L("Accuracy");
     def->category = L("Hollowing");
@@ -4482,7 +4642,7 @@ void PrintConfigDef::init_sla_params()
     def->max = 1;
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloat(0.5));
-
+    
     def = this->add("hollowing_closing_distance", coFloat);
     def->label = L("Closing distance");
     def->category = L("Hollowing");
@@ -4527,8 +4687,8 @@ void PrintConfigDef::init_sla_params()
     // Declare retract values for material profile, overriding the print and printer profiles.
     for (const char* opt_key : {
         // float
-        "support_head_front_diameter", "branchingsupport_head_front_diameter",
-        "support_head_penetration", "branchingsupport_head_penetration",
+        "support_head_front_diameter", "branchingsupport_head_front_diameter", 
+        "support_head_penetration", "branchingsupport_head_penetration", 
         "support_head_width", "branchingsupport_head_width",
         "support_pillar_diameter", "branchingsupport_pillar_diameter",
         "elefant_foot_compensation", "absolute_correction",
@@ -4585,7 +4745,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionInts({ 0, 0}));
 
-    def = this->add("tower_speed", coEnums);
+    def = this->add("tower_speed", coEnums); 
     def->full_label = L("Tower speed");
     def->tooltip = L("Tower speed used for tower raise.");
     def->mode = comExpert;
@@ -4622,7 +4782,7 @@ void PrintConfigDef::init_sla_tilt_params()
         { "move8000",   "8000"  },
     };
 
-    def = this->add("tilt_down_initial_speed", coEnums);
+    def = this->add("tilt_down_initial_speed", coEnums); 
     def->full_label = L("Tilt down initial speed");
     def->tooltip = L("Tilt speed used for an initial portion of tilt down move.");
     def->mode = comExpert;
@@ -4630,7 +4790,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->set_enum<TiltSpeeds>(tilt_speeds_il);
     def->set_default_value(new ConfigOptionEnums<TiltSpeeds>({ tsLayer1750, tsLayer1750 }));
 
-    def = this->add("tilt_down_finish_speed", coEnums);
+    def = this->add("tilt_down_finish_speed", coEnums); 
     def->full_label = L("Tilt down finish speed");
     def->tooltip = L("Tilt speed used for the rest of the tilt down move.");
     def->mode = comExpert;
@@ -4638,7 +4798,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->set_enum<TiltSpeeds>(tilt_speeds_il);
     def->set_default_value(new ConfigOptionEnums<TiltSpeeds>({ tsLayer1750, tsLayer1750 }));
 
-    def = this->add("tilt_up_initial_speed", coEnums);
+    def = this->add("tilt_up_initial_speed", coEnums); 
     def->full_label = L("Tilt up initial speed");
     def->tooltip = L("Tilt speed used for an initial portion of tilt up move.");
     def->mode = comExpert;
@@ -4646,7 +4806,7 @@ void PrintConfigDef::init_sla_tilt_params()
     def->set_enum<TiltSpeeds>(tilt_speeds_il);
     def->set_default_value(new ConfigOptionEnums<TiltSpeeds>({ tsMove8000, tsMove8000 }));
 
-    def = this->add("tilt_up_finish_speed", coEnums);
+    def = this->add("tilt_up_finish_speed", coEnums); 
     def->full_label = L("Tilt up finish speed");
     def->tooltip = L("Tilt speed used for the rest of the tilt-up.");
     def->mode = comExpert;
@@ -4747,12 +4907,11 @@ static std::set<std::string> PrintConfigDef_ignore = {
     "fuzzy_skin_perimeter_mode", "fuzzy_skin_shape",
     // Introduced in PrusaSlicer 2.3.0-alpha2, later replaced by automatic calculation based on extrusion width.
     "wall_add_middle_threshold", "wall_split_middle_threshold",
-    // Replaced by new concentric ensuring in 2.6.0-alpha5
-    "ensure_vertical_shell_thickness",
     // Disabled in 2.6.0-alpha6, this option is problematic
     "infill_only_where_needed",
     "gcode_binary", // Introduced in 2.7.0-alpha1, removed in 2.7.1 (replaced by binary_gcode).
-    "wiping_volumes_extruders" // Removed in 2.7.3-alpha1.
+    "wiping_volumes_extruders", // Removed in 2.7.3-alpha1.
+    "wipe_tower_x", "wipe_tower_y", "wipe_tower_rotation_angle" // Removed in 2.9.0
 };
 
 void PrintConfigDef::handle_legacy(t_config_option_key &opt_key, std::string &value)
@@ -4805,9 +4964,9 @@ void PrintConfigDef::handle_legacy(t_config_option_key &opt_key, std::string &va
         // Slic3r PE does not support the pillars. They never worked well.
         value = "rectilinear";
     } else if (opt_key == "skirt_height" && value == "-1") {
-        // PrusaSlicer no more accepts skirt_height == -1 to print a draft shield to the top of the highest object.
+    	// PrusaSlicer no more accepts skirt_height == -1 to print a draft shield to the top of the highest object.
         // A new "draft_shield" enum config value is used instead.
-        opt_key = "draft_shield";
+    	opt_key = "draft_shield";
         value = "enabled";
     } else if (opt_key == "draft_shield" && (value == "1" || value == "0")) {
         // draft_shield used to be a bool, it was turned into an enum in PrusaSlicer 2.4.0.
@@ -4824,16 +4983,17 @@ void PrintConfigDef::handle_legacy(t_config_option_key &opt_key, std::string &va
         opt_key = "printhost_apikey";
     } else if (opt_key == "preset_name") {
         opt_key = "preset_names";
-    } /*else if (opt_key == "material_correction" || opt_key == "relative_correction") {
-        ConfigOptionFloats p;
-        p.deserialize(value);
-
-        if (p.values.size() < 3) {
-            double firstval = p.values.front();
-            p.values.emplace(p.values.begin(), firstval);
-            value = p.serialize();
+    } else if (opt_key == "ensure_vertical_shell_thickness") {
+        if (value == "1") {
+            value = "enabled";
+        } else if (value == "0") {
+            value = "partial";
+        } else if (const t_config_enum_values &enum_keys_map = ConfigOptionEnum<EnsureVerticalShellThickness>::get_enum_values(); enum_keys_map.find(value) == enum_keys_map.end()) {
+            assert(value == "0" || value == "1");
+            // Values other than 0/1 are replaced with "partial" for handling values from different slicers.
+            value = "partial";
         }
-    }*/
+    }
 
     // In PrusaSlicer 2.3.0-alpha0 the "monotonous" infill was introduced, which was later renamed to "monotonic".
     if (value == "monotonous" && (opt_key == "top_fill_pattern" || opt_key == "bottom_fill_pattern" || opt_key == "fill_pattern"))
@@ -4910,7 +5070,7 @@ const PrintConfigDef print_config_def;
 
 DynamicPrintConfig DynamicPrintConfig::full_print_config()
 {
-    return DynamicPrintConfig((const PrintRegionConfig&)FullPrintConfig::defaults());
+	return DynamicPrintConfig((const PrintRegionConfig&)FullPrintConfig::defaults());
 }
 
 DynamicPrintConfig::DynamicPrintConfig(const StaticPrintConfig& rhs) : DynamicConfig(rhs, rhs.keys_ref())
@@ -4925,7 +5085,7 @@ DynamicPrintConfig* DynamicPrintConfig::new_from_defaults_keys(const std::vector
 }
 
 double min_object_distance(const ConfigBase &cfg)
-{
+{   
     const ConfigOptionEnum<PrinterTechnology> *opt_printer_technology = cfg.option<ConfigOptionEnum<PrinterTechnology>>("printer_technology");
     auto printer_technology = opt_printer_technology ? opt_printer_technology->value : ptUnknown;
 
@@ -4938,7 +5098,7 @@ double min_object_distance(const ConfigBase &cfg)
         auto dd_opt  = cfg.option<ConfigOptionFloat>("duplicate_distance");
         auto co_opt  = cfg.option<ConfigOptionBool>("complete_objects");
 
-        if (!ecr_opt || !dd_opt || !co_opt)
+        if (!ecr_opt || !dd_opt || !co_opt) 
             ret = 0.;
         else {
             // min object distance is max(duplicate_distance, clearance_radius)
@@ -5007,7 +5167,7 @@ void DynamicPrintConfig::normalize_fdm()
         opt_wall_transition_length->value = std::max(opt_wall_transition_length->value, 0.001);
 }
 
-// Default values containe option pair of values (Below and Above) for each titl modes
+// Default values containe option pair of values (Below and Above) for each titl modes 
 // (Slow, Fast, HighViscosity and NoTilt) -> used for SL1S and other vendors printers
 
 const std::map<std::string, ConfigOptionFloats> tilt_options_floats_defs =
@@ -5047,7 +5207,7 @@ const std::map<std::string, ConfigOptionEnums<TiltSpeeds>> tilt_options_enums_de
     {"tilt_up_finish_speed",      ConfigOptionEnums<TiltSpeeds>({ tsLayer1750, tsLayer1750, tsLayer1750, tsLayer1750, tsLayer800, tsLayer800, tsMove120, tsMove120 }) } ,
 };
 
-// Default values containe option pair of values (Below and Above) for each titl modes
+// Default values containe option pair of values (Below and Above) for each titl modes 
 // (Slow, Fast, HighViscosity and NoTilt) -> used for SL1 printer
 
 const std::map<std::string, ConfigOptionFloats> tilt_options_floats_sl1_defs =
@@ -5420,7 +5580,7 @@ std::string validate(const FullPrintConfig &cfg)
         return ret; \
     }
 PRINT_CONFIG_CACHE_INITIALIZE((
-    PrintObjectConfig, PrintRegionConfig, MachineEnvelopeConfig, GCodeConfig, PrintConfig, FullPrintConfig,
+    PrintObjectConfig, PrintRegionConfig, MachineEnvelopeConfig, GCodeConfig, PrintConfig, FullPrintConfig, 
     SLAMaterialConfig, SLAPrintConfig, SLAPrintObjectConfig, SLAPrinterConfig, SLAFullPrintConfig))
 static int print_config_static_initialized = print_config_static_initializer();
 
@@ -5450,11 +5610,6 @@ CLIActionsConfigDef::CLIActionsConfigDef()
     def = this->add("export_3mf", coBool);
     def->label = L("Export 3MF");
     def->tooltip = L("Export the model(s) as 3MF.");
-    def->set_default_value(new ConfigOptionBool(false));
-
-    def = this->add("export_amf", coBool);
-    def->label = L("Export AMF");
-    def->tooltip = L("Export the model(s) as AMF.");
     def->set_default_value(new ConfigOptionBool(false));
 
     def = this->add("export_stl", coBool);
@@ -5641,8 +5796,8 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("config_compatibility", coEnum);
     def->label = L("Forward-compatibility rule when loading configurations from config files and project files (3MF, AMF).");
-    def->tooltip = L("This version of CaribouSlicer may not understand configurations produced by the newest CaribouSlicer versions. "
-                     "For example, newer CaribouSlicer may extend the list of supported firmware flavors. One may decide to "
+    def->tooltip = L("This version of PrusaSlicer may not understand configurations produced by the newest PrusaSlicer versions. "
+                     "For example, newer PrusaSlicer may extend the list of supported firmware flavors. One may decide to "
                      "bail out or to substitute an unknown value with a default silently or verbosely.");
     def->set_enum<ForwardCompatibilitySubstitutionRule>({
         { "disable",        L("Bail out on unknown configuration values") },
@@ -5662,8 +5817,8 @@ CLIMiscConfigDef::CLIMiscConfigDef()
 
     def = this->add("single_instance", coBool);
     def->label = L("Single instance mode");
-    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of GUI CaribouSlicer, "
-                     "or an existing CaribouSlicer window is activated. "
+    def->tooltip = L("If enabled, the command line arguments are sent to an existing instance of GUI PrusaSlicer, "
+                     "or an existing PrusaSlicer window is activated. "
                      "Overrides the \"single_instance\" configuration value from application preferences.");
 
     def = this->add("single_instance_on_url", coBool);
@@ -5780,12 +5935,12 @@ ReadWriteSlicingStatesConfigDef::ReadWriteSlicingStatesConfigDef()
     def = this->add("position", coFloats);
     def->label = L("Position");
     def->tooltip = L("Position of the extruder at the beginning of the custom G-code block. If the custom G-code travels somewhere else, "
-                     "it should write to this variable so CaribouSlicer knows where it travels from when it gets control back.");
+                     "it should write to this variable so PrusaSlicer knows where it travels from when it gets control back.");
 
     def = this->add("e_retracted", coFloats);
     def->label = L("Retraction");
     def->tooltip = L("Retraction state at the beginning of the custom G-code block. If the custom G-code moves the extruder axis, "
-                     "it should write to this variable so CaribouSlicer deretracts correctly when it gets control back.");
+                     "it should write to this variable so PrusaSlicer deretracts correctly when it gets control back.");
 
     def = this->add("e_restart_extra", coFloats);
     def->label = L("Extra deretraction");
@@ -5845,7 +6000,7 @@ PrintStatisticsConfigDef::PrintStatisticsConfigDef()
     def = this->add("normal_print_time", coString);
     def->label = L("Print time (normal mode)");
     def->tooltip = L("Estimated print time when printed in normal mode (i.e. not in silent mode). Same as print_time.");
-
+    
     def = this->add("num_printing_extruders", coInt);
     def->label = L("Number of printing extruders");
     def->tooltip = L("Number of extruders used during the print.");
@@ -6080,22 +6235,22 @@ static Points to_points(const std::vector<Vec2d> &dpts)
     Points pts; pts.reserve(dpts.size());
     for (auto &v : dpts)
         pts.emplace_back( coord_t(scale_(v.x())), coord_t(scale_(v.y())) );
-    return pts;
+    return pts;    
 }
 
 Points get_bed_shape(const DynamicPrintConfig &config)
 {
     const auto *bed_shape_opt = config.opt<ConfigOptionPoints>("bed_shape");
     if (!bed_shape_opt) {
-
+        
         // Here, it is certain that the bed shape is missing, so an infinite one
         // has to be used, but still, the center of bed can be queried
         if (auto center_opt = config.opt<ConfigOptionPoint>("center"))
             return { scaled(center_opt->value) };
-
+        
         return {};
     }
-
+    
     return to_points(bed_shape_opt->values);
 }
 

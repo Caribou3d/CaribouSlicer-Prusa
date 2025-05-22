@@ -320,95 +320,94 @@ void GCodeProcessor::TimeMachine::calculate_time(GCodeProcessorResult& result, P
         // detect actual speed moves required to render toolpaths using actual speed
         if (mode == PrintEstimatedStatistics::ETimeMode::Normal) {
             GCodeProcessorResult::MoveVertex& curr_move = result.moves[block.move_id];
-            if (curr_move.type != EMoveType::Extrude &&
-                curr_move.type != EMoveType::Travel &&
-                curr_move.type != EMoveType::Wipe)
-              continue;
+            if (curr_move.type == EMoveType::Extrude ||
+                curr_move.type == EMoveType::Travel ||
+                curr_move.type == EMoveType::Wipe) {
+                assert(curr_move.actual_feedrate == 0.0f);
 
-            assert(curr_move.actual_feedrate == 0.0f);
+                GCodeProcessorResult::MoveVertex& prev_move = result.moves[block.move_id - 1];
+                const bool interpolate = (prev_move.type == curr_move.type);
+                if (!interpolate &&
+                    prev_move.type != EMoveType::Extrude &&
+                    prev_move.type != EMoveType::Travel &&
+                    prev_move.type != EMoveType::Wipe)
+                    prev_move.actual_feedrate = block.feedrate_profile.entry;
 
-            GCodeProcessorResult::MoveVertex& prev_move = result.moves[block.move_id - 1];
-            const bool interpolate = (prev_move.type == curr_move.type);
-            if (!interpolate &&
-                prev_move.type != EMoveType::Extrude &&
-                prev_move.type != EMoveType::Travel &&
-                prev_move.type != EMoveType::Wipe)
-                prev_move.actual_feedrate = block.feedrate_profile.entry;
-
-            if (EPSILON < block.trapezoid.accelerate_until && block.trapezoid.accelerate_until < block.distance - EPSILON) {
-                const float t = block.trapezoid.accelerate_until / block.distance;
-                const Vec3f position = lerp(prev_move.position, curr_move.position, t);
-                if ((position - prev_move.position).norm() > EPSILON &&
-                    (position - curr_move.position).norm() > EPSILON) {
-                    const float delta_extruder = interpolate ? lerp(prev_move.delta_extruder, curr_move.delta_extruder, t) : curr_move.delta_extruder;
-                    const float feedrate = interpolate ? lerp(prev_move.feedrate, curr_move.feedrate, t) : curr_move.feedrate;
-                    const float width = interpolate ? lerp(prev_move.width, curr_move.width, t) : curr_move.width;
-                    const float height = interpolate ? lerp(prev_move.height, curr_move.height, t) : curr_move.height;
-                    const float mm3_per_mm = interpolate ? lerp(prev_move.mm3_per_mm, curr_move.mm3_per_mm, t) : curr_move.mm3_per_mm;
-                    const float fan_speed = interpolate ? lerp(prev_move.fan_speed, curr_move.fan_speed, t) : curr_move.fan_speed;
-                    const float temperature = interpolate ? lerp(prev_move.temperature, curr_move.temperature, t) : curr_move.temperature;
-                    actual_speed_moves.push_back({
-                        block.move_id,
-                        position,
-                        block.trapezoid.cruise_feedrate,
-                        delta_extruder,
-                        feedrate,
-                        width,
-                        height,
-                        mm3_per_mm,
-                        fan_speed,
-                        temperature
-                    });
+                if (EPSILON < block.trapezoid.accelerate_until && block.trapezoid.accelerate_until < block.distance - EPSILON) {
+                    const float t = block.trapezoid.accelerate_until / block.distance;
+                    const Vec3f position = lerp(prev_move.position, curr_move.position, t);
+                    if ((position - prev_move.position).norm() > EPSILON &&
+                        (position - curr_move.position).norm() > EPSILON) {
+                        const float delta_extruder = interpolate ? lerp(prev_move.delta_extruder, curr_move.delta_extruder, t) : curr_move.delta_extruder;
+                        const float feedrate = interpolate ? lerp(prev_move.feedrate, curr_move.feedrate, t) : curr_move.feedrate;
+                        const float width = interpolate ? lerp(prev_move.width, curr_move.width, t) : curr_move.width;
+                        const float height = interpolate ? lerp(prev_move.height, curr_move.height, t) : curr_move.height;
+                        const float mm3_per_mm = interpolate ? lerp(prev_move.mm3_per_mm, curr_move.mm3_per_mm, t) : curr_move.mm3_per_mm;
+                        const float fan_speed = interpolate ? lerp(prev_move.fan_speed, curr_move.fan_speed, t) : curr_move.fan_speed;
+                        const float temperature = interpolate ? lerp(prev_move.temperature, curr_move.temperature, t) : curr_move.temperature;
+                        actual_speed_moves.push_back({
+                            block.move_id,
+                            position,
+                            block.trapezoid.cruise_feedrate,
+                            delta_extruder,
+                            feedrate,
+                            width,
+                            height,
+                            mm3_per_mm,
+                            fan_speed,
+                            temperature
+                        });
+                    }
                 }
-            }
 
-            const bool has_deceleration = block.trapezoid.deceleration_distance(block.distance) > EPSILON;
-            if (has_deceleration && block.trapezoid.decelerate_after > block.trapezoid.accelerate_until + EPSILON) {
-                const float t = block.trapezoid.decelerate_after / block.distance;
-                const Vec3f position = lerp(prev_move.position, curr_move.position, t);
-                if ((position - prev_move.position).norm() > EPSILON &&
-                    (position - curr_move.position).norm() > EPSILON) {
-                    const float delta_extruder = interpolate ? lerp(prev_move.delta_extruder, curr_move.delta_extruder, t) : curr_move.delta_extruder;
-                    const float feedrate = interpolate ? lerp(prev_move.feedrate, curr_move.feedrate, t) : curr_move.feedrate;
-                    const float width = interpolate ? lerp(prev_move.width, curr_move.width, t) : curr_move.width;
-                    const float height = interpolate ? lerp(prev_move.height, curr_move.height, t) : curr_move.height;
-                    const float mm3_per_mm = interpolate ? lerp(prev_move.mm3_per_mm, curr_move.mm3_per_mm, t) : curr_move.mm3_per_mm;
-                    const float fan_speed = interpolate ? lerp(prev_move.fan_speed, curr_move.fan_speed, t) : curr_move.fan_speed;
-                    const float temperature = interpolate ? lerp(prev_move.temperature, curr_move.temperature, t) : curr_move.temperature;
-                    actual_speed_moves.push_back({
-                        block.move_id,
-                        position,
-                        block.trapezoid.cruise_feedrate,
-                        delta_extruder,
-                        feedrate,
-                        width,
-                        height,
-                        mm3_per_mm,
-                        fan_speed,
-                        temperature
-                    });
+                const bool has_deceleration = block.trapezoid.deceleration_distance(block.distance) > EPSILON;
+                if (has_deceleration && block.trapezoid.decelerate_after > block.trapezoid.accelerate_until + EPSILON) {
+                    const float t = block.trapezoid.decelerate_after / block.distance;
+                    const Vec3f position = lerp(prev_move.position, curr_move.position, t);
+                    if ((position - prev_move.position).norm() > EPSILON &&
+                        (position - curr_move.position).norm() > EPSILON) {
+                        const float delta_extruder = interpolate ? lerp(prev_move.delta_extruder, curr_move.delta_extruder, t) : curr_move.delta_extruder;
+                        const float feedrate = interpolate ? lerp(prev_move.feedrate, curr_move.feedrate, t) : curr_move.feedrate;
+                        const float width = interpolate ? lerp(prev_move.width, curr_move.width, t) : curr_move.width;
+                        const float height = interpolate ? lerp(prev_move.height, curr_move.height, t) : curr_move.height;
+                        const float mm3_per_mm = interpolate ? lerp(prev_move.mm3_per_mm, curr_move.mm3_per_mm, t) : curr_move.mm3_per_mm;
+                        const float fan_speed = interpolate ? lerp(prev_move.fan_speed, curr_move.fan_speed, t) : curr_move.fan_speed;
+                        const float temperature = interpolate ? lerp(prev_move.temperature, curr_move.temperature, t) : curr_move.temperature;
+                        actual_speed_moves.push_back({
+                            block.move_id,
+                            position,
+                            block.trapezoid.cruise_feedrate,
+                            delta_extruder,
+                            feedrate,
+                            width,
+                            height,
+                            mm3_per_mm,
+                            fan_speed,
+                            temperature
+                        });
+                    }
                 }
-            }
 
-            const bool is_cruise_only = block.trapezoid.is_cruise_only(block.distance);
-            actual_speed_moves.push_back({
-                block.move_id,
-                std::nullopt,
-                (is_cruise_only || !has_deceleration) ? block.trapezoid.cruise_feedrate : block.feedrate_profile.exit,
-                std::nullopt,
-                std::nullopt,
-                std::nullopt,
-                std::nullopt,
-                std::nullopt,
-                std::nullopt,
-                std::nullopt
-            });
+                const bool is_cruise_only = block.trapezoid.is_cruise_only(block.distance);
+                actual_speed_moves.push_back({
+                    block.move_id,
+                    std::nullopt,
+                    (is_cruise_only || !has_deceleration) ? block.trapezoid.cruise_feedrate : block.feedrate_profile.exit,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt
+                });
+            }
         }
         g1_times_cache.push_back({ block.g1_line_id, block.remaining_internal_g1_lines, float(time) });
         // update times for remaining time to printer stop placeholders
         auto it_stop_time = std::lower_bound(stop_times.begin(), stop_times.end(), block.g1_line_id,
             [](const StopTime& t, unsigned int value) { return t.g1_line_id < value; });
-        if (it_stop_time != stop_times.end() && it_stop_time->g1_line_id == block.g1_line_id)
+        if (it_stop_time != stop_times.end() && it_stop_time->g1_line_id >= block.g1_line_id)
             it_stop_time->elapsed_time = float(time);
     }
 
@@ -542,8 +541,7 @@ void GCodeProcessorResult::reset() {
 }
 
 const std::vector<std::pair<GCodeProcessor::EProducer, std::string>> GCodeProcessor::Producers = {
-    { EProducer::CaribouSlicer, "generated by CaribouSlicer" },
-    { EProducer::PrusaSlicer, "generated by PrusaSlicer" },    
+    { EProducer::PrusaSlicer, "generated by PrusaSlicer" },
     { EProducer::Slic3rPE,    "generated by Slic3r Prusa Edition" },
     { EProducer::Slic3r,      "generated by Slic3r" },
     { EProducer::SuperSlicer, "generated by SuperSlicer" },
@@ -626,7 +624,7 @@ void GCodeProcessor::apply_config(const PrintConfig& config)
     m_binarizer.set_enabled(config.binary_gcode);
     m_result.is_binary_file = config.binary_gcode;
 
-    m_producer = EProducer::CaribouSlicer;
+    m_producer = EProducer::PrusaSlicer;
     m_flavor = config.gcode_flavor;
 
     m_result.backtrace_enabled = is_XL_printer(config);
@@ -1129,12 +1127,12 @@ void GCodeProcessor::process_ascii_file(const std::string& filename, GCodeReader
         });
         m_parser.reset();
 
-        // if the gcode was produced by CaribouSlicer,
+        // if the gcode was produced by PrusaSlicer,
         // extract the config from it
-        if (m_producer == EProducer::CaribouSlicer || m_producer == EProducer::Slic3rPE || m_producer == EProducer::Slic3r) {
+        if (m_producer == EProducer::PrusaSlicer || m_producer == EProducer::Slic3rPE || m_producer == EProducer::Slic3r) {
             DynamicPrintConfig config;
             config.apply(FullPrintConfig::defaults());
-            // Silently substitute unknown values by new ones for loading configurations from CaribouSlicer's own G-code.
+            // Silently substitute unknown values by new ones for loading configurations from PrusaSlicer's own G-code.
             // Showing substitution log or errors may make sense, but we are not really reading many values from the G-code config,
             // thus a probability of incorrect substitution is low and the G-code viewer is a consumer-only anyways.
             config.load_from_gcode_file(filename, ForwardCompatibilitySubstitutionRule::EnableSilent);
@@ -1238,7 +1236,7 @@ void GCodeProcessor::process_binary_file(const std::string& filename, GCodeReade
         auto producer_it = std::find_if(file_metadata_block.raw_data.begin(), file_metadata_block.raw_data.end(),
             [](const std::pair<std::string, std::string>& item) { return item.first == "Producer"; });
         if (producer_it != file_metadata_block.raw_data.end() && boost::starts_with(producer_it->second, std::string(SLIC3R_APP_NAME)))
-            m_producer = EProducer::CaribouSlicer;
+            m_producer = EProducer::PrusaSlicer;
         else
             m_producer = EProducer::Unknown;
         res = read_next_block_header(*file.f, file_header, block_header, cs_buffer.data(), cs_buffer.size());
@@ -1304,7 +1302,7 @@ void GCodeProcessor::process_binary_file(const std::string& filename, GCodeReade
     for (const auto& [key, value] : slicer_metadata_block.raw_data) {
         str += key + " = " + value + "\n";
     }
-    // Silently substitute unknown values by new ones for loading configurations from CaribouSlicer's own G-code.
+    // Silently substitute unknown values by new ones for loading configurations from PrusaSlicer's own G-code.
     // Showing substitution log or errors may make sense, but we are not really reading many values from the G-code config,
     // thus a probability of incorrect substitution is low and the G-code viewer is a consumer-only anyways.
     config.load_from_ini_string(str, ForwardCompatibilitySubstitutionRule::EnableSilent);
@@ -1855,7 +1853,7 @@ template<typename T>
         // Legacy conversion, which is costly due to having to make a copy of the string before conversion.
         try {
             assert(sv.size() < 1024);
-        assert(sv.data() != nullptr);
+	    assert(sv.data() != nullptr);
             std::string str { sv };
             size_t read = 0;
             if constexpr (std::is_same_v<T, int>)
@@ -1899,7 +1897,7 @@ void GCodeProcessor::process_tags(const std::string_view comment, bool producers
         return;
     }
 
-    if (!producers_enabled || m_producer == EProducer::CaribouSlicer) {
+    if (!producers_enabled || m_producer == EProducer::PrusaSlicer) {
         // height tag
         if (boost::starts_with(comment, reserved_tag(ETags::Height))) {
             if (!parse_number(comment.substr(reserved_tag(ETags::Height).size()), m_forced_height))
@@ -2019,7 +2017,6 @@ bool GCodeProcessor::process_producers_tags(const std::string_view comment)
     case EProducer::Slic3r:
     case EProducer::SuperSlicer:
     case EProducer::PrusaSlicer: { return process_prusaslicer_tags(comment); }
-    case EProducer::CaribouSlicer: { return process_prusaslicer_tags(comment); }    
     case EProducer::Cura:        { return process_cura_tags(comment); }
     case EProducer::Simplify3D:  { return process_simplify3d_tags(comment); }
     case EProducer::CraftWare:   { return process_craftware_tags(comment); }
@@ -2840,33 +2837,24 @@ void GCodeProcessor::process_G1(const std::array<std::optional<double>, 4>& axes
     if (m_time_processor.machines[0].blocks.size() > TimeProcessor::Planner::refresh_threshold)
         calculate_time(m_result, TimeProcessor::Planner::queue_size);
 
-    if (m_seams_detector.is_active()) {
-        // check for seam starting vertex
-        if (type == EMoveType::Extrude && m_extrusion_role == GCodeExtrusionRole::ExternalPerimeter && !m_seams_detector.has_first_vertex())
-            m_seams_detector.set_first_vertex(m_result.moves.back().position - m_extruder_offsets[m_extruder_id]);
-        // check for seam ending vertex and store the resulting move
-        else if ((type != EMoveType::Extrude || (m_extrusion_role != GCodeExtrusionRole::ExternalPerimeter && m_extrusion_role != GCodeExtrusionRole::OverhangPerimeter)) && m_seams_detector.has_first_vertex()) {
-            auto set_end_position = [this](const Vec3f& pos) {
-                m_end_position[X] = pos.x(); m_end_position[Y] = pos.y(); m_end_position[Z] = pos.z();
-            };
-
-            const Vec3f curr_pos(m_end_position[X], m_end_position[Y], m_end_position[Z]);
-            const Vec3f new_pos = m_result.moves.back().position - m_extruder_offsets[m_extruder_id];
-            const std::optional<Vec3f> first_vertex = m_seams_detector.get_first_vertex();
-            // the threshold value = 0.0625f == 0.25 * 0.25 is arbitrary, we may find some smarter condition later
-
-            if ((new_pos - *first_vertex).squaredNorm() < 0.0625f) {
-                set_end_position(0.5f * (new_pos + *first_vertex) + m_z_offset * Vec3f::UnitZ());
-                store_move_vertex(EMoveType::Seam);
-                set_end_position(curr_pos);
-            }
-
-            m_seams_detector.activate(false);
+    if (m_seams_detector.is_active() && (
+        type != EMoveType::Extrude
+        || (
+            m_extrusion_role != GCodeExtrusionRole::ExternalPerimeter
+            && m_extrusion_role != GCodeExtrusionRole::OverhangPerimeter
+        )
+    )) {
+        const AxisCoords curr_pos = m_end_position;
+        const Vec3f new_pos = m_result.moves.back().position - m_extruder_offsets[m_extruder_id];
+        for (unsigned char a = X; a < E; ++a) {
+            m_end_position[a] = double(new_pos[a]);
         }
-    }
-    else if (type == EMoveType::Extrude && m_extrusion_role == GCodeExtrusionRole::ExternalPerimeter) {
+        store_move_vertex(EMoveType::Seam);
+        m_end_position = curr_pos;
+
+        m_seams_detector.activate(false);
+    } else if (type == EMoveType::Extrude && m_extrusion_role == GCodeExtrusionRole::ExternalPerimeter) {
         m_seams_detector.activate(true);
-        m_seams_detector.set_first_vertex(m_result.moves.back().position - m_extruder_offsets[m_extruder_id]);
     }
 
     // store move
@@ -3323,7 +3311,7 @@ void GCodeProcessor::process_G92(const GCodeReader::GCodeLine& line)
         simulate_st_synchronize();
 
     if (!any_found && !line.has_unknown_axis()) {
-        // The G92 may be called for axes that CaribouSlicer does not recognize, for example see GH issue #3510,
+        // The G92 may be called for axes that PrusaSlicer does not recognize, for example see GH issue #3510,
         // where G92 A0 B0 is called although the extruder axis is till E.
         for (unsigned char a = X; a <= E; ++a) {
             m_origin[a] = m_end_position[a];
@@ -3508,7 +3496,7 @@ void GCodeProcessor::process_M204(const GCodeReader::GCodeLine& line)
             m_time_processor.machine_envelope_processing_enabled) {
             if (line.has_value('S', value)) {
                 // Legacy acceleration format. This format is used by the legacy Marlin, MK2 or MK3 firmware
-                // It is also generated by CaribouSlicer to control acceleration per extrusion type
+                // It is also generated by PrusaSlicer to control acceleration per extrusion type
                 // (perimeters, first layer etc) when 'Marlin (legacy)' flavor is used.
                 set_acceleration(static_cast<PrintEstimatedStatistics::ETimeMode>(i), value);
                 set_travel_acceleration(static_cast<PrintEstimatedStatistics::ETimeMode>(i), value);
@@ -3677,8 +3665,8 @@ void GCodeProcessor::process_T(const std::string_view command)
         else {
             unsigned char id = static_cast<unsigned char>(eid);
             if (m_extruder_id != id) {
-                if (((m_producer == EProducer::CaribouSlicer || m_producer == EProducer::Slic3rPE || m_producer == EProducer::Slic3r) && id >= m_result.extruders_count) ||
-                    ((m_producer != EProducer::CaribouSlicer && m_producer != EProducer::Slic3rPE && m_producer != EProducer::Slic3r) && id >= m_result.extruder_colors.size()))
+                if (((m_producer == EProducer::PrusaSlicer || m_producer == EProducer::Slic3rPE || m_producer == EProducer::Slic3r) && id >= m_result.extruders_count) ||
+                    ((m_producer != EProducer::PrusaSlicer && m_producer != EProducer::Slic3rPE && m_producer != EProducer::Slic3r) && id >= m_result.extruder_colors.size()))
                     BOOST_LOG_TRIVIAL(error) << "GCodeProcessor encountered an invalid toolchange, maybe from a custom gcode (" << command << ").";
                 else {
                     unsigned char old_extruder_id = m_extruder_id;

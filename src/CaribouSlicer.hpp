@@ -7,8 +7,7 @@
 namespace Slic3r {
 
 namespace IO {
-    enum ExportFormat : int {
-        AMF,
+	enum ExportFormat : int {
         OBJ,
         STL,
         // SVG,

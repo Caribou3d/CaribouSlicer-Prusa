@@ -35,7 +35,7 @@ public:
     explicit EncodedRaster(std::vector<uint8_t> &&buf, std::string ext)
         : m_buffer(std::move(buf)), m_ext(std::move(ext))
     {}
-
+    
     size_t size() const { return m_buffer.size(); }
     const void * data() const { return m_buffer.data(); }
     const char * extension() const { return m_ext.c_str(); }
@@ -67,19 +67,19 @@ using RasterEncoder =
 
 class RasterBase {
 public:
-
+    
     enum Orientation { roLandscape, roPortrait };
-
+    
     using TMirroring = std::array<bool, 2>;
     static const constexpr TMirroring NoMirror = {false, false};
     static const constexpr TMirroring MirrorX  = {true, false};
     static const constexpr TMirroring MirrorY  = {false, true};
     static const constexpr TMirroring MirrorXY = {true, true};
-
+    
     struct Trafo {
         bool mirror_x = false, mirror_y = false, flipXY = false;
         coord_t center_x = 0, center_y = 0;
-
+        
         // Portrait orientation will make sure the drawed polygons are rotated
         // by 90 degrees.
         Trafo(Orientation o = roLandscape, const TMirroring &mirror = NoMirror)
@@ -88,22 +88,22 @@ public:
             , mirror_y(!mirror[1]) // Makes raster origin to be top left corner
             , flipXY(o == roPortrait)
         {}
-
+        
         TMirroring get_mirror() const { return { (roPortrait ? !mirror_x : mirror_x), mirror_y}; }
         Orientation get_orientation() const { return flipXY ? roPortrait : roLandscape; }
         Point get_center() const { return {center_x, center_y}; }
     };
-
+    
     virtual ~RasterBase() = default;
-
+    
     /// Draw a polygon with holes.
     virtual void draw(const ExPolygon& poly) = 0;
-
+    
     /// Get the resolution of the raster.
 //    virtual Resolution resolution() const = 0;
 //    virtual PixelDim   pixel_dimensions() const = 0;
     virtual Trafo      trafo() const = 0;
-
+    
     virtual EncodedRaster encode(RasterEncoder encoder) const = 0;
 };
 

@@ -49,7 +49,7 @@ const char* surface_type_to_color_name(const SurfaceType surface_type)
         case stTop:             return "rgb(255,0,0)"; // "red";
         case stBottom:          return "rgb(0,255,0)"; // "green";
         case stBottomBridge:    return "rgb(0,0,255)"; // "blue";
-        case stInternal:        return "rgb(255,255,128)"; // yellow
+        case stInternal:        return "rgb(255,255,128)"; // yellow 
         case stInternalSolid:   return "rgb(255,0,255)"; // magenta
         case stInternalBridge:  return "rgb(0,255,255)";
         case stInternalVoid:    return "rgb(128,128,128)";
@@ -60,7 +60,7 @@ const char* surface_type_to_color_name(const SurfaceType surface_type)
 
 Point export_surface_type_legend_to_svg_box_size()
 {
-    return Point(scale_(1.+10.*8.), scale_(3.));
+    return Point(scale_(1.+10.*8.), scale_(3.)); 
 }
 
 void export_surface_type_legend_to_svg(SVG &svg, const Point &pos)

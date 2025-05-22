@@ -31,9 +31,9 @@ class ExPolygon;
 using ExPolygons = std::vector<ExPolygon>;
 
 // Used by chain_expolygons()
-std::vector<size_t>                  chain_points(const Points &points, Point *start_near = nullptr);
+std::vector<size_t> 				 chain_points(const Points &points, Point *start_near = nullptr);
 // Used to give layer islands a print order.
-std::vector<size_t>                  chain_expolygons(const ExPolygons &expolygons, Point *start_near = nullptr);
+std::vector<size_t> 				 chain_expolygons(const ExPolygons &expolygons, Point *start_near = nullptr);
 
 // Chain extrusion entities by a shortest distance. Returns the ordered extrusions together with a "reverse" flag.
 // Set input "reversed" to true if the vector of "entities" is to be considered to be reversed once already.
@@ -45,18 +45,18 @@ void                                 chain_and_reorder_extrusion_entities(std::v
 
 // Chain extrusion entities by a shortest distance. Returns the ordered extrusions together with a "reverse" flag.
 // Set input "reversed" to true if the vector of "entities" is to be considered to be reversed.
-ExtrusionEntityReferences             chain_extrusion_references(const std::vector<ExtrusionEntity*> &entities, const Point *start_near = nullptr, const bool reversed = false);
+ExtrusionEntityReferences			 chain_extrusion_references(const std::vector<ExtrusionEntity*> &entities, const Point *start_near = nullptr, const bool reversed = false);
 // The same as above, respect eec.no_sort flag.
-ExtrusionEntityReferences             chain_extrusion_references(const ExtrusionEntityCollection &eec, const Point *start_near = nullptr, const bool reversed = false);
+ExtrusionEntityReferences			 chain_extrusion_references(const ExtrusionEntityCollection &eec, const Point *start_near = nullptr, const bool reversed = false);
 
 std::vector<std::pair<size_t, bool>> chain_extrusion_paths(std::vector<ExtrusionPath> &extrusion_paths, const Point *start_near = nullptr);
 void                                 reorder_extrusion_paths(std::vector<ExtrusionPath> &extrusion_paths, std::vector<std::pair<size_t, bool>> &chain);
 void                                 chain_and_reorder_extrusion_paths(std::vector<ExtrusionPath> &extrusion_paths, const Point *start_near = nullptr);
 
-Polylines                              chain_polylines(Polylines &&src, const Point *start_near = nullptr);
-inline Polylines                      chain_polylines(const Polylines& src, const Point* start_near = nullptr) { Polylines tmp(src); return chain_polylines(std::move(tmp), start_near); }
+Polylines 							 chain_polylines(Polylines &&src, const Point *start_near = nullptr);
+inline Polylines 					 chain_polylines(const Polylines& src, const Point* start_near = nullptr) { Polylines tmp(src); return chain_polylines(std::move(tmp), start_near); }
 
-ClipperLib::PolyNodes                 chain_clipper_polynodes(const Points &points, const ClipperLib::PolyNodes &items);
+ClipperLib::PolyNodes				 chain_clipper_polynodes(const Points &points, const ClipperLib::PolyNodes &items);
 
 // Chain instances of print objects by an approximate shortest path.
 // Returns pairs of PrintObject idx and instance of that PrintObject.
@@ -66,7 +66,7 @@ struct PrintInstance;
 std::vector<const PrintInstance*> 	 chain_print_object_instances(const Print &print);
 
 // Chain lines into polylines.
-Polylines                              chain_lines(const std::vector<Line> &lines, const double point_distance_epsilon);
+Polylines 							 chain_lines(const std::vector<Line> &lines, const double point_distance_epsilon);
 
 } // namespace Slic3r
 

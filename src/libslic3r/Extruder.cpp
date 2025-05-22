@@ -47,7 +47,7 @@ std::pair<double, double> Extruder::extrude(double dE)
 
 /* This method makes sure the extruder is retracted by the specified amount
    of filament and returns the amount of filament retracted.
-   If the extruder is already retracted by the same or a greater amount,
+   If the extruder is already retracted by the same or a greater amount, 
    this method is a no-op.
    The restart_extra argument sets the extra length to be used for
    unretraction. If we're actually performing a retraction, any restart_extra
@@ -104,7 +104,7 @@ void Extruder::set_retracted(double retracted, double restart_extra)
 // Used filament volume in mm^3.
 double Extruder::extruded_volume() const
 {
-    return m_config->use_volumetric_e ?
+    return m_config->use_volumetric_e ? 
         m_absolute_E + m_retracted :
         this->used_filament() * this->filament_crossection();
 }

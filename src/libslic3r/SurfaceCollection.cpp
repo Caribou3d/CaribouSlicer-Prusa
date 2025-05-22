@@ -147,7 +147,7 @@ void SurfaceCollection::remove_types(std::initializer_list<SurfaceType> types)
         surfaces.erase(surfaces.begin() + j, surfaces.end());
 }
 
-void SurfaceCollection::export_to_svg(const char *path, bool show_labels)
+void SurfaceCollection::export_to_svg(const char *path, bool show_labels) 
 {
     BoundingBox bbox;
     for (Surfaces::const_iterator surface = this->surfaces.begin(); surface != this->surfaces.end(); ++surface)

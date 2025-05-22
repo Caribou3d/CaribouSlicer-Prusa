@@ -31,8 +31,8 @@ class GCodeWriter {
 public:
     GCodeConfig config;
     bool multiple_extruders;
-
-    GCodeWriter() :
+    
+    GCodeWriter() : 
         multiple_extruders(false), m_extrusion_axis("E"), m_extruder(nullptr),
         m_single_extruder_multi_material(false),
         m_last_acceleration(0), m_max_acceleration(0),
@@ -47,11 +47,11 @@ public:
     // Extruders are expected to be sorted in an increasing order.
     void                 set_extruders(std::vector<unsigned int> extruder_ids);
     const std::vector<Extruder>& extruders() const { return m_extruders; }
-    std::vector<unsigned int> extruder_ids() const {
-        std::vector<unsigned int> out;
-        out.reserve(m_extruders.size());
-        for (const Extruder &e : m_extruders)
-            out.push_back(e.id());
+    std::vector<unsigned int> extruder_ids() const { 
+        std::vector<unsigned int> out; 
+        out.reserve(m_extruders.size()); 
+        for (const Extruder &e : m_extruders) 
+            out.push_back(e.id()); 
         return out;
     }
     std::string preamble();
@@ -64,7 +64,7 @@ public:
     std::string reset_e(bool force = false);
     std::string update_progress(unsigned int num, unsigned int tot, bool allow_100 = false) const;
     // return false if this extruder was already selected
-    bool        need_toolchange(unsigned int extruder_id) const
+    bool        need_toolchange(unsigned int extruder_id) const 
         { return m_extruder == nullptr || m_extruder->id() != extruder_id; }
     std::string set_extruder(unsigned int extruder_id)
         { return this->need_toolchange(extruder_id) ? this->toolchange(extruder_id) : ""; }
@@ -87,11 +87,12 @@ public:
      * @param to Where to travel to.
      * @param comment Description of the travel purpose.
      */
-    std::string get_travel_to_xyz_gcode(const Vec3d &from, const Vec3d &to, const std::string_view comment) const;
-    std::string travel_to_xyz(const Vec3d &from, const Vec3d &to, const std::string_view comment = {});
+    std::string get_travel_to_xyz_gcode(const Vec3d &to, const std::string_view comment) const;
+    std::string travel_to_xyz(const Vec3d &to, const std::string_view comment = {});
     std::string get_travel_to_z_gcode(double z, const std::string_view comment) const;
     std::string travel_to_z(double z, const std::string_view comment = {});
     std::string extrude_to_xy(const Vec2d &point, double dE, const std::string_view comment = {});
+    std::string extrude_to_xyz(const Vec3d &point, double dE, const std::string_view comment = {});
     std::string extrude_to_xy_G2G3IJ(const Vec2d &point, const Vec2d &ij, const bool ccw, double dE, const std::string_view comment);
 //    std::string extrude_to_xyz(const Vec3d &point, double dE, const std::string_view comment = {});
     std::string retract(bool before_wipe = false);
@@ -120,7 +121,7 @@ public:
     std::string set_fan(unsigned int speed) const;
 
 private:
-    // Extruders are sorted by their ID, so that binary search is possible.
+	// Extruders are sorted by their ID, so that binary search is possible.
     std::vector<Extruder> m_extruders;
     std::string     m_extrusion_axis;
     bool            m_single_extruder_multi_material;
@@ -211,6 +212,10 @@ public:
     }
 
     void emit_e(const std::string_view axis, double v) {
+        const double precision{std::pow(10.0, -E_EXPORT_DIGITS)};
+        if (std::abs(v) < precision) {
+            v = v < 0 ? -precision : precision;
+        }
         if (! axis.empty()) {
             // not gcfNoExtrusion
             this->emit_axis(axis[0], v, E_EXPORT_DIGITS);

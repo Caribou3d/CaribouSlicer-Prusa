@@ -219,7 +219,7 @@ namespace Voronoi { namespace Internal {
 
     static const std::size_t EXTERNAL_COLOR = 1;
 
-    inline void color_exterior(const VD::edge_type* edge)
+    inline void color_exterior(const VD::edge_type* edge) 
     {
         if (edge->color() == EXTERNAL_COLOR)
             return;
@@ -236,13 +236,13 @@ namespace Voronoi { namespace Internal {
         } while (e != v->incident_edge());
     }
 
-    inline point_type retrieve_point(const std::vector<segment_type> &segments, const cell_type& cell)
+    inline point_type retrieve_point(const std::vector<segment_type> &segments, const cell_type& cell) 
     {
         assert(cell.source_category() == boost::polygon::SOURCE_CATEGORY_SEGMENT_START_POINT || cell.source_category() == boost::polygon::SOURCE_CATEGORY_SEGMENT_END_POINT);
         return (cell.source_category() == boost::polygon::SOURCE_CATEGORY_SEGMENT_START_POINT) ? low(segments[cell.source_index()]) : high(segments[cell.source_index()]);
     }
 
-    inline void clip_infinite_edge(const std::vector<segment_type> &segments, const edge_type& edge, coordinate_type bbox_max_size, std::vector<point_type>* clipped_edge)
+    inline void clip_infinite_edge(const std::vector<segment_type> &segments, const edge_type& edge, coordinate_type bbox_max_size, std::vector<point_type>* clipped_edge) 
     {
         const cell_type& cell1 = *edge.cell();
         const cell_type& cell2 = *edge.twin()->cell();
@@ -287,7 +287,7 @@ namespace Voronoi { namespace Internal {
         }
     }
 
-    inline void sample_curved_edge(const std::vector<segment_type> &segments, const edge_type& edge, std::vector<point_type> &sampled_edge, coordinate_type max_dist)
+    inline void sample_curved_edge(const std::vector<segment_type> &segments, const edge_type& edge, std::vector<point_type> &sampled_edge, coordinate_type max_dist) 
     {
         point_type point = edge.cell()->contains_point() ?
             retrieve_point(segments, *edge.cell()) :
@@ -304,7 +304,7 @@ void dump_voronoi_to_svg(const Lines &lines, /* const */ boost::polygon::voronoi
 {
     const double        scale                       = 0.2;
     const std::string   inputSegmentPointColor      = "lightseagreen";
-    const coord_t       inputSegmentPointRadius     = coord_t(0.09 * scale / SCALING_FACTOR);
+    const coord_t       inputSegmentPointRadius     = coord_t(0.09 * scale / SCALING_FACTOR); 
     const std::string   inputSegmentColor           = "lightseagreen";
     const coord_t       inputSegmentLineWidth       = coord_t(0.03 * scale / SCALING_FACTOR);
 
@@ -340,9 +340,9 @@ void dump_voronoi_to_svg(const Lines &lines, /* const */ boost::polygon::voronoi
     std::vector<Voronoi::Internal::segment_type> segments;
     for (Lines::const_iterator it = lines.begin(); it != lines.end(); ++ it)
         segments.push_back(Voronoi::Internal::segment_type(
-            Voronoi::Internal::point_type(double(it->a(0)), double(it->a(1))),
+            Voronoi::Internal::point_type(double(it->a(0)), double(it->a(1))), 
             Voronoi::Internal::point_type(double(it->b(0)), double(it->b(1)))));
-
+    
     // Color exterior edges.
     for (boost::polygon::voronoi_diagram<double>::const_edge_iterator it = vd.edges().begin(); it != vd.edges().end(); ++it)
         if (!it->is_finite())
@@ -492,13 +492,13 @@ void MedialAxis::build(ThickPolylines* polylines)
     Slic3r::Voronoi::annotate_inside_outside(m_vd, m_lines);
 //    static constexpr double threshold_alpha = M_PI / 12.; // 30 degrees
 //    std::vector<Vec2d> skeleton_edges = Slic3r::Voronoi::skeleton_edges_rough(vd, lines, threshold_alpha);
-
+    
     /*
     // DEBUG: dump all Voronoi edges
     {
         for (VD::const_edge_iterator edge = m_vd.edges().begin(); edge != m_vd.edges().end(); ++edge) {
             if (edge->is_infinite()) continue;
-
+            
             ThickPolyline polyline;
             polyline.points.push_back(Point( edge->vertex0()->x(), edge->vertex0()->y() ));
             polyline.points.push_back(Point( edge->vertex1()->x(), edge->vertex1()->y() ));
@@ -507,7 +507,7 @@ void MedialAxis::build(ThickPolylines* polylines)
         return;
     }
     */
-
+    
     // collect valid edges (i.e. prune those not belonging to MAT)
     // note: this keeps twins, so it inserts twice the number of the valid edges
     m_edge_data.assign(m_vd.edges().size() / 2, EdgeData{});
@@ -519,7 +519,7 @@ void MedialAxis::build(ThickPolylines* polylines)
             // Valid skeleton edge.
             this->edge_data(*edge).first.active = true;
         }
-
+    
     // iterate through the valid edges to build polylines
     ThickPolyline reverse_polyline;
     for (VD::const_edge_iterator seed_edge = m_vd.edges().begin(); seed_edge != m_vd.edges().end(); seed_edge += 2)
@@ -532,11 +532,11 @@ void MedialAxis::build(ThickPolylines* polylines)
             polyline.points.emplace_back(seed_edge->vertex0()->x(), seed_edge->vertex0()->y());
             polyline.points.emplace_back(seed_edge->vertex1()->x(), seed_edge->vertex1()->y());
             polyline.width.emplace_back(seed_edge_data.width_start);
-            polyline.width.emplace_back(seed_edge_data.width_end);
+            polyline.width.emplace_back(seed_edge_data.width_end);        
             // Grow the polyline in a forward direction.
             this->process_edge_neighbors(&*seed_edge, &polyline);
             assert(polyline.width.size() == polyline.points.size() * 2 - 2);
-
+        
             // Grow the polyline in a backward direction.
             reverse_polyline.clear();
             this->process_edge_neighbors(seed_edge->twin(), &reverse_polyline);
@@ -544,7 +544,7 @@ void MedialAxis::build(ThickPolylines* polylines)
             polyline.width.insert(polyline.width.begin(), reverse_polyline.width.rbegin(), reverse_polyline.width.rend());
             polyline.endpoints.first = reverse_polyline.endpoints.second;
             assert(polyline.width.size() == polyline.points.size() * 2 - 2);
-
+        
             // Prevent loop endpoints from being extended.
             if (polyline.first_point() == polyline.last_point()) {
                 polyline.endpoints.first = false;
@@ -587,7 +587,7 @@ void MedialAxis::process_edge_neighbors(const VD::edge_type *edge, ThickPolyline
         // to find neighbors on the ending point, we just swap edge with
         // its twin.
         const VD::edge_type *twin = edge->twin();
-
+    
         // count neighbors for this edge
         size_t               num_neighbors  = 0;
         const VD::edge_type *first_neighbor = nullptr;
@@ -597,7 +597,7 @@ void MedialAxis::process_edge_neighbors(const VD::edge_type *edge, ThickPolyline
                     first_neighbor = neighbor;
                 ++ num_neighbors;
             }
-
+    
         // if we have a single neighbor then we can continue recursively
         if (num_neighbors == 1) {
             if (std::pair<EdgeData&, bool> neighbor_data = this->edge_data(*first_neighbor);
@@ -618,7 +618,7 @@ void MedialAxis::process_edge_neighbors(const VD::edge_type *edge, ThickPolyline
         } else if (num_neighbors == 0) {
             polyline->endpoints.second = true;
         } else {
-            // T-shaped or star-shaped joint
+            // T-shaped or star-shaped joint    
         }
         // Stop chaining.
         break;
@@ -635,8 +635,8 @@ bool MedialAxis::validate_edge(const VD::edge_type* edge)
 
     // prevent overflows and detect almost-infinite edges
 #ifndef CLIPPERLIB_INT32
-    if (std::abs(edge->vertex0()->x()) > double(CLIPPER_MAX_COORD_UNSCALED) ||
-        std::abs(edge->vertex0()->y()) > double(CLIPPER_MAX_COORD_UNSCALED) ||
+    if (std::abs(edge->vertex0()->x()) > double(CLIPPER_MAX_COORD_UNSCALED) || 
+        std::abs(edge->vertex0()->y()) > double(CLIPPER_MAX_COORD_UNSCALED) || 
         std::abs(edge->vertex1()->x()) > double(CLIPPER_MAX_COORD_UNSCALED) ||
         std::abs(edge->vertex1()->y()) > double(CLIPPER_MAX_COORD_UNSCALED))
         return false;
@@ -645,13 +645,13 @@ bool MedialAxis::validate_edge(const VD::edge_type* edge)
     // construct the line representing this edge of the Voronoi diagram
     const Line line({ edge->vertex0()->x(), edge->vertex0()->y() },
                     { edge->vertex1()->x(), edge->vertex1()->y() });
-
+    
     // retrieve the original line segments which generated the edge we're checking
     const VD::cell_type* cell_l = edge->cell();
     const VD::cell_type* cell_r = edge->twin()->cell();
     const Line &segment_l = retrieve_segment(cell_l);
     const Line &segment_r = retrieve_segment(cell_r);
-
+    
     /*
     SVG svg("edge.svg");
     svg.draw(m_expolygon);
@@ -660,30 +660,30 @@ bool MedialAxis::validate_edge(const VD::edge_type* edge)
     svg.draw(segment_r, "blue");
     svg.Close();
     */
-
+    
     /*  Calculate thickness of the cross-section at both the endpoints of this edge.
-        Our Voronoi edge is part of a CCW sequence going around its Voronoi cell
+        Our Voronoi edge is part of a CCW sequence going around its Voronoi cell 
         located on the left side. (segment_l).
-        This edge's twin goes around segment_r. Thus, segment_r is
+        This edge's twin goes around segment_r. Thus, segment_r is 
         oriented in the same direction as our main edge, and segment_l is oriented
         in the same direction as our twin edge.
         We used to only consider the (half-)distances to segment_r, and that works
-        whenever segment_l and segment_r are almost specular and facing. However,
+        whenever segment_l and segment_r are almost specular and facing. However, 
         at curves they are staggered and they only face for a very little length
         (our very short edge represents such visibility).
         Both w0 and w1 can be calculated either towards cell_l or cell_r with equal
         results by Voronoi definition.
         When cell_l or cell_r don't refer to the segment but only to an endpoint, we
         calculate the distance to that endpoint instead.  */
-
+    
     coordf_t w0 = cell_r->contains_segment()
         ? segment_r.distance_to(line.a)*2
         : (retrieve_endpoint(cell_r) - line.a).cast<double>().norm()*2;
-
+    
     coordf_t w1 = cell_l->contains_segment()
         ? segment_l.distance_to(line.b)*2
         : (retrieve_endpoint(cell_l) - line.b).cast<double>().norm()*2;
-
+    
     if (cell_l->contains_segment() && cell_r->contains_segment()) {
         // calculate the relative angle between the two boundary segments
         double angle = fabs(segment_r.orientation() - segment_l.orientation());
@@ -699,7 +699,7 @@ bool MedialAxis::validate_edge(const VD::edge_type* edge)
         // and the endpoint of another segment), since their orientation would not be meaningful
         if (PI - angle > PI / 8.) {
             // angle is not narrow enough
-            // only apply this filter to segments that are not too short otherwise their
+            // only apply this filter to segments that are not too short otherwise their 
             // angle could possibly be not meaningful
             if (w0 < SCALED_EPSILON || w1 < SCALED_EPSILON || line.length() >= m_min_width)
                 return false;
@@ -708,7 +708,7 @@ bool MedialAxis::validate_edge(const VD::edge_type* edge)
         if (w0 < SCALED_EPSILON || w1 < SCALED_EPSILON)
             return false;
     }
-
+    
     if ((w0 >= m_min_width || w1 >= m_min_width) &&
         (w0 <= m_max_width || w1 <= m_max_width)) {
         std::pair<EdgeData&, bool> ed = this->edge_data(*edge);

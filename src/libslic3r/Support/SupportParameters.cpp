@@ -31,7 +31,7 @@ SupportParameters::SupportParameters(const PrintObject &object)
 
     {
         int num_top_interface_layers    = std::max(0, object_config.support_material_interface_layers.value);
-        int num_bottom_interface_layers = object_config.support_material_bottom_interface_layers < 0 ?
+        int num_bottom_interface_layers = object_config.support_material_bottom_interface_layers < 0 ? 
             num_top_interface_layers : object_config.support_material_bottom_interface_layers;
         this->has_top_contacts              = num_top_interface_layers    > 0;
         this->has_bottom_contacts           = num_bottom_interface_layers > 0;
@@ -103,7 +103,7 @@ SupportParameters::SupportParameters(const PrintObject &object)
 
     SupportMaterialPattern  support_pattern = object_config.support_material_pattern;
     this->with_sheath            = object_config.support_material_with_sheath;
-    this->base_fill_pattern      =
+    this->base_fill_pattern      = 
         support_pattern == smpHoneycomb ? ipHoneycomb :
         this->support_density > 0.95 || this->with_sheath ? ipRectilinear : ipSupportBase;
     this->interface_fill_pattern = (this->interface_density > 0.95 ? ipRectilinear : ipSupportBase);

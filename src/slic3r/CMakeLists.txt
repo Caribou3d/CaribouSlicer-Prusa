@@ -29,6 +29,10 @@ set(SLIC3R_GUI_SOURCES
     GUI/UserAccount.hpp
     GUI/WebViewDialog.cpp
     GUI/WebViewDialog.hpp
+    GUI/WebViewPanel.cpp
+    GUI/WebViewPanel.hpp
+    GUI/ConnectRequestHandler.cpp
+    GUI/ConnectRequestHandler.hpp
     GUI/WebView.cpp
     GUI/WebView.hpp
     GUI/WebViewPlatformUtils.hpp
@@ -92,6 +96,8 @@ set(SLIC3R_GUI_SOURCES
     GUI/Gizmos/GLGizmoSlaSupports.hpp
     GUI/Gizmos/GLGizmoFdmSupports.cpp
     GUI/Gizmos/GLGizmoFdmSupports.hpp
+    GUI/Gizmos/GLGizmoFuzzySkin.cpp
+    GUI/Gizmos/GLGizmoFuzzySkin.hpp
     GUI/Gizmos/GLGizmoFlatten.cpp
     GUI/Gizmos/GLGizmoFlatten.hpp
     GUI/Gizmos/GLGizmoCut.cpp
@@ -160,6 +166,8 @@ set(SLIC3R_GUI_SOURCES
     GUI/EditGCodeDialog.cpp
     GUI/SavePresetDialog.hpp
     GUI/SavePresetDialog.cpp
+    GUI/BulkExportDialog.hpp
+    GUI/BulkExportDialog.cpp
     GUI/PhysicalPrinterDialog.hpp
     GUI/PhysicalPrinterDialog.cpp
     GUI/GUI_Factories.cpp
@@ -371,6 +379,8 @@ set(SLIC3R_GUI_SOURCES
     Utils/Bonjour.hpp
     Utils/PresetUpdater.cpp
     Utils/PresetUpdater.hpp
+    Utils/PresetUpdaterWrapper.cpp
+    Utils/PresetUpdaterWrapper.hpp
     Utils/Process.cpp
     Utils/Process.hpp
     Utils/RaycastManager.cpp
@@ -398,6 +408,9 @@ set(SLIC3R_GUI_SOURCES
 )
 
 find_package(NanoSVG REQUIRED)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_package(OpenSSL REQUIRED)
+endif()
 
 if (APPLE)
     list(APPEND SLIC3R_GUI_SOURCES
@@ -440,6 +453,7 @@ target_link_libraries(
     libslic3r_gui
     PUBLIC
     libslic3r
+    slic3r-arrange-wrapper
     avrdude
     libcereal
     imgui
@@ -453,12 +467,17 @@ target_link_libraries(
     NanoSVG::nanosvgrast
     stb_dxt
     fastfloat
+    boost_headeronly
 )
 
 if (MSVC)
     target_link_libraries(libslic3r_gui PUBLIC Setupapi.lib)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    target_link_libraries(libslic3r_gui PUBLIC ${DBUS_LIBRARIES})
+    target_link_libraries(libslic3r_gui PUBLIC
+        ${DBus1_LIBRARIES}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+    )
 elseif (APPLE)
     target_link_libraries(libslic3r_gui PUBLIC ${DISKARBITRATION_LIBRARY} ${COREWLAN_LIBRARY})
 endif()

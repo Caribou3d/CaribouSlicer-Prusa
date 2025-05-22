@@ -13,7 +13,8 @@
 
 namespace Slic3r {
 class AppConfig;
-namespace GUI {
+
+class PresetUpdaterUIStatus;
 
 struct ArchiveRepositoryGetFileArgs {
     boost::filesystem::path target_path;
@@ -66,23 +67,23 @@ public:
             , visibility(other.visibility)
             , tmp_path(other.tmp_path)
             , source_path(other.source_path)
-        {}
-    };
-    // Use std::move when calling constructor.
-    ArchiveRepository(const std::string& uuid, RepositoryManifest&& data)
-        : m_data(std::move(data))
-        , m_uuid(uuid)
-    {}
-    virtual ~ArchiveRepository() {}
-    // Gets vendor_indices.zip to target_path
-    virtual bool get_archive(const boost::filesystem::path& target_path) const = 0;
-    // Gets file if repository_id arg matches m_id.
-    // Should be used to get the most recent ini file and every missing resource.
-    virtual bool get_file(const std::string& source_subpath, const boost::filesystem::path& target_path, const std::string& repository_id) const = 0;
-    // Gets file without id check - for not yet encountered vendors only!
-    virtual bool get_ini_no_id(const std::string& source_subpath, const boost::filesystem::path& target_path) const = 0;
-    const RepositoryManifest& get_manifest() const { return m_data; }
-    std::string get_uuid() const { return m_uuid; }
+		{}
+	};
+	// Use std::move when calling constructor.
+	ArchiveRepository(const std::string& uuid, RepositoryManifest&& data)
+		: m_data(std::move(data))
+		, m_uuid(uuid)
+	{}
+	virtual ~ArchiveRepository() {}
+	// Gets vendor_indices.zip to target_path
+	virtual bool get_archive(const boost::filesystem::path& target_path, PresetUpdaterUIStatus* ui_status) const = 0;
+	// Gets file if repository_id arg matches m_id.
+	// Should be used to get the most recent ini file and every missing resource.
+	virtual bool get_file(const std::string& source_subpath, const boost::filesystem::path& target_path, const std::string& repository_id, PresetUpdaterUIStatus* ui_status) const = 0;
+	// Gets file without id check - for not yet encountered vendors only!
+	virtual bool get_ini_no_id(const std::string& source_subpath, const boost::filesystem::path& target_path, PresetUpdaterUIStatus* ui_status) const = 0;
+	const RepositoryManifest& get_manifest() const { return m_data; }
+	std::string get_uuid() const { return m_uuid; }
     // Only local archvies can return false
     virtual bool is_extracted() const { return true; }
     virtual void do_extract() {}
@@ -96,22 +97,22 @@ protected:
 class OnlineArchiveRepository : public ArchiveRepository
 {
 public:
-    OnlineArchiveRepository(const std::string& uuid, RepositoryManifest&& data) : ArchiveRepository(uuid, std::move(data))
-    {
-        if (m_data.url.back() != '/') {
-            m_data.url += "/";
-        }
-    }
-    // Gets vendor_indices.zip to target_path.
-    bool get_archive(const boost::filesystem::path& target_path) const override;
-    // Gets file if repository_id arg matches m_id.
-    // Should be used to get the most recent ini file and every missing resource.
-    bool get_file(const std::string& source_subpath, const boost::filesystem::path& target_path, const std::string& repository_id) const override;
-    // Gets file without checking id.
-    // Should be used only if no previous ini file exists.
-    bool get_ini_no_id(const std::string& source_subpath, const boost::filesystem::path& target_path) const override;
+	OnlineArchiveRepository(const std::string& uuid, RepositoryManifest&& data) : ArchiveRepository(uuid, std::move(data))
+	{
+		if (m_data.url.back() != '/') {
+			m_data.url += "/";
+		}
+	}
+	// Gets vendor_indices.zip to target_path.
+	bool get_archive(const boost::filesystem::path& target_path, PresetUpdaterUIStatus* ui_status) const override;
+	// Gets file if repository_id arg matches m_id.
+	// Should be used to get the most recent ini file and every missing resource.
+	bool get_file(const std::string& source_subpath, const boost::filesystem::path& target_path, const std::string& repository_id, PresetUpdaterUIStatus* ui_status) const override;
+	// Gets file without checking id.
+	// Should be used only if no previous ini file exists.
+	bool get_ini_no_id(const std::string& source_subpath, const boost::filesystem::path& target_path, PresetUpdaterUIStatus* ui_status) const override;
 private:
-    bool get_file_inner(const std::string& url, const boost::filesystem::path& target_path) const;
+	bool get_file_inner(const std::string& url, const boost::filesystem::path& target_path, PresetUpdaterUIStatus* ui_status) const;
 };
 
 class LocalArchiveRepository : public ArchiveRepository
@@ -119,14 +120,14 @@ class LocalArchiveRepository : public ArchiveRepository
 public:
     LocalArchiveRepository(const std::string& uuid, RepositoryManifest&& data, bool extracted) : ArchiveRepository(uuid, std::move(data)), m_extracted(extracted)
     {}
-    // Gets vendor_indices.zip to target_path.
-    bool get_archive(const boost::filesystem::path& target_path) const override;
-    // Gets file if repository_id arg matches m_id.
-    // Should be used to get the most recent ini file and every missing resource.
-    bool get_file(const std::string& source_subpath, const boost::filesystem::path& target_path, const std::string& repository_id) const override;
-    // Gets file without checking id.
-    // Should be used only if no previous ini file exists.
-    bool get_ini_no_id(const std::string& source_subpath, const boost::filesystem::path& target_path) const override;
+	// Gets vendor_indices.zip to target_path.
+	bool get_archive(const boost::filesystem::path& target_path, PresetUpdaterUIStatus* ui_status) const override;
+	// Gets file if repository_id arg matches m_id.
+	// Should be used to get the most recent ini file and every missing resource.
+	bool get_file(const std::string& source_subpath, const boost::filesystem::path& target_path, const std::string& repository_id, PresetUpdaterUIStatus* ui_status) const override;
+	// Gets file without checking id.
+	// Should be used only if no previous ini file exists.
+	bool get_ini_no_id(const std::string& source_subpath, const boost::filesystem::path& target_path, PresetUpdaterUIStatus* ui_status) const override;
     bool is_extracted() const override { return m_extracted;  }
     void do_extract() override;
 
@@ -141,10 +142,10 @@ typedef std::vector<const ArchiveRepository*> SharedArchiveRepositoryVector;
 class PresetArchiveDatabase
 {
 public:
-    PresetArchiveDatabase(AppConfig* app_config, wxEvtHandler* evt_handler);
-    ~PresetArchiveDatabase() {}
-
-    void sync_blocking();
+	PresetArchiveDatabase();
+	~PresetArchiveDatabase() {}
+    // returns true if successfully got the data
+	bool sync_blocking(PresetUpdaterUIStatus* ui_status = nullptr);
 
     // Do not use get_all_archive_repositories to perform any GET calls. Use get_selected_archive_repositories instead.
     SharedArchiveRepositoryVector get_all_archive_repositories() const;
@@ -171,15 +172,14 @@ private:
     boost::filesystem::path get_stored_manifest_path() const;
     void consolidate_uuid_maps();
     void extract_local_archives();
-    std::string get_next_uuid();
-    wxEvtHandler*                    p_evt_handler;
-    boost::filesystem::path            m_unq_tmp_path;
+	std::string get_next_uuid();
+	boost::filesystem::path			m_unq_tmp_path;
     PrivateArchiveRepositoryVector  m_archive_repositories;
     std::map<std::string, bool>        m_selected_repositories_uuid;
     std::map<std::string, bool>        m_has_installed_printer_repositories_uuid;
     boost::uuids::random_generator    m_uuid_generator;
 };
 
-}} // Slic3r::GUI
+} // Slic3r
 
 #endif // PresetArchiveDatabase

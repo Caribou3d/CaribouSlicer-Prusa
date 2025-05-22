@@ -32,7 +32,7 @@ public:
     /// </summary>
     /// <param name="points">Points to connect</param>
     /// <param name="edges">Constraint for edges, pair is from point(first) to
-    /// point(second), sorted lexicographically</param>
+    /// point(second), sorted lexicographically</param> 
     /// <returns>Triangles</returns>
     static Indices triangulate(const Points &points,
                                const HalfEdges &half_edges);
@@ -46,7 +46,7 @@ public:
     using Changes = std::vector<uint32_t>;
 
     /// <summary>
-    /// Create conversion map from original index into new
+    /// Create conversion map from original index into new 
     /// with respect of duplicit point
     /// </summary>
     /// <param name="points">input set of points</param>

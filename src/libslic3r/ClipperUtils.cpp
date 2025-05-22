@@ -20,6 +20,9 @@
 #include "libslic3r/Surface.hpp"
 #include "libslic3r/libslic3r.h"
 
+#include <oneapi/tbb/blocked_range.h>
+#include <oneapi/tbb/parallel_reduce.h>
+
 // #define CLIPPER_UTILS_TIMING
 
 #ifdef CLIPPER_UTILS_TIMING
@@ -745,6 +748,8 @@ Slic3r::Polygons union_(const Slic3r::Polygons &subject, const ClipperLib::PolyF
     { return to_polygons(clipper_do<ClipperLib::Paths>(ClipperLib::ctUnion, ClipperUtils::PolygonsProvider(subject), ClipperUtils::EmptyPathsProvider(), fillType, ApplySafetyOffset::No)); }
 Slic3r::Polygons union_(const Slic3r::ExPolygons &subject)
     { return _clipper(ClipperLib::ctUnion, ClipperUtils::ExPolygonsProvider(subject), ClipperUtils::EmptyPathsProvider(), ApplySafetyOffset::No); }
+Slic3r::Polygons union_(const Slic3r::Polygons &subject, const Slic3r::Polygon &subject2)
+    { return _clipper(ClipperLib::ctUnion, ClipperUtils::PolygonsProvider(subject), ClipperUtils::SinglePathProvider(subject2.points), ApplySafetyOffset::No); }
 Slic3r::Polygons union_(const Slic3r::Polygons &subject, const Slic3r::Polygons &subject2)
     { return _clipper(ClipperLib::ctUnion, ClipperUtils::PolygonsProvider(subject), ClipperUtils::PolygonsProvider(subject2), ApplySafetyOffset::No); }
 Slic3r::Polygons union_(Slic3r::Polygons &&subject, const Slic3r::Polygons &subject2) {
@@ -1012,6 +1017,21 @@ Polygons union_pt_chained_outside_in(const Polygons &subject)
     return retval;
 }
 
+Polygons union_parallel_reduce(const Polygons &subject)
+{
+    return tbb::parallel_reduce(
+        tbb::blocked_range<size_t>(0, subject.size()), Polygons(),
+        [&subject](tbb::blocked_range<size_t> range, Polygons partial_union) {
+            for (size_t subject_idx = range.begin(); subject_idx < range.end(); ++subject_idx) {
+                partial_union = union_(partial_union, subject[subject_idx]);
+            }
+            return partial_union;
+        },
+        [](const Polygons &a, const Polygons &b) {
+            return union_(a, b);
+        });
+}
+
 Polygons simplify_polygons(const Polygons &subject)
 {
     CLIPPER_UTILS_TIME_LIMIT_MILLIS(CLIPPER_UTILS_TIME_LIMIT_DEFAULT);
@@ -1065,192 +1085,192 @@ Polygons top_level_islands(const Slic3r::Polygons &polygons)
 
 // Outer offset shall not split the input contour into multiples. It is expected, that the solution will be non empty and it will contain just a single polygon.
 ClipperLib::Paths fix_after_outer_offset(
-    const ClipperLib::Path         &input,
-                                                    // combination of default prameters to correspond to void ClipperOffset::Execute(Paths& solution, double delta)
-                                                    // to produce a CCW output contour from CCW input contour for a positive offset.
-    ClipperLib::PolyFillType      filltype,             // = ClipperLib::pftPositive
-    bool                          reverse_result)    // = false
+	const ClipperLib::Path 		&input,
+													// combination of default prameters to correspond to void ClipperOffset::Execute(Paths& solution, double delta)
+													// to produce a CCW output contour from CCW input contour for a positive offset.
+	ClipperLib::PolyFillType 	 filltype, 			// = ClipperLib::pftPositive
+	bool 						 reverse_result)	// = false
 {
     CLIPPER_UTILS_TIME_LIMIT_MILLIS(CLIPPER_UTILS_TIME_LIMIT_DEFAULT);
 
-      ClipperLib::Paths solution;
-      if (! input.empty()) {
-        ClipperLib::Clipper clipper;
-          clipper.AddPath(input, ClipperLib::ptSubject, true);
-        clipper.ReverseSolution(reverse_result);
-        clipper.Execute(ClipperLib::ctUnion, solution, filltype, filltype);
-    }
+  	ClipperLib::Paths solution;
+  	if (! input.empty()) {
+		ClipperLib::Clipper clipper;
+	  	clipper.AddPath(input, ClipperLib::ptSubject, true);
+		clipper.ReverseSolution(reverse_result);
+		clipper.Execute(ClipperLib::ctUnion, solution, filltype, filltype);
+	}
     return solution;
 }
 
 // Inner offset may split the source contour into multiple contours, but one resulting contour shall not lie inside the other.
 ClipperLib::Paths fix_after_inner_offset(
-    const ClipperLib::Path         &input,
-                                                    // combination of default prameters to correspond to void ClipperOffset::Execute(Paths& solution, double delta)
-                                                    // to produce a CCW output contour from CCW input contour for a negative offset.
-    ClipperLib::PolyFillType      filltype,             // = ClipperLib::pftNegative
-    bool                          reverse_result)     // = true
+	const ClipperLib::Path 		&input,
+													// combination of default prameters to correspond to void ClipperOffset::Execute(Paths& solution, double delta)
+													// to produce a CCW output contour from CCW input contour for a negative offset.
+	ClipperLib::PolyFillType 	 filltype, 			// = ClipperLib::pftNegative
+	bool 						 reverse_result) 	// = true
 {
     CLIPPER_UTILS_TIME_LIMIT_MILLIS(CLIPPER_UTILS_TIME_LIMIT_DEFAULT);
 
-      ClipperLib::Paths solution;
-      if (! input.empty()) {
-        ClipperLib::Clipper clipper;
-        clipper.AddPath(input, ClipperLib::ptSubject, true);
-        ClipperLib::IntRect r = clipper.GetBounds();
-        r.left -= 10; r.top -= 10; r.right += 10; r.bottom += 10;
-        if (filltype == ClipperLib::pftPositive)
-            clipper.AddPath({ ClipperLib::IntPoint(r.left, r.bottom), ClipperLib::IntPoint(r.left, r.top), ClipperLib::IntPoint(r.right, r.top), ClipperLib::IntPoint(r.right, r.bottom) }, ClipperLib::ptSubject, true);
-        else
-            clipper.AddPath({ ClipperLib::IntPoint(r.left, r.bottom), ClipperLib::IntPoint(r.right, r.bottom), ClipperLib::IntPoint(r.right, r.top), ClipperLib::IntPoint(r.left, r.top) }, ClipperLib::ptSubject, true);
-        clipper.ReverseSolution(reverse_result);
-        clipper.Execute(ClipperLib::ctUnion, solution, filltype, filltype);
-        if (! solution.empty())
-            solution.erase(solution.begin());
-    }
-    return solution;
+  	ClipperLib::Paths solution;
+  	if (! input.empty()) {
+		ClipperLib::Clipper clipper;
+		clipper.AddPath(input, ClipperLib::ptSubject, true);
+		ClipperLib::IntRect r = clipper.GetBounds();
+		r.left -= 10; r.top -= 10; r.right += 10; r.bottom += 10;
+		if (filltype == ClipperLib::pftPositive)
+			clipper.AddPath({ ClipperLib::IntPoint(r.left, r.bottom), ClipperLib::IntPoint(r.left, r.top), ClipperLib::IntPoint(r.right, r.top), ClipperLib::IntPoint(r.right, r.bottom) }, ClipperLib::ptSubject, true);
+		else
+			clipper.AddPath({ ClipperLib::IntPoint(r.left, r.bottom), ClipperLib::IntPoint(r.right, r.bottom), ClipperLib::IntPoint(r.right, r.top), ClipperLib::IntPoint(r.left, r.top) }, ClipperLib::ptSubject, true);
+		clipper.ReverseSolution(reverse_result);
+		clipper.Execute(ClipperLib::ctUnion, solution, filltype, filltype);
+		if (! solution.empty())
+			solution.erase(solution.begin());
+	}
+	return solution;
 }
 
 ClipperLib::Path mittered_offset_path_scaled(const Points &contour, const std::vector<float> &deltas, double miter_limit)
 {
     CLIPPER_UTILS_TIME_LIMIT_MILLIS(CLIPPER_UTILS_TIME_LIMIT_DEFAULT);
 
-    assert(contour.size() == deltas.size());
+	assert(contour.size() == deltas.size());
 
 #ifndef NDEBUG
-    // Verify that the deltas are either all positive, or all negative.
-    bool positive = false;
-    bool negative = false;
-    for (float delta : deltas)
-        if (delta < 0.f)
-            negative = true;
-        else if (delta > 0.f)
-            positive = true;
-    assert(! (negative && positive));
+	// Verify that the deltas are either all positive, or all negative.
+	bool positive = false;
+	bool negative = false;
+	for (float delta : deltas)
+		if (delta < 0.f)
+			negative = true;
+		else if (delta > 0.f)
+			positive = true;
+	assert(! (negative && positive));
 #endif /* NDEBUG */
 
-    ClipperLib::Path out;
+	ClipperLib::Path out;
 
-    if (deltas.size() > 2)
-    {
-        out.reserve(contour.size() * 2);
+	if (deltas.size() > 2)
+	{
+		out.reserve(contour.size() * 2);
 
-        // Clamp miter limit to 2.
-        miter_limit = (miter_limit > 2.) ? 2. / (miter_limit * miter_limit) : 0.5;
+		// Clamp miter limit to 2.
+		miter_limit = (miter_limit > 2.) ? 2. / (miter_limit * miter_limit) : 0.5;
 
-        // perpenduclar vector
-        auto   perp = [](const Vec2d &v) -> Vec2d { return Vec2d(v.y(), - v.x()); };
+		// perpenduclar vector
+		auto   perp = [](const Vec2d &v) -> Vec2d { return Vec2d(v.y(), - v.x()); };
 
-        // Add a new point to the output, scale by CLIPPER_OFFSET_SCALE and round to ClipperLib::cInt.
-        auto   add_offset_point = [&out](Vec2d pt) {
+		// Add a new point to the output, scale by CLIPPER_OFFSET_SCALE and round to ClipperLib::cInt.
+		auto   add_offset_point = [&out](Vec2d pt) {
             pt += Vec2d(0.5 - (pt.x() < 0), 0.5 - (pt.y() < 0));
-            out.emplace_back(ClipperLib::cInt(pt.x()), ClipperLib::cInt(pt.y()));
-        };
+			out.emplace_back(ClipperLib::cInt(pt.x()), ClipperLib::cInt(pt.y()));
+		};
 
-        // Minimum edge length, squared.
-        double lmin  = *std::max_element(deltas.begin(), deltas.end()) * ClipperOffsetShortestEdgeFactor;
-        double l2min = lmin * lmin;
-        // Minimum angle to consider two edges to be parallel.
-        // Vojtech's estimate.
-//        const double sin_min_parallel = EPSILON + 1. / double(CLIPPER_OFFSET_SCALE);
-        // Implementation equal to Clipper.
-        const double sin_min_parallel = 1.;
+		// Minimum edge length, squared.
+		double lmin  = *std::max_element(deltas.begin(), deltas.end()) * ClipperOffsetShortestEdgeFactor;
+		double l2min = lmin * lmin;
+		// Minimum angle to consider two edges to be parallel.
+		// Vojtech's estimate.
+//		const double sin_min_parallel = EPSILON + 1. / double(CLIPPER_OFFSET_SCALE);
+		// Implementation equal to Clipper.
+		const double sin_min_parallel = 1.;
 
-        // Find the last point further from pt by l2min.
-        Vec2d  pt     = contour.front().cast<double>();
-        size_t iprev  = contour.size() - 1;
-        Vec2d  ptprev;
-        for (; iprev > 0; -- iprev) {
-            ptprev = contour[iprev].cast<double>();
-            if ((ptprev - pt).squaredNorm() > l2min)
-                break;
-        }
+		// Find the last point further from pt by l2min.
+		Vec2d  pt     = contour.front().cast<double>();
+		size_t iprev  = contour.size() - 1;
+		Vec2d  ptprev;
+		for (; iprev > 0; -- iprev) {
+			ptprev = contour[iprev].cast<double>();
+			if ((ptprev - pt).squaredNorm() > l2min)
+				break;
+		}
 
-        if (iprev != 0) {
-            size_t ilast = iprev;
-            // Normal to the (pt - ptprev) segment.
-            Vec2d nprev = perp(pt - ptprev).normalized();
-            for (size_t i = 0; ; ) {
-                // Find the next point further from pt by l2min.
-                size_t j = i + 1;
-                Vec2d ptnext;
-                for (; j <= ilast; ++ j) {
-                    ptnext = contour[j].cast<double>();
-                    double l2 = (ptnext - pt).squaredNorm();
-                    if (l2 > l2min)
-                        break;
-                }
-                if (j > ilast) {
-                    assert(i <= ilast);
-                    // If the last edge is too short, merge it with the previous edge.
-                    i = ilast;
-                    ptnext = contour.front().cast<double>();
-                }
+		if (iprev != 0) {
+			size_t ilast = iprev;
+			// Normal to the (pt - ptprev) segment.
+			Vec2d nprev = perp(pt - ptprev).normalized();
+			for (size_t i = 0; ; ) {
+				// Find the next point further from pt by l2min.
+				size_t j = i + 1;
+				Vec2d ptnext;
+				for (; j <= ilast; ++ j) {
+					ptnext = contour[j].cast<double>();
+					double l2 = (ptnext - pt).squaredNorm();
+					if (l2 > l2min)
+						break;
+				}
+				if (j > ilast) {
+					assert(i <= ilast);
+					// If the last edge is too short, merge it with the previous edge.
+					i = ilast;
+					ptnext = contour.front().cast<double>();
+				}
 
-                // Normal to the (ptnext - pt) segment.
-                Vec2d nnext  = perp(ptnext - pt).normalized();
+				// Normal to the (ptnext - pt) segment.
+				Vec2d nnext  = perp(ptnext - pt).normalized();
 
-                double delta  = deltas[i];
-                double sin_a  = std::clamp(cross2(nprev, nnext), -1., 1.);
-                double convex = sin_a * delta;
-                if (convex <= - sin_min_parallel) {
-                    // Concave corner.
-                    add_offset_point(pt + nprev * delta);
-                    add_offset_point(pt);
-                    add_offset_point(pt + nnext * delta);
-                } else {
-                    double dot = nprev.dot(nnext);
-                    if (convex < sin_min_parallel && dot > 0.) {
-                        // Nearly parallel.
-                        add_offset_point((nprev.dot(nnext) > 0.) ? (pt + nprev * delta) : pt);
-                    } else {
-                        // Convex corner, possibly extremely sharp if convex < sin_min_parallel.
-                        double r = 1. + dot;
-                          if (r >= miter_limit)
-                            add_offset_point(pt + (nprev + nnext) * (delta / r));
-                          else {
-                            double dx = std::tan(std::atan2(sin_a, dot) / 4.);
-                            Vec2d  newpt1 = pt + (nprev - perp(nprev) * dx) * delta;
-                            Vec2d  newpt2 = pt + (nnext + perp(nnext) * dx) * delta;
+				double delta  = deltas[i];
+				double sin_a  = std::clamp(cross2(nprev, nnext), -1., 1.);
+				double convex = sin_a * delta;
+				if (convex <= - sin_min_parallel) {
+					// Concave corner.
+					add_offset_point(pt + nprev * delta);
+					add_offset_point(pt);
+					add_offset_point(pt + nnext * delta);
+				} else {
+					double dot = nprev.dot(nnext);
+					if (convex < sin_min_parallel && dot > 0.) {
+						// Nearly parallel.
+						add_offset_point((nprev.dot(nnext) > 0.) ? (pt + nprev * delta) : pt);
+					} else {
+						// Convex corner, possibly extremely sharp if convex < sin_min_parallel.
+						double r = 1. + dot;
+					  	if (r >= miter_limit)
+							add_offset_point(pt + (nprev + nnext) * (delta / r));
+					  	else {
+							double dx = std::tan(std::atan2(sin_a, dot) / 4.);
+							Vec2d  newpt1 = pt + (nprev - perp(nprev) * dx) * delta;
+							Vec2d  newpt2 = pt + (nnext + perp(nnext) * dx) * delta;
 #ifndef NDEBUG
-                            Vec2d vedge = 0.5 * (newpt1 + newpt2) - pt;
-                            double dist_norm = vedge.norm();
-                            assert(std::abs(dist_norm - std::abs(delta)) < SCALED_EPSILON);
+							Vec2d vedge = 0.5 * (newpt1 + newpt2) - pt;
+							double dist_norm = vedge.norm();
+							assert(std::abs(dist_norm - std::abs(delta)) < SCALED_EPSILON);
 #endif /* NDEBUG */
-                            add_offset_point(newpt1);
-                            add_offset_point(newpt2);
-                          }
-                    }
-                }
+							add_offset_point(newpt1);
+							add_offset_point(newpt2);
+					  	}
+					}
+				}
 
-                if (i == ilast)
-                    break;
+				if (i == ilast)
+					break;
 
-                ptprev = pt;
-                nprev  = nnext;
-                pt     = ptnext;
-                i = j;
-            }
-        }
-    }
+				ptprev = pt;
+				nprev  = nnext;
+				pt     = ptnext;
+				i = j;
+			}
+		}
+	}
 
 #if 0
-    {
-        ClipperLib::Path polytmp(out);
-        unscaleClipperPolygon(polytmp);
-        Slic3r::Polygon offsetted(std::move(polytmp));
-        BoundingBox bbox = get_extents(contour);
-        bbox.merge(get_extents(offsetted));
-        static int iRun = 0;
-        SVG svg(debug_out_path("mittered_offset_path_scaled-%d.svg", iRun ++).c_str(), bbox);
-        svg.draw_outline(Polygon(contour), "blue", scale_(0.01));
-        svg.draw_outline(offsetted, "red", scale_(0.01));
-        svg.draw(contour, "blue", scale_(0.03));
-        svg.draw((Points)offsetted, "blue", scale_(0.03));
-    }
+	{
+		ClipperLib::Path polytmp(out);
+		unscaleClipperPolygon(polytmp);
+		Slic3r::Polygon offsetted(std::move(polytmp));
+		BoundingBox bbox = get_extents(contour);
+		bbox.merge(get_extents(offsetted));
+		static int iRun = 0;
+		SVG svg(debug_out_path("mittered_offset_path_scaled-%d.svg", iRun ++).c_str(), bbox);
+		svg.draw_outline(Polygon(contour), "blue", scale_(0.01));
+		svg.draw_outline(offsetted, "red", scale_(0.01));
+		svg.draw(contour, "blue", scale_(0.03));
+		svg.draw((Points)offsetted, "blue", scale_(0.03));
+	}
 #endif
 
-    return out;
+	return out;
 }
 
 static void variable_offset_inner_raw(const ExPolygon &expoly, const std::vector<std::vector<float>> &deltas, double miter_limit, ClipperLib::Paths &contours, ClipperLib::Paths &holes)
@@ -1289,21 +1309,21 @@ Polygons variable_offset_inner(const ExPolygon &expoly, const std::vector<std::v
     ClipperLib::Paths contours, holes;
     variable_offset_inner_raw(expoly, deltas, miter_limit, contours, holes);
 
-    // Subtract holes from the contours.
-    ClipperLib::Paths output;
-    if (holes.empty())
-        output = std::move(contours);
-    else {
-        ClipperLib::Clipper clipper;
-        clipper.Clear();
-        clipper.AddPaths(contours, ClipperLib::ptSubject, true);
+	// Subtract holes from the contours.
+	ClipperLib::Paths output;
+	if (holes.empty())
+		output = std::move(contours);
+	else {
+		ClipperLib::Clipper clipper;
+		clipper.Clear();
+		clipper.AddPaths(contours, ClipperLib::ptSubject, true);
         // Holes may contain holes in holes produced by expanding a C hole shape.
         // The situation is processed correctly by Clipper diff operation.
-        clipper.AddPaths(holes, ClipperLib::ptClip, true);
-        clipper.Execute(ClipperLib::ctDifference, output, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
-    }
+		clipper.AddPaths(holes, ClipperLib::ptClip, true);
+		clipper.Execute(ClipperLib::ctDifference, output, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
+	}
 
-    return to_polygons(std::move(output));
+	return to_polygons(std::move(output));
 }
 
 ExPolygons variable_offset_inner_ex(const ExPolygon &expoly, const std::vector<std::vector<float>> &deltas, double miter_limit)
@@ -1395,16 +1415,16 @@ ExPolygons variable_offset_outer_ex(const ExPolygon &expoly, const std::vector<s
     ClipperLib::Paths contours, holes;
     variable_offset_outer_raw(expoly, deltas, miter_limit, contours, holes);
 
-    // Subtract holes from the contours.
-    ExPolygons output;
-    if (holes.empty()) {
-        output.reserve(1);
+	// Subtract holes from the contours.
+	ExPolygons output;
+	if (holes.empty()) {
+		output.reserve(1);
         if (contours.size() > 1) {
             // One expolygon with holes created by closing a C shape. Which is which?
             output.push_back({});
             ExPolygon &out = output.back();
             out.holes.reserve(contours.size() - 1);
-            for (ClipperLib::Path &path : contours) {
+    		for (ClipperLib::Path &path : contours) {
                 if (ClipperLib::Area(path) > 0) {
                     // Only one contour with positive area is expected to be created by an outer offset of an ExPolygon.
                     assert(out.contour.empty());
@@ -1418,19 +1438,19 @@ ExPolygons variable_offset_outer_ex(const ExPolygon &expoly, const std::vector<s
             assert(ClipperLib::Area(contours.front()) > 0);
             output.push_back(ExPolygon{ std::move(contours.front()) });
         }
-    } else {
+	} else {
         //FIXME the difference is not needed as the holes may never intersect with other holes.
-        ClipperLib::Clipper clipper;
+		ClipperLib::Clipper clipper;
         // Contours may have holes if they were created by closing a C shape.
-        clipper.AddPaths(contours, ClipperLib::ptSubject, true);
-        clipper.AddPaths(holes, ClipperLib::ptClip, true);
-        ClipperLib::PolyTree polytree;
-        clipper.Execute(ClipperLib::ctDifference, polytree, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
-        output = PolyTreeToExPolygons(std::move(polytree));
-    }
+		clipper.AddPaths(contours, ClipperLib::ptSubject, true);
+		clipper.AddPaths(holes, ClipperLib::ptClip, true);
+	    ClipperLib::PolyTree polytree;
+		clipper.Execute(ClipperLib::ctDifference, polytree, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
+	    output = PolyTreeToExPolygons(std::move(polytree));
+	}
 
     assert(output.size() == 1);
-    return output;
+	return output;
 }
 
 }

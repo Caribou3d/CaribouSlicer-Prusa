@@ -129,13 +129,13 @@ PointCloud::PointCloud(std::vector<Node> meshpts,
         m_bedpoints[i].id = int(i);
         m_ktree.insert({m_bedpoints[i].pos, i});
     }
-
+    
     for (size_t i = 0; i < m_meshpoints.size(); ++i) {
         Node &n = m_meshpoints[i];
         n.id = int(MESHPTS_BEGIN + i);
         m_ktree.insert({n.pos, n.id});
     }
-
+    
     for (size_t i = 0; i < m_leafs.size(); ++i) {
         Node &n = m_leafs[i];
         n.id    = int(LEAFS_BEGIN + i);
@@ -151,7 +151,7 @@ float PointCloud::get_distance(const Vec3f &p, size_t node_id) const
     auto t = get_type(node_id);
     auto ret = std::numeric_limits<float>::infinity();
     const auto &node = get(node_id);
-
+    
     switch (t) {
     case MESH:
     case BED: {
@@ -161,7 +161,7 @@ float PointCloud::get_distance(const Vec3f &p, size_t node_id) const
             ret = std::numeric_limits<float>::infinity();
         else
             ret  = (node.pos - p).norm();
-
+        
         break;
     }
     case LEAF:
@@ -181,14 +181,14 @@ float PointCloud::get_distance(const Vec3f &p, size_t node_id) const
     case NONE:
         ;
     }
-
+    
     // Setting the ret val to infinity will effectively discard this
     // connection of nodes. max_branch_length property is used here
     // to discard node=>node and node=>mesh connections longer than this
     // property.
     if (t != BED && ret > m_props.max_branch_length())
         ret = std::numeric_limits<float>::infinity();
-
+    
     return ret;
 }
 

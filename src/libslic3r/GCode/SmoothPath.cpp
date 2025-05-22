@@ -84,7 +84,7 @@ std::optional<Point> sample_path_point_at_distance_from_end(const SmoothPath &pa
 }
 
 // Clip length of a smooth path, for seam hiding.
-// When clipping the end of a path, don't create segments shorter than min_point_distance_threshold,
+// When clipping the end of a path, don't create segments shorter than min_point_distance_threshold, 
 // rather discard such a degenerate segment.
 double clip_end(SmoothPath &path, double distance, double min_point_distance_threshold)
 {
@@ -187,15 +187,15 @@ Geometry::ArcWelder::Path SmoothPathCache::resolve_or_fit(const ExtrusionPath &p
     return out;
 }
 
-SmoothPath SmoothPathCache::resolve_or_fit(const ExtrusionPaths &paths, bool reverse, double resolution) const
+SmoothPath SmoothPathCache::resolve_or_fit(tcb::span<const ExtrusionPath> paths, bool reverse, double resolution) const
 {
     SmoothPath out;
     out.reserve(paths.size());
     if (reverse) {
-        for (auto it = paths.crbegin(); it != paths.crend(); ++ it)
+        for (auto it = paths.rbegin(); it != paths.rend(); ++ it)
             out.push_back({ it->attributes(), this->resolve_or_fit(*it, true, resolution) });
     } else {
-        for (auto it = paths.cbegin(); it != paths.cend(); ++ it)
+        for (auto it = paths.begin(); it != paths.end(); ++ it)
             out.push_back({ it->attributes(), this->resolve_or_fit(*it, false, resolution) });
     }
     return out;
@@ -203,14 +203,14 @@ SmoothPath SmoothPathCache::resolve_or_fit(const ExtrusionPaths &paths, bool rev
 
 SmoothPath SmoothPathCache::resolve_or_fit(const ExtrusionMultiPath &multipath, bool reverse, double resolution) const
 {
-    return this->resolve_or_fit(multipath.paths, reverse, resolution);
+    return this->resolve_or_fit(tcb::span{multipath.paths}, reverse, resolution);
 }
 
 SmoothPath SmoothPathCache::resolve_or_fit_split_with_seam(
     const ExtrusionLoop &loop, const bool reverse, const double resolution,
     const Point &seam_point, const double seam_point_merge_distance_threshold) const
 {
-    SmoothPath out = this->resolve_or_fit(loop.paths, reverse, resolution);
+    SmoothPath out = this->resolve_or_fit(tcb::span{loop.paths}, reverse, resolution);
     assert(! out.empty());
     if (! out.empty()) {
         // Find a closest point on a vector of smooth paths.

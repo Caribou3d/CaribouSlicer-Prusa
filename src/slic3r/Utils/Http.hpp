@@ -25,6 +25,9 @@ struct HttpRetryOpt
 
 	static const HttpRetryOpt& no_retry();
     static const HttpRetryOpt& default_retry();
+
+    static constexpr size_t MAX_RETRY_DELAY_MS = 4 * 64000;
+    static constexpr size_t MAX_RETRIES = 16;
 };
 
 
@@ -60,7 +63,9 @@ public:
     // Writing true to the `cancel` reference cancels the request in progress.
     typedef std::function<void(Progress, bool& /* cancel */)> ProgressFn;
 
-    typedef std::function<void(std::string/* address */)> IPResolveFn;
+	typedef std::function<void(std::string/* address */)> IPResolveFn;
+    //<bool - false if canceled(int - attempt number, unsigned - ms to next attempt, 0 if last)>
+    typedef std::function<bool(int, unsigned)> RetryFn;
 
     Http(Http &&other);
 
@@ -140,9 +145,11 @@ public:
     // Called if curl_easy_getinfo resolved just used IP address.
     Http& on_ip_resolve(IPResolveFn fn);
 
-    Http& cookie_file(const std::string& file_path);
-    Http& cookie_jar(const std::string& file_path);
-    Http& set_referer(const std::string& referer);
+    Http& on_retry(RetryFn fn);
+
+	Http& cookie_file(const std::string& file_path);
+	Http& cookie_jar(const std::string& file_path);
+	Http& set_referer(const std::string& referer);
 
 	// Starts performing the request in a background thread
 	Ptr perform(const HttpRetryOpt& retry_opts = HttpRetryOpt::no_retry());

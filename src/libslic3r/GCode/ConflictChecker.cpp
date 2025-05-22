@@ -125,7 +125,7 @@ static std::vector<ExtrusionPaths> getFakeExtrusionPathsFromWipeTower(const Wipe
 
     std::vector<ExtrusionPaths> paths;
     for (float hh = 0.f; hh < h; hh += lh) {
-
+        
         if (hh != 0.f) {
             // The wipe tower may be getting smaller. Find the depth for this layer.
             size_t i = 0;

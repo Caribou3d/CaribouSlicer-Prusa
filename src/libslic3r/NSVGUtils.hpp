@@ -47,8 +47,8 @@ struct NSVGLineParams
     // Maximal count of heal iteration
     unsigned max_heal_iteration = 10;
 
-    explicit NSVGLineParams(double tesselation_tolerance):
-        tesselation_tolerance(tesselation_tolerance),
+    explicit NSVGLineParams(double tesselation_tolerance): 
+        tesselation_tolerance(tesselation_tolerance), 
         arc_tolerance(std::pow(tesselation_tolerance, 1/3.))
     {}
 };

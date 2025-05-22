@@ -52,19 +52,19 @@ struct JobController;
 enum SLAPrintStep : unsigned int {
     slapsMergeSlicesAndEval,
     slapsRasterize,
-    slapsCount
+	slapsCount
 };
 
 enum SLAPrintObjectStep : unsigned int {
     slaposAssembly,
     slaposHollowing,
     slaposDrillHoles,
-    slaposObjectSlice,
-    slaposSupportPoints,
-    slaposSupportTree,
-    slaposPad,
+	slaposObjectSlice,
+	slaposSupportPoints,
+	slaposSupportTree,
+	slaposPad,
     slaposSliceSupports,
-    slaposCount
+	slaposCount
 };
 
 class SLAPrint;
@@ -137,9 +137,9 @@ public:
         // ID of the corresponding ModelInstance.
         ObjectID instance_id;
         // Slic3r::Point objects in scaled G-code coordinates
-        Point     shift;
+        Point 	shift;
         // Rotation along the Z axis, in radians.
-        float     rotation;
+        float 	rotation;
     };
     const std::vector<Instance>& instances() const { return m_instances; }
 
@@ -265,7 +265,7 @@ private:
         {
             return level<T>(r1) < level<T>(r2);
         });
-
+        
         if(it == cont.end()) return it;
 
         T diff = std::abs(level<T>(*it) - lvl);
@@ -327,7 +327,7 @@ protected:
     friend class SLAPrint;
     friend class PrintBaseWithState<SLAPrintStep, slapsCount>;
 
-    SLAPrintObject(SLAPrint* print, ModelObject* model_object);
+	SLAPrintObject(SLAPrint* print, ModelObject* model_object);
     ~SLAPrintObject();
 
     void                    config_apply(const ConfigBase &other, bool ignore_nonexistent = false) { m_config.apply(other, ignore_nonexistent); }
@@ -356,7 +356,7 @@ private:
     // m_trafo is left handed -> 3x3 affine transformation has negative determinant.
     bool                                    m_left_handed = false;
 
-    std::vector<Instance>                     m_instances;
+    std::vector<Instance> 					m_instances;
 
     // Individual 2d slice polygons from lower z to higher z levels
     std::vector<ExPolygons>                 m_model_slices;
@@ -372,7 +372,7 @@ private:
         sla::SupportableMesh    input; // the input
         std::vector<ExPolygons> support_slices;   // sliced supports
         TriangleMesh tree_mesh, pad_mesh, full_mesh; // cached artifacts
-
+        
         inline SupportData(const TriangleMesh &t)
             : input{t.its, {}, {}}
         {}
@@ -380,7 +380,7 @@ private:
         inline SupportData(const indexed_triangle_set &t)
             : input{t, {}, {}}
         {}
-
+        
         void create_support_tree(const sla::JobController &ctl)
         {
             tree_mesh = TriangleMesh{sla::create_support_tree(input, ctl)};
@@ -418,7 +418,7 @@ private:
 
         sla::InteriorPtr interior;
     };
-
+    
     std::unique_ptr<HollowingData> m_hollowing_data;
 };
 
@@ -475,16 +475,16 @@ class SLAPrint : public PrintBaseWithState<SLAPrintStep, slapsCount>
 {
 private: // Prevents erroneous use by other classes.
     typedef PrintBaseWithState<SLAPrintStep, slapsCount> Inherited;
-
+    
     class Steps; // See SLAPrintSteps.cpp
-
+    
 public:
 
     SLAPrint() = default;
 
     virtual ~SLAPrint() override { this->clear(); }
 
-    PrinterTechnology    technology() const noexcept override { return ptSLA; }
+    PrinterTechnology	technology() const noexcept override { return ptSLA; }
 
     void                clear() override;
     bool                empty() const override { return m_objects.empty(); }
@@ -525,7 +525,7 @@ public:
     // Return sla tansformation for a given model_object
     Transform3d sla_trafo(const ModelObject &model_object) const;
 
-    std::string                 output_filename(const std::string &filename_base = std::string()) const override;
+	std::string                 output_filename(const std::string &filename_base = std::string()) const override;
 
     const SLAPrintStatistics&   print_statistics() const { return m_print_statistics; }
 
@@ -546,11 +546,11 @@ public:
         {
             m_transformed_slices = std::forward<Container>(c);
         }
-
+        
         friend class SLAPrint::Steps;
 
     public:
-
+        
         explicit PrintLayer(coord_t lvl) : m_level(lvl) {}
 
         // for being sorted in their container (see m_printer_input)
@@ -583,8 +583,10 @@ public:
                       const ThumbnailsList &thumbnails,
                       const std::string    &projectname = "");
 
+    static bool is_prusa_print(const std::string& printer_model);
+    
 private:
-
+    
     // Implement same logic as in SLAPrintObject
     bool invalidate_step(SLAPrintStep st);
 
@@ -600,28 +602,28 @@ private:
 
     // Ready-made data for rasterization.
     std::vector<PrintLayer>         m_printer_input;
-
+    
     // The archive object which collects the raster images after slicing
     std::unique_ptr<SLAArchiveWriter>     m_archiver;
-
+    
     // Estimated print time, material consumed.
     SLAPrintStatistics              m_print_statistics;
-
+    
     class StatusReporter
     {
         double m_st = 0;
-
+        
     public:
         void operator()(SLAPrint &         p,
                         double             st,
                         const std::string &msg,
                         unsigned           flags = SlicingStatus::DEFAULT,
                         const std::string &logmsg = "");
-
+        
         double status() const { return m_st; }
     } m_report_status;
 
-    friend SLAPrintObject;
+	friend SLAPrintObject;
 };
 
 // Helper functions:

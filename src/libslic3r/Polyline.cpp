@@ -28,8 +28,8 @@ const Point& Polyline::leftmost_point() const
 {
     const Point *p = &this->points.front();
     for (Points::const_iterator it = this->points.begin() + 1; it != this->points.end(); ++ it) {
-        if (it->x() < p->x())
-            p = &(*it);
+        if (it->x() < p->x()) 
+        	p = &(*it);
     }
     return *p;
 }
@@ -102,7 +102,7 @@ Points Polyline::equally_spaced_points(double distance) const
     Points points;
     points.emplace_back(this->first_point());
     double len = 0;
-
+    
     for (Points::const_iterator it = this->points.begin() + 1; it != this->points.end(); ++it) {
         Vec2d  p1 = (it-1)->cast<double>();
         Vec2d  v  = it->cast<double>() - p1;
@@ -134,7 +134,7 @@ template <class T>
 void Polyline::simplify_by_visibility(const T &area)
 {
     Points &pp = this->points;
-
+    
     size_t s = 0;
     bool did_erase = false;
     for (size_t i = s+2; i < pp.size(); i = s + 2) {
@@ -173,8 +173,8 @@ void Polyline::split_at(const Point &point, Polyline* p1, Polyline* p2) const
     for (auto it = this->points.cbegin() + 1; it != this->points.cend(); ++ it) {
         Point proj;
         if (double d2 = line_alg::distance_to_squared(Line(prev, *it), point, &proj); d2 < min_dist2) {
-            min_dist2    = d2;
-            min_point_it = it;
+	        min_dist2    = d2;
+	        min_point_it = it;
         }
         prev = *it;
     }
@@ -182,7 +182,7 @@ void Polyline::split_at(const Point &point, Polyline* p1, Polyline* p2) const
     p1->points.assign(this->points.cbegin(), min_point_it);
     if (p1->points.back() != point)
         p1->points.emplace_back(point);
-
+    
     p2->points = { point };
     if (*min_point_it == point)
         ++ min_point_it;
@@ -268,7 +268,7 @@ bool remove_degenerate(Polylines &polylines)
     size_t j = 0;
     for (size_t i = 0; i < polylines.size(); ++ i) {
         if (polylines[i].points.size() >= 2) {
-            if (j < i)
+            if (j < i) 
                 std::swap(polylines[i].points, polylines[j].points);
             ++ j;
         } else

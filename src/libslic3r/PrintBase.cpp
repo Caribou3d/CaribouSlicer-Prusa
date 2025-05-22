@@ -28,24 +28,24 @@ void PrintBase::update_object_placeholders(DynamicConfig &config, const std::str
     std::vector<std::string> v_scale;
     int num_objects = 0;
     int num_instances = 0;
-    for (const ModelObject *model_object : m_model.objects) {
-        ModelInstance *printable = nullptr;
-        for (ModelInstance *model_instance : model_object->instances)
-            if (model_instance->is_printable()) {
-                printable = model_instance;
-                ++ num_instances;
-            }
-        if (printable) {
+	for (const ModelObject *model_object : m_model.objects) {
+		ModelInstance *printable = nullptr;
+		for (ModelInstance *model_instance : model_object->instances)
+			if (model_instance->is_printable()) {
+				printable = model_instance;
+				++ num_instances;
+			}
+		if (printable) {
             ++ num_objects;
-            // CHECK_ME -> Is the following correct ?
-            v_scale.push_back("x:" + boost::lexical_cast<std::string>(printable->get_scaling_factor(X) * 100) +
-                "% y:" + boost::lexical_cast<std::string>(printable->get_scaling_factor(Y) * 100) +
-                "% z:" + boost::lexical_cast<std::string>(printable->get_scaling_factor(Z) * 100) + "%");
-            if (input_file.empty())
-                input_file = model_object->name.empty() ? model_object->input_file : model_object->name;
-        }
+	        // CHECK_ME -> Is the following correct ?
+			v_scale.push_back("x:" + boost::lexical_cast<std::string>(printable->get_scaling_factor(X) * 100) +
+				"% y:" + boost::lexical_cast<std::string>(printable->get_scaling_factor(Y) * 100) +
+				"% z:" + boost::lexical_cast<std::string>(printable->get_scaling_factor(Z) * 100) + "%");
+	        if (input_file.empty())
+	            input_file = model_object->name.empty() ? model_object->input_file : model_object->name;
+	    }
     }
-
+    
     config.set_key_value("num_objects", new ConfigOptionInt(num_objects));
     config.set_key_value("num_instances", new ConfigOptionInt(num_instances));
 
@@ -65,18 +65,18 @@ std::string PrintBase::output_filename(const std::string &format, const std::str
 {
     DynamicConfig cfg;
     if (config_override != nullptr)
-        cfg = *config_override;
+    	cfg = *config_override;
     cfg.set_key_value("version", new ConfigOptionString(std::string(SLIC3R_VERSION)));
     PlaceholderParser::update_timestamp(cfg);
     this->update_object_placeholders(cfg, default_ext);
     if (! filename_base.empty()) {
-//        cfg.set_key_value("input_filename", new ConfigOptionString(filename_base + default_ext));
-        cfg.set_key_value("input_filename_base", new ConfigOptionString(filename_base));
+//		cfg.set_key_value("input_filename", new ConfigOptionString(filename_base + default_ext));
+		cfg.set_key_value("input_filename_base", new ConfigOptionString(filename_base));
     }
     try {
-        boost::filesystem::path filename = format.empty() ?
-            cfg.opt_string("input_filename_base") + default_ext :
-            this->placeholder_parser().process(format, 0, &cfg);
+		boost::filesystem::path filename = format.empty() ?
+			cfg.opt_string("input_filename_base") + default_ext :
+			this->placeholder_parser().process(format, 0, &cfg);
         if (filename.extension().empty())
             filename.replace_extension(default_ext);
         return filename.string();
@@ -91,12 +91,12 @@ std::string PrintBase::output_filepath(const std::string &path, const std::strin
     if (path.empty())
         // get the first input file name
         return (boost::filesystem::path(m_model.propose_export_file_name_and_path()).parent_path() / this->output_filename(filename_base)).make_preferred().string();
-
+    
     // if we were supplied a directory, use it and append our automatically generated filename
     boost::filesystem::path p(path);
     if (boost::filesystem::is_directory(p))
         return (p / this->output_filename(filename_base)).make_preferred().string();
-
+    
     // if we were supplied a file which is not a directory, use it
     return path;
 }
@@ -107,18 +107,20 @@ void PrintBase::status_update_warnings(int step, PrintStateBase::WarningLevel /*
         auto status = print_object ? SlicingStatus(*print_object, step) : SlicingStatus(*this, step);
         m_status_callback(status);
     }
-    else if (! message.empty())
+    else if (! message.empty()) {
         printf("%s warning: %s\n",  print_object ? "print_object" : "print", message.c_str());
+        std::fflush(stdout);
+    }
 }
 
 std::mutex& PrintObjectBase::state_mutex(PrintBase *print)
-{
-    return print->state_mutex();
+{ 
+	return print->state_mutex();
 }
 
 std::function<void()> PrintObjectBase::cancel_callback(PrintBase *print)
-{
-    return print->cancel_callback();
+{ 
+	return print->cancel_callback();
 }
 
 void PrintObjectBase::status_update_warnings(PrintBase *print, int step, PrintStateBase::WarningLevel warning_level, const std::string &message)

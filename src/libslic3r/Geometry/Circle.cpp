@@ -21,12 +21,12 @@ Point circle_center_taubin_newton(const Points::const_iterator& input_begin, con
     tmp.reserve(std::distance(input_begin, input_end));
     std::transform(input_begin, input_end, std::back_inserter(tmp), [] (const Point& in) { return unscale(in); } );
     Vec2d center = circle_center_taubin_newton(tmp.cbegin(), tmp.end(), cycles);
-    return Point::new_scale(center.x(), center.y());
+	return Point::new_scale(center.x(), center.y());
 }
 
 // Robust and accurate algebraic circle fit, which works well even if data points are observed only within a small arc.
 // The method was proposed by G. Taubin in
-//      "Estimation Of Planar Curves, Surfaces And Nonplanar Space Curves Defined By Implicit Equations,
+//      "Estimation Of Planar Curves, Surfaces And Nonplanar Space Curves Defined By Implicit Equations, 
 //       With Applications To Edge And Range Image Segmentation", IEEE Trans. PAMI, Vol. 13, pages 1115-1138, (1991)."
 // This particular implementation was adapted from
 //      "Circular and Linear Regression: Fitting circles and lines by least squares", pg 126"
@@ -83,7 +83,7 @@ Vec2d circle_center_taubin_newton(const Vec2ds::const_iterator& input_begin, con
         const double yold {ynew};
         ynew = C0 + xnew * (C1 + xnew*(C2 + xnew * C3));
         if (std::abs(ynew) > std::abs(yold)) {
-            BOOST_LOG_TRIVIAL(error) << "Geometry: Fit is going in the wrong direction.\n";
+			BOOST_LOG_TRIVIAL(error) << "Geometry: Fit is going in the wrong direction.\n";
             return Vec2d(std::nan(""), std::nan(""));
         }
         const double Dy {C1 + xnew*(C22 + xnew*C33)};
@@ -98,7 +98,7 @@ Vec2d circle_center_taubin_newton(const Vec2ds::const_iterator& input_begin, con
             xnew = 0.0;
         }
     }
-
+    
     // compute the determinant and the circle's parameters now that we've solved.
     double DET = xnew*xnew - xnew*Mz + Cov_xy;
 
@@ -177,14 +177,14 @@ Circled circle_linear_least_squares_by_solver(const Vec2ds &input, Solver solver
 
 Circled circle_linear_least_squares_svd(const Vec2ds &input)
 {
-    return circle_linear_least_squares_by_solver(input,
+    return circle_linear_least_squares_by_solver(input, 
         [](const Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic /* 3 */> &A, const Eigen::VectorXd &b)
         { return A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b).eval(); });
 }
 
 Circled circle_linear_least_squares_qr(const Vec2ds &input)
 {
-    return circle_linear_least_squares_by_solver(input,
+    return circle_linear_least_squares_by_solver(input, 
         [](const Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> &A, const Eigen::VectorXd &b)
         { return A.colPivHouseholderQr().solve(b).eval(); });
 }

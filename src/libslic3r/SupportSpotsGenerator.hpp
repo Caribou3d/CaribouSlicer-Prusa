@@ -54,7 +54,7 @@ struct Params
 
     // the algorithm should use the following units for all computations: distance [mm], mass [g], time [s], force [g*mm/s^2]
     const float bridge_distance = 16.0f; // mm
-    const float max_acceleration; // mm/s^2 ; max acceleration of object in XY -- should be applicable only to printers with bed slinger,
+    const float max_acceleration; // mm/s^2 ; max acceleration of object in XY -- should be applicable only to printers with bed slinger, 
                                   // however we do not have such info yet. The force is usually small anyway, so not such a big deal to include it everytime
     const int raft_layers_count;
     std::string filament_type;
@@ -94,12 +94,12 @@ struct Params
     }
 
     double get_support_spots_adhesion_strength() const {
-         return 0.016f * 1e6;
+         return 0.016f * 1e6; 
     }
 };
 
-enum class SupportPointCause {
-    LongBridge, // point generated on bridge and straight perimeter extrusion longer than the allowed length
+enum class SupportPointCause { 
+    LongBridge, // point generated on bridge and straight perimeter extrusion longer than the allowed length 
     FloatingBridgeAnchor, // point generated on unsupported bridge endpoint
     FloatingExtrusion, // point generated on extrusion that does not hold on its own
     SeparationFromBed, // point generated for object parts that are connected to the bed, but the area is too small and there is a risk of separation (brim may help)

@@ -57,8 +57,8 @@ inline std::tuple<int, int> coordinate_aligned_ray_hit_count(size_t             
     if (node.is_leaf()) {
         const LineType &line = lines[node.idx];
         if (ray_origin[other_coordinate] < std::min(line.a[other_coordinate], line.b[other_coordinate]) ||
-            ray_origin[other_coordinate] >= std::max(line.a[other_coordinate], line.b[other_coordinate])) {
-                // the second inequality is nonsharp for a reason
+            ray_origin[other_coordinate] >= std::max(line.a[other_coordinate], line.b[other_coordinate])) { 
+                // the second inequality is nonsharp for a reason 
                 //  without it, we may count contour border twice when the lines meet exactly at the spot of intersection. this prevents is
             return {0, 0};
         }
@@ -153,7 +153,7 @@ inline void insert_intersections_with_line(std::vector<std::pair<VectorType, siz
         insert_intersections_with_line<LineType, TreeType, VectorType>(result, right_node_idx, tree, lines, line, line_bb);
     }
 
-    //// NOTE: Non recursive implementation - for my case was slower ;-(
+    //// NOTE: Non recursive implementation - for my case was slower ;-(     
     // std::vector<size_t> node_indicies_for_check; // evaluation queue
     // size_t approx_size = static_cast<size_t>(std::ceil(std::sqrt(tree.nodes().size())));
     // node_indicies_for_check.reserve(approx_size);

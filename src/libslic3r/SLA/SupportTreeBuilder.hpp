@@ -149,14 +149,14 @@ struct Head: public SupportTreeNode {
 struct Pillar: public SupportTreeNode {
     double height, r_start, r_end;
     Vec3d endpt;
-
+    
     // If the pillar connects to a head, this is the id of that head
     bool starts_from_head = true; // Could start from a junction as well
     long start_junction_id = ID_UNSET;
-
+    
     // How many bridges are connected to this pillar
     unsigned bridges = 0;
-
+    
     // How many pillars are cascaded with this one
     unsigned links = 0;
 
@@ -176,7 +176,7 @@ struct Pillar: public SupportTreeNode {
     {
         return {endpt.x(), endpt.y(), endpt.z() + height};
     }
-
+    
     const Vec3d& endpoint() const { return endpt; }
 };
 
@@ -198,7 +198,7 @@ struct Anchor: public Head { using Head::Head; };
 struct Bridge: public SupportTreeNode {
     double r = 0.8;
     Vec3d startp = Vec3d::Zero(), endp = Vec3d::Zero();
-
+    
     Bridge(const Vec3d &j1,
            const Vec3d &j2,
            double       r_mm  = 0.8): r{r_mm}, startp{j1}, endp{j2}
@@ -245,14 +245,14 @@ class SupportTreeBuilder {
     std::vector<Anchor>     m_anchors;
 
     JobController m_ctl;
-
+    
     using Mutex = tbb::spin_mutex;
-
+    
     mutable indexed_triangle_set m_meshcache;
     mutable Mutex m_mutex;
     mutable bool m_meshcache_valid = false;
     mutable double m_model_height = 0; // the full height of the model
-
+    
     template<class BridgeT, class...Args>
     const BridgeT& _add_bridge(std::vector<BridgeT> &br, Args&&... args)
     {
@@ -262,9 +262,9 @@ class SupportTreeBuilder {
         m_meshcache_valid = false;
         return br.back();
     }
-
+    
 public:
-
+    
     explicit SupportTreeBuilder(const JobController &ctl = {}) : m_ctl{ctl} {}
     SupportTreeBuilder(SupportTreeBuilder &&o);
     SupportTreeBuilder(const SupportTreeBuilder &o);
@@ -278,23 +278,23 @@ public:
         std::lock_guard<Mutex> lk(m_mutex);
         m_heads.emplace_back(std::forward<Args>(args)...);
         m_heads.back().id = id;
-
+        
         if (id >= m_head_indices.size()) m_head_indices.resize(id + 1);
         m_head_indices[id] = m_heads.size() - 1;
-
+        
         m_meshcache_valid = false;
         return m_heads.back();
     }
-
+    
     long add_pillar(long headid, double length)
     {
         std::lock_guard<Mutex> lk(m_mutex);
         if (m_pillars.capacity() < m_heads.size())
             m_pillars.reserve(m_heads.size() * 10);
-
+        
         assert(headid >= 0 && size_t(headid) < m_head_indices.size());
         Head &head = m_heads[m_head_indices[size_t(headid)]];
-
+        
         Vec3d hjp = head.junction_point() - Vec3d{0, 0, length};
         m_pillars.emplace_back(hjp, length, head.r_back_mm);
 
@@ -303,11 +303,11 @@ public:
         head.pillar_id = pillar.id;
         pillar.start_junction_id = head.id;
         pillar.starts_from_head = true;
-
+        
         m_meshcache_valid = false;
         return pillar.id;
     }
-
+    
     void add_pillar_base(long pid, double baseheight = 3, double radius = 2);
 
     template<class...Args> const Anchor& add_anchor(Args&&...args)
@@ -318,37 +318,37 @@ public:
         m_meshcache_valid = false;
         return m_anchors.back();
     }
-
+    
     void increment_bridges(const Pillar& pillar)
     {
         std::lock_guard<Mutex> lk(m_mutex);
         assert(pillar.id >= 0 && size_t(pillar.id) < m_pillars.size());
-
+        
         if(pillar.id >= 0 && size_t(pillar.id) < m_pillars.size())
             m_pillars[size_t(pillar.id)].bridges++;
     }
-
+    
     void increment_links(const Pillar& pillar)
     {
         std::lock_guard<Mutex> lk(m_mutex);
         assert(pillar.id >= 0 && size_t(pillar.id) < m_pillars.size());
-
-        if(pillar.id >= 0 && size_t(pillar.id) < m_pillars.size())
+        
+        if(pillar.id >= 0 && size_t(pillar.id) < m_pillars.size()) 
             m_pillars[size_t(pillar.id)].links++;
     }
-
+    
     unsigned bridgecount(const Pillar &pillar) const {
         std::lock_guard<Mutex> lk(m_mutex);
         assert(pillar.id >= 0 && size_t(pillar.id) < m_pillars.size());
         return pillar.bridges;
     }
-
+    
     template<class...Args> long add_pillar(Args&&...args)
     {
         std::lock_guard<Mutex> lk(m_mutex);
         if (m_pillars.capacity() < m_heads.size())
             m_pillars.reserve(m_heads.size() * 10);
-
+        
         m_pillars.emplace_back(std::forward<Args>(args)...);
         Pillar& pillar = m_pillars.back();
         pillar.id = long(m_pillars.size() - 1);
@@ -356,7 +356,7 @@ public:
         m_meshcache_valid = false;
         return pillar.id;
     }
-
+    
     template<class...Args> const Junction& add_junction(Args&&... args)
     {
         std::lock_guard<Mutex> lk(m_mutex);
@@ -365,26 +365,26 @@ public:
         m_meshcache_valid = false;
         return m_junctions.back();
     }
-
+    
     const Bridge& add_bridge(const Vec3d &s, const Vec3d &e, double r)
     {
         return _add_bridge(m_bridges, s, e, r);
     }
-
+    
     const Bridge& add_bridge(long headid, const Vec3d &endp)
     {
         std::lock_guard<Mutex> lk(m_mutex);
         assert(headid >= 0 && size_t(headid) < m_head_indices.size());
-
+        
         Head &h = m_heads[m_head_indices[size_t(headid)]];
         m_bridges.emplace_back(h.junction_point(), endp, h.r_back_mm);
         m_bridges.back().id = long(m_bridges.size() - 1);
-
+        
         h.bridge_id = m_bridges.back().id;
         m_meshcache_valid = false;
         return m_bridges.back();
     }
-
+    
     template<class...Args> const Bridge& add_crossbridge(Args&&... args)
     {
         return _add_bridge(m_crossbridges, std::forward<Args>(args)...);
@@ -394,47 +394,47 @@ public:
     {
         return _add_bridge(m_diffbridges, std::forward<Args>(args)...);
     }
-
+    
     Head &head(unsigned id)
     {
         std::lock_guard<Mutex> lk(m_mutex);
         assert(id < m_head_indices.size());
-
+        
         m_meshcache_valid = false;
         return m_heads[m_head_indices[id]];
     }
-
+    
     inline size_t pillarcount() const {
         std::lock_guard<Mutex> lk(m_mutex);
         return m_pillars.size();
     }
-
+    
     inline const std::vector<Pillar> &pillars() const { return m_pillars; }
     inline const std::vector<Head>   &heads() const { return m_heads; }
     inline const std::vector<Bridge> &bridges() const { return m_bridges; }
     inline const std::vector<Bridge> &crossbridges() const { return m_crossbridges; }
-
+    
     template<class T> inline IntegerOnly<T, const Pillar&> pillar(T id) const
     {
         std::lock_guard<Mutex> lk(m_mutex);
         assert(id >= 0 && size_t(id) < m_pillars.size() &&
                size_t(id) < std::numeric_limits<size_t>::max());
-
+        
         return m_pillars[size_t(id)];
     }
-
-    template<class T> inline IntegerOnly<T, Pillar&> pillar(T id)
+    
+    template<class T> inline IntegerOnly<T, Pillar&> pillar(T id) 
     {
         std::lock_guard<Mutex> lk(m_mutex);
         assert(id >= 0 && size_t(id) < m_pillars.size() &&
                size_t(id) < std::numeric_limits<size_t>::max());
-
+        
         return m_pillars[size_t(id)];
     }
 
     // WITHOUT THE PAD!!!
     const indexed_triangle_set &merged_mesh(size_t steps = 45) const;
-
+    
     // Intended to be called after the generation is fully complete
     const indexed_triangle_set & merge_and_cleanup();
 

@@ -68,7 +68,7 @@ static constexpr const size_t SUPPORT_TREE_CIRCLE_RESOLUTION = 25;
 struct AreaIncreaseSettings
 {
     AreaIncreaseSettings(
-        TreeModelVolumes::AvoidanceType type = TreeModelVolumes::AvoidanceType::Fast, coord_t increase_speed = 0,
+        TreeModelVolumes::AvoidanceType type = TreeModelVolumes::AvoidanceType::Fast, coord_t increase_speed = 0, 
         bool increase_radius = false, bool no_error = false, bool use_min_distance = false, bool move = false) :
         increase_speed{ increase_speed }, type{ type }, increase_radius{ increase_radius }, no_error{ no_error }, use_min_distance{ use_min_distance }, move{ move } {}
 
@@ -238,8 +238,8 @@ struct SupportElementState : public SupportElementStateBits
  */
 [[nodiscard]] inline size_t getEffectiveDTT(const TreeSupportSettings &settings, const SupportElementState &elem)
 {
-    return elem.effective_radius_height < settings.increase_radius_until_layer ?
-        (elem.distance_to_top < settings.increase_radius_until_layer ? elem.distance_to_top : settings.increase_radius_until_layer) :
+    return elem.effective_radius_height < settings.increase_radius_until_layer ? 
+        (elem.distance_to_top < settings.increase_radius_until_layer ? elem.distance_to_top : settings.increase_radius_until_layer) : 
         elem.effective_radius_height;
 }
 
@@ -249,7 +249,7 @@ struct SupportElementState : public SupportElementStateBits
  * \return The radius the element has.
  */
 [[nodiscard]] inline coord_t support_element_radius(const TreeSupportSettings &settings, const SupportElementState &elem)
-{
+{ 
     return settings.getRadius(getEffectiveDTT(settings, elem), elem.elephant_foot_increases);
 }
 

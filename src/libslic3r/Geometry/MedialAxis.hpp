@@ -22,7 +22,7 @@ public:
     MedialAxis(double min_width, double max_width, const ExPolygon &expolygon);
     void build(ThickPolylines* polylines);
     void build(Polylines* polylines);
-
+    
 private:
     // Input
     const ExPolygon     &m_expolygon;

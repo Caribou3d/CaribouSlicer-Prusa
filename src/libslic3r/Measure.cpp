@@ -45,7 +45,7 @@ static std::tuple<Vec3d, double, double> get_center_and_radius(const std::vector
 
     double error = std::numeric_limits<double>::max();
     auto circle = Geometry::circle_ransac(out, iter, &error);
-
+    
     return std::make_tuple(trafo.inverse() * Vec3d(circle.center.x(), circle.center.y(), z), circle.radius, error);
 }
 
@@ -90,7 +90,7 @@ public:
 private:
     void update_planes();
     void extract_features(int plane_idx);
-
+    
     std::vector<PlaneData> m_planes;
     std::vector<size_t>    m_face_to_plane;
     indexed_triangle_set   m_its;
@@ -170,7 +170,7 @@ void MeasuringImpl::update_planes()
         m_planes.back().normal = normal_ptr->cast<double>();
         std::sort(m_planes.back().facets.begin(), m_planes.back().facets.end());
     }
-
+    
     // Check that each facet is part of one of the planes.
     assert(std::none_of(m_face_to_plane.begin(), m_face_to_plane.end(), [](size_t val) { return val == size_t(-1); }));
 
@@ -187,7 +187,7 @@ void MeasuringImpl::update_planes()
         const auto& facets = planes[plane_id].facets;
         planes[plane_id].borders.clear();
         std::vector<std::array<bool, 3>> visited(facets.size(), {false, false, false});
-
+        
         for (int face_id=0; face_id<int(facets.size()); ++face_id) {
             assert(face_to_plane[facets[face_id]] == plane_id);
 
@@ -205,7 +205,7 @@ void MeasuringImpl::update_planes()
                 Halfedge_index he = sm.halfedge(Face_index(facets[face_id]));
                 while (he.side() != edge_id)
                     he = sm.next(he);
-
+            
                 // he is the first halfedge on the border. Now walk around and append the points.
                 //const Halfedge_index he_orig = he;
                 planes[plane_id].borders.emplace_back();
@@ -214,7 +214,7 @@ void MeasuringImpl::update_planes()
                 last_border.emplace_back(sm.point(sm.source(he)).cast<double>());
                 //Vertex_index target = sm.target(he);
                 const Halfedge_index he_start = he;
-
+                
                 Face_index fi = he.face();
                 auto face_it = std::lower_bound(facets.begin(), facets.end(), int(fi));
                 assert(face_it != facets.end());
@@ -240,7 +240,7 @@ void MeasuringImpl::update_planes()
                     he = sm.opposite(he);
                     if (he.is_invalid())
                         goto PLANE_FAILURE;
-
+                    
                     Face_index fi = he.face();
                     auto face_it = std::lower_bound(facets.begin(), facets.end(), int(fi));
                     if (face_it == facets.end() || *face_it != int(fi)) // This indicates a broken mesh.
@@ -533,7 +533,7 @@ std::optional<SurfaceFeature> MeasuringImpl::get_feature(size_t face_idx, const 
 
     if (! plane.features_extracted)
         extract_features(m_face_to_plane[face_idx]);
-
+    
     size_t closest_feature_idx = size_t(-1);
     double min_dist = std::numeric_limits<double>::max();
 
@@ -987,7 +987,7 @@ MeasurementResult get_measurement(const SurfaceFeature& a, const SurfaceFeature&
             const auto [c0, r0, n0] = f1.get_circle();
             const auto [c1, r1, n1] = f2.get_circle();
 
-            // The following code is an adaptation of the algorithm found in:
+            // The following code is an adaptation of the algorithm found in: 
             // https://github.com/davideberly/GeometricTools/blob/master/GTE/Mathematics/DistCircle3Circle3.h
             // and described in:
             // https://www.geometrictools.com/Documentation/DistanceToCircle3.pdf
@@ -1132,7 +1132,7 @@ MeasurementResult get_measurement(const SurfaceFeature& a, const SurfaceFeature&
             }
             else {
                 ClosestInfo& info = candidates[0];
-
+            
                 const double N0dD = n0.dot(D);
                 const Vec3d normProj = N0dD * n0;
                 const Vec3d compProj = D - normProj;
@@ -1247,7 +1247,7 @@ MeasurementResult get_measurement(const SurfaceFeature& a, const SurfaceFeature&
         else
             result.angle = angle_plane_plane(f1.get_plane(), f2.get_plane());
     }
-
+    
     return result;
 }
 

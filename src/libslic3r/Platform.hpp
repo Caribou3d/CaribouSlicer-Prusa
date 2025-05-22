@@ -11,17 +11,17 @@ namespace Slic3r {
 
 enum class Platform
 {
-    Uninitialized,
-    Unknown,
-    Windows,
-    OSX,
-    Linux,
-    BSDUnix,
+	Uninitialized,
+	Unknown,
+	Windows,
+	OSX,
+	Linux,
+	BSDUnix,
 };
 
 enum class PlatformFlavor
 {
-    Uninitialized,
+	Uninitialized,
     Unknown,
     Generic,         // For Windows and OSX, until we need to be more specific.
     GenericLinux,    // For Platform::Linux
@@ -35,10 +35,10 @@ enum class PlatformFlavor
 };
 
 // To be called on program start-up.
-void             detect_platform();
+void 			detect_platform();
 
-Platform         platform();
-PlatformFlavor     platform_flavor();
+Platform 		platform();
+PlatformFlavor 	platform_flavor();
 
 std::string platform_to_string(Platform platform);
 std::string platform_flavor_to_string(PlatformFlavor pf);

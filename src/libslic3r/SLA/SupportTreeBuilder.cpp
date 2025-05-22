@@ -90,14 +90,14 @@ void SupportTreeBuilder::add_pillar_base(long pid, double baseheight, double rad
 const indexed_triangle_set &SupportTreeBuilder::merged_mesh(size_t steps) const
 {
     if (m_meshcache_valid) return m_meshcache;
-
+    
     indexed_triangle_set merged;
-
+    
     for (auto &head : m_heads) {
         if (ctl().stopcondition()) break;
         if (head.is_valid()) its_merge(merged, get_mesh(head, steps));
     }
-
+    
     for (auto &pill : m_pillars) {
         if (ctl().stopcondition()) break;
         its_merge(merged, get_mesh(pill, steps));
@@ -107,7 +107,7 @@ const indexed_triangle_set &SupportTreeBuilder::merged_mesh(size_t steps) const
         if (ctl().stopcondition()) break;
         its_merge(merged, get_mesh(pedest, steps));
     }
-
+    
     for (auto &j : m_junctions) {
         if (ctl().stopcondition()) break;
         its_merge(merged, get_mesh(j, steps));
@@ -117,7 +117,7 @@ const indexed_triangle_set &SupportTreeBuilder::merged_mesh(size_t steps) const
         if (ctl().stopcondition()) break;
         its_merge(merged, get_mesh(bs, steps));
     }
-
+    
     for (auto &bs : m_crossbridges) {
         if (ctl().stopcondition()) break;
         its_merge(merged, get_mesh(bs, steps));
@@ -138,13 +138,13 @@ const indexed_triangle_set &SupportTreeBuilder::merged_mesh(size_t steps) const
         m_meshcache = {};
         return m_meshcache;
     }
-
+    
     m_meshcache = std::move(merged);
-
+    
     // The mesh will be passed by const-pointer to TriangleMeshSlicer,
     // which will need this.
     its_merge_vertices(m_meshcache);
-
+    
     BoundingBoxf3 bb = bounding_box(m_meshcache);
     m_model_height   = bb.max(Z) - bb.min(Z);
 
@@ -155,8 +155,8 @@ const indexed_triangle_set &SupportTreeBuilder::merged_mesh(size_t steps) const
 const indexed_triangle_set &SupportTreeBuilder::merge_and_cleanup()
 {
     // in case the mesh is not generated, it should be...
-    auto &ret = merged_mesh();
-
+    auto &ret = merged_mesh(); 
+    
     // Doing clear() does not garantee to release the memory.
     clear_and_shrink(m_heads);
     clear_and_shrink(m_head_indices);
@@ -175,7 +175,7 @@ const indexed_triangle_set &SupportTreeBuilder::retrieve_mesh(MeshType meshtype)
     case MeshType::Support: return merged_mesh();
     case MeshType::Pad:     return EMPTY_MESH; //pad().tmesh;
     }
-
+    
     return m_meshcache;
 }
 

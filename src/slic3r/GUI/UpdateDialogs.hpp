@@ -15,6 +15,8 @@
 #include "libslic3r/Semver.hpp"
 #include "MsgDialog.hpp"
 
+#include "slic3r/Utils/PresetUpdater.hpp"
+
 class wxBoxSizer;
 class wxCheckBox;
 
@@ -101,13 +103,13 @@ public:
         {}
     };
 
-    // force_before_wizard - indicates that check of updated is forced before ConfigWizard opening
-    MsgUpdateConfig(const std::vector<Update> &updates, bool force_before_wizard = false);
-    MsgUpdateConfig(MsgUpdateConfig &&) = delete;
-    MsgUpdateConfig(const MsgUpdateConfig &) = delete;
-    MsgUpdateConfig &operator=(MsgUpdateConfig &&) = delete;
-    MsgUpdateConfig &operator=(const MsgUpdateConfig &) = delete;
-    ~MsgUpdateConfig();
+	// force_before_wizard - indicates that check of updated is forced before ConfigWizard opening
+	MsgUpdateConfig(const std::vector<Update> &updates, PresetUpdater::UpdateParams update_params);
+	MsgUpdateConfig(MsgUpdateConfig &&) = delete;
+	MsgUpdateConfig(const MsgUpdateConfig &) = delete;
+	MsgUpdateConfig &operator=(MsgUpdateConfig &&) = delete;
+	MsgUpdateConfig &operator=(const MsgUpdateConfig &) = delete;
+	~MsgUpdateConfig();
 };
 
 // Informs about currently installed bundles not being compatible with the running Slic3r. Asks about action.

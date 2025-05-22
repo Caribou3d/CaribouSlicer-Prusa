@@ -64,7 +64,7 @@ ExPolygonsIndex ExPolygonsIndices::cvt(uint32_t index) const
     return result;
 }
 
-bool ExPolygonsIndices::is_last_point(const ExPolygonsIndex &id) const {
+bool ExPolygonsIndices::is_last_point(const ExPolygonsIndex &id) const { 
     assert(id.expolygons_index < m_offsets.size());
     const std::vector<uint32_t> &shape_offset = m_offsets[id.expolygons_index];
     assert(id.polygon_index < shape_offset.size());
@@ -77,15 +77,15 @@ bool ExPolygonsIndices::is_last_point(const ExPolygonsIndex &id) const {
     // is last expoly?
     if (next_expoly_index == m_offsets.size()) {
         // is last expoly last poly?
-        if (next_poly_index == shape_offset.size())
+        if (next_poly_index == shape_offset.size()) 
             return next_point_index == m_count;
     } else {
         // (not last expoly) is expoly last poly?
-        if (next_poly_index == shape_offset.size())
+        if (next_poly_index == shape_offset.size()) 
             return next_point_index == m_offsets[next_expoly_index][0];
     }
     // Not last polygon in expolygon
     return next_point_index == shape_offset[next_poly_index];
 }
 
-uint32_t ExPolygonsIndices::get_count() const { return m_count; }
+uint32_t ExPolygonsIndices::get_count() const { return m_count; }		

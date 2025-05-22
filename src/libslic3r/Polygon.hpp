@@ -34,10 +34,13 @@ namespace Slic3r {
 
 class Polygon;
 class BoundingBox;
+class ColorPolygon;
 
 using Polygons          = std::vector<Polygon, PointsAllocator<Polygon>>;
 using PolygonPtrs       = std::vector<Polygon*, PointsAllocator<Polygon*>>;
 using ConstPolygonPtrs  = std::vector<const Polygon*, PointsAllocator<const Polygon*>>;
+
+using ColorPolygons     = std::vector<ColorPolygon>;
 
 // Returns true if inside. Returns border_result if on boundary.
 bool contains(const Polygon& polygon, const Point& p, bool border_result = true);
@@ -48,16 +51,16 @@ class Polygon : public MultiPoint
 public:
     Polygon() = default;
     explicit Polygon(const Points &points) : MultiPoint(points) {}
-    Polygon(std::initializer_list<Point> points) : MultiPoint(points) {}
+	Polygon(std::initializer_list<Point> points) : MultiPoint(points) {}
     Polygon(const Polygon &other) : MultiPoint(other.points) {}
     Polygon(Polygon &&other) : MultiPoint(std::move(other.points)) {}
-    static Polygon new_scale(const std::vector<Vec2d> &points) {
+	static Polygon new_scale(const std::vector<Vec2d> &points) {
         Polygon pgn;
         pgn.points.reserve(points.size());
         for (const Vec2d &pt : points)
             pgn.points.emplace_back(Point::new_scale(pt(0), pt(1)));
-        return pgn;
-    }
+		return pgn;
+	}
     Polygon& operator=(const Polygon &other) { points = other.points; return *this; }
     Polygon& operator=(Polygon &&other) { points = std::move(other.points); return *this; }
 
@@ -328,12 +331,41 @@ template<class I> IntegerOnly<I, Polygons> reserve_polygons(I cap)
     return reserve_vector<Polygon, I, typename Polygons::allocator_type>(cap);
 }
 
-} // Slic3r
+class ColorPolygon : public Polygon
+{
+public:
+    using Color  = uint8_t;
+    using Colors = std::vector<Color>;
+
+    Colors colors;
+
+    ColorPolygon() = default;
+    explicit ColorPolygon(const Points &points, const Colors &colors) : Polygon(points), colors(colors) {}
+    ColorPolygon(std::initializer_list<Point> points, std::initializer_list<Color> colors) : Polygon(points), colors(colors) {}
+    ColorPolygon(const ColorPolygon &other) : ColorPolygon(other.points, other.colors) {}
+    ColorPolygon(ColorPolygon &&other) noexcept : ColorPolygon(std::move(other.points), std::move(other.colors)) {}
+    ColorPolygon(Points &&points, Colors &&colors) : Polygon(std::move(points)), colors(std::move(colors)) {}
+
+    void reverse() override {
+        Polygon::reverse();
+        std::reverse(this->colors.begin(), this->colors.end());
+    }
+
+    ColorPolygon &operator=(const ColorPolygon &other) {
+        this->points = other.points;
+        this->colors = other.colors;
+        return *this;
+    }
+};
+
+using ColorPolygons = std::vector<ColorPolygon>;
+
+} // namespace Slic3r
 
 // start Boost
 #include <boost/polygon/polygon.hpp>
 
-namespace boost { namespace polygon {
+namespace boost::polygon {
     template <>
     struct geometry_concept<Slic3r::Polygon>{ typedef polygon_concept type; };
 
@@ -411,7 +443,7 @@ namespace boost { namespace polygon {
           polygons.assign(input_begin, input_end);
         }
     };
-} }
+} // namespace boost::polygon
 // end Boost
 
 #endif

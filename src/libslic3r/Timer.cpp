@@ -11,7 +11,7 @@ Slic3r::Timer::Timer(const std::string &name) : m_name(name), m_start(steady_clo
 
 Slic3r::Timer::~Timer()
 {
-    BOOST_LOG_TRIVIAL(debug) << "Timer '" << m_name << "' spend " <<
+    BOOST_LOG_TRIVIAL(debug) << "Timer '" << m_name << "' spend " << 
         duration_cast<milliseconds>(steady_clock::now() - m_start).count() << "ms";
 }
 

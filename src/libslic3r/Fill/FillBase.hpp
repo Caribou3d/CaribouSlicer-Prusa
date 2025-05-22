@@ -60,7 +60,7 @@ struct FillParams
     bool        dont_connect() const { return anchor_length_max < 0.05f; }
 
     // Fill density, fraction in <0, 1>
-    float       density         { 0.f };
+    float       density 		{ 0.f };
 
     // Length of an infill anchor along the perimeter.
     // 1000mm is roughly the maximum length line that fits into a 32bit coord_t.
@@ -71,15 +71,15 @@ struct FillParams
     double      resolution          { 0.0125 };
 
     // Don't adjust spacing to fill the space evenly.
-    bool        dont_adjust     { true };
+    bool        dont_adjust 	{ true };
 
     // Monotonic infill - strictly left to right for better surface quality of top infills.
-    bool         monotonic        { false };
+    bool 		monotonic		{ false };
 
     // For Honeycomb.
     // we were requested to complete each loop;
     // in this case we don't try to make more continuous paths
-    bool        complete         { false };
+    bool        complete 		{ false };
 
     // For Concentric infill, to switch between Classic and Arachne.
     bool        use_arachne     { false };

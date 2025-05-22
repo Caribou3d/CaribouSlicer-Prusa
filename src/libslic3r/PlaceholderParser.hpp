@@ -36,7 +36,7 @@ public:
     };
 
     PlaceholderParser(const DynamicConfig *external_config = nullptr);
-
+    
     void clear_config() { m_config.clear(); }
     // Return a list of keys, which should be changed in m_config from rhs.
     // This contains keys, which are found in rhs, but not in m_config.
@@ -59,11 +59,11 @@ public:
     void set(const std::string &key, double value)              { this->set(key, new ConfigOptionFloat(value)); }
     void set(const std::string &key, const std::vector<std::string> &values) { this->set(key, new ConfigOptionStrings(values)); }
     void set(const std::string &key, ConfigOption *opt)         { m_config.set_key_value(key, opt); }
-    DynamicConfig&            config_writable()                    { return m_config; }
-    const DynamicConfig&    config() const                      { return m_config; }
+	DynamicConfig&			config_writable()					{ return m_config; }
+	const DynamicConfig&    config() const                      { return m_config; }
     const ConfigOption*     option(const std::string &key) const { return m_config.option(key); }
     // External config is not owned by PlaceholderParser. It has a lowest priority when looking up an option.
-    const DynamicConfig*    external_config() const              { return m_external_config; }
+	const DynamicConfig*	external_config() const  			{ return m_external_config; }
 
     // Fill in the template using a macro processing language.
     // Throws Slic3r::PlaceholderParserError on syntax or runtime error.
@@ -81,9 +81,9 @@ public:
     void update_timestamp() { update_timestamp(m_config); }
 
 private:
-    // config has a higher priority than external_config when looking up a symbol.
-    DynamicConfig              m_config;
-    const DynamicConfig     *m_external_config;
+	// config has a higher priority than external_config when looking up a symbol.
+    DynamicConfig 			 m_config;
+    const DynamicConfig 	*m_external_config;
 };
 
 }

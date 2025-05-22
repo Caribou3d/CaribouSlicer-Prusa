@@ -121,7 +121,7 @@ inline typename Derived::Scalar cross2(const Eigen::MatrixBase<Derived> &v1, con
 // 2D vector perpendicular to the argument.
 template<typename Derived>
 inline Eigen::Matrix<typename Derived::Scalar, 2, 1, Eigen::DontAlign> perp(const Eigen::MatrixBase<Derived> &v)
-{
+{ 
     static_assert(Derived::IsVectorAtCompileTime && int(Derived::SizeAtCompileTime) == 2, "perp(): parameter is not a 2D vector");
     return { - v.y(), v.x() };
 }
@@ -234,8 +234,8 @@ public:
     Point  rotated(double angle, const Point &center) const { Point res(*this); res.rotate(angle, center); return res; }
 };
 
-inline bool operator<(const Point &l, const Point &r)
-{
+inline bool operator<(const Point &l, const Point &r) 
+{ 
     return l.x() < r.x() || (l.x() == r.x() && l.y() < r.y());
 }
 
@@ -375,7 +375,7 @@ struct PointHash {
 template<typename ValueType, typename PointAccessor> class ClosestPointInRadiusLookup
 {
 public:
-    ClosestPointInRadiusLookup(coord_t search_radius, PointAccessor point_accessor = PointAccessor()) :
+    ClosestPointInRadiusLookup(coord_t search_radius, PointAccessor point_accessor = PointAccessor()) : 
 		m_search_radius(search_radius), m_point_accessor(point_accessor), m_grid_log2(0)
     {
         // Resolution of a grid, twice the search radius + some epsilon.
@@ -464,8 +464,8 @@ public:
                 }
             }
         }
-        return (value_min != nullptr && dist_min < coordf_t(m_search_radius) * coordf_t(m_search_radius)) ?
-            std::make_pair(value_min, dist_min) :
+        return (value_min != nullptr && dist_min < coordf_t(m_search_radius) * coordf_t(m_search_radius)) ? 
+            std::make_pair(value_min, dist_min) : 
             std::make_pair(nullptr, std::numeric_limits<double>::max());
     }
 
@@ -585,9 +585,9 @@ inline coord_t align_to_grid(const coord_t coord, const coord_t spacing) {
     assert(aligned <= coord);
     return aligned;
 }
-inline Point   align_to_grid(Point   coord, Point   spacing)
+inline Point   align_to_grid(Point   coord, Point   spacing) 
     { return Point(align_to_grid(coord.x(), spacing.x()), align_to_grid(coord.y(), spacing.y())); }
-inline coord_t align_to_grid(coord_t coord, coord_t spacing, coord_t base)
+inline coord_t align_to_grid(coord_t coord, coord_t spacing, coord_t base) 
     { return base + align_to_grid(coord - base, spacing); }
 inline Point   align_to_grid(Point   coord, Point   spacing, Point   base)
     { return Point(align_to_grid(coord.x(), spacing.x(), base.x()), align_to_grid(coord.y(), spacing.y(), base.y())); }
@@ -622,16 +622,16 @@ static bool apply(T &val, const MinMax<T> &limit)
 namespace boost { namespace polygon {
     template <>
     struct geometry_concept<Slic3r::Point> { using type = point_concept; };
-
+   
     template <>
     struct point_traits<Slic3r::Point> {
         using coordinate_type = coord_t;
-
+    
         static inline coordinate_type get(const Slic3r::Point& point, orientation_2d orient) {
             return static_cast<coordinate_type>(point((orient == HORIZONTAL) ? 0 : 1));
         }
     };
-
+    
     template <>
     struct point_mutable_traits<Slic3r::Point> {
         using coordinate_type = coord_t;
@@ -662,7 +662,7 @@ namespace cereal {
 
     template<class Archive> void serialize(Archive& archive, Slic3r::Matrix4d &m){ archive(binary_data(m.data(), 4*4*sizeof(double))); }
     template<class Archive> void serialize(Archive& archive, Slic3r::Matrix2f &m){ archive(binary_data(m.data(), 2*2*sizeof(float))); }
-
+        
     // Eigen Transformation serialization
     template<class Archive, class T, int N> inline void serialize(Archive& archive, Eigen::Transform<T, N, Eigen::Affine, Eigen::DontAlign>& t){ archive(t.matrix()); }
 }

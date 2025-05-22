@@ -217,7 +217,7 @@ private:
     };
     void            _do_export(Print &print, GCodeOutputStream &file, ThumbnailsGeneratorCallback thumbnail_cb);
 
-    static ObjectsLayerToPrint                                      collect_layers_to_print(const PrintObject &object);
+    static ObjectsLayerToPrint         		                     collect_layers_to_print(const PrintObject &object);
     static std::vector<std::pair<coordf_t, ObjectsLayerToPrint>> collect_layers_to_print(const Print &print);
 
     Polyline get_layer_change_xy_path(const Vec3d &from, const Vec3d &to);
@@ -244,11 +244,11 @@ private:
         const Print                     &print,
         // Set of object & print layers of the same PrintObject and with the same print_z.
         const ObjectsLayerToPrint       &layers,
-        const LayerTools                  &layer_tools,
+        const LayerTools  				&layer_tools,
         const GCode::SmoothPathCaches   &smooth_path_caches,
         const bool                       last_layer,
-        // Pairs of PrintObject index and its instance index.
-        const std::vector<const PrintInstance*> *ordering,
+		// Pairs of PrintObject index and its instance index.
+		const std::vector<const PrintInstance*> *ordering,
         // If set to size_t(-1), then print all copies of all objects.
         // Otherwise print a single copy of a single object.
         const size_t                     single_object_idx = size_t(-1));
@@ -284,9 +284,15 @@ private:
         const bool first_layer
     );
     std::string extrude_smooth_path(
-        const GCode::SmoothPath &smooth_path, const bool is_loop, const std::string_view description, const double speed
+        const GCode::SmoothPath &smooth_path,
+        const bool is_loop,
+        const std::string_view description,
+        const double speed,
+        const std::size_t wipe_offset = 0
     );
-    std::string extrude_skirt(GCode::SmoothPath smooth_path, const ExtrusionFlow &extrusion_flow_override);
+    std::string extrude_skirt(
+        GCode::SmoothPath smooth_path, const ExtrusionFlow &extrusion_flow_override
+    );
 
     std::vector<InstanceToPrint> sort_print_object_instances(
         // Object and Support layers for the current print_z, collected for a single object, or for possibly multiple objects with multiple instances.
@@ -309,7 +315,8 @@ private:
 
     void initialize_instance(
         const InstanceToPrint &print_instance,
-        const ObjectLayerToPrint &layer_to_print
+        const ObjectLayerToPrint &layer_to_print,
+        const bool is_first
     );
 
     std::string extrude_slices(
@@ -334,8 +341,8 @@ private:
         bool& could_be_wipe_disabled
     );
     std::string travel_to(
-        const Point &start_point,
-        const Point &end_point,
+        const Vec3crd &start_point,
+        const Vec3crd &end_point,
         ExtrusionRole role,
         const std::string &comment,
         const std::function<std::string()>& insert_gcode

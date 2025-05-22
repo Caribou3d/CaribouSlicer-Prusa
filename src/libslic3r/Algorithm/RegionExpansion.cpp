@@ -84,7 +84,7 @@ RegionExpansionParameters RegionExpansionParameters::build(
     // Clipper positive round offset should rather offset less than more.
     // Still a little bit of additional offset was added.
     out.max_inflation = (out.tiny_expansion + nsteps * out.initial_step) * 1.1;
-//                (clipper_round_offset_error(out.tiny_expansion, co.ArcTolerance) + nsteps * clipper_round_offset_error(out.initial_step, co.ArcTolerance) * 1.5; // Account for uncertainty
+//                (clipper_round_offset_error(out.tiny_expansion, co.ArcTolerance) + nsteps * clipper_round_offset_error(out.initial_step, co.ArcTolerance) * 1.5; // Account for uncertainty 
 
     return out;
 }
@@ -172,7 +172,7 @@ static inline void merge_splits(ClipperLib_Z::Paths &paths, std::vector<std::pai
 
 using AABBTreeBBoxes = AABBTreeIndirect::Tree<2, coord_t>;
 
-static AABBTreeBBoxes build_aabb_tree_over_expolygons(const ExPolygons &expolygons)
+static AABBTreeBBoxes build_aabb_tree_over_expolygons(const ExPolygons &expolygons) 
 {
     // Calculate bounding boxes of internal slices.
     std::vector<AABBTreeIndirect::BoundingBoxWrapper> bboxes;
@@ -187,7 +187,7 @@ static AABBTreeBBoxes build_aabb_tree_over_expolygons(const ExPolygons &expolygo
 
 static int sample_in_expolygons(
     // AABB tree over boundary expolygons
-    const AABBTreeBBoxes &aabb_tree,
+    const AABBTreeBBoxes &aabb_tree, 
     const ExPolygons     &expolygons,
     const Point          &sample)
 {
@@ -278,7 +278,7 @@ std::vector<WaveSeed> wave_seeds(
         ClipperLib_Z::IntPoint back  = path.back();
         // Both ends of a seed segment are supposed to be inside a single boundary expolygon.
         // Thus as long as the seed contour is not closed, it should be open at a boundary point.
-        assert((front == back && front.z() >= idx_boundary_end && front.z() < idx_src_end) ||
+        assert((front == back && front.z() >= idx_boundary_end && front.z() < idx_src_end) || 
             //(front.z() < 0 && back.z() < 0));
             // Hope that at least one end of an open polyline is clipped by the boundary, thus an intersection point is created.
             (front.z() < 0 || back.z() < 0));
@@ -314,7 +314,7 @@ std::vector<WaveSeed> wave_seeds(
                 intersection = &is;
         }
         if (intersection) {
-            // The path intersects the boundary contour at least at one side.
+            // The path intersects the boundary contour at least at one side. 
             out.push_back({ uint32_t(intersection->second - idx_boundary_end), uint32_t(intersection->first - 1), ClipperZUtils::from_zpath(path) });
         } else {
             // This should be a closed contour.
@@ -407,7 +407,7 @@ static Polygons propagate_wave_from_boundary(
     assert(! seed.empty() && seed.front().size() >= 2);
     Polygons clipping = ClipperUtils::clip_clipper_polygons_with_subject_bbox(boundary, get_extents<true>(seed).inflated(max_inflation));
     ClipperLib::Paths polygons = wavefront_clip(wavefront_initial(co, seed, initial_step), clipping);
-    // Now offset the remaining
+    // Now offset the remaining 
     for (size_t ioffset = 0; ioffset < num_other_steps; ++ ioffset)
         polygons = wavefront_clip(wavefront_step(co, polygons, other_step), clipping);
     return to_polygons(polygons);
@@ -444,7 +444,7 @@ std::vector<RegionExpansion> propagate_waves(const ExPolygons &src, const ExPoly
 
 std::vector<RegionExpansion> propagate_waves(const ExPolygons &src, const ExPolygons &boundary,
     // Scaled expansion value
-    float expansion,
+    float expansion, 
     // Expand by waves of expansion_step size (expansion_step is scaled).
     float expansion_step,
     // Don't take more than max_nr_steps for small expansion_step.
@@ -498,7 +498,7 @@ std::vector<RegionExpansionEx> propagate_waves_ex(
 
 std::vector<Polygons> expand_expolygons(const ExPolygons &src, const ExPolygons &boundary,
     // Scaled expansion value
-    float expansion,
+    float expansion, 
     // Expand by waves of expansion_step size (expansion_step is scaled).
     float expansion_step,
     // Don't take more than max_nr_steps for small expansion_step.

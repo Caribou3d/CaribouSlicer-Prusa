@@ -192,13 +192,13 @@ bool ExtrusionLoop::split_at_vertex(const Point &point, const double scaled_epsi
                     if (p.polyline.is_valid())
                         new_paths.emplace_back(std::move(p));
                 }
-
+            
                 // then we add all paths until the end of current path list
                 std::move(path + 1, this->paths.end(), std::back_inserter(new_paths)); // not including this path
 
                 // then we add all paths since the beginning of current list up to the previous one
                 std::move(this->paths.begin(), path, std::back_inserter(new_paths)); // not including this path
-
+            
                 // finally we add the first half of current path
                 {
                     ExtrusionPath &p = *path;
@@ -249,7 +249,7 @@ void ExtrusionLoop::split_at(const Point &point, bool prefer_non_overhang, const
 {
     if (this->paths.empty())
         return;
-
+    
     auto [path_idx, segment_idx, p] = get_closest_path_and_point(point, prefer_non_overhang);
 
     // Snap p to start or end of segment_idx if closer than scaled_epsilon.
@@ -264,17 +264,17 @@ void ExtrusionLoop::split_at(const Point &point, bool prefer_non_overhang, const
             if (d2_1 < thr2)
                 p = *p1;
         } else {
-            if (d2_2 < thr2)
+            if (d2_2 < thr2) 
                 p = *p2;
         }
     }
-
+    
     // now split path_idx in two parts
     const ExtrusionPath &path = this->paths[path_idx];
     ExtrusionPath p1(path.attributes());
     ExtrusionPath p2(path.attributes());
     path.polyline.split_at(p, &p1.polyline, &p2.polyline);
-
+    
     if (this->paths.size() == 1) {
         if (p2.polyline.is_valid()) {
             if (p1.polyline.is_valid())
@@ -288,7 +288,7 @@ void ExtrusionLoop::split_at(const Point &point, bool prefer_non_overhang, const
         if (p2.polyline.is_valid()) this->paths.insert(this->paths.begin() + path_idx, p2);
         if (p1.polyline.is_valid()) this->paths.insert(this->paths.begin() + path_idx, p1);
     }
-
+    
     // split at the new vertex
     this->split_at_vertex(p, 0.);
 }
@@ -296,7 +296,7 @@ void ExtrusionLoop::split_at(const Point &point, bool prefer_non_overhang, const
 void ExtrusionLoop::clip_end(double distance, ExtrusionPaths* paths) const
 {
     *paths = this->paths;
-
+    
     while (distance > 0 && !paths->empty()) {
         ExtrusionPath &last = paths->back();
         double len = last.length();

@@ -173,26 +173,24 @@ public:
 
     // Various boolean flags.
     struct {
-        // Is this object selected?
-        bool                selected : 1;
-        // Is this object disabled from selection?
-        bool                disabled : 1;
-        // Is this object printable?
-        bool                printable : 1;
-        // Whether or not this volume is active for rendering
-        bool                is_active : 1;
-        // Whether or not to use this volume when applying zoom_to_volumes()
-        bool                zoom_to_volumes : 1;
-        // Wheter or not this volume is enabled for outside print volume detection in shader.
-        bool                shader_outside_printer_detection_enabled : 1;
-        // Wheter or not this volume is outside print volume.
-        bool                is_outside : 1;
-        // Wheter or not this volume has been generated from a modifier
-        bool                is_modifier : 1;
-        // Wheter or not this volume has been generated from the wipe tower
-        bool                is_wipe_tower : 1;
-        // Wheter or not this volume has been generated from an extrusion path
-        bool                is_extrusion_path : 1;
+	    // Is this object selected?
+	    bool                selected : 1;
+	    // Is this object disabled from selection?
+	    bool                disabled : 1;
+	    // Is this object printable?
+	    bool                printable : 1;
+	    // Whether or not this volume is active for rendering
+	    bool                is_active : 1;
+	    // Whether or not to use this volume when applying zoom_to_volumes()
+	    bool                zoom_to_volumes : 1;
+	    // Wheter or not this volume is enabled for outside print volume detection in shader.
+	    bool                shader_outside_printer_detection_enabled : 1;
+	    // Wheter or not this volume is outside print volume.
+	    bool                is_outside : 1;
+	    // Wheter or not this volume has been generated from a modifier
+	    bool                is_modifier : 1;
+	    // Wheter or not this volume has been generated from an extrusion path
+	    bool                is_extrusion_path : 1;
         // Whether or not always use the volume's own color (not using SELECTED/HOVER/DISABLED/OUTSIDE)
         bool                force_native_color : 1;
         // Whether or not render this volume in neutral
@@ -215,6 +213,13 @@ public:
     std::vector<coordf_t>       print_zs;
     // Offset into qverts & tverts, or offsets into indices stored into an OpenGL name_index_buffer.
     std::vector<size_t>         offsets;
+
+    std::optional<int> wipe_tower_bed_index;
+
+    // Wheter or not this volume has been generated from the wipe tower
+    bool is_wipe_tower() const {
+        return bool{wipe_tower_bed_index};
+    }
 
     // Bounding box of this volume, in unscaled coordinates.
     BoundingBoxf3 bounding_box() const {
@@ -425,11 +430,11 @@ public:
         int                instance_idx);
 
 #if SLIC3R_OPENGL_ES
-    int load_wipe_tower_preview(
-        float pos_x, float pos_y, float width, float depth, const std::vector<std::pair<float, float>>& z_and_depth_pairs, float height, float cone_angle, float rotation_angle, bool size_unknown, float brim_width, TriangleMesh* out_mesh = nullptr);
+    GLVolume* load_wipe_tower_preview(
+        float pos_x, float pos_y, float width, float depth, const std::vector<std::pair<float, float>>& z_and_depth_pairs, float height, float cone_angle, float rotation_angle, bool size_unknown, float brim_width, size_t idx, TriangleMesh* out_mesh = nullptr);
 #else
-    int load_wipe_tower_preview(
-        float pos_x, float pos_y, float width, float depth, const std::vector<std::pair<float, float>>& z_and_depth_pairs, float height, float cone_angle, float rotation_angle, bool size_unknown, float brim_width);
+    GLVolume* load_wipe_tower_preview(
+        float pos_x, float pos_y, float width, float depth, const std::vector<std::pair<float, float>>& z_and_depth_pairs, float height, float cone_angle, float rotation_angle, bool size_unknown, float brim_width, size_t idx);
 #endif // SLIC3R_OPENGL_ES
 
     // Load SLA auxiliary GLVolumes (for support trees or pad).

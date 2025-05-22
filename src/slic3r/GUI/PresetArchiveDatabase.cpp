@@ -6,6 +6,8 @@
 #include "slic3r/GUI/GUI_App.hpp"
 #include "slic3r/GUI/Plater.hpp"
 #include "slic3r/GUI/UserAccount.hpp"
+#include "slic3r/Utils/PresetUpdaterWrapper.hpp"
+#include "slic3r/GUI/Field.hpp"
 #include "libslic3r/Utils.hpp"
 #include "libslic3r/AppConfig.hpp"
 #include "libslic3r/miniz_extension.hpp"
@@ -25,7 +27,6 @@
 namespace pt = boost::property_tree;
 namespace fs = boost::filesystem;
 namespace Slic3r {
-namespace GUI {
 
 static const char* TMP_EXTENSION = ".download";
 
@@ -106,21 +107,21 @@ void delete_path_recursive(const fs::path& path)
 {
     try {
         boost::system::error_code ec;
-        if (fs::exists(path, ec) && !ec) {
-            for (fs::directory_iterator it(path); it != fs::directory_iterator(); ++it) {
-                const fs::path subpath = it->path();
-                if (fs::is_directory(subpath)) {
-                    delete_path_recursive(subpath);
-                } else {
-                    fs::remove(subpath);
-                }
-            }
-            fs::remove(path);
-        }
-    }
-    catch (const std::exception& e) {
-        BOOST_LOG_TRIVIAL(error) << "Failed to delete files at: " << path;
-    }
+		if (fs::exists(path, ec) && !ec) {
+			for (fs::directory_iterator it(path); it != fs::directory_iterator(); ++it) {
+				const fs::path subpath = it->path();
+				if (fs::is_directory(subpath)) {
+					delete_path_recursive(subpath);
+				} else {
+					fs::remove(subpath);
+				}
+			}
+			fs::remove(path);
+		}
+	}
+	catch (const std::exception&) {
+		BOOST_LOG_TRIVIAL(error) << "Failed to delete files at: " << path;
+	}
 }
 
 bool extract_local_archive_repository( ArchiveRepository::RepositoryManifest& manifest_data)
@@ -154,25 +155,6 @@ bool extract_local_archive_repository( ArchiveRepository::RepositoryManifest& ma
     return true;
 }
 
-// void deserialize_string(const std::string& opt, std::vector<std::string>& result)
-// {
-//     std::string val;
-//     for (size_t i = 0; i < opt.length(); i++) {
-//         if (std::isspace(opt[i])) {
-//             continue;
-//         }
-//         if (opt[i] != ';') {
-//             val += opt[i];
-//         }
-//         else {
-//             result.emplace_back(std::move(val));
-//         }
-//     }
-//     if (!val.empty()) {
-//         result.emplace_back(std::move(val));
-//     }
-// }
-
 std::string escape_string(const std::string& unescaped)
 {
     std::string ret_val;
@@ -200,17 +182,20 @@ std::string escape_path_by_element(const std::string& path_string)
     return ret_val;
 }
 
-void add_authorization_header(Http& http)
+bool add_authorization_header(Http& http)
 {
+    if (wxApp::GetInstance() == nullptr || ! GUI::wxGetApp().plater())
+        return false;
     const std::string access_token = GUI::wxGetApp().plater()->get_user_account()->get_access_token();
     if (!access_token.empty()) {
         http.header("Authorization", "Bearer " + access_token);
     }
+    return true;
 }
 
 }
 
-bool OnlineArchiveRepository::get_file_inner(const std::string& url, const fs::path& target_path) const
+bool OnlineArchiveRepository::get_file_inner(const std::string& url, const fs::path& target_path, PresetUpdaterUIStatus* ui_status) const
 {
 
     bool res = false;
@@ -221,53 +206,61 @@ bool OnlineArchiveRepository::get_file_inner(const std::string& url, const fs::p
         target_path.string(),
         tmp_path.string());
 
-    auto http = Http::get(url);
-    add_authorization_header(http);
+	auto http = Http::get(url);
+    if (!add_authorization_header(http))
+        return false;
     http
-        .timeout_max(30)
-        .on_progress([](Http::Progress, bool& cancel) {
-            //if (cancel) { cancel = true; }
-        })
-        .on_error([&](std::string body, std::string error, unsigned http_status) {
-            BOOST_LOG_TRIVIAL(error) << format("Error getting: `%1%`: HTTP %2%, %3%",
-                url,
-                http_status,
-                body);
-        })
-        .on_complete([&](std::string body, unsigned /* http_status */) {
-            if (body.empty()) {
-                return;
-            }
-            fs::fstream file(tmp_path, std::ios::out | std::ios::binary | std::ios::trunc);
-            file.write(body.c_str(), body.size());
-            file.close();
-            fs::rename(tmp_path, target_path);
-            res = true;
-        })
-        .perform_sync();
+		.timeout_max(30)
+		.on_progress([](Http::Progress, bool& cancel) {
+			//if (cancel) { cancel = true; }
+		})
+		.on_error([&](std::string body, std::string error, unsigned http_status) {
+			BOOST_LOG_TRIVIAL(error) << format("Error getting: `%1%`: HTTP %2%, %3%", url, http_status, body);
+             ui_status->set_error(error);
+             res = false;
+		})
+		.on_complete([&](std::string body, unsigned /* http_status */) {
+			if (body.empty()) {
+				return;
+			}
+			fs::fstream file(tmp_path, std::ios::out | std::ios::binary | std::ios::trunc);
+			file.write(body.c_str(), body.size());
+			file.close();
+			fs::rename(tmp_path, target_path);
+			res = true;
+		})
+        .on_retry([&](int attempt, unsigned delay) {
+            return !ui_status->on_attempt(attempt, delay);
+		})
+		.perform_sync(ui_status->get_retry_policy());
 
     return res;
 }
 
-bool OnlineArchiveRepository::get_archive(const fs::path& target_path) const
+bool OnlineArchiveRepository::get_archive(const fs::path& target_path, PresetUpdaterUIStatus* ui_status) const
 {
-    return get_file_inner(m_data.index_url.empty() ? m_data.url + "vendor_indices.zip" : m_data.index_url, target_path);
+	return get_file_inner(m_data.index_url.empty() ? m_data.url + "vendor_indices.zip" : m_data.index_url, target_path, ui_status);
 }
 
-bool OnlineArchiveRepository::get_file(const std::string& source_subpath, const fs::path& target_path, const std::string& repository_id) const
+bool OnlineArchiveRepository::get_file(const std::string& source_subpath, const fs::path& target_path, const std::string& repository_id, PresetUpdaterUIStatus* ui_status) const
 {
-    if (repository_id != m_data.id) {
-        BOOST_LOG_TRIVIAL(error) << "Error getting file " << source_subpath << ". The repository_id was not matching.";
-        return false;
-    }
-    const std::string escaped_source_subpath = escape_path_by_element(source_subpath);
-    return get_file_inner(m_data.url + escaped_source_subpath, target_path);
+	if (repository_id != m_data.id) {
+		BOOST_LOG_TRIVIAL(error) << "Error getting file " << source_subpath << ". The repository_id was not matching.";
+	    return false;
+	}
+
+    ui_status->set_target(target_path.filename().string());
+
+	const std::string escaped_source_subpath = escape_path_by_element(source_subpath);
+	return get_file_inner(m_data.url + escaped_source_subpath, target_path, ui_status);
 }
 
-bool OnlineArchiveRepository::get_ini_no_id(const std::string& source_subpath, const fs::path& target_path) const
+bool OnlineArchiveRepository::get_ini_no_id(const std::string& source_subpath, const fs::path& target_path, PresetUpdaterUIStatus* ui_status) const
 {
-    const std::string escaped_source_subpath = escape_path_by_element(source_subpath);
-    return get_file_inner(m_data.url + escaped_source_subpath, target_path);
+    ui_status->set_target(target_path.filename().string());
+
+	const std::string escaped_source_subpath = escape_path_by_element(source_subpath);
+	return get_file_inner(m_data.url + escaped_source_subpath, target_path, ui_status);
 }
 
 bool LocalArchiveRepository::get_file_inner(const fs::path& source_path, const fs::path& target_path) const
@@ -296,7 +289,7 @@ bool LocalArchiveRepository::get_file_inner(const fs::path& source_path, const f
     return true;
 }
 
-bool LocalArchiveRepository::get_file(const std::string& source_subpath, const fs::path& target_path, const std::string& repository_id) const
+bool LocalArchiveRepository::get_file(const std::string& source_subpath, const fs::path& target_path, const std::string& repository_id, PresetUpdaterUIStatus* ui_status) const
 {
     if (repository_id != m_data.id) {
         BOOST_LOG_TRIVIAL(error) << "Error getting file " << source_subpath << ". The repository_id was not matching.";
@@ -304,11 +297,11 @@ bool LocalArchiveRepository::get_file(const std::string& source_subpath, const f
     }
     return get_file_inner(m_data.tmp_path / source_subpath, target_path);
 }
-bool LocalArchiveRepository::get_ini_no_id(const std::string& source_subpath, const fs::path& target_path) const
+bool LocalArchiveRepository::get_ini_no_id(const std::string& source_subpath, const fs::path& target_path, PresetUpdaterUIStatus* ui_status) const
 {
     return get_file_inner(m_data.tmp_path / source_subpath, target_path);
 }
-bool LocalArchiveRepository::get_archive(const fs::path& target_path) const
+bool LocalArchiveRepository::get_archive(const fs::path& target_path, PresetUpdaterUIStatus* ui_status) const
 {
     fs::path source_path = fs::path(m_data.tmp_path) / "vendor_indices.zip";
     return get_file_inner(std::move(source_path), target_path);
@@ -325,14 +318,12 @@ void LocalArchiveRepository::do_extract()
 
 //-------------------------------------PresetArchiveDatabase-------------------------------------------------------------------------------------------------------------------------
 
-PresetArchiveDatabase::PresetArchiveDatabase(AppConfig* app_config, wxEvtHandler* evt_handler)
-    : p_evt_handler(evt_handler)
+PresetArchiveDatabase::PresetArchiveDatabase()
 {
-    //
     boost::system::error_code ec;
-    m_unq_tmp_path = fs::temp_directory_path() / fs::unique_path();
-    fs::create_directories(m_unq_tmp_path, ec);
-    assert(!ec);
+	m_unq_tmp_path = fs::temp_directory_path() / fs::unique_path();
+	fs::create_directories(m_unq_tmp_path, ec);
+	assert(!ec);
 
     load_app_manifest_json();
 }
@@ -382,8 +373,8 @@ bool PresetArchiveDatabase::set_selected_repositories(const std::vector<std::str
 bool PresetArchiveDatabase::extract_archives_with_check(std::string &msg)
 {
     extract_local_archives();
-//    for (const std::pair<std::string, bool>& pair : m_selected_repositories_uuid) {
-    for (const std::pair<const std::string, bool>& pair : m_selected_repositories_uuid) {
+    // std::map<std::string, bool> m_selected_repositories_uuid
+    for (const auto& pair : m_selected_repositories_uuid) {
         if (!pair.second) {
             continue;
         }
@@ -427,14 +418,14 @@ void PresetArchiveDatabase::set_installed_printer_repositories(const std::vector
 
         if (selected_uuid.empty() && unselected_uuid.empty()) {
             // there is id in used_ids that is not in m_archive_repositories - BAD
-            assert(true);
+            assert(false);
             continue;
         } else if (selected_uuid.size() == 1){
             // regular case
              m_has_installed_printer_repositories_uuid[selected_uuid.front()] = true;
         } else if (selected_uuid.size() > 1) {
             // this should not happen, only one repo of same id should be selected (online / local conflict)
-            assert(true);
+            assert(false);
             // select first one to solve the conflict
             m_has_installed_printer_repositories_uuid[selected_uuid.front()] = true;
             // unselect the rest
@@ -526,7 +517,7 @@ void PresetArchiveDatabase::load_app_manifest_json()
 		file.close();
 	}
 	else {
-		assert(true);
+		assert(false);
 		BOOST_LOG_TRIVIAL(error) << "Failed to read Archive Source Manifest at " << path;
 	}
 	if (data.empty()) {
@@ -552,41 +543,41 @@ void PresetArchiveDatabase::load_app_manifest_json()
                 // "selected" flag
                 if(const auto used = subtree.second.get_optional<bool>("selected"); used) {
                     m_selected_repositories_uuid[uuid] = extracted && *used;
-                } else {
-                    assert(true);
+				} else {
+					assert(false);
                     m_selected_repositories_uuid[uuid] = extracted;
                 }
                 // "has_installed_printers" flag
                 if (const auto used = subtree.second.get_optional<bool>("has_installed_printers"); used) {
                     m_has_installed_printer_repositories_uuid[uuid] = extracted && *used;
                 } else {
-                    assert(true);
+                    assert(false);
                     m_has_installed_printer_repositories_uuid[uuid] = false;
                 }
-                m_archive_repositories.emplace_back(std::make_unique<LocalArchiveRepository>(std::move(uuid), std::move(manifest), extracted));
+				m_archive_repositories.emplace_back(std::make_unique<LocalArchiveRepository>(std::move(uuid), std::move(manifest), extracted));
 
-                continue;
-            }
-            // online repo
-            ArchiveRepository::RepositoryManifest manifest;
-            std::string uuid = get_next_uuid();
-            if (!extract_repository_header(subtree.second, manifest)) {
-                assert(true);
-                BOOST_LOG_TRIVIAL(error) << "Failed to read one of source headers.";
-                continue;
-            }
+				continue;
+			}
+			// online repo
+			ArchiveRepository::RepositoryManifest manifest;
+			std::string uuid = get_next_uuid();
+			if (!extract_repository_header(subtree.second, manifest)) {
+				assert(false);
+				BOOST_LOG_TRIVIAL(error) << "Failed to read one of source headers.";
+				continue;
+			}
             // "selected" flag
-            if (const auto used = subtree.second.get_optional<bool>("selected"); used) {
-                m_selected_repositories_uuid[uuid] = *used;
-            } else {
-                assert(true);
+			if (const auto used = subtree.second.get_optional<bool>("selected"); used) {
+				m_selected_repositories_uuid[uuid] = *used;
+			} else {
+				assert(false);
                 m_selected_repositories_uuid[uuid] = true;
             }
             // "has_installed_printers" flag
             if (const auto used = subtree.second.get_optional<bool>("has_installed_printers"); used) {
                 m_has_installed_printer_repositories_uuid[uuid] = *used;
             } else {
-                assert(true);
+                assert(false);
                 m_has_installed_printer_repositories_uuid[uuid] = false;
             }
             m_archive_repositories.emplace_back(std::make_unique<OnlineArchiveRepository>(std::move(uuid), std::move(manifest)));
@@ -688,7 +679,7 @@ void PresetArchiveDatabase::save_app_manifest_json() const
 		file << data;
 		file.close();
 	} else {
-		assert(true);
+		assert(false);
 		BOOST_LOG_TRIVIAL(error) << "Failed to write Archive Repository Manifest to " << path;
 	}
 }
@@ -763,19 +754,19 @@ void PresetArchiveDatabase::read_server_manifest(const std::string& json_body)
 
     clear_online_repos();
 
-    for (const auto& subtree : ptree) {
-        ArchiveRepository::RepositoryManifest manifest;
-        if (!extract_repository_header(subtree.second, manifest)) {
-            assert(true);
-            BOOST_LOG_TRIVIAL(error) << "Failed to read one of repository headers.";
-            continue;
-        }
-        auto id_it = id_to_uuid.find(manifest.id);
-        std::string uuid = (id_it == id_to_uuid.end() ? get_next_uuid() : id_it->second);
-        // Set default selected value to true - its a never before seen repository
-        if (auto search = m_selected_repositories_uuid.find(uuid); search == m_selected_repositories_uuid.end()) {
-            m_selected_repositories_uuid[uuid] = true;
-        }
+	for (const auto& subtree : ptree) {
+		ArchiveRepository::RepositoryManifest manifest;
+		if (!extract_repository_header(subtree.second, manifest)) {
+			assert(false);
+			BOOST_LOG_TRIVIAL(error) << "Failed to read one of repository headers.";
+			continue;
+		}
+		auto id_it = id_to_uuid.find(manifest.id);
+		std::string uuid = (id_it == id_to_uuid.end() ? get_next_uuid() : id_it->second);
+		// Set default selected value to true - its a never before seen repository
+		if (auto search = m_selected_repositories_uuid.find(uuid); search == m_selected_repositories_uuid.end()) {
+			m_selected_repositories_uuid[uuid] = true;
+		}
         // Set default "has installed printers" value to false - its a never before seen repository
         if (auto search = m_has_installed_printer_repositories_uuid.find(uuid);
             search == m_has_installed_printer_repositories_uuid.end()) {
@@ -889,33 +880,45 @@ std::string PresetArchiveDatabase::get_next_uuid()
 }
 
 namespace {
-bool sync_inner(std::string& manifest)
+bool sync_inner(std::string& manifest, PresetUpdaterUIStatus* ui_status)
 {
 	bool ret = false;
     std::string url = Utils::ServiceConfig::instance().preset_repo_repos_url();
+    BOOST_LOG_TRIVIAL(error) << "URL" << url;
     auto http = Http::get(std::move(url));
-    add_authorization_header(http);
+    if (!add_authorization_header(http))
+        return false;
     http
-        .timeout_max(30)
-        .on_error([&](std::string body, std::string error, unsigned http_status) {
-            BOOST_LOG_TRIVIAL(error) << "Failed to get online archive source manifests: "<< body << " ; " << error << " ; " << http_status;
-            ret = false;
-        })
-        .on_complete([&](std::string body, unsigned /* http_status */) {
-            manifest = body;
-            ret = true;
-        })
-        .perform_sync();
-    return ret;
+		.timeout_max(30)
+		.on_error([&](std::string body, std::string error, unsigned http_status) {
+			BOOST_LOG_TRIVIAL(error) << "Failed to get online archive source manifests: " << url << body << " ; " << error << " ; " << http_status;
+            ui_status->set_error(error);
+			ret = false;
+		})
+		.on_complete([&](std::string body, unsigned /* http_status */) {
+			manifest = body;
+			ret = true;
+		})
+        .on_retry([&](int attempt, unsigned delay) {
+            return !ui_status->on_attempt(attempt, delay);
+		})
+		.perform_sync(ui_status->get_retry_policy());
+	return ret;
 }
 }
 
-void PresetArchiveDatabase::sync_blocking()
+bool PresetArchiveDatabase::sync_blocking(PresetUpdaterUIStatus* ui_status)
 {
-    std::string manifest;
-    if (!sync_inner(manifest))
-        return;
-    read_server_manifest(std::move(manifest));
+    assert(ui_status);
+	std::string manifest;
+    bool sync_res = false;
+    ui_status->set_target("Archive Database Mainfest");
+    sync_res = sync_inner(manifest, ui_status);
+    if (!sync_res) {
+        return false;
+    }
+	read_server_manifest(std::move(manifest));
+    return true;
 }
 
-}} // Slic3r::GUI
+} // Slic3r

@@ -53,7 +53,7 @@ bool are_paths_touching(const AABBTreeLines::LinesDistancer<Line> &first_distanc
 }
 
 //Sorts the paths such that all paths between begin and last_seed are printed first, in some order. The rest of the paths is sorted
-// such that the paths that are touching some of the already printed are printed first, sorted secondary by the distance to the last point of the last
+// such that the paths that are touching some of the already printed are printed first, sorted secondary by the distance to the last point of the last 
 // printed path.
 // begin, end, and last_seed are random access iterators. touch_limit_distance is used to check if the paths are touching - if any part of the path gets this close
 // to the second, then they touch.

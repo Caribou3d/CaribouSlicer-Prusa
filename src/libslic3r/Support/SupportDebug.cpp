@@ -23,7 +23,7 @@ const char* support_surface_type_to_color_name(const SupporLayerType surface_typ
         case SupporLayerType::TopContact:     return "rgb(255,0,0)"; // "red";
         case SupporLayerType::TopInterface:   return "rgb(0,255,0)"; // "green";
         case SupporLayerType::Base:           return "rgb(0,0,255)"; // "blue";
-        case SupporLayerType::BottomInterface:return "rgb(255,255,128)"; // yellow
+        case SupporLayerType::BottomInterface:return "rgb(255,255,128)"; // yellow 
         case SupporLayerType::BottomContact:  return "rgb(255,0,255)"; // magenta
         case SupporLayerType::RaftInterface:  return "rgb(0,255,255)";
         case SupporLayerType::RaftBase:       return "rgb(128,128,128)";
@@ -34,7 +34,7 @@ const char* support_surface_type_to_color_name(const SupporLayerType surface_typ
 
 Point export_support_surface_type_legend_to_svg_box_size()
 {
-    return Point(scale_(1.+10.*8.), scale_(3.));
+    return Point(scale_(1.+10.*8.), scale_(3.)); 
 }
 
 void export_support_surface_type_legend_to_svg(SVG &svg, const Point &pos)
@@ -84,8 +84,8 @@ void export_print_z_polygons_to_svg(const char *path, SupportGeneratorLayer ** c
 }
 
 void export_print_z_polygons_and_extrusions_to_svg(
-    const char                        *path,
-    SupportGeneratorLayer ** const     layers,
+    const char                        *path, 
+    SupportGeneratorLayer ** const     layers, 
     int                                n_layers,
     SupportLayer                      &support_layer)
 {

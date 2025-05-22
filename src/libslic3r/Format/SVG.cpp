@@ -58,7 +58,7 @@ bool load_svg(const std::string &input_file, Model &output_model)
     const NSVGimage* image = init_image(svg_file);
     if (image == nullptr) {
         BOOST_LOG_TRIVIAL(error) << "SVG file(\"" << input_file << "\") couldn't be parsed by nano svg.";
-        return false;
+        return false; 
     }
 
     double tesselation_tolerance = 1e10;
@@ -71,7 +71,7 @@ bool load_svg(const std::string &input_file, Model &output_model)
 
     double depth_in_mm = 10.; // in mm
     bool use_surface = false;
-    EmbossProjection emboss_projection{depth_in_mm, use_surface};
+    EmbossProjection emboss_projection{depth_in_mm, use_surface};    
 
     EmbossShape emboss_shape;
     emboss_shape.shapes_with_ids = std::move(shapes);
@@ -84,7 +84,7 @@ bool load_svg(const std::string &input_file, Model &output_model)
 
     // create projection
     double scale = emboss_shape.scale;
-    double depth = emboss_shape.projection.depth / scale;
+    double depth = emboss_shape.projection.depth / scale;    
     auto projectZ = std::make_unique<Emboss::ProjectZ>(depth);
     Transform3d tr{Eigen::Scaling(scale)};
     Emboss::ProjectTransform project(std::move(projectZ), tr);

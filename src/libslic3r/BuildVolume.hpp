@@ -48,7 +48,7 @@ public:
     // Source data, unscaled coordinates.
     const std::vector<Vec2d>&   bed_shape()         const { return m_bed_shape; }
     double                      max_print_height()  const { return m_max_print_height; }
-
+    
     // Derived data
     Type                        type()              const { return m_type; }
     // Format the type for console output.
@@ -78,7 +78,7 @@ public:
         Colliding,
         // Outside of the build volume means the object is ignored: Not printed and no error is shown.
         Outside,
-        // Completely below the print bed. The same as Outside, but an object with one printable part below the print bed
+        // Completely below the print bed. The same as Outside, but an object with one printable part below the print bed 
         // and at least one part above the print bed is still printable.
         Below,
     };
@@ -89,10 +89,10 @@ public:
     // Called by Plater to update Inside / Colliding / Outside state of ModelObjects before slicing.
     // Called from Model::update_print_volume_state() -> ModelObject::update_instances_print_volume_state()
     // Using SceneEpsilon
-    ObjectState  object_state(const indexed_triangle_set &its, const Transform3f &trafo, bool may_be_below_bed, bool ignore_bottom = true) const;
+    ObjectState  object_state(const indexed_triangle_set &its, const Transform3f& trafo, bool may_be_below_bed, bool ignore_bottom = true, int* bed_idx = nullptr) const;
     // Called by GLVolumeCollection::check_outside_state() after an object is manipulated with gizmos for example.
     // Called for a rectangular bed:
-    ObjectState  volume_state_bbox(const BoundingBoxf3& volume_bbox, bool ignore_bottom = true) const;
+    ObjectState  volume_state_bbox(BoundingBoxf3 volume_bbox, bool ignore_bottom, int* bed_idx) const;
 
     // 2) Test called on G-code paths.
     // Using BedEpsilon for all tests.

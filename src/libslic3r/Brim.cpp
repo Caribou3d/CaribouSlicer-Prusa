@@ -396,7 +396,7 @@ static void optimize_polylines_by_reversing(Polylines *polylines)
             double dist_to_start = (next.first_point() - prev.last_point()).cast<double>().norm();
             double dist_to_end   = (next.last_point() - prev.last_point()).cast<double>().norm();
 
-            if (dist_to_end < dist_to_start)
+            if (dist_to_end < dist_to_start) 
                 next.reverse();
         }
     }
@@ -511,7 +511,7 @@ static void make_inner_brim(const Print                   &print,
 
     loops = union_pt_chained_outside_in(loops);
     std::reverse(loops.begin(), loops.end());
-    extrusion_entities_append_loops(brim.entities, std::move(loops),
+    extrusion_entities_append_loops(brim.entities, std::move(loops), 
         ExtrusionAttributes{
             ExtrusionRole::Skirt,
             ExtrusionFlow{ float(flow.mm3_per_mm()), float(flow.width()), float(print.skirt_first_layer_height()) } });
@@ -534,7 +534,7 @@ ExtrusionEntityCollection make_brim(const Print &print, PrintTryCancel try_cance
     for (size_t i = 0; i < num_loops; ++i) {
         try_cancel();
         islands = expand(islands, float(flow.scaled_spacing()), ClipperLib::jtSquare);
-        for (Polygon &poly : islands)
+        for (Polygon &poly : islands) 
             poly.douglas_peucker(scaled_resolution);
         polygons_append(loops, shrink(islands, 0.5f * float(flow.scaled_spacing())));
     }
@@ -610,123 +610,123 @@ ExtrusionEntityCollection make_brim(const Print &print, PrintTryCancel try_cance
                                               float(scale_(0.1)));
 
         // First calculate the trimming region.
-        ClipperLib_Z::Paths trimming;
-        {
-            ClipperLib_Z::Paths input_subject;
-            ClipperLib_Z::Paths input_clip;
-            for (const Polygon &poly : skirt_outers) {
-                input_subject.emplace_back();
-                ClipperLib_Z::Path &out = input_subject.back();
-                out.reserve(poly.points.size());
-                for (const Point &pt : poly.points)
-                    out.emplace_back(pt.x(), pt.y(), 0);
-            }
-            for (const Polygon &poly : skirt_inners) {
-                input_clip.emplace_back();
-                ClipperLib_Z::Path &out = input_clip.back();
-                out.reserve(poly.points.size());
-                for (const Point &pt : poly.points)
-                    out.emplace_back(pt.x(), pt.y(), 0);
-            }
-            // init Clipper
-            ClipperLib_Z::Clipper clipper;
-            // add polygons
-            clipper.AddPaths(input_subject, ClipperLib_Z::ptSubject, true);
-            clipper.AddPaths(input_clip,    ClipperLib_Z::ptClip,    true);
-            // perform operation
-            clipper.Execute(ClipperLib_Z::ctDifference, trimming, ClipperLib_Z::pftNonZero, ClipperLib_Z::pftNonZero);
-        }
+		ClipperLib_Z::Paths trimming;
+		{
+		    ClipperLib_Z::Paths input_subject;
+		    ClipperLib_Z::Paths input_clip;
+		    for (const Polygon &poly : skirt_outers) {
+		    	input_subject.emplace_back();
+		    	ClipperLib_Z::Path &out = input_subject.back();
+		    	out.reserve(poly.points.size());
+			    for (const Point &pt : poly.points)
+					out.emplace_back(pt.x(), pt.y(), 0);
+		    }
+		    for (const Polygon &poly : skirt_inners) {
+		    	input_clip.emplace_back();
+		    	ClipperLib_Z::Path &out = input_clip.back();
+		    	out.reserve(poly.points.size());
+			    for (const Point &pt : poly.points)
+					out.emplace_back(pt.x(), pt.y(), 0);
+		    }
+		    // init Clipper
+		    ClipperLib_Z::Clipper clipper;
+		    // add polygons
+		    clipper.AddPaths(input_subject, ClipperLib_Z::ptSubject, true);
+		    clipper.AddPaths(input_clip,    ClipperLib_Z::ptClip,    true);
+		    // perform operation
+		    clipper.Execute(ClipperLib_Z::ctDifference, trimming, ClipperLib_Z::pftNonZero, ClipperLib_Z::pftNonZero);
+		}
 
-        // Second, trim the extrusion loops with the trimming regions.
-        ClipperLib_Z::Paths loops_trimmed;
-        {
+		// Second, trim the extrusion loops with the trimming regions.
+		ClipperLib_Z::Paths loops_trimmed;
+		{
             // Produce ClipperLib_Z::Paths from polylines (not necessarily closed).
-            ClipperLib_Z::Paths input_clip;
-            for (const Polyline &loop_pl : all_loops) {
-                input_clip.emplace_back();
-                ClipperLib_Z::Path& out = input_clip.back();
-                out.reserve(loop_pl.points.size());
-                int64_t loop_idx = &loop_pl - &all_loops.front();
-                for (const Point& pt : loop_pl.points)
-                    // The Z coordinate carries index of the source loop.
-                    out.emplace_back(pt.x(), pt.y(), loop_idx + 1);
-            }
-            // init Clipper
-            ClipperLib_Z::Clipper clipper;
-            clipper.ZFillFunction([](const ClipperLib_Z::IntPoint& e1bot, const ClipperLib_Z::IntPoint& e1top, const ClipperLib_Z::IntPoint& e2bot, const ClipperLib_Z::IntPoint& e2top, ClipperLib_Z::IntPoint& pt) {
-                // Assign a valid input loop identifier. Such an identifier is strictly positive, the next line is safe even in case one side of a segment
-                // hat the Z coordinate not set to the contour coordinate.
-                pt.z() = std::max(std::max(e1bot.z(), e1top.z()), std::max(e2bot.z(), e2top.z()));
-            });
-            // add polygons
-            clipper.AddPaths(input_clip, ClipperLib_Z::ptSubject, false);
-            clipper.AddPaths(trimming,   ClipperLib_Z::ptClip,    true);
-            // perform operation
-            ClipperLib_Z::PolyTree loops_trimmed_tree;
-            clipper.Execute(ClipperLib_Z::ctDifference, loops_trimmed_tree, ClipperLib_Z::pftNonZero, ClipperLib_Z::pftNonZero);
-            ClipperLib_Z::PolyTreeToPaths(std::move(loops_trimmed_tree), loops_trimmed);
-        }
+			ClipperLib_Z::Paths input_clip;
+			for (const Polyline &loop_pl : all_loops) {
+				input_clip.emplace_back();
+				ClipperLib_Z::Path& out = input_clip.back();
+				out.reserve(loop_pl.points.size());
+				int64_t loop_idx = &loop_pl - &all_loops.front();
+				for (const Point& pt : loop_pl.points)
+					// The Z coordinate carries index of the source loop.
+					out.emplace_back(pt.x(), pt.y(), loop_idx + 1);
+			}
+			// init Clipper
+			ClipperLib_Z::Clipper clipper;
+			clipper.ZFillFunction([](const ClipperLib_Z::IntPoint& e1bot, const ClipperLib_Z::IntPoint& e1top, const ClipperLib_Z::IntPoint& e2bot, const ClipperLib_Z::IntPoint& e2top, ClipperLib_Z::IntPoint& pt) {
+				// Assign a valid input loop identifier. Such an identifier is strictly positive, the next line is safe even in case one side of a segment
+				// hat the Z coordinate not set to the contour coordinate.
+				pt.z() = std::max(std::max(e1bot.z(), e1top.z()), std::max(e2bot.z(), e2top.z()));
+			});
+			// add polygons
+			clipper.AddPaths(input_clip, ClipperLib_Z::ptSubject, false);
+			clipper.AddPaths(trimming,   ClipperLib_Z::ptClip,    true);
+			// perform operation
+			ClipperLib_Z::PolyTree loops_trimmed_tree;
+			clipper.Execute(ClipperLib_Z::ctDifference, loops_trimmed_tree, ClipperLib_Z::pftNonZero, ClipperLib_Z::pftNonZero);
+			ClipperLib_Z::PolyTreeToPaths(std::move(loops_trimmed_tree), loops_trimmed);
+		}
 
-        // Third, produce the extrusions, sorted by the source loop indices.
-        {
-            std::vector<std::pair<const ClipperLib_Z::Path*, size_t>> loops_trimmed_order;
-            loops_trimmed_order.reserve(loops_trimmed.size());
-            for (const ClipperLib_Z::Path &path : loops_trimmed) {
-                size_t input_idx = 0;
-                for (const ClipperLib_Z::IntPoint &pt : path)
-                    if (pt.z() > 0) {
-                        input_idx = (size_t)pt.z();
-                        break;
-                    }
-                assert(input_idx != 0);
-                loops_trimmed_order.emplace_back(&path, input_idx);
-            }
-            std::stable_sort(loops_trimmed_order.begin(), loops_trimmed_order.end(),
-                [](const std::pair<const ClipperLib_Z::Path*, size_t> &l, const std::pair<const ClipperLib_Z::Path*, size_t> &r) {
-                    return l.second < r.second;
-                });
+		// Third, produce the extrusions, sorted by the source loop indices.
+		{
+			std::vector<std::pair<const ClipperLib_Z::Path*, size_t>> loops_trimmed_order;
+			loops_trimmed_order.reserve(loops_trimmed.size());
+			for (const ClipperLib_Z::Path &path : loops_trimmed) {
+				size_t input_idx = 0;
+				for (const ClipperLib_Z::IntPoint &pt : path)
+					if (pt.z() > 0) {
+						input_idx = (size_t)pt.z();
+						break;
+					}
+				assert(input_idx != 0);
+				loops_trimmed_order.emplace_back(&path, input_idx);
+			}
+			std::stable_sort(loops_trimmed_order.begin(), loops_trimmed_order.end(),
+				[](const std::pair<const ClipperLib_Z::Path*, size_t> &l, const std::pair<const ClipperLib_Z::Path*, size_t> &r) {
+					return l.second < r.second;
+				});
 
-            Point last_pt(0, 0);
-            for (size_t i = 0; i < loops_trimmed_order.size();) {
-                // Find all pieces that the initial loop was split into.
-                size_t j = i + 1;
+			Point last_pt(0, 0);
+			for (size_t i = 0; i < loops_trimmed_order.size();) {
+				// Find all pieces that the initial loop was split into.
+				size_t j = i + 1;
                 for (; j < loops_trimmed_order.size() && loops_trimmed_order[i].second == loops_trimmed_order[j].second; ++ j) ;
                 const ClipperLib_Z::Path &first_path = *loops_trimmed_order[i].first;
-                if (i + 1 == j && first_path.size() > 3 && first_path.front().x() == first_path.back().x() && first_path.front().y() == first_path.back().y()) {
-                    auto *loop = new ExtrusionLoop();
+				if (i + 1 == j && first_path.size() > 3 && first_path.front().x() == first_path.back().x() && first_path.front().y() == first_path.back().y()) {
+					auto *loop = new ExtrusionLoop();
                     brim.entities.emplace_back(loop);
                     loop->paths.emplace_back(ExtrusionAttributes{
-                        ExtrusionRole::Skirt,
+                        ExtrusionRole::Skirt, 
                         ExtrusionFlow{ float(flow.mm3_per_mm()), float(flow.width()), float(print.skirt_first_layer_height()) } });
-                    Points &points = loop->paths.front().polyline.points;
-                    points.reserve(first_path.size());
-                    for (const ClipperLib_Z::IntPoint &pt : first_path)
-                        points.emplace_back(coord_t(pt.x()), coord_t(pt.y()));
-                    i = j;
-                } else {
-                    //FIXME The path chaining here may not be optimal.
-                    ExtrusionEntityCollection this_loop_trimmed;
-                    this_loop_trimmed.entities.reserve(j - i);
-                    for (; i < j; ++ i) {
+		            Points &points = loop->paths.front().polyline.points;
+		            points.reserve(first_path.size());
+		            for (const ClipperLib_Z::IntPoint &pt : first_path)
+		            	points.emplace_back(coord_t(pt.x()), coord_t(pt.y()));
+		            i = j;
+				} else {
+			    	//FIXME The path chaining here may not be optimal.
+			    	ExtrusionEntityCollection this_loop_trimmed;
+					this_loop_trimmed.entities.reserve(j - i);
+			    	for (; i < j; ++ i) {
                         this_loop_trimmed.entities.emplace_back(new ExtrusionPath({
                             ExtrusionRole::Skirt,
                             ExtrusionFlow{ float(flow.mm3_per_mm()), float(flow.width()), float(print.skirt_first_layer_height()) } }));
-                        const ClipperLib_Z::Path &path = *loops_trimmed_order[i].first;
-                        Points &points = dynamic_cast<ExtrusionPath*>(this_loop_trimmed.entities.back())->polyline.points;
-                        points.reserve(path.size());
-                        for (const ClipperLib_Z::IntPoint &pt : path)
-                            points.emplace_back(coord_t(pt.x()), coord_t(pt.y()));
-                       }
-                       chain_and_reorder_extrusion_entities(this_loop_trimmed.entities, &last_pt);
+						const ClipperLib_Z::Path &path = *loops_trimmed_order[i].first;
+			            Points &points = dynamic_cast<ExtrusionPath*>(this_loop_trimmed.entities.back())->polyline.points;
+			            points.reserve(path.size());
+			            for (const ClipperLib_Z::IntPoint &pt : path)
+			            	points.emplace_back(coord_t(pt.x()), coord_t(pt.y()));
+		           	}
+		           	chain_and_reorder_extrusion_entities(this_loop_trimmed.entities, &last_pt);
                     brim.entities.reserve(brim.entities.size() + this_loop_trimmed.entities.size());
-                       append(brim.entities, std::move(this_loop_trimmed.entities));
-                       this_loop_trimmed.entities.clear();
-                }
-                last_pt = brim.last_point();
-            }
-        }
+		           	append(brim.entities, std::move(this_loop_trimmed.entities));
+		           	this_loop_trimmed.entities.clear();
+		        }
+		        last_pt = brim.last_point();
+			}
+		}
     } else {
-        extrusion_entities_append_loops_and_paths(brim.entities, std::move(all_loops),
+        extrusion_entities_append_loops_and_paths(brim.entities, std::move(all_loops), 
             ExtrusionAttributes{ ExtrusionRole::Skirt,
                 ExtrusionFlow{ float(flow.mm3_per_mm()), float(flow.width()), float(print.skirt_first_layer_height()) } });
     }

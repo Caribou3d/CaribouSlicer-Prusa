@@ -24,7 +24,7 @@ static bool load_preset_bundle_from_datadir(PresetBundle& preset_bundle)
     }
 
     if (std::string error = app_config.load(); !error.empty()) {
-        BOOST_LOG_TRIVIAL(error) << Slic3r::format("Error parsing CaribouSlicer config file, it is probably corrupted. "
+        BOOST_LOG_TRIVIAL(error) << Slic3r::format("Error parsing PrusaSlicer config file, it is probably corrupted. "
             "Try to manually delete the file to recover from the error. Your user profiles will not be affected."
             "\n%1%\n%2%", app_config.config_path(), error);
         return false;
@@ -88,8 +88,8 @@ struct PrinterAttr_
     std::string         variant;
 };
 
-static std::string get_printer_profiles(const VendorProfile* vendor_profile,
-                                        const PresetBundle* preset_bundle,
+static std::string get_printer_profiles(const VendorProfile* vendor_profile, 
+                                        const PresetBundle* preset_bundle, 
                                         const PrinterAttr_& printer_attr)
 {
     for (const auto& printer_model : vendor_profile->models) {
@@ -201,7 +201,7 @@ static void add_profile_node(pt::ptree& printer_profiles_node, const Preset& pri
     printer_profiles_node.push_back(std::make_pair("", profile_node));
 }
 
-static void get_printer_profiles_node(pt::ptree& printer_profiles_node,
+static void get_printer_profiles_node(pt::ptree& printer_profiles_node, 
                                       pt::ptree& user_printer_profiles_node,
                                       const PrinterPresetCollection& printer_presets,
                                       const PrinterAttr& attr)
@@ -320,7 +320,7 @@ std::string get_json_printer_models(PrinterTechnology printer_technology)
     PresetBundle preset_bundle;
     if (!load_preset_bundle_from_datadir(preset_bundle))
         return "";
-
+            
     pt::ptree vendor_node;
 
     const VendorMap& vendors_map = preset_bundle.vendors;
@@ -455,8 +455,8 @@ bool load_full_print_config(const std::string& print_preset_name, const std::str
 }
 
 // Helper function for load full config from installed presets by profile names
-std::string load_full_print_config(const std::string& print_preset_name,
-                                   const std::vector<std::string>& material_preset_names_in,
+std::string load_full_print_config(const std::string& print_preset_name, 
+                                   const std::vector<std::string>& material_preset_names_in, 
                                    const std::string& printer_preset_name,
                                    DynamicPrintConfig& config,
                                    PrinterTechnology printer_technology /*= ptUnknown*/)
@@ -576,6 +576,8 @@ std::string load_full_print_config(const std::string& print_preset_name,
         extruders_filaments.clear();
         for (size_t i = 0; i < material_preset_names.size(); ++i)
             extruders_filaments.emplace_back(ExtruderFilaments(&preset_bundle.filaments, i, material_preset_names[i]));
+        if (extruders_filaments.size() == 1)
+            preset_bundle.filaments.select_preset_by_name(material_preset_names[0], false);
     }
 
     config = preset_bundle.full_config();
