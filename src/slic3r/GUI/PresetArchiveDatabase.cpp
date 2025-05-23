@@ -884,7 +884,6 @@ bool sync_inner(std::string& manifest, PresetUpdaterUIStatus* ui_status)
 {
 	bool ret = false;
     std::string url = Utils::ServiceConfig::instance().preset_repo_repos_url();
-    BOOST_LOG_TRIVIAL(error) << "URL" << url;
     auto http = Http::get(std::move(url));
     if (!add_authorization_header(http))
         return false;
