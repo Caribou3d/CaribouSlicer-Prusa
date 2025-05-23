@@ -45,14 +45,14 @@ DSForLayers::DSForLayers(   int lowerValue,
                             bool allow_editing) :
     m_allow_editing(allow_editing)
 {
-#ifdef __WXOSX__
+#ifdef __WXOSX__ 
     is_osx = true;
 #endif //__WXOSX__
     Init(lowerValue, higherValue, minValue, maxValue, "layers_slider", false);
     m_ctrl.ShowLabelOnMouseMove(true);
 
     m_ctrl.set_get_label_on_move_cb([this](int pos) {
-        m_pos_on_move = pos;
+        m_pos_on_move = pos; 
         return m_show_estimated_times ? get_label(pos, ltEstimatedTime) : "";
     });
     m_ctrl.set_extra_draw_cb([this](const ImRect& draw_rc) {return draw_ticks(draw_rc); });
@@ -91,7 +91,7 @@ void DSForLayers::SetTicksValues(const Info& custom_gcode_per_print_z)
     const bool was_empty = m_ticks.empty();
 
     m_ticks.set_ticks(custom_gcode_per_print_z);
-
+    
     if (!was_empty && m_ticks.empty())
         // Switch to the "Feature type"/"Tool" from the very beginning of a new object slicing after deleting of the old one
         process_ticks_changed();
@@ -100,7 +100,7 @@ void DSForLayers::SetTicksValues(const Info& custom_gcode_per_print_z)
 }
 
 void DSForLayers::SetLayersTimes(const std::vector<float>& layers_times, float total_time)
-{
+{ 
     m_layers_times.clear();
     if (layers_times.empty())
         return;
@@ -126,16 +126,16 @@ void DSForLayers::SetLayersTimes(const std::vector<float>& layers_times, float t
 }
 
 void DSForLayers::SetLayersTimes(const std::vector<double>& layers_times)
-{
+{ 
     m_ticks.is_wipe_tower = false;
     m_layers_times = layers_times;
     std::copy(layers_times.begin(), layers_times.end(), m_layers_times.begin());
 }
 
 void DSForLayers::SetDrawMode(bool is_sla_print, bool is_sequential_print)
-{
-    m_draw_mode = is_sla_print          ? dmSlaPrint            :
-                  is_sequential_print   ? dmSequentialFffPrint  :
+{ 
+    m_draw_mode = is_sla_print          ? dmSlaPrint            : 
+                  is_sequential_print   ? dmSequentialFffPrint  : 
                                           dmRegular;
 
     update_draw_scroll_line_cb();
@@ -188,7 +188,7 @@ void DSForLayers::draw_ticks(const ImRect& slideable_region)
     if (m_ticks.empty() || m_draw_mode == dmSlaPrint)
         return;
 
-    // distance form center           begin  end
+    // distance form center           begin  end 
     const ImVec2 tick_border = ImVec2(23.0f, 2.0f) * m_scale;
 
     const float inner_x     = 11.f * m_scale;
@@ -213,7 +213,7 @@ void DSForLayers::draw_ticks(const ImRect& slideable_region)
         float tick_pos = get_tick_pos(tick_it->tick);
 
         //draw tick hover box when hovered
-        ImRect tick_hover_box = ImRect(x_center - tick_border.x, tick_pos - tick_border.y,
+        ImRect tick_hover_box = ImRect(x_center - tick_border.x, tick_pos - tick_border.y, 
                                        x_center + tick_border.x, tick_pos + tick_border.y - tick_width);
 
         if (ImGui::IsMouseHoveringRect(tick_hover_box.Min, tick_hover_box.Max)) {
@@ -258,7 +258,7 @@ void DSForLayers::draw_ticks(const ImRect& slideable_region)
                 process_ticks_changed();
                 break;
             }
-        }
+        }        
         else if (m_draw_mode != dmRegular)// if we have non-regular draw mode, all ticks should be marked with error icon
             activate_this_tick = render_button(ImGui::ErrorTick, ImGui::ErrorTickHovered, btn_label, icon_pos, fiTick, tick_it->tick);
         else if (tick_it->type == ColorChange || tick_it->type == ToolChange) {
@@ -328,13 +328,20 @@ void DSForLayers::draw_ruler(const ImRect& slideable_region)
         ImGui::RenderText(start, label.c_str());
     };
 
-    auto draw_tick = [x_center, tick_width, inner_x](const float tick_pos, const float outer_x)
+//    auto draw_tick = [x_center, tick_width, inner_x](const float tick_pos, const float outer_x)
+//    {
+//        ImRect tick_right = ImRect(x_center + inner_x, tick_pos - tick_width, x_center + outer_x, tick_pos);
+//        ImGui::RenderFrame(tick_right.Min, tick_right.Max, tick_clr, false);
+//    };
+
+    auto draw_tick = [x_center, tick_width, inner_x, tick_clr](const float tick_pos, const float outer_x)
     {
         ImRect tick_right = ImRect(x_center + inner_x, tick_pos - tick_width, x_center + outer_x, tick_pos);
         ImGui::RenderFrame(tick_right.Min, tick_right.Max, tick_clr, false);
     };
 
-    auto draw_short_ticks = [this, short_outer_x, draw_tick, get_tick_pos](double& current_tick, int max_tick)
+
+    auto draw_short_ticks = [this, short_outer_x, draw_tick, get_tick_pos](double& current_tick, int max_tick) 
     {
         if (m_ruler.short_step <= 0.0)
             return;
@@ -357,7 +364,7 @@ void DSForLayers::draw_ruler(const ImRect& slideable_region)
     const float label_shift = 0.5f * label_height;
 
     if (m_ruler.long_step < 0) {
-        // sequential print when long_step wasn't detected because of a lot of printed objects
+        // sequential print when long_step wasn't detected because of a lot of printed objects 
         if (m_ruler.max_values.size() > 1) {
             float last_pos = get_tick_pos(m_ctrl.GetMaxPos());
             while (tick <= m_ctrl.GetMaxPos() && sequence < m_ruler.count()) {
@@ -401,7 +408,7 @@ void DSForLayers::draw_ruler(const ImRect& slideable_region)
         }
     }
     else {
-        std::vector<int> last_positions;
+        std::vector<int> last_positions; 
         if (m_ruler.count() == 1)
             last_positions.emplace_back(m_ctrl.GetMaxPos());
         else {
@@ -479,7 +486,7 @@ void DSForLayers::draw_ruler(const ImRect& slideable_region)
                     last_pos = get_tick_pos(last_positions[sequence]);
             }
         }
-        // short ticks from the last tick to the end
+        // short ticks from the last tick to the end 
         draw_short_ticks(short_tick, m_ctrl.GetMaxPos());
     }
 
@@ -565,7 +572,7 @@ void DSForLayers::draw_colored_band(const ImRect& groove, const ImRect& slideabl
         //get position from tick
         tick_pos = m_ctrl.GetPositionInRect(tick_it->tick, slideable_region);
 
-        ImRect band_rect = ImRect(ImVec2(main_band.Min.x, std::min(tick_pos, main_band.Min.y)),
+        ImRect band_rect = ImRect(ImVec2(main_band.Min.x, std::min(tick_pos, main_band.Min.y)), 
                                   ImVec2(main_band.Max.x, std::min(tick_pos, main_band.Max.y)));
 
         if (main_band.Contains(band_rect)) {
@@ -586,7 +593,7 @@ void DSForLayers::draw_colored_band(const ImRect& groove, const ImRect& slideabl
                         draw_band(band_clr, band_rect);
 
                         ImGuiContext& g = *GImGui;
-                        if (ImGui::IsMouseHoveringRect(band_rect.Min, band_rect.Max) &&
+                        if (ImGui::IsMouseHoveringRect(band_rect.Min, band_rect.Max) && 
                             g.IO.MouseClicked[1] && !m_ctrl.IsRClickOnThumb()) {
                             rclicked_tick = tick_it->tick;
                         }
@@ -712,7 +719,7 @@ bool DSForLayers::render_multi_extruders_menu(bool switch_current_code/* = false
                 ImGuiPureWrap::end_menu();
             }
         }
-
+ 
         const std::string menu_name =   switch_current_code ?
                                         format(_u8L("Switch code to Color change (%1%) for:"), gcode(ColorChange)) :
                                         format(_u8L("Add color change (%1%) for:"), gcode(ColorChange));
@@ -773,7 +780,12 @@ void DSForLayers::render_cog_menu()
             if (m_cb_change_app_config)
                 m_cb_change_app_config("show_estimated_times_in_dbl_slider", m_show_estimated_times ? "1" : "0");
         }
-        if (m_mode == MultiAsSingle && m_draw_mode == dmRegular &&
+        if (ImGuiPureWrap::menu_item_with_icon(_u8L("Sequential slider applied only to top layer").c_str(), "", icon_sz, 0, m_seq_top_layer_only)) {
+            m_seq_top_layer_only = !m_seq_top_layer_only;
+            if (m_cb_change_app_config)
+                m_cb_change_app_config("seq_top_layer_only", m_seq_top_layer_only ? "1" : "0");
+        }
+        if (m_mode == MultiAsSingle && m_draw_mode == dmRegular && 
             ImGuiPureWrap::menu_item_with_icon(_u8L("Set extruder sequence for the entire print").c_str(), "")) {
             if (m_ticks.edit_extruder_sequence(m_ctrl.GetMaxPos(), m_mode))
                 process_ticks_changed();
@@ -787,7 +799,7 @@ void DSForLayers::render_cog_menu()
                     m_cb_change_app_config("show_ruler_in_dbl_slider", m_show_ruler ? "1" : "0");
             }
 
-            if (ImGuiPureWrap::menu_item_with_icon(_u8L("Show backgroung").c_str(), "", icon_sz, 0, m_show_ruler_bg)) {
+            if (ImGuiPureWrap::menu_item_with_icon(_u8L("Show background").c_str(), "", icon_sz, 0, m_show_ruler_bg)) {
                 m_show_ruler_bg = !m_show_ruler_bg;
                 if (m_cb_change_app_config)
                     m_cb_change_app_config("show_ruler_bg_in_dbl_slider", m_show_ruler_bg ? "1" : "0");
@@ -800,7 +812,7 @@ void DSForLayers::render_cog_menu()
                 UseDefaultColors(!m_ticks.used_default_colors());
             }
 
-            if (m_mode != MultiExtruder && m_draw_mode == dmRegular &&
+            if (m_mode != MultiExtruder && m_draw_mode == dmRegular && 
                 ImGuiPureWrap::menu_item_with_icon(_u8L("Set auto color changes").c_str(), "")) {
                 auto_color_change();
             }
@@ -1041,7 +1053,7 @@ bool DSForLayers::is_wipe_tower_layer(int tick) const
     if (tick == 0 || (tick == (int)m_values.size() - 1 && m_values[tick] > m_values[tick - 1]))
         return false;
     if ((m_values[tick - 1] == m_values[tick + 1] && m_values[tick] < m_values[tick + 1]) ||
-        (tick > 0 && m_values[tick] < m_values[tick - 1]) ) // if there is just one wiping on the layer
+        (tick > 0 && m_values[tick] < m_values[tick - 1]) ) // if there is just one wiping on the layer 
         return true;
 
     return false;
@@ -1131,14 +1143,14 @@ std::string DSForLayers::get_label(int pos, LabelType label_type, const std::str
     if (label_type == ltHeightWithLayer) {
         size_t layer_number = m_ticks.is_wipe_tower ? get_layer_number(value, label_type) + 1 : (m_values.empty() ? value : value + 1);
         return format("%1%\n(%2%)", str, layer_number);
-    }
+    }    
 
     return "";
 }
 
 void DSForLayers::ChangeOneLayerLock()
 {
-    m_ctrl.CombineThumbs(!m_ctrl.IsCombineThumbs());
+    m_ctrl.CombineThumbs(!m_ctrl.IsCombineThumbs()); 
     process_thumb_move();
 }
 
@@ -1197,7 +1209,7 @@ std::string DSForLayers::get_tooltip(int tick/*=-1*/)
                      "Shift + Left click for custom color selection")       :
                   _u8L("Add color change - Left click")  ) + " " +
                   _u8L("or press \"+\" key") + "\n" + (
-                     is_osx ?
+                     is_osx ? 
                   _u8L("Add another code - Ctrl + Left click") :
                   _u8L("Add another code - Right click") );
     }
@@ -1206,9 +1218,9 @@ std::string DSForLayers::get_tooltip(int tick/*=-1*/)
     {
         if (m_draw_mode == dmSequentialFffPrint)
             return _u8L("The sequential print is on.\n"
-                        "It's impossible to apply any custom G-code for objects printing sequentually.\n"
+                        "It's impossible to apply any custom G-code for objects printing sequentually.\n" 
                         "This code won't be processed during G-code generation.");
-
+        
         // Show custom Gcode as a first string of tooltop
         std::string space = "   ";
         tooltip = space;
@@ -1228,18 +1240,18 @@ std::string DSForLayers::get_tooltip(int tick/*=-1*/)
             boost::replace_all(gcode, "\n", "\n" + space);
             return gcode;
         };
-        tooltip +=
-            tick_code_it->type == ColorChange ?
-                (m_mode == SingleExtruder && tick_code_it->extruder==1 ?
-                    format(_u8L("Color change (\"%1%\")"), gcode(ColorChange)) :
+        tooltip +=  
+        	tick_code_it->type == ColorChange ?
+        		(m_mode == SingleExtruder && tick_code_it->extruder==1 ?
+                	format(_u8L("Color change (\"%1%\")"), gcode(ColorChange)) :
                     format(_u8L("Color change (\"%1%\") for Extruder %2%"), gcode(ColorChange), tick_code_it->extruder)) :
-                tick_code_it->type == CustomGCode::PausePrint ?
-                    format(_u8L("Pause print (\"%1%\")"), gcode(CustomGCode::PausePrint)) :
-                tick_code_it->type == Template ?
-                    format(_u8L("Custom template (\"%1%\")"), gcode(Template)) :
-                    tick_code_it->type == ToolChange ?
-                        format(_u8L("Extruder (tool) is changed to Extruder \"%1%\""), tick_code_it->extruder) :
-                        format_gcode(tick_code_it->extra);// tick_code_it->type == Custom
+	            tick_code_it->type == CustomGCode::PausePrint ?
+	                format(_u8L("Pause print (\"%1%\")"), gcode(CustomGCode::PausePrint)) :
+	            tick_code_it->type == Template ?
+	                format(_u8L("Custom template (\"%1%\")"), gcode(Template)) :
+		            tick_code_it->type == ToolChange ?
+		                format(_u8L("Extruder (tool) is changed to Extruder \"%1%\""), tick_code_it->extruder) :                
+		                format_gcode(tick_code_it->extra);// tick_code_it->type == Custom
 
         // If tick is marked as a conflict (exclamation icon),
         // we should to explain why
@@ -1265,7 +1277,7 @@ std::string DSForLayers::get_tooltip(int tick/*=-1*/)
         // Show list of actions with existing tick
         if (m_focus == fiActionIcon)
         tooltip += "\n\n" + _u8L("Delete tick mark - Left click or press \"-\" key") + "\n" + (
-                      is_osx ?
+                      is_osx ? 
                    _u8L("Edit tick mark - Ctrl + Left click") :
                    _u8L("Edit tick mark - Right click") );
     }
@@ -1300,7 +1312,7 @@ void DSForLayers::add_code_as_tick(Type type, int selected_extruder/* = -1*/)
     const auto it = m_ticks.ticks.find(TickCode{ tick });
 
     bool was_ticks = m_ticks.empty();
-
+    
     if ( it == m_ticks.ticks.end() ) {
         // try to add tick
         if (!m_ticks.add_tick(tick, type, extruder, m_values[tick]))

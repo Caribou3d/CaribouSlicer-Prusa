@@ -91,6 +91,7 @@ public:
     void    set_imgui_wrapper(Slic3r::GUI::ImGuiWrapper* imgui) { m_imgui = imgui; }
     void    show_estimated_times(bool show)                     { m_show_estimated_times = show; }
     void    show_ruler(bool show, bool show_bg)                 { m_show_ruler = show; m_show_ruler_bg = show_bg; }
+    void    seq_top_layer_only(bool show)                       { m_seq_top_layer_only = show; }
 
     // manipulation with slider from keyboard
 
@@ -101,10 +102,10 @@ public:
     // process adding of auto color change
     void    auto_color_change();
 
-    void    set_callback_on_ticks_changed(std::function<void()> cb)
+    void    set_callback_on_ticks_changed(std::function<void()> cb) 
             { m_cb_ticks_changed = cb; };
 
-    void    set_callback_on_check_gcode(std::function<void(Type)> cb )
+    void    set_callback_on_check_gcode(std::function<void(Type)> cb ) 
             { m_ticks.set_callback_on_check_gcode(cb); }
 
     void    set_callback_on_get_extruder_colors(std::function<std::vector<std::string>()> cb)
@@ -151,6 +152,7 @@ private:
     bool        m_show_ruler_bg         { true };
     bool        m_show_cog_menu         { false };
     bool        m_show_edit_menu        { false };
+    bool        m_seq_top_layer_only    { false };
     int         m_pos_on_move           { -1 };
 
     DrawMode    m_draw_mode             { dmRegular };
@@ -190,7 +192,7 @@ private:
 
     std::string get_label(int pos) const override { return get_label(pos, ltHeightWithLayer); }
 
-    void process_ticks_changed() {
+    void process_ticks_changed() { 
         if (m_cb_ticks_changed)
             m_cb_ticks_changed();
     }
