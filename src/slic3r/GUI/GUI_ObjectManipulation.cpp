@@ -563,7 +563,8 @@ bool ObjectManipulation::IsShown()
 
 void ObjectManipulation::UpdateAndShow(const bool show)
 {
-    if (show) {
+	if (show) {
+        wxQueueEvent(wxGetApp().plater(), new SimpleEvent(EVT_REGENERATE_BED_THUMBNAILS));
         this->set_dirty();
         this->update_if_dirty();
     }

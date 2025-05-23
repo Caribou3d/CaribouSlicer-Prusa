@@ -1,19 +1,20 @@
 get_filename_component(_TEST_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
 add_executable(${_TEST_NAME}_tests
-    ${_TEST_NAME}_tests.cpp
-    test_avoid_crossing_perimeters.cpp
-    test_bridges.cpp
-    test_cooling.cpp
-    test_clipper.cpp
-    test_custom_gcode.cpp
-    test_data.cpp
-    test_data.hpp
-    test_extrusion_entity.cpp
-    test_fill.cpp
-    test_flow.cpp
-    test_gaps.cpp
-    test_gcode.cpp
-    test_gcode_travels.cpp
+	${_TEST_NAME}_tests.cpp
+	test_avoid_crossing_perimeters.cpp
+	test_bridges.cpp
+	test_cooling.cpp
+	test_clipper.cpp
+	test_custom_gcode.cpp
+	test_data.cpp
+	test_data.hpp
+	test_extrusion_entity.cpp
+	test_fill.cpp
+	test_flow.cpp
+	test_gaps.cpp
+	test_gcode.cpp
+	test_gcode_travels.cpp
+    test_infill_above_bridges.cpp
     test_seam_perimeters.cpp
     test_seam_shells.cpp
     test_seam_geometry.cpp
