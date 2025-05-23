@@ -378,7 +378,7 @@ public:
     const Mouse3DController& get_mouse3d_controller() const;
     Mouse3DController& get_mouse3d_controller();
 
-    void set_bed_shape() const;
+	void set_bed_shape() const;
     void set_bed_shape(const Pointfs& shape, const double max_print_height, const std::string& custom_texture, const std::string& custom_model, bool force_as_custom = false) const;
     void set_default_bed_shape() const;
 
@@ -396,31 +396,31 @@ public:
     void bring_instance_forward();
 
     // ROII wrapper for suppressing the Undo / Redo snapshot to be taken.
-    class SuppressSnapshots
-    {
-    public:
-        SuppressSnapshots(Plater *plater) : m_plater(plater)
-        {
-            m_plater->suppress_snapshots();
-        }
-        ~SuppressSnapshots()
-        {
-            m_plater->allow_snapshots();
-        }
-    private:
-        Plater *m_plater;
-    };
+	class SuppressSnapshots
+	{
+	public:
+		SuppressSnapshots(Plater *plater) : m_plater(plater)
+		{
+			m_plater->suppress_snapshots();
+		}
+		~SuppressSnapshots()
+		{
+			m_plater->allow_snapshots();
+		}
+	private:
+		Plater *m_plater;
+	};
 
     // RAII wrapper for taking an Undo / Redo snapshot while disabling the snapshot taking by the methods called from inside this snapshot.
-    class TakeSnapshot
-    {
-    public:
+	class TakeSnapshot
+	{
+	public:
         TakeSnapshot(Plater *plater, const std::string &snapshot_name);
-        TakeSnapshot(Plater *plater, const wxString &snapshot_name) : m_plater(plater)
-        {
-            m_plater->take_snapshot(snapshot_name);
-            m_plater->suppress_snapshots();
-        }
+		TakeSnapshot(Plater *plater, const wxString &snapshot_name) : m_plater(plater)
+		{
+			m_plater->take_snapshot(snapshot_name);
+			m_plater->suppress_snapshots();
+		}
         TakeSnapshot(Plater* plater, const std::string& snapshot_name, UndoRedo::SnapshotType snapshot_type);
         TakeSnapshot(Plater *plater, const wxString &snapshot_name, UndoRedo::SnapshotType snapshot_type) : m_plater(plater)
         {
@@ -428,13 +428,13 @@ public:
             m_plater->suppress_snapshots();
         }
 
-        ~TakeSnapshot()
-        {
-            m_plater->allow_snapshots();
-        }
-    private:
-        Plater *m_plater;
-    };
+		~TakeSnapshot()
+		{
+			m_plater->allow_snapshots();
+		}
+	private:
+		Plater *m_plater;
+	};
 
     bool inside_snapshot_capture();
 
@@ -443,8 +443,8 @@ public:
 
     void set_keep_current_preview_type(bool value);
 
-    // Wrapper around wxWindow::PopupMenu to suppress error messages popping out while tracking the popup menu.
-    bool PopupMenu(wxMenu *menu, const wxPoint& pos = wxDefaultPosition);
+	// Wrapper around wxWindow::PopupMenu to suppress error messages popping out while tracking the popup menu.
+	bool PopupMenu(wxMenu *menu, const wxPoint& pos = wxDefaultPosition);
     bool PopupMenu(wxMenu *menu, int x, int y) { return this->PopupMenu(menu, wxPoint(x, y)); }
 
     // get same Plater/ObjectList menus
@@ -473,7 +473,7 @@ private:
     // Set true during PopupMenu() tracking to suppress immediate error message boxes.
     // The error messages are collected to m_tracking_popup_menu_error_message instead and these error messages
     // are shown after the pop-up dialog closes.
-    bool      m_tracking_popup_menu = false;
+    bool 	 m_tracking_popup_menu = false;
     wxString m_tracking_popup_menu_error_message;
 
     wxString m_last_loaded_gcode;

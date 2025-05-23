@@ -1,4 +1,4 @@
-#include "../PrusaSlicer.hpp"
+#include "../CaribouSlicer.hpp"
 #include "CLI.hpp"
 
 namespace Slic3r::CLI {
