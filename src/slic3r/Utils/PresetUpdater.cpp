@@ -437,7 +437,7 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const ArchiveRep
         // See if a there's a new version to download
         const auto recommended_it = index.recommended();
         if (recommended_it == index.end()) {
-            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index?", vendor.name);
+            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 1: %1%, invalid index?", vendor.name);
             continue;
         }
 
@@ -496,6 +496,7 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const ArchiveRep
 		if (vendor.second == VendorStatus::IN_ARCHIVE) {
 			// index in archive and not in cache and not installed vendor
 
+<<<<<<< HEAD
 			const auto idx_path_in_archive = cache_vendor_path / (vendor.first + ".idx");
 			const auto ini_path_in_archive = cache_vendor_path / (vendor.first + ".ini");
 			if (!fs::exists(idx_path_in_archive))
@@ -570,6 +571,82 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const ArchiveRep
 			const auto idx_path_in_archive = cache_vendor_path / (vendor.first + ".idx");
 			const auto ini_path_in_archive = cache_vendor_path / (vendor.first + ".ini");
 			const auto idx_path_in_cache = cache_path / (vendor.first + ".idx");
+=======
+            const auto idx_path_in_archive = cache_vendor_path / (vendor.first + ".idx");
+            const auto ini_path_in_archive = cache_vendor_path / (vendor.first + ".ini");
+            if (!fs::exists(idx_path_in_archive))
+                continue;
+            Index index;
+            try {
+                index.load(idx_path_in_archive);
+            }
+            catch (const std::exception& /* err */) {
+                BOOST_LOG_TRIVIAL(error) << format("Could not load downloaded index %1% for vendor %2%: invalid index?", idx_path_in_archive, vendor.first);
+                continue;
+            }
+            const auto recommended_it = index.recommended();
+            if (recommended_it == index.end()) {
+                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 2: %1%, invalid index? (%2%)", vendor.first, idx_path_in_archive);
+                continue;
+            }
+            const auto recommended = recommended_it->config_version;
+            if (!fs::exists(ini_path_in_archive)){
+                // Download recommneded to vendor - we do not have any existing ini file so we have to use archive url.
+                const std::string source_subpath = GUI::format("%1%/%2%.ini", vendor.first, recommended.to_string());
+                if (!archive_repository->get_ini_no_id(source_subpath, ini_path_in_archive))
+                    continue;
+            } else {
+                // check existing ini version
+                // then download recommended to vendor if needed
+                VendorProfile vp;
+                try {
+                    vp = VendorProfile::from_ini(ini_path_in_archive, true);
+                } catch (const std::exception& e) {
+                    BOOST_LOG_TRIVIAL(error) << format("Corrupted profile file for vendor %1% at %2%, message: %3%", vendor.first, ini_path_in_archive, e.what());
+                    // Delete the file
+                    boost::system::error_code ec;
+                    fs::remove(ini_path_in_archive, ec);
+                    if (ec) {
+                        BOOST_LOG_TRIVIAL(error) << format("Failed to delete file: %1%", ec.message());
+                    }
+                    continue;
+                }
+                if (vp.config_version != recommended) {
+                    // Take url from existing ini. This way we prevent downloading files from multiple sources.
+                    const std::string source_subpath = GUI::format("%1%/%2%.ini", vp.id, recommended.to_string());
+                    if (!archive_repository->get_file(source_subpath, ini_path_in_archive, vp.repo_id))
+                        continue;
+                }
+            }
+            // check missing thumbnails
+            VendorProfile vp;
+            try {
+                vp = VendorProfile::from_ini(ini_path_in_archive, true);
+            }
+            catch (const std::exception& e) {
+                BOOST_LOG_TRIVIAL(error) << format("Corrupted profile file for vendor %1% at %2%, message: %3%", vendor.first, ini_path_in_archive, e.what());
+                continue;
+            }
+            for (const auto& model : vp.models) {
+                if (!model.thumbnail.empty()) {
+                    try
+                    {
+                        get_missing_resource(archive_repository, vp.id, model.thumbnail, vp.repo_id);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        BOOST_LOG_TRIVIAL(error) << "Failed to get " << model.thumbnail << " for " << vp.id << " " << model.id << ": " << e.what();
+                    }
+                }
+                if (cancel)
+                    return;
+            }
+        } else if (vendor.second == VendorStatus::IN_CACHE) {
+            // find those where archive index recommends other version than index in cache and get it if not present
+            const auto idx_path_in_archive = cache_vendor_path / (vendor.first + ".idx");
+            const auto ini_path_in_archive = cache_vendor_path / (vendor.first + ".ini");
+            const auto idx_path_in_cache = cache_path / (vendor.first + ".idx");
+>>>>>>> 537e1a756114cbf4a3bf8740286b38dac63bf2fc
 
             if (!fs::exists(idx_path_in_archive) || !fs::exists(idx_path_in_cache))
                     continue;
@@ -585,11 +662,12 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const ArchiveRep
             }
             const auto recommended_it_cache = index_cache.recommended();
             if (recommended_it_cache == index_cache.end()) {
-                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index? (%2%)", vendor.first, idx_path_in_cache);
+                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 3: %1%, invalid index? (%2%)", vendor.first, idx_path_in_cache);
                 continue;
             }
             const auto recommended_cache = recommended_it_cache->config_version;
 
+<<<<<<< HEAD
 			Index index_archive;
 			try {
 				index_archive.load(idx_path_in_archive);
@@ -604,6 +682,22 @@ void PresetUpdater::priv::sync_config(const VendorMap& vendors, const ArchiveRep
 				continue;
 			}
 			const auto recommended_archive = recommended_it_archive->config_version;
+=======
+            Index index_archive;
+            try {
+                index_archive.load(idx_path_in_archive);
+            }
+            catch (const std::exception& /* err */) {
+                BOOST_LOG_TRIVIAL(error) << format("Could not load downloaded index %1% for vendor %2%: invalid index?", idx_path_in_archive, vendor.first);
+                continue;
+            }
+            const auto recommended_it_archive = index_archive.recommended();
+            if (recommended_it_archive == index_archive.end()) {
+                BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 4: %1%, invalid index? (%2%)", vendor.first, idx_path_in_archive);
+                continue;
+            }
+            const auto recommended_archive = recommended_it_archive->config_version;
+>>>>>>> 537e1a756114cbf4a3bf8740286b38dac63bf2fc
 
 			if (recommended_archive <= recommended_cache) {
 				// There isn't  more recent recomended version online. This vendor is also not istalled.
@@ -775,7 +869,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
         // from the internet, or installed / updated from the installation resources.
         auto recommended = idx.recommended();
         if (recommended == idx.end()) {
-            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor: %1%, invalid index? Giving up.", idx.vendor());
+            BOOST_LOG_TRIVIAL(error) << format("No recommended version for vendor 5: %1%, invalid index? Giving up.", idx.vendor());
             // XXX: what should be done here?
             continue;
         }

@@ -24,9 +24,13 @@ ServiceConfig::ServiceConfig()
     , m_account_url("https://account.prusa3d.com")
     , m_account_client_id("oamhmhZez7opFosnwzElIgE2oGgI2iJORSkw587O")
     , m_media_url("https://media.printables.com")
+<<<<<<< HEAD
     , m_preset_repo_url("https://caribou3d.com/CaribouSlicer/preset-repo")
     , m_printables_url("https://www.printables.com")
 {
+=======
+    , m_preset_repo_url("https://caribou3d.com/CaribouSlicer/preset-repo") {
+>>>>>>> 537e1a756114cbf4a3bf8740286b38dac63bf2fc
 #ifdef SLIC3R_REPO_URL
     m_preset_repo_url = SLIC3R_REPO_URL;
 #endif
