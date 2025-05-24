@@ -36,7 +36,7 @@ namespace Slic3r {
     enum {
         support_points_format_version = 1
     };
-    
+
     enum {
         drain_holes_format_version = 1
     };
@@ -56,7 +56,7 @@ namespace Slic3r {
         ConfigSubstitutionContext& config_substitutions,
         Model* model,
         bool check_version,
-        boost::optional<Semver> &prusaslicer_generator_version
+        boost::optional<Semver> &caribouslicer_generator_version
     );
 
     // Save the given model and the config data contained in the given Print into a 3mf file.

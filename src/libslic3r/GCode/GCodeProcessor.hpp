@@ -191,7 +191,7 @@ namespace Slic3r {
         };
 
         static const std::string& reserved_tag(ETags tag) { return Reserved_Tags[static_cast<unsigned char>(tag)]; }
-        // checks the given gcode for reserved tags and returns true when finding the 1st (which is returned into found_tag) 
+        // checks the given gcode for reserved tags and returns true when finding the 1st (which is returned into found_tag)
         static bool contains_reserved_tag(const std::string& gcode, std::string& found_tag);
         // checks the given gcode for reserved tags and returns true when finding any
         // (the first max_count found tags are returned into found_tag)
@@ -545,6 +545,7 @@ namespace Slic3r {
         {
             Unknown,
             PrusaSlicer,
+            CaribouSlicer,
             Slic3rPE,
             Slic3r,
             SuperSlicer,
@@ -671,7 +672,7 @@ namespace Slic3r {
 
         // Return to Saved Position
         void process_G61(const GCodeReader::GCodeLine& line);
- 
+
         // Set to Absolute Positioning
         void process_G90(const GCodeReader::GCodeLine& line);
 

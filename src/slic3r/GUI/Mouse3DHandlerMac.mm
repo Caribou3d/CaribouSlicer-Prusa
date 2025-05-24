@@ -204,7 +204,7 @@ void Mouse3DController::init()
       //If no packets are received the name might be different - check cmake. If debugging try commenting
       // set_target_properties(PrusaSlicer PROPERTIES OUTPUT_NAME "caribou-slicer")
       clientID = RegisterConnexionClient(
-          0, "\013PrusaSlicer", kConnexionClientModeTakeOver, kConnexionMaskAxis);
+          0, "\013CaribouSlicer", kConnexionClientModeTakeOver, kConnexionMaskAxis);
         BOOST_LOG_TRIVIAL(info) << "3dx mac handler registered";
     }
   }

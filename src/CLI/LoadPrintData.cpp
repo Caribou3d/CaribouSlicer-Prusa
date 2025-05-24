@@ -24,7 +24,7 @@ PrinterTechnology get_printer_technology(const DynamicConfig &config)
     return (opt == nullptr) ? ptUnknown : opt->value;
 }
 
-// may be "validate_and_apply_printer_technology" will be better? 
+// may be "validate_and_apply_printer_technology" will be better?
 static bool can_apply_printer_technology(PrinterTechnology& printer_technology, const PrinterTechnology& other_printer_technology)
 {
     if (printer_technology == ptUnknown) {
@@ -138,10 +138,10 @@ static bool process_input_files(std::vector<Model>& models, DynamicPrintConfig& 
                 // load model and configuration from the file
                 DynamicPrintConfig          config;
                 ConfigSubstitutionContext   config_substitutions_ctxt(cli.misc_config.option<ConfigOptionEnum<ForwardCompatibilitySubstitutionRule>>("config_compatibility")->value);
-                boost::optional<Semver>     prusaslicer_generator_version;
+                boost::optional<Semver>     caribouslicer_generator_version;
 
                 //FIXME should we check the version here? // | Model::LoadAttribute::CheckVersion ?
-                model = FileReader::load_model_with_config(file, &config, &config_substitutions_ctxt, prusaslicer_generator_version, FileReader::LoadAttribute::AddDefaultInstances);
+                model = FileReader::load_model_with_config(file, &config, &config_substitutions_ctxt, caribouslicer_generator_version, FileReader::LoadAttribute::AddDefaultInstances);
 
                 if (!can_apply_printer_technology(printer_technology, get_printer_technology(config)))
                     return false;
@@ -219,9 +219,9 @@ static bool finalize_print_config(DynamicPrintConfig& print_config, PrinterTechn
     return true;
 }
 
-bool load_print_data(std::vector<Model>& models, 
-                     DynamicPrintConfig& print_config, 
-                     PrinterTechnology& printer_technology, 
+bool load_print_data(std::vector<Model>& models,
+                     DynamicPrintConfig& print_config,
+                     PrinterTechnology& printer_technology,
                      Data& cli)
 {
     if (!load_print_config(print_config, printer_technology, cli))

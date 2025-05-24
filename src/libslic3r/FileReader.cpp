@@ -34,7 +34,7 @@ namespace Slic3r::FileReader
 bool is_project_file(const std::string& input_file)
 {
     return boost::algorithm::iends_with(input_file, ".3mf") || boost::algorithm::iends_with(input_file, ".zip");
-} 
+}
 
 // Loading model from a file, it may be a simple geometry file as STL or OBJ, however it may be a project file as well.
 static Model read_model_from_file(const std::string& input_file, LoadAttributes options)
@@ -54,11 +54,11 @@ static Model read_model_from_file(const std::string& input_file, LoadAttributes 
     else if (boost::algorithm::iends_with(input_file, ".amf") || boost::algorithm::iends_with(input_file, ".amf.xml"))
 //?        result = load_amf(input_file.c_str(), &temp_config, &temp_config_substitutions_context, &model, options & LoadAttribute::CheckVersion);
 //? LoadAttribute::CheckVersion is needed here, when we loading just a geometry
-        result = load_amf(input_file.c_str(), &temp_config, &temp_config_substitutions_context, &model, false); 
+        result = load_amf(input_file.c_str(), &temp_config, &temp_config_substitutions_context, &model, false);
     else if (boost::algorithm::iends_with(input_file, ".3mf") || boost::algorithm::iends_with(input_file, ".zip")) {
-        //FIXME options & LoadAttribute::CheckVersion ? 
-        boost::optional<Semver> prusaslicer_generator_version;
-        result = load_3mf(input_file.c_str(), temp_config, temp_config_substitutions_context, &model, false, prusaslicer_generator_version);
+        //FIXME options & LoadAttribute::CheckVersion ?
+        boost::optional<Semver> caribouslicer_generator_version;
+        result = load_3mf(input_file.c_str(), temp_config, temp_config_substitutions_context, &model, false, caribouslicer_generator_version);
     } else if (boost::algorithm::iends_with(input_file, ".svg"))
         result = load_svg(input_file, model);
     else if (boost::ends_with(input_file, ".printRequest"))
@@ -86,7 +86,7 @@ static Model read_model_from_file(const std::string& input_file, LoadAttributes 
 static Model read_all_from_file(const std::string& input_file,
                                 DynamicPrintConfig* config,
                                 ConfigSubstitutionContext* config_substitutions,
-                                boost::optional<Semver> &prusaslicer_generator_version,
+                                boost::optional<Semver> &caribouslicer_generator_version,
                                 LoadAttributes options)
 {
     assert(is_project_file(input_file));
@@ -97,7 +97,7 @@ static Model read_all_from_file(const std::string& input_file,
 
     bool result = false;
     if (is_project_file(input_file))
-        result = load_3mf(input_file.c_str(), *config, *config_substitutions, &model, options & LoadAttribute::CheckVersion, prusaslicer_generator_version);
+        result = load_3mf(input_file.c_str(), *config, *config_substitutions, &model, options & LoadAttribute::CheckVersion, caribouslicer_generator_version);
     else
         throw Slic3r::RuntimeError(L("Unknown file format. Input file must have .3mf extension."));
 
@@ -215,7 +215,7 @@ static int removed_objects_with_zero_volume(Model& model)
 }
 
 Model load_model(const std::string& input_file,
-                 LoadAttributes options/* = LoadAttribute::AddDefaultInstances*/, 
+                 LoadAttributes options/* = LoadAttribute::AddDefaultInstances*/,
                  LoadStats* stats/*= nullptr*/)
 {
     Model model = read_model_from_file(input_file, options);
@@ -237,14 +237,14 @@ Model load_model(const std::string& input_file,
     return model;
 }
 
-Model load_model_with_config(const std::string& input_file, 
-                             DynamicPrintConfig* config, 
+Model load_model_with_config(const std::string& input_file,
+                             DynamicPrintConfig* config,
                              ConfigSubstitutionContext* config_substitutions,
-                             boost::optional<Semver>& prusaslicer_generator_version,
-                             LoadAttributes options, 
+                             boost::optional<Semver>& caribouslicer_generator_version,
+                             LoadAttributes options,
                              LoadStats* stats)
 {
-    Model model = read_all_from_file(input_file, config, config_substitutions, prusaslicer_generator_version, options);
+    Model model = read_all_from_file(input_file, config, config_substitutions, caribouslicer_generator_version, options);
 
     if (stats && !model.mesh().empty()) {
         stats->deleted_objects_cnt          = removed_objects_with_zero_volume(model);

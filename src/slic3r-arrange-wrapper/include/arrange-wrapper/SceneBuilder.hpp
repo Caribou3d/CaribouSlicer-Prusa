@@ -206,7 +206,7 @@ struct InstPos { size_t obj_idx = 0, inst_idx = 0; };
 
 using BedConstraints = std::map<ObjectID, int>;
 
-// Implementing ArrangeableModel interface for PrusaSlicer's Model, ModelObject, ModelInstance data
+// Implementing ArrangeableModel interface for CaribouSlicer's Model, ModelObject, ModelInstance data
 // hierarchy
 class ArrangeableSlicerModel: public ArrangeableModel
 {

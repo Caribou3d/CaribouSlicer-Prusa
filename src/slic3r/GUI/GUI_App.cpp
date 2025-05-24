@@ -925,7 +925,7 @@ bool GUI_App::init_opengl()
     return status;
 }
 
-// gets path to PrusaSlicer.ini, returns semver from first line comment
+// gets path to CaribouSlicer.ini, returns semver from first line comment
 static boost::optional<Semver> parse_semver_from_ini(const std::string& path)
 {
     boost::nowide::ifstream stream(path);
@@ -3692,18 +3692,18 @@ bool GUI_App::check_updates(const bool invoked_by_user)
 namespace {
 bool open_dialog_hyperlink_checkbox(wxWindow* parent, AppConfig* app_config)
 {
-    RichMessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("PrusaSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
+    RichMessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("CaribouSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
     dialog.ShowCheckBox(_L("Remember my choice"));
     auto answer = dialog.ShowModal();
     bool launch = answer == wxID_YES;
     if (dialog.IsCheckBoxChecked()) {
         wxString preferences_item = _L("Suppress to open hyperlink in browser");
         wxString msg =
-            _L("PrusaSlicer will remember your choice.") + "\n\n" +
+            _L("CaribouSlicer will remember your choice.") + "\n\n" +
             _L("You will not be asked about it again on hyperlinks hovering.") + "\n\n" +
             format_wxstr(_L("Visit \"Preferences\" and check \"%1%\"\nto changes your choice."), preferences_item);
 
-        MessageDialog msg_dlg(parent, msg, _L("PrusaSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
+        MessageDialog msg_dlg(parent, msg, _L("CaribouSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
         if (msg_dlg.ShowModal() == wxID_CANCEL)
             return false;
         app_config->set("suppress_hyperlinks", answer == wxID_NO ? "1" : "0");
@@ -3712,7 +3712,7 @@ bool open_dialog_hyperlink_checkbox(wxWindow* parent, AppConfig* app_config)
 }
 bool open_dialog_hyperlink(wxWindow* parent)
 {
-    MessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("PrusaSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
+    MessageDialog dialog(parent, _L("Open hyperlink in default browser?"), _L("CaribouSlicer: Open hyperlink"), wxICON_QUESTION | wxYES_NO);
     return dialog.ShowModal() == wxID_YES;
 }
 }

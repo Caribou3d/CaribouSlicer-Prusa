@@ -114,7 +114,7 @@ namespace instance_check_internal
     static HWND l_prusa_slicer_hwnd;
     static BOOL CALLBACK EnumWindowsProc(_In_ HWND   hwnd, _In_ LPARAM lParam)
     {
-        //checks for other instances of prusaslicer, if found brings it to front and return false to stop enumeration and quit this instance
+        //checks for other instances of CaribouSlicer, if found brings it to front and return false to stop enumeration and quit this instance
         //search is done by classname(wxWindowNR is wxwidgets thing, so probably not unique) and name in window upper panel
         //other option would be do a mutex and check for its existence
         //BOOST_LOG_TRIVIAL(error) << "ewp: version: " << l_version_wstring;
@@ -195,7 +195,7 @@ namespace instance_check_internal
 			return true;
 		std::wstring classNameString(className);
 		std::wstring wndTextString(wndText);
-		if (wndTextString.find(L"PrusaSlicer") != std::wstring::npos && classNameString == L"wxWindowNR") {
+		if (wndTextString.find(L"CaribouSlicer") != std::wstring::npos && classNameString == L"wxWindowNR") {
 			//check if other instances has same instance hash
 			//if not it is not same version(binary) as this version
 			HANDLE   handle = GetProp(hwnd, L"Instance_Hash_Minor");
@@ -1046,7 +1046,7 @@ namespace MulticastMessageHandlerDBusInternal
 	    dbus_message_unref(reply);
 	}
 
-	//method Message receives message from another PrusaSlicer instance
+	//method Message receives message from another CaribouSlicer instance
 	static void handle_method_message(DBusConnection *connection, DBusMessage *request)
 	{
 		BOOST_LOG_TRIVIAL(debug) << __FUNCTION__;
@@ -1121,7 +1121,7 @@ void OtherInstanceMessageHandler::listen_multicast()
 	    return;
 	}
 	if (DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER != name_req_val) {
-		BOOST_LOG_TRIVIAL(error) << "listen_multicast: Not primary owner of DBus name - probably another PrusaSlicer instance is running.";
+		BOOST_LOG_TRIVIAL(error) << "listen_multicast: Not primary owner of DBus name - probably another CaribouSlicer instance is running.";
 	    BOOST_LOG_TRIVIAL(error) << "listen_multicast: Dbus Messages listening terminating.";
 	    dbus_connection_unref(conn);
 	    return;

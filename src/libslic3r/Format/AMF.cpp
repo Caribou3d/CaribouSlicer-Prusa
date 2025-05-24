@@ -71,7 +71,7 @@ struct AMFParserContext
 {
     AMFParserContext(XML_Parser parser, DynamicPrintConfig* config, ConfigSubstitutionContext* config_substitutions, Model* model) :
         m_parser(parser),
-        m_model(*model), 
+        m_model(*model),
         m_config(config),
         m_config_substitutions(config_substitutions)
     {
@@ -117,7 +117,7 @@ struct AMFParserContext
     static void XMLCALL characters(void *userData, const XML_Char *s, int len)
     {
         AMFParserContext *ctx = (AMFParserContext*)userData;
-        ctx->characters(s, len);    
+        ctx->characters(s, len);
     }
 
     static const char* get_attribute(const char **atts, const char *id) {
@@ -331,13 +331,13 @@ void AMFParserContext::startElement(const char *name, const char **atts)
                     this->stop();
                 else {
                     m_object_instances_map[object_id].instances.push_back(AMFParserContext::Instance());
-                    m_instance = &m_object_instances_map[object_id].instances.back(); 
+                    m_instance = &m_object_instances_map[object_id].instances.back();
                     node_type_new = NODE_TYPE_INSTANCE;
                 }
             }
             else
                 this->stop();
-        } 
+        }
         else if (m_path[1] == NODE_TYPE_CUSTOM_GCODE) {
             if (strcmp(name, "code") == 0) {
                 node_type_new = NODE_TYPE_GCODE_PER_HEIGHT;
@@ -351,8 +351,8 @@ void AMFParserContext::startElement(const char *name, const char **atts)
                 }
                 else
                 {
-                    // It means that data was saved in old version (2.2.0 and older) of PrusaSlicer
-                    // read old data ... 
+                    // It means that data was saved in old version (2.2.0 and older) of CaribouSlicer
+                    // read old data ...
                     std::string gcode = get_attribute(atts, "gcode");
                     // ... and interpret them to the new data
                     CustomGCode::Type type= gcode == "M600" ? CustomGCode::ColorChange :
@@ -383,7 +383,7 @@ void AMFParserContext::startElement(const char *name, const char **atts)
         } else if (m_path[2] == NODE_TYPE_INSTANCE) {
             assert(m_instance);
             if (strcmp(name, "deltax") == 0)
-                node_type_new = NODE_TYPE_DELTAX; 
+                node_type_new = NODE_TYPE_DELTAX;
             else if (strcmp(name, "deltay") == 0)
                 node_type_new = NODE_TYPE_DELTAY;
             else if (strcmp(name, "deltaz") == 0)
@@ -419,7 +419,7 @@ void AMFParserContext::startElement(const char *name, const char **atts)
     case 4:
         if (m_path[3] == NODE_TYPE_VERTICES) {
             if (strcmp(name, "vertex") == 0)
-                node_type_new = NODE_TYPE_VERTEX; 
+                node_type_new = NODE_TYPE_VERTEX;
         } else if (m_path[3] == NODE_TYPE_VOLUME) {
             if (strcmp(name, "metadata") == 0) {
                 const char *type = get_attribute(atts, "type");
@@ -440,7 +440,7 @@ void AMFParserContext::startElement(const char *name, const char **atts)
     case 5:
         if (strcmp(name, "coordinates") == 0) {
             if (m_path[4] == NODE_TYPE_VERTEX) {
-                node_type_new = NODE_TYPE_COORDINATES; 
+                node_type_new = NODE_TYPE_COORDINATES;
             } else
                 this->stop();
         } else if (name[0] == 'v' && name[1] >= '1' && name[1] <= '3' && name[2] == 0) {
@@ -668,7 +668,7 @@ void AMFParserContext::endElement(const char * /* name */)
             m_volume->center_geometry_after_creation();
         }
         else
-            // pass false if the mesh offset has been already taken from the data 
+            // pass false if the mesh offset has been already taken from the data
             m_volume->center_geometry_after_creation(m_volume->source.input_file.empty());
 
         m_volume->calculate_convex_hull();
@@ -783,7 +783,7 @@ void AMFParserContext::endElement(const char * /* name */)
                 }
                 m_object->sla_points_status = sla::PointsStatus::UserModified;
             }
-            else if (m_path.size() == 5 && m_path[1] == NODE_TYPE_OBJECT && m_path[3] == NODE_TYPE_RANGE && 
+            else if (m_path.size() == 5 && m_path[1] == NODE_TYPE_OBJECT && m_path[3] == NODE_TYPE_RANGE &&
                      m_object && strcmp(opt_key, "layer_height_range") == 0) {
                 // Parse object's layer_height_range, a semicolon separated doubles.
                 char* p = m_value[1].data();

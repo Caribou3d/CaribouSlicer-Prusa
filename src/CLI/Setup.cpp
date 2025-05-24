@@ -23,7 +23,7 @@
 
 namespace Slic3r::CLI {
 
-Data::Data() 
+Data::Data()
 {
     input_config        = CLI_DynamicPrintConfig(Type::Input,           &cli_input_config_def);
     overrides_config    = CLI_DynamicPrintConfig(Type::Overrides,       &print_config_def);
@@ -42,7 +42,7 @@ static opts_map get_opts_map(const Data& data)
                                                   &data.overrides_config,
                                                   &data.transform_config,
                                                   &data.misc_config     ,
-                                                  &data.actions_config     }) 
+                                                  &data.actions_config     })
     {
         for (const auto& oit : config->def()->options)
             for (const std::string& t : oit.second.cli_args(oit.first))
@@ -63,7 +63,7 @@ static CLI_DynamicPrintConfig* get_config(Data& data, Type type)
         if (type == config->type())
             return config;
     }
-    
+
     assert(false);
     return nullptr;
 }
@@ -188,7 +188,7 @@ static bool read(Data& data, int argc, const char* const argv[])
         }
     }
 
-    // normalize override options 
+    // normalize override options
     if (!data.overrides_config.empty())
         data.overrides_config.normalize_fdm();
 
@@ -256,17 +256,17 @@ static bool setup_common()
     detect_platform();
 
 #ifdef WIN32
-    // Notify user that a blacklisted DLL was injected into PrusaSlicer process (for example Nahimic, see GH #5573).
+    // Notify user that a blacklisted DLL was injected into CaribouSlicer process (for example Nahimic, see GH #5573).
     // We hope that if a DLL is being injected into a PrusaSlicer process, it happens at the very start of the application,
     // thus we shall detect them now.
     if (BlacklistedLibraryCheck::get_instance().perform_check()) {
         std::wstring text = L"Following DLLs have been injected into the PrusaSlicer process:\n\n";
         text += BlacklistedLibraryCheck::get_instance().get_blacklisted_string();
         text += L"\n\n"
-                L"PrusaSlicer is known to not run correctly with these DLLs injected. "
+                L"CaribouSlicer is known to not run correctly with these DLLs injected. "
                 L"We suggest stopping or uninstalling these services if you experience "
-                L"crashes or unexpected behaviour while using PrusaSlicer.\n"
-                L"For example, ASUS Sonic Studio injects a Nahimic driver, which makes PrusaSlicer "
+                L"crashes or unexpected behaviour while using CaribouSlicer.\n"
+                L"For example, ASUS Sonic Studio injects a Nahimic driver, which makes CaribouSlicer "
                 L"to crash on a secondary monitor, see PrusaSlicer github issue #5573";
         MessageBoxW(NULL, text.c_str(), L"Warning"/*L"Incopatible library found"*/, MB_OK);
     }

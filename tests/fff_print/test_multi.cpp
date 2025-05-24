@@ -65,7 +65,7 @@ SCENARIO("Ooze prevention", "[Multi]")
     FullPrintConfig print_config;
     print_config.apply(config);
 
-    // Since July 2019, PrusaSlicer only emits automatic Tn command in case that the toolchange_gcode is empty
+    // Since July 2019, CaribouSlicer only emits automatic Tn command in case that the toolchange_gcode is empty
     // The "T[next_extruder]" is therefore needed in this test.
 
     std::string gcode = Slic3r::Test::slice({ Slic3r::Test::TestMesh::cube_20x20x20 }, config);

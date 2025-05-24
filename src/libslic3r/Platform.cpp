@@ -36,7 +36,7 @@ void detect_platform()
             if (type == CPU_TYPE_X86) {
                 int proc_translated = 0;
                 size                = sizeof(proc_translated);
-                // Detect if native CPU is really X86 or PrusaSlicer runs through Rosetta.
+                // Detect if native CPU is really X86 or CaribouSlicer runs through Rosetta.
                 if (sysctlbyname("sysctl.proc_translated", &proc_translated, &size, NULL, 0) == -1) {
                     if (errno == ENOENT) {
                         // Native CPU is X86, and property sysctl.proc_translated doesn't exist.

@@ -164,7 +164,7 @@ msgstr ""
 #: src/libslic3r/Format/3mf.cpp:2252
 msgid ""
 "The selected 3MF contains FDM supports painted object using a newer version "
-"of PrusaSlicer and is not compatible."
+"of CaribouSlicer and is not compatible."
 msgstr ""
 "Выбранный 3MF файл содержит модель с нарисованными поддержками, созданными с "
 "использованием более новой версии PrusaSlicer и несовместим."
@@ -172,7 +172,7 @@ msgstr ""
 #: src/libslic3r/Format/3mf.cpp:2256
 msgid ""
 "The selected 3MF contains seam painted object using a newer version of "
-"PrusaSlicer and is not compatible."
+"CaribouSlicer and is not compatible."
 msgstr ""
 "Выбранный 3MF файл содержит модель с нарисованным швом, созданным с "
 "использованием более новой версии PrusaSlicer и несовместим."
@@ -180,7 +180,7 @@ msgstr ""
 #: src/libslic3r/Format/3mf.cpp:2260
 msgid ""
 "The selected 3MF contains multi-material painted object using a newer "
-"version of PrusaSlicer and is not compatible."
+"version of CaribouSlicer and is not compatible."
 msgstr ""
 "Выбранный 3MF файл содержит модель с мультиматериальной покраской созданной "
 "с использованием более новой версии PrusaSlicer и несовместим."
@@ -1013,7 +1013,7 @@ msgid ""
 "name and password into the URL in the following format: https://username:"
 "password@your-octopi-address/"
 msgstr ""
-"PrusaSlicer может загружать G-код файлы на хост принтера. В этом поле нужно "
+"CaribouSlicer может загружать G-код файлы на хост принтера. В этом поле нужно "
 "указать имя хоста, IP-адрес или URL-адрес хост-экземпляра принтера. Доступ к "
 "узлу печати на основе HAProxy с включенной базовой аутентификацией можно "
 "получить, указав имя пользователя и пароль в поле URL-адрес в следующем "
@@ -1028,7 +1028,7 @@ msgid ""
 "Slic3r can upload G-code files to a printer host. This field should contain "
 "the API Key or the password required for authentication."
 msgstr ""
-"PrusaSlicer может загружать файл G-кода на хост принтера. Это поле должно "
+"CaribouSlicer может загружать файл G-кода на хост принтера. Это поле должно "
 "содержать APIключ или пароль, необходимые для проверки подлинности."
 
 #: src/libslic3r/PrintConfig.cpp:436 src/slic3r/GUI/GCodeViewer.cpp:2759
@@ -1339,7 +1339,7 @@ msgstr ""
 "Команды в G-коде, которые выполняются каждый раз перед сменой слоя, то есть "
 "перед поднятием оси Z.\n"
 "Обратите внимание, что вы можете использовать переменные-заполнители для "
-"всех параметров PrusaSlicer, в том числе такие как [layer_num] - номер "
+"всех параметров CaribouSlicer, в том числе такие как [layer_num] - номер "
 "текущего слоя и [layer_z] - координата текущего слоя по оси Z."
 
 #: src/libslic3r/PrintConfig.cpp:643
@@ -1358,7 +1358,7 @@ msgstr ""
 "Команды в G-коде, которые выполняются каждый раз перед сменой модели при "
 "включении последовательной печати.\n"
 "Обратите внимание, что вы можете использовать переменные-заполнители для "
-"всех параметров PrusaSlicer, в том числе такие как [layer_num] - номер "
+"всех параметров CaribouSlicer, в том числе такие как [layer_num] - номер "
 "текущего слоя и [layer_z] - координата текущего слоя по оси Z."
 
 #. TRN Print Settings: "Bottom solid layers"
@@ -1899,7 +1899,7 @@ msgstr "Расстояние, между моделям при авторасс�
 #: src/libslic3r/PrintConfig.cpp:1008
 msgid ""
 "This end procedure is inserted at the end of the output file. Note that you "
-"can use placeholder variables for all PrusaSlicer settings."
+"can use placeholder variables for all CaribouSlicer settings."
 msgstr ""
 "Команды в G-коде, которые выполняются в самом конце печати.\n"
 "Обратите внимание, что вы можете использовать переменные-заполнители для "
@@ -1910,7 +1910,7 @@ msgid ""
 "This end procedure is inserted at the end of the output file, before the "
 "printer end gcode (and before any toolchange from this filament in case of "
 "multimaterial printers). Note that you can use placeholder variables for all "
-"PrusaSlicer settings. If you have multiple extruders, the gcode is processed "
+"CaribouSlicer settings. If you have multiple extruders, the gcode is processed "
 "in extruder order."
 msgstr ""
 "Команды в G-коде, которые выполняются при окончании работы с пластиковой "
@@ -2407,7 +2407,7 @@ msgstr ""
 msgid "Number of cooling moves"
 msgstr "Количество охлаждающих движений"
 
-# ?????? трубках или трубке 
+# ?????? трубках или трубке
 #: src/libslic3r/PrintConfig.cpp:1321
 msgid ""
 "Filament is cooled by being moved back and forth in the cooling tubes. "
@@ -3030,7 +3030,7 @@ msgstr "Тип G-кода"
 msgid ""
 "Some G/M-code commands, including temperature control and others, are not "
 "universal. Set this option to your printer's firmware to get a compatible "
-"output. The \"No extrusion\" flavor prevents PrusaSlicer from exporting any "
+"output. The \"No extrusion\" flavor prevents CaribouSlicer from exporting any "
 "extrusion value at all."
 msgstr ""
 "Некоторые G/M команды для разных прошивок, такие как управление температурой "
@@ -3180,7 +3180,7 @@ msgstr "Длина привязок разреженного заполнени�
 msgid ""
 "Connect an infill line to an internal perimeter with a short segment of an "
 "additional perimeter. If expressed as percentage (example: 15%) it is "
-"calculated over infill extrusion width. PrusaSlicer tries to connect two "
+"calculated over infill extrusion width. CaribouSlicer tries to connect two "
 "close infill lines to a short perimeter segment. If no such perimeter "
 "segment shorter than infill_anchor_max is found, the infill line is "
 "connected to a perimeter segment at just one side and the length of the "
@@ -3190,7 +3190,7 @@ msgid ""
 msgstr ""
 "Соединять линию заполнения с внутренним периметром с помощью короткого "
 "отрезка дополнительного периметра (привязок). Если выражено в процентах, то "
-"она вычисляется относительно ширины экструзии заполнения. PrusaSlicer "
+"она вычисляется относительно ширины экструзии заполнения. CaribouSlicer "
 "пытается соединить две ближайшие линии заполнения с коротким отрезком "
 "периметра. Если не найдено такого отрезка периметра короче «Максимальной "
 "длины привязок разреженного заполнения» (anchor_length_max), то линия "
@@ -3232,7 +3232,7 @@ msgstr "Максимальная длина привязок разреженн�
 msgid ""
 "Connect an infill line to an internal perimeter with a short segment of an "
 "additional perimeter. If expressed as percentage (example: 15%) it is "
-"calculated over infill extrusion width. PrusaSlicer tries to connect two "
+"calculated over infill extrusion width. CaribouSlicer tries to connect two "
 "close infill lines to a short perimeter segment. If no such perimeter "
 "segment shorter than this parameter is found, the infill line is connected "
 "to a perimeter segment at just one side and the length of the perimeter "
@@ -3241,7 +3241,7 @@ msgid ""
 msgstr ""
 "Соединять линию заполнения с внутренним периметром с помощью короткого "
 "отрезка дополнительного периметра (привязок). Если выражено в процентах, то "
-"она вычисляется относительно ширины экструзии заполнения. PrusaSlicer "
+"она вычисляется относительно ширины экструзии заполнения. CaribouSlicer "
 "пытается соединить две ближайшие линии заполнения с коротким отрезком "
 "периметра. Если не найдено такого отрезка периметра короче этого параметра, "
 "линия заполнения соединяется с отрезком периметра только с одной стороны, а "
@@ -3344,7 +3344,7 @@ msgid "Maximum width of a segmented region"
 msgstr "Глубина проникновения окрашенной области"
 
 # ????? Максимальная глубина проникновения в модель окрашенной области при мультиматериальной покраске.
-# ????? Толщина части модели, созданной из области, окрашенной инструментом мультиматериальная покраска. 
+# ????? Толщина части модели, созданной из области, окрашенной инструментом мультиматериальная покраска.
 #: src/libslic3r/PrintConfig.cpp:1980
 msgid "Maximum width of a segmented region. Zero disables this feature."
 msgstr ""
@@ -3482,7 +3482,7 @@ msgstr ""
 "Команды в G-коде, которые выполняются каждый раз после смены слоя, то есть "
 "после поднятия оси Z.\n"
 "Обратите внимание, что вы можете использовать переменные-заполнители для "
-"всех параметров PrusaSlicer, в том числе такие как [layer_num] - номер "
+"всех параметров CaribouSlicer, в том числе такие как [layer_num] - номер "
 "текущего слоя, [layer_z] - координата текущего слоя по оси Z."
 
 #: src/libslic3r/PrintConfig.cpp:2108
@@ -3870,7 +3870,7 @@ msgid ""
 "Slic3r can upload G-code files to a printer host. This field must contain "
 "the kind of the host."
 msgstr ""
-"PrusaSlicer может загружать файл G-кода на хост принтера. Это поле должно "
+"CaribouSlicer может загружать файл G-кода на хост принтера. Это поле должно "
 "содержать тип хоста."
 
 #: src/libslic3r/PrintConfig.cpp:2399
@@ -4037,7 +4037,7 @@ msgstr ""
 "Количество слоёв контура модели (или количество вертикальных слоёв стенки "
 "модели). Чем меньше число, тем меньше толщина стенки модели, а значит, "
 "модель будет более хрупкая. Обратите внимание, если включена опция "
-"«Дополнительные периметры при необходимости», PrusaSlicer может "
+"«Дополнительные периметры при необходимости», CaribouSlicer может "
 "автоматически увеличить это значение, если обнаружит наклонные поверхности."
 
 #: src/libslic3r/PrintConfig.cpp:2512
@@ -4060,7 +4060,7 @@ msgstr ""
 "скриптов, просто перечислите здесь абсолютные пути к ним. Разделяйте скрипты "
 "точкой с запятой. Скриптам будет передан абсолютный путь к файлу G-кода в "
 "качестве первого аргумента, и они смогут получить доступ к настройкам "
-"конфигурации PrusaSlicer, читая переменные окружения."
+"конфигурации CaribouSlicer, читая переменные окружения."
 
 #: src/libslic3r/PrintConfig.cpp:2532
 msgid "Printer type"
@@ -4308,11 +4308,11 @@ msgstr "Более крутой подъём перед препятствиям
 
 #: src/libslic3r/PrintConfig.cpp:2708
 msgid ""
-"If enabled, PrusaSlicer detects obstacles along the travel path and makes "
+"If enabled, CaribouSlicer detects obstacles along the travel path and makes "
 "the slope steeper in case an obstacle might be hit during the initial phase "
 "of the travel."
 msgstr ""
-"Если включено, PrusaSlicer обнаруживает препятствия на пути движения и "
+"Если включено, CaribouSlicer обнаруживает препятствия на пути движения и "
 "делает подъём на начальном этапе движения более крутым во избежание "
 "столкновения с обнаруженным препятствием. Если препятствия не обнаружено, то "
 "подъём будет делаться под указанным выше углом."
@@ -4710,7 +4710,7 @@ msgid ""
 msgstr ""
 "Эта функция позволяет принудительно делать сплошное заполнение через "
 "указанное количество слоёв. Чтобы отключить, установите 0. Вы можете задать "
-"любое значение, PrusaSlicer автоматически выберет максимально возможное "
+"любое значение, CaribouSlicer автоматически выберет максимально возможное "
 "количество слоёв в зависимости от диаметра сопла и высоты слоя."
 
 #: src/libslic3r/PrintConfig.cpp:2988
@@ -4788,33 +4788,33 @@ msgstr "Автоматически добавлять команды устан�
 
 #: src/libslic3r/PrintConfig.cpp:3047
 msgid ""
-"When enabled, PrusaSlicer will check whether your custom Start G-Code "
+"When enabled, CaribouSlicer will check whether your custom Start G-Code "
 "contains G-codes to set extruder, bed or chamber temperature (M104, M109, "
 "M140, M190, M141 and M191). If so, the temperatures will not be emitted "
 "automatically so you're free to customize the order of heating commands and "
 "other custom actions. Note that you can use placeholder variables for all "
-"PrusaSlicer settings, so you can put a \"M109 S[first_layer_temperature]\" "
+"CaribouSlicer settings, so you can put a \"M109 S[first_layer_temperature]\" "
 "command wherever you want.\n"
-"If your custom Start G-Code does NOT contain these G-codes, PrusaSlicer will "
+"If your custom Start G-Code does NOT contain these G-codes, CaribouSlicer will "
 "execute the Start G-Code after heated chamber was set to its temperature, "
 "bed reached its target temperature and extruder just started heating.\n"
 "\n"
-"When disabled, PrusaSlicer will NOT emit commands to heat up extruder, bed "
+"When disabled, CaribouSlicer will NOT emit commands to heat up extruder, bed "
 "or chamber, leaving all to Custom Start G-Code."
 msgstr ""
-"Если включено, PrusaSlicer будет проверять, присутствуют ли в вашем "
+"Если включено, CaribouSlicer будет проверять, присутствуют ли в вашем "
 "стартовом G-коде команды задания температуры экструдера, стола или "
 "термокамеры (M104, M109, M140, M190, M141 и M191). Если эти команды "
 "присутствуют, то температуры не будут вставляться автоматически, и вы "
 "сможете настроить порядок команд нагрева и другие пользовательские действия. "
 "Обратите внимание, что вы можете использовать переменные-заполнители для "
-"всех параметров PrusaSlicer, поэтому вы можете вставить команду \"M109 "
+"всех параметров CaribouSlicer, поэтому вы можете вставить команду \"M109 "
 "S[first_layer_temperature]\" где угодно.\n"
-"Если в вашем стартовом G-коде отсутствует эти команды, PrusaSlicer выполнит "
+"Если в вашем стартовом G-коде отсутствует эти команды, CaribouSlicer выполнит "
 "стартовый G-код после того, как стол достигнет заданной температуры и "
 "экструдер начнет нагреваться. \n"
 "\n"
-"Если отключено, PrusaSlicer не будет вставлять команды нагрева экструдера и "
+"Если отключено, CaribouSlicer не будет вставлять команды нагрева экструдера и "
 "стола или термокамеры, оставляя их на усмотрение пользователя в стартовом G-"
 "коде."
 
@@ -4833,10 +4833,10 @@ msgid ""
 "This start procedure is inserted at the beginning, after any printer start "
 "gcode (and after any toolchange to this filament in case of multi-material "
 "printers). This is used to override settings for a specific filament. If "
-"PrusaSlicer detects M104, M109, M140 or M190 in your custom codes, such "
+"CaribouSlicer detects M104, M109, M140 or M190 in your custom codes, such "
 "commands will not be prepended automatically so you're free to customize the "
 "order of heating commands and other custom actions. Note that you can use "
-"placeholder variables for all PrusaSlicer settings, so you can put a \"M109 "
+"placeholder variables for all CaribouSlicer settings, so you can put a \"M109 "
 "S[first_layer_temperature]\" command wherever you want. If you have multiple "
 "extruders, the gcode is processed in extruder order."
 msgstr ""
@@ -5485,15 +5485,15 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:3565
 msgid ""
 "This custom code is inserted before every toolchange. Placeholder variables "
-"for all PrusaSlicer settings as well as {toolchange_z}, {previous_extruder} "
+"for all CaribouSlicer settings as well as {toolchange_z}, {previous_extruder} "
 "and {next_extruder} can be used. When a tool-changing command which changes "
-"to the correct extruder is included (such as T{next_extruder}), PrusaSlicer "
+"to the correct extruder is included (such as T{next_extruder}), CaribouSlicer "
 "will emit no other such command. It is therefore possible to script custom "
 "behaviour both before and after the toolchange."
 msgstr ""
 "Команды в G-коде, которые выполняются перед каждой сменой инструмента "
 "(экструдера). Вы можете использовать переменные-заполнители для всех "
-"параметров PrusaSlicer, в том числе такие как:\n"
+"параметров CaribouSlicer, в том числе такие как:\n"
 "- {toolchange_z} - координата по Z, на которой печатающая голова закончит "
 "печать черновой башенки;\n"
 "- {previous_extruder} - номер инструмента (экструдера), печать которым "
@@ -7192,8 +7192,8 @@ msgstr ""
 
 #: src/libslic3r/PrintConfig.cpp:5886
 msgid ""
-"This version of PrusaSlicer may not understand configurations produced by "
-"the newest PrusaSlicer versions. For example, newer PrusaSlicer may extend "
+"This version of CaribouSlicer may not understand configurations produced by "
+"the newest CaribouSlicer versions. For example, newer CaribouSlicer may extend "
 "the list of supported firmware flavors. One may decide to bail out or to "
 "substitute an unknown value with a default silently or verbosely."
 msgstr ""
@@ -7322,11 +7322,11 @@ msgstr "Одни экземпляр программы"
 #: src/libslic3r/PrintConfig.cpp:5945
 msgid ""
 "If enabled, the command line arguments are sent to an existing instance of "
-"GUI PrusaSlicer, or an existing PrusaSlicer window is activated. Overrides "
+"GUI CaribouSlicer, or an existing CaribouSlicer window is activated. Overrides "
 "the \"single_instance\" configuration value from application preferences."
 msgstr ""
 "Если включено, аргументы командной строки посылаются в существующий "
-"экземпляр GUI PrusaSlicer, либо активируется существующее окно PrusaSlicer. "
+"экземпляр GUI CaribouSlicer, либо активируется существующее окно PrusaSlicer. "
 "Переопределяет значение конфигурации \"single_instance\" из настроек "
 "приложения."
 
@@ -7370,12 +7370,12 @@ msgstr "Позиция"
 msgid ""
 "Position of the extruder at the beginning of the custom G-code block. If the "
 "custom G-code travels somewhere else, it should write to this variable so "
-"PrusaSlicer knows where it travels from when it gets control back."
+"CaribouSlicer knows where it travels from when it gets control back."
 msgstr ""
 "Положение экструдера в начале пользовательского G-кода. Если "
 "пользовательский G-код перемещает экструдер в другое место, то информация о "
 "его новом положении должна записываться в данную переменную, чтобы "
-"PrusaSlicer знал, откуда он перемещается, когда управление возвращается "
+"CaribouSlicer знал, откуда он перемещается, когда управление возвращается "
 "назад."
 
 #: src/libslic3r/PrintConfig.cpp:5998 src/slic3r/GUI/Tab.cpp:3381
@@ -7387,7 +7387,7 @@ msgstr "Откат"
 msgid ""
 "Retraction state at the beginning of the custom G-code block. If the custom "
 "G-code moves the extruder axis, it should write to this variable so "
-"PrusaSlicer deretracts correctly when it gets control back."
+"CaribouSlicer deretracts correctly when it gets control back."
 msgstr ""
 "Статус отката в начале пользовательского G-кода. Если пользовательский G-код "
 "перемещает ось экструдера, то информация о статусе отката должна "
@@ -8155,13 +8155,13 @@ msgstr "Не удалось сделать резервную копию кон�
 
 #: src/slic3r/Config/Snapshot.cpp:602
 msgid ""
-"PrusaSlicer has encountered an error while taking a configuration snapshot."
+"CaribouSlicer has encountered an error while taking a configuration snapshot."
 msgstr ""
-"PrusaSlicer столкнулся с ошибкой при создании резервной копии конфигурации."
+"CaribouSlicer столкнулся с ошибкой при создании резервной копии конфигурации."
 
 #: src/slic3r/Config/Snapshot.cpp:603
-msgid "PrusaSlicer error"
-msgstr "Ошибка PrusaSlicer"
+msgid "CaribouSlicer error"
+msgstr "Ошибка CaribouSlicer"
 
 #: src/slic3r/Config/Snapshot.cpp:605
 msgid "Continue"
@@ -8208,10 +8208,10 @@ msgstr "GNU Affero General Public третьей версии"
 
 #: src/slic3r/GUI/AboutDialog.cpp:284
 msgid ""
-"PrusaSlicer is based on Slic3r by Alessandro Ranellucci and the RepRap "
+"CaribouSlicer is based on Slic3r by Alessandro Ranellucci and the RepRap "
 "community."
 msgstr ""
-"PrusaSlicer основан на проекте Slic3r от Alessandro Ranellucci и разработках "
+"CaribouSlicer основан на проекте Slic3r от Alessandro Ranellucci и разработках "
 "сообщества RepRap."
 
 #: src/slic3r/GUI/AboutDialog.cpp:285
@@ -8323,12 +8323,12 @@ msgstr ""
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:91
 #, boost-format
-msgid "PrusaSlicer has encountered a fatal error: \"%1%\""
-msgstr "PrusaSlicer столкнулся с фатальной ошибкой: \"%1%\""
+msgid "CaribouSlicer has encountered a fatal error: \"%1%\""
+msgstr "CaribouSlicer столкнулся с фатальной ошибкой: \"%1%\""
 
 #: src/slic3r/GUI/BackgroundSlicingProcess.cpp:92
 msgid ""
-"Please save your project and restart PrusaSlicer. We would be glad if you "
+"Please save your project and restart CaribouSlicer. We would be glad if you "
 "reported the issue."
 msgstr ""
 "Пожалуйста, сохраните проект и перезапустите PrusaSlicer. Мы будем "
@@ -8788,8 +8788,8 @@ msgid "Active"
 msgstr "Активный"
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:64
-msgid "PrusaSlicer version"
-msgstr "Версия PrusaSlicer"
+msgid "CaribouSlicer version"
+msgstr "Версия CaribouSlicer"
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:69
 msgid "filaments"
@@ -8805,11 +8805,11 @@ msgstr "версия"
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:80
 msgid "min PrusaSlicer version"
-msgstr "минимальная версия PrusaSlicer"
+msgstr "минимальная версия CaribouSlicer"
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:82
 msgid "max PrusaSlicer version"
-msgstr "максимальная версия PrusaSlicer"
+msgstr "максимальная версия CaribouSlicer"
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:85
 msgid "model"
@@ -9116,7 +9116,7 @@ msgstr "Загрузки"
 msgid "Allow built-in downloader"
 msgstr "Разрешить встроенный загрузчик"
 
-#. TRN ConfigWizard : Downloader : %1% = "printables.com", %2% = "PrusaSlicer"
+#. TRN ConfigWizard : Downloader : %1% = "printables.com", %2% = "CaribouSlicer"
 #: src/slic3r/GUI/ConfigWizard.cpp:1658
 #, boost-format
 msgid ""
@@ -9165,12 +9165,12 @@ msgid "Files association"
 msgstr "Ассоциация файлов"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:1817 src/slic3r/GUI/Preferences.cpp:330
-msgid "Associate .3mf files to PrusaSlicer"
-msgstr "Ассоциировать файлы .3mf с PrusaSlicer"
+msgid "Associate .3mf files to CaribouSlicer"
+msgstr "Ассоциировать файлы .3mf с CaribouSlicer"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:1818 src/slic3r/GUI/Preferences.cpp:335
-msgid "Associate .stl files to PrusaSlicer"
-msgstr "Ассоциировать файлы .stl с PrusaSlicer"
+msgid "Associate .stl files to CaribouSlicer"
+msgstr "Ассоциировать файлы .stl с CaribouSlicer"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:1828
 msgid "View mode"
@@ -9178,7 +9178,7 @@ msgstr "Режим просмотра"
 
 #: src/slic3r/GUI/ConfigWizard.cpp:1830
 msgid ""
-"PrusaSlicer's user interfaces comes in three variants:\n"
+"CaribouSlicer's user interfaces comes in three variants:\n"
 "Simple, Advanced, and Expert.\n"
 "The Simple mode shows only the most frequently used settings relevant for "
 "regular 3D printing. The other two offer progressively more sophisticated "
@@ -9579,9 +9579,9 @@ msgstr "Вы вошли как %1%."
 #: src/slic3r/GUI/ConfigWizardWebViewPage.cpp:71
 msgid ""
 "Log in to control your printers remotely through the built-in Connect in "
-"PrusaSlicer."
+"CaribouSlicer."
 msgstr ""
-"Для удалённого управления вашими принтерами через встроенное в PrusaSlicer "
+"Для удалённого управления вашими принтерами через встроенное в CaribouSlicer "
 "приложения Connect войдите в учётную запись Prusa."
 
 #: src/slic3r/GUI/DesktopIntegrationDialog.cpp:256
@@ -9609,10 +9609,10 @@ msgstr ""
 #: src/slic3r/GUI/DesktopIntegrationDialog.cpp:447
 msgid ""
 "Performing desktop integration failed - could not create Gcodeviewer desktop "
-"file. PrusaSlicer desktop file was probably created successfully."
+"file. CaribouSlicer desktop file was probably created successfully."
 msgstr ""
 "Не удалось выполнить интеграцию с рабочим столом - не удалось установить "
-"ссылку на Gcodeviewer на рабочем столе. Ссылка на PrusaSlicer, вероятно, "
+"ссылку на Gcodeviewer на рабочем столе. Ссылка на CaribouSlicer, вероятно, "
 "была успешно создана на рабочем столе."
 
 #: src/slic3r/GUI/DesktopIntegrationDialog.cpp:497
@@ -10772,7 +10772,7 @@ msgstr "Нормальный режим"
 msgid "Stealth mode"
 msgstr "Тихий режим"
 
-# ???? было Общее  
+# ???? было Общее
 #: src/slic3r/GUI/GCodeViewer.cpp:2827 src/slic3r/GUI/GLCanvas3D.cpp:1815
 #: src/slic3r/GUI/GLCanvas3D.cpp:1905 src/slic3r/GUI/GLCanvas3D.cpp:1977
 #: src/slic3r/GUI/GLCanvas3D.cpp:2012
@@ -13343,7 +13343,7 @@ msgstr "%1% была заменена на %2%"
 
 #: src/slic3r/GUI/GUI.cpp:203
 msgid ""
-"Most likely the configuration was produced by a newer version of PrusaSlicer "
+"Most likely the configuration was produced by a newer version of CaribouSlicer "
 "or by some PrusaSlicer fork."
 msgstr ""
 "Скорее всего, конфигурация была создана более новой версией PrusaSlicer или "
@@ -13480,14 +13480,14 @@ msgstr "Критическая ошибка"
 
 #: src/slic3r/GUI/GUI_App.cpp:752
 msgid ""
-"PrusaSlicer has encountered a localization error. Please report to "
-"PrusaSlicer team, what language was active and in which scenario this issue "
+"CaribouSlicer has encountered a localization error. Please report to "
+"CaribouSlicer team, what language was active and in which scenario this issue "
 "happened. Thank you.\n"
 "\n"
 "The application will now terminate."
 msgstr ""
-"PrusaSlicer обнаружил непредвиденную ошибку в локализации приложения. "
-"Пожалуйста, сообщите команде PrusaSlicer, какой язык был активен и при каком "
+"CaribouSlicer обнаружил непредвиденную ошибку в локализации приложения. "
+"Пожалуйста, сообщите команде CaribouSlicer, какой язык был активен и при каком "
 "сценарии произошла эта ошибка.\n"
 "Теперь приложение будет закрыто."
 
@@ -13550,15 +13550,15 @@ msgstr "Продолжить и импортировать новую конфи
 
 #: src/slic3r/GUI/GUI_App.cpp:1353
 msgid ""
-"You are running a 32 bit build of PrusaSlicer on 64-bit Windows.\n"
-"32 bit build of PrusaSlicer will likely not be able to utilize all the RAM "
+"You are running a 32 bit build of CaribouSlicer on 64-bit Windows.\n"
+"32 bit build of CaribouSlicer will likely not be able to utilize all the RAM "
 "available in the system.\n"
-"Please download and install a 64 bit build of PrusaSlicer from https://www."
+"Please download and install a 64 bit build of CaribouSlicer from https://www."
 "prusa3d.cz/prusaslicer/.\n"
 "Do you wish to continue?"
 msgstr ""
 "Вы используете 32-битную сборку PrusaSlicer на 64-битной Windows.\n"
-"32-битная сборка PrusaSlicer, скорее всего, не сможет использовать всю "
+"32-битная сборка CaribouSlicer, скорее всего, не сможет использовать всю "
 "доступную в системе оперативную память.\n"
 "Пожалуйста, загрузите и установите 64-битную сборку PrusaSlicer с сайта "
 "https://www.prusa3d.cz/prusaslicer/.\n"
@@ -13612,13 +13612,13 @@ msgid "Restore window position on start"
 msgstr "Восстанавливать положение окна при запуске"
 
 #: src/slic3r/GUI/GUI_App.cpp:1687
-msgid "PrusaSlicer started after a crash"
-msgstr "PrusaSlicer запустился после аварийного завершения"
+msgid "CaribouSlicer started after a crash"
+msgstr "CaribouSlicer запустился после аварийного завершения"
 
 #: src/slic3r/GUI/GUI_App.cpp:1688
 #, boost-format
 msgid ""
-"PrusaSlicer crashed last time when attempting to set window position.\n"
+"CaribouSlicer crashed last time when attempting to set window position.\n"
 "We are sorry for the inconvenience, it unfortunately happens with certain "
 "multiple-monitor setups.\n"
 "More precise reason for the crash: \"%1%\".\n"
@@ -13627,7 +13627,7 @@ msgid ""
 "To avoid this problem, consider disabling \"%4%\" in \"Preferences\". "
 "Otherwise, the application will most likely crash again next time."
 msgstr ""
-"В последний раз при попытке задать положение окна, PrusaSlicer аварийно "
+"В последний раз при попытке задать положение окна, CaribouSlicer аварийно "
 "завершил свою работу.\n"
 "К сожалению, это происходит при определенных настройках при работе с "
 "несколькими мониторами.\n"
@@ -13658,7 +13658,7 @@ msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:2123
 msgid ""
-"But since this version of PrusaSlicer we don't show this information in "
+"But since this version of CaribouSlicer we don't show this information in "
 "Printer Settings anymore.\n"
 "Settings will be available in physical printers settings."
 msgstr ""
@@ -13935,8 +13935,8 @@ msgid "Open hyperlink in default browser?"
 msgstr "Открыть гиперссылку в браузере по умолчанию?"
 
 #: src/slic3r/GUI/GUI_App.cpp:3617 src/slic3r/GUI/GUI_App.cpp:3637
-msgid "PrusaSlicer: Open hyperlink"
-msgstr "PrusaSlicer: Открытие гиперссылки"
+msgid "CaribouSlicer: Open hyperlink"
+msgstr "CaribouSlicer: Открытие гиперссылки"
 
 #: src/slic3r/GUI/GUI_App.cpp:3622 src/slic3r/GUI/Preferences.cpp:626
 msgid "Suppress to open hyperlink in browser"
@@ -13944,8 +13944,8 @@ msgstr "Запретить открытие гиперссылок в брауз
 
 #: src/slic3r/GUI/GUI_App.cpp:3624 src/slic3r/GUI/MainFrame.cpp:641
 #: src/slic3r/GUI/Plater.cpp:359
-msgid "PrusaSlicer will remember your choice."
-msgstr "PrusaSlicer запомнит ваш выбор."
+msgid "CaribouSlicer will remember your choice."
+msgstr "CaribouSlicer запомнит ваш выбор."
 
 #: src/slic3r/GUI/GUI_App.cpp:3625
 msgid "You will not be asked about it again on hyperlinks hovering."
@@ -13963,8 +13963,8 @@ msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:3628 src/slic3r/GUI/MainFrame.cpp:644
 #: src/slic3r/GUI/Plater.cpp:365 src/slic3r/GUI/UnsavedChangesDialog.cpp:962
-msgid "PrusaSlicer: Don't ask me again"
-msgstr "PrusaSlicer: не спрашивать снова"
+msgid "CaribouSlicer: Don't ask me again"
+msgstr "CaribouSlicer: не спрашивать снова"
 
 #: src/slic3r/GUI/GUI_App.cpp:3679
 msgid ""
@@ -13975,8 +13975,8 @@ msgstr ""
 "(Если выберите «Да», то вопрос больше не будет задаваться)."
 
 #: src/slic3r/GUI/GUI_App.cpp:3679
-msgid "PrusaSlicer: Open Log in page"
-msgstr "PrusaSlicer: открытие страницы входа в систему"
+msgid "CaribouSlicer: Open Log in page"
+msgstr "CaribouSlicer: открытие страницы входа в систему"
 
 #: src/slic3r/GUI/GUI_App.cpp:3747
 msgid "Check for application update has failed."
@@ -14362,8 +14362,8 @@ msgid "Fill the remaining area of bed with instances of the selected object"
 msgstr "Заполнить оставшуюся область печатного стола копиями выбранной модели"
 
 #: src/slic3r/GUI/GUI_Init.cpp:74 src/slic3r/GUI/GUI_Init.cpp:77
-msgid "PrusaSlicer GUI initialization failed"
-msgstr "Ошибка инициализации графического интерфейса PrusaSlicer"
+msgid "CaribouSlicer GUI initialization failed"
+msgstr "Ошибка инициализации графического интерфейса CaribouSlicer"
 
 #: src/slic3r/GUI/GUI_Init.cpp:77
 #, boost-format
@@ -14634,7 +14634,7 @@ msgstr ""
 #: src/slic3r/GUI/GUI_ObjectList.cpp:2038
 msgid ""
 "This action will break a cut information.\n"
-"After that PrusaSlicer can't guarantee model consistency."
+"After that CaribouSlicer can't guarantee model consistency."
 msgstr ""
 "Это действие приведёт к удалению информации о разрезе.\n"
 "После этого PrusaSlicer не может гарантировать согласованность модели."
@@ -15804,8 +15804,8 @@ msgstr ""
 
 #: src/slic3r/GUI/MainFrame.cpp:94 src/slic3r/GUI/MainFrame.cpp:108
 #: src/slic3r/GUI/MainFrame.cpp:1705
-msgid "Open a new PrusaSlicer instance"
-msgstr "Запустить новый экземпляр PrusaSlicer"
+msgid "Open a new CaribouSlicer instance"
+msgstr "Запустить новый экземпляр CaribouSlicer"
 
 #: src/slic3r/GUI/MainFrame.cpp:97 src/slic3r/GUI/MainFrame.cpp:110
 msgid "G-code preview"
@@ -15816,24 +15816,24 @@ msgid "Open G-code viewer"
 msgstr "Открыть просмотрщик G-кода"
 
 #: src/slic3r/GUI/MainFrame.cpp:108 src/slic3r/GUI/MainFrame.cpp:1841
-msgid "Open PrusaSlicer"
-msgstr "Открыть PrusaSlicer"
+msgid "Open CaribouSlicer"
+msgstr "Открыть CaribouSlicer"
 
 #: src/slic3r/GUI/MainFrame.cpp:110
 msgid "Open new G-code viewer"
 msgstr "Открыть новый просмотрщик G-кода"
 
 #: src/slic3r/GUI/MainFrame.cpp:252
-msgid "Closing PrusaSlicer. Current project is modified."
+msgid "Closing CaribouSlicer. Current project is modified."
 msgstr "Закрытие PrusaSlicer. Текущий проект был изменён."
 
 #: src/slic3r/GUI/MainFrame.cpp:259
-msgid "PrusaSlicer is closing"
-msgstr "Закрытие PrusaSlicer"
+msgid "CaribouSlicer is closing"
+msgstr "Закрытие CaribouSlicer"
 
 #: src/slic3r/GUI/MainFrame.cpp:259
-msgid "Closing PrusaSlicer while some presets are modified."
-msgstr "Закрытие PrusaSlicer, при имеющихся изменениях в профилях."
+msgid "Closing CaribouSlicer while some presets are modified."
+msgstr "Закрытие CaribouSlicer, при имеющихся изменениях в профилях."
 
 #: src/slic3r/GUI/MainFrame.cpp:574 src/slic3r/GUI/Plater.cpp:345
 #: src/slic3r/GUI/Plater.cpp:1774
@@ -15902,7 +15902,7 @@ msgstr "Открыть страницу загрузки драйверов Prus
 
 #: src/slic3r/GUI/MainFrame.cpp:1372
 msgid "Software &Releases"
-msgstr "PrusaSlicer на Github"
+msgstr "CaribouSlicer на Github"
 
 #: src/slic3r/GUI/MainFrame.cpp:1372
 msgid "Open the software releases page in your browser"
@@ -16454,8 +16454,8 @@ msgid "&Open G-code"
 msgstr "&Открыть файл G-кода"
 
 #: src/slic3r/GUI/MainFrame.cpp:1841
-msgid "Open &PrusaSlicer"
-msgstr "Открыть &PrusaSlicer"
+msgid "Open &CaribouSlicer"
+msgstr "Открыть &CaribouSlicer"
 
 #: src/slic3r/GUI/MainFrame.cpp:1855
 msgid "Show legend"
@@ -16690,10 +16690,10 @@ msgstr "Экспорт..."
 #. TRN: The text is followed by a hyperlink saying "here." It is necessary to split it in two phrases, sorry.
 #: src/slic3r/GUI/NotificationManager.hpp:963
 msgid ""
-"PrusaSlicer received a download request from Printables.com, but it's not "
+"CaribouSlicer received a download request from Printables.com, but it's not "
 "allowed. You can allow it"
 msgstr ""
-"PrusaSlicer получил запрос на скачивание с Printables.com, но эта функция не "
+"CaribouSlicer получил запрос на скачивание с Printables.com, но эта функция не "
 "включена. Вы можете включить её"
 
 #: src/slic3r/GUI/NotificationManager.hpp:964
@@ -16866,7 +16866,7 @@ msgstr "Диапазон"
 #: src/slic3r/GUI/OpenGLManager.cpp:383
 #, c-format, boost-format
 msgid ""
-"PrusaSlicer requires OpenGL ES 3.0 capable graphics driver to run "
+"CaribouSlicer requires OpenGL ES 3.0 capable graphics driver to run "
 "correctly, \n"
 "while OpenGL version %s, renderer %s, vendor %s was detected."
 msgstr ""
@@ -16878,7 +16878,7 @@ msgstr ""
 #: src/slic3r/GUI/OpenGLManager.cpp:386
 #, c-format, boost-format
 msgid ""
-"PrusaSlicer requires OpenGL 3.2 capable graphics driver to run correctly,\n"
+"CaribouSlicer requires OpenGL 3.2 capable graphics driver to run correctly,\n"
 "while OpenGL version %s, renderer %s, vendor %s was detected."
 msgstr ""
 "Обнаружен графический драйвер с поддержкой OpenGL версии %s (рендеринг %s, "
@@ -17106,7 +17106,7 @@ msgstr "Спрашивать о несохранённых изменениях 
 #: src/slic3r/GUI/Plater.cpp:360
 msgid ""
 "You will not be asked about it again, when: \n"
-"- Closing PrusaSlicer,\n"
+"- Closing CaribouSlicer,\n"
 "- Loading or creating a new project"
 msgstr ""
 "В следующий раз не будут появляться запросы при: \n"
@@ -17161,19 +17161,19 @@ msgstr "Развернуть боковую панель"
 #: src/slic3r/GUI/Plater.cpp:1239
 msgid ""
 "The preset below was temporarily installed on the active instance of "
-"PrusaSlicer"
+"CaribouSlicer"
 msgid_plural ""
 "The presets below were temporarily installed on the active instance of "
-"PrusaSlicer"
+"CaribouSlicer"
 msgstr[0] ""
 "Приведённый ниже профиль был временно установлен на активной копии "
-"PrusaSlicer"
+"CaribouSlicer"
 msgstr[1] ""
 "Приведённые ниже профили были временно установлены на активной копии "
-"PrusaSlicer"
+"CaribouSlicer"
 msgstr[2] ""
 "Приведённые ниже профили были временно установлены на активной копии "
-"PrusaSlicer"
+"CaribouSlicer"
 
 # ??? загружен
 #: src/slic3r/GUI/Plater.cpp:1318
@@ -17199,7 +17199,7 @@ msgid ""
 "\n"
 "File: </b>%1%\n"
 "\n"
-"This project was created in a newer version of PrusaSlicer. Only the "
+"This project was created in a newer version of CaribouSlicer. Only the "
 "geometry was loaded.\n"
 "Update to the latest version for full compatibility.\n"
 "For more info: <a href=%2%>%2%</a>"
@@ -17237,11 +17237,11 @@ msgstr "Размер модели равен нулю"
 #, c-format, boost-format
 msgid ""
 "The dimensions of the object from file %s seem to be defined in meters.\n"
-"The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate "
+"The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate "
 "the dimensions of the object?"
 msgid_plural ""
 "The dimensions of some objects from file %s seem to be defined in meters.\n"
-"The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate "
+"The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate "
 "the dimensions of these objects?"
 msgstr[0] ""
 "Похоже, что размеры модели из файла %s заданы в метрах.\n"
@@ -17268,11 +17268,11 @@ msgstr "Применить ко всем загружаемым мелким м�
 #, c-format, boost-format
 msgid ""
 "The dimensions of the object from file %s seem to be defined in inches.\n"
-"The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate "
+"The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate "
 "the dimensions of the object?"
 msgid_plural ""
 "The dimensions of some objects from file %s seem to be defined in inches.\n"
-"The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate "
+"The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate "
 "the dimensions of these objects?"
 msgstr[0] ""
 "Похоже, что размеры модели из файла %s заданы в дюймах.\n"
@@ -17375,7 +17375,7 @@ msgstr "Вы пытаетесь удалить деталь, являющейс�
 #: src/slic3r/GUI/Plater.cpp:1974
 msgid ""
 "This action will break a cut information.\n"
-"After that PrusaSlicer can't guarantee model consistency"
+"After that CaribouSlicer can't guarantee model consistency"
 msgstr ""
 "Это действие приведёт к удалению информации о разрезе.\n"
 "После этого PrusaSlicer не может гарантировать согласованность модели."
@@ -17708,8 +17708,8 @@ msgid "Import 3D models"
 msgstr "Импорт 3D-моделей"
 
 #: src/slic3r/GUI/Plater.cpp:4866
-msgid "Start a new instance of PrusaSlicer"
-msgstr "Запуск нового экземпляра PrusaSlicer"
+msgid "Start a new instance of CaribouSlicer"
+msgstr "Запуск нового экземпляра CaribouSlicer"
 
 #: src/slic3r/GUI/Plater.cpp:4880
 msgid "Select one to load as project"
@@ -17753,8 +17753,8 @@ msgid "Import config only"
 msgstr "Импортировать только конфигурацию"
 
 #: src/slic3r/GUI/Plater.cpp:5140
-msgid "Start new PrusaSlicer instance"
-msgstr "Запуск нового экземпляра PrusaSlicer"
+msgid "Start new CaribouSlicer instance"
+msgstr "Запуск нового экземпляра CaribouSlicer"
 
 #: src/slic3r/GUI/Plater.cpp:5143
 msgid "Select an action to apply to the file"
@@ -18004,7 +18004,7 @@ msgid ""
 "If this is enabled, Slic3r will pre-process objects as soon as they're "
 "loaded in order to save time when exporting G-code."
 msgstr ""
-"Если включено, PrusaSlicer будет предварительно просчитывать модели при "
+"Если включено, CaribouSlicer будет предварительно просчитывать модели при "
 "загрузке, чтобы сэкономить время при экспорте G-кода."
 
 #: src/slic3r/GUI/Preferences.cpp:312
@@ -18036,13 +18036,13 @@ msgstr ""
 "будут автоматически находить и загружать файлы проекта."
 
 #: src/slic3r/GUI/Preferences.cpp:331
-msgid "If enabled, sets PrusaSlicer as default application to open .3mf files."
+msgid "If enabled, sets CaribouSlicer as default application to open .3mf files."
 msgstr ""
 "Если включено, назначает PrusaSlicer в качестве приложения по умолчанию для "
 "открытия .3mf файлов."
 
 #: src/slic3r/GUI/Preferences.cpp:336
-msgid "If enabled, sets PrusaSlicer as default application to open .stl files."
+msgid "If enabled, sets CaribouSlicer as default application to open .stl files."
 msgstr ""
 "Если включено, назначает PrusaSlicer в качестве приложения по умолчанию для "
 "открытия .stl файлов."
@@ -18110,7 +18110,7 @@ msgstr ""
 "выбрать действие, которое необходимо выполнить с загружаемым файлом."
 
 #: src/slic3r/GUI/Preferences.cpp:375 src/slic3r/GUI/Preferences.cpp:379
-msgid "Allow just a single PrusaSlicer instance"
+msgid "Allow just a single CaribouSlicer instance"
 msgstr "Только одни экземпляр программы"
 
 #: src/slic3r/GUI/Preferences.cpp:376
@@ -18126,8 +18126,8 @@ msgstr ""
 
 #: src/slic3r/GUI/Preferences.cpp:380
 msgid ""
-"If this is enabled, when starting PrusaSlicer and another instance of the "
-"same PrusaSlicer is already running, that instance will be reactivated "
+"If this is enabled, when starting CaribouSlicer and another instance of the "
+"same CaribouSlicer is already running, that instance will be reactivated "
 "instead."
 msgstr ""
 "Если включено, разрешена работа только одного экземпляра той же самой версии "
@@ -18136,7 +18136,7 @@ msgstr ""
 #: src/slic3r/GUI/Preferences.cpp:388
 msgid ""
 "Always ask for unsaved changes in project, when: \n"
-"- Closing PrusaSlicer,\n"
+"- Closing CaribouSlicer,\n"
 "- Loading or creating a new project"
 msgstr ""
 "Всегда спрашивать о несохранённых изменениях в проекте, при:\n"
@@ -18155,11 +18155,11 @@ msgstr ""
 #: src/slic3r/GUI/Preferences.cpp:397
 msgid ""
 "Always ask for unsaved changes in presets, when: \n"
-"- Closing PrusaSlicer while some presets are modified,\n"
+"- Closing CaribouSlicer while some presets are modified,\n"
 "- Loading a new project while some presets are modified"
 msgstr ""
 "Всегда спрашивать о несохранённых изменениях в профилях при: \n"
-"- Закрытии PrusaSlicer, при имеющихся изменениях в профилях\n"
+"- Закрытии CaribouSlicer, при имеющихся изменениях в профилях\n"
 "- Загрузки нового проекта при существующих изменениях в профилях"
 
 #: src/slic3r/GUI/Preferences.cpp:403
@@ -18189,24 +18189,24 @@ msgstr ""
 "проекта."
 
 #: src/slic3r/GUI/Preferences.cpp:415
-msgid "Associate .gcode files to PrusaSlicer G-code Viewer"
+msgid "Associate .gcode files to CaribouSlicer G-code Viewer"
 msgstr "Ассоциировать файлы .gcode с PrusaSlicer G-code Viewer"
 
 #: src/slic3r/GUI/Preferences.cpp:416
 msgid ""
-"If enabled, sets PrusaSlicer G-code Viewer as default application to open ."
+"If enabled, sets CaribouSlicer G-code Viewer as default application to open ."
 "gcode files."
 msgstr ""
 "Если включено, назначает PrusaSlicer G-code Viewer в качестве приложения по "
 "умолчанию для открытия .gcode файлов."
 
 #: src/slic3r/GUI/Preferences.cpp:419
-msgid "Associate .bgcode files to PrusaSlicer G-code Viewer"
+msgid "Associate .bgcode files to CaribouSlicer G-code Viewer"
 msgstr "Ассоциировать файлы .bgcode с PrusaSlicer G-code Viewer"
 
 #: src/slic3r/GUI/Preferences.cpp:420
 msgid ""
-"If enabled, sets PrusaSlicer G-code Viewer as default application to open ."
+"If enabled, sets CaribouSlicer G-code Viewer as default application to open ."
 "bgcode files."
 msgstr ""
 "Если включено, назначает PrusaSlicer G-code Viewer в качестве приложения по "
@@ -18230,7 +18230,7 @@ msgid "Show splash screen"
 msgstr "Показывать заставку при запуске программы"
 
 #: src/slic3r/GUI/Preferences.cpp:443
-msgid "If enabled, PrusaSlicer will be open at the position it was closed"
+msgid "If enabled, CaribouSlicer will be open at the position it was closed"
 msgstr ""
 "Если включено, окно приложения будет открыто в том положении, в котором было "
 "закрыто."
@@ -18420,7 +18420,7 @@ msgstr ""
 "включение этой опции приведёт к экспорту G-кода в двоичный формат."
 
 #: src/slic3r/GUI/Preferences.cpp:627
-msgid "If enabled, PrusaSlicer will not open a hyperlinks in your browser."
+msgid "If enabled, CaribouSlicer will not open a hyperlinks in your browser."
 msgstr ""
 "Если включено, работа гиперссылок описаний параметров во вкладках настроек "
 "будет отключена."
@@ -18431,7 +18431,7 @@ msgstr "Показывать кнопку «Войти» в верхней па�
 
 #: src/slic3r/GUI/Preferences.cpp:634
 msgid ""
-"If enabled, PrusaSlicer will show up \"Log in\" button in application top "
+"If enabled, CaribouSlicer will show up \"Log in\" button in application top "
 "bar."
 msgstr ""
 "Если включено, в верхней панели приложения будет отображаться кнопка входа в "
@@ -18442,9 +18442,9 @@ msgid "Allow downloads from Printables.com"
 msgstr "Разрешить загрузку с Printables.com"
 
 #: src/slic3r/GUI/Preferences.cpp:639
-msgid "If enabled, PrusaSlicer will be allowed to download from Printables.com"
+msgid "If enabled, CaribouSlicer will be allowed to download from Printables.com"
 msgstr ""
-"Если включено, PrusaSlicer будет разрешено загружать файлы с Printables.com."
+"Если включено, CaribouSlicer будет разрешено загружать файлы с Printables.com."
 
 #: src/slic3r/GUI/Preferences.cpp:649
 msgid "Render"
@@ -19215,7 +19215,7 @@ msgid ""
 "identify you later. To detect duplicate entries, a unique number derived "
 "from your system is sent, but the source information cannot be "
 "reconstructed. Apart from that, only general data about your OS, hardware "
-"and OpenGL installation are sent. PrusaSlicer is open source, if you want to "
+"and OpenGL installation are sent. CaribouSlicer is open source, if you want to "
 "inspect the code actually performing the communication, see %1%."
 msgstr ""
 "Мы не отправляем никакой личной информации или чего-либо, что позволило бы "
@@ -19223,7 +19223,7 @@ msgstr ""
 "отправляется уникальный номер, полученный из вашей системы, но исходная "
 "информация не может быть восстановлена. Кроме того, отправляются только "
 "общие данные о вашей ОС, оборудовании и установленной версии OpenGL. "
-"PrusaSlicer имеет открытый исходный код, если вы хотите проверить код, "
+"CaribouSlicer имеет открытый исходный код, если вы хотите проверить код, "
 "отвечающий за обмен данными, смотрите %1%."
 
 #: src/slic3r/GUI/SendSystemInfoDialog.cpp:624
@@ -19387,7 +19387,7 @@ msgid "System Information"
 msgstr "Системная информация"
 
 #: src/slic3r/GUI/SysInfoDialog.cpp:166
-msgid "Blacklisted libraries loaded into PrusaSlicer process:"
+msgid "Blacklisted libraries loaded into CaribouSlicer process:"
 msgstr "Библиотеки из черного списка загружены в процесс PrusaSlicer:"
 
 #: src/slic3r/GUI/SysInfoDialog.cpp:178
@@ -19757,7 +19757,7 @@ msgid ""
 "right of the Printer profiles combo box, by selecting the \"Add physical "
 "printer\" item in the Printer combo box. The Physical Printer profile editor "
 "opens also when clicking on the \"cog\" icon in the Printer settings tab. "
-"The Physical Printer profiles are being stored into PrusaSlicer/"
+"The Physical Printer profiles are being stored into CaribouSlicer/"
 "physical_printer directory."
 msgstr ""
 "Примечание: все параметры из этой группы перенесены в настройки физического "
@@ -19766,7 +19766,7 @@ msgstr ""
 "Новый профиль физического принтера создаётся нажатием по значку \"шестеренка"
 "\" справа от поля со списком профилей принтеров, выбрав «Добавить профиль "
 "физического принтера». Профили физического принтера сохраняются в папке "
-"PrusaSlicer/physical_printer."
+"CaribouSlicer/physical_printer."
 
 #: src/slic3r/GUI/Tab.cpp:2634
 msgid ""
@@ -20496,17 +20496,17 @@ msgstr ""
 msgid ""
 "You will not be asked about the unsaved changes in presets the next time "
 "you: \n"
-"- Closing PrusaSlicer while some presets are modified,\n"
+"- Closing CaribouSlicer while some presets are modified,\n"
 "- Loading a new project while some presets are modified"
 msgstr ""
 "В следующий раз не будут появляться запросы о несохранённых изменениях в "
 "профилях при: \n"
-"- Закрытие PrusaSlicer, при имеющихся изменениях в профилях\n"
+"- Закрытие CaribouSlicer, при имеющихся изменениях в профилях\n"
 "- Загрузки нового проекта, если имеются изменения в профилях"
 
 #: src/slic3r/GUI/UnsavedChangesDialog.cpp:959
-msgid "PrusaSlicer will remember your action."
-msgstr "PrusaSlicer запомнит ваш выбор."
+msgid "CaribouSlicer will remember your action."
+msgstr "CaribouSlicer запомнит ваш выбор."
 
 #: src/slic3r/GUI/UnsavedChangesDialog.cpp:960
 #, boost-format
@@ -20721,7 +20721,7 @@ msgstr ""
 #: src/slic3r/GUI/UpdateDialogs.cpp:121
 msgid ""
 "Clicking 'Next' will open a browser window where you can select which "
-"variant of PrusaSlicer you want to download."
+"variant of CaribouSlicer you want to download."
 msgstr ""
 "При нажатии кнопки «Далее» откроется окно браузера, в котором вы можете "
 "выбрать вариант дистрибутива PrusaSlicer для загрузки."
@@ -20783,11 +20783,11 @@ msgstr "Обновление конфигурации"
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:282
 msgid ""
-"PrusaSlicer is not using the newest configuration available.\n"
+"CaribouSlicer is not using the newest configuration available.\n"
 "Configuration Wizard may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
-"PrusaSlicer не использует последнюю доступную конфигурацию.\n"
+"CaribouSlicer не использует последнюю доступную конфигурацию.\n"
 "Если хотите, мастер настройки может не предлагать установку новейших "
 "принтеров, пластиковых нитей и SLA материалов."
 
@@ -20956,7 +20956,7 @@ msgstr "Обновления конфигураций для %s отсутств
 msgid "App update"
 msgstr "Обновление приложения"
 
-#. TRN %1% is PrusaSlicer
+#. TRN %1% is CaribouSlicer
 #: src/slic3r/GUI/UpdateDialogs.cpp:528
 #, boost-format
 msgid "Your %1% is up to date."
@@ -21376,16 +21376,16 @@ msgstr ""
 
 #: src/slic3r/Utils/Http.cpp:81
 msgid ""
-"Could not detect system SSL certificate store. PrusaSlicer will be unable to "
+"Could not detect system SSL certificate store. CaribouSlicer will be unable to "
 "establish secure network connections."
 msgstr ""
-"Не удалось обнаружить системное хранилище SSL-сертификатов. PrusaSlicer не "
+"Не удалось обнаружить системное хранилище SSL-сертификатов. CaribouSlicer не "
 "сможет устанавливать безопасные сетевые соединения."
 
 #: src/slic3r/Utils/Http.cpp:86
 #, boost-format
-msgid "PrusaSlicer detected system SSL certificate store in: %1%"
-msgstr "PrusaSlicer обнаружил хранилище системных SSL-сертификатов в: %1%"
+msgid "CaribouSlicer detected system SSL certificate store in: %1%"
+msgstr "CaribouSlicer обнаружил хранилище системных SSL-сертификатов в: %1%"
 
 #: src/slic3r/Utils/Http.cpp:90
 #, boost-format
@@ -21398,10 +21398,10 @@ msgstr ""
 
 #: src/slic3r/Utils/Http.cpp:99
 msgid ""
-"CURL init has failed. PrusaSlicer will be unable to establish network "
+"CURL init has failed. CaribouSlicer will be unable to establish network "
 "connections. See logs for additional details."
 msgstr ""
-"Ошибка инициализации URL-адреса клиента. PrusaSlicer не сможет установить "
+"Ошибка инициализации URL-адреса клиента. CaribouSlicer не сможет установить "
 "сетевые подключения. Смотрите журнал для дополнительные информации."
 
 #: src/slic3r/Utils/MKS.cpp:61
@@ -21701,7 +21701,7 @@ msgstr ""
 #: resources/data/hints.ini: [hint:Shapes gallery]
 msgid ""
 "Shapes gallery\n"
-"Did you know that PrusaSlicer has a Shapes Gallery? You can use the included "
+"Did you know that CaribouSlicer has a Shapes Gallery? You can use the included "
 "models as modifiers, negative volumes or as printable objects. Right-click "
 "the platter and select<a>Add Shape - Gallery</a>."
 msgstr ""
@@ -21882,7 +21882,7 @@ msgstr ""
 msgid ""
 "Search functionality\n"
 "Did you know that you use the<a>Search</a>tool to quickly find a specific "
-"PrusaSlicer setting? Or use the familiar shortcut <b>Ctrl+F</b>."
+"CaribouSlicer setting? Or use the familiar shortcut <b>Ctrl+F</b>."
 msgstr ""
 "Функция поиска\n"
 "Знаете ли вы, что используя инструмент<a>Поиск</a>можно быстро найти "
@@ -22111,7 +22111,7 @@ msgstr ""
 msgid ""
 "Printables.com integration\n"
 "Did you know that when you are browsing Printables.com, you can send 3D "
-"model files to PrusaSlicer with a single click? Learn more in the "
+"model files to CaribouSlicer with a single click? Learn more in the "
 "documentation."
 msgstr ""
 "Интеграция с Printables.com\n"

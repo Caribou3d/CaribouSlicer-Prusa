@@ -66,7 +66,7 @@ namespace Slic3r {
 namespace GUI {
 
 PreferencesDialog::PreferencesDialog(wxWindow* parent) :
-    DPIDialog(parent, wxID_ANY, _L("Preferences"), wxDefaultPosition, 
+    DPIDialog(parent, wxID_ANY, _L("Preferences"), wxDefaultPosition,
               wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 #ifdef __WXOSX__
@@ -98,7 +98,7 @@ PreferencesDialog::PreferencesDialog(wxWindow* parent) :
 	m_highlighter.set_timer_owner(this, 0);
 }
 
-static void update_color(wxColourPickerCtrl* color_pckr, const wxColour& color) 
+static void update_color(wxColourPickerCtrl* color_pckr, const wxColour& color)
 {
 	if (color_pckr->GetColour() != color) {
 		color_pckr->SetColour(color);
@@ -127,7 +127,7 @@ void PreferencesDialog::show(const std::string& highlight_opt_key /*= std::strin
 		boost::any val = s_keys_map_NotifyReleaseMode.at(wxGetApp().app_config->get("notify_release"));
 		m_optgroup_gui->get_field("notify_release")->set_value(val, false);
 	}
-	
+
 
 	if (wxGetApp().is_editor()) {
 		auto app_config = get_app_config();
@@ -153,7 +153,7 @@ void PreferencesDialog::show(const std::string& highlight_opt_key /*= std::strin
 		update_color(m_mod_colour, wxGetApp().get_label_clr_modified());
 
 		// update color pickers for mode palette
-		const auto palette = wxGetApp().get_mode_palette(); 
+		const auto palette = wxGetApp().get_mode_palette();
 		std::vector<wxColourPickerCtrl*> color_pickres = {m_mode_simple, m_mode_advanced, m_mode_expert};
 		for (size_t mode = 0; mode < color_pickres.size(); ++mode)
 			update_color(color_pickres[mode], palette[mode]);
@@ -297,18 +297,18 @@ void PreferencesDialog::build()
 	bool is_editor = wxGetApp().is_editor();
 
 	if (is_editor) {
-		append_bool_option(m_optgroup_general, "remember_output_path", 
+		append_bool_option(m_optgroup_general, "remember_output_path",
 			L("Remember output directory"),
 			L("If this is enabled, Slic3r will prompt the last output directory instead of the one containing the input files."),
 			app_config->has("remember_output_path") ? app_config->get_bool("remember_output_path") : true);
 
-		append_bool_option(m_optgroup_general, "background_processing", 
+		append_bool_option(m_optgroup_general, "background_processing",
 			L("Background processing"),
 			L("If this is enabled, Slic3r will pre-process objects as soon "
 				"as they\'re loaded in order to save time when exporting G-code."),
 			app_config->get_bool("background_processing"));
 
-		append_bool_option(m_optgroup_general, "alert_when_supports_needed", 
+		append_bool_option(m_optgroup_general, "alert_when_supports_needed",
 			L("Alert when supports needed"),
 			L("If this is enabled, Slic3r will raise alerts when it detects "
 				"issues in the sliced object, that can be resolved with supports (and brim). "
@@ -327,13 +327,13 @@ void PreferencesDialog::build()
 #ifdef _WIN32
 		// Please keep in sync with ConfigWizard
 		append_bool_option(m_optgroup_general, "associate_3mf",
-			L("Associate .3mf files to PrusaSlicer"),
-			L("If enabled, sets PrusaSlicer as default application to open .3mf files."),
+			L("Associate .3mf files to CaribouSlicer"),
+			L("If enabled, sets CaribouSlicer as default application to open .3mf files."),
 			app_config->get_bool("associate_3mf"));
 
 		append_bool_option(m_optgroup_general, "associate_stl",
-			L("Associate .stl files to PrusaSlicer"),
-			L("If enabled, sets PrusaSlicer as default application to open .stl files."),
+			L("Associate .stl files to CaribouSlicer"),
+			L("If enabled, sets CaribouSlicer as default application to open .stl files."),
 			app_config->get_bool("associate_stl"));
 #endif // _WIN32
 
@@ -372,12 +372,12 @@ void PreferencesDialog::build()
 
 		append_bool_option(m_optgroup_general, "single_instance",
 #if __APPLE__
-			L("Allow just a single PrusaSlicer instance"),
+			L("Allow just a single CaribouSlicer instance"),
 			L("On OSX there is always only one instance of app running by default. However it is allowed to run multiple instances "
 			  "of same app from the command line. In such case this settings will allow only one instance."),
 #else
-			L("Allow just a single PrusaSlicer instance"),
-			L("If this is enabled, when starting PrusaSlicer and another instance of the same PrusaSlicer is already running, that instance will be reactivated instead."),
+			L("Allow just a single CaribouSlicer instance"),
+			L("If this is enabled, when starting CaribouSlicer and another instance of the same CaribouSlicer is already running, that instance will be reactivated instead."),
 #endif
 		app_config->has("single_instance") ? app_config->get_bool("single_instance") : false );
 
@@ -386,7 +386,7 @@ void PreferencesDialog::build()
 		append_bool_option(m_optgroup_general, "default_action_on_dirty_project",
 			L("Ask for unsaved changes in project"),
 			L("Always ask for unsaved changes in project, when: \n"
-						"- Closing PrusaSlicer,\n"
+						"- Closing CaribouSlicer,\n"
 						"- Loading or creating a new project"),
 			app_config->get("default_action_on_dirty_project").empty());
 
@@ -395,7 +395,7 @@ void PreferencesDialog::build()
 		append_bool_option(m_optgroup_general, "default_action_on_close_application",
 			L("Ask to save unsaved changes in presets when closing the application or when loading a new project"),
 			L("Always ask for unsaved changes in presets, when: \n"
-						"- Closing PrusaSlicer while some presets are modified,\n"
+						"- Closing CaribouSlicer while some presets are modified,\n"
 						"- Loading a new project while some presets are modified"),
 			app_config->get("default_action_on_close_application") == "none");
 
@@ -412,12 +412,12 @@ void PreferencesDialog::build()
 #ifdef _WIN32
 	else {
 		append_bool_option(m_optgroup_general, "associate_gcode",
-			L("Associate .gcode files to PrusaSlicer G-code Viewer"),
-			L("If enabled, sets PrusaSlicer G-code Viewer as default application to open .gcode files."),
+			L("Associate .gcode files to CaribouSlicer G-code Viewer"),
+			L("If enabled, sets CaribouSlicer G-code Viewer as default application to open .gcode files."),
 			app_config->get_bool("associate_gcode"));
 		append_bool_option(m_optgroup_general, "associate_bgcode",
-			L("Associate .bgcode files to PrusaSlicer G-code Viewer"),
-			L("If enabled, sets PrusaSlicer G-code Viewer as default application to open .bgcode files."),
+			L("Associate .bgcode files to CaribouSlicer G-code Viewer"),
+			L("If enabled, sets CaribouSlicer G-code Viewer as default application to open .bgcode files."),
 			app_config->get_bool("associate_bgcode"));
 	}
 #endif // _WIN32
@@ -440,7 +440,7 @@ void PreferencesDialog::build()
 
 	append_bool_option(m_optgroup_general, "restore_win_position",
 		L("Restore window position on start"),
-		L("If enabled, PrusaSlicer will be open at the position it was closed"),
+		L("If enabled, CaribouSlicer will be open at the position it was closed"),
 		app_config->get_bool("restore_win_position"));
 
     // Clear Undo / Redo stack on new project
@@ -530,7 +530,7 @@ void PreferencesDialog::build()
 /*
 		append_bool_option(m_optgroup_gui, "suppress_hyperlinks",
 			L("Suppress to open hyperlink in browser"),
-			L("If enabled, PrusaSlicer will not open a hyperlinks in your browser."),
+			L("If enabled, CaribouSlicer will not open a hyperlinks in your browser."),
 			//L("If enabled, the descriptions of configuration parameters in settings tabs wouldn't work as hyperlinks. "
 			//  "If disabled, the descriptions of configuration parameters in settings tabs will work as hyperlinks."),
 			app_config->get_bool("suppress_hyperlinks"));
@@ -624,19 +624,19 @@ void PreferencesDialog::build()
 
 		append_bool_option(m_optgroup_other, "suppress_hyperlinks",
 			L("Suppress to open hyperlink in browser"),
-			L("If enabled, PrusaSlicer will not open a hyperlinks in your browser."),
+			L("If enabled, CaribouSlicer will not open a hyperlinks in your browser."),
 			//L("If enabled, the descriptions of configuration parameters in settings tabs wouldn't work as hyperlinks. "
 			//  "If disabled, the descriptions of configuration parameters in settings tabs will work as hyperlinks."),
 			app_config->get_bool("suppress_hyperlinks"));
 
 		append_bool_option(m_optgroup_other, "show_login_button",
 			L("Show \"Log in\" button in application top bar"),
-			L("If enabled, PrusaSlicer will show up \"Log in\" button in application top bar."),
+			L("If enabled, CaribouSlicer will show up \"Log in\" button in application top bar."),
 			app_config->get_bool("show_login_button"));
 
 		append_bool_option(m_optgroup_other, "downloader_url_registered",
 			L("Allow downloads from Printables.com"),
-			L("If enabled, PrusaSlicer will be allowed to download from Printables.com"),
+			L("If enabled, CaribouSlicer will be allowed to download from Printables.com"),
 			app_config->get_bool("downloader_url_registered"));
 
 		activate_options_tab(m_optgroup_other);
@@ -751,8 +751,8 @@ void PreferencesDialog::accept(wxEvent&)
 			downloader->allow(it->second == "1");
 		if (!downloader->on_finish())
 			return;
-#if defined(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION) 
-		if(DownloaderUtils::Worker::perform_registration_linux) 
+#if defined(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)
+		if(DownloaderUtils::Worker::perform_registration_linux)
 			DesktopIntegrationDialog::perform_downloader_desktop_integration();
 #endif //(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)
 	}
@@ -955,7 +955,7 @@ void PreferencesDialog::create_icon_size_slider()
     if (!isOSX)
         style |= wxSL_LABELS | wxSL_AUTOTICKS;
 
-    m_icon_size_slider = new wxSlider(parent, wxID_ANY, def_val, 30, 100, 
+    m_icon_size_slider = new wxSlider(parent, wxID_ANY, def_val, 30, 100,
                                wxDefaultPosition, wxDefaultSize, style);
 
     m_icon_size_slider->SetTickFreq(10);
@@ -981,7 +981,7 @@ void PreferencesDialog::create_icon_size_slider()
     }), m_icon_size_slider->GetId());
 
     for (wxWindow* win : std::vector<wxWindow*>{ m_icon_size_slider, label, val_label }) {
-        if (!win) continue;         
+        if (!win) continue;
         win->SetFont(wxGetApp().normal_font());
 
         if (isOSX) continue; // under OSX we use wxBG_STYLE_ERASE
@@ -1101,7 +1101,7 @@ void PreferencesDialog::create_settings_font_widget()
 	SpinInput* size_sc = new SpinInput(parent, format_wxstr("%1%", val), "", wxDefaultPosition, wxSize(15 * em_unit(), -1), wxTE_PROCESS_ENTER | wxSP_ARROW_KEYS
 #ifdef _WIN32
 		| wxBORDER_SIMPLE
-#endif 
+#endif
 	, 8, wxGetApp().get_max_font_pt_size());
 	wxGetApp().UpdateDarkUI(size_sc);
 

@@ -256,7 +256,7 @@ void fill_rotations(const Range<It>           &items,
     }
 }
 
-// An arranger put together to fulfill all the requirements of PrusaSlicer based
+// An arranger put together to fulfill all the requirements of CaribouSlicer based
 // on the supplied ArrangeSettings
 template<class ArrItem>
 class DefaultArranger: public Arranger<ArrItem> {

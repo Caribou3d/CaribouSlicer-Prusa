@@ -619,7 +619,7 @@ endfunction()
 
 add_subdirectory(build-utils)
 add_subdirectory(bundled_deps)
-# libslic3r, PrusaSlicer GUI and the PrusaSlicer executable.
+# libslic3r, CaribouSlicer GUI and the CaribouSlicer executable.
 add_subdirectory(src)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CaribouSlicer_app_console)
 
@@ -653,7 +653,7 @@ elseif (SLIC3R_FHS)
         )
     endforeach()
     install(DIRECTORY ${SLIC3R_RESOURCES_DIR}/udev/ DESTINATION lib/udev/rules.d)
-    target_compile_definitions(PrusaSlicer PUBLIC SLIC3R_FHS SLIC3R_FHS_RESOURCES="${SLIC3R_FHS_RESOURCES}")
+    target_compile_definitions(CaribouSlicer PUBLIC SLIC3R_FHS SLIC3R_FHS_RESOURCES="${SLIC3R_FHS_RESOURCES}")
 else ()
     install(FILES src/platform/unix/CaribouSlicer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/resources/applications)
     install(FILES src/platform/unix/CaribouGcodeviewer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/resources/applications)

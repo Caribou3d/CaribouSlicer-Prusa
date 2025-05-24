@@ -1,9 +1,9 @@
 
 ![AnkerMake logo](ankermake-app.png?raw=true)
 
-# AnkerMake M5 Settings for PrusaSlicer
+# AnkerMake M5 Settings for CaribouSlicer
 
-The official AnkerMake M5 settings are housed in this repository, and they have been carefully crafted for use exclusively with PrusaSlicer. These settings have undergone an exhaustive review process and have been formally submitted to the PrusaSlicer team for consideration. You can access the tutorial on using the settings directly through [Adding AnkerMake M5 to Prusa and Cura Guide](https://support.ankermake.com/s/article/Adding-AnkerMake-M5-to-Prusa-and-Cura-Guide#content1). Additionally, the settings will be integrated into the upcoming version of PrusaSlicer.
+The official AnkerMake M5 settings are housed in this repository, and they have been carefully crafted for use exclusively with PrusaSlicer. These settings have undergone an exhaustive review process and have been formally submitted to the PrusaSlicer team for consideration. You can access the tutorial on using the settings directly through [Adding AnkerMake M5 to Prusa and Cura Guide](https://support.ankermake.com/s/article/Adding-AnkerMake-M5-to-Prusa-and-Cura-Guide#content1). Additionally, the settings will be integrated into the upcoming version of CaribouSlicer.
 
 We are fully dedicated to maintaining and updating this repository to ensure that users always have access to the most current settings.
 

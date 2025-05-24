@@ -1,4 +1,4 @@
-# Building PrusaSlicer on Windows
+# Building CaribouSlicer on Windows
 
 
 ## 0. Prerequisities
@@ -13,23 +13,23 @@ The following tools need to be installed on your computer:
 
 ## 1. Download sources
 
-Clone the respository. Use a directory relatively close to the drive root, so the path is not too long. Avoid spaces and non-ASCII characters. To place it in `C:\src\PrusaSlicer`, run:
+Clone the respository. Use a directory relatively close to the drive root, so the path is not too long. Avoid spaces and non-ASCII characters. To place it in `C:\src\CaribouSlicer`, run:
 ```
 c:> mkdir src
 c:> cd src
-c:\src> git clone https://github.com/prusa3d/PrusaSlicer.git
+c:\src> git clone https://github.com/prusa3d/CaribouSlicer.git
 ```
 
 
 ## 2.A Manual Build Instructions
 
-_As an alternative, you can go to 2.B to compile PrusaSlicer using one automatic script._
+_As an alternative, you can go to 2.B to compile CaribouSlicer using one automatic script._
 
 ### Compile the dependencies.
-Dependencies are updated seldomly, thus they are compiled out of the PrusaSlicer source tree.
+Dependencies are updated seldomly, thus they are compiled out of the CaribouSlicer source tree.
 Open the MSVC x64 Native Tools Command Prompt and run the following:
 ```
-cd c:\src\PrusaSlicer\deps
+cd c:\src\CaribouSlicer\deps
 mkdir build
 cd build
 cmake ..
@@ -37,26 +37,26 @@ cmake --build .
 ```
 Expect this to take some time. Note that both _Debug_ and _Release_ variants are built. You can force only the _Release_ build by passing `-DDEP_DEBUG=OFF` to the first CMake call.
 
-### Generate Visual Studio project file for PrusaSlicer, referencing the precompiled dependencies.
+### Generate Visual Studio project file for CaribouSlicer, referencing the precompiled dependencies.
 Open the MSVC x64 Native Tools Command Prompt and run the following:
 ```
-cd c:\src\PrusaSlicer\
+cd c:\src\CaribouSlicer\
 mkdir build
 cd build
-cmake .. -DCMAKE_PREFIX_PATH="c:\src\PrusaSlicer\deps\build\destdir\usr\local"
+cmake .. -DCMAKE_PREFIX_PATH="c:\src\CaribouSlicer\deps\build\destdir\usr\local"
 ```
 
 Note that `CMAKE_PREFIX_PATH` must be absolute path. A relative path will not work.
 
-### Compile PrusaSlicer.
+### Compile CaribouSlicer.
 
-Double-click c:\src\PrusaSlicer\build\PrusaSlicer.sln to open in Visual Studio and select `PrusaSlicer_app_gui` as your startup project (right-click->Set as Startup Project).
+Double-click c:\src\CaribouSlicer\build\CaribouSlicer.sln to open in Visual Studio and select `CaribouSlicer_app_gui` as your startup project (right-click->Set as Startup Project).
 
 Run Build->Rebuild Solution once to populate all required dependency modules. This is NOT done automatically when you Build/Run. If you run both Debug and Release variants, you will need to do this once for each.
 
 Debug->Start Debugging or press F5
 
-PrusaSlicer should start. You're up and running!
+CaribouSlicer should start. You're up and running!
 
 ### Running Unit Tests
 
@@ -83,22 +83,22 @@ Any of these unit tests can be run directly e.g.
 
 ## 2.B Run the automatic build script
 
-_This is an alternative to the manual build described above. It relies on `build_win.bat` script which is part of the repository and which will find the MSVC installation, set up the build environment and build the dependencies and PrusaSlicer itself. The script was provided by @jschuh and PrusaSlicer team does not maintain it._
+_This is an alternative to the manual build described above. It relies on `build_win.bat` script which is part of the repository and which will find the MSVC installation, set up the build environment and build the dependencies and CaribouSlicer itself. The script was provided by @jschuh and CaribouSlicer team does not maintain it._
 
 Just run the following command to get everything going with the default configs:
 
 ```
-c:\src>cd c:\src\PrusaSlicer
-c:\src\PrusaSlicer>build_win.bat -d=..\PrusaSlicer-deps -r=console
+c:\src>cd c:\src\CaribouSlicer
+c:\src\CaribouSlicer>build_win.bat -d=..\CaribouSlicer-deps -r=console
 ```
 
 The build script will run for a while and automatically perform the following steps:
-1. Configure and build [deps](#compile-the-dependencies) as RelWithDebInfo with `c:\src\PrusaSlicer-deps` as the destination directory
-2. Configure and build all [application targets](#compile-prusaslicer) as RelWithDebInfo
+1. Configure and build [deps](#compile-the-dependencies) as RelWithDebInfo with `c:\src\CaribouSlicer-deps` as the destination directory
+2. Configure and build all [application targets](#compile-CaribouSlicer) as RelWithDebInfo
 3. Launch the resulting `CaribouSlicer-console.exe` binary
 
 You can change the above command line options to do things like:
-* Change the destination for the dependencies by pointing `-d` to a different directory such as: `build_win.bat -d=s:\PrusaSlicerDeps`
+* Change the destination for the dependencies by pointing `-d` to a different directory such as: `build_win.bat -d=s:\CaribouSlicerDeps`
 * Open the solution in Visual Studio after the build completes by changing the `-r` switch to `-r=ide`
 * Generate a release build without debug info by adding `-c=Release` or a full debug build with `-c=Debug`
 * Perform an incremental application build (the default) with: `build_win.bat -s=app-dirty`

@@ -1,7 +1,7 @@
 ///|/ Copyright (c) Prusa Research 2021 - 2023 David Kocík @kocikdav, Oleksandra Iushchenko @YuSanka, Lukáš Hejl @hejllukas
 ///|/ Copyright (c) 2022 KARBOWSKI Piotr
 ///|/
-///|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
+///|/ CaribouSlicer is released under the terms of the AGPLv3 or higher
 ///|/
 #ifdef __linux__
 #include "DesktopIntegrationDialog.hpp"
@@ -232,7 +232,7 @@ bool DesktopIntegrationDialog::is_integrated()
     if (path.empty())
         return false;
 
-    // confirmation that PrusaSlicer.desktop exists
+    // confirmation that CaribouSlicer.desktop exists
     struct stat buffer;
     return (stat (path.c_str(), &buffer) == 0);
 }
@@ -314,11 +314,11 @@ void DesktopIntegrationDialog::perform_desktop_integration()
     // slicer icon
     // iterate thru target_candidates to find icons folder
     for (size_t i = 0; i < target_candidates.size(); ++i) {
-        // Copy icon PrusaSlicer.png from resources_dir()/icons to target_dir_icons/icons/
+        // Copy icon CaribouSlicer.png from resources_dir()/icons to target_dir_icons/icons/
         if (contains_path_dir(target_candidates[i], "icons")) {
             target_dir_icons = target_candidates[i];
-            std::string icon_path = GUI::format("%1%/icons/PrusaSlicer.png",resources_dir());
-            std::string dest_path = GUI::format("%1%/icons/%2%PrusaSlicer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
+            std::string icon_path = GUI::format("%1%/icons/CaribouSlicer.png",resources_dir());
+            std::string dest_path = GUI::format("%1%/icons/%2%CaribouSlicer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
             if (copy_icon(icon_path, dest_path))
                 break; // success
             else
@@ -330,8 +330,8 @@ void DesktopIntegrationDialog::perform_desktop_integration()
               create_path(into_u8(wxFileName::GetHomeDir()), ".local/share/icons" + icon_theme_dirs);
               // copy icon
              target_dir_icons = GUI::format("%1%/.local/share",wxFileName::GetHomeDir());
-              std::string icon_path = GUI::format("%1%/icons/PrusaSlicer.png",resources_dir());
-              std::string dest_path = GUI::format("%1%/icons/%2%PrusaSlicer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
+              std::string icon_path = GUI::format("%1%/icons/CaribouSlicer.png",resources_dir());
+              std::string dest_path = GUI::format("%1%/icons/%2%CaribouSlicer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
              if (!contains_path_dir(target_dir_icons, "icons")
                 || !copy_icon(icon_path, dest_path)) {
                 // every attempt failed - icon wont be present
@@ -340,19 +340,19 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         }
     }
     if(target_dir_icons.empty()) {
-        BOOST_LOG_TRIVIAL(error) << "Copying PrusaSlicer icon to icons directory failed.";
+        BOOST_LOG_TRIVIAL(error) << "Copying CaribouSlicer icon to icons directory failed.";
     } else
     	// save path to icon
-        app_config->set("desktop_integration_icon_slicer_path", GUI::format("%1%/icons/%2%PrusaSlicer%3%.png", target_dir_icons, icon_theme_path, version_suffix));
+        app_config->set("desktop_integration_icon_slicer_path", GUI::format("%1%/icons/%2%CaribouSlicer%3%.png", target_dir_icons, icon_theme_path, version_suffix));
 
     // desktop file
     // iterate thru target_candidates to find applications folder
 
     std::string desktop_file = GUI::format(
         "[Desktop Entry]\n"
-        "Name=PrusaSlicer%1%\n"
+        "Name=CaribouSlicer%1%\n"
         "GenericName=3D Printing Software\n"
-        "Icon=PrusaSlicer%2%\n"
+        "Icon=CaribouSlicer%2%\n"
         "Exec=\"%3%\" %%F\n"
         "Terminal=false\n"
         "Type=Application\n"
@@ -367,15 +367,15 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         if (contains_path_dir(target_candidates[i], "applications")) {
             target_dir_desktop = target_candidates[i];
             // Write slicer desktop file
-            std::string path = GUI::format("%1%/applications/PrusaSlicer%2%.desktop", target_dir_desktop, version_suffix);
+            std::string path = GUI::format("%1%/applications/CaribouSlicer%2%.desktop", target_dir_desktop, version_suffix);
             if (create_desktop_file(path, desktop_file)) {
                 candidate_found = true;
-                BOOST_LOG_TRIVIAL(debug) << "PrusaSlicer.desktop file installation success.";
+                BOOST_LOG_TRIVIAL(debug) << "CaribouSlicer.desktop file installation success.";
                 break;
             }
             else {
                 // write failed - try another path
-                BOOST_LOG_TRIVIAL(debug) << "Attempt to PrusaSlicer.desktop file installation failed. failed path: " << target_candidates[i];
+                BOOST_LOG_TRIVIAL(debug) << "Attempt to CaribouSlicer.desktop file installation failed. failed path: " << target_candidates[i];
                 target_dir_desktop.clear();
             }
         }
@@ -386,7 +386,7 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         create_path(into_u8(wxFileName::GetHomeDir()), ".local/share/applications");
         // create desktop file
         target_dir_desktop = GUI::format("%1%/.local/share", wxFileName::GetHomeDir());
-        std::string path = GUI::format("%1%/applications/PrusaSlicer%2%.desktop", target_dir_desktop, version_suffix);
+        std::string path = GUI::format("%1%/applications/CaribouSlicer%2%.desktop", target_dir_desktop, version_suffix);
         if (contains_path_dir(target_dir_desktop, "applications")) {
             if (!create_desktop_file(path, desktop_file)) {
                 // Desktop file not written - end desktop integration
@@ -408,7 +408,7 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         return;
     }
     // save path to desktop file
-    app_config->set("desktop_integration_app_path", GUI::format("%1%/applications/PrusaSlicer%2%.desktop", target_dir_desktop, version_suffix));
+    app_config->set("desktop_integration_app_path", GUI::format("%1%/applications/CaribouSlicer%2%.desktop", target_dir_desktop, version_suffix));
 
     // Repeat for Gcode viewer - use same paths as for slicer files
     // Do NOT add gcode viewer desktop file on ChromeOS
@@ -416,8 +416,8 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         // Icon
         if (!target_dir_icons.empty())
         {
-            std::string icon_path = GUI::format("%1%/icons/PrusaSlicer-gcodeviewer_192px.png",resources_dir());
-            std::string dest_path = GUI::format("%1%/icons/%2%PrusaSlicer-gcodeviewer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
+            std::string icon_path = GUI::format("%1%/icons/CaribouSlicer-gcodeviewer_192px.png",resources_dir());
+            std::string dest_path = GUI::format("%1%/icons/%2%CaribouSlicer-gcodeviewer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
             if (copy_icon(icon_path, dest_path))
                 // save path to icon
                 app_config->set("desktop_integration_icon_viewer_path", dest_path);
@@ -430,7 +430,7 @@ void DesktopIntegrationDialog::perform_desktop_integration()
             "[Desktop Entry]\n"
             "Name=Prusa Gcode Viewer%1%\n"
             "GenericName=3D Printing Software\n"
-            "Icon=PrusaSlicer-gcodeviewer%2%\n"
+            "Icon=CaribouSlicer-gcodeviewer%2%\n"
             "Exec=\"%3%\" --gcodeviewer %%F\n"
             "Terminal=false\n"
             "Type=Application\n"
@@ -438,13 +438,13 @@ void DesktopIntegrationDialog::perform_desktop_integration()
             "Categories=Graphics;3DGraphics;\n"
             "Keywords=3D;Printing;Slicer;\n"
             "StartupNotify=false\n", name_suffix, version_suffix, excutable_path);
-        std::string desktop_path = GUI::format("%1%/applications/PrusaSlicerGcodeViewer%2%.desktop", target_dir_desktop, version_suffix);
+        std::string desktop_path = GUI::format("%1%/applications/CaribouSlicerGcodeViewer%2%.desktop", target_dir_desktop, version_suffix);
         if (create_desktop_file(desktop_path, desktop_file_viewer))
             // save path to desktop file
             app_config->set("desktop_integration_app_viewer_path", desktop_path);
         else {
             BOOST_LOG_TRIVIAL(error) << "Performing desktop integration failed - could not create Gcodeviewer desktop file";
-            show_error(nullptr, _L("Performing desktop integration failed - could not create Gcodeviewer desktop file. PrusaSlicer desktop file was probably created successfully."));
+            show_error(nullptr, _L("Performing desktop integration failed - could not create Gcodeviewer desktop file. CaribouSlicer desktop file was probably created successfully."));
         }
     }
     wxGetApp().plater()->get_notification_manager()->push_notification(NotificationType::DesktopIntegrationSuccess);
@@ -558,22 +558,22 @@ void DesktopIntegrationDialog::perform_downloader_desktop_integration()
 
     std::string desktop_file_downloader = GUI::format(
         "[Desktop Entry]\n"
-        "Name=PrusaSlicer URL Protocol%1%\n"
+        "Name=CaribouSlicer URL Protocol%1%\n"
         "Exec=\"%2%\" --single-instance %%u\n"
         "Terminal=false\n"
         "Type=Application\n"
-        "MimeType=x-scheme-handler/prusaslicer;\n"
+        "MimeType=x-scheme-handler/caribouslicer;\n"
         "StartupNotify=false\n"
         "NoDisplay=true\n"
         , name_suffix, excutable_path);
 
     // desktop file for downloader as part of main app
-    std::string desktop_path = GUI::format("%1%/applications/PrusaSlicerURLProtocol%2%.desktop", target_dir_desktop, version_suffix);
+    std::string desktop_path = GUI::format("%1%/applications/CaribouSlicerURLProtocol%2%.desktop", target_dir_desktop, version_suffix);
     if (create_desktop_file(desktop_path, desktop_file_downloader)) {
         // save path to desktop file
         app_config->set("desktop_integration_URL_path", desktop_path);
         // finish registration on mime type
-        std::string command = GUI::format("xdg-mime default PrusaSlicerURLProtocol%1%.desktop x-scheme-handler/prusaslicer", version_suffix);
+        std::string command = GUI::format("xdg-mime default CaribouSlicerURLProtocol%1%.desktop x-scheme-handler/caribouslicer", version_suffix);
         BOOST_LOG_TRIVIAL(debug) << "system command: " << command;
         int r = system(command.c_str());
         BOOST_LOG_TRIVIAL(debug) << "system result: " << r;
@@ -585,16 +585,16 @@ void DesktopIntegrationDialog::perform_downloader_desktop_integration()
         if (contains_path_dir(target_candidates[i], "applications")) {
             target_dir_desktop = target_candidates[i];
             // Write slicer desktop file
-            std::string path = GUI::format("%1%/applications/PrusaSlicerURLProtocol%2%.desktop", target_dir_desktop, version_suffix);
+            std::string path = GUI::format("%1%/applications/CaribouSlicerURLProtocol%2%.desktop", target_dir_desktop, version_suffix);
             if (create_desktop_file(path, desktop_file_downloader)) {
                 app_config->set("desktop_integration_URL_path", path);
                 candidate_found = true;
-                BOOST_LOG_TRIVIAL(debug) << "PrusaSlicerURLProtocol.desktop file installation success.";
+                BOOST_LOG_TRIVIAL(debug) << "CaribouSlicerURLProtocol.desktop file installation success.";
                 break;
             }
             else {
                 // write failed - try another path
-                BOOST_LOG_TRIVIAL(debug) << "Attempt to PrusaSlicerURLProtocol.desktop file installation failed. failed path: " << target_candidates[i];
+                BOOST_LOG_TRIVIAL(debug) << "Attempt to CaribouSlicerURLProtocol.desktop file installation failed. failed path: " << target_candidates[i];
                 target_dir_desktop.clear();
             }
         }
@@ -605,7 +605,7 @@ void DesktopIntegrationDialog::perform_downloader_desktop_integration()
         create_path(into_u8(wxFileName::GetHomeDir()), ".local/share/applications");
         // create desktop file
         target_dir_desktop = GUI::format("%1%/.local/share", wxFileName::GetHomeDir());
-        std::string path = GUI::format("%1%/applications/PrusaSlicerURLProtocol%2%.desktop", target_dir_desktop, version_suffix);
+        std::string path = GUI::format("%1%/applications/CaribouSlicerURLProtocol%2%.desktop", target_dir_desktop, version_suffix);
         if (contains_path_dir(target_dir_desktop, "applications")) {
             if (!create_desktop_file(path, desktop_file_downloader)) {
                 // Desktop file not written - end desktop integration
@@ -629,7 +629,7 @@ void DesktopIntegrationDialog::perform_downloader_desktop_integration()
     }
 
     // finish registration on mime type
-    std::string command = GUI::format("xdg-mime default PrusaSlicerURLProtocol%1%.desktop x-scheme-handler/prusaslicer", version_suffix);
+    std::string command = GUI::format("xdg-mime default CaribouSlicerURLProtocol%1%.desktop x-scheme-handler/caribouslicer", version_suffix);
     BOOST_LOG_TRIVIAL(debug) << "system command: " << command;
     int r = system(command.c_str());
     BOOST_LOG_TRIVIAL(debug) << "system result: " << r;
@@ -650,7 +650,7 @@ void DesktopIntegrationDialog::undo_downloader_registration()
 void DesktopIntegrationDialog::undo_downloader_registration_rigid()
 {
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__;
-    // Try ro find any PrusaSlicerURLProtocol.desktop files including alpha and beta and get rid of them
+    // Try ro find any CaribouSlicerURLProtocol.desktop files including alpha and beta and get rid of them
 
     // $XDG_DATA_HOME defines the base directory relative to which user specific data files should be stored.
     // If $XDG_DATA_HOME is either not set or empty, a default equal to $HOME/.local/share should be used.
@@ -667,7 +667,7 @@ void DesktopIntegrationDialog::undo_downloader_registration_rigid()
             continue;
         }
         for (const std::string& suffix : {"" , "-beta", "-alpha" , "_beta", "_alpha"}) {
-            boost::filesystem::path file_path = apps_path / GUI::format("PrusaSlicerURLProtocol%1%.desktop", suffix);
+            boost::filesystem::path file_path = apps_path / GUI::format("CaribouSlicerURLProtocol%1%.desktop", suffix);
             boost::system::error_code ec;
             if (!boost::filesystem::exists(file_path, ec) || ec) {
                 continue;
@@ -683,7 +683,7 @@ void DesktopIntegrationDialog::undo_downloader_registration_rigid()
 
 void DesktopIntegrationDialog::find_all_desktop_files(std::vector<boost::filesystem::path>& results)
 {
-    // Try ro find any PrusaSlicer.desktop and PrusaSlicerGcodeViewer.desktop and PrusaSlicerURLProtocol.desktop files including alpha and beta
+    // Try ro find any CaribouSlicer.desktop and CaribouSlicerGcodeViewer.desktop and CaribouSlicerURLProtocol.desktop files including alpha and beta
 
     // For regular apps (f.e. appimage) this is true:
     // $XDG_DATA_HOME defines the base directory relative to which user specific data files should be stored.
@@ -705,7 +705,7 @@ void DesktopIntegrationDialog::find_all_desktop_files(std::vector<boost::filesys
         if (apps_path.empty()) {
             continue;
         }
-        for (const std::string& filename : {"PrusaSlicer","PrusaSlicerGcodeViewer","PrusaSlicerURLProtocol"}) {
+        for (const std::string& filename : {"CaribouSlicer","CaribouSlicerGcodeViewer","CaribouSlicerURLProtocol"}) {
             for (const std::string& suffix : {"" , "-beta", "-alpha", "_beta", "_alpha"}) {
                 boost::filesystem::path file_path = apps_path / GUI::format("%1%%2%.desktop", filename, suffix);
                 boost::system::error_code ec;

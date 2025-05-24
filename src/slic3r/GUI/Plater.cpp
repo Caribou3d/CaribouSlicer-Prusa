@@ -356,13 +356,13 @@ struct Plater::priv
                         if (dialog.IsCheckBoxChecked()) {
                             wxString preferences_item = _L("Ask for unsaved changes in project");
                             wxString msg =
-                                _L("PrusaSlicer will remember your choice.") + "\n\n" +
+                                _L("CaribouSlicer will remember your choice.") + "\n\n" +
                                 _L("You will not be asked about it again, when: \n"
-                                    "- Closing PrusaSlicer,\n"
+                                    "- Closing CaribouSlicer,\n"
                                     "- Loading or creating a new project") + "\n\n" +
                                 format_wxstr(_L("Visit \"Preferences\" and check \"%1%\"\nto changes your choice."), preferences_item);
 
-                            MessageDialog msg_dlg(mainframe, msg, _L("PrusaSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
+                            MessageDialog msg_dlg(mainframe, msg, _L("CaribouSlicer: Don't ask me again"), wxOK | wxCANCEL | wxICON_INFORMATION);
                             if (msg_dlg.ShowModal() == wxID_CANCEL)
                                 return wxID_CANCEL;
 
@@ -1236,8 +1236,8 @@ void Plater::notify_about_installed_presets()
     const auto& names = wxGetApp().preset_bundle->tmp_installed_presets;
     // show notification about temporarily installed presets
     if (!names.empty()) {
-        std::string notif_text = into_u8(_L_PLURAL("The preset below was temporarily installed on the active instance of PrusaSlicer",
-            "The presets below were temporarily installed on the active instance of PrusaSlicer", names.size())) + ":";
+        std::string notif_text = into_u8(_L_PLURAL("The preset below was temporarily installed on the active instance of CaribouSlicer",
+            "The presets below were temporarily installed on the active instance of CaribouSlicer", names.size())) + ":";
         for (const std::string& name : names)
             notif_text += "\n - " + name;
         get_notification_manager()->push_notification(NotificationType::CustomNotification,
@@ -1283,7 +1283,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
 
     auto *extra_model = (!load_model || one_by_one) ? nullptr : new Slic3r::Model();
     std::vector<size_t> obj_idxs;
-    boost::optional<Semver> prusaslicer_generator_version;
+    boost::optional<Semver> caribouslicer_generator_version;
 
     int answer_convert_from_meters          = wxOK_DEFAULT;
     int answer_convert_from_imperial_units  = wxOK_DEFAULT;
@@ -1349,7 +1349,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
 
         try {
             if (load_config) {
-                model = FileReader::load_model_with_config(path.string(), &config_loaded, &config_substitutions, prusaslicer_generator_version, FileReader::LoadAttribute::CheckVersion, &load_stats);
+                model = FileReader::load_model_with_config(path.string(), &config_loaded, &config_substitutions, caribouslicer_generator_version, FileReader::LoadAttribute::CheckVersion, &load_stats);
             }
             else if (load_model) {
                 model = FileReader::load_model(path.string(), FileReader::LoadAttributes{}, &load_stats);
@@ -1378,13 +1378,13 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
                 config += std::move(config_loaded);
             } else { // config_loaded.empty()
                 // Detection of possible breaking change in 3MF configuration loading sometimes in future.
-                if (prusaslicer_generator_version && // set only when loaded with configuration
-                    *prusaslicer_generator_version > Semver(SLIC3R_VERSION)) {
+                if (caribouslicer_generator_version && // set only when loaded with configuration
+                    *caribouslicer_generator_version > Semver(SLIC3R_VERSION)) {
                     wxString title = _L("Configuration was not loaded");
                     const wxString url = "https://prusa.io/3mf-transfer";
                     // TRN: %1% is filename of the project, %2% is url link.
                     wxString message = format_wxstr(_L("<b>Unable to load configuration from project\n\nFile: </b>%1%\n\n"
-                        "This project was created in a newer version of PrusaSlicer. Only the geometry was loaded.\n"
+                        "This project was created in a newer version of CaribouSlicer. Only the geometry was loaded.\n"
                         "Update to the latest version for full compatibility.\nFor more info: <a href=%2%>%2%</a>"),
                         from_path(filename), url);
                     HtmlCapableRichMessageDialog dialog(q, message ,title, wxOK,
@@ -1456,9 +1456,9 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
                     if (answer_convert_from_meters == wxOK_DEFAULT) {
                         RichMessageDialog dlg(q, format_wxstr(_L_PLURAL(
                             "The dimensions of the object from file %s seem to be defined in meters.\n"
-                            "The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate the dimensions of the object?",
+                            "The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate the dimensions of the object?",
                             "The dimensions of some objects from file %s seem to be defined in meters.\n"
-                            "The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate the dimensions of these objects?", model.objects.size()), from_path(filename)) + "\n",
+                            "The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate the dimensions of these objects?", model.objects.size()), from_path(filename)) + "\n",
                             _L("The object is too small"), wxICON_QUESTION | wxYES_NO);
                         dlg.ShowCheckBox(_L("Apply to all the remaining small objects being loaded."));
                         answer = dlg.ShowModal();
@@ -1474,9 +1474,9 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
                     if (answer_convert_from_imperial_units == wxOK_DEFAULT) {
                         RichMessageDialog dlg(q, format_wxstr(_L_PLURAL(
                             "The dimensions of the object from file %s seem to be defined in inches.\n"
-                            "The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate the dimensions of the object?",
+                            "The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate the dimensions of the object?",
                             "The dimensions of some objects from file %s seem to be defined in inches.\n"
-                            "The internal unit of PrusaSlicer is a millimeter. Do you want to recalculate the dimensions of these objects?", model.objects.size()), from_path(filename)) + "\n",
+                            "The internal unit of CaribouSlicer is a millimeter. Do you want to recalculate the dimensions of these objects?", model.objects.size()), from_path(filename)) + "\n",
                             _L("The object is too small"), wxICON_QUESTION | wxYES_NO);
                         dlg.ShowCheckBox(_L("Apply to all the remaining small objects being loaded."));
                         answer = dlg.ShowModal();
@@ -1635,8 +1635,8 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
         obj_idxs, model.objects, *notification_manager);
 
     if (
-        prusaslicer_generator_version
-        && *prusaslicer_generator_version < Semver("2.9.0-alpha1")
+        caribouslicer_generator_version
+        && *caribouslicer_generator_version < Semver("2.9.0-alpha1")
     ) {
         BOOST_LOG_TRIVIAL(info) << "Rearranging legacy project...";
         s_multiple_beds.rearrange_after_load(model, q->build_volume());
@@ -1987,7 +1987,7 @@ bool Plater::priv::delete_object_from_model(size_t obj_idx)
         InfoDialog dialog(q, _L("Delete object which is a part of cut object"),
                              _L("You try to delete an object which is a part of a cut object.") + "\n" +
                                 _L("This action will break a cut information.\n"
-                                "After that PrusaSlicer can't guarantee model consistency"),
+                                "After that CaribouSlicer can't guarantee model consistency"),
                                 false, wxYES | wxCANCEL | wxCANCEL_DEFAULT | wxICON_WARNING);
         dialog.SetButtonLabel(wxID_YES, _L("Delete object"));
         if (dialog.ShowModal() == wxID_CANCEL)
@@ -4324,7 +4324,7 @@ void Plater::priv::bring_instance_forward() const
         BOOST_LOG_TRIVIAL(debug) << "Couldnt bring instance forward - mainframe is null";
         return;
     }
-    BOOST_LOG_TRIVIAL(debug) << "prusaslicer window going forward";
+    BOOST_LOG_TRIVIAL(debug) << "caribouslicer window going forward";
     //this code maximize app window on Fedora
     {
         main_frame->Iconize(false);
@@ -4878,7 +4878,7 @@ LoadProjectsDialog::LoadProjectsDialog(const std::vector<fs::path>& paths)
     id++;
     // all new window
     if (instances_allowed) {
-        btn = new wxRadioButton(this, wxID_ANY, _L("Start a new instance of PrusaSlicer"), wxDefaultPosition, wxDefaultSize, id == 0 ? wxRB_GROUP : 0);
+        btn = new wxRadioButton(this, wxID_ANY, _L("Start a new instance of CaribouSlicer"), wxDefaultPosition, wxDefaultSize, id == 0 ? wxRB_GROUP : 0);
         btn->SetValue(id == m_action);
         btn->Bind(wxEVT_RADIOBUTTON, [this, id, contains_projects](wxCommandEvent&) {
             m_action = id;
@@ -5153,7 +5153,7 @@ ProjectDropDialog::ProjectDropDialog(const std::string& filename)
     choices.Add(_L("Import 3D models only"));
     choices.Add(_L("Import config only"));
     if (!single_instance_only)
-        choices.Add(_L("Start new PrusaSlicer instance"));
+        choices.Add(_L("Start new CaribouSlicer instance"));
 
     main_sizer->Add(new wxStaticText(this, wxID_ANY,
         get_wraped_wxString(_L("Select an action to apply to the file") + ": " + from_u8(filename))), 0, wxEXPAND | wxALL, 10);

@@ -69,7 +69,7 @@ const unsigned int VERSION_3MF_COMPATIBLE = 2;
 const char* SLIC3RPE_3MF_VERSION = "slic3rpe:Version3mf"; // definition of the metadata name saved into .model file
 
 // Painting gizmos data version numbers
-// 0 : 3MF files saved by older PrusaSlicer or the painting gizmo wasn't used. No version definition in them.
+// 0 : 3MF files saved by older CaribouSlicer or the painting gizmo wasn't used. No version definition in them.
 // 1 : Introduction of painting gizmos data versioning. No other changes in painting gizmos data.
 const unsigned int FDM_SUPPORTS_PAINTING_VERSION = 1;
 const unsigned int SEAM_PAINTING_VERSION         = 1;
@@ -496,8 +496,8 @@ namespace Slic3r {
         unsigned int m_version;
         bool m_check_version;
 
-        // Semantic version of PrusaSlicer, that generated this 3MF.
-        boost::optional<Semver> m_prusaslicer_generator_version;
+        // Semantic version of CaribouSlicer, that generated this 3MF.
+        boost::optional<Semver> m_caribouslicer_generator_version;
         unsigned int m_fdm_supports_painting_version = 0;
         unsigned int m_seam_painting_version         = 0;
         unsigned int m_mm_painting_version           = 0;
@@ -534,7 +534,7 @@ namespace Slic3r {
 
         bool load_model_from_file(const std::string& filename, Model& model, DynamicPrintConfig& config, ConfigSubstitutionContext& config_substitutions, bool check_version);
         unsigned int version() const { return m_version; }
-        boost::optional<Semver> prusaslicer_generator_version() const { return m_prusaslicer_generator_version; }
+        boost::optional<Semver> caribouslicer_generator_version() const { return m_caribouslicer_generator_version; }
 
     private:
         void _destroy_xml_parser();
@@ -1040,7 +1040,7 @@ namespace Slic3r {
 
         // We support our 3mf contains only configuration without mesh,
         // others MUST contain mesh (triangles and vertices).
-        if (!m_prusaslicer_generator_version.has_value() && model.objects.empty()) {
+        if (!m_caribouslicer_generator_version.has_value() && model.objects.empty()) {
             const std::string msg = (boost::format(_u8L("The 3MF file does not contain a valid mesh.\n\n\"%1%\"")) % filename).str();
             throw Slic3r::RuntimeError(msg);
         }
@@ -1657,7 +1657,7 @@ namespace Slic3r {
                     std::string         extra;
                     pt::ptree attr_tree = tree.find("<xmlattr>")->second;
                     if (attr_tree.find("type") == attr_tree.not_found()) {
-                        // It means that data was saved in old version (2.2.0 and older) of PrusaSlicer
+                        // It means that data was saved in old version (2.2.0 and older) of CaribouSlicer
                         // read old data ...
                         std::string gcode       = tree.get<std::string> ("<xmlattr>.gcode");
                         // ... and interpret them to the new data
@@ -2121,7 +2121,7 @@ namespace Slic3r {
 
         // Now load MM segmentation data. Unfortunately, BambuStudio has changed the attribute name after they forked us,
         // leading to https://github.com/prusa3d/PrusaSlicer/issues/12502. Let's try to load both keys if the usual
-        // one that PrusaSlicer uses is not present.
+        // one that CaribouSlicer uses is not present.
         std::string mm_segmentation_serialized = get_attribute_value_string(attributes, num_attributes, MM_SEGMENTATION_ATTR);
         if (mm_segmentation_serialized.empty())
             mm_segmentation_serialized = get_attribute_value_string(attributes, num_attributes, "paint_color");
@@ -2244,20 +2244,20 @@ namespace Slic3r {
         } else if (m_curr_metadata_name == "Application") {
             // Generator application of the 3MF.
             // SLIC3R_APP_KEY - SLIC3R_VERSION
-            if (boost::starts_with(m_curr_characters, "PrusaSlicer-"))
-                m_prusaslicer_generator_version = Semver::parse(m_curr_characters.substr(12));
+            if (boost::starts_with(m_curr_characters, "CaribouSlicer-"))
+                m_caribouslicer_generator_version = Semver::parse(m_curr_characters.substr(12));
         } else if (m_curr_metadata_name == SLIC3RPE_FDM_SUPPORTS_PAINTING_VERSION) {
             m_fdm_supports_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_fdm_supports_painting_version, FDM_SUPPORTS_PAINTING_VERSION,
-                _u8L("The selected 3MF contains FDM supports painted object using a newer version of PrusaSlicer and is not compatible."));
+                _u8L("The selected 3MF contains FDM supports painted object using a newer version of CaribouSlicer and is not compatible."));
         } else if (m_curr_metadata_name == SLIC3RPE_SEAM_PAINTING_VERSION) {
             m_seam_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_seam_painting_version, SEAM_PAINTING_VERSION,
-                _u8L("The selected 3MF contains seam painted object using a newer version of PrusaSlicer and is not compatible."));
+                _u8L("The selected 3MF contains seam painted object using a newer version of CaribouSlicer and is not compatible."));
         } else if (m_curr_metadata_name == SLIC3RPE_MM_PAINTING_VERSION) {
             m_mm_painting_version = (unsigned int) atoi(m_curr_characters.c_str());
             check_painting_version(m_mm_painting_version, MM_PAINTING_VERSION,
-                _u8L("The selected 3MF contains multi-material painted object using a newer version of PrusaSlicer and is not compatible."));
+                _u8L("The selected 3MF contains multi-material painted object using a newer version of CaribouSlicer and is not compatible."));
         }
 
         return true;
@@ -2595,9 +2595,9 @@ namespace Slic3r {
                         tri_id -= min_id;
             }
 
-            if (m_prusaslicer_generator_version &&
-                *m_prusaslicer_generator_version >= *Semver::parse("2.4.0-alpha1") &&
-                *m_prusaslicer_generator_version < *Semver::parse("2.4.0-alpha3"))
+            if (m_caribouslicer_generator_version &&
+                *m_caribouslicer_generator_version >= *Semver::parse("2.4.0-alpha1") &&
+                *m_caribouslicer_generator_version < *Semver::parse("2.4.0-alpha3"))
                 // PrusaSlicer 2.4.0-alpha2 contained a bug, where all vertices of a single object were saved for each volume the object contained.
                 // Remove the vertices, that are not referenced by any face.
                 its_compactify_vertices(its, true);
@@ -3559,9 +3559,9 @@ namespace Slic3r {
                 };
                 // Store the layer height profile as a single space separated list.
                 for (size_t i = 0; i < sla_support_points.size(); ++i) {
-                    sprintf(buffer, (i==0 ? "%f %f %f %f %f" : " %f %f %f %f %f"), 
-                        sla_support_points[i].pos(0), 
-                        sla_support_points[i].pos(1), 
+                    sprintf(buffer, (i==0 ? "%f %f %f %f %f" : " %f %f %f %f %f"),
+                        sla_support_points[i].pos(0),
+                        sla_support_points[i].pos(1),
                         sla_support_points[i].pos(2),
                         sla_support_points[i].head_front_radius,
                         support_point_type_to_float(sla_support_points[i].type));
@@ -3912,11 +3912,11 @@ bool _3MF_Exporter::_add_wipe_tower_information_file_to_archive( mz_zip_archive&
 // Perform conversions based on the config values available.
 static void handle_legacy_project_loaded(
     DynamicPrintConfig& config,
-    const boost::optional<Semver>& prusaslicer_generator_version
+    const boost::optional<Semver>& caribouslicer_generator_version
 ) {
     if (! config.has("brim_separation")) {
         if (auto *opt_elephant_foot   = config.option<ConfigOptionFloat>("elefant_foot_compensation", false); opt_elephant_foot) {
-            // Conversion from older PrusaSlicer which applied brim separation equal to elephant foot compensation.
+            // Conversion from older CaribouSlicer which applied brim separation equal to elephant foot compensation.
             auto *opt_brim_separation = config.option<ConfigOptionFloat>("brim_separation", true);
             opt_brim_separation->value = opt_elephant_foot->value;
         }
@@ -3925,7 +3925,7 @@ static void handle_legacy_project_loaded(
     // In PrusaSlicer 2.5.0-alpha2 and 2.5.0-alpha3, we introduce several parameters for Arachne that depend
     // on nozzle size . Later we decided to make default values for those parameters computed automatically
     // until the user changes them.
-    if (prusaslicer_generator_version && *prusaslicer_generator_version >= *Semver::parse("2.5.0-alpha2") && *prusaslicer_generator_version <= *Semver::parse("2.5.0-alpha3")) {
+    if (caribouslicer_generator_version && *caribouslicer_generator_version >= *Semver::parse("2.5.0-alpha2") && *caribouslicer_generator_version <= *Semver::parse("2.5.0-alpha3")) {
         if (auto *opt_wall_transition_length = config.option<ConfigOptionFloatOrPercent>("wall_transition_length", false);
             opt_wall_transition_length && !opt_wall_transition_length->percent && opt_wall_transition_length->value == 0.4) {
             opt_wall_transition_length->percent = true;
@@ -3994,7 +3994,7 @@ bool load_3mf(
     ConfigSubstitutionContext& config_substitutions,
     Model* model,
     bool check_version,
-    boost::optional<Semver> &prusaslicer_generator_version
+    boost::optional<Semver> &caribouslicer_generator_version
 )
 {
     if (path == nullptr || model == nullptr)
@@ -4005,8 +4005,8 @@ bool load_3mf(
     _3MF_Importer         importer;
     bool res = importer.load_model_from_file(path, *model, config, config_substitutions, check_version);
     importer.log_errors();
-    handle_legacy_project_loaded(config, importer.prusaslicer_generator_version());
-    prusaslicer_generator_version = importer.prusaslicer_generator_version();
+    handle_legacy_project_loaded(config, importer.caribouslicer_generator_version());
+    caribouslicer_generator_version = importer.caribouslicer_generator_version();
 
     return res;
 }

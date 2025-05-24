@@ -88,8 +88,8 @@ std::pair<std::string, bool> SlicingProcessCompletedEvent::format_error_message(
                               "be glad if you reported it."), SLIC3R_APP_NAME);
         error += "\n\n" + std::string(ex.what());
     } catch (const HardCrash &ex) {
-        error = GUI::format(_L("PrusaSlicer has encountered a fatal error: \"%1%\""), ex.what()) + "\n\n" +
-        		_u8L("Please save your project and restart PrusaSlicer. "
+        error = GUI::format(_L("CaribouSlicer has encountered a fatal error: \"%1%\""), ex.what()) + "\n\n" +
+        		_u8L("Please save your project and restart CaribouSlicer. "
                      "We would be glad if you reported the issue.");
     } catch (PlaceholderParserError &ex) {
 		error = ex.what();
@@ -109,8 +109,8 @@ void BackgroundSlicingProcess::set_temp_output_path(int bed_idx)
 	m_temp_output_path = temp_path.string();
 }
 
-BackgroundSlicingProcess::~BackgroundSlicingProcess() 
-{ 
+BackgroundSlicingProcess::~BackgroundSlicingProcess()
+{
 	this->stop();
 	this->join_background_thread();
 
@@ -168,7 +168,7 @@ void BackgroundSlicingProcess::process_fff()
 	m_print->process();
 	wxCommandEvent evt(m_event_slicing_completed_id);
 	// Post the Slicing Finished message for the G-code viewer to update.
-	// Passing the timestamp 
+	// Passing the timestamp
 	evt.SetInt((int)(m_fff_print->step_state_with_timestamp(PrintStep::psSlicingFinished).timestamp));
 	wxQueueEvent(GUI::wxGetApp().mainframe->m_plater, evt.Clone());
 	m_fff_print->export_gcode(m_temp_output_path, m_gcode_result, [this](const ThumbnailsParams& params) { return this->render_thumbnails(params); });
@@ -265,7 +265,7 @@ void BackgroundSlicingProcess::thread_proc()
 		if (m_print->cancel_status() != Print::CANCELED_INTERNAL) {
 			// Only post the canceled event, if canceled by user.
 			// Don't post the canceled event, if canceled from Print::apply().
-			SlicingProcessCompletedEvent evt(m_event_finished_id, 0, 
+			SlicingProcessCompletedEvent evt(m_event_finished_id, 0,
 				(m_state == STATE_CANCELED) ? SlicingProcessCompletedEvent::Cancelled :
 				exception ? SlicingProcessCompletedEvent::Error : SlicingProcessCompletedEvent::Finished, exception);
         	wxQueueEvent(GUI::wxGetApp().mainframe->m_plater, evt.Clone());
@@ -522,7 +522,7 @@ void BackgroundSlicingProcess::stop_internal()
 	m_print->set_cancel_callback([](){});
 }
 
-// Execute task from background thread on the UI thread. Returns true if processed, false if cancelled. 
+// Execute task from background thread on the UI thread. Returns true if processed, false if cancelled.
 bool BackgroundSlicingProcess::execute_ui_task(std::function<void()> task)
 {
 	bool running = false;
@@ -614,7 +614,7 @@ void BackgroundSlicingProcess::set_task(const PrintBase::TaskParams &params)
 
 // Set the output path of the G-code.
 void BackgroundSlicingProcess::schedule_export(const std::string &path, bool export_path_on_removable_media)
-{ 
+{
 	assert(m_export_path.empty());
 	if (! m_export_path.empty())
 		return;
@@ -652,17 +652,17 @@ void BackgroundSlicingProcess::reset_export()
 }
 
 bool BackgroundSlicingProcess::set_step_started(BackgroundSlicingProcessStep step)
-{ 
+{
 	return m_step_state.set_started(step, m_print->state_mutex(), [this](){ this->throw_if_canceled(); });
 }
 
 void BackgroundSlicingProcess::set_step_done(BackgroundSlicingProcessStep step)
-{ 
+{
 	m_step_state.set_done(step, m_print->state_mutex(), [this](){ this->throw_if_canceled(); });
 }
 
 bool BackgroundSlicingProcess::is_step_done(BackgroundSlicingProcessStep step) const
-{ 
+{
 	return m_step_state.is_done(step, m_print->state_mutex());
 }
 
@@ -673,7 +673,7 @@ bool BackgroundSlicingProcess::invalidate_step(BackgroundSlicingProcessStep step
 }
 
 bool BackgroundSlicingProcess::invalidate_all_steps()
-{ 
+{
 	return m_step_state.invalidate_all([this](){ this->stop_internal(); });
 }
 
@@ -689,7 +689,7 @@ void BackgroundSlicingProcess::finalize_gcode(const std::string &path, const boo
 	std::string output_path = m_temp_output_path;
 	// Both output_path and export_path ar in-out parameters.
 	// If post processed, output_path will differ from m_temp_output_path as run_post_process_scripts() will make a copy of the G-code to not
-	// collide with the G-code viewer memory mapping of the unprocessed G-code. G-code viewer maps unprocessed G-code, because m_gcode_result 
+	// collide with the G-code viewer memory mapping of the unprocessed G-code. G-code viewer maps unprocessed G-code, because m_gcode_result
 	// is calculated for the unprocessed G-code and it references lines in the memory mapped G-code file by line numbers.
 	// export_path may be changed by the post-processing script as well if the post processing script decides so, see GH #6042.
 	bool post_processed = run_post_process_scripts(output_path, true, "File", export_path, m_fff_print->full_print_config());
@@ -755,7 +755,7 @@ void BackgroundSlicingProcess::prepare_upload(PrintHostJob &upload_job)
 			throw Slic3r::RuntimeError("Copying of the temporary G-code to the output G-code failed");
         upload_job.upload_data.upload_path = m_fff_print->print_statistics().finalize_output_path(upload_job.upload_data.upload_path.string());
         // Make a copy of the source path, as run_post_process_scripts() is allowed to change it when making a copy of the source file
-        // (not here, but when the final target is a file). 
+        // (not here, but when the final target is a file).
         std::string source_path_str = source_path.string();
         std::string output_name_str = upload_job.upload_data.upload_path.string();
 		if (run_post_process_scripts(source_path_str, false, upload_job.printhost->get_name(), output_name_str, m_fff_print->full_print_config()))

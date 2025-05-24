@@ -1743,7 +1743,7 @@ bool DownloaderUtils::Worker::perform_url_register()
     key_full = key_string;
 #elif __APPLE__
     // Apple registers for custom url in info.plist thus it has to be already registered since build.
-    // The url will always trigger opening of prusaslicer and we have to check that user has allowed it. (GUI_App::MacOpenURL is the triggered method)
+    // The url will always trigger opening of CaribouSlicer and we have to check that user has allowed it. (GUI_App::MacOpenURL is the triggered method)
 #elif defined(__linux__) && defined(SLIC3R_DESKTOP_INTEGRATION)
     // the performation should be called later during desktop integration
     perform_registration_linux = true;

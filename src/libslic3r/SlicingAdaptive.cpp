@@ -40,20 +40,20 @@ lerr2=1./(0.3+cos(a));
 plot(adeg, t, 'b', adeg, sqrt(t), 'g', adeg, 0.5 * lerr, 'm', adeg, 0.5 * lerr2, 'r')
 xlabel("angle(deg), 0 - horizontal wall, 90 - vertical wall");
 ylabel("layer height");
-legend("tan(a) as cura - topographic lines distance limit", "sqrt(tan(a)) as PrusaSlicer - error triangle area limit", "old slic3r - max distance metric", "new slic3r - Waserfall paper");
+legend("tan(a) as cura - topographic lines distance limit", "sqrt(tan(a)) as CaribouSlicer - error triangle area limit", "old slic3r - max distance metric", "new slic3r - Waserfall paper");
 #endif
 
 namespace Slic3r
 {
 
 // By Florens Waserfall aka @platch:
-// This constant essentially describes the volumetric error at the surface which is induced 
+// This constant essentially describes the volumetric error at the surface which is induced
 // by stacking "elliptic" extrusion threads. It is empirically determined by
 // 1. measuring the surface profile of printed parts to find
 // the ratio between layer height and profile height and then
 // 2. computing the geometric difference between the model-surface and the elliptic profile.
 //
-// The definition of the roughness formula is in 
+// The definition of the roughness formula is in
 // https://tams.informatik.uni-hamburg.de/publications/2017/Adaptive%20Slicing%20for%20the%20FDM%20Process%20Revisited.pdf
 // (page 51, formula (8))
 // Currenty @platch's error metric formula is not used.
@@ -64,7 +64,7 @@ static inline float layer_height_from_slope(const SlicingAdaptive::FaceZ &face, 
 {
 // @platch's formula, see his paper "Adaptive Slicing for the FDM Process Revisited".
 //    return float(max_surface_deviation / (SURFACE_CONST + 0.5 * std::abs(normal_z)));
-	
+
 // Constant stepping in horizontal direction, as used by Cura.
 //    return (face.n_cos > 1e-5) ? float(max_surface_deviation * face.n_sin / face.n_cos) : FLT_MAX;
 
@@ -107,7 +107,7 @@ void SlicingAdaptive::prepare(const ModelObject &object)
 	std::sort(m_faces.begin(), m_faces.end(), [](const FaceZ &f1, const FaceZ &f2) { return f1.z_span < f2.z_span; });
 }
 
-// current_facet is in/out parameter, rememebers the index of the last face of m_faces visited, 
+// current_facet is in/out parameter, rememebers the index of the last face of m_faces visited,
 // where this function will start from.
 // print_z - the top print surface of the previous layer.
 // returns height of the next layer.
@@ -133,7 +133,7 @@ float SlicingAdaptive::next_layer_height(const float print_z, float quality_fact
 	    	lerp(delta_min, delta_mid, 2. * quality_factor) :
 	    	lerp(delta_max, delta_mid, 2. * (1. - quality_factor));
 	}
-	
+
 	// find all facets intersecting the slice-layer
 	size_t ordered_id = current_facet;
 	{
@@ -202,10 +202,10 @@ float SlicingAdaptive::next_layer_height(const float print_z, float quality_fact
 #ifdef ADAPTIVE_LAYER_HEIGHT_DEBUG
     BOOST_LOG_TRIVIAL(trace) << "adaptive layer computation, layer-bottom at z:" << print_z << ", quality_factor:" << quality_factor << ", resulting layer height:" << height;
 #endif  /* ADAPTIVE_LAYER_HEIGHT_DEBUG */
-	return height; 
+	return height;
 }
 
-// Returns the distance to the next horizontal facet in Z-dir 
+// Returns the distance to the next horizontal facet in Z-dir
 // to consider horizontal object features in slice thickness
 float SlicingAdaptive::horizontal_facet_distance(float z)
 {
@@ -218,9 +218,9 @@ float SlicingAdaptive::horizontal_facet_distance(float z)
 		if (zspan.first > z && zspan.first == zspan.second)
 			return zspan.first - z;
 	}
-	
+
 	// objects maximum?
-	return (z + (float)m_slicing_params.max_layer_height > (float)m_slicing_params.object_print_z_height()) ? 
+	return (z + (float)m_slicing_params.max_layer_height > (float)m_slicing_params.object_print_z_height()) ?
 		std::max((float)m_slicing_params.object_print_z_height() - z, 0.f) : (float)m_slicing_params.max_layer_height;
 }
 

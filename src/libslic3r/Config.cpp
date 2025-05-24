@@ -968,7 +968,7 @@ ConfigSubstitutions ConfigBase::load_from_gcode_file(const std::string &filename
     }
     else
     {
-        // Slic3r or PrusaSlicer older than 2.4.0-alpha0 do not emit any delimiter.
+        // Slic3r or CaribouSlicer older than 2.4.0-alpha0 do not emit any delimiter.
         // Try a heuristics reading the G-code from back.
         ifs.seekg(0, ifs.end);
         auto file_length = ifs.tellg();
