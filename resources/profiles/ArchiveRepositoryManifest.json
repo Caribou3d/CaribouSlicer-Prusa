@@ -1,25 +1,25 @@
 [{
-    "name": "Caribou FFF     ",
-    "description": "Caribou FFF printers               ",
-    "visibility": "",
-    "id": "caribou-fff",
-    "url": "https://caribou3d.com/CaribouSlicer/preset-repo/caribou-fff/",
-    "index_url": "https://caribou3d.com/CaribouSlicer/preset-repo/caribou-fff/vendor_indices.zip",
-    "selected": 1
+        "name": "Caribou FFF     ",
+        "description": "Caribou FFF printers               ",
+        "visibility": "",
+        "id": "caribou-fff",
+        "url": "https://caribou3d.com/CaribouSlicer/preset-repo/caribou-fff/",
+        "index_url": "https://caribou3d.com/CaribouSlicer/preset-repo/caribou-fff/vendor_indices.zip",
+        "selected": 1
 }, {
-    "name": "Non Caribou FFF ",
-    "description": "FFF printers by other vendors      ",
-    "visibility": "",
-    "id": "non-caribou-fff",
-    "url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-fff/",
-    "index_url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-fff/vendor_indices.zip",
-    "selected": 1
+        "name": "Non Caribou FFF ",
+        "description": "FFF printers by other vendors      ",
+        "visibility": "",
+        "id": "non-caribou-fff",
+        "url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-fff/",
+        "index_url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-fff/vendor_indices.zip",
+        "selected": 1
 }, {
-    "name": "Non Caribou SLA ",
-    "description": "SLA printers by other vendors      ",
-    "visibility": "",
-    "id": "non-caribou-sla",
-    "url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-sla/",
-    "index_url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-sla/vendor_indices.zip",
-    "selected": 1
+        "name": "Non Caribou SLA ",
+        "description": "SLA printers by other vendors      ",
+        "visibility": "",
+        "id": "non-caribou-sla",
+        "url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-sla/",
+        "index_url": "https://caribou3d.com/CaribouSlicer/preset-repo/non-caribou-sla/vendor_indices.zip",
+        "selected": 1
 }]
