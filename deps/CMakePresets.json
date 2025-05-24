@@ -24,7 +24,7 @@
             "inherits": "default",
             "binaryDir": "${sourceDir}/build-no-occt",
             "cacheVariables": {
-                "CaribouSlicer_deps_PACKAGE_EXCLUDES": "OCCT"
+                "PrusaSlicer_deps_PACKAGE_EXCLUDES": "OCCT"
             }
         },
         {

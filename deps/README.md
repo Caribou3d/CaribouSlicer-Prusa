@@ -1,9 +1,9 @@
-# CaribouSlicer dependencies
+# PrusaSlicer dependencies
 
-This folder is a top level CMake project to build the dependent libraries for CaribouSlicer. It can be configured and built in the standard CMake way using the commands:
+This folder is a top level CMake project to build the dependent libraries for PrusaSlicer. It can be configured and built in the standard CMake way using the commands:
 
 ```
-cmake ..
+cmake .. 
 cmake --build .
 ```
 
@@ -14,19 +14,19 @@ are forwarded to the appropriate build system of a particular library package.
 
 ## A note about build configurations on MSVC
 
-To build CaribouSlicer in different configurations with a Visual Studio toolchain, it is necessary to also build the dependencies in the appropriate configurations. As MSVC runtimes are not compatible between different build configurations, it's not possible to link a library built in Release mode to CaribouSlicer being built in Debug mode. This fact applies to all libraries except those with proper C linkage and interface lacking any STL container (e.g. ZLIB). Many of the dependent libraries don't fall into this cathegory thus they need to be built twice: in Release and Debug versions.
+To build PrusaSlicer in different configurations with a Visual Studio toolchain, it is necessary to also build the dependencies in the appropriate configurations. As MSVC runtimes are not compatible between different build configurations, it's not possible to link a library built in Release mode to PrusaSlicer being built in Debug mode. This fact applies to all libraries except those with proper C linkage and interface lacking any STL container (e.g. ZLIB). Many of the dependent libraries don't fall into this cathegory thus they need to be built twice: in Release and Debug versions.
 
-The `DEP_DEBUG` flag is used to specify if Debug versions of the affected libraries will be built. If an MSVC toochain is used, this flag is ON by default and OFF for any other platform and compiler suite.
+The `DEP_DEBUG` flag is used to specify if Debug versions of the affected libraries will be built. If an MSVC toochain is used, this flag is ON by default and OFF for any other platform and compiler suite. 
 
-Note that it's not necessary to build the dependencies for each CMake build configuration (e.g. RelWithDebInfo). When CaribouSlicer is built in such a configuration, a pure Debug or Release build of dependencies will be compatible with the main project. CMake should automatically choose the right configuration of the dependencies in such cases. This may not work in all cases (see https://stackoverflow.com/questions/24262081/cmake-relwithdebinfo-links-to-debug-libs).
+Note that it's not necessary to build the dependencies for each CMake build configuration (e.g. RelWithDebInfo). When PrusaSlicer is built in such a configuration, a pure Debug or Release build of dependencies will be compatible with the main project. CMake should automatically choose the right configuration of the dependencies in such cases. This may not work in all cases (see https://stackoverflow.com/questions/24262081/cmake-relwithdebinfo-links-to-debug-libs). 
 
-## Automatic dependency build while configuring CaribouSlicer
+## Automatic dependency build while configuring PrusaSlicer
 
-It is possible build the dependencies while configuring the main CaribouSlicer project. To invoke this feature, configure CaribouSlicer with the `-DCaribouSlicer_BUILD_DEPS:BOOL=ON` flag. All the necessary arguments will be forwarded to the dependency build and the paths to finding the libraries (CMAKE_PREFIX_PATH) will automatically be set for the main project.
+It is possible build the dependencies while configuring the main PrusaSlicer project. To invoke this feature, configure PrusaSlicer with the `-DPrusaSlicer_BUILD_DEPS:BOOL=ON` flag. All the necessary arguments will be forwarded to the dependency build and the paths to finding the libraries (CMAKE_PREFIX_PATH) will automatically be set for the main project.
 
-All that needs to be done to build the whole CaribouSlicer project from scratch is to use the command
+All that needs to be done to build the whole PrusaSlicer project from scratch is to use the command
 ```
-cmake --preset default -DCaribouSlicer_BUILD_DEPS:BOOL=ON
+cmake --preset default -DPrusaSlicer_BUILD_DEPS:BOOL=ON
 ```
 
 in the top level source directory. This method makes use of presets which are a relatively new feature of CMake. To list the current available presets, use the

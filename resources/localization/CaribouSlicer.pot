@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 00:02+0200\n"
+"POT-Creation-Date: 2025-05-25 00:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2493,8 +2493,6 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:1692 src/slic3r/GUI/ConfigWizard.cpp:432
 #: src/slic3r/GUI/ConfigWizard.cpp:872 src/slic3r/GUI/FileArchiveDialog.cpp:272
 #: src/slic3r/GUI/FileArchiveDialog.cpp:290
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:146
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:323
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:146
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:323
 #: src/slic3r/GUI/Gizmos/GLGizmoMeasure.cpp:2018
@@ -6799,11 +6797,9 @@ msgstr ""
 #: src/slic3r/Config/Snapshot.cpp:602
 msgid ""
 "CaribouSlicer has encountered an error while taking a configuration snapshot."
-"CaribouSlicer has encountered an error while taking a configuration snapshot."
 msgstr ""
 
 #: src/slic3r/Config/Snapshot.cpp:603
-msgid "CaribouSlicer error"
 msgid "CaribouSlicer error"
 msgstr ""
 
@@ -6815,7 +6811,6 @@ msgstr ""
 msgid "Abort"
 msgstr ""
 
-#: src/slic3r/GUI/AboutDialog.cpp:56 src/slic3r/GUI/AboutDialog.cpp:317
 #: src/slic3r/GUI/AboutDialog.cpp:56 src/slic3r/GUI/AboutDialog.cpp:317
 msgid "Portions copyright"
 msgstr ""
@@ -6837,27 +6832,20 @@ msgstr ""
 
 #: src/slic3r/GUI/AboutDialog.cpp:255 src/slic3r/GUI/AboutDialog.cpp:383
 #: src/slic3r/GUI/GUI_App.cpp:308
-#: src/slic3r/GUI/AboutDialog.cpp:255 src/slic3r/GUI/AboutDialog.cpp:383
-#: src/slic3r/GUI/GUI_App.cpp:308
 msgid "Version"
 msgstr ""
 
 #. TRN AboutDialog: "Slic3r %1% GNU Affero General Public License"
 #: src/slic3r/GUI/AboutDialog.cpp:282 src/slic3r/GUI/GUI_App.cpp:314
-#: src/slic3r/GUI/AboutDialog.cpp:282 src/slic3r/GUI/GUI_App.cpp:314
 msgid "is licensed under the"
 msgstr ""
 
-#: src/slic3r/GUI/AboutDialog.cpp:283 src/slic3r/GUI/GUI_App.cpp:314
 #: src/slic3r/GUI/AboutDialog.cpp:283 src/slic3r/GUI/GUI_App.cpp:314
 msgid "GNU Affero General Public License, version 3"
 msgstr ""
 
 #: src/slic3r/GUI/AboutDialog.cpp:284
 msgid ""
-"CaribouSlicer is based on PrusaSlicer by Prusa Research and SuperSlicer by "
-"supermerill. Both are based on Slic3r by Alessandro Ranellucci and the "
-"RepRap community."
 "CaribouSlicer is based on PrusaSlicer by Prusa Research and SuperSlicer by "
 "supermerill. Both are based on Slic3r by Alessandro Ranellucci and the "
 "RepRap community."
@@ -6870,7 +6858,6 @@ msgid ""
 "numerous others."
 msgstr ""
 
-#: src/slic3r/GUI/AboutDialog.cpp:323
 #: src/slic3r/GUI/AboutDialog.cpp:323
 msgid "Copy Version Info"
 msgstr ""
@@ -7451,7 +7438,6 @@ msgstr ""
 
 #: src/slic3r/GUI/ConfigManipulation.cpp:144
 #, possible-c-format, possible-boost-format
-#, possible-c-format, possible-boost-format
 msgid ""
 "The Spiral Vase mode requires:\n"
 "- one perimeter\n"
@@ -7529,7 +7515,6 @@ msgstr ""
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:64
 msgid "CaribouSlicer version"
-msgid "CaribouSlicer version"
 msgstr ""
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:69
@@ -7546,11 +7531,9 @@ msgstr ""
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:80
 msgid "min CaribouSlicer version"
-msgid "min CaribouSlicer version"
 msgstr ""
 
 #: src/slic3r/GUI/ConfigSnapshotDialog.cpp:82
-msgid "max CaribouSlicer version"
 msgid "max CaribouSlicer version"
 msgstr ""
 
@@ -7605,7 +7588,6 @@ msgstr ""
 
 #: src/slic3r/GUI/ConfigWizard.cpp:594
 #, possible-c-format, possible-boost-format
-msgid "Welcome to the %s Configuration Assistent"
 msgid "Welcome to the %s Configuration Assistent"
 msgstr ""
 
@@ -7688,10 +7670,6 @@ msgstr ""
 #. TRN PrusaSlicer-Medical ConfigWizard: Materials"
 #: src/slic3r/GUI/ConfigWizard.cpp:996
 msgid ""
-"The list of validated workflows for Medical One can be found in this <a "
-"href=\"prusa.io/m1-validation\">article</a>. Profiles for other materials "
-"are not verified by the material manufacturer and therefore may not "
-"correspond to the current version of the material."
 "The list of validated workflows for Medical One can be found in this <a "
 "href=\"prusa.io/m1-validation\">article</a>. Profiles for other materials "
 "are not verified by the material manufacturer and therefore may not "
@@ -7832,7 +7810,6 @@ msgid "Allow built-in downloader"
 msgstr ""
 
 #. TRN ConfigWizard : Downloader : %1% = "printables.com", %2% = "CaribouSlicer"
-#. TRN ConfigWizard : Downloader : %1% = "printables.com", %2% = "CaribouSlicer"
 #: src/slic3r/GUI/ConfigWizard.cpp:1658
 #, possible-boost-format
 msgid ""
@@ -7886,7 +7863,6 @@ msgstr ""
 
 #: src/slic3r/GUI/ConfigWizard.cpp:1830
 msgid ""
-"CaribouSlicer's user interfaces comes in three variants:\n"
 "CaribouSlicer's user interfaces comes in three variants:\n"
 "Simple, Advanced, and Expert.\n"
 "The Simple mode shows only the most frequently used settings relevant for "
@@ -8144,8 +8120,6 @@ msgstr ""
 msgid ""
 "Following Configuration Assistent pages will be removed after the "
 "configuration update:\n"
-"Following Configuration Assistent pages will be removed after the "
-"configuration update:\n"
 "\n"
 "%1%\n"
 "Installed presets for the respective printers will also be removed.\n"
@@ -8212,11 +8186,9 @@ msgstr ""
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4161
 msgid "Configuration Assistent"
-msgid "Configuration Assistent"
 msgstr ""
 
 #: src/slic3r/GUI/ConfigWizard.cpp:4162
-msgid "Configuration &Assistent"
 msgid "Configuration &Assistent"
 msgstr ""
 
@@ -8389,19 +8361,19 @@ msgstr ""
 msgid "Switch code to Change extruder"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:696
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:703
 #: src/slic3r/GUI/GUI_Factories.cpp:920
 msgid "Change extruder"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:701
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:725
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:708
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:732
 #: src/slic3r/GUI/GUI_Factories.cpp:958
 #, possible-c-format, possible-boost-format
 msgid "Extruder %d"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:703
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:710
 #: src/slic3r/GUI/GUI_Factories.cpp:959
 msgid "active"
 msgstr ""
@@ -8415,8 +8387,8 @@ msgstr ""
 msgid "used"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:768
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:906
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:775
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:913
 msgid "Jump to height"
 msgstr ""
 
@@ -8424,103 +8396,103 @@ msgstr ""
 msgid "Show estimated print time on hover"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:776
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:783
 #: src/slic3r/GUI/Preferences.cpp:520
 msgid "Sequential slider applied only to top layer"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:782
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:789
 msgid "Set extruder sequence for the entire print"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:786
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:793
 msgid "Ruler"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:787
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:794
 msgid "Show"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:795
-msgid "Show backgroung"
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:802
+msgid "Show background"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:804
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:811
 msgid "Use default colors"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:809
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:816
 msgid "Set auto color changes"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:833
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:840
 msgid "Edit color"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:834
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:841
 msgid "Edit pause print message"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:835
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:842
 msgid "Edit custom G-code"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:850
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:857
 msgid "Delete color change"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:851
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:858
 msgid "Delete tool change"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:852
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:859
 msgid "Delete pause print"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:853
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:860
 msgid "Delete custom G-code"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:905
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:912
 msgid "Enter the height you want to jump to"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1022
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1181
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1029
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1188
 msgid ""
 "The sequential print is on.\n"
 "It's impossible to apply any custom G-code for objects printing sequentually."
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1072
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1079
 #, possible-boost-format
 msgid "%1%d"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1073
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1080
 #, possible-boost-format
 msgid "%1%h"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1074
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1081
 #, possible-boost-format
 msgid "%1%m"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1075
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1082
 #, possible-boost-format
 msgid "%1%s"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1155
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1162
 msgid "One layer mode"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1157
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1164
 msgid "Discard all custom changes"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1161
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1168
 #, possible-c-format, possible-boost-format
 msgid ""
 "Jump to height %s\n"
@@ -8528,52 +8500,52 @@ msgid ""
 "or Set extruder sequence for the entire print"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1164
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1171
 #, possible-c-format, possible-boost-format
 msgid ""
 "Jump to height %s\n"
 "or Set ruler mode"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1169
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1176
 msgid "Edit current color - Right click the colored slider segment"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1171
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1178
 msgid "This is wipe tower layer"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1185
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1192
 msgid "Print mode"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1199
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1206
 msgid "Add extruder change - Left click"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1201
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1208
 msgid ""
 "Add color change - Left click for predefined color or Shift + Left click for "
 "custom color selection"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1203
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1210
 msgid "Add color change - Left click"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1204
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1211
 msgid "or press \"+\" key"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1206
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1213
 msgid "Add another code - Ctrl + Left click"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1207
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1214
 msgid "Add another code - Right click"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1213
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1220
 msgid ""
 "The sequential print is on.\n"
 "It's impossible to apply any custom G-code for objects printing "
@@ -8581,79 +8553,79 @@ msgid ""
 "This code won't be processed during G-code generation."
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1231
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1238
 msgid "continue"
-msgstr ""
-
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1239
-#, possible-boost-format
-msgid "Color change (\"%1%\")"
-msgstr ""
-
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1240
-#, possible-boost-format
-msgid "Color change (\"%1%\") for Extruder %2%"
-msgstr ""
-
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1242
-#, possible-boost-format
-msgid "Pause print (\"%1%\")"
-msgstr ""
-
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1244
-#, possible-boost-format
-msgid "Custom template (\"%1%\")"
 msgstr ""
 
 #: src/slic3r/GUI/DoubleSliderForLayers.cpp:1246
 #, possible-boost-format
-msgid "Extruder (tool) is changed to Extruder \"%1%\""
+msgid "Color change (\"%1%\")"
+msgstr ""
+
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1247
+#, possible-boost-format
+msgid "Color change (\"%1%\") for Extruder %2%"
+msgstr ""
+
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1249
+#, possible-boost-format
+msgid "Pause print (\"%1%\")"
+msgstr ""
+
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1251
+#, possible-boost-format
+msgid "Custom template (\"%1%\")"
 msgstr ""
 
 #: src/slic3r/GUI/DoubleSliderForLayers.cpp:1253
+#, possible-boost-format
+msgid "Extruder (tool) is changed to Extruder \"%1%\""
+msgstr ""
+
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1260
 msgid "Note"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1255
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1262
 msgid ""
 "G-code associated to this tick mark is in a conflict with print mode.\n"
 "Editing it will cause changes of Slider data."
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1258
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1265
 msgid ""
 "There is a color change for extruder that won't be used till the end of "
 "print job.\n"
 "This code won't be processed during G-code generation."
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1261
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1268
 msgid ""
 "There is an extruder change set to the same extruder.\n"
 "This code won't be processed during G-code generation."
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1264
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1271
 msgid ""
 "There is an extruder change set to a non-existing extruder.\n"
 "This code won't be processed during G-code generation."
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1267
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1274
 msgid ""
 "There is a color change for extruder that has not been used before.\n"
 "Check your settings to avoid redundant color changes."
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1272
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1279
 msgid "Delete tick mark - Left click or press \"-\" key"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1274
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1281
 msgid "Edit tick mark - Ctrl + Left click"
 msgstr ""
 
-#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1275
+#: src/slic3r/GUI/DoubleSliderForLayers.cpp:1282
 msgid "Edit tick mark - Right click"
 msgstr ""
 
@@ -9004,7 +8976,6 @@ msgid "Select what kind of support do you need"
 msgstr ""
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:148
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:148
 msgid "For support enforcers only"
 msgstr ""
 
@@ -9014,28 +8985,23 @@ msgid "Brim"
 msgstr ""
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:183
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:183
 msgid ""
 "This flag enables the brim that will be printed around each object on the "
 "first layer."
 msgstr ""
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:191
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:191
 msgid "Purging volumes"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:321
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:321
 msgid "Select what kind of pad do you need"
 msgstr ""
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:324
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:324
 msgid "Below object"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:325
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:325
 msgid "Around object"
 msgstr ""
@@ -10208,84 +10174,69 @@ msgstr ""
 
 #. TRN - Tooltip after mouse hover above reverting button (undo icon)
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2930
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2930
 msgid "Revert gap between characters"
 msgstr ""
 
 #. TRN - Tooltip above char gap slider
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2934
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2934
 msgid "Additional distance between characters"
 msgstr ""
 
 #. TRN - Tooltip after mouse hover above reverting button (undo icon)
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2997
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2997
 msgid "Revert gap between lines"
 msgstr ""
 
 #. TRN - Tooltip above line gap slider
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2999
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2999
 msgid "Additional distance between lines"
 msgstr ""
 
 #. TRN - Tooltip after mouse hover above reverting button (undo icon)
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3066
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3066
 msgid "Undo boldness"
 msgstr ""
 
 #. TRN - Tooltip above line gap slider
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3068
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3068
 msgid "Tiny / Wide glyphs"
 msgstr ""
 
 #. TRN - Tooltip after mouse hover above reverting button (undo icon)
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3106
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3106
 msgid "Undo letter's skew"
 msgstr ""
 
 #. TRN - Tooltip above skew ration slider
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3108
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3108
 msgid "Italic strength ratio"
 msgstr ""
 
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3145
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3145
 msgid "Undo translation"
 msgstr ""
 
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3146
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3146
 msgid "Distance of the center of the text to the model surface."
 msgstr ""
 
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3204
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3204
 msgid "Undo rotation"
 msgstr ""
 
 #. TRN - Tooltip above rotation slider
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3206
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3206
 msgid "Rotate text Clock-wise."
 msgstr ""
 
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3255
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3255
 msgid "Unlock the text's rotation when moving text along the object's surface."
 msgstr ""
 
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3256
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3256
 msgid "Lock the text's rotation when moving text along the object's surface."
 msgstr ""
 
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3403
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3403
 #, possible-boost-format
 msgid ""
@@ -10293,7 +10244,6 @@ msgid ""
 "one(\"%2%\"). You have to specify font for enable edit text."
 msgstr ""
 
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3813
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3813
 msgid "No symbol"
 msgstr ""
@@ -10304,13 +10254,11 @@ msgid "Loading"
 msgstr ""
 
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3864
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3864
 msgid "In queue"
 msgstr ""
 
 #. TRN - Input label. Be short as possible
 #. Select look of letter shape
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3902
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3902
 msgid "Font"
 msgstr ""
@@ -10318,7 +10266,6 @@ msgstr ""
 #. TRN - Input label. Be short as possible
 #. Copy surface of model on surface of the embossed text
 #. TRN - Input label. Be short as possible
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3919
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3919
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:2130
 msgid "Use surface"
@@ -10328,31 +10275,26 @@ msgstr ""
 #. Option to change projection on curved surface
 #. for each character(glyph) in text separately
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3923
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3923
 msgid "Per glyph"
 msgstr ""
 
 #. TRN - Input label. Be short as possible
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3928
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3928
 msgid "Char gap"
 msgstr ""
 
 #. TRN - Input label. Be short as possible
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3930
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3930
 msgid "Line gap"
 msgstr ""
 
 #. TRN - Input label. Be short as possible
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3932
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3932
 msgid "Boldness"
 msgstr ""
 
 #. TRN - Input label. Be short as possible
 #. Like Font italic
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3936
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3936
 msgid "Skew ratio"
 msgstr ""
@@ -10363,7 +10305,6 @@ msgstr ""
 #. move text as modifier fully out of not flat surface
 #. TRN - Input label. Be short as possible
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3942
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3942
 #: src/slic3r/GUI/Gizmos/GLGizmoSVG.cpp:2132
 msgid "From surface"
 msgstr ""
@@ -10371,14 +10312,12 @@ msgstr ""
 #. TRN - Input label. Be short as possible
 #. Keep vector from bottom to top of text aligned with printer Y axis
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3950
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3950
 msgid "Keep up"
 msgstr ""
 
 #. TRN - Input label. Be short as possible.
 #. Some Font file contain multiple fonts inside and
 #. this is numerical selector of font inside font collections
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3955
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:3955
 msgid "Collection"
 msgstr ""
@@ -11889,8 +11828,6 @@ msgstr ""
 msgid ""
 "Most likely the configuration was produced by a newer version of "
 "CaribouSlicer or by some CaribouSlicer fork."
-"Most likely the configuration was produced by a newer version of "
-"CaribouSlicer or by some CaribouSlicer fork."
 msgstr ""
 
 #: src/slic3r/GUI/GUI.cpp:204
@@ -11935,14 +11872,8 @@ msgstr ""
 #: src/slic3r/GUI/GUI_App.cpp:312
 msgid ""
 "is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill."
-#: src/slic3r/GUI/GUI_App.cpp:312
-msgid ""
-"is based on PrusaSlicer by Prusa Research and SuperSlicer by supermerill."
 msgstr ""
 
-#: src/slic3r/GUI/GUI_App.cpp:313
-msgid ""
-"Both are based on Slic3r by Alessandro Ranellucci and the RepRap community."
 #: src/slic3r/GUI/GUI_App.cpp:313
 msgid ""
 "Both are based on Slic3r by Alessandro Ranellucci and the RepRap community."
@@ -11952,13 +11883,8 @@ msgstr ""
 msgid ""
 "Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra "
 "Iushchenko, Lukas Matena, Vojtech Kral, David Kocik and numerous others."
-#: src/slic3r/GUI/GUI_App.cpp:315
-msgid ""
-"Contributions by Vojtech Bubnik, Enrico Turri, Tamas Meszaros, Oleksandra "
-"Iushchenko, Lukas Matena, Vojtech Kral, David Kocik and numerous others."
 msgstr ""
 
-#: src/slic3r/GUI/GUI_App.cpp:450
 #: src/slic3r/GUI/GUI_App.cpp:450
 #, possible-boost-format
 msgid ""
@@ -11980,29 +11906,24 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:458
-#: src/slic3r/GUI/GUI_App.cpp:458
 #, possible-c-format, possible-boost-format
 msgid "%s - BREAKING CHANGE"
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:460
-#: src/slic3r/GUI/GUI_App.cpp:460
 msgid "Quit, I will move my data now"
 msgstr ""
 
-#: src/slic3r/GUI/GUI_App.cpp:460
 #: src/slic3r/GUI/GUI_App.cpp:460
 msgid "Start the application"
 msgstr ""
 
 #. TRN %s = type of file
 #: src/slic3r/GUI/GUI_App.cpp:589
-#: src/slic3r/GUI/GUI_App.cpp:589
 #, possible-c-format, possible-boost-format
 msgid "%s files"
 msgstr ""
 
-#: src/slic3r/GUI/GUI_App.cpp:752
 #: src/slic3r/GUI/GUI_App.cpp:752
 #, possible-c-format, possible-boost-format
 msgid ""
@@ -12014,16 +11935,11 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:755
-#: src/slic3r/GUI/GUI_App.cpp:755
 msgid "Fatal error"
 msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:759
-#: src/slic3r/GUI/GUI_App.cpp:759
 msgid ""
-"CaribouSlicer has encountered a localization error. Please report to "
-"CaribouSlicer team, what language was active and in which scenario this "
-"issue happened. Thank you.\n"
 "CaribouSlicer has encountered a localization error. Please report to "
 "CaribouSlicer team, what language was active and in which scenario this "
 "issue happened. Thank you.\n"
@@ -12031,7 +11947,6 @@ msgid ""
 "The application will now terminate."
 msgstr ""
 
-#: src/slic3r/GUI/GUI_App.cpp:762
 #: src/slic3r/GUI/GUI_App.cpp:762
 msgid "Critical error"
 msgstr ""
@@ -12083,10 +11998,7 @@ msgstr ""
 msgid ""
 "You are running a 32 bit build of CaribouSlicer on 64-bit Windows.\n"
 "32 bit build of CaribouSlicer will likely not be able to utilize all the RAM "
-"You are running a 32 bit build of CaribouSlicer on 64-bit Windows.\n"
-"32 bit build of CaribouSlicer will likely not be able to utilize all the RAM "
 "available in the system.\n"
-"Please download and install a 64 bit build of CaribouSlicer from https://www."
 "Please download and install a 64 bit build of CaribouSlicer from https://www."
 "prusa3d.cz/prusaslicer/.\n"
 "Do you wish to continue?"
@@ -12145,7 +12057,6 @@ msgstr ""
 #, possible-boost-format
 msgid ""
 "CaribouSlicer crashed last time when attempting to set window position.\n"
-"CaribouSlicer crashed last time when attempting to set window position.\n"
 "We are sorry for the inconvenience, it unfortunately happens with certain "
 "multiple-monitor setups.\n"
 "More precise reason for the crash: \"%1%\".\n"
@@ -12172,7 +12083,6 @@ msgstr ""
 
 #: src/slic3r/GUI/GUI_App.cpp:2130
 msgid ""
-"But since this version of CaribouSlicer we don't show this information in "
 "But since this version of CaribouSlicer we don't show this information in "
 "Printer Settings anymore.\n"
 "Settings will be available in physical printers settings."
@@ -12494,7 +12404,6 @@ msgstr ""
 #: src/slic3r/GUI/GUI_App.cpp:3932
 msgid ""
 "Could not start URL download. Destination folder is not set. Please choose "
-"destination folder in Configuration Assistent."
 "destination folder in Configuration Assistent."
 msgstr ""
 
@@ -12847,12 +12756,10 @@ msgstr ""
 
 #: src/slic3r/GUI/GUI_Init.cpp:74 src/slic3r/GUI/GUI_Init.cpp:77
 msgid "CaribouSlicer GUI initialization failed"
-msgid "CaribouSlicer GUI initialization failed"
 msgstr ""
 
 #: src/slic3r/GUI/GUI_Init.cpp:77
 #, possible-boost-format
-msgid "Fatal error, exception caught: %1%"
 msgid "Fatal error, exception caught: %1%"
 msgstr ""
 
@@ -13099,7 +13006,6 @@ msgstr ""
 #: src/slic3r/GUI/GUI_ObjectList.cpp:2038
 msgid ""
 "This action will break a cut information.\n"
-"After that CaribouSlicer can't guarantee model consistency."
 "After that CaribouSlicer can't guarantee model consistency."
 msgstr ""
 
@@ -13543,17 +13449,13 @@ msgstr ""
 #. TRN: This is the title of the action appearing in undo/redo stack.
 #. It is same for Text and SVG.
 #: src/slic3r/GUI/Jobs/EmbossJob.cpp:1034
-#: src/slic3r/GUI/Jobs/EmbossJob.cpp:1034
 msgid "Emboss attribute change"
 msgstr ""
 
 #: src/slic3r/GUI/Jobs/EmbossJob.cpp:1092
-#: src/slic3r/GUI/Jobs/EmbossJob.cpp:1092
 msgid "Add Emboss text Volume"
 msgstr ""
 
-#: src/slic3r/GUI/Jobs/EmbossJob.cpp:1298
-#: src/slic3r/GUI/Jobs/EmbossJob.cpp:1362
 #: src/slic3r/GUI/Jobs/EmbossJob.cpp:1298
 #: src/slic3r/GUI/Jobs/EmbossJob.cpp:1362
 msgid "Font doesn't have any shape for given text."
@@ -13561,13 +13463,10 @@ msgstr ""
 
 #: src/slic3r/GUI/Jobs/EmbossJob.cpp:1348
 #: src/slic3r/GUI/Jobs/EmbossJob.cpp:1367
-#: src/slic3r/GUI/Jobs/EmbossJob.cpp:1348
-#: src/slic3r/GUI/Jobs/EmbossJob.cpp:1367
 msgid "There is no valid surface for text projection."
 msgstr ""
 
 #: src/slic3r/GUI/Jobs/PlaterWorker.hpp:89
-msgid "An unexpected error occurred"
 msgid "An unexpected error occurred"
 msgstr ""
 
@@ -14242,16 +14141,13 @@ msgstr ""
 
 #: src/slic3r/GUI/MainFrame.cpp:252
 msgid "Closing CaribouSlicer. Current project is modified."
-msgid "Closing CaribouSlicer. Current project is modified."
 msgstr ""
 
 #: src/slic3r/GUI/MainFrame.cpp:259
 msgid "CaribouSlicer is closing"
-msgid "CaribouSlicer is closing"
 msgstr ""
 
 #: src/slic3r/GUI/MainFrame.cpp:259
-msgid "Closing CaribouSlicer while some presets are modified."
 msgid "Closing CaribouSlicer while some presets are modified."
 msgstr ""
 
@@ -15094,7 +14990,6 @@ msgstr ""
 #: src/slic3r/GUI/NotificationManager.hpp:963
 msgid ""
 "CaribouSlicer received a download request from Printables.com, but it's not "
-"CaribouSlicer received a download request from Printables.com, but it's not "
 "allowed. You can allow it"
 msgstr ""
 
@@ -15103,16 +14998,13 @@ msgid "here."
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:786
-#: src/slic3r/GUI/NotificationManager.cpp:786
 msgid "Open Folder."
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:824
-#: src/slic3r/GUI/NotificationManager.cpp:824
 msgid "Eject drive"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:882
 #: src/slic3r/GUI/NotificationManager.cpp:882
 msgid "Ejecting."
 msgstr ""
@@ -15120,45 +15012,34 @@ msgstr ""
 #: src/slic3r/GUI/NotificationManager.cpp:1067
 #: src/slic3r/GUI/NotificationManager.cpp:1324
 #: src/slic3r/GUI/NotificationManager.cpp:1551
-#: src/slic3r/GUI/NotificationManager.cpp:1067
-#: src/slic3r/GUI/NotificationManager.cpp:1324
-#: src/slic3r/GUI/NotificationManager.cpp:1551
 msgid "ERROR"
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1113
-#: src/slic3r/GUI/NotificationManager.cpp:1113
 msgid "Open Printables project page"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1326
 #: src/slic3r/GUI/NotificationManager.cpp:1326
 msgid "COMPLETED"
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1418
 #: src/slic3r/GUI/NotificationManager.cpp:1447
-#: src/slic3r/GUI/NotificationManager.cpp:1418
-#: src/slic3r/GUI/NotificationManager.cpp:1447
 msgid "UPLOADED"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1546
 #: src/slic3r/GUI/NotificationManager.cpp:1546
 msgid "RESOLVING ADDRESS"
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1556
-#: src/slic3r/GUI/NotificationManager.cpp:1556
 msgid "CANCELED"
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1617
-#: src/slic3r/GUI/NotificationManager.cpp:1617
 msgid "Cancel upload"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1726
 #: src/slic3r/GUI/NotificationManager.cpp:1726
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with custom supports."
@@ -15167,14 +15048,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1727
-#: src/slic3r/GUI/NotificationManager.cpp:1727
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with custom seam."
 msgid_plural "%1$d objects were loaded with custom seam."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1728
 #: src/slic3r/GUI/NotificationManager.cpp:1728
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with multimaterial painting."
@@ -15183,14 +15062,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1729
-#: src/slic3r/GUI/NotificationManager.cpp:1729
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with variable layer height."
 msgid_plural "%1$d objects were loaded with variable layer height."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1730
 #: src/slic3r/GUI/NotificationManager.cpp:1730
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with partial sinking."
@@ -15199,14 +15076,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1731
-#: src/slic3r/GUI/NotificationManager.cpp:1731
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded as a part of cut object."
 msgid_plural "%1$d objects were loaded as parts of cut object"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1732
 #: src/slic3r/GUI/NotificationManager.cpp:1732
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with fuzzy skin painting."
@@ -15215,16 +15090,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1845
-#: src/slic3r/GUI/NotificationManager.cpp:1845
 msgid "Slicing finished."
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:1845
-#: src/slic3r/GUI/NotificationManager.cpp:1845
 msgid "Export G-Code."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1845
 #: src/slic3r/GUI/NotificationManager.cpp:1845
 msgid "Export."
 msgstr ""
@@ -15237,18 +15109,13 @@ msgid "WARNING:"
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:2354
-#: src/slic3r/GUI/NotificationManager.cpp:2354
 msgid "Exporting finished."
 msgstr ""
 
 #: src/slic3r/GUI/NotificationManager.cpp:2362
-#: src/slic3r/GUI/NotificationManager.cpp:2362
 msgid "Bulk export finished."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:2551
-#: src/slic3r/GUI/NotificationManager.cpp:2564
-#: src/slic3r/GUI/UpdateDialogs.cpp:207
 #: src/slic3r/GUI/NotificationManager.cpp:2551
 #: src/slic3r/GUI/NotificationManager.cpp:2564
 #: src/slic3r/GUI/UpdateDialogs.cpp:207
@@ -15290,17 +15157,13 @@ msgstr ""
 #, possible-c-format, possible-boost-format
 msgid ""
 "CaribouSlicer requires OpenGL ES 3.0 capable graphics driver to run "
-"CaribouSlicer requires OpenGL ES 3.0 capable graphics driver to run "
 "correctly, \n"
-"while OpenGL version %s, render %s, vendor %s was detected."
 "while OpenGL version %s, render %s, vendor %s was detected."
 msgstr ""
 
 #: src/slic3r/GUI/OpenGLManager.cpp:386
 #, possible-c-format, possible-boost-format
 msgid ""
-"CaribouSlicer requires OpenGL 3.2 capable graphics driver to run correctly,\n"
-"while OpenGL version %s, render %s, vendor %s was detected."
 "CaribouSlicer requires OpenGL 3.2 capable graphics driver to run correctly,\n"
 "while OpenGL version %s, render %s, vendor %s was detected."
 msgstr ""
@@ -15311,8 +15174,6 @@ msgstr ""
 
 #: src/slic3r/GUI/OpenGLManager.cpp:393
 msgid ""
-"As a workaround, you may run CaribouSlicer with a software rendered 3D "
-"graphics by running caribou-slicer.exe with the --sw-renderer parameter."
 "As a workaround, you may run CaribouSlicer with a software rendered 3D "
 "graphics by running caribou-slicer.exe with the --sw-renderer parameter."
 msgstr ""
@@ -15504,7 +15365,6 @@ msgstr ""
 msgid ""
 "You will not be asked about it again, when: \n"
 "- Closing CaribouSlicer,\n"
-"- Closing CaribouSlicer,\n"
 "- Loading or creating a new project"
 msgstr ""
 
@@ -15555,10 +15415,8 @@ msgstr ""
 msgid ""
 "The preset below was temporarily installed on the active instance of "
 "CaribouSlicer"
-"CaribouSlicer"
 msgid_plural ""
 "The presets below were temporarily installed on the active instance of "
-"CaribouSlicer"
 "CaribouSlicer"
 msgstr[0] ""
 msgstr[1] ""
@@ -15617,12 +15475,8 @@ msgid ""
 "The dimensions of the object from file %s seem to be defined in meters.\n"
 "The internal unit of CaribouSlicer is a millimeter. Do you want to "
 "recalculate the dimensions of the object?"
-"The internal unit of CaribouSlicer is a millimeter. Do you want to "
-"recalculate the dimensions of the object?"
 msgid_plural ""
 "The dimensions of some objects from file %s seem to be defined in meters.\n"
-"The internal unit of CaribouSlicer is a millimeter. Do you want to "
-"recalculate the dimensions of these objects?"
 "The internal unit of CaribouSlicer is a millimeter. Do you want to "
 "recalculate the dimensions of these objects?"
 msgstr[0] ""
@@ -15642,12 +15496,8 @@ msgid ""
 "The dimensions of the object from file %s seem to be defined in inches.\n"
 "The internal unit of CaribouSlicer is a millimeter. Do you want to "
 "recalculate the dimensions of the object?"
-"The internal unit of CaribouSlicer is a millimeter. Do you want to "
-"recalculate the dimensions of the object?"
 msgid_plural ""
 "The dimensions of some objects from file %s seem to be defined in inches.\n"
-"The internal unit of CaribouSlicer is a millimeter. Do you want to "
-"recalculate the dimensions of these objects?"
 "The internal unit of CaribouSlicer is a millimeter. Do you want to "
 "recalculate the dimensions of these objects?"
 msgstr[0] ""
@@ -15729,7 +15579,6 @@ msgstr ""
 #: src/slic3r/GUI/Plater.cpp:1989
 msgid ""
 "This action will break a cut information.\n"
-"After that CaribouSlicer can't guarantee model consistency"
 "After that CaribouSlicer can't guarantee model consistency"
 msgstr ""
 
@@ -16336,10 +16185,6 @@ msgstr ""
 msgid ""
 "If enabled, allows the Reload from disk command to automatically find and "
 "load the files when invoked."
-msgstr ""
-
-#: src/slic3r/GUI/Preferences.cpp:329
-msgid "Associate .3mf files to PrusaSlicer"
 msgstr ""
 
 #: src/slic3r/GUI/Preferences.cpp:331
@@ -17396,8 +17241,6 @@ msgid ""
 "reconstructed. Apart from that, only general data about your OS, hardware "
 "and OpenGL installation are sent. CaribouSlicer is open source, if you want "
 "to inspect the code actually performing the communication, see %1%."
-"and OpenGL installation are sent. CaribouSlicer is open source, if you want "
-"to inspect the code actually performing the communication, see %1%."
 msgstr ""
 
 #: src/slic3r/GUI/SendSystemInfoDialog.cpp:624
@@ -17555,7 +17398,6 @@ msgid "System Information"
 msgstr ""
 
 #: src/slic3r/GUI/SysInfoDialog.cpp:166
-msgid "Blacklisted libraries loaded into CaribouSlicer process:"
 msgid "Blacklisted libraries loaded into CaribouSlicer process:"
 msgstr ""
 
@@ -18516,12 +18358,10 @@ msgid ""
 "You will not be asked about the unsaved changes in presets the next time "
 "you: \n"
 "- Closing CaribouSlicer while some presets are modified,\n"
-"- Closing CaribouSlicer while some presets are modified,\n"
 "- Loading a new project while some presets are modified"
 msgstr ""
 
 #: src/slic3r/GUI/UnsavedChangesDialog.cpp:959
-msgid "CaribouSlicer will remember your action."
 msgid "CaribouSlicer will remember your action."
 msgstr ""
 
@@ -18694,8 +18534,6 @@ msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:68 src/slic3r/GUI/UpdateDialogs.cpp:330
 #: src/slic3r/GUI/UpdateDialogs.cpp:402
-#: src/slic3r/GUI/UpdateDialogs.cpp:68 src/slic3r/GUI/UpdateDialogs.cpp:330
-#: src/slic3r/GUI/UpdateDialogs.cpp:402
 msgid "Open changelog page"
 msgstr ""
 
@@ -18725,74 +18563,60 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:134
-#: src/slic3r/GUI/UpdateDialogs.cpp:134
 msgid "Next"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:152
-#: src/slic3r/GUI/UpdateDialogs.cpp:152
 msgid "App Update download"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:152
 #: src/slic3r/GUI/UpdateDialogs.cpp:152
 #, possible-boost-format
 msgid "New version of %1% is available."
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:155
-#: src/slic3r/GUI/UpdateDialogs.cpp:155
 msgid "New version"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:160
 #: src/slic3r/GUI/UpdateDialogs.cpp:160
 msgid "Run installer after download. (Otherwise file explorer will be opened)"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:165
-#: src/slic3r/GUI/UpdateDialogs.cpp:165
 msgid "Target directory"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:172 src/slic3r/GUI/UpdateDialogs.cpp:190
 #: src/slic3r/GUI/UpdateDialogs.cpp:172 src/slic3r/GUI/UpdateDialogs.cpp:190
 msgid "Select directory"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:218
-#: src/slic3r/GUI/UpdateDialogs.cpp:218
 msgid "Directory path is empty."
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:226
-#: src/slic3r/GUI/UpdateDialogs.cpp:226
 msgid "Directory path is incorrect."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:231
 #: src/slic3r/GUI/UpdateDialogs.cpp:231
 #, possible-boost-format
 msgid "Directory %1% doesn't exists. Do you wish to create it?"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:236
-#: src/slic3r/GUI/UpdateDialogs.cpp:236
 msgid "Failed to create directory."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:248
 #: src/slic3r/GUI/UpdateDialogs.cpp:248
 #, possible-boost-format
 msgid "Download path is %1%. Do you wish to continue?"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:284 src/slic3r/GUI/UpdateDialogs.cpp:472
-#: src/slic3r/GUI/UpdateDialogs.cpp:284 src/slic3r/GUI/UpdateDialogs.cpp:472
 msgid "Configuration update"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:285
 #: src/slic3r/GUI/UpdateDialogs.cpp:285
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
@@ -18801,11 +18625,9 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:287
-#: src/slic3r/GUI/UpdateDialogs.cpp:287
 msgid "Configuration update is available"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:290
 #: src/slic3r/GUI/UpdateDialogs.cpp:290
 msgid ""
 "Would you like to install it?\n"
@@ -18817,11 +18639,9 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:311 src/slic3r/GUI/UpdateDialogs.cpp:385
-#: src/slic3r/GUI/UpdateDialogs.cpp:311 src/slic3r/GUI/UpdateDialogs.cpp:385
 msgid "Comment:"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:318 src/slic3r/GUI/UpdateDialogs.cpp:392
 #: src/slic3r/GUI/UpdateDialogs.cpp:318 src/slic3r/GUI/UpdateDialogs.cpp:392
 msgid "New printer"
 msgid_plural "New printers"
@@ -18829,37 +18649,30 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:340
-#: src/slic3r/GUI/UpdateDialogs.cpp:340
 msgid "Install"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:341
 #: src/slic3r/GUI/UpdateDialogs.cpp:341
 msgid "Don't install"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:345
-#: src/slic3r/GUI/UpdateDialogs.cpp:345
 msgid "Yes"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:346
-#: src/slic3r/GUI/UpdateDialogs.cpp:346
 msgid "No"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:361 src/slic3r/GUI/UpdateDialogs.cpp:423
 #: src/slic3r/GUI/UpdateDialogs.cpp:361 src/slic3r/GUI/UpdateDialogs.cpp:423
 #, possible-c-format, possible-boost-format
 msgid "%s incompatibility"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:361
-#: src/slic3r/GUI/UpdateDialogs.cpp:361
 msgid "You must install a configuration update."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:364
 #: src/slic3r/GUI/UpdateDialogs.cpp:364
 #, possible-c-format, possible-boost-format
 msgid ""
@@ -18872,12 +18685,10 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:424
-#: src/slic3r/GUI/UpdateDialogs.cpp:424
 #, possible-c-format, possible-boost-format
 msgid "%s configuration is incompatible"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:427
 #: src/slic3r/GUI/UpdateDialogs.cpp:427
 #, possible-c-format, possible-boost-format
 msgid ""
@@ -18892,22 +18703,18 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:436
-#: src/slic3r/GUI/UpdateDialogs.cpp:436
 #, possible-c-format, possible-boost-format
 msgid "This %s version: %s"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:441
-#: src/slic3r/GUI/UpdateDialogs.cpp:441
 msgid "Incompatible bundles:"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:457
-#: src/slic3r/GUI/UpdateDialogs.cpp:457
 msgid "Re-configure"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:475
 #: src/slic3r/GUI/UpdateDialogs.cpp:475
 #, possible-c-format, possible-boost-format
 msgid ""
@@ -18925,12 +18732,9 @@ msgid ""
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:490
-#: src/slic3r/GUI/UpdateDialogs.cpp:490
 msgid "For more information please visit our wiki page:"
 msgstr ""
 
-#. TRN %s = CaribouSlicer
-#: src/slic3r/GUI/UpdateDialogs.cpp:494
 #. TRN %s = CaribouSlicer
 #: src/slic3r/GUI/UpdateDialogs.cpp:494
 #, possible-c-format, possible-boost-format
@@ -18938,28 +18742,22 @@ msgid "%s 1.40 configuration update"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:508
-#: src/slic3r/GUI/UpdateDialogs.cpp:508
 msgid "Configuration updates"
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:508 src/slic3r/GUI/UpdateDialogs.cpp:528
-#: src/slic3r/GUI/UpdateDialogs.cpp:508 src/slic3r/GUI/UpdateDialogs.cpp:528
 msgid "No updates available"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:513
 #: src/slic3r/GUI/UpdateDialogs.cpp:513
 #, possible-c-format, possible-boost-format
 msgid "%s has no configuration updates available."
 msgstr ""
 
 #: src/slic3r/GUI/UpdateDialogs.cpp:528
-#: src/slic3r/GUI/UpdateDialogs.cpp:528
 msgid "App update"
 msgstr ""
 
-#. TRN %1% is CaribouSlicer
-#: src/slic3r/GUI/UpdateDialogs.cpp:531
 #. TRN %1% is CaribouSlicer
 #: src/slic3r/GUI/UpdateDialogs.cpp:531
 #, possible-boost-format
@@ -19035,7 +18833,6 @@ msgstr ""
 msgid "Manage Updates"
 msgstr ""
 
-#: src/slic3r/GUI/WebViewDialog.cpp:78
 #: src/slic3r/GUI/WebViewDialog.cpp:78
 msgid "Failed to load a web browser."
 msgstr ""
@@ -19285,7 +19082,6 @@ msgstr ""
 #: src/slic3r/Utils/FlashAir.cpp:129 src/slic3r/Utils/FlashAir.cpp:150
 #: src/slic3r/Utils/FlashAir.cpp:166 src/slic3r/Utils/MKS.cpp:89
 msgid "Unknown error occurred"
-msgid "Unknown error occurred"
 msgstr ""
 
 #: src/slic3r/Utils/Duet.cpp:175
@@ -19344,13 +19140,10 @@ msgstr ""
 msgid ""
 "Could not detect system SSL certificate store. CaribouSlicer will be unable "
 "to establish secure network connections."
-"Could not detect system SSL certificate store. CaribouSlicer will be unable "
-"to establish secure network connections."
 msgstr ""
 
 #: src/slic3r/Utils/Http.cpp:86
 #, possible-boost-format
-msgid "CaribouSlicer detected system SSL certificate store in: %1%"
 msgid "CaribouSlicer detected system SSL certificate store in: %1%"
 msgstr ""
 
@@ -19363,7 +19156,6 @@ msgstr ""
 
 #: src/slic3r/Utils/Http.cpp:99
 msgid ""
-"CURL init has failed. CaribouSlicer will be unable to establish network "
 "CURL init has failed. CaribouSlicer will be unable to establish network "
 "connections. See logs for additional details."
 msgstr ""
@@ -19630,7 +19422,6 @@ msgstr ""
 
 #: resources/data/hints.ini: [hint:Shapes gallery]
 msgid "Shapes gallery\nDid you know that CaribouSlicer has a Shapes Gallery? You can use the included models as modifiers, negative volumes or as printable objects. Right-click the platter and select<a>Add Shape - Gallery</a>."
-msgid "Shapes gallery\nDid you know that CaribouSlicer has a Shapes Gallery? You can use the included models as modifiers, negative volumes or as printable objects. Right-click the platter and select<a>Add Shape - Gallery</a>."
 msgstr ""
 
 #: resources/data/hints.ini: [hint:Arrange settings]
@@ -19639,7 +19430,6 @@ msgstr ""
 
 #: resources/data/hints.ini: [hint:Negative volume]
 msgid "Negative volume\nDid you know that you can subtract one mesh from another using the Negative volume modifier? That way you can, for example, create easily resizable holes directly in CaribouSlicer. Read more in the documentation. (Requires Advanced or Expert mode.)"
-msgid "Negative volume\nDid you know that you can subtract one mesh from another using the Negative volume modifier? That way you can, for example, create easily resizable holes directly in CaribouSlicer. Read more in the documentation. (Requires Advanced or Expert mode.)"
 msgstr ""
 
 #: resources/data/hints.ini: [hint:Simplify mesh]
@@ -19647,7 +19437,6 @@ msgid "Simplify mesh\nDid you know that you can reduce the number of triangles i
 msgstr ""
 
 #: resources/data/hints.ini: [hint:Reload from disk]
-msgid "Reload from disk\nDid you know that if you created a newer version of your model, you can simply reload it in CaribouSlicer? Right-click the model in the 3D view and choose Reload from disk. Read more in the documentation."
 msgid "Reload from disk\nDid you know that if you created a newer version of your model, you can simply reload it in CaribouSlicer? Right-click the model in the 3D view and choose Reload from disk. Read more in the documentation."
 msgstr ""
 
@@ -19692,7 +19481,6 @@ msgid "Solid infill threshold area\nDid you know that you can make parts of your
 msgstr ""
 
 #: resources/data/hints.ini: [hint:Search functionality]
-msgid "Search functionality\nDid you know that you use the<a>Search</a>tool to quickly find a specific CaribouSlicer setting? Or use the familiar shortcut <b>Ctrl+F</b>."
 msgid "Search functionality\nDid you know that you use the<a>Search</a>tool to quickly find a specific CaribouSlicer setting? Or use the familiar shortcut <b>Ctrl+F</b>."
 msgstr ""
 
@@ -19762,11 +19550,9 @@ msgstr ""
 
 #: resources/data/hints.ini: [hint:Fullscreen mode]
 msgid "Fullscreen mode\nDid you know that you can switch CaribouSlicer to fullscreen mode? Use the <b>F11</b> hotkey."
-msgid "Fullscreen mode\nDid you know that you can switch CaribouSlicer to fullscreen mode? Use the <b>F11</b> hotkey."
 msgstr ""
 
 #: resources/data/hints.ini: [hint:Printables integration]
-msgid "Printables.com integration\nDid you know that when you are browsing Printables.com, you can send 3D model files to CaribouSlicer with a single click? Learn more in the documentation."
 msgid "Printables.com integration\nDid you know that when you are browsing Printables.com, you can send 3D model files to CaribouSlicer with a single click? Learn more in the documentation."
 msgstr ""
 

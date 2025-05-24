@@ -20,7 +20,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 
 
 
-            THE GNU MP LIBRARY
+			THE GNU MP LIBRARY
 
 
 GNU MP is a library for arbitrary precision arithmetic, operating on signed
@@ -43,7 +43,7 @@ the latter).
 
 
 
-            OVERVIEW OF GNU MP
+			OVERVIEW OF GNU MP
 
 There are five classes of functions in GNU MP.
 
@@ -83,7 +83,7 @@ the INSTALL file in this directory.
 
 
 
-            REPORTING BUGS
+			REPORTING BUGS
 
 If you find a bug in the library, please make sure to tell us about it!
 

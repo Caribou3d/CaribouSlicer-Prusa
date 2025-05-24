@@ -12,7 +12,7 @@ if (MSVC OR APPLE)
         set(_patch_cmd ${_patch_cmd} && ${PATCH_CMD} ${CMAKE_CURRENT_LIST_DIR}/PNG.patch)
     endif ()
 
-    add_cmake_project(PNG
+    add_cmake_project(PNG 
         URL https://github.com/glennrp/libpng/archive/refs/tags/v1.6.35.zip
         URL_HASH SHA256=3d22d46c566b1761a0e15ea397589b3a5f36ac09b7c785382e6470156c04247f
         PATCH_COMMAND "${_patch_cmd}"

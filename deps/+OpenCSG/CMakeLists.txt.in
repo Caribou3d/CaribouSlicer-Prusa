@@ -13,7 +13,7 @@ find_package(OpenGL REQUIRED)
 set(GLEW_VERBOSE ON)
 find_package(GLEW REQUIRED)
 
-set(_srcfiles
+set(_srcfiles 
     src/area.cpp
     src/batch.cpp
     src/context.cpp
@@ -61,20 +61,20 @@ include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"     
     VERSION 1.4.2
     COMPATIBILITY AnyNewerVersion
 )
 
-install(TARGETS opencsg
+install(TARGETS opencsg 
   EXPORT ${PROJECT_NAME}Targets
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} 
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-export(EXPORT ${PROJECT_NAME}Targets
-       FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+export(EXPORT ${PROJECT_NAME}Targets 
+       FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" 
        NAMESPACE ${PROJECT_NAME}:: )
 
 set(ConfigPackageLocation ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
@@ -89,7 +89,7 @@ install(EXPORT ${PROJECT_NAME}Targets
 )
 install(
     FILES
-      ${PROJECT_SOURCE_DIR}/include/opencsg.h
+      ${PROJECT_SOURCE_DIR}/include/opencsg.h 
     DESTINATION
       ${CMAKE_INSTALL_INCLUDEDIR}/opencsg
 )
