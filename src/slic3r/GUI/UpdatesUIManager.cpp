@@ -67,7 +67,7 @@ RepositoryUpdateUIManager::RepositoryUpdateUIManager(wxWindow* parent, Slic3r::P
 
         wxString message = format_wxstr(_L("As an alternative to online sources, profiles can also be updated by manually loading files containing the updates. "
            "This is mostly useful on computers that are not connected to the internet. "
-           "Files containing the configuration updates can be downloaded from <a href=%1%>our website</a>."), "https://prusa.io/prusaslicer-profiles");
+           "Files containing the configuration updates can be downloaded from <a href=%1%>our website</a>."), "https://caribou3d.com/en/content/14-caribouslicer");
 
         const wxFont& font = m_parent->GetFont();
         const int fs = font.GetPointSize();
