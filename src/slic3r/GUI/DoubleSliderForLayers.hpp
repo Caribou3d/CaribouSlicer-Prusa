@@ -102,10 +102,10 @@ public:
     // process adding of auto color change
     void    auto_color_change();
 
-    void    set_callback_on_ticks_changed(std::function<void()> cb)
+    void    set_callback_on_ticks_changed(std::function<void()> cb) 
             { m_cb_ticks_changed = cb; };
 
-    void    set_callback_on_check_gcode(std::function<void(Type)> cb )
+    void    set_callback_on_check_gcode(std::function<void(Type)> cb ) 
             { m_ticks.set_callback_on_check_gcode(cb); }
 
     void    set_callback_on_get_extruder_colors(std::function<std::vector<std::string>()> cb)
@@ -192,7 +192,7 @@ private:
 
     std::string get_label(int pos) const override { return get_label(pos, ltHeightWithLayer); }
 
-    void process_ticks_changed() {
+    void process_ticks_changed() { 
         if (m_cb_ticks_changed)
             m_cb_ticks_changed();
     }

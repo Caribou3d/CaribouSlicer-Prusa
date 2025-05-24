@@ -328,11 +328,18 @@ void DSForLayers::draw_ruler(const ImRect& slideable_region)
         ImGui::RenderText(start, label.c_str());
     };
 
-    auto draw_tick = [x_center, tick_width, inner_x](const float tick_pos, const float outer_x)
+//    auto draw_tick = [x_center, tick_width, inner_x](const float tick_pos, const float outer_x)
+//    {
+//        ImRect tick_right = ImRect(x_center + inner_x, tick_pos - tick_width, x_center + outer_x, tick_pos);
+//        ImGui::RenderFrame(tick_right.Min, tick_right.Max, tick_clr, false);
+//    };
+
+    auto draw_tick = [x_center, tick_width, inner_x, tick_clr](const float tick_pos, const float outer_x)
     {
         ImRect tick_right = ImRect(x_center + inner_x, tick_pos - tick_width, x_center + outer_x, tick_pos);
         ImGui::RenderFrame(tick_right.Min, tick_right.Max, tick_clr, false);
     };
+
 
     auto draw_short_ticks = [this, short_outer_x, draw_tick, get_tick_pos](double& current_tick, int max_tick)
     {
@@ -792,7 +799,7 @@ void DSForLayers::render_cog_menu()
                     m_cb_change_app_config("show_ruler_in_dbl_slider", m_show_ruler ? "1" : "0");
             }
 
-            if (ImGuiPureWrap::menu_item_with_icon(_u8L("Show backgroung").c_str(), "", icon_sz, 0, m_show_ruler_bg)) {
+            if (ImGuiPureWrap::menu_item_with_icon(_u8L("Show background").c_str(), "", icon_sz, 0, m_show_ruler_bg)) {
                 m_show_ruler_bg = !m_show_ruler_bg;
                 if (m_cb_change_app_config)
                     m_cb_change_app_config("show_ruler_bg_in_dbl_slider", m_show_ruler_bg ? "1" : "0");
@@ -1234,17 +1241,17 @@ std::string DSForLayers::get_tooltip(int tick/*=-1*/)
             return gcode;
         };
         tooltip +=
-            tick_code_it->type == ColorChange ?
-                (m_mode == SingleExtruder && tick_code_it->extruder==1 ?
-                    format(_u8L("Color change (\"%1%\")"), gcode(ColorChange)) :
+        	tick_code_it->type == ColorChange ?
+        		(m_mode == SingleExtruder && tick_code_it->extruder==1 ?
+                	format(_u8L("Color change (\"%1%\")"), gcode(ColorChange)) :
                     format(_u8L("Color change (\"%1%\") for Extruder %2%"), gcode(ColorChange), tick_code_it->extruder)) :
-                tick_code_it->type == CustomGCode::PausePrint ?
-                    format(_u8L("Pause print (\"%1%\")"), gcode(CustomGCode::PausePrint)) :
-                tick_code_it->type == Template ?
-                    format(_u8L("Custom template (\"%1%\")"), gcode(Template)) :
-                    tick_code_it->type == ToolChange ?
-                        format(_u8L("Extruder (tool) is changed to Extruder \"%1%\""), tick_code_it->extruder) :
-                        format_gcode(tick_code_it->extra);// tick_code_it->type == Custom
+	            tick_code_it->type == CustomGCode::PausePrint ?
+	                format(_u8L("Pause print (\"%1%\")"), gcode(CustomGCode::PausePrint)) :
+	            tick_code_it->type == Template ?
+	                format(_u8L("Custom template (\"%1%\")"), gcode(Template)) :
+		            tick_code_it->type == ToolChange ?
+		                format(_u8L("Extruder (tool) is changed to Extruder \"%1%\""), tick_code_it->extruder) :
+		                format_gcode(tick_code_it->extra);// tick_code_it->type == Custom
 
         // If tick is marked as a conflict (exclamation icon),
         // we should to explain why
