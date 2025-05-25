@@ -224,7 +224,7 @@ class GLCanvas3D
 
         mutable float               m_adaptive_quality{ 0.5f };
         mutable HeightProfileSmoothingParams m_smooth_params;
-        
+
         static float                s_overlay_window_width;
 
         struct LayersTexture
@@ -310,7 +310,7 @@ class GLCanvas3D
         void render_profile(const GLCanvas3D& canvas);
         void update_slicing_parameters();
 
-        static float thickness_bar_width(const GLCanvas3D &canvas);        
+        static float thickness_bar_width(const GLCanvas3D &canvas);
     };
 
     struct Mouse
@@ -636,7 +636,7 @@ private:
     private:
         GLCanvas3D*             m_canvas{ nullptr };
         int				        m_blink_counter{ 0 };
-        ToolbarHighlighterTimer m_timer;       
+        ToolbarHighlighterTimer m_timer;
     }
     m_toolbar_highlighter;
 
@@ -926,7 +926,7 @@ public:
     void msw_rescale() { m_gcode_viewer.invalidate_legend(); }
 
     void request_extra_frame() { m_extra_frame_requested = true; }
-    
+
     void schedule_extra_frame(int miliseconds);
 
     float get_main_toolbar_height() { return m_main_toolbar.get_height(); }

@@ -3842,8 +3842,8 @@ msgstr "字型粗細(&W)："
 #: ../src/osx/fontutil.cpp:92
 #, c-format
 msgid ""
-"Font file \"%s\" cannot be used as it is not inside the font directory \"%s"
-"\"."
+"Font file \"%s\" cannot be used as it is not inside the font directory "
+"\"%s\"."
 msgstr "「%s」字型檔因為不在「%s」字型目錄內而無法使用。"
 
 #: ../src/msw/font.cpp:1135
@@ -3916,7 +3916,8 @@ msgstr "GIF: 記憶體不足。"
 msgid ""
 "GTK+ installed on this machine is too old to support screen compositing, "
 "please install GTK+ 2.12 or later."
-msgstr "安裝於這臺機器的 GTK+ 太舊而不支援螢幕組合，請安裝 GTK+2.12 或後續版本。"
+msgstr ""
+"安裝於這臺機器的 GTK+ 太舊而不支援螢幕組合，請安裝 GTK+2.12 或後續版本。"
 
 #: ../src/univ/themes/gtk.cpp:525
 msgid "GTK+ theme"
@@ -4798,7 +4799,8 @@ msgstr "MDI 子視窗"
 msgid ""
 "MS HTML Help functions are unavailable because the MS HTML Help library is "
 "not installed on this machine. Please install it."
-msgstr "由於未安裝 MS HTML Help 函示庫，導致 MS HTML Help 功能無法使用。請先安裝。"
+msgstr ""
+"由於未安裝 MS HTML Help 函示庫，導致 MS HTML Help 功能無法使用。請先安裝。"
 
 #: ../src/univ/themes/win32.cpp:3754
 msgid "Ma&ximize"
@@ -7153,7 +7155,8 @@ msgstr "角位半徑值。"
 msgid ""
 "The version of remote access service (RAS) installed on this machine is too "
 "old, please upgrade (the following required function is missing: %s)."
-msgstr "於此電腦安裝的遠端存取服務(RAS)版本太舊，請更新 (缺少以下必要的功能：%s)。"
+msgstr ""
+"於此電腦安裝的遠端存取服務(RAS)版本太舊，請更新 (缺少以下必要的功能：%s)。"
 
 #: ../src/richtext/richtextbackgroundpage.cpp:242
 #: ../src/richtext/richtextbackgroundpage.cpp:244
@@ -9189,8 +9192,8 @@ msgstr "~"
 #~ msgstr "資料渲染器無法渲染該值，型態為: "
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

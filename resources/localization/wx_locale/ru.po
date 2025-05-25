@@ -15,8 +15,8 @@ msgstr ""
 "Last-Translator: Alexander Kovalenko <nktch@yandex.ru>\n"
 "Language-Team: wxWidgets translators <wx-translators@wxwidgets.org>\n"
 "Language: ru_RU\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<12 || n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 2.1.1\n"
 
 #: ../src/common/debugrpt.cpp:586
@@ -27,7 +27,8 @@ msgstr ""
 "\n"
 "Отправьте этот отчёт сопровождающему программы. Заранее спасибо.\n"
 
-#: ../src/richtext/richtextstyledlg.cpp:210 ../src/richtext/richtextstyledlg.cpp:222
+#: ../src/richtext/richtextstyledlg.cpp:210
+#: ../src/richtext/richtextstyledlg.cpp:222
 msgid " "
 msgstr " "
 
@@ -99,11 +100,16 @@ msgid "#9 Envelope, 3 7/8 x 8 7/8 in"
 msgstr "Конверт #9, 3 7/8 x 8 7/8 дюйма"
 
 #: ../src/richtext/richtextbackgroundpage.cpp:341
-#: ../src/richtext/richtextsizepage.cpp:340 ../src/richtext/richtextsizepage.cpp:374
-#: ../src/richtext/richtextsizepage.cpp:401 ../src/richtext/richtextsizepage.cpp:428
-#: ../src/richtext/richtextsizepage.cpp:455 ../src/richtext/richtextsizepage.cpp:482
-#: ../src/richtext/richtextsizepage.cpp:556 ../src/richtext/richtextsizepage.cpp:591
-#: ../src/richtext/richtextsizepage.cpp:626 ../src/richtext/richtextsizepage.cpp:661
+#: ../src/richtext/richtextsizepage.cpp:340
+#: ../src/richtext/richtextsizepage.cpp:374
+#: ../src/richtext/richtextsizepage.cpp:401
+#: ../src/richtext/richtextsizepage.cpp:428
+#: ../src/richtext/richtextsizepage.cpp:455
+#: ../src/richtext/richtextsizepage.cpp:482
+#: ../src/richtext/richtextsizepage.cpp:556
+#: ../src/richtext/richtextsizepage.cpp:591
+#: ../src/richtext/richtextsizepage.cpp:626
+#: ../src/richtext/richtextsizepage.cpp:661
 msgid "%"
 msgstr "%"
 
@@ -240,7 +246,8 @@ msgstr "В&низу"
 #: ../src/richtext/richtextborderspage.cpp:513
 #: ../src/richtext/richtextmarginspage.cpp:259
 #: ../src/richtext/richtextmarginspage.cpp:373
-#: ../src/richtext/richtextsizepage.cpp:637 ../src/richtext/richtextsizepage.cpp:644
+#: ../src/richtext/richtextsizepage.cpp:637
+#: ../src/richtext/richtextsizepage.cpp:644
 msgid "&Bottom:"
 msgstr "В&низу:"
 
@@ -313,9 +320,9 @@ msgstr "&Настроить..."
 msgid "&Debug report preview:"
 msgstr "Предпросмотр отчёта &отладки:"
 
-#: ../src/richtext/richtexttabspage.cpp:138 ../src/richtext/richtextctrl.cpp:335
-#: ../src/osx/textctrl_osx.cpp:579 ../src/common/stockitem.cpp:152
-#: ../src/msw/textctrl.cpp:2510
+#: ../src/richtext/richtexttabspage.cpp:138
+#: ../src/richtext/richtextctrl.cpp:335 ../src/osx/textctrl_osx.cpp:579
+#: ../src/common/stockitem.cpp:152 ../src/msw/textctrl.cpp:2510
 msgid "&Delete"
 msgstr "&Удалить"
 
@@ -383,7 +390,8 @@ msgstr "&Семейство шрифтов::"
 msgid "&Font for Level..."
 msgstr "&Шрифт для уровня..."
 
-#: ../src/richtext/richtextfontpage.cpp:147 ../src/richtext/richtextsymboldlg.cpp:400
+#: ../src/richtext/richtextfontpage.cpp:147
+#: ../src/richtext/richtextsymboldlg.cpp:400
 msgid "&Font:"
 msgstr "&Шрифт:"
 
@@ -399,7 +407,8 @@ msgstr "&От:"
 msgid "&Harddisk"
 msgstr "&Жёсткий диск"
 
-#: ../src/richtext/richtextsizepage.cpp:351 ../src/richtext/richtextsizepage.cpp:358
+#: ../src/richtext/richtextsizepage.cpp:351
+#: ../src/richtext/richtextsizepage.cpp:358
 msgid "&Height:"
 msgstr "&Высота:"
 
@@ -467,7 +476,8 @@ msgstr "С&лева"
 #: ../src/richtext/richtextliststylepage.cpp:381
 #: ../src/richtext/richtextmarginspage.cpp:186
 #: ../src/richtext/richtextmarginspage.cpp:300
-#: ../src/richtext/richtextsizepage.cpp:532 ../src/richtext/richtextsizepage.cpp:539
+#: ../src/richtext/richtextsizepage.cpp:532
+#: ../src/richtext/richtextsizepage.cpp:539
 msgid "&Left:"
 msgstr "С&лева:"
 
@@ -627,7 +637,8 @@ msgstr "Сп&рава"
 #: ../src/richtext/richtextliststylepage.cpp:399
 #: ../src/richtext/richtextmarginspage.cpp:211
 #: ../src/richtext/richtextmarginspage.cpp:325
-#: ../src/richtext/richtextsizepage.cpp:602 ../src/richtext/richtextsizepage.cpp:609
+#: ../src/richtext/richtextsizepage.cpp:602
+#: ../src/richtext/richtextsizepage.cpp:609
 msgid "&Right:"
 msgstr "Сп&рава:"
 
@@ -710,7 +721,8 @@ msgstr "С&верху"
 #: ../src/richtext/richtextborderspage.cpp:479
 #: ../src/richtext/richtextmarginspage.cpp:234
 #: ../src/richtext/richtextmarginspage.cpp:348
-#: ../src/richtext/richtextsizepage.cpp:567 ../src/richtext/richtextsizepage.cpp:574
+#: ../src/richtext/richtextsizepage.cpp:567
+#: ../src/richtext/richtextsizepage.cpp:574
 msgid "&Top:"
 msgstr "С&верху:"
 
@@ -756,12 +768,14 @@ msgstr "&Вид..."
 msgid "&Weight:"
 msgstr "&Толщина:"
 
-#: ../src/richtext/richtextsizepage.cpp:317 ../src/richtext/richtextsizepage.cpp:324
+#: ../src/richtext/richtextsizepage.cpp:317
+#: ../src/richtext/richtextsizepage.cpp:324
 msgid "&Width:"
 msgstr "&Ширина:"
 
-#: ../src/aui/tabmdi.cpp:311 ../src/aui/tabmdi.cpp:327 ../src/aui/tabmdi.cpp:329
-#: ../src/generic/mdig.cpp:294 ../src/generic/mdig.cpp:310 ../src/generic/mdig.cpp:314
+#: ../src/aui/tabmdi.cpp:311 ../src/aui/tabmdi.cpp:327
+#: ../src/aui/tabmdi.cpp:329 ../src/generic/mdig.cpp:294
+#: ../src/generic/mdig.cpp:310 ../src/generic/mdig.cpp:314
 #: ../src/msw/mdi.cpp:78
 msgid "&Window"
 msgstr "&Окно"
@@ -863,8 +877,10 @@ msgstr "(закладки)"
 #: ../src/richtext/richtextindentspage.cpp:287
 #: ../src/richtext/richtextindentspage.cpp:311
 #: ../src/richtext/richtextindentspage.cpp:326
-#: ../src/richtext/richtextformatdlg.cpp:884 ../src/richtext/richtextfontpage.cpp:349
-#: ../src/richtext/richtextfontpage.cpp:353 ../src/richtext/richtextfontpage.cpp:357
+#: ../src/richtext/richtextformatdlg.cpp:884
+#: ../src/richtext/richtextfontpage.cpp:349
+#: ../src/richtext/richtextfontpage.cpp:353
+#: ../src/richtext/richtextfontpage.cpp:357
 #: ../src/richtext/richtextliststylepage.cpp:448
 #: ../src/richtext/richtextliststylepage.cpp:460
 #: ../src/richtext/richtextliststylepage.cpp:461
@@ -1715,14 +1731,16 @@ msgstr "Невозможно чтение сжимаемого потока: %s"
 
 #: ../src/common/zstream.cpp:244
 msgid "Can't read inflate stream: unexpected EOF in underlying stream."
-msgstr "Невозможно чтение сжимаемого потока: неожиданный EOF в нижлежащем потоке."
+msgstr ""
+"Невозможно чтение сжимаемого потока: неожиданный EOF в нижлежащем потоке."
 
 #: ../src/msw/registry.cpp:1064
 #, c-format
 msgid "Can't read value of '%s'"
 msgstr "Невозможно прочесть значение '%s'"
 
-#: ../src/msw/registry.cpp:878 ../src/msw/registry.cpp:910 ../src/msw/registry.cpp:975
+#: ../src/msw/registry.cpp:878 ../src/msw/registry.cpp:910
+#: ../src/msw/registry.cpp:975
 #, c-format
 msgid "Can't read value of key '%s'"
 msgstr "Невозможно прочесть значение ключа '%s'"
@@ -1730,7 +1748,8 @@ msgstr "Невозможно прочесть значение ключа '%s'"
 #: ../src/common/image.cpp:2620
 #, c-format
 msgid "Can't save image to file '%s': unknown extension."
-msgstr "Невозможно сохранить изображение в файл '%s': неизвестное расширение файла."
+msgstr ""
+"Невозможно сохранить изображение в файл '%s': неизвестное расширение файла."
 
 #: ../src/generic/logg.cpp:573 ../src/generic/logg.cpp:976
 msgid "Can't save log contents to file."
@@ -1758,8 +1777,8 @@ msgstr "Невозможно записать в разжимаемый пото
 #. TRANSLATORS: Name of keyboard key
 #: ../include/wx/msgdlg.h:279 ../src/richtext/richtextstyledlg.cpp:300
 #: ../src/common/stockitem.cpp:145 ../src/common/accelcmn.cpp:71
-#: ../src/msw/msgdlg.cpp:454 ../src/msw/progdlg.cpp:673 ../src/gtk1/fontdlg.cpp:144
-#: ../src/motif/msgdlg.cpp:196
+#: ../src/msw/msgdlg.cpp:454 ../src/msw/progdlg.cpp:673
+#: ../src/gtk1/fontdlg.cpp:144 ../src/motif/msgdlg.cpp:196
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -1960,7 +1979,8 @@ msgstr "Изменить стиль списка"
 msgid "Change Object Style"
 msgstr "Изменить стиль объекта"
 
-#: ../src/richtext/richtextbuffer.cpp:3982 ../src/richtext/richtextbuffer.cpp:8129
+#: ../src/richtext/richtextbuffer.cpp:3982
+#: ../src/richtext/richtextbuffer.cpp:8129
 msgid "Change Properties"
 msgstr "Изменить свойства"
 
@@ -1971,7 +1991,8 @@ msgstr "Изменение стиля"
 #: ../src/common/fileconf.cpp:341
 #, c-format
 msgid "Changes won't be saved to avoid overwriting the existing file \"%s\""
-msgstr "Изменения не будут сохранены во избежание перезаписи существующего файла '%s'"
+msgstr ""
+"Изменения не будут сохранены во избежание перезаписи существующего файла '%s'"
 
 #: ../src/gtk/filepicker.cpp:190 ../src/gtk/filedlg.cpp:87
 #, c-format
@@ -2015,7 +2036,8 @@ msgstr "Установите флажок для правки всех гран�
 msgid "Check to enclose the bullet in parentheses."
 msgstr "Установите флажок для заключения маркера в круглые скобки."
 
-#: ../src/richtext/richtextfontpage.cpp:315 ../src/richtext/richtextfontpage.cpp:317
+#: ../src/richtext/richtextfontpage.cpp:315
+#: ../src/richtext/richtextfontpage.cpp:317
 msgid "Check to indicate right-to-left text layout."
 msgstr "Установите флажок для указания макета текста справа налево."
 
@@ -2031,31 +2053,38 @@ msgstr "Установите флажок, чтобы сделать шрифт 
 msgid "Check to make the font underlined."
 msgstr "Установите флажок, чтобы сделать шрифт подчёркнутым."
 
-#: ../src/richtext/richtextstyledlg.cpp:289 ../src/richtext/richtextstyledlg.cpp:291
+#: ../src/richtext/richtextstyledlg.cpp:289
+#: ../src/richtext/richtextstyledlg.cpp:291
 msgid "Check to restart numbering."
 msgstr "Установите флажок для перезапуска нумерации."
 
-#: ../src/richtext/richtextfontpage.cpp:277 ../src/richtext/richtextfontpage.cpp:279
+#: ../src/richtext/richtextfontpage.cpp:277
+#: ../src/richtext/richtextfontpage.cpp:279
 msgid "Check to show a line through the text."
 msgstr "Установите флажок, чтобы отобразить текст перечёркнутым."
 
-#: ../src/richtext/richtextfontpage.cpp:284 ../src/richtext/richtextfontpage.cpp:286
+#: ../src/richtext/richtextfontpage.cpp:284
+#: ../src/richtext/richtextfontpage.cpp:286
 msgid "Check to show the text in capitals."
 msgstr "Установите флажок, чтобы отобразить текст заглавными буквами."
 
-#: ../src/richtext/richtextfontpage.cpp:291 ../src/richtext/richtextfontpage.cpp:293
+#: ../src/richtext/richtextfontpage.cpp:291
+#: ../src/richtext/richtextfontpage.cpp:293
 msgid "Check to show the text in small capitals."
 msgstr "Установите флажок, чтобы отобразить текст в маленькими заглавными."
 
-#: ../src/richtext/richtextfontpage.cpp:305 ../src/richtext/richtextfontpage.cpp:307
+#: ../src/richtext/richtextfontpage.cpp:305
+#: ../src/richtext/richtextfontpage.cpp:307
 msgid "Check to show the text in subscript."
 msgstr "Установите флажок, чтобы отобразить текст как нижний индекс."
 
-#: ../src/richtext/richtextfontpage.cpp:298 ../src/richtext/richtextfontpage.cpp:300
+#: ../src/richtext/richtextfontpage.cpp:298
+#: ../src/richtext/richtextfontpage.cpp:300
 msgid "Check to show the text in superscript."
 msgstr "Установите флажок, чтобы отобразить текст в скрипте."
 
-#: ../src/richtext/richtextfontpage.cpp:322 ../src/richtext/richtextfontpage.cpp:324
+#: ../src/richtext/richtextfontpage.cpp:322
+#: ../src/richtext/richtextfontpage.cpp:324
 msgid "Check to suppress hyphenation."
 msgstr "Установите флажок для подавления расстановки переносов."
 
@@ -2102,7 +2131,8 @@ msgstr "Очистить"
 msgid "Clear the log contents"
 msgstr "Очистить содержимое журнала"
 
-#: ../src/richtext/richtextstyledlg.cpp:252 ../src/richtext/richtextstyledlg.cpp:254
+#: ../src/richtext/richtextstyledlg.cpp:252
+#: ../src/richtext/richtextstyledlg.cpp:254
 msgid "Click to apply the selected style."
 msgstr "Щёлкните, чтобы применить выбранный стиль."
 
@@ -2125,11 +2155,13 @@ msgstr "Щёлкните для отмены выбора шрифта'."
 msgid "Click to change the font colour."
 msgstr "Щёлкните, чтобы изменить цвет шрифта."
 
-#: ../src/richtext/richtextfontpage.cpp:267 ../src/richtext/richtextfontpage.cpp:269
+#: ../src/richtext/richtextfontpage.cpp:267
+#: ../src/richtext/richtextfontpage.cpp:269
 msgid "Click to change the text background colour."
 msgstr "Щёлкните, чтобы изменить цвет фона текста."
 
-#: ../src/richtext/richtextfontpage.cpp:254 ../src/richtext/richtextfontpage.cpp:256
+#: ../src/richtext/richtextfontpage.cpp:254
+#: ../src/richtext/richtextfontpage.cpp:256
 msgid "Click to change the text colour."
 msgstr "Щёлкните, чтобы изменить цвет текста."
 
@@ -2138,7 +2170,8 @@ msgstr "Щёлкните, чтобы изменить цвет текста."
 msgid "Click to choose the font for this level."
 msgstr "Щёлкните, чтобы выбрать шрифт для этого уровня."
 
-#: ../src/richtext/richtextstyledlg.cpp:279 ../src/richtext/richtextstyledlg.cpp:281
+#: ../src/richtext/richtextstyledlg.cpp:279
+#: ../src/richtext/richtextstyledlg.cpp:281
 msgid "Click to close this window."
 msgstr "Щёлкните, чтобы закрыть это окно."
 
@@ -2151,50 +2184,61 @@ msgstr "Щёлкните, чтобы подтвердить изменения �
 msgid "Click to confirm the font selection."
 msgstr "Щёлкните 'подтвердить смену шрифта'."
 
-#: ../src/richtext/richtextstyledlg.cpp:244 ../src/richtext/richtextstyledlg.cpp:246
+#: ../src/richtext/richtextstyledlg.cpp:244
+#: ../src/richtext/richtextstyledlg.cpp:246
 msgid "Click to create a new box style."
 msgstr "Щёлкните, чтобы создать новый стиль поля."
 
-#: ../src/richtext/richtextstyledlg.cpp:226 ../src/richtext/richtextstyledlg.cpp:228
+#: ../src/richtext/richtextstyledlg.cpp:226
+#: ../src/richtext/richtextstyledlg.cpp:228
 msgid "Click to create a new character style."
 msgstr "Щелкните, чтобы создать новый стиль символов."
 
-#: ../src/richtext/richtextstyledlg.cpp:238 ../src/richtext/richtextstyledlg.cpp:240
+#: ../src/richtext/richtextstyledlg.cpp:238
+#: ../src/richtext/richtextstyledlg.cpp:240
 msgid "Click to create a new list style."
 msgstr "Щёлкните, чтобы создать новый стиль списка."
 
-#: ../src/richtext/richtextstyledlg.cpp:232 ../src/richtext/richtextstyledlg.cpp:234
+#: ../src/richtext/richtextstyledlg.cpp:232
+#: ../src/richtext/richtextstyledlg.cpp:234
 msgid "Click to create a new paragraph style."
 msgstr "Щелкните, чтобы создать новый стиль абзаца."
 
-#: ../src/richtext/richtexttabspage.cpp:133 ../src/richtext/richtexttabspage.cpp:135
+#: ../src/richtext/richtexttabspage.cpp:133
+#: ../src/richtext/richtexttabspage.cpp:135
 msgid "Click to create a new tab position."
 msgstr "Щёлкните, чтобы создать новую позицию табуляции."
 
-#: ../src/richtext/richtexttabspage.cpp:145 ../src/richtext/richtexttabspage.cpp:147
+#: ../src/richtext/richtexttabspage.cpp:145
+#: ../src/richtext/richtexttabspage.cpp:147
 msgid "Click to delete all tab positions."
 msgstr "Щёлкните, чтобы удалить все позиции табуляции."
 
-#: ../src/richtext/richtextstyledlg.cpp:270 ../src/richtext/richtextstyledlg.cpp:272
+#: ../src/richtext/richtextstyledlg.cpp:270
+#: ../src/richtext/richtextstyledlg.cpp:272
 msgid "Click to delete the selected style."
 msgstr "Щёлкните, чтобы удалить выбранный стиль."
 
-#: ../src/richtext/richtexttabspage.cpp:139 ../src/richtext/richtexttabspage.cpp:141
+#: ../src/richtext/richtexttabspage.cpp:139
+#: ../src/richtext/richtexttabspage.cpp:141
 msgid "Click to delete the selected tab position."
 msgstr "Щёлкните, чтобы удалить выбранную позицию табуляции."
 
-#: ../src/richtext/richtextstyledlg.cpp:264 ../src/richtext/richtextstyledlg.cpp:266
+#: ../src/richtext/richtextstyledlg.cpp:264
+#: ../src/richtext/richtextstyledlg.cpp:266
 msgid "Click to edit the selected style."
 msgstr "Щёлкните, чтобы изменить выбранный стиль."
 
-#: ../src/richtext/richtextstyledlg.cpp:258 ../src/richtext/richtextstyledlg.cpp:260
+#: ../src/richtext/richtextstyledlg.cpp:258
+#: ../src/richtext/richtextstyledlg.cpp:260
 msgid "Click to rename the selected style."
 msgstr "Щёлкните, чтобы переименовать выбранный стиль."
 
 #: ../src/generic/dbgrptg.cpp:97 ../src/generic/progdlgg.cpp:759
-#: ../src/richtext/richtextstyledlg.cpp:277 ../src/richtext/richtextsymboldlg.cpp:476
-#: ../src/common/stockitem.cpp:148 ../src/msw/progdlg.cpp:170
-#: ../src/msw/progdlg.cpp:679 ../src/html/helpdlg.cpp:90
+#: ../src/richtext/richtextstyledlg.cpp:277
+#: ../src/richtext/richtextsymboldlg.cpp:476 ../src/common/stockitem.cpp:148
+#: ../src/msw/progdlg.cpp:170 ../src/msw/progdlg.cpp:679
+#: ../src/html/helpdlg.cpp:90
 msgid "Close"
 msgstr "Закрыть"
 
@@ -2244,9 +2288,12 @@ msgstr "&Команда"
 
 #: ../src/common/init.cpp:196
 #, c-format
-msgid "Command line argument %d couldn't be converted to Unicode and will be ignored."
+msgid ""
+"Command line argument %d couldn't be converted to Unicode and will be "
+"ignored."
 msgstr ""
-"Аргумент командной строки %d не может быть преобразован в Юникод и проигнорирован."
+"Аргумент командной строки %d не может быть преобразован в Юникод и "
+"проигнорирован."
 
 #: ../src/msw/fontdlg.cpp:120
 #, c-format
@@ -2255,9 +2302,11 @@ msgstr "В общим диалоговом окне произошла ошиб�
 
 #: ../src/gtk/window.cpp:4649
 msgid ""
-"Compositing not supported by this system, please enable it in your Window Manager."
+"Compositing not supported by this system, please enable it in your Window "
+"Manager."
 msgstr ""
-"Композитинг не поддерживается этой системой, включите его в своём оконном менеджере."
+"Композитинг не поддерживается этой системой, включите его в своём оконном "
+"менеджере."
 
 #: ../src/html/helpwnd.cpp:1551
 msgid "Compressed HTML Help file (*.chm)|*.chm|"
@@ -2369,8 +2418,9 @@ msgstr "Невозможно начать печать."
 msgid "Could not transfer data to window"
 msgstr "Невозможно передать данные в окно"
 
-#: ../src/msw/imaglist.cpp:187 ../src/msw/imaglist.cpp:224 ../src/msw/imaglist.cpp:249
-#: ../src/msw/dragimag.cpp:185 ../src/msw/dragimag.cpp:220
+#: ../src/msw/imaglist.cpp:187 ../src/msw/imaglist.cpp:224
+#: ../src/msw/imaglist.cpp:249 ../src/msw/dragimag.cpp:185
+#: ../src/msw/dragimag.cpp:220
 msgid "Couldn't add an image to the image list."
 msgstr "Невозможно добавить изображение в список изображений."
 
@@ -2411,8 +2461,8 @@ msgstr "Не удалось инициализировать хэш-таблиц
 #: ../src/common/imagpng.cpp:409
 msgid "Couldn't load a PNG image - file is corrupted or not enough memory."
 msgstr ""
-"Невозможно загрузить изображение PNG - возможно повреждён файл или недостаточно "
-"памяти."
+"Невозможно загрузить изображение PNG - возможно повреждён файл или "
+"недостаточно памяти."
 
 #: ../src/unix/sound.cpp:470
 #, c-format
@@ -2662,8 +2712,8 @@ msgstr "Разработчики"
 
 #: ../src/msw/dialup.cpp:374
 msgid ""
-"Dial up functions are unavailable because the remote access service (RAS) is not "
-"installed on this machine. Please install it."
+"Dial up functions are unavailable because the remote access service (RAS) is "
+"not installed on this machine. Please install it."
 msgstr ""
 "Функции набора номера недоступны, так как сервис удалённого доступа (RAS) не "
 "установлен на этой машине. Установите его."
@@ -2705,7 +2755,8 @@ msgstr "Отменить изменения и загрузить повторн
 
 #: ../src/html/helpwnd.cpp:502
 msgid ""
-"Display all index items that contain given substring. Search is case insensitive."
+"Display all index items that contain given substring. Search is case "
+"insensitive."
 msgstr ""
 "Показать все элементы индекса с заданной подстрокой. При поиске регистр не "
 "учитывается."
@@ -2799,28 +2850,35 @@ msgstr "Правка элемента"
 msgid "Elapsed time:"
 msgstr "Прошло времени:"
 
-#: ../src/richtext/richtextsizepage.cpp:353 ../src/richtext/richtextsizepage.cpp:355
-#: ../src/richtext/richtextsizepage.cpp:465 ../src/richtext/richtextsizepage.cpp:467
+#: ../src/richtext/richtextsizepage.cpp:353
+#: ../src/richtext/richtextsizepage.cpp:355
+#: ../src/richtext/richtextsizepage.cpp:465
+#: ../src/richtext/richtextsizepage.cpp:467
 msgid "Enable the height value."
 msgstr "Включите значение высоты."
 
-#: ../src/richtext/richtextsizepage.cpp:438 ../src/richtext/richtextsizepage.cpp:440
+#: ../src/richtext/richtextsizepage.cpp:438
+#: ../src/richtext/richtextsizepage.cpp:440
 msgid "Enable the maximum width value."
 msgstr "Включить максимальное значение ширины."
 
-#: ../src/richtext/richtextsizepage.cpp:411 ../src/richtext/richtextsizepage.cpp:413
+#: ../src/richtext/richtextsizepage.cpp:411
+#: ../src/richtext/richtextsizepage.cpp:413
 msgid "Enable the minimum height value."
 msgstr "Включить минимальное значение высоты."
 
-#: ../src/richtext/richtextsizepage.cpp:384 ../src/richtext/richtextsizepage.cpp:386
+#: ../src/richtext/richtextsizepage.cpp:384
+#: ../src/richtext/richtextsizepage.cpp:386
 msgid "Enable the minimum width value."
 msgstr "Включить минимальное значение ширины."
 
-#: ../src/richtext/richtextsizepage.cpp:319 ../src/richtext/richtextsizepage.cpp:321
+#: ../src/richtext/richtextsizepage.cpp:319
+#: ../src/richtext/richtextsizepage.cpp:321
 msgid "Enable the width value."
 msgstr "Включить значение ширины."
 
-#: ../src/richtext/richtextsizepage.cpp:280 ../src/richtext/richtextsizepage.cpp:282
+#: ../src/richtext/richtextsizepage.cpp:280
+#: ../src/richtext/richtextsizepage.cpp:282
 msgid "Enable vertical alignment."
 msgstr "Включить выравнивание по вертикали."
 
@@ -2899,8 +2957,10 @@ msgstr "Конверт приглашение 220 x 220 мм"
 
 #: ../src/common/config.cpp:469
 #, c-format
-msgid "Environment variables expansion failed: missing '%c' at position %u in '%s'."
-msgstr "Ошибка расширения переменных окружения: отсутствует '%c' в позиции %u в '%s'."
+msgid ""
+"Environment variables expansion failed: missing '%c' at position %u in '%s'."
+msgstr ""
+"Ошибка расширения переменных окружения: отсутствует '%c' в позиции %u в '%s'."
 
 #: ../src/generic/filedlgg.cpp:357 ../src/generic/dirctrlg.cpp:570
 #: ../src/generic/dirctrlg.cpp:588 ../src/generic/dirctrlg.cpp:599
@@ -2997,8 +3057,10 @@ msgstr "Расширить"
 
 #: ../src/msw/registry.cpp:1240
 #, c-format
-msgid "Exporting registry key: file \"%s\" already exists and won't be overwritten."
-msgstr "Экспорт ключа реестра: файл '%s' уже существует и не будет перезаписан."
+msgid ""
+"Exporting registry key: file \"%s\" already exists and won't be overwritten."
+msgstr ""
+"Экспорт ключа реестра: файл '%s' уже существует и не будет перезаписан."
 
 #: ../src/common/fmapbase.cpp:195
 msgid "Extended Unix Codepage for Japanese (EUC-JP)"
@@ -3262,7 +3324,8 @@ msgstr "Не удалось установить обработчик сигна
 
 #: ../src/unix/threadpsx.cpp:1167
 msgid ""
-"Failed to join a thread, potential memory leak detected - please restart the program"
+"Failed to join a thread, potential memory leak detected - please restart the "
+"program"
 msgstr ""
 "Не удалось соединиться с потоком, обнаружена потенциальная утечка памяти - "
 "перезапустите программу"
@@ -3464,8 +3527,10 @@ msgstr "Невозможно переименовать значение рее�
 #: ../src/common/filefn.cpp:1122
 #, c-format
 msgid ""
-"Failed to rename the file '%s' to '%s' because the destination file already exists."
-msgstr "Не удалось переименовать файл '%s' в '%s' - файл назначения уже существует."
+"Failed to rename the file '%s' to '%s' because the destination file already "
+"exists."
+msgstr ""
+"Не удалось переименовать файл '%s' в '%s' - файл назначения уже существует."
 
 #: ../src/msw/registry.cpp:634
 #, c-format
@@ -3769,8 +3834,8 @@ msgstr "GIF: недостаточно памяти."
 
 #: ../src/gtk/window.cpp:4631
 msgid ""
-"GTK+ installed on this machine is too old to support screen compositing, please "
-"install GTK+ 2.12 or later."
+"GTK+ installed on this machine is too old to support screen compositing, "
+"please install GTK+ 2.12 or later."
 msgstr ""
 "GTK + установленный на этом компьютере слишком стар для поддержки композиции "
 "экрана, установите GTK + 2,12 или новее."
@@ -3805,7 +3870,8 @@ msgstr "GetPropertyCollection вызывается для универсальн
 
 #: ../include/wx/xtiprop.h:202
 msgid "GetPropertyCollection called w/o valid collection getter"
-msgstr "GetPropertyCollection вызывается без действительного получателя коллекции"
+msgstr ""
+"GetPropertyCollection вызывается без действительного получателя коллекции"
 
 #: ../src/html/helpwnd.cpp:660
 msgid "Go back"
@@ -3960,7 +4026,8 @@ msgstr "В начало"
 msgid "Home directory"
 msgstr "Начальный каталог"
 
-#: ../src/richtext/richtextsizepage.cpp:253 ../src/richtext/richtextsizepage.cpp:255
+#: ../src/richtext/richtextsizepage.cpp:253
+#: ../src/richtext/richtextsizepage.cpp:255
 msgid "How the object will float relative to the text."
 msgstr "Как объект будет плавать относительно текста."
 
@@ -4015,10 +4082,11 @@ msgstr "ISO-2022-JP"
 
 #: ../src/html/htmprint.cpp:282
 msgid ""
-"If possible, try changing the layout parameters to make the printout more narrow."
+"If possible, try changing the layout parameters to make the printout more "
+"narrow."
 msgstr ""
-"Если возможно, попробуйте изменить параметры макета, чтобы сделать печать более "
-"узкой."
+"Если возможно, попробуйте изменить параметры макета, чтобы сделать печать "
+"более узкой."
 
 #: ../src/generic/dbgrptg.cpp:358
 msgid ""
@@ -4030,8 +4098,8 @@ msgstr ""
 
 #: ../src/generic/dbgrptg.cpp:324
 msgid ""
-"If you wish to suppress this debug report completely, please choose the \"Cancel\" "
-"button,\n"
+"If you wish to suppress this debug report completely, please choose the "
+"\"Cancel\" button,\n"
 "but be warned that it may hinder improving the program, so if\n"
 "at all possible please do continue with the report generation.\n"
 msgstr ""
@@ -4081,8 +4149,8 @@ msgstr "Изображение не тип %s."
 
 #: ../src/msw/textctrl.cpp:488
 msgid ""
-"Impossible to create a rich edit control, using simple text control instead. Please "
-"reinstall riched32.dll"
+"Impossible to create a rich edit control, using simple text control instead. "
+"Please reinstall riched32.dll"
 msgstr ""
 "Невозможно создать расширенный элемент управления редактированием с помощью "
 "простого текстового элемента управления. Переустановите riched32.dll"
@@ -4168,7 +4236,8 @@ msgstr "Insert"
 msgid "Insert Field"
 msgstr "Вставить поле"
 
-#: ../src/richtext/richtextbuffer.cpp:7978 ../src/richtext/richtextbuffer.cpp:8936
+#: ../src/richtext/richtextbuffer.cpp:7978
+#: ../src/richtext/richtextbuffer.cpp:8936
 msgid "Insert Image"
 msgstr "Вставить изображение"
 
@@ -4177,7 +4246,8 @@ msgid "Insert Object"
 msgstr "Вставить объект"
 
 #: ../src/richtext/richtextctrl.cpp:1286 ../src/richtext/richtextctrl.cpp:1494
-#: ../src/richtext/richtextbuffer.cpp:7822 ../src/richtext/richtextbuffer.cpp:7852
+#: ../src/richtext/richtextbuffer.cpp:7822
+#: ../src/richtext/richtextbuffer.cpp:7852
 #: ../src/richtext/richtextbuffer.cpp:7894
 msgid "Insert Text"
 msgstr "Вставить текст"
@@ -4226,11 +4296,13 @@ msgstr "Неверный каталог сообщений."
 
 #: ../src/common/xtistrm.cpp:405 ../src/common/xtistrm.cpp:420
 msgid "Invalid or Null Object ID passed to GetObjectClassInfo"
-msgstr "Неверный или нулевой идентификатор объекта передан в GetObjectClassInfo"
+msgstr ""
+"Неверный или нулевой идентификатор объекта передан в GetObjectClassInfo"
 
 #: ../src/common/xtistrm.cpp:435
 msgid "Invalid or Null Object ID passed to HasObjectClassInfo"
-msgstr "Неверный или нулевой идентификатор объекта передан в HasObjectClassInfo"
+msgstr ""
+"Неверный или нулевой идентификатор объекта передан в HasObjectClassInfo"
 
 #: ../src/common/regex.cpp:310
 #, c-format
@@ -4240,7 +4312,8 @@ msgstr "Неверное регулярное выражение '%s': %s"
 #: ../src/common/config.cpp:226
 #, c-format
 msgid "Invalid value %ld for a boolean key \"%s\" in config file."
-msgstr "Недопустимое значение %ld для логического ключа  '%s' в файле конфигурации."
+msgstr ""
+"Недопустимое значение %ld для логического ключа  '%s' в файле конфигурации."
 
 #: ../src/generic/fontdlgg.cpp:329 ../src/richtext/richtextfontpage.cpp:351
 #: ../src/osx/carbon/fontdlg.cpp:361 ../src/common/stockitem.cpp:168
@@ -4483,7 +4556,8 @@ msgstr "Леджер, 17 x 11 дюйма"
 
 #. TRANSLATORS: Keystroke for manipulating a tree control
 #. TRANSLATORS: Name of keyboard key
-#: ../src/generic/datavgen.cpp:6146 ../src/richtext/richtextliststylepage.cpp:249
+#: ../src/generic/datavgen.cpp:6146
+#: ../src/richtext/richtextliststylepage.cpp:249
 #: ../src/richtext/richtextliststylepage.cpp:252
 #: ../src/richtext/richtextliststylepage.cpp:253
 #: ../src/richtext/richtextbulletspage.cpp:186
@@ -4565,7 +4639,8 @@ msgstr "Лайм"
 #: ../src/generic/helpext.cpp:294
 #, c-format
 msgid "Line %lu of map file \"%s\" has invalid syntax, skipped."
-msgstr "Строка %lu файла сопоставления  '%s' имеет неверный синтаксис и пропущена."
+msgstr ""
+"Строка %lu файла сопоставления  '%s' имеет неверный синтаксис и пропущена."
 
 #: ../src/richtext/richtextliststylepage.cpp:444
 msgid "Line spacing:"
@@ -4583,11 +4658,13 @@ msgstr "Стиль списка"
 msgid "List styles"
 msgstr "Список стилей"
 
-#: ../src/richtext/richtextfontpage.cpp:197 ../src/richtext/richtextfontpage.cpp:199
+#: ../src/richtext/richtextfontpage.cpp:197
+#: ../src/richtext/richtextfontpage.cpp:199
 msgid "Lists font sizes in points."
 msgstr "Списки размеров шрифта в пунктах."
 
-#: ../src/richtext/richtextfontpage.cpp:190 ../src/richtext/richtextfontpage.cpp:192
+#: ../src/richtext/richtextfontpage.cpp:190
+#: ../src/richtext/richtextfontpage.cpp:192
 msgid "Lists the available fonts."
 msgstr "Списки доступных шрифтов."
 
@@ -4631,8 +4708,8 @@ msgstr "Дочерний MDI"
 
 #: ../src/msw/helpchm.cpp:56
 msgid ""
-"MS HTML Help functions are unavailable because the MS HTML Help library is not "
-"installed on this machine. Please install it."
+"MS HTML Help functions are unavailable because the MS HTML Help library is "
+"not installed on this machine. Please install it."
 msgstr ""
 "Функции справки MS HTML недоступны, так как библиотека справки MS HTML не "
 "установлена на этой машине. Установите её."
@@ -4899,7 +4976,8 @@ msgstr "Конверт монарха, 3 7/8 x 7 1/2 дюйма"
 
 #: ../src/msw/fswatcher.cpp:143
 msgid "Monitoring individual files for changes is not supported currently."
-msgstr "Мониторинг измененй отдельных файлов  в настоящее время не поддерживается."
+msgstr ""
+"Мониторинг измененй отдельных файлов  в настоящее время не поддерживается."
 
 #: ../src/generic/editlbox.cpp:172
 msgid "Move down"
@@ -4909,11 +4987,13 @@ msgstr "Перейти вниз"
 msgid "Move up"
 msgstr "Перейти вверх"
 
-#: ../src/richtext/richtextsizepage.cpp:682 ../src/richtext/richtextsizepage.cpp:684
+#: ../src/richtext/richtextsizepage.cpp:682
+#: ../src/richtext/richtextsizepage.cpp:684
 msgid "Moves the object to the next paragraph."
 msgstr "Перемещает объект в следующий абзац."
 
-#: ../src/richtext/richtextsizepage.cpp:676 ../src/richtext/richtextsizepage.cpp:678
+#: ../src/richtext/richtextsizepage.cpp:676
+#: ../src/richtext/richtextsizepage.cpp:678
 msgid "Moves the object to the previous paragraph."
 msgstr "Перемещает объект в предыдущий абзац."
 
@@ -4953,11 +5033,16 @@ msgstr "Новые стиль &списка..."
 msgid "New &Paragraph Style..."
 msgstr "Новый стиль &абзаца..."
 
-#: ../src/richtext/richtextstyledlg.cpp:606 ../src/richtext/richtextstyledlg.cpp:611
-#: ../src/richtext/richtextstyledlg.cpp:654 ../src/richtext/richtextstyledlg.cpp:659
-#: ../src/richtext/richtextstyledlg.cpp:820 ../src/richtext/richtextstyledlg.cpp:825
-#: ../src/richtext/richtextstyledlg.cpp:893 ../src/richtext/richtextstyledlg.cpp:901
-#: ../src/richtext/richtextstyledlg.cpp:934 ../src/richtext/richtextstyledlg.cpp:939
+#: ../src/richtext/richtextstyledlg.cpp:606
+#: ../src/richtext/richtextstyledlg.cpp:611
+#: ../src/richtext/richtextstyledlg.cpp:654
+#: ../src/richtext/richtextstyledlg.cpp:659
+#: ../src/richtext/richtextstyledlg.cpp:820
+#: ../src/richtext/richtextstyledlg.cpp:825
+#: ../src/richtext/richtextstyledlg.cpp:893
+#: ../src/richtext/richtextstyledlg.cpp:901
+#: ../src/richtext/richtextstyledlg.cpp:934
+#: ../src/richtext/richtextstyledlg.cpp:939
 msgid "New Style"
 msgstr "Новый стиль"
 
@@ -5007,7 +5092,8 @@ msgstr "Запись не найдена."
 msgid ""
 "No font for displaying text in encoding '%s' found,\n"
 "but an alternative encoding '%s' is available.\n"
-"Do you want to use this encoding (otherwise you will have to choose another one)?"
+"Do you want to use this encoding (otherwise you will have to choose another "
+"one)?"
 msgstr ""
 "Не найден шрифт для отображения текста в кодировке '%s',\n"
 "но доступна альтернативная кодировка '%s'.\n"
@@ -5065,7 +5151,8 @@ msgid "No valid mappings found in the file \"%s\"."
 msgstr "Не найдены допустимые сопоставления в файле '%s'."
 
 #: ../src/richtext/richtextborderspage.cpp:610
-#: ../src/richtext/richtextsizepage.cpp:248 ../src/richtext/richtextsizepage.cpp:252
+#: ../src/richtext/richtextsizepage.cpp:248
+#: ../src/richtext/richtextsizepage.cpp:252
 msgid "None"
 msgstr "Ничего"
 
@@ -5227,8 +5314,8 @@ msgid "Numbered outline"
 msgstr "Пронумерованный контур"
 
 #: ../include/wx/msgdlg.h:278 ../src/richtext/richtextstyledlg.cpp:297
-#: ../src/common/stockitem.cpp:178 ../src/msw/msgdlg.cpp:454 ../src/msw/msgdlg.cpp:747
-#: ../src/gtk1/fontdlg.cpp:138
+#: ../src/common/stockitem.cpp:178 ../src/msw/msgdlg.cpp:454
+#: ../src/msw/msgdlg.cpp:747 ../src/gtk1/fontdlg.cpp:138
 msgid "OK"
 msgstr "OK"
 
@@ -5280,7 +5367,8 @@ msgstr "Открыть..."
 
 #: ../src/unix/glx11.cpp:506 ../src/msw/glcanvas.cpp:592
 msgid "OpenGL 3.0 or later is not supported by the OpenGL driver."
-msgstr "OpenGL 3,0 или более поздней версии не поддерживается драйвером OpenGL."
+msgstr ""
+"OpenGL 3,0 или более поздней версии не поддерживается драйвером OpenGL."
 
 #: ../src/generic/dirctrlg.cpp:599 ../src/generic/dirdlgg.cpp:323
 #: ../src/generic/filectrlg.cpp:642 ../src/generic/filectrlg.cpp:786
@@ -5662,7 +5750,8 @@ msgstr "Предыдущая страница"
 #. TRANSLATORS: Name of keyboard key
 #: ../src/generic/prntdlgg.cpp:143 ../src/generic/prntdlgg.cpp:157
 #: ../src/common/prntbase.cpp:426 ../src/common/prntbase.cpp:1541
-#: ../src/common/accelcmn.cpp:77 ../src/gtk/print.cpp:620 ../src/gtk/print.cpp:638
+#: ../src/common/accelcmn.cpp:77 ../src/gtk/print.cpp:620
+#: ../src/gtk/print.cpp:638
 msgid "Print"
 msgstr "Печать"
 
@@ -5778,9 +5867,11 @@ msgstr "Распечатка"
 
 #: ../src/common/debugrpt.cpp:560
 #, c-format
-msgid "Processing debug report has failed, leaving the files in \"%s\" directory."
+msgid ""
+"Processing debug report has failed, leaving the files in \"%s\" directory."
 msgstr ""
-"Обработка отчёта об отладке завершена с ошибкой, файлы остались в каталоге '%s'."
+"Обработка отчёта об отладке завершена с ошибкой, файлы остались в каталоге "
+"'%s'."
 
 #: ../src/common/prntbase.cpp:545
 msgid "Progress:"
@@ -5908,7 +5999,8 @@ msgstr "Значение реестра  '%s' не является тексто
 msgid "Registry value '%s' already exists."
 msgstr "Значение реестра '%s' уже существует."
 
-#: ../src/richtext/richtextfontpage.cpp:350 ../src/richtext/richtextfontpage.cpp:354
+#: ../src/richtext/richtextfontpage.cpp:350
+#: ../src/richtext/richtextfontpage.cpp:354
 msgid "Regular"
 msgstr "Регулярные"
 
@@ -5939,7 +6031,8 @@ msgstr "Удалить текущую страницу из закладок"
 #: ../src/common/rendcmn.cpp:194
 #, c-format
 msgid "Renderer \"%s\" has incompatible version %d.%d and couldn't be loaded."
-msgstr "Визуализатор '%s' имеет несовместимую версию %d.%d и не может быть загружен."
+msgstr ""
+"Визуализатор '%s' имеет несовместимую версию %d.%d и не может быть загружен."
 
 #: ../src/richtext/richtextbuffer.cpp:4527
 msgid "Renumber List"
@@ -5993,7 +6086,8 @@ msgstr "&Слева направо"
 
 #. TRANSLATORS: Keystroke for manipulating a tree control
 #. TRANSLATORS: Name of keyboard key
-#: ../src/generic/datavgen.cpp:6149 ../src/richtext/richtextliststylepage.cpp:251
+#: ../src/generic/datavgen.cpp:6149
+#: ../src/richtext/richtextliststylepage.cpp:251
 #: ../src/richtext/richtextbulletspage.cpp:188
 #: ../src/richtext/richtextsizepage.cpp:250 ../src/common/accelcmn.cpp:62
 msgid "Right"
@@ -6102,7 +6196,8 @@ msgstr "Поиск"
 
 #: ../src/html/helpwnd.cpp:537
 msgid ""
-"Search contents of help book(s) for all occurrences of the text you typed above"
+"Search contents of help book(s) for all occurrences of the text you typed "
+"above"
 msgstr "Поиск содержимого книги справки для всех вхождений введённого текста"
 
 #: ../src/generic/fdrepdlg.cpp:160
@@ -6157,15 +6252,18 @@ msgstr "Выбрать шаблон документа"
 msgid "Select a document view"
 msgstr "Выбрать вид документа"
 
-#: ../src/richtext/richtextfontpage.cpp:226 ../src/richtext/richtextfontpage.cpp:228
+#: ../src/richtext/richtextfontpage.cpp:226
+#: ../src/richtext/richtextfontpage.cpp:228
 msgid "Select regular or bold."
 msgstr "Выбрать регулярный или жирный."
 
-#: ../src/richtext/richtextfontpage.cpp:213 ../src/richtext/richtextfontpage.cpp:215
+#: ../src/richtext/richtextfontpage.cpp:213
+#: ../src/richtext/richtextfontpage.cpp:215
 msgid "Select regular or italic style."
 msgstr "Выбрать регулярный или курсив."
 
-#: ../src/richtext/richtextfontpage.cpp:239 ../src/richtext/richtextfontpage.cpp:241
+#: ../src/richtext/richtextfontpage.cpp:239
+#: ../src/richtext/richtextfontpage.cpp:241
 msgid "Select underlining or no underlining."
 msgstr "Выбрать подчёркивание или без подчёркивания."
 
@@ -6206,7 +6304,8 @@ msgstr "Настройки..."
 
 #: ../src/msw/dialup.cpp:544
 msgid "Several active dialup connections found, choosing one randomly."
-msgstr "Найдено несколько активных соединений, выбираем одно случайным образом."
+msgstr ""
+"Найдено несколько активных соединений, выбираем одно случайным образом."
 
 #: ../src/richtext/richtextbackgroundpage.cpp:271
 msgid "Sh&adow spread:"
@@ -6252,7 +6351,8 @@ msgstr "Показать все элементы в индексе"
 msgid "Show/hide navigation panel"
 msgstr "Показать/скрыть панель навигации"
 
-#: ../src/richtext/richtextsymboldlg.cpp:421 ../src/richtext/richtextsymboldlg.cpp:423
+#: ../src/richtext/richtextsymboldlg.cpp:421
+#: ../src/richtext/richtextsymboldlg.cpp:423
 msgid "Shows a Unicode subset."
 msgstr "Показывает Unicode подмножество."
 
@@ -6263,7 +6363,8 @@ msgstr "Показывает Unicode подмножество."
 msgid "Shows a preview of the bullet settings."
 msgstr "Показывает пред просмотр параметров маркера."
 
-#: ../src/richtext/richtextfontpage.cpp:330 ../src/richtext/richtextfontpage.cpp:332
+#: ../src/richtext/richtextfontpage.cpp:330
+#: ../src/richtext/richtextfontpage.cpp:332
 msgid "Shows a preview of the font settings."
 msgstr "Позволяет просмотреть параметры шрифта."
 
@@ -6356,8 +6457,10 @@ msgstr "Этот файл открыть нельзя."
 msgid "Sorry, not enough memory to create a preview."
 msgstr "Недостаточно памяти для создания окна предпросмотра."
 
-#: ../src/richtext/richtextstyledlg.cpp:611 ../src/richtext/richtextstyledlg.cpp:659
-#: ../src/richtext/richtextstyledlg.cpp:825 ../src/richtext/richtextstyledlg.cpp:901
+#: ../src/richtext/richtextstyledlg.cpp:611
+#: ../src/richtext/richtextstyledlg.cpp:659
+#: ../src/richtext/richtextstyledlg.cpp:825
+#: ../src/richtext/richtextstyledlg.cpp:901
 #: ../src/richtext/richtextstyledlg.cpp:939
 msgid "Sorry, that name is taken. Please choose another."
 msgstr "Это имя занято. Пожалуйста, выберите другое."
@@ -6402,7 +6505,8 @@ msgstr "Стандарт"
 msgid "Statement, 5 1/2 x 8 1/2 in"
 msgstr "Заявление, 5 1/2 x 8 1/2 дюйма"
 
-#: ../src/richtext/richtextsizepage.cpp:518 ../src/richtext/richtextsizepage.cpp:523
+#: ../src/richtext/richtextsizepage.cpp:518
+#: ../src/richtext/richtextsizepage.cpp:523
 msgid "Static"
 msgstr "Static"
 
@@ -6556,7 +6660,8 @@ msgstr "Сервер FTP не поддерживает команду PORT."
 msgid "The available bullet styles."
 msgstr "Доступные стили списка."
 
-#: ../src/richtext/richtextstyledlg.cpp:202 ../src/richtext/richtextstyledlg.cpp:204
+#: ../src/richtext/richtextstyledlg.cpp:202
+#: ../src/richtext/richtextstyledlg.cpp:204
 msgid "The available styles."
 msgstr "Доступные стили."
 
@@ -6594,8 +6699,10 @@ msgstr "Размер нижнего поля."
 msgid "The bottom padding size."
 msgstr "Размер заполнения внизу."
 
-#: ../src/richtext/richtextsizepage.cpp:639 ../src/richtext/richtextsizepage.cpp:641
-#: ../src/richtext/richtextsizepage.cpp:653 ../src/richtext/richtextsizepage.cpp:655
+#: ../src/richtext/richtextsizepage.cpp:639
+#: ../src/richtext/richtextsizepage.cpp:641
+#: ../src/richtext/richtextsizepage.cpp:653
+#: ../src/richtext/richtextsizepage.cpp:655
 msgid "The bottom position."
 msgstr "Позиция внизу."
 
@@ -6610,7 +6717,8 @@ msgstr "Позиция внизу."
 msgid "The bullet character."
 msgstr "Знак маркера."
 
-#: ../src/richtext/richtextsymboldlg.cpp:443 ../src/richtext/richtextsymboldlg.cpp:445
+#: ../src/richtext/richtextsymboldlg.cpp:443
+#: ../src/richtext/richtextsymboldlg.cpp:445
 msgid "The character code."
 msgstr "Код символа."
 
@@ -6630,7 +6738,8 @@ msgstr ""
 msgid "The clipboard format '%d' doesn't exist."
 msgstr "Формат буфера обмена '%d' не существует."
 
-#: ../src/richtext/richtextstylepage.cpp:130 ../src/richtext/richtextstylepage.cpp:132
+#: ../src/richtext/richtextstylepage.cpp:130
+#: ../src/richtext/richtextstylepage.cpp:132
 msgid "The default style for the next paragraph."
 msgstr "Стиль по умолчанию для следующего абзаца."
 
@@ -6646,12 +6755,13 @@ msgstr ""
 #: ../src/html/htmprint.cpp:271
 #, c-format
 msgid ""
-"The document \"%s\" doesn't fit on the page horizontally and will be truncated if "
-"printed.\n"
+"The document \"%s\" doesn't fit on the page horizontally and will be "
+"truncated if printed.\n"
 "\n"
 "Would you like to proceed with printing it nevertheless?"
 msgstr ""
-"Документ '%s' не помещается на странице горизонтально и будет обрезан при печати.\n"
+"Документ '%s' не помещается на странице горизонтально и будет обрезан при "
+"печати.\n"
 "\n"
 "Тем не менее, вы  точно хотите продолжить печать?"
 
@@ -6683,7 +6793,8 @@ msgstr "Цвет шрифта."
 msgid "The font family."
 msgstr "Название шрифта."
 
-#: ../src/richtext/richtextsymboldlg.cpp:405 ../src/richtext/richtextsymboldlg.cpp:407
+#: ../src/richtext/richtextsymboldlg.cpp:405
+#: ../src/richtext/richtextsymboldlg.cpp:407
 msgid "The font from which to take the symbol."
 msgstr "Шрифт, из которого следует взять символ."
 
@@ -6696,7 +6807,8 @@ msgstr "Размер шрифта."
 msgid "The font size in points."
 msgstr "Размер шрифта в точках."
 
-#: ../src/richtext/richtextfontpage.cpp:181 ../src/richtext/richtextfontpage.cpp:183
+#: ../src/richtext/richtextfontpage.cpp:181
+#: ../src/richtext/richtextfontpage.cpp:183
 msgid "The font size units, points or pixels."
 msgstr "Единицы размера шрифта, точки или пиксели."
 
@@ -6735,8 +6847,10 @@ msgstr "Размер левого поля."
 msgid "The left padding size."
 msgstr "Размер заполнения слева."
 
-#: ../src/richtext/richtextsizepage.cpp:534 ../src/richtext/richtextsizepage.cpp:536
-#: ../src/richtext/richtextsizepage.cpp:548 ../src/richtext/richtextsizepage.cpp:550
+#: ../src/richtext/richtextsizepage.cpp:534
+#: ../src/richtext/richtextsizepage.cpp:536
+#: ../src/richtext/richtextsizepage.cpp:548
+#: ../src/richtext/richtextsizepage.cpp:550
 msgid "The left position."
 msgstr "Слева от позиции проигрывания."
 
@@ -6756,27 +6870,33 @@ msgstr "Номер элемента списка."
 msgid "The locale ID is unknown."
 msgstr "ID языкового стандарта неизвестен."
 
-#: ../src/richtext/richtextsizepage.cpp:366 ../src/richtext/richtextsizepage.cpp:368
+#: ../src/richtext/richtextsizepage.cpp:366
+#: ../src/richtext/richtextsizepage.cpp:368
 msgid "The object height."
 msgstr "Высота объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:474 ../src/richtext/richtextsizepage.cpp:476
+#: ../src/richtext/richtextsizepage.cpp:474
+#: ../src/richtext/richtextsizepage.cpp:476
 msgid "The object maximum height."
 msgstr "Максимальная высота объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:447 ../src/richtext/richtextsizepage.cpp:449
+#: ../src/richtext/richtextsizepage.cpp:447
+#: ../src/richtext/richtextsizepage.cpp:449
 msgid "The object maximum width."
 msgstr "Максимальная ширина объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:420 ../src/richtext/richtextsizepage.cpp:422
+#: ../src/richtext/richtextsizepage.cpp:420
+#: ../src/richtext/richtextsizepage.cpp:422
 msgid "The object minimum height."
 msgstr "Минимальная высота объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:393 ../src/richtext/richtextsizepage.cpp:395
+#: ../src/richtext/richtextsizepage.cpp:393
+#: ../src/richtext/richtextsizepage.cpp:395
 msgid "The object minimum width."
 msgstr "Минимальная ширина объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:332 ../src/richtext/richtextsizepage.cpp:334
+#: ../src/richtext/richtextsizepage.cpp:332
+#: ../src/richtext/richtextsizepage.cpp:334
 msgid "The object width."
 msgstr "Ширина объекта."
 
@@ -6797,18 +6917,19 @@ msgstr[2] "Предыдущее сообщение повторено %u раз.
 msgid "The previous message repeated once."
 msgstr "Предыдущее сообщение повторено один раз."
 
-#: ../src/richtext/richtextsymboldlg.cpp:462 ../src/richtext/richtextsymboldlg.cpp:464
+#: ../src/richtext/richtextsymboldlg.cpp:462
+#: ../src/richtext/richtextsymboldlg.cpp:464
 msgid "The range to show."
 msgstr "Диапазон отображения."
 
 #: ../src/generic/dbgrptg.cpp:322
 msgid ""
-"The report contains the files listed below. If any of these files contain private "
-"information,\n"
+"The report contains the files listed below. If any of these files contain "
+"private information,\n"
 "please uncheck them and they will be removed from the report.\n"
 msgstr ""
-"Отчёт содержит перечисленные ниже файлы. Если любой из этих файлов содержит личную "
-"информацию,\n"
+"Отчёт содержит перечисленные ниже файлы. Если любой из этих файлов содержит "
+"личную информацию,\n"
 "снимите с них флажки, и они будут удалены из отчёта.\n"
 
 #: ../src/common/cmdline.cpp:1254
@@ -6833,8 +6954,10 @@ msgstr "Размер правого поля."
 msgid "The right padding size."
 msgstr "Размер заполнения справа."
 
-#: ../src/richtext/richtextsizepage.cpp:604 ../src/richtext/richtextsizepage.cpp:606
-#: ../src/richtext/richtextsizepage.cpp:618 ../src/richtext/richtextsizepage.cpp:620
+#: ../src/richtext/richtextsizepage.cpp:604
+#: ../src/richtext/richtextsizepage.cpp:606
+#: ../src/richtext/richtextsizepage.cpp:618
+#: ../src/richtext/richtextsizepage.cpp:620
 msgid "The right position."
 msgstr "Правая позиция."
 
@@ -6871,15 +6994,18 @@ msgstr "Интервал после абзаца."
 msgid "The spacing before the paragraph."
 msgstr "Интервал перед абзацем."
 
-#: ../src/richtext/richtextstylepage.cpp:110 ../src/richtext/richtextstylepage.cpp:112
+#: ../src/richtext/richtextstylepage.cpp:110
+#: ../src/richtext/richtextstylepage.cpp:112
 msgid "The style name."
 msgstr "Имя стиля."
 
-#: ../src/richtext/richtextstylepage.cpp:120 ../src/richtext/richtextstylepage.cpp:122
+#: ../src/richtext/richtextstylepage.cpp:120
+#: ../src/richtext/richtextstylepage.cpp:122
 msgid "The style on which this style is based."
 msgstr "Стиль на котором этот стиль основывается."
 
-#: ../src/richtext/richtextstyledlg.cpp:214 ../src/richtext/richtextstyledlg.cpp:216
+#: ../src/richtext/richtextstyledlg.cpp:214
+#: ../src/richtext/richtextstyledlg.cpp:216
 msgid "The style preview."
 msgstr "Предпросмотр стиля."
 
@@ -6887,7 +7013,8 @@ msgstr "Предпросмотр стиля."
 msgid "The system cannot find the file specified."
 msgstr "Система не может найти указанный файл."
 
-#: ../src/richtext/richtexttabspage.cpp:114 ../src/richtext/richtexttabspage.cpp:116
+#: ../src/richtext/richtexttabspage.cpp:114
+#: ../src/richtext/richtexttabspage.cpp:116
 msgid "The tab position."
 msgstr "Позиция табуляции."
 
@@ -6909,8 +7036,10 @@ msgstr "Размер верхнего поля."
 msgid "The top padding size."
 msgstr "Размер заполнения вверху."
 
-#: ../src/richtext/richtextsizepage.cpp:569 ../src/richtext/richtextsizepage.cpp:571
-#: ../src/richtext/richtextsizepage.cpp:583 ../src/richtext/richtextsizepage.cpp:585
+#: ../src/richtext/richtextsizepage.cpp:569
+#: ../src/richtext/richtextsizepage.cpp:571
+#: ../src/richtext/richtextsizepage.cpp:583
+#: ../src/richtext/richtextsizepage.cpp:585
 msgid "The top position."
 msgstr "Верхняя позиция."
 
@@ -6927,11 +7056,11 @@ msgstr "Значение радиуса угла."
 #: ../src/msw/dialup.cpp:433
 #, c-format
 msgid ""
-"The version of remote access service (RAS) installed on this machine is too old, "
-"please upgrade (the following required function is missing: %s)."
+"The version of remote access service (RAS) installed on this machine is too "
+"old, please upgrade (the following required function is missing: %s)."
 msgstr ""
-"Версия службы удаленного доступа (RAS), установленная на этом компьютере, слишком "
-"старая, обновите её (отсутствует следующая необходимая функция: %s)."
+"Версия службы удаленного доступа (RAS), установленная на этом компьютере, "
+"слишком старая, обновите её (отсутствует следующая необходимая функция: %s)."
 
 #: ../src/richtext/richtextbackgroundpage.cpp:242
 #: ../src/richtext/richtextbackgroundpage.cpp:244
@@ -6939,16 +7068,19 @@ msgid "The vertical offset."
 msgstr "Вертикальное смещение."
 
 #: ../src/richtext/richtextprint.cpp:619 ../src/html/htmprint.cpp:745
-msgid "There was a problem during page setup: you may need to set a default printer."
+msgid ""
+"There was a problem during page setup: you may need to set a default printer."
 msgstr ""
-"Возникла проблема при настройке страницы: необходимо задать принтер по-умолчанию."
+"Возникла проблема при настройке страницы: необходимо задать принтер по-"
+"умолчанию."
 
 #: ../src/html/htmprint.cpp:255
 msgid ""
-"This document doesn't fit on the page horizontally and will be truncated when it is "
-"printed."
+"This document doesn't fit on the page horizontally and will be truncated "
+"when it is printed."
 msgstr ""
-"Этот документ не помещается на странице горизонтально и будет обрезан при печати."
+"Этот документ не помещается на странице горизонтально и будет обрезан при "
+"печати."
 
 #: ../src/common/image.cpp:2854
 #, c-format
@@ -6961,18 +7093,19 @@ msgstr "Эта платформа не поддерживает прозрачн
 
 #: ../src/gtk/window.cpp:4660
 msgid ""
-"This program was compiled with a too old version of GTK+, please rebuild with GTK+ "
-"2.12 or newer."
+"This program was compiled with a too old version of GTK+, please rebuild "
+"with GTK+ 2.12 or newer."
 msgstr ""
-"Эта программа была скомпилирована со слишком старой версией GTK+,  пересоберите её "
-"с GTK+ 2.12 или новее."
+"Эта программа была скомпилирована со слишком старой версией GTK+,  "
+"пересоберите её с GTK+ 2.12 или новее."
 
 #: ../src/msw/thread.cpp:1240
 msgid ""
-"Thread module initialization failed: cannot store value in thread local storage"
+"Thread module initialization failed: cannot store value in thread local "
+"storage"
 msgstr ""
-"Ошибка инициализации модуля потоков: невозможно сохранить значение в локальном "
-"пространстве потока"
+"Ошибка инициализации модуля потоков: невозможно сохранить значение в "
+"локальном пространстве потока"
 
 #: ../src/unix/threadpsx.cpp:1794
 msgid "Thread module initialization failed: failed to create thread key"
@@ -6980,8 +7113,8 @@ msgstr "Ошибка инициализации модуля потоков: н�
 
 #: ../src/msw/thread.cpp:1228
 msgid ""
-"Thread module initialization failed: impossible to allocate index in thread local "
-"storage"
+"Thread module initialization failed: impossible to allocate index in thread "
+"local storage"
 msgstr ""
 "Ошибка инициализации модуля потоков: невозможно выделить индекс в локальном "
 "пространстве потока"
@@ -7001,7 +7134,8 @@ msgstr "Плитка &вертикально"
 #: ../src/common/ftp.cpp:200
 msgid "Timeout while waiting for FTP server to connect, try passive mode."
 msgstr ""
-"При ожидании подключения к FTP серверу возник тайм-аут, попробуйте пассивный режим."
+"При ожидании подключения к FTP серверу возник тайм-аут, попробуйте пассивный "
+"режим."
 
 #: ../src/generic/tipdlg.cpp:201
 msgid "Tip of the Day"
@@ -7029,8 +7163,8 @@ msgstr "Подсказка"
 msgid "TooltipText"
 msgstr "ТекстПодсказки"
 
-#: ../src/richtext/richtextsizepage.cpp:286 ../src/richtext/richtextsizepage.cpp:290
-#: ../src/common/stockitem.cpp:200
+#: ../src/richtext/richtextsizepage.cpp:286
+#: ../src/richtext/richtextsizepage.cpp:290 ../src/common/stockitem.cpp:200
 msgid "Top"
 msgstr "Верх"
 
@@ -7064,11 +7198,13 @@ msgstr "Турецкий (ISO-8859-9)"
 msgid "Type"
 msgstr "Тип"
 
-#: ../src/richtext/richtextfontpage.cpp:151 ../src/richtext/richtextfontpage.cpp:153
+#: ../src/richtext/richtextfontpage.cpp:151
+#: ../src/richtext/richtextfontpage.cpp:153
 msgid "Type a font name."
 msgstr "Введите имя шрифта."
 
-#: ../src/richtext/richtextfontpage.cpp:166 ../src/richtext/richtextfontpage.cpp:168
+#: ../src/richtext/richtextfontpage.cpp:166
+#: ../src/richtext/richtextfontpage.cpp:168
 msgid "Type a size in points."
 msgstr "Введите размер в точках."
 
@@ -7085,9 +7221,11 @@ msgstr "Тип должен иметь преобразование enum-long"
 #: ../src/propgrid/propgridiface.cpp:401
 #, c-format
 msgid ""
-"Type operation \"%s\" failed: Property labeled \"%s\" is of type \"%s\", NOT \"%s\"."
+"Type operation \"%s\" failed: Property labeled \"%s\" is of type \"%s\", NOT "
+"\"%s\"."
 msgstr ""
-"Операция типа '%s' не удалась: свойство с меткой '%s' имеет тип '%s', а не '%s'."
+"Операция типа '%s' не удалась: свойство с меткой '%s' имеет тип '%s', а не "
+"'%s'."
 
 #: ../src/common/paper.cpp:133
 msgid "US Std Fanfold, 14 7/8 x 11 in"
@@ -7225,7 +7363,8 @@ msgstr "Неожиданные символы, следующие за опци�
 #: ../src/unix/fswatcher_inotify.cpp:274
 #, c-format
 msgid "Unexpected event for \"%s\": no matching watch descriptor."
-msgstr "Непредвиденное событие для '%s': нет соответствующего дескриптора наблюдения."
+msgstr ""
+"Непредвиденное событие для '%s': нет соответствующего дескриптора наблюдения."
 
 #: ../src/common/cmdline.cpp:1195
 #, c-format
@@ -7240,7 +7379,8 @@ msgstr "Неожиданно был создан новый порт завер�
 msgid "Ungraceful worker thread termination"
 msgstr "Неизящное завершение рабочего потока"
 
-#: ../src/richtext/richtextsymboldlg.cpp:459 ../src/richtext/richtextsymboldlg.cpp:460
+#: ../src/richtext/richtextsymboldlg.cpp:459
+#: ../src/richtext/richtextsymboldlg.cpp:460
 #: ../src/richtext/richtextsymboldlg.cpp:461
 msgid "Unicode"
 msgstr "Юникод"
@@ -7301,7 +7441,8 @@ msgstr "Единицы ширины нижнего контура."
 msgid "Units for the bottom padding."
 msgstr "Единицы нижнего заполнения."
 
-#: ../src/richtext/richtextsizepage.cpp:664 ../src/richtext/richtextsizepage.cpp:666
+#: ../src/richtext/richtextsizepage.cpp:664
+#: ../src/richtext/richtextsizepage.cpp:666
 msgid "Units for the bottom position."
 msgstr "Единицы нижней позиции."
 
@@ -7330,31 +7471,38 @@ msgstr "Единицы ширины левого контура."
 msgid "Units for the left padding."
 msgstr "Единицы левого заполнения."
 
-#: ../src/richtext/richtextsizepage.cpp:559 ../src/richtext/richtextsizepage.cpp:561
+#: ../src/richtext/richtextsizepage.cpp:559
+#: ../src/richtext/richtextsizepage.cpp:561
 msgid "Units for the left position."
 msgstr "Единицы левой позиции."
 
-#: ../src/richtext/richtextsizepage.cpp:485 ../src/richtext/richtextsizepage.cpp:487
+#: ../src/richtext/richtextsizepage.cpp:485
+#: ../src/richtext/richtextsizepage.cpp:487
 msgid "Units for the maximum object height."
 msgstr "Единицы максимальной высоты объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:458 ../src/richtext/richtextsizepage.cpp:460
+#: ../src/richtext/richtextsizepage.cpp:458
+#: ../src/richtext/richtextsizepage.cpp:460
 msgid "Units for the maximum object width."
 msgstr "Единицы максимальной ширины объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:431 ../src/richtext/richtextsizepage.cpp:433
+#: ../src/richtext/richtextsizepage.cpp:431
+#: ../src/richtext/richtextsizepage.cpp:433
 msgid "Units for the minimum object height."
 msgstr "Единицы минимальной высоты объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:404 ../src/richtext/richtextsizepage.cpp:406
+#: ../src/richtext/richtextsizepage.cpp:404
+#: ../src/richtext/richtextsizepage.cpp:406
 msgid "Units for the minimum object width."
 msgstr "Единицы минимальной ширины объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:377 ../src/richtext/richtextsizepage.cpp:379
+#: ../src/richtext/richtextsizepage.cpp:377
+#: ../src/richtext/richtextsizepage.cpp:379
 msgid "Units for the object height."
 msgstr "Единицы высоты объекта."
 
-#: ../src/richtext/richtextsizepage.cpp:343 ../src/richtext/richtextsizepage.cpp:345
+#: ../src/richtext/richtextsizepage.cpp:343
+#: ../src/richtext/richtextsizepage.cpp:345
 msgid "Units for the object width."
 msgstr "Единицы ширины объекта."
 
@@ -7378,7 +7526,8 @@ msgstr "Единицы правой ширины контура."
 msgid "Units for the right padding."
 msgstr "Единицы правого заполнения."
 
-#: ../src/richtext/richtextsizepage.cpp:629 ../src/richtext/richtextsizepage.cpp:631
+#: ../src/richtext/richtextsizepage.cpp:629
+#: ../src/richtext/richtextsizepage.cpp:631
 msgid "Units for the right position."
 msgstr "Единицы правой позиции."
 
@@ -7402,7 +7551,8 @@ msgstr "Единицы ширины верхнего контура."
 msgid "Units for the top padding."
 msgstr "Единицы верхнего заполнения."
 
-#: ../src/richtext/richtextsizepage.cpp:594 ../src/richtext/richtextsizepage.cpp:596
+#: ../src/richtext/richtextsizepage.cpp:594
+#: ../src/richtext/richtextsizepage.cpp:596
 msgid "Units for the top position."
 msgstr "Единицы верхней позиции."
 
@@ -7565,7 +7715,8 @@ msgstr "Значение должно быть между %s и %s."
 msgid "Version "
 msgstr "Версия "
 
-#: ../src/richtext/richtextsizepage.cpp:291 ../src/richtext/richtextsizepage.cpp:293
+#: ../src/richtext/richtextsizepage.cpp:291
+#: ../src/richtext/richtextsizepage.cpp:293
 msgid "Vertical alignment."
 msgstr "Вертикальное выравнивание."
 
@@ -7796,7 +7947,8 @@ msgstr "Нельзя добавить новый каталог в эту сек
 
 #: ../src/propgrid/propgrid.cpp:3299
 msgid "You have entered invalid value. Press ESC to cancel editing."
-msgstr "Вы ввели недопустимое значение. Нажмите  ESC, чтобы отменить изменения."
+msgstr ""
+"Вы ввели недопустимое значение. Нажмите  ESC, чтобы отменить изменения."
 
 #: ../src/common/stockitem.cpp:209
 msgid "Zoom &In"
@@ -7828,11 +7980,13 @@ msgstr "приложение DDEML создало длительный race cond
 
 #: ../src/msw/dde.cpp:1129
 msgid ""
-"a DDEML function was called without first calling the DdeInitialize function,\n"
+"a DDEML function was called without first calling the DdeInitialize "
+"function,\n"
 "or an invalid instance identifier\n"
 "was passed to a DDEML function."
 msgstr ""
-"функция DDEML была вызвана без первоначального вызова функции DdeInitialize,\n"
+"функция DDEML была вызвана без первоначального вызова функции "
+"DdeInitialize,\n"
 "или неверный идентификатор экземпляра\n"
 "был передан в функцию DDEML."
 
@@ -8102,11 +8256,16 @@ msgstr "ошибка контрольной суммы читая заголов
 #: ../src/richtext/richtextmarginspage.cpp:340
 #: ../src/richtext/richtextmarginspage.cpp:363
 #: ../src/richtext/richtextmarginspage.cpp:388
-#: ../src/richtext/richtextsizepage.cpp:339 ../src/richtext/richtextsizepage.cpp:373
-#: ../src/richtext/richtextsizepage.cpp:400 ../src/richtext/richtextsizepage.cpp:427
-#: ../src/richtext/richtextsizepage.cpp:454 ../src/richtext/richtextsizepage.cpp:481
-#: ../src/richtext/richtextsizepage.cpp:555 ../src/richtext/richtextsizepage.cpp:590
-#: ../src/richtext/richtextsizepage.cpp:625 ../src/richtext/richtextsizepage.cpp:660
+#: ../src/richtext/richtextsizepage.cpp:339
+#: ../src/richtext/richtextsizepage.cpp:373
+#: ../src/richtext/richtextsizepage.cpp:400
+#: ../src/richtext/richtextsizepage.cpp:427
+#: ../src/richtext/richtextsizepage.cpp:454
+#: ../src/richtext/richtextsizepage.cpp:481
+#: ../src/richtext/richtextsizepage.cpp:555
+#: ../src/richtext/richtextsizepage.cpp:590
+#: ../src/richtext/richtextsizepage.cpp:625
+#: ../src/richtext/richtextsizepage.cpp:660
 msgid "cm"
 msgstr "см"
 
@@ -8216,7 +8375,8 @@ msgstr "файл '%s', строка %zu: ключ '%s' был впервые н�
 #: ../src/common/fileconf.cpp:621
 #, c-format
 msgid "file '%s', line %zu: value for immutable key '%s' ignored."
-msgstr "файл '%s', строка %zu: значение для неизменяемого ключа '%s' игнорируется."
+msgstr ""
+"файл '%s', строка %zu: значение для неизменяемого ключа '%s' игнорируется."
 
 #: ../src/common/fileconf.cpp:543
 #, c-format
@@ -8247,7 +8407,8 @@ msgstr "четвёртый"
 msgid "generate verbose log messages"
 msgstr "генерировать подробные сообщения отладки"
 
-#: ../src/richtext/richtextbuffer.cpp:13138 ../src/richtext/richtextbuffer.cpp:13248
+#: ../src/richtext/richtextbuffer.cpp:13138
+#: ../src/richtext/richtextbuffer.cpp:13248
 msgid "image"
 msgstr "изображения"
 
@@ -8345,7 +8506,8 @@ msgstr "описание контекста процесса"
 #: ../src/richtext/richtextbackgroundpage.cpp:250
 #: ../src/richtext/richtextbackgroundpage.cpp:290
 #: ../src/richtext/richtextbackgroundpage.cpp:317
-#: ../src/richtext/richtextfontpage.cpp:177 ../src/richtext/richtextfontpage.cpp:180
+#: ../src/richtext/richtextfontpage.cpp:177
+#: ../src/richtext/richtextfontpage.cpp:180
 #: ../src/richtext/richtextborderspage.cpp:255
 #: ../src/richtext/richtextborderspage.cpp:289
 #: ../src/richtext/richtextborderspage.cpp:323
@@ -8422,21 +8584,36 @@ msgstr "pt"
 #: ../src/richtext/richtextmarginspage.cpp:387
 #: ../src/richtext/richtextmarginspage.cpp:389
 #: ../src/richtext/richtextmarginspage.cpp:390
-#: ../src/richtext/richtextsizepage.cpp:338 ../src/richtext/richtextsizepage.cpp:341
-#: ../src/richtext/richtextsizepage.cpp:342 ../src/richtext/richtextsizepage.cpp:372
-#: ../src/richtext/richtextsizepage.cpp:375 ../src/richtext/richtextsizepage.cpp:376
-#: ../src/richtext/richtextsizepage.cpp:399 ../src/richtext/richtextsizepage.cpp:402
-#: ../src/richtext/richtextsizepage.cpp:403 ../src/richtext/richtextsizepage.cpp:426
-#: ../src/richtext/richtextsizepage.cpp:429 ../src/richtext/richtextsizepage.cpp:430
-#: ../src/richtext/richtextsizepage.cpp:453 ../src/richtext/richtextsizepage.cpp:456
-#: ../src/richtext/richtextsizepage.cpp:457 ../src/richtext/richtextsizepage.cpp:480
-#: ../src/richtext/richtextsizepage.cpp:483 ../src/richtext/richtextsizepage.cpp:484
-#: ../src/richtext/richtextsizepage.cpp:554 ../src/richtext/richtextsizepage.cpp:557
-#: ../src/richtext/richtextsizepage.cpp:558 ../src/richtext/richtextsizepage.cpp:589
-#: ../src/richtext/richtextsizepage.cpp:592 ../src/richtext/richtextsizepage.cpp:593
-#: ../src/richtext/richtextsizepage.cpp:624 ../src/richtext/richtextsizepage.cpp:627
-#: ../src/richtext/richtextsizepage.cpp:628 ../src/richtext/richtextsizepage.cpp:659
-#: ../src/richtext/richtextsizepage.cpp:662 ../src/richtext/richtextsizepage.cpp:663
+#: ../src/richtext/richtextsizepage.cpp:338
+#: ../src/richtext/richtextsizepage.cpp:341
+#: ../src/richtext/richtextsizepage.cpp:342
+#: ../src/richtext/richtextsizepage.cpp:372
+#: ../src/richtext/richtextsizepage.cpp:375
+#: ../src/richtext/richtextsizepage.cpp:376
+#: ../src/richtext/richtextsizepage.cpp:399
+#: ../src/richtext/richtextsizepage.cpp:402
+#: ../src/richtext/richtextsizepage.cpp:403
+#: ../src/richtext/richtextsizepage.cpp:426
+#: ../src/richtext/richtextsizepage.cpp:429
+#: ../src/richtext/richtextsizepage.cpp:430
+#: ../src/richtext/richtextsizepage.cpp:453
+#: ../src/richtext/richtextsizepage.cpp:456
+#: ../src/richtext/richtextsizepage.cpp:457
+#: ../src/richtext/richtextsizepage.cpp:480
+#: ../src/richtext/richtextsizepage.cpp:483
+#: ../src/richtext/richtextsizepage.cpp:484
+#: ../src/richtext/richtextsizepage.cpp:554
+#: ../src/richtext/richtextsizepage.cpp:557
+#: ../src/richtext/richtextsizepage.cpp:558
+#: ../src/richtext/richtextsizepage.cpp:589
+#: ../src/richtext/richtextsizepage.cpp:592
+#: ../src/richtext/richtextsizepage.cpp:593
+#: ../src/richtext/richtextsizepage.cpp:624
+#: ../src/richtext/richtextsizepage.cpp:627
+#: ../src/richtext/richtextsizepage.cpp:628
+#: ../src/richtext/richtextsizepage.cpp:659
+#: ../src/richtext/richtextsizepage.cpp:662
+#: ../src/richtext/richtextsizepage.cpp:663
 msgid "px"
 msgstr "px"
 

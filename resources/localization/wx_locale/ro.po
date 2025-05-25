@@ -503,8 +503,7 @@ msgstr "&Rețea"
 msgid "&New"
 msgstr "&Nou"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&Următor"
 
@@ -578,8 +577,7 @@ msgstr "&Mode de poziționare"
 msgid "&Preferences"
 msgstr "&Preferințe"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&Anterior"
 
@@ -5938,8 +5936,8 @@ msgstr "Tipărire"
 msgid ""
 "Processing debug report has failed, leaving the files in \"%s\" directory."
 msgstr ""
-"Procesarea raportului de depanare a eșuat, fișierele răman în directorul \"%s"
-"\"."
+"Procesarea raportului de depanare a eșuat, fișierele răman în directorul "
+"\"%s\"."
 
 #: ../src/common/prntbase.cpp:545
 msgid "Progress:"
@@ -9065,15 +9063,15 @@ msgstr "~"
 #~ msgstr "Renderer-ul de date nu poate reda valoarea; tipul valorii: "
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"
 #~ "%s %1"
 #~ msgstr ""
-#~ "Vreți să suprascrieți comanda folosită la fișierele %s cu extensia \"%s"
-#~ "\" ?\n"
+#~ "Vreți să suprascrieți comanda folosită la fișierele %s cu extensia "
+#~ "\"%s\" ?\n"
 #~ "Valoarea curentă este \n"
 #~ "%s, \n"
 #~ "Valoarea nouă este \n"

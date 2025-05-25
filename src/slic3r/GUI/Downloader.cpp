@@ -140,6 +140,18 @@ Downloader::Downloader()
 	Bind(EVT_DWNLDR_FILE_CANCELED, &Downloader::on_canceled, this);
 }
 
+namespace {
+bool is_any_subdomain(const std::string& url, const std::vector<std::string>& subdomains)
+{
+    for (const std::string& sub : subdomains)
+    {
+        if(FileGet::is_subdomain(url, sub))
+            return true;
+    }
+    return false;
+}
+
+}
 void Downloader::start_download(const std::string& full_url)
 {
 	assert(m_initialized);
@@ -156,8 +168,8 @@ void Downloader::start_download(const std::string& full_url)
 
     size_t id = get_next_id();
 
-	if (!boost::starts_with(escaped_url, "https://") || !FileGet::is_subdomain(escaped_url, "printables.com")) {
-		std::string msg = format(_L("Download won't start. Download URL doesn't point to https://printables.com : %1%"), escaped_url);
+    if (!boost::starts_with(escaped_url, "https://") || !is_any_subdomain(escaped_url, {"printables.com", "thingiverse.com"})) {
+		std::string msg = format(_L("Download won't start. Download URL doesn't point to allowed subdomains : %1%"), escaped_url);
 		BOOST_LOG_TRIVIAL(error) << msg;
 		NotificationManager* ntf_mngr = wxGetApp().notification_manager();
 		ntf_mngr->push_notification(NotificationType::CustomNotification, NotificationManager::NotificationLevel::RegularNotificationLevel, msg);
@@ -198,12 +210,12 @@ void Downloader::start_download_printables(const std::string& url, bool load_aft
 
 void Downloader::on_progress(wxCommandEvent& event)
 {
-    size_t id = event.GetInt();
-    float percent = (float)std::stoi(into_u8(event.GetString())) / 100.f;
-    //BOOST_LOG_TRIVIAL(error) << "progress " << id << ": " << percent;
-    NotificationManager* ntf_mngr = wxGetApp().notification_manager();
-    BOOST_LOG_TRIVIAL(trace) << "Download "<< id << ": " << percent;
-    ntf_mngr->set_download_URL_progress(id, percent);
+	size_t id = event.GetInt();
+	float percent = (float)std::stoi(into_u8(event.GetString())) / 100.f;
+	//BOOST_LOG_TRIVIAL(error) << "progress " << id << ": " << percent;
+	NotificationManager* ntf_mngr = wxGetApp().notification_manager();
+	//BOOST_LOG_TRIVIAL(trace) << "Download "<< id << ": " << percent;
+	ntf_mngr->set_download_URL_progress(id, percent);
 }
 void Downloader::on_error(wxCommandEvent& event)
 {
@@ -250,7 +262,9 @@ bool Downloader::user_action_callback(DownloaderUserAction action, int id)
 
 void Downloader::on_name_change(wxCommandEvent& event)
 {
-
+    size_t id = event.GetInt();
+	NotificationManager* ntf_mngr = wxGetApp().notification_manager();
+	ntf_mngr->set_download_URL_filename(id, into_u8(event.GetString()));
 }
 
 void Downloader::on_paused(wxCommandEvent& event)

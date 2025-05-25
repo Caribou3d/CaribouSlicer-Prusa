@@ -504,8 +504,7 @@ msgstr "&Ret"
 msgid "&New"
 msgstr "&Nuevo"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&Siguient"
 
@@ -579,8 +578,7 @@ msgstr "Modo de &posición:"
 msgid "&Preferences"
 msgstr "&Preferencias"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&Anterior"
 
@@ -3329,8 +3327,8 @@ msgstr "S'ha produciu una error en obtener os nombres d'ISP: %s"
 #, c-format
 msgid "Failed to get OLE automation interface for \"%s\""
 msgstr ""
-"S'ha produciu una error en obtener a interficie OLE d'automatización ta \"%s"
-"\""
+"S'ha produciu una error en obtener a interficie OLE d'automatización ta "
+"\"%s\""
 
 #: ../src/msw/clipbrd.cpp:711
 msgid "Failed to get data from the clipboard"
@@ -9094,8 +9092,8 @@ msgstr "~"
 #~ "O renderizador de calendata no puet renderizar a valura; tipo de valura: "
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

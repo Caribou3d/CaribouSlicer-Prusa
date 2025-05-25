@@ -501,8 +501,7 @@ msgstr "&Sieć"
 msgid "&New"
 msgstr "&Nowy"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&Następne"
 
@@ -576,8 +575,7 @@ msgstr "&Tryb pozycji:"
 msgid "&Preferences"
 msgstr "&Preferencje"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&Poprzednie"
 
@@ -7335,8 +7333,8 @@ msgid ""
 "Type operation \"%s\" failed: Property labeled \"%s\" is of type \"%s\", NOT "
 "\"%s\"."
 msgstr ""
-"Niepowodzenie operacji typu \"%s\": właściwość nazwana  \"%s\" jest typu \"%s"
-"\", nie \"%s\"."
+"Niepowodzenie operacji typu \"%s\": właściwość nazwana  \"%s\" jest typu "
+"\"%s\", nie \"%s\"."
 
 #: ../src/common/paper.cpp:133
 msgid "US Std Fanfold, 14 7/8 x 11 in"
@@ -9092,8 +9090,8 @@ msgstr "~"
 #~ msgstr "Render daty nie może renderować wartości; typ wartości:"
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

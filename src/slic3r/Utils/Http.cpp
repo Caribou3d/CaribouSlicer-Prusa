@@ -137,15 +137,17 @@ struct Http::priv
 	Http::ProgressFn progressfn;
 	Http::IPResolveFn ipresolvefn;
     Http::RetryFn retryfn;
+    Http::HeadersFn headersfn;
 
     priv(const std::string &url);
     ~priv();
 
-    static bool ca_file_supported(::CURL *curl);
-    static size_t writecb(void *data, size_t size, size_t nmemb, void *userp);
-    static int xfercb(void *userp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow);
-    static int xfercb_legacy(void *userp, double dltotal, double dlnow, double ultotal, double ulnow);
-    static size_t form_file_read_cb(char *buffer, size_t size, size_t nitems, void *userp);
+	static bool ca_file_supported(::CURL *curl);
+	static size_t writecb(void *data, size_t size, size_t nmemb, void *userp);
+    static size_t headercb(void *data, size_t size, size_t nmemb, void *userp);
+	static int xfercb(void *userp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow);
+	static int xfercb_legacy(void *userp, double dltotal, double dlnow, double ultotal, double ulnow);
+	static size_t form_file_read_cb(char *buffer, size_t size, size_t nitems, void *userp);
 
     void set_timeout_connect(long timeout);
     void set_timeout_max(long timeout);
@@ -200,11 +202,11 @@ bool Http::priv::ca_file_supported(::CURL *curl)
 
     if (curl == nullptr) { return res; }
 
-#if LIBCURL_VERSION_MAJOR >= 7 && LIBCURL_VERSION_MINOR >= 48
-    ::curl_tlssessioninfo *tls;
-    if (::curl_easy_getinfo(curl, CURLINFO_TLS_SSL_PTR, &tls) == CURLE_OK) {
-        if (tls->backend == CURLSSLBACKEND_SCHANNEL || tls->backend == CURLSSLBACKEND_DARWINSSL) {
-            // With Windows and OS X native SSL support, cert files cannot be set
+#if LIBCURL_VERSION_NUM >= 0x073000 // equivalent to v7.48 or greater
+	::curl_tlssessioninfo *tls;
+	if (::curl_easy_getinfo(curl, CURLINFO_TLS_SSL_PTR, &tls) == CURLE_OK) {
+		if (tls->backend == CURLSSLBACKEND_SCHANNEL || tls->backend == CURLSSLBACKEND_DARWINSSL) {
+			// With Windows and OS X native SSL support, cert files cannot be set
             // DK: OSX is now not building CURL and links system one, thus we do not know which backend is installed. Still, false will be returned since the ifdef at the begining if this function.
             res = false;
         }
@@ -228,6 +230,14 @@ size_t Http::priv::writecb(void *data, size_t size, size_t nmemb, void *userp)
     self->buffer.append(cdata, realsize);
 
     return realsize;
+}
+
+size_t Http::priv::headercb(void *data, size_t size, size_t nmemb, void *userp)
+{
+    std::string header(reinterpret_cast<char*>(data), size * nmemb);
+    std::string *header_data = static_cast<std::string*>(userp);
+    header_data->append(header);
+    return size * nmemb;
 }
 
 int Http::priv::xfercb(void *userp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
@@ -363,10 +373,10 @@ void Http::priv::http_perform(const HttpRetryOpt& retry_opts)
 	::curl_easy_setopt(curl, CURLOPT_WRITEDATA, static_cast<void*>(this));
 	::curl_easy_setopt(curl, CURLOPT_READFUNCTION, form_file_read_cb);
 
-    ::curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-#if LIBCURL_VERSION_MAJOR >= 7 && LIBCURL_VERSION_MINOR >= 32
-    ::curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, xfercb);
-    ::curl_easy_setopt(curl, CURLOPT_XFERINFODATA, static_cast<void*>(this));
+	::curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+#if LIBCURL_VERSION_NUM >= 0x072000 // equivalent to v7.32 or higher
+	::curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, xfercb);
+	::curl_easy_setopt(curl, CURLOPT_XFERINFODATA, static_cast<void*>(this));
 #ifndef _WIN32
     (void)xfercb_legacy;   // prevent unused function warning
 #endif
@@ -377,9 +387,13 @@ void Http::priv::http_perform(const HttpRetryOpt& retry_opts)
 
     ::curl_easy_setopt(curl, CURLOPT_VERBOSE, get_logging_level() >= 5);
 
-    if (headerlist != nullptr) {
-        ::curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headerlist);
-    }
+    std::string header_data;
+    curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, headercb);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_data);
+
+	if (headerlist != nullptr) {
+		::curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headerlist);
+	}
 
     if (form != nullptr) {
         ::curl_easy_setopt(curl, CURLOPT_HTTPPOST, form);
@@ -441,19 +455,22 @@ void Http::priv::http_perform(const HttpRetryOpt& retry_opts)
 		};
 	} else {
 
-        if (http_status >= 400) {
-            if (errorfn) { errorfn(std::move(buffer), std::string(), http_status); }
-        } else {
-            if (completefn) { completefn(std::move(buffer), http_status); }
-            if (ipresolvefn) {
-                char* ct;
-                res = curl_easy_getinfo(curl, CURLINFO_PRIMARY_IP, &ct);
-                if ((CURLE_OK == res) && ct) {
-                    ipresolvefn(ct);
-                }
+		if (http_status >= 400) {
+			if (errorfn) { errorfn(std::move(buffer), std::string(), http_status); }
+		} else {
+            if (headersfn && !header_data.empty()) {
+                headersfn(header_data);
             }
-        }
-    }
+			if (completefn) { completefn(std::move(buffer), http_status); }
+			if (ipresolvefn) {
+				char* ct;
+				res = curl_easy_getinfo(curl, CURLINFO_PRIMARY_IP, &ct);
+				if ((CURLE_OK == res) && ct) {
+					ipresolvefn(ct);
+				}
+			}
+		}
+	}
 }
 
 Http::Http(const std::string &url) : p(new priv(url)) {}
@@ -654,6 +671,12 @@ Http& Http::on_ip_resolve(IPResolveFn fn)
 Http& Http::on_retry(RetryFn fn)
 {
 	if (p) { p->retryfn = std::move(fn); }
+	return *this;
+}
+
+Http& Http::on_headers(HeadersFn fn)
+{
+	if (p) { p->headersfn = std::move(fn); }
 	return *this;
 }
 

@@ -521,8 +521,7 @@ msgstr "&Baru"
 msgid "&New"
 msgstr "&Baru"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "Seterus&nya"
 
@@ -599,8 +598,7 @@ msgstr "Soalan"
 msgid "&Preferences"
 msgstr "Keutamaan"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&Sebelum"
 
@@ -9230,15 +9228,15 @@ msgstr "~"
 #~ msgstr "Gagal mulakan mencetak."
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"
 #~ "%s %1"
 #~ msgstr ""
-#~ "Anda ingin menindih arahan yang diguna untuk fail %s dengan sambungan \"%s"
-#~ "\"?\n"
+#~ "Anda ingin menindih arahan yang diguna untuk fail %s dengan sambungan "
+#~ "\"%s\"?\n"
 #~ "Nilai semasa adalah \n"
 #~ "%s, \n"
 #~ "Nilai baru adalah \n"

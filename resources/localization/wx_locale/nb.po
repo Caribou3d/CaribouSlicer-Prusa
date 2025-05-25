@@ -529,8 +529,7 @@ msgstr "&Ny"
 msgid "&New"
 msgstr "&Ny"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&Neste"
 
@@ -606,8 +605,7 @@ msgstr "Spørsmål"
 msgid "&Preferences"
 msgstr "&Innstillinger"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&Forrige"
 
@@ -2090,8 +2088,8 @@ msgstr "Endre stil"
 #, c-format
 msgid "Changes won't be saved to avoid overwriting the existing file \"%s\""
 msgstr ""
-"Endringer vil ikke bli lagret for å unngå å overskrive eksisterende fil \"%s"
-"\""
+"Endringer vil ikke bli lagret for å unngå å overskrive eksisterende fil "
+"\"%s\""
 
 #: ../src/gtk/filepicker.cpp:190 ../src/gtk/filedlg.cpp:87
 #, fuzzy, c-format
@@ -9239,8 +9237,8 @@ msgstr ""
 #~ msgstr "Klarte ikke å sette egenskapsflagg."
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

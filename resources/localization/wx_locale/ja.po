@@ -504,8 +504,7 @@ msgstr "ネットワーク (&N)"
 msgid "&New"
 msgstr "新規作成 (&N)"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "次 (&N)"
 
@@ -581,8 +580,7 @@ msgstr "印刷"
 msgid "&Preferences"
 msgstr "設定 (&P)"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "前 (&P)"
 
@@ -9165,8 +9163,8 @@ msgstr "~"
 #~ msgstr "日付レンダラーが値をレンダリングできません; 値の型:"
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"
