@@ -57,12 +57,11 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_fff->on_change = [config, this](t_config_option_key opt_key, boost::any value) {
         Tab* tab_print = wxGetApp().get_tab(Preset::TYPE_PRINT);
-        std::cout << "opt_key " <<  opt_key << std::endl;
         if (!tab_print) return;
 
         if ((opt_key == "perimeters" )
             || (opt_key == "top_solid_layers") || (opt_key == "bottom_solid_layers" )
-            || (opt_key == "fill_density") 
+            || (opt_key == "fill_density")
             || (opt_key == "skirts") || (opt_key == "skirt_height")) {
             tab_print->update_dirty();
             tab_print->reload_config();

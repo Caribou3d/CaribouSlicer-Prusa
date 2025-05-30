@@ -125,9 +125,6 @@ AppUpdateAvailableDialog::AppUpdateAvailableDialog(const Semver& ver_current, co
 	AUAD_size = content_sizer->GetSize();
 
 
-    AUAD_size = content_sizer->GetSize();
-
-
     add_button(wxID_CANCEL);
 
     if (auto* btn_ok = get_button(wxID_OK); btn_ok != NULL) {

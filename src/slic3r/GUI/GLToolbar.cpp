@@ -1246,8 +1246,7 @@ void GLToolbar::render_horizontal(const GLCanvas3D& parent)
             left += separator_stride;
         else {
             if (item->is_pressed())
-                //render_background(left - (id == m_items.size() ? border_w : margin_w),
-                render_background(left - (static_cast<std::vector<Slic3r::GUI::GLToolbarItem*>::size_type>(id) == m_items.size() ? border_w : margin_w),
+                render_background(left - (id == m_items.size() ? border_w : margin_w),
                                   top + margin_h,
                                   left + icons_size_x + (id == 1 ? border_w : margin_w),
                                   top - icons_size_y - margin_h,

@@ -177,7 +177,7 @@ RTCORE_API ssize_t rtcDeviceGetParameter1i(RTCDevice device, const RTCParameter 
 /*! \brief Error codes returned by the rtcGetError function. */
 enum RTCError {
   RTC_NO_ERROR = 0,          //!< No error has been recorded.
-  RTC_UNKNOWN_ERROR = 1,     //!< An unknown error has occurred.
+  RTC_UNKNOWN_ERROR = 1,     //!< An unknown error has occured.
   RTC_INVALID_ARGUMENT = 2,  //!< An invalid argument is specified
   RTC_INVALID_OPERATION = 3, //!< The operation is not allowed for the specified object.
   RTC_OUT_OF_MEMORY = 4,     //!< There is not enough memory left to execute the command.

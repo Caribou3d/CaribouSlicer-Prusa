@@ -82,7 +82,7 @@ void desktop_execute_get_result(wxString command, wxArrayString& output);
 #endif // __linux__
 
 #ifdef _WIN32
-// Call CreateProcessW to start external process on path
+// Call CreateProcessW to start external proccess on path
 // returns true on success
 // path should contain path to the process
 // cmd_opt can be empty or contain command line options. Example: L"/silent"

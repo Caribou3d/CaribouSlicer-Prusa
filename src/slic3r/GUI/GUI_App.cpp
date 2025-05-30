@@ -1037,7 +1037,7 @@ void GUI_App::legacy_app_config_vendor_check()
         return;
     }
 
-    BOOST_LOG_TRIVIAL(warning) << "CaribouSlicerhas found legacy SLA printers. The printers will be "
+    BOOST_LOG_TRIVIAL(warning) << "CaribouSlicer has found legacy SLA printers. The printers will be "
                                   "moved to new vendor and its ini file will be installed. Configuration snapshot will be taken.";
 
      // Take snapshot now, since creation of new vendors in appconfig, snapshots wont be compatible in older slicers.
@@ -1665,7 +1665,7 @@ bool GUI_App::on_init_inner()
 
         // An ugly solution to GH #5537 in which GUI_App::init_opengl (normally called from events wxEVT_PAINT
         // and wxEVT_SET_FOCUS before GUI_App::post_init is called) wasn't called before GUI_App::post_init and OpenGL wasn't initialized.
-        // Since issue #9774 Where same problem occurred on MacOS Ventura, we decided to have this check on MacOS as well.
+        // Since issue #9774 Where same problem occured on MacOS Ventura, we decided to have this check on MacOS as well.
 
 #if defined(__linux__) || defined(__APPLE__)
         if (!m_post_initialized && m_opengl_initialized) {
@@ -2652,7 +2652,7 @@ bool GUI_App::load_language(wxString language, bool initial)
     }
 
     if (language_info == nullptr) {
-        // CaribouSlicerdoes not support the Right to Left languages yet.
+        // CaribouSlicer does not support the Right to Left languages yet.
         if (m_language_info_system != nullptr && m_language_info_system->LayoutDirection != wxLayout_RightToLeft)
             language_info = m_language_info_system;
         if (m_language_info_best != nullptr && m_language_info_best->LayoutDirection != wxLayout_RightToLeft)

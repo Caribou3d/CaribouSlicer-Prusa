@@ -203,8 +203,7 @@ static bool stl_read(stl_file *stl, FILE *fp, int first_facet, bool first)
                 sscanf(normal_buf[2], "%f", &facet.normal(2)) != 1) {
                 // Normal was mangled. Maybe denormals or "not a number" were stored?
                   // Just reset the normal and silently ignore it.
-//                  memset(&facet.normal, 0, sizeof(facet.normal));
-                  facet.normal.setZero();
+			  	memset(&facet.normal, 0, sizeof(facet.normal));
             }
         }
 

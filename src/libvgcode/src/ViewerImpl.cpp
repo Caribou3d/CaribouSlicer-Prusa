@@ -1889,8 +1889,7 @@ void ViewerImpl::render_segments(const Mat4x4& view_matrix, const Mat4x4& projec
     }
 #else
     std::array<int, 4> curr_bound_texture = { 0, 0, 0, 0 };
-    for (auto i = 0u; i < curr_bound_texture.size(); ++i) {    
-    // for (int i = 0; i < curr_bound_texture.size(); ++i) {
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
         glsafe(glActiveTexture(GL_TEXTURE0 + i));
         glsafe(glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, &curr_bound_texture[i]));
         //assert(curr_bound_texture[i] == 0);
@@ -1919,8 +1918,7 @@ void ViewerImpl::render_segments(const Mat4x4& view_matrix, const Mat4x4& projec
 #ifdef ENABLE_OPENGL_ES
     glsafe(glBindTexture(GL_TEXTURE_2D, curr_bound_texture));
 #else
-//    for (int i = 0; i < curr_bound_texture.size(); ++i) {
-    for (auto i = 0u; i < curr_bound_texture.size(); ++i) {
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
         glsafe(glActiveTexture(GL_TEXTURE0 + i));
         glsafe(glBindTexture(GL_TEXTURE_BUFFER, curr_bound_texture[i]));
     }
@@ -1978,8 +1976,7 @@ void ViewerImpl::render_options(const Mat4x4& view_matrix, const Mat4x4& project
     }
 #else
     std::array<int, 4> curr_bound_texture = { 0, 0, 0, 0 };
-    // for (int i = 0; i < curr_bound_texture.size(); ++i) {
-    for (auto i = 0u; i < curr_bound_texture.size(); ++i) {        
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
         glsafe(glActiveTexture(GL_TEXTURE0 + i));
         glsafe(glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, &curr_bound_texture[i]));
         //assert(curr_bound_texture[i] == 0);
@@ -2008,8 +2005,7 @@ void ViewerImpl::render_options(const Mat4x4& view_matrix, const Mat4x4& project
 #ifdef ENABLE_OPENGL_ES
     glsafe(glBindTexture(GL_TEXTURE_2D, curr_bound_texture));
 #else
-    // for (int i = 0; i < curr_bound_texture.size(); ++i) {
-    for (auto i = 0u; i < curr_bound_texture.size(); ++i) {        
+    for (int i = 0; i < curr_bound_texture.size(); ++i) {
         glsafe(glActiveTexture(GL_TEXTURE0 + i));
         glsafe(glBindTexture(GL_TEXTURE_BUFFER, curr_bound_texture[i]));
     }
