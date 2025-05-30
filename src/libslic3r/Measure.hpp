@@ -53,7 +53,7 @@ public:
     Vec3d get_point() const { assert(m_type == SurfaceFeatureType::Point); return m_pt1; }
 
     // For edges, return start and end.
-    std::pair<Vec3d, Vec3d> get_edge() const { assert(m_type == SurfaceFeatureType::Edge); return std::make_pair(m_pt1, m_pt2); }
+    std::pair<Vec3d, Vec3d> get_edge() const { assert(m_type == SurfaceFeatureType::Edge); return std::make_pair(m_pt1, m_pt2); }    
 
     // For circles, return center, radius and normal.
     std::tuple<Vec3d, double, Vec3d> get_circle() const { assert(m_type == SurfaceFeatureType::Circle); return std::make_tuple(m_pt1, m_value, m_pt2); }
@@ -123,7 +123,7 @@ public:
     // Returns the mesh used for measuring
     const indexed_triangle_set& get_its() const;
 
-private:
+private: 
     std::unique_ptr<MeasuringImpl> priv;
 };
 

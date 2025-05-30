@@ -126,7 +126,7 @@ void CalibrationTempDialog::create_geometry(wxCommandEvent& event_args) {
 
     for (int16_t i = 0; i < parts; i++) {
         double changelayer = partheightscaled * i + baseheightscaled + layer_height;
-        model.custom_gcode_per_print_z.gcodes.emplace_back(CustomGCode::Item{ changelayer, CustomGCode::Type::Custom , -1, "", "M104 S" + std::to_string(temperature) + " ; floor " + std::to_string(i+1) + " of the temp tower" });
+        model.custom_gcode_per_print_z().gcodes.emplace_back(CustomGCode::Item{ changelayer, CustomGCode::Type::Custom , -1, "", "M104 S" + std::to_string(temperature) + " ; floor " + std::to_string(i+1) + " of the temp tower" });
         temperature -= step_temp;
     }
 

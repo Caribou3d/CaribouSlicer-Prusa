@@ -159,10 +159,10 @@ static Polylines make_gyroid_waves(double gridZ, double density_adjusted, double
 constexpr double FillGyroid::PatternTolerance;
 
 void FillGyroid::_fill_surface_single(
-    const FillParams                &params,
+    const FillParams                &params, 
     unsigned int                     thickness_layers,
-    const std::pair<float, Point>   &direction,
-    ExPolygon                        expolygon,
+    const std::pair<float, Point>   &direction, 
+    ExPolygon                        expolygon, 
     Polylines                       &polylines_out)
 {
     auto infill_angle = float(this->angle + (CorrectionAngle * 2*M_PI) / 360.);
@@ -186,34 +186,34 @@ void FillGyroid::_fill_surface_single(
         ceil(bb.size()(0) / distance) + 1.,
         ceil(bb.size()(1) / distance) + 1.);
 
-    // shift the polyline to the grid origin
-    for (Polyline &pl : polylines)
-        pl.translate(bb.min);
+	// shift the polyline to the grid origin
+	for (Polyline &pl : polylines)
+		pl.translate(bb.min);
 
-    polylines = intersection_pl(polylines, expolygon);
+	polylines = intersection_pl(polylines, expolygon);
 
     if (! polylines.empty()) {
-        // Remove very small bits, but be careful to not remove infill lines connecting thin walls!
+		// Remove very small bits, but be careful to not remove infill lines connecting thin walls!
         // The infill perimeter lines should be separated by around a single infill line width.
         const double minlength = scale_(0.8 * this->spacing);
-        polylines.erase(
-            std::remove_if(polylines.begin(), polylines.end(), [minlength](const Polyline &pl) { return pl.length() < minlength; }),
-            polylines.end());
+		polylines.erase(
+			std::remove_if(polylines.begin(), polylines.end(), [minlength](const Polyline &pl) { return pl.length() < minlength; }),
+			polylines.end());
     }
 
-    if (! polylines.empty()) {
-        // connect lines
-        size_t polylines_out_first_idx = polylines_out.size();
-        if (params.dont_connect())
-            append(polylines_out, chain_polylines(polylines));
+	if (! polylines.empty()) {
+		// connect lines
+		size_t polylines_out_first_idx = polylines_out.size();
+		if (params.dont_connect())
+        	append(polylines_out, chain_polylines(polylines));
         else
             this->connect_infill(std::move(polylines), expolygon, polylines_out, this->spacing, params);
 
-        // new paths must be rotated back
+	    // new paths must be rotated back
         if (std::abs(infill_angle) >= EPSILON) {
-            for (auto it = polylines_out.begin() + polylines_out_first_idx; it != polylines_out.end(); ++ it)
-                it->rotate(infill_angle);
-        }
+	        for (auto it = polylines_out.begin() + polylines_out_first_idx; it != polylines_out.end(); ++ it)
+	        	it->rotate(infill_angle);
+	    }
     }
 }
 

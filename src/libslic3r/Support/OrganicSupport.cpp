@@ -223,7 +223,7 @@ Forest make_forest(const TreeSupportSettings &config, const SlicingParameters &s
 
             if (parent_branch) {
                 // Update initial radii of thin branches merging with a trunk.
-                auto it_up_max_r = std::max_element(parent_branch->up.begin(), parent_branch->up.end(),
+                auto it_up_max_r = std::max_element(parent_branch->up.begin(), parent_branch->up.end(), 
                     [](const Bifurcation &l, const Bifurcation &r){ return l.branch->path[1].radius < r.branch->path[1].radius; });
                 const float r1               = it_up_max_r->branch->path[1].radius;
                 const float radius_increment = unscaled<float>(config.branch_radius_increase_per_layer);
@@ -235,7 +235,7 @@ Forest make_forest(const TreeSupportSettings &config, const SlicingParameters &s
                             el.radius = std::min(el.radius, el2.radius + radius_increment);
                     }
                 // Sort children of parent_branch by decreasing radius.
-                std::sort(parent_branch->up.begin(), parent_branch->up.end(),
+                std::sort(parent_branch->up.begin(), parent_branch->up.end(), 
                     [](const Bifurcation &l, const Bifurcation &r){ return l.branch->path.front().radius > r.branch->path.front().radius; });
                 // Update number of branches to be considered a continuation of the trunk during smoothing.
                 {
@@ -346,7 +346,7 @@ void smooth_trees_inside_influence_areas(Branch &root, bool is_root)
     // apply laplacian smoothing only at a bifurcation point.
     //
     // Applying a bilaplacian smoothing inside a branch should ensure curvature of the brach to be lower
-    // than the radius at each particular point of the centerline,
+    // than the radius at each particular point of the centerline, 
     // while omitting bilaplacian smoothing at bifurcation points will create sharp bifurcations.
     // Sharp bifurcations have a smaller volume, but just a tiny bit larger surfaces than smooth bifurcations
     // where each continuation of the trunk satifies the path radius > centerline element radius.
@@ -482,7 +482,7 @@ void smooth_trees_inside_influence_areas(Forest &forest)
 // Circles are considered intersecting, if the lowest point on one circle is below the other circle's plane.
 // Assumption: The two planes are oriented the same way.
 static bool circles_intersect(
-    const Vec3d &p1, const Vec3d &n1, const double r1,
+    const Vec3d &p1, const Vec3d &n1, const double r1, 
     const Vec3d &p2, const Vec3d &n2, const double r2)
 {
     assert(n1.dot(n2) >= 0);
@@ -771,7 +771,7 @@ static void organic_smooth_branches_avoid_collisions(
         Vec3f                 position;
         // Previous position, for Laplacian smoothing.
         Vec3f                 prev_position;
-        //
+        // 
         Vec3f                 last_collision;
         double                last_collision_depth;
         // Minimum Z for which the sphere collision will be evaluated.
@@ -871,7 +871,7 @@ static void organic_smooth_branches_avoid_collisions(
                         // Collision detected to be removed.
                         // Nudge the circle center away from the collision.
                         if (collision_sphere.last_collision_depth > EPSILON)
-                            // a little bit of hysteresis to detect end of
+                            // a little bit of hysteresis to detect end of 
                             ++ num_moved;
                         // Shift by maximum 2mm.
                         double nudge_dist = std::min(std::max(0., collision_sphere.last_collision_depth + collision_extra_gap), max_nudge_collision_avoidance);
@@ -1030,7 +1030,7 @@ static void organic_smooth_branches_avoid_collisions(
 // Organic specific: Smooth branches and produce one cummulative mesh to be sliced.
 void organic_draw_branches(
     PrintObject                     &print_object,
-    TreeModelVolumes                &volumes,
+    TreeModelVolumes                &volumes, 
     const TreeSupportSettings       &config,
     std::vector<SupportElements>    &move_bounds,
 
@@ -1223,7 +1223,7 @@ void organic_draw_branches(
                     partial_mesh.clear();
                     std::pair<float, float> zspan = extrude_branch(branch.path, config, slicing_params, move_bounds, partial_mesh);
                     LayerIndex layer_begin = branch.has_root ?
-                        branch.path.front()->state.layer_idx :
+                        branch.path.front()->state.layer_idx : 
                         std::min(branch.path.front()->state.layer_idx, layer_idx_ceil(slicing_params, config, zspan.first));
                     LayerIndex layer_end   = (branch.has_tip ?
                         branch.path.back()->state.layer_idx :
@@ -1262,9 +1262,9 @@ void organic_draw_branches(
                                 // Don't propagate further than 1.5 * bottom radius.
                                 //LayerIndex                      layers_propagate_max = 2 * bottom_radius / config.layer_height;
                                 LayerIndex                      layers_propagate_max = 5 * bottom_radius / config.layer_height;
-                                LayerIndex                      layer_bottommost = branch.path.front()->state.verylost ?
+                                LayerIndex                      layer_bottommost = branch.path.front()->state.verylost ? 
                                     // If the tree bottom is hanging in the air, bring it down to some surface.
-                                    0 :
+                                    0 : 
                                     //FIXME the "verylost" branches should stop when crossing another support.
                                     std::max(0, layer_begin - layers_propagate_max);
                                 double                          support_area_min_radius = M_PI * sqr(double(config.branch_radius));
@@ -1306,7 +1306,7 @@ void organic_draw_branches(
                                     *it_dst ++ = std::move(it_src->polygons);
                             }
                         }
-
+                        
 #if 0
                         //FIXME branch.has_tip seems to not be reliable.
                         if (branch.has_tip && interface_placer.support_parameters.has_top_contacts)

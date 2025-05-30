@@ -398,9 +398,9 @@ public:
     void            on_value_change(const std::string& opt_key, const boost::any& value);
 
     void            update_wiping_button_visibility();
-    void            activate_option(const std::string& opt_key, const wxString& category);
-    void            cache_config_diff(const std::vector<std::string>& selected_options, const DynamicPrintConfig* config = nullptr);
-    void            apply_config_from_cache();
+    void            activate_option(const std::string &opt_key, const wxString &category, const std::vector<std::string> &another_blinking_opt_keys = {});
+	void			cache_config_diff(const std::vector<std::string>& selected_options, const DynamicPrintConfig* config = nullptr);
+	void			apply_config_from_cache();
 
     const std::map<wxString, std::string>& get_category_icon_map() { return m_category_icon; }
 
@@ -418,14 +418,15 @@ protected:
     void             compatible_widget_reload(PresetDependencies &deps);
     void            load_key_value(const std::string& opt_key, const boost::any& value, bool saved_value = false);
 
-    // return true if cancelled
-    bool            tree_sel_change_delayed();
-    void            on_presets_changed();
-    void            build_preset_description_line(ConfigOptionsGroup* optgroup);
-    void            update_preset_description_line();
-    void            update_frequently_changed_parameters();
-    void            fill_icon_descriptions();
-    void            set_tooltips_text();
+	// return true if cancelled
+	bool			tree_sel_change_delayed();
+	void			on_presets_changed();
+	void			build_preset_description_line(ConfigOptionsGroup* optgroup);
+	void			update_preset_description_line();
+	void			update_frequently_changed_parameters();
+	void			fill_icon_descriptions();
+	void			set_tooltips_text();
+    std::string     printer_model() const;
 
     virtual bool    select_preset_by_name(const std::string& name_w_suffix, bool force);
     virtual bool    save_current_preset(const std::string& new_name, bool detach);
@@ -565,13 +566,15 @@ public:
 
 class TabSLAMaterial : public Tab
 {
-    void        create_line_with_near_label_widget(ConfigOptionsGroupShp optgroup, const std::string& opt_key);
-    void        update_line_with_near_label_widget(ConfigOptionsGroupShp optgroup, const std::string& opt_key, bool is_checked = true);
-    void        add_material_overrides_page();
-    void        update_material_overrides_page();
+	void		create_line_with_near_label_widget(ConfigOptionsGroupShp optgroup, const std::string& opt_key);
+	void		update_line_with_near_label_widget(ConfigOptionsGroupShp optgroup, const std::string& opt_key, bool is_checked = true);
+	void		add_material_overrides_page();
+	void		update_material_overrides_page();
+    void        create_line_with_tilt_defaults(ConfigOptionsGroupShp optgroup);
 
-    std::map<std::string, wxWindow*> m_overrides_options;
-    ogStaticText*    m_z_correction_to_mm_description = nullptr;
+	std::map<std::string, wxWindow*> m_overrides_options;
+	ogStaticText*	m_z_correction_to_mm_description = nullptr;
+    wxSizer*        m_tilt_defaults_sizer { nullptr };
 
 public:
     TabSLAMaterial(wxBookCtrlBase* parent) :

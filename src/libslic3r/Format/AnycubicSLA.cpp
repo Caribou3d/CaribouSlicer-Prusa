@@ -251,7 +251,7 @@ void fill_preview(anycubicsla_format_preview &p,
     p.preview_h    = PREV_H;
     p.preview_dpi  = PREV_DPI;
     p.payload_size = sizeof(p) - sizeof(p.tag) - sizeof(p.payload_size);
-
+                     
     std::memset(p.pixels, 0 , sizeof(p.pixels));
     if (!thumbnails.empty()) {
         std::uint32_t dst_index;
@@ -260,7 +260,7 @@ void fill_preview(anycubicsla_format_preview &p,
         size_t pixel_x = 0;
         auto t = thumbnails[0]; //use the first thumbnail
         len = t.pixels.size();
-        //sanity check
+        //sanity check        
         if (len != PREV_W * PREV_H * 4)  {
             printf("incorrect thumbnail size. expected %ix%i\n", PREV_W, PREV_H);
             return;

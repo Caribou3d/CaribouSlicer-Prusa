@@ -45,14 +45,14 @@ public:
     explicit Polyline(Points &&points) : MultiPoint(std::move(points)) {}
     Polyline& operator=(const Polyline &other) { points = other.points; return *this; }
     Polyline& operator=(Polyline &&other) { points = std::move(other.points); return *this; }
-    static Polyline new_scale(const std::vector<Vec2d> &points) {
-        Polyline pl;
-        pl.points.reserve(points.size());
-        for (const Vec2d &pt : points)
-            pl.points.emplace_back(Point::new_scale(pt(0), pt(1)));
-        return pl;
+	static Polyline new_scale(const std::vector<Vec2d> &points) {
+		Polyline pl;
+		pl.points.reserve(points.size());
+		for (const Vec2d &pt : points)
+			pl.points.emplace_back(Point::new_scale(pt(0), pt(1)));
+		return pl;
     }
-
+    
     void append(const Point &point) { this->points.push_back(point); }
     void append(const Points &src) { this->append(src.begin(), src.end()); }
     void append(const Points::const_iterator &begin, const Points::const_iterator &end) { this->points.insert(this->points.end(), begin, end); }
@@ -65,12 +65,12 @@ public:
             src.clear();
         }
     }
-    void append(const Polyline &src)
-    {
+    void append(const Polyline &src) 
+    { 
         points.insert(points.end(), src.points.begin(), src.points.end());
     }
 
-    void append(Polyline &&src)
+    void append(Polyline &&src) 
     {
         if (this->points.empty()) {
             this->points = std::move(src.points);
@@ -79,7 +79,7 @@ public:
             src.points.clear();
         }
     }
-
+  
     Point& operator[](Points::size_type idx) { return this->points[idx]; }
     const Point& operator[](Points::size_type idx) const { return this->points[idx]; }
 
@@ -175,12 +175,12 @@ inline Polylines to_polylines(std::vector<Points> &&paths)
     return out;
 }
 
-inline void polylines_append(Polylines &dst, const Polylines &src)
-{
+inline void polylines_append(Polylines &dst, const Polylines &src) 
+{ 
     dst.insert(dst.end(), src.begin(), src.end());
 }
 
-inline void polylines_append(Polylines &dst, Polylines &&src)
+inline void polylines_append(Polylines &dst, Polylines &&src) 
 {
     if (dst.empty()) {
         dst = std::move(src);

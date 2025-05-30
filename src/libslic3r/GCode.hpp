@@ -217,7 +217,7 @@ private:
     };
     void            _do_export(Print &print, GCodeOutputStream &file, ThumbnailsGeneratorCallback thumbnail_cb);
 
-    static ObjectsLayerToPrint                                      collect_layers_to_print(const PrintObject &object);
+    static ObjectsLayerToPrint         		                     collect_layers_to_print(const PrintObject &object);
     static std::vector<std::pair<coordf_t, ObjectsLayerToPrint>> collect_layers_to_print(const Print &print);
 
     Polyline get_layer_change_xy_path(const Vec3d &from, const Vec3d &to);
@@ -229,7 +229,7 @@ private:
         const Polyline &xy_path,
         const double initial_elevation,
         const GCode::Impl::Travels::ElevatedTravelParams &elevation_params
-    ) const;
+    );
 
     std::vector<GCode::ExtrusionOrder::ExtruderExtrusions> get_sorted_extrusions(
         const Print &print,
@@ -244,11 +244,11 @@ private:
         const Print                     &print,
         // Set of object & print layers of the same PrintObject and with the same print_z.
         const ObjectsLayerToPrint       &layers,
-        const LayerTools                  &layer_tools,
+        const LayerTools  				&layer_tools,
         const GCode::SmoothPathCaches   &smooth_path_caches,
         const bool                       last_layer,
-        // Pairs of PrintObject index and its instance index.
-        const std::vector<const PrintInstance*> *ordering,
+		// Pairs of PrintObject index and its instance index.
+		const std::vector<const PrintInstance*> *ordering,
         // If set to size_t(-1), then print all copies of all objects.
         // Otherwise print a single copy of a single object.
         const size_t                     single_object_idx = size_t(-1));
@@ -284,9 +284,15 @@ private:
         const bool first_layer
     );
     std::string extrude_smooth_path(
-        const GCode::SmoothPath &smooth_path, const bool is_loop, const std::string_view description, const double speed
+        const GCode::SmoothPath &smooth_path,
+        const bool is_loop,
+        const std::string_view description,
+        const double speed,
+        const std::size_t wipe_offset = 0
     );
-    std::string extrude_skirt(GCode::SmoothPath smooth_path, const ExtrusionFlow &extrusion_flow_override);
+    std::string extrude_skirt(
+        GCode::SmoothPath smooth_path, const ExtrusionFlow &extrusion_flow_override
+    );
 
     std::vector<InstanceToPrint> sort_print_object_instances(
         // Object and Support layers for the current print_z, collected for a single object, or for possibly multiple objects with multiple instances.
@@ -309,7 +315,8 @@ private:
 
     void initialize_instance(
         const InstanceToPrint &print_instance,
-        const ObjectLayerToPrint &layer_to_print
+        const ObjectLayerToPrint &layer_to_print,
+        const bool is_first
     );
 
     std::string extrude_slices(
@@ -322,10 +329,16 @@ private:
         const std::vector<GCode::ExtrusionOrder::SupportPath> &support_extrusions
     );
 
+    enum class EnforceFirstZ {
+        False,
+        True
+    };
+
     std::string generate_travel_gcode(
         const Points3& travel,
         const std::string& comment,
-        const std::function<std::string()>& insert_gcode
+        const std::function<std::string()>& insert_gcode,
+        const EnforceFirstZ enforce_first_z = EnforceFirstZ::False
     );
     Polyline generate_travel_xy_path(
         const Point& start,
@@ -333,12 +346,14 @@ private:
         const bool needs_retraction,
         bool& could_be_wipe_disabled
     );
+
     std::string travel_to(
-        const Point &start_point,
-        const Point &end_point,
+        const Vec3crd &start_point,
+        const Vec3crd &end_point,
         ExtrusionRole role,
         const std::string &comment,
-        const std::function<std::string()>& insert_gcode
+        const std::function<std::string()>& insert_gcode,
+        const EnforceFirstZ enforce_first_z = EnforceFirstZ::False
     );
 
     std::string travel_to_first_position(const Vec3crd& point, const double from_z, const ExtrusionRole role, const std::function<std::string()>& insert_gcode);
@@ -479,6 +494,7 @@ private:
     std::string                         _extrude(const ExtrusionAttributes &attribs, const Geometry::ArcWelder::Path &path, std::string_view description, double speed, const EmitModifiers &emit_modifiers = EmitModifiers());
 
     void                                print_machine_envelope(GCodeOutputStream &file, const Print &print);
+    std::string                         _process_start_gcode(const Print &print, unsigned int current_extruder_id);
     void                                _print_first_layer_chamber_temperature(GCodeOutputStream &file, const Print &print, const std::string &gcode, int temp, bool wait, bool accurate);
     void                                _print_first_layer_bed_temperature(GCodeOutputStream &file, const Print &print, const std::string &gcode, unsigned int first_printing_extruder_id, bool wait);
     void                                _print_first_layer_extruder_temperatures(GCodeOutputStream &file, const Print &print, const std::string &gcode, unsigned int first_printing_extruder_id, bool wait);

@@ -63,21 +63,22 @@ std::string WipeTowerIntegration::append_tcr(GCodeGenerator &gcodegen, const Wip
                                          || will_go_down);       // don't dig into the print
     if (should_travel_to_tower) {
         const Point xy_point = wipe_tower_point_to_object_point(gcodegen, start_pos);
+        const Vec3crd to{to_3d(xy_point, scaled(z))};
         gcode += gcodegen.m_label_objects.maybe_stop_instance();
         gcode += gcodegen.retract_and_wipe();
         gcodegen.m_avoid_crossing_perimeters.use_external_mp_once = true;
         const std::string comment{"Travel to a Wipe Tower"};
         if (!gcodegen.m_moved_to_first_layer_point) {
-            const Vec3crd point = to_3d(xy_point, scaled(z));
-            gcode += gcodegen.travel_to_first_position(point, current_z, ExtrusionRole::Mixed, [](){return "";});
+            gcode += gcodegen.travel_to_first_position(to, current_z, ExtrusionRole::Mixed, [](){return "";});
         } else {
             if (gcodegen.last_position) {
+                const Vec3crd from{to_3d(*gcodegen.last_position, scaled(current_z))};
                 gcode += gcodegen.travel_to(
-                    *gcodegen.last_position, xy_point, ExtrusionRole::Mixed, comment, [](){return "";}
+                    from, to, ExtrusionRole::Mixed, comment, [](){return "";}
                 );
             } else {
                 gcode += gcodegen.writer().travel_to_xy(gcodegen.point_to_gcode(xy_point), comment);
-                gcode += gcodegen.writer().get_travel_to_z_gcode(z, comment);
+                gcode += gcodegen.writer().travel_to_z_force(z, comment);
             }
         }
         gcode += gcodegen.unretract();
@@ -99,10 +100,7 @@ std::string WipeTowerIntegration::append_tcr(GCodeGenerator &gcodegen, const Wip
             gcodegen.m_wipe.reset_path(); // We don't want wiping on the ramming lines.
         toolchange_gcode_str = gcodegen.set_extruder(new_extruder_id, tcr.print_z); // TODO: toolchange_z vs print_z
         if (gcodegen.config().wipe_tower) {
-            deretraction_str += gcodegen.writer().get_travel_to_z_gcode(z, "restore layer Z");
-            Vec3d position{gcodegen.writer().get_position()};
-            position.z() = z;
-            gcodegen.writer().update_position(position);
+            deretraction_str += gcodegen.writer().travel_to_z_force(z, "restore layer Z");
             deretraction_str += gcodegen.unretract();
         }
     }

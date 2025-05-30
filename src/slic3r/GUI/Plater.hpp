@@ -29,6 +29,9 @@
 #include "libslic3r/GCode/GCodeProcessor.hpp"
 #include "Jobs/Job.hpp"
 #include "Jobs/Worker.hpp"
+#include "libslic3r/GCode/ThumbnailData.hpp"
+#include "slic3r/GUI/Camera.hpp"
+#include "slic3r/Utils/PrintHost.hpp"
 
 class wxString;
 
@@ -55,6 +58,7 @@ namespace UndoRedo {
 namespace GUI {
 
 wxDECLARE_EVENT(EVT_SCHEDULE_BACKGROUND_PROCESS, SimpleEvent);
+wxDECLARE_EVENT(EVT_REGENERATE_BED_THUMBNAILS, SimpleEvent);
 
 class MainFrame;
 class GLCanvas3D;
@@ -64,6 +68,7 @@ struct Camera;
 class GLToolbar;
 class UserAccount;
 class PresetArchiveDatabase;
+enum class ArrangeSelectionMode;
 
 class Plater: public wxPanel
 {
@@ -92,10 +97,16 @@ public:
     Sidebar& sidebar();
     const Model& model() const;
     Model& model();
-    const Print& fff_print() const;
-    Print& fff_print();
-    const SLAPrint& sla_print() const;
-    SLAPrint& sla_print();
+    //const Print& fff_print() const;
+    //Print& fff_print();
+    //const SLAPrint& sla_print() const;
+    //SLAPrint& sla_print();
+
+    Print& active_fff_print();
+    SLAPrint& active_sla_print();
+
+    std::vector<std::unique_ptr<Print>>& get_fff_prints();
+    const std::vector<GCodeProcessorResult>& get_gcode_results() const;
 
     void new_project();
     void load_project();
@@ -110,6 +121,8 @@ public:
     void convert_gcode_to_ascii();
     void convert_gcode_to_binary();
     void reload_print();
+    void object_list_changed();
+    void generate_thumbnail(ThumbnailData& data, unsigned int w, unsigned int h, const ThumbnailsParams& thumbnail_params, Camera::EType camera_type);
 
     std::vector<size_t> load_files(const std::vector<boost::filesystem::path>& input_files, bool load_model = true, bool load_config = true, bool imperial_units = false);
     // To be called when providing a list of files to the GUI slic3r on command line.
@@ -203,7 +216,14 @@ public:
 
     void apply_cut_object_to_model(size_t init_obj_idx, const ModelObjectPtrs& cut_objects);
 
+    void with_mocked_fff_background_process(
+        Print &print,
+        GCodeProcessorResult &result,
+        const int bed_index,
+        const std::function<void()> &callable
+    );
     void export_gcode(bool prefer_removable);
+    void export_all_gcodes(bool prefer_removable);
     void export_stl_obj(bool extended = false, bool selection_only = false);
     bool export_3mf(const boost::filesystem::path& output_path = boost::filesystem::path());
     void reload_from_disk();
@@ -227,8 +247,12 @@ public:
     void suppress_background_process(const bool stop_background_process) ;
     void send_gcode();
     void send_gcode_inner(DynamicPrintConfig* physical_printer_config);
-    void eject_drive();
+	void eject_drive();
+
+    std::optional<PrintHostJob> get_connect_print_host_job(bool multiple_beds);
     void connect_gcode();
+    void connect_gcode_all();
+    void printables_to_connect_gcode(const std::string& url);
     std::string get_upload_filename();
 
     void take_snapshot(const std::string &snapshot_name);
@@ -265,6 +289,7 @@ public:
     void update_menus();
     void show_action_buttons(const bool is_ready_to_slice) const;
     void show_action_buttons() const;
+    void show_autoslicing_action_buttons() const;
 
     wxString get_project_filename(const wxString& extension = wxEmptyString) const;
     void set_project_filename(const wxString& filename);
@@ -280,8 +305,8 @@ public:
 
     void render_sliders(GLCanvas3D& canvas);
 
-    void arrange();
-    void arrange(Worker &w, bool selected);
+    void arrange(bool current_bed_only);
+    void arrange(Worker &w, const ArrangeSelectionMode &selected);
 
     void set_current_canvas_as_dirty();
     void unbind_canvas_event_handlers();
@@ -353,15 +378,12 @@ public:
     const Mouse3DController& get_mouse3d_controller() const;
     Mouse3DController& get_mouse3d_controller();
 
-    void set_bed_shape() const;
+	void set_bed_shape() const;
     void set_bed_shape(const Pointfs& shape, const double max_print_height, const std::string& custom_texture, const std::string& custom_model, bool force_as_custom = false) const;
     void set_default_bed_shape() const;
 
     NotificationManager* get_notification_manager();
     const NotificationManager* get_notification_manager() const;
-
-    PresetArchiveDatabase* get_preset_archive_database();
-    const PresetArchiveDatabase* get_preset_archive_database() const;
 
     UserAccount* get_user_account();
     const UserAccount* get_user_account() const;
@@ -374,31 +396,31 @@ public:
     void bring_instance_forward();
 
     // ROII wrapper for suppressing the Undo / Redo snapshot to be taken.
-    class SuppressSnapshots
-    {
-    public:
-        SuppressSnapshots(Plater *plater) : m_plater(plater)
-        {
-            m_plater->suppress_snapshots();
-        }
-        ~SuppressSnapshots()
-        {
-            m_plater->allow_snapshots();
-        }
-    private:
-        Plater *m_plater;
-    };
+	class SuppressSnapshots
+	{
+	public:
+		SuppressSnapshots(Plater *plater) : m_plater(plater)
+		{
+			m_plater->suppress_snapshots();
+		}
+		~SuppressSnapshots()
+		{
+			m_plater->allow_snapshots();
+		}
+	private:
+		Plater *m_plater;
+	};
 
     // RAII wrapper for taking an Undo / Redo snapshot while disabling the snapshot taking by the methods called from inside this snapshot.
-    class TakeSnapshot
-    {
-    public:
+	class TakeSnapshot
+	{
+	public:
         TakeSnapshot(Plater *plater, const std::string &snapshot_name);
-        TakeSnapshot(Plater *plater, const wxString &snapshot_name) : m_plater(plater)
-        {
-            m_plater->take_snapshot(snapshot_name);
-            m_plater->suppress_snapshots();
-        }
+		TakeSnapshot(Plater *plater, const wxString &snapshot_name) : m_plater(plater)
+		{
+			m_plater->take_snapshot(snapshot_name);
+			m_plater->suppress_snapshots();
+		}
         TakeSnapshot(Plater* plater, const std::string& snapshot_name, UndoRedo::SnapshotType snapshot_type);
         TakeSnapshot(Plater *plater, const wxString &snapshot_name, UndoRedo::SnapshotType snapshot_type) : m_plater(plater)
         {
@@ -406,13 +428,13 @@ public:
             m_plater->suppress_snapshots();
         }
 
-        ~TakeSnapshot()
-        {
-            m_plater->allow_snapshots();
-        }
-    private:
-        Plater *m_plater;
-    };
+		~TakeSnapshot()
+		{
+			m_plater->allow_snapshots();
+		}
+	private:
+		Plater *m_plater;
+	};
 
     bool inside_snapshot_capture();
 
@@ -421,8 +443,8 @@ public:
 
     void set_keep_current_preview_type(bool value);
 
-    // Wrapper around wxWindow::PopupMenu to suppress error messages popping out while tracking the popup menu.
-    bool PopupMenu(wxMenu *menu, const wxPoint& pos = wxDefaultPosition);
+	// Wrapper around wxWindow::PopupMenu to suppress error messages popping out while tracking the popup menu.
+	bool PopupMenu(wxMenu *menu, const wxPoint& pos = wxDefaultPosition);
     bool PopupMenu(wxMenu *menu, int x, int y) { return this->PopupMenu(menu, wxPoint(x, y)); }
 
     // get same Plater/ObjectList menus
@@ -437,6 +459,12 @@ public:
     wxMenu* multi_selection_menu();
 
 private:
+    std::optional<fs_path> get_default_output_file();
+    std::optional<wxString> check_output_path_has_error(const boost::filesystem::path& path) const;
+    std::optional<fs_path> get_output_path(const std::string &start_dir, const fs_path &default_output_file);
+    std::optional<fs_path> get_multiple_output_dir(const std::string &start_dir);
+
+    void export_gcode_to_path(const fs_path &output_path, const std::function<void(bool)> &export_callback);
     void reslice_until_step_inner(int step, const ModelObject &object, bool postpone_error_messages);
 
     struct priv;
@@ -445,7 +473,7 @@ private:
     // Set true during PopupMenu() tracking to suppress immediate error message boxes.
     // The error messages are collected to m_tracking_popup_menu_error_message instead and these error messages
     // are shown after the pop-up dialog closes.
-    bool      m_tracking_popup_menu = false;
+    bool 	 m_tracking_popup_menu = false;
     wxString m_tracking_popup_menu_error_message;
 
     wxString m_last_loaded_gcode;

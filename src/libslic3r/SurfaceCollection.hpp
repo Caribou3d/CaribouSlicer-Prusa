@@ -23,7 +23,7 @@ class SurfaceCollection
 {
 public:
     Surfaces surfaces;
-
+    
     SurfaceCollection() = default;
     SurfaceCollection(const Surfaces& surfaces) : surfaces(surfaces) {};
     SurfaceCollection(Surfaces &&surfaces) : surfaces(std::move(surfaces)) {};
@@ -47,15 +47,15 @@ public:
     void filter_by_type(SurfaceType type, Polygons *polygons) const;
     void remove_type(const SurfaceType type, ExPolygons *polygons);
     void set_type(SurfaceType type) {
-        for (Surface &surface : this->surfaces)
-            surface.surface_type = type;
+    	for (Surface &surface : this->surfaces)
+    		surface.surface_type = type;
     }
 
     void clear() { surfaces.clear(); }
     bool empty() const { return surfaces.empty(); }
-    size_t size() const { return surfaces.size(); }
-    bool has(SurfaceType type) const {
-        for (const Surface &surface : this->surfaces)
+	size_t size() const { return surfaces.size(); }
+    bool has(SurfaceType type) const { 
+        for (const Surface &surface : this->surfaces) 
             if (surface.surface_type == type) return true;
         return false;
     }

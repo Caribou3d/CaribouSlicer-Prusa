@@ -61,23 +61,23 @@ TreeSupportMeshGroupSettings::TreeSupportMeshGroupSettings(const PrintObject &pr
     this->support_top_distance      = scaled<coord_t>(slicing_params.gap_support_object);
     this->support_bottom_distance   = scaled<coord_t>(slicing_params.gap_object_support);
 //    this->support_interface_skip_height =
-//    this->support_infill_angles     =
+//    this->support_infill_angles     = 
     this->support_roof_enable       = config.support_material_interface_layers.value > 0;
     this->support_roof_layers       = this->support_roof_enable ? config.support_material_interface_layers.value : 0;
     this->support_floor_enable      = config.support_material_interface_layers.value > 0 && config.support_material_bottom_interface_layers.value > 0;
     this->support_floor_layers      = this->support_floor_enable ? config.support_material_bottom_interface_layers.value : 0;
-//    this->minimum_roof_area         =
-//    this->support_roof_angles       =
+//    this->minimum_roof_area         = 
+//    this->support_roof_angles       = 
     this->support_roof_pattern      = config.support_material_interface_pattern;
     this->support_pattern           = config.support_material_pattern;
     this->support_line_spacing      = scaled<coord_t>(config.support_material_spacing.value);
-//    this->support_bottom_offset     =
+//    this->support_bottom_offset     = 
 //    this->support_wall_count        = config.support_material_with_sheath ? 1 : 0;
     this->support_wall_count        = 1;
     this->support_roof_line_distance = scaled<coord_t>(config.support_material_interface_spacing.value) + this->support_roof_line_width;
-//    this->minimum_support_area      =
-//    this->minimum_bottom_area       =
-//    this->support_offset            =
+//    this->minimum_support_area      = 
+//    this->minimum_bottom_area       = 
+//    this->support_offset            = 
     this->support_tree_branch_distance = scaled<coord_t>(config.support_tree_branch_distance.value);
     this->support_tree_angle          = std::clamp<double>(config.support_tree_angle * M_PI / 180., 0., 0.5 * M_PI - EPSILON);
     this->support_tree_angle_slow     = std::clamp<double>(config.support_tree_angle_slow * M_PI / 180., 0., this->support_tree_angle - EPSILON);
@@ -195,7 +195,7 @@ void tree_supports_show_error(std::string_view message, bool critical)
     bool show    = (critical && !g_showed_critical_error) || (!critical && !g_showed_performance_warning);
     (critical ? g_showed_critical_error : g_showed_performance_warning) = true;
     if (show)
-        MessageBoxA(nullptr, std::string("TreeSupport_2 MOD detected an error while generating the tree support.\nPlease report this back to me with profile and model.\nRevision 5.0\n" + std::string(message) + "\n" + bugtype).c_str(),
+        MessageBoxA(nullptr, std::string("TreeSupport_2 MOD detected an error while generating the tree support.\nPlease report this back to me with profile and model.\nRevision 5.0\n" + std::string(message) + "\n" + bugtype).c_str(), 
             "Bug detected!", MB_OK | MB_SYSTEMMODAL | MB_SETFOREGROUND | MB_ICONWARNING);
 #endif // TREE_SUPPORT_SHOW_ERRORS_WIN32
 }

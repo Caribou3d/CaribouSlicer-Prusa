@@ -17,7 +17,7 @@ class DynamicPrintConfig;
 
 namespace CustomGCode {
 
-/* For exporting GCode in GCodeWriter is used XYZF_NUM(val) = PRECISION(val, 3) for XYZ values.
+/* For exporting GCode in GCodeWriter is used XYZF_NUM(val) = PRECISION(val, 3) for XYZ values. 
  * So, let use same value as a permissible error for layer height.
  */
 constexpr double epsilon() { return 0.0011; }
@@ -43,16 +43,16 @@ struct Item
                (rhs.extra     == this->extra      );
     }
     bool operator!=(const Item& rhs) const { return ! (*this == rhs); }
-
+    
     double      print_z;
     Type        type;
     int         extruder;   // Informative value for ColorChangeCode and ToolChangeCode
                             // "gcode" == ColorChangeCode   => M600 will be applied for "extruder" extruder
                             // "gcode" == ToolChangeCode    => for whole print tool will be switched to "extruder" extruder
-    std::string color;      // if gcode is equal to PausePrintCode,
-                            // this field is used for save a short message shown on Printer display
+    std::string color;      // if gcode is equal to PausePrintCode, 
+                            // this field is used for save a short message shown on Printer display 
     std::string extra;      // this field is used for the extra data like :
-                            // - G-code text for the Type::Custom
+                            // - G-code text for the Type::Custom 
                             // - message text for the Type::PausePrint
 };
 
@@ -60,8 +60,8 @@ enum Mode
 {
     Undef,
     SingleExtruder,   // Single extruder printer preset is selected
-    MultiAsSingle,    // Multiple extruder printer preset is selected, but
-                      // this mode works just for Single extruder print
+    MultiAsSingle,    // Multiple extruder printer preset is selected, but 
+                      // this mode works just for Single extruder print 
                       // (The same extruder is assigned to all ModelObjects and ModelVolumes).
     MultiExtruder     // Multiple extruder printer preset is selected
 };
@@ -86,7 +86,7 @@ struct Info
     bool operator!=(const Info& rhs) const { return !(*this == rhs); }
 };
 
-// If loaded configuration has a "colorprint_heights" option (if it was imported from older Slicer),
+// If loaded configuration has a "colorprint_heights" option (if it was imported from older Slicer), 
 // and if CustomGCode::Info.gcodes is empty (there is no color print data available in a new format
 // then CustomGCode::Info.gcodes should be updated considering this option.
 extern void update_custom_gcode_per_print_z_from_config(Info& info, DynamicPrintConfig* config);

@@ -504,8 +504,7 @@ msgstr "&Tīkls"
 msgid "&New"
 msgstr "&Jauns"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&Nākošais"
 
@@ -580,8 +579,7 @@ msgstr "&Peldošais režīms:"
 msgid "&Preferences"
 msgstr "&Preferences"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "Ie&priekšējais"
 
@@ -9013,8 +9011,8 @@ msgstr "~"
 #~ msgstr "Datu objektam ir nederīgs datu formāts"
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

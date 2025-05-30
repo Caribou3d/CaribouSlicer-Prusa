@@ -76,11 +76,11 @@ struct SupportTreeConfig
     // The elevation in Z direction upwards. This is the space between the pad
     // and the model object's bounding box bottom.
     double object_elevation_mm = 10;
-
+    
     // The shortest distance between a pillar base perimeter from the model
     // body. This is only useful when elevation is set to zero.
     double pillar_base_safety_distance_mm = 0.5;
-
+    
     unsigned max_bridges_on_pillar = 3;
 
     double max_weight_on_model_support = 10.f;
@@ -113,7 +113,7 @@ struct SupportTreeConfig
     static const double constexpr optimizer_rel_score_diff = 1e-10;
     static const unsigned constexpr optimizer_max_iterations = 2000;
     static const unsigned constexpr pillar_cascade_neighbors = 3;
-
+    
 };
 
 enum class MeshType { Support, Pad };

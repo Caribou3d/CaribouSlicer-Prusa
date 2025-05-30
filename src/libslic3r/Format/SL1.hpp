@@ -17,7 +17,7 @@ namespace Slic3r {
 
 class SL1Archive: public SLAArchiveWriter {
     SLAPrinterConfig m_cfg;
-
+    
 protected:
     std::unique_ptr<sla::RasterBase> create_raster() const override;
     sla::RasterEncoder get_encoder() const override;

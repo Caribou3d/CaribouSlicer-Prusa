@@ -14,14 +14,14 @@
 #include <cereal/access.hpp>
 namespace cereal {
 
-template<class Archive>
-void serialize(Archive &archive, Slic3r::Polygon &polygon) {
-    archive(polygon.points);
+template<class Archive> 
+void serialize(Archive &archive, Slic3r::Polygon &polygon) {	
+	archive(polygon.points);
 }
 
-template<class Archive>
+template<class Archive> 
 void serialize(Archive &archive, Slic3r::ExPolygon &expoly) {
-    archive(expoly.contour, expoly.holes);
+	archive(expoly.contour, expoly.holes); 
 }
 
 } // namespace Slic3r

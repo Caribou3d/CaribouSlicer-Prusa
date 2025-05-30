@@ -519,8 +519,7 @@ msgstr "नया (&N)"
 msgid "&New"
 msgstr "नया (&N)"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "अगला (&N)"
 
@@ -596,8 +595,7 @@ msgstr "प्रश्न"
 msgid "&Preferences"
 msgstr "प्राथमिकता (&P)"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "पिछला (&P)"
 
@@ -9225,8 +9223,8 @@ msgstr "~"
 #~ msgstr "मुद्रण को आरम्भ नहीं किया जा सका।"
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

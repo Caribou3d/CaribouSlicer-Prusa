@@ -519,8 +519,7 @@ msgstr "&Nový"
 msgid "&New"
 msgstr "&Nový"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&Ďalej"
 
@@ -597,8 +596,7 @@ msgstr "Otázka"
 msgid "&Preferences"
 msgstr "&Nastavenia"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&Predchádzajúci"
 
@@ -9198,15 +9196,15 @@ msgstr "~"
 #~ msgstr "Nebolo možné začať tlačiť."
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"
 #~ "%s %1"
 #~ msgstr ""
-#~ "Chcete prepísať príkaz, ktorý sa používa na %s súborov s príponou \"%s"
-#~ "\" ?\n"
+#~ "Chcete prepísať príkaz, ktorý sa používa na %s súborov s príponou "
+#~ "\"%s\" ?\n"
 #~ "Súčasná hodnota je \n"
 #~ "%s, \n"
 #~ "Nová hodnota je is \n"

@@ -242,60 +242,60 @@ void ConfigOptionDeleter::operator()(ConfigOption* p) {
 
 std::vector<std::string> ConfigOptionDef::cli_args(const std::string &key) const
 {
-    std::vector<std::string> args;
-    if (this->cli != ConfigOptionDef::nocli) {
+	std::vector<std::string> args;
+	if (this->cli != ConfigOptionDef::nocli) {
         const std::string &cli = this->cli;
         //FIXME What was that for? Check the "readline" documentation.
         // Neither '=' nor '!' is used in any of the cli parameters currently defined by CaribouSlicer.
 //        std::string cli = this->cli.substr(0, this->cli.find("="));
 //        boost::trim_right_if(cli, boost::is_any_of("!"));
-        if (cli.empty()) {
+		if (cli.empty()) {
             // Convert an option key to CLI argument by replacing underscores with dashes.
             std::string opt = key;
             boost::replace_all(opt, "_", "-");
             args.emplace_back(std::move(opt));
         } else
-            boost::split(args, cli, boost::is_any_of("|"));
+			boost::split(args, cli, boost::is_any_of("|"));
     }
     return args;
 }
 
 ConfigOption* ConfigOptionDef::create_empty_option() const
 {
-    if (this->nullable) {
-        switch (this->type) {
+	if (this->nullable) {
+	    switch (this->type) {
         case coFloat:           return new ConfigOptionFloatNullable();
         case coInt:             return new ConfigOptionIntNullable();
-        case coFloats:          return new ConfigOptionFloatsNullable();
-        case coInts:            return new ConfigOptionIntsNullable();
-        case coPercents:        return new ConfigOptionPercentsNullable();
+	    case coFloats:          return new ConfigOptionFloatsNullable();
+	    case coInts:            return new ConfigOptionIntsNullable();
+	    case coPercents:        return new ConfigOptionPercentsNullable();
         case coFloatsOrPercents: return new ConfigOptionFloatsOrPercentsNullable();
-        case coBools:           return new ConfigOptionBoolsNullable();
-        default:                throw ConfigurationError(std::string("Unknown option type for nullable option ") + this->label);
-        }
-    } else {
-        switch (this->type) {
-        case coFloat:           return new ConfigOptionFloat();
-        case coFloats:          return new ConfigOptionFloats();
-        case coInt:             return new ConfigOptionInt();
-        case coInts:            return new ConfigOptionInts();
-        case coString:          return new ConfigOptionString();
-        case coStrings:         return new ConfigOptionStrings();
-        case coPercent:         return new ConfigOptionPercent();
-        case coPercents:        return new ConfigOptionPercents();
-        case coFloatOrPercent:  return new ConfigOptionFloatOrPercent();
+	    case coBools:           return new ConfigOptionBoolsNullable();
+	    default:                throw ConfigurationError(std::string("Unknown option type for nullable option ") + this->label);
+	    }
+	} else {
+	    switch (this->type) {
+	    case coFloat:           return new ConfigOptionFloat();
+	    case coFloats:          return new ConfigOptionFloats();
+	    case coInt:             return new ConfigOptionInt();
+	    case coInts:            return new ConfigOptionInts();
+	    case coString:          return new ConfigOptionString();
+	    case coStrings:         return new ConfigOptionStrings();
+	    case coPercent:         return new ConfigOptionPercent();
+	    case coPercents:        return new ConfigOptionPercents();
+	    case coFloatOrPercent:  return new ConfigOptionFloatOrPercent();
         case coFloatsOrPercents: return new ConfigOptionFloatsOrPercents();
-        case coPoint:           return new ConfigOptionPoint();
-        case coPoints:          return new ConfigOptionPoints();
-        case coPoint3:          return new ConfigOptionPoint3();
-    //    case coPoint3s:         return new ConfigOptionPoint3s();
-        case coBool:            return new ConfigOptionBool();
-        case coBools:           return new ConfigOptionBools();
-        case coEnum:            return new ConfigOptionEnumGeneric(this->enum_def->m_enum_keys_map);
-        case coEnums:           return new ConfigOptionEnumsGeneric(this->enum_def->m_enum_keys_map);
-        default:                throw ConfigurationError(std::string("Unknown option type for option ") + this->label);
-        }
-    }
+	    case coPoint:           return new ConfigOptionPoint();
+	    case coPoints:          return new ConfigOptionPoints();
+	    case coPoint3:          return new ConfigOptionPoint3();
+	//    case coPoint3s:         return new ConfigOptionPoint3s();
+	    case coBool:            return new ConfigOptionBool();
+	    case coBools:           return new ConfigOptionBools();
+	    case coEnum:            return new ConfigOptionEnumGeneric(this->enum_def->m_enum_keys_map);
+	    case coEnums:           return new ConfigOptionEnumsGeneric(this->enum_def->m_enum_keys_map);
+	    default:                throw ConfigurationError(std::string("Unknown option type for option ") + this->label);
+	    }
+	}
 }
 
 ConfigOption* ConfigOptionDef::create_default_option() const
@@ -314,7 +314,7 @@ ConfigOption* ConfigOptionDef::create_default_option() const
 // Assignment of the serialization IDs is not thread safe. The Defs shall be initialized from the main thread!
 ConfigOptionDef* ConfigDef::add(const t_config_option_key &opt_key, ConfigOptionType type)
 {
-    static size_t serialization_key_ordinal_last = 0;
+	static size_t serialization_key_ordinal_last = 0;
     ConfigOptionDef *opt = &this->options[opt_key];
     opt->opt_key = opt_key;
     opt->type = type;
@@ -325,9 +325,9 @@ ConfigOptionDef* ConfigDef::add(const t_config_option_key &opt_key, ConfigOption
 
 ConfigOptionDef* ConfigDef::add_nullable(const t_config_option_key &opt_key, ConfigOptionType type)
 {
-    ConfigOptionDef *def = this->add(opt_key, type);
-    def->nullable = true;
-    return def;
+	ConfigOptionDef *def = this->add(opt_key, type);
+	def->nullable = true;
+	return def;
 }
 
 void ConfigDef::finalize()
@@ -350,111 +350,6 @@ void ConfigDef::finalize()
             assert(! def.enum_def);
         }
     }
-}
-
-std::ostream& ConfigDef::print_cli_help(std::ostream& out, bool show_defaults, std::function<bool(const ConfigOptionDef &)> filter) const
-{
-    // prepare a function for wrapping text
-    auto wrap = [](const std::string& text, size_t line_length) -> std::string {
-        std::istringstream words(text);
-        std::ostringstream wrapped;
-        std::string word;
-
-        if (words >> word) {
-            wrapped << word;
-            size_t space_left = line_length - word.length();
-            while (words >> word) {
-                if (space_left < word.length() + 1) {
-                    wrapped << '\n' << word;
-                    space_left = line_length - word.length();
-                } else {
-                    wrapped << ' ' << word;
-                    space_left -= word.length() + 1;
-                }
-            }
-        }
-        return wrapped.str();
-    };
-
-    // List of opt_keys that should be hidden from the CLI help.
-    const std::vector<std::string> silent_options = { "webdev", "single_instance_on_url" };
-
-    // get the unique categories
-    std::set<std::string> categories;
-    for (const auto& opt : this->options) {
-        const ConfigOptionDef& def = opt.second;
-        if (filter(def))
-            categories.insert(def.category);
-    }
-
-    for (const std::string& category : categories) {
-        if (category != "") {
-            out << category << ":" << std::endl;
-        } else if (categories.size() > 1) {
-            out << "Misc options:" << std::endl;
-        }
-
-        for (const auto& opt : this->options) {
-            const ConfigOptionDef& def = opt.second;
-            if (def.category != category || def.cli == ConfigOptionDef::nocli || !filter(def))
-                continue;
-
-            if (std::find(silent_options.begin(), silent_options.end(), opt.second.opt_key) != silent_options.end())
-                continue;
-
-            // get all possible variations: --foo, --foobar, -f...
-            std::vector<std::string> cli_args = def.cli_args(opt.first);
-            if (cli_args.empty())
-                continue;
-
-            for (auto& arg : cli_args) {
-                arg.insert(0, (arg.size() == 1) ? "-" : "--");
-                if (def.type == coFloat || def.type == coInt || def.type == coFloatOrPercent
-                    || def.type == coFloats || def.type == coInts) {
-                    arg += " N";
-                } else if (def.type == coPoint) {
-                    arg += " X,Y";
-                } else if (def.type == coPoint3) {
-                    arg += " X,Y,Z";
-                } else if (def.type == coString || def.type == coStrings) {
-                    arg += " ABCD";
-                }
-            }
-
-            // left: command line options
-            const std::string cli = boost::algorithm::join(cli_args, ", ");
-            out << " " << std::left << std::setw(20) << cli;
-
-            // right: option description
-            std::string descr = def.tooltip;
-            bool show_defaults_this = show_defaults || def.opt_key == "config_compatibility";
-            if (show_defaults_this && def.default_value && def.type != coBool
-                && (def.type != coString || !def.default_value->serialize().empty())) {
-                descr += " (";
-                if (!def.sidetext.empty()) {
-                    descr += def.sidetext + ", ";
-                } else if (def.enum_def && def.enum_def->has_values()) {
-                    descr += boost::algorithm::join(def.enum_def->values(), ", ") + "; ";
-                }
-                descr += "default: " + def.default_value->serialize() + ")";
-            }
-
-            // wrap lines of description
-            descr = wrap(descr, 80);
-            std::vector<std::string> lines;
-            boost::split(lines, descr, boost::is_any_of("\n"));
-
-            // if command line options are too long, print description in new line
-            for (size_t i = 0; i < lines.size(); ++i) {
-                if (i == 0 && cli.size() > 19)
-                    out << std::endl;
-                if (i > 0 || cli.size() > 19)
-                    out << std::string(21, ' ');
-                out << lines[i] << std::endl;
-            }
-        }
-    }
-    return out;
 }
 
 std::string ConfigBase::SetDeserializeItem::format(std::initializer_list<int> values)
@@ -508,11 +403,11 @@ void ConfigBase::apply_only(const ConfigBase &other, const t_config_option_keys 
                 continue;
             throw UnknownOptionException(opt_key);
         }
-        const ConfigOption *other_opt = other.option(opt_key);
-        if (other_opt == nullptr) {
+		const ConfigOption *other_opt = other.option(opt_key);
+		if (other_opt == nullptr) {
             // The key was not found in the source config, therefore it will not be initialized!
-//            printf("Not found, therefore not initialized: %s\n", opt_key.c_str());
-        } else
+//			printf("Not found, therefore not initialized: %s\n", opt_key.c_str());
+		} else
             my_opt->set(other_opt);
     }
 }
@@ -566,11 +461,11 @@ void ConfigBase::set(const std::string &opt_key, int value, bool create)
 {
     ConfigOption *opt = this->option_throw(opt_key, create);
     switch (opt->type()) {
-        case coInt:    static_cast<ConfigOptionInt*>(opt)->value = value; break;
-        case coFloat:  static_cast<ConfigOptionFloat*>(opt)->value = value; break;
-        case coFloatOrPercent:  static_cast<ConfigOptionFloatOrPercent*>(opt)->value = value; static_cast<ConfigOptionFloatOrPercent*>(opt)->percent = false; break;
-        case coString: static_cast<ConfigOptionString*>(opt)->value = std::to_string(value); break;
-        default: throw BadOptionTypeException("Configbase::set() - conversion from int not possible");
+    	case coInt:    static_cast<ConfigOptionInt*>(opt)->value = value; break;
+    	case coFloat:  static_cast<ConfigOptionFloat*>(opt)->value = value; break;
+		case coFloatOrPercent:  static_cast<ConfigOptionFloatOrPercent*>(opt)->value = value; static_cast<ConfigOptionFloatOrPercent*>(opt)->percent = false; break;
+		case coString: static_cast<ConfigOptionString*>(opt)->value = std::to_string(value); break;
+    	default: throw BadOptionTypeException("Configbase::set() - conversion from int not possible");
     }
 }
 
@@ -578,10 +473,10 @@ void ConfigBase::set(const std::string &opt_key, double value, bool create)
 {
     ConfigOption *opt = this->option_throw(opt_key, create);
     switch (opt->type()) {
-        case coFloat:              static_cast<ConfigOptionFloat*>(opt)->value = value; break;
-        case coFloatOrPercent:  static_cast<ConfigOptionFloatOrPercent*>(opt)->value = value; static_cast<ConfigOptionFloatOrPercent*>(opt)->percent = false; break;
-        case coString:             static_cast<ConfigOptionString*>(opt)->value = float_to_string_decimal_point(value); break;
-        default: throw BadOptionTypeException("Configbase::set() - conversion from float not possible");
+    	case coFloat:  			static_cast<ConfigOptionFloat*>(opt)->value = value; break;
+    	case coFloatOrPercent:  static_cast<ConfigOptionFloatOrPercent*>(opt)->value = value; static_cast<ConfigOptionFloatOrPercent*>(opt)->percent = false; break;
+        case coString: 			static_cast<ConfigOptionString*>(opt)->value = float_to_string_decimal_point(value); break;
+    	default: throw BadOptionTypeException("Configbase::set() - conversion from float not possible");
     }
 }
 
@@ -600,14 +495,14 @@ bool ConfigBase::set_deserialize_nothrow(const t_config_option_key &opt_key_src,
 
 void ConfigBase::set_deserialize(const t_config_option_key &opt_key_src, const std::string &value_src, ConfigSubstitutionContext& substitutions_ctxt, bool append)
 {
-    if (! this->set_deserialize_nothrow(opt_key_src, value_src, substitutions_ctxt, append))
-        throw BadOptionValueException(format("Invalid value provided for parameter %1%: %2%", opt_key_src,  value_src));
+	if (! this->set_deserialize_nothrow(opt_key_src, value_src, substitutions_ctxt, append))
+		throw BadOptionValueException(format("Invalid value provided for parameter %1%: %2%", opt_key_src,  value_src));
 }
 
 void ConfigBase::set_deserialize(std::initializer_list<SetDeserializeItem> items, ConfigSubstitutionContext& substitutions_ctxt)
 {
-    for (const SetDeserializeItem &item : items)
-        this->set_deserialize(item.opt_key, item.opt_value, substitutions_ctxt, item.append);
+	for (const SetDeserializeItem &item : items)
+		this->set_deserialize(item.opt_key, item.opt_value, substitutions_ctxt, item.append);
 }
 
 bool ConfigBase::set_deserialize_raw(const t_config_option_key &opt_key_src, const std::string &value, ConfigSubstitutionContext& substitutions_ctxt, bool append)
@@ -649,38 +544,38 @@ bool ConfigBase::set_deserialize_raw(const t_config_option_key &opt_key_src, con
     bool success     = false;
     bool substituted = false;
     if (optdef->type == coBools && substitutions_ctxt.rule != ForwardCompatibilitySubstitutionRule::Disable) {
-        //FIXME Special handling of vectors of bools, quick and not so dirty solution before PrusaSlicer 2.3.2 release.
-        bool nullable = opt->nullable();
-        ConfigHelpers::DeserializationSubstitution default_value = ConfigHelpers::DeserializationSubstitution::DefaultsToFalse;
-        if (optdef->default_value) {
-            // Default value for vectors of booleans used in a "per extruder" context, thus the default contains just a single value.
-            assert(dynamic_cast<const ConfigOptionVector<unsigned char>*>(optdef->default_value.get()));
-            auto &values = static_cast<const ConfigOptionVector<unsigned char>*>(optdef->default_value.get())->values;
-            if (values.size() == 1 && values.front() == 1)
-                default_value = ConfigHelpers::DeserializationSubstitution::DefaultsToTrue;
-        }
-        auto result = nullable ?
-            static_cast<ConfigOptionBoolsNullable*>(opt)->deserialize_with_substitutions(value, append, default_value) :
-            static_cast<ConfigOptionBools*>(opt)->deserialize_with_substitutions(value, append, default_value);
-        success     = result != ConfigHelpers::DeserializationResult::Failed;
-        substituted = result == ConfigHelpers::DeserializationResult::Substituted;
+    	//FIXME Special handling of vectors of bools, quick and not so dirty solution before PrusaSlicer 2.3.2 release.
+    	bool nullable = opt->nullable();
+    	ConfigHelpers::DeserializationSubstitution default_value = ConfigHelpers::DeserializationSubstitution::DefaultsToFalse;
+    	if (optdef->default_value) {
+    		// Default value for vectors of booleans used in a "per extruder" context, thus the default contains just a single value.
+    		assert(dynamic_cast<const ConfigOptionVector<unsigned char>*>(optdef->default_value.get()));
+			auto &values = static_cast<const ConfigOptionVector<unsigned char>*>(optdef->default_value.get())->values;
+			if (values.size() == 1 && values.front() == 1)
+				default_value = ConfigHelpers::DeserializationSubstitution::DefaultsToTrue;
+		}
+    	auto result = nullable ?
+    		static_cast<ConfigOptionBoolsNullable*>(opt)->deserialize_with_substitutions(value, append, default_value) :
+    		static_cast<ConfigOptionBools*>(opt)->deserialize_with_substitutions(value, append, default_value);
+    	success     = result != ConfigHelpers::DeserializationResult::Failed;
+    	substituted = result == ConfigHelpers::DeserializationResult::Substituted;
     } else {
-        success = opt->deserialize(value, append);
-        if (! success && substitutions_ctxt.rule != ForwardCompatibilitySubstitutionRule::Disable &&
-            // Only allow substitutions of an enum value by another enum value or a boolean value with an enum value.
-            // That means, we expect enum values being added in the future and possibly booleans being converted to enums.
-            (optdef->type == coEnum || optdef->type == coBool) && ConfigHelpers::looks_like_enum_value(value)) {
-            // Deserialize failed, try to substitute with a default value.
-            assert(substitutions_ctxt.rule == ForwardCompatibilitySubstitutionRule::Enable || substitutions_ctxt.rule == ForwardCompatibilitySubstitutionRule::EnableSilent);
-            if (optdef->type == coBool)
-                static_cast<ConfigOptionBool*>(opt)->value = ConfigHelpers::enum_looks_like_true_value(value);
-            else
-                // Just use the default of the option.
-                opt->set(optdef->default_value.get());
+		success = opt->deserialize(value, append);
+	    if (! success && substitutions_ctxt.rule != ForwardCompatibilitySubstitutionRule::Disable &&
+	        // Only allow substitutions of an enum value by another enum value or a boolean value with an enum value.
+	        // That means, we expect enum values being added in the future and possibly booleans being converted to enums.
+	        (optdef->type == coEnum || optdef->type == coBool) && ConfigHelpers::looks_like_enum_value(value)) {
+	        // Deserialize failed, try to substitute with a default value.
+	        assert(substitutions_ctxt.rule == ForwardCompatibilitySubstitutionRule::Enable || substitutions_ctxt.rule == ForwardCompatibilitySubstitutionRule::EnableSilent);
+	        if (optdef->type == coBool)
+	            static_cast<ConfigOptionBool*>(opt)->value = ConfigHelpers::enum_looks_like_true_value(value);
+	        else
+	        	// Just use the default of the option.
+	            opt->set(optdef->default_value.get());
             success     = true;
             substituted = true;
-        }
-    }
+	    }
+	}
 
     if (substituted && (substitutions_ctxt.rule == ForwardCompatibilitySubstitutionRule::Enable ||
                         substitutions_ctxt.rule == ForwardCompatibilitySubstitutionRule::EnableSystemSilent)) {
@@ -1073,7 +968,7 @@ ConfigSubstitutions ConfigBase::load_from_gcode_file(const std::string &filename
     }
     else
     {
-        // Slic3r or PrusaSlicer older than 2.4.0-alpha0 do not emit any delimiter.
+        // Slic3r or CaribouSlicer older than 2.4.0-alpha0 do not emit any delimiter.
         // Try a heuristics reading the G-code from back.
         ifs.seekg(0, ifs.end);
         auto file_length = ifs.tellg();
@@ -1155,14 +1050,14 @@ void ConfigBase::null_nullables()
         ConfigOption *opt = this->optptr(opt_key, false);
         assert(opt != nullptr);
         if (opt->nullable())
-            opt->deserialize("nil", ForwardCompatibilitySubstitutionRule::Disable);
+        	opt->deserialize("nil", ForwardCompatibilitySubstitutionRule::Disable);
     }
 }
 
 DynamicConfig::DynamicConfig(const ConfigBase& rhs, const t_config_option_keys& keys)
 {
-    for (const t_config_option_key& opt_key : keys)
-        this->options[opt_key] = std::unique_ptr<ConfigOption>(rhs.option(opt_key)->clone());
+	for (const t_config_option_key& opt_key : keys)
+		this->options[opt_key] = std::unique_ptr<ConfigOption>(rhs.option(opt_key)->clone());
 }
 
 bool DynamicConfig::operator==(const DynamicConfig &rhs) const
@@ -1172,23 +1067,23 @@ bool DynamicConfig::operator==(const DynamicConfig &rhs) const
     auto it2     = rhs.options.begin();
     auto it2_end = rhs.options.end();
     for (; it1 != it1_end && it2 != it2_end; ++ it1, ++ it2)
-        if (it1->first != it2->first || *it1->second != *it2->second)
-            // key or value differ
-            return false;
+		if (it1->first != it2->first || *it1->second != *it2->second)
+			// key or value differ
+			return false;
     return it1 == it1_end && it2 == it2_end;
 }
 
 // Remove options with all nil values, those are optional and it does not help to hold them.
 size_t DynamicConfig::remove_nil_options()
 {
-    size_t cnt_removed = 0;
-    for (auto it = options.begin(); it != options.end();)
-        if (it->second->is_nil()) {
-            it = options.erase(it);
-            ++ cnt_removed;
-        } else
-            ++ it;
-    return cnt_removed;
+	size_t cnt_removed = 0;
+	for (auto it = options.begin(); it != options.end();)
+		if (it->second->is_nil()) {
+			it = options.erase(it);
+			++ cnt_removed;
+		} else
+			++ it;
+	return cnt_removed;
 }
 
 ConfigOption* DynamicConfig::optptr(const t_config_option_key &opt_key, bool create)
@@ -1218,127 +1113,6 @@ const ConfigOption* DynamicConfig::optptr(const t_config_option_key &opt_key) co
 {
     auto it = options.find(opt_key);
     return (it == options.end()) ? nullptr : it->second.get();
-}
-
-bool DynamicConfig::read_cli(int argc, const char* const argv[], t_config_option_keys* extra, t_config_option_keys* keys)
-{
-    // cache the CLI option => opt_key mapping
-    std::map<std::string,std::string> opts;
-    for (const auto &oit : this->def()->options)
-        for (const std::string &t : oit.second.cli_args(oit.first))
-            opts[t] = oit.first;
-
-    bool parse_options = true;
-    for (int i = 1; i < argc; ++ i) {
-        std::string token = argv[i];
-        // Store non-option arguments in the provided vector.
-        if (! parse_options || ! boost::starts_with(token, "-")) {
-            extra->push_back(token);
-            continue;
-        }
-#ifdef __APPLE__
-        if (boost::starts_with(token, "-psn_"))
-            // OSX launcher may add a "process serial number", for example "-psn_0_989382" to the command line.
-            // While it is supposed to be dropped since OSX 10.9, we will rather ignore it.
-            continue;
-#endif /* __APPLE__ */
-        // Stop parsing tokens as options when -- is supplied.
-        if (token == "--") {
-            parse_options = false;
-            continue;
-        }
-        // Remove leading dashes (one or two).
-        token.erase(token.begin(), token.begin() + (boost::starts_with(token, "--") ? 2 : 1));
-        // Read value when supplied in the --key=value form.
-        std::string value;
-        {
-            size_t equals_pos = token.find("=");
-            if (equals_pos != std::string::npos) {
-                value = token.substr(equals_pos+1);
-                token.erase(equals_pos);
-            }
-        }
-        // Look for the cli -> option mapping.
-        auto it = opts.find(token);
-        bool no = false;
-        if (it == opts.end()) {
-            // Remove the "no-" prefix used to negate boolean options.
-            std::string yes_token;
-            if (boost::starts_with(token, "no-")) {
-                yes_token = token.substr(3);
-                it = opts.find(yes_token);
-                no = true;
-            }
-            if (it == opts.end()) {
-                boost::nowide::cerr << "Unknown option --" << token.c_str() << std::endl;
-                return false;
-            }
-            if (no)
-                token = yes_token;
-        }
-
-        const t_config_option_key &opt_key = it->second;
-        const ConfigOptionDef     &optdef  = *this->option_def(opt_key);
-
-        // If the option type expects a value and it was not already provided,
-        // look for it in the next token.
-        if (value.empty() && optdef.type != coBool && optdef.type != coBools) {
-            if (i == argc-1) {
-                boost::nowide::cerr << "No value supplied for --" << token.c_str() << std::endl;
-                return false;
-            }
-            value = argv[++ i];
-        }
-
-        if (no) {
-            assert(optdef.type == coBool || optdef.type == coBools);
-            if (! value.empty()) {
-                boost::nowide::cerr << "Boolean options negated by the --no- prefix cannot have a value." << std::endl;
-                return false;
-            }
-        }
-
-        // Store the option value.
-        const bool               existing   = this->has(opt_key);
-        if (keys != nullptr && ! existing) {
-            // Save the order of detected keys.
-            keys->push_back(opt_key);
-        }
-        ConfigOption            *opt_base   = this->option(opt_key, true);
-        ConfigOptionVectorBase  *opt_vector = opt_base->is_vector() ? static_cast<ConfigOptionVectorBase*>(opt_base) : nullptr;
-        if (opt_vector) {
-            if (! existing)
-                // remove the default values
-                opt_vector->clear();
-            // Vector values will be chained. Repeated use of a parameter will append the parameter or parameters
-            // to the end of the value.
-            if (opt_base->type() == coBools && value.empty())
-                static_cast<ConfigOptionBools*>(opt_base)->values.push_back(!no);
-            else
-                // Deserialize any other vector value (ConfigOptionInts, Floats, Percents, Points) the same way
-                // they get deserialized from an .ini file. For ConfigOptionStrings, that means that the C-style unescape
-                // will be applied for values enclosed in quotes, while values non-enclosed in quotes are left to be
-                // unescaped by the calling shell.
-                opt_vector->deserialize(value, true);
-        } else if (opt_base->type() == coBool) {
-            if (value.empty())
-                static_cast<ConfigOptionBool*>(opt_base)->value = !no;
-            else
-                opt_base->deserialize(value);
-        } else if (opt_base->type() == coString) {
-            // Do not unescape single string values, the unescaping is left to the calling shell.
-            static_cast<ConfigOptionString*>(opt_base)->value = value;
-        } else {
-            // Just bail out if the configuration value is not understood.
-            ConfigSubstitutionContext context(ForwardCompatibilitySubstitutionRule::Disable);
-            // Any scalar value of a type different from Bool and String.
-            if (! this->set_deserialize_nothrow(opt_key, value, context, false)) {
-                boost::nowide::cerr << "Invalid value supplied for --" << token.c_str() << std::endl;
-                return false;
-            }
-        }
-    }
-    return true;
 }
 
 t_config_option_keys DynamicConfig::keys() const

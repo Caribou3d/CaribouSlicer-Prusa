@@ -19,8 +19,8 @@ class BlacklistedLibraryCheck
 public:
     static BlacklistedLibraryCheck& get_instance()
     {
-        static BlacklistedLibraryCheck instance;
-
+        static BlacklistedLibraryCheck instance; 
+                              
         return instance;
     }
 private:

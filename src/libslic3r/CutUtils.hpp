@@ -33,7 +33,7 @@ class Cut {
 
 public:
 
-    Cut(const ModelObject* object, int instance, const Transform3d& cut_matrix,
+    Cut(const ModelObject* object, int instance, const Transform3d& cut_matrix, 
         ModelObjectCutAttributes attributes = ModelObjectCutAttribute::KeepUpper |
                                               ModelObjectCutAttribute::KeepLower |
                                               ModelObjectCutAttribute::KeepAsParts );

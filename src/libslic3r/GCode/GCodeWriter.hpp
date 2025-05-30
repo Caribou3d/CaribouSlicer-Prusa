@@ -31,8 +31,8 @@ class GCodeWriter {
 public:
     GCodeConfig config;
     bool multiple_extruders;
-
-    GCodeWriter() :
+    
+    GCodeWriter() : 
         multiple_extruders(false), m_extrusion_axis("E"), m_extruder(nullptr),
         m_single_extruder_multi_material(false),
         m_last_acceleration(0), m_max_acceleration(0),
@@ -47,11 +47,11 @@ public:
     // Extruders are expected to be sorted in an increasing order.
     void                 set_extruders(std::vector<unsigned int> extruder_ids);
     const std::vector<Extruder>& extruders() const { return m_extruders; }
-    std::vector<unsigned int> extruder_ids() const {
-        std::vector<unsigned int> out;
-        out.reserve(m_extruders.size());
-        for (const Extruder &e : m_extruders)
-            out.push_back(e.id());
+    std::vector<unsigned int> extruder_ids() const { 
+        std::vector<unsigned int> out; 
+        out.reserve(m_extruders.size()); 
+        for (const Extruder &e : m_extruders) 
+            out.push_back(e.id()); 
         return out;
     }
     std::string preamble();
@@ -64,7 +64,7 @@ public:
     std::string reset_e(bool force = false);
     std::string update_progress(unsigned int num, unsigned int tot, bool allow_100 = false) const;
     // return false if this extruder was already selected
-    bool        need_toolchange(unsigned int extruder_id) const
+    bool        need_toolchange(unsigned int extruder_id) const 
         { return m_extruder == nullptr || m_extruder->id() != extruder_id; }
     std::string set_extruder(unsigned int extruder_id)
         { return this->need_toolchange(extruder_id) ? this->toolchange(extruder_id) : ""; }
@@ -74,26 +74,46 @@ public:
     std::string toolchange(unsigned int extruder_id);
     std::string set_speed(double F, const std::string_view comment = {}, const std::string_view cooling_marker = {}) const;
 
-    std::string get_travel_to_xy_gcode(const Vec2d &point, const std::string_view comment) const;
-    std::string travel_to_xy(const Vec2d &point, const std::string_view comment = {});
-    std::string travel_to_xy_G2G3IJ(const Vec2d &point, const Vec2d &ij, const bool ccw, const std::string_view comment = {});
-
     /**
-     * @brief Return gcode with all three axis defined. Optionally adds feedrate.
+     * @brief Return gcode to travel to the specified point.
+     * Feed rate is computed based on the vector (to - m_pos).
+     * Maintains the internal m_pos position.
+     * Movements less than XYZ_EPSILON generate no output.
      *
-     * Feedrate is added the starting point "from" is specified.
-     *
-     * @param from Optional starting point of the travel.
      * @param to Where to travel to.
      * @param comment Description of the travel purpose.
      */
-    std::string get_travel_to_xyz_gcode(const Vec3d &from, const Vec3d &to, const std::string_view comment) const;
-    std::string travel_to_xyz(const Vec3d &from, const Vec3d &to, const std::string_view comment = {});
-    std::string get_travel_to_z_gcode(double z, const std::string_view comment) const;
+    std::string travel_to_xyz(const Vec3d &to, const std::string_view comment = {});
+    std::string travel_to_xy(const Vec2d &point, const std::string_view comment = {});
     std::string travel_to_z(double z, const std::string_view comment = {});
+
+    std::string travel_to_xy_G2G3IJ(const Vec2d &point, const Vec2d &ij, const bool ccw, const std::string_view comment = {});
+
+    /**
+     * @brief Generate G-Code to travel to the specified point unconditionally.
+     * Feed rate is computed based on the vector (to - m_pos).
+     * Maintains the internal m_pos position.
+     * The distance test XYZ_EPSILON is not performed.
+     * @param to The point to travel to.
+     * @param comment Description of the travel purpose.
+     */
+    std::string travel_to_xyz_force(const Vec3d &to, const std::string_view comment = {});
+    std::string travel_to_xy_force(const Vec2d &point, const std::string_view comment = {});
+    std::string travel_to_z_force(double z, const std::string_view comment = {});
+
+    /**
+     * @brief Generate G-Code to move to the specified point while extruding.
+     * Maintains the internal m_pos position.
+     * The distance test XYZ_EPSILON is not performed.
+     * @param point The point to move to.
+     * @param dE The E-steps to extrude while moving.
+     * @param comment Description of the movement purpose.
+     */
     std::string extrude_to_xy(const Vec2d &point, double dE, const std::string_view comment = {});
+    std::string extrude_to_xyz(const Vec3d &point, double dE, const std::string_view comment = {});
+
     std::string extrude_to_xy_G2G3IJ(const Vec2d &point, const Vec2d &ij, const bool ccw, double dE, const std::string_view comment);
-//    std::string extrude_to_xyz(const Vec3d &point, double dE, const std::string_view comment = {});
+
     std::string retract(bool before_wipe = false);
     std::string retract_for_toolchange(bool before_wipe = false);
     std::string unretract();
@@ -120,7 +140,7 @@ public:
     std::string set_fan(unsigned int speed) const;
 
 private:
-    // Extruders are sorted by their ID, so that binary search is possible.
+	// Extruders are sorted by their ID, so that binary search is possible.
     std::vector<Extruder> m_extruders;
     std::string     m_extrusion_axis;
     bool            m_single_extruder_multi_material;
@@ -175,6 +195,9 @@ public:
     static constexpr const std::array<double, 10> pow_10    {   1.,     10.,    100.,    1000.,    10000.,    100000.,    1000000.,    10000000.,    100000000.,    1000000000.};
     static constexpr const std::array<double, 10> pow_10_inv{1./1.,  1./10., 1./100., 1./1000., 1./10000., 1./100000., 1./1000000., 1./10000000., 1./100000000., 1./1000000000.};
 
+    // Compute XYZ_EPSILON based on XYZF_EXPORT_DIGITS
+    static constexpr double XYZ_EPSILON = pow_10_inv[XYZF_EXPORT_DIGITS];
+
     // Quantize doubles to a resolution of the G-code.
     static double                                 quantize(double v, size_t ndigits) { return std::round(v * pow_10[ndigits]) * pow_10_inv[ndigits]; }
     static double                                 quantize_xyzf(double v) { return quantize(v, XYZF_EXPORT_DIGITS); }
@@ -211,6 +234,10 @@ public:
     }
 
     void emit_e(const std::string_view axis, double v) {
+        const double precision{std::pow(10.0, -E_EXPORT_DIGITS)};
+        if (std::abs(v) < precision) {
+            v = v < 0 ? -precision : precision;
+        }
         if (! axis.empty()) {
             // not gcfNoExtrusion
             this->emit_axis(axis[0], v, E_EXPORT_DIGITS);

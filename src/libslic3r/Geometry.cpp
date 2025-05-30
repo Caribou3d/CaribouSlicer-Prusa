@@ -102,7 +102,7 @@ Pointfs arrange(size_t num_parts, const Vec2d &part_size, coordf_t gap, const Bo
     // Use actual part size (the largest) plus separation distance (half on each side) in spacing algorithm.
     const Vec2d       cell_size(part_size(0) + gap, part_size(1) + gap);
 
-    const BoundingBoxf bed_bbox = (bed_bounding_box != NULL && bed_bounding_box->defined) ?
+    const BoundingBoxf bed_bbox = (bed_bounding_box != NULL && bed_bounding_box->defined) ? 
         *bed_bounding_box :
         // Bogus bed size, large enough not to trigger the unsufficient bed size error.
         BoundingBoxf(
@@ -114,12 +114,12 @@ Pointfs arrange(size_t num_parts, const Vec2d &part_size, coordf_t gap, const Bo
     size_t cellh = size_t(floor((bed_bbox.size()(1) + gap) / cell_size(1)));
     if (num_parts > cellw * cellh)
         throw Slic3r::InvalidArgument("%zu parts won't fit in your print area!\n", num_parts);
-
+    
     // Get a bounding box of cellw x cellh cells, centered at the center of the bed.
     Vec2d       cells_size(cellw * cell_size(0) - gap, cellh * cell_size(1) - gap);
     Vec2d       cells_offset(bed_bbox.center() - 0.5 * cells_size);
     BoundingBoxf cells_bb(cells_offset, cells_size + cells_offset);
-
+    
     // List of cells, sorted by distance from center.
     std::vector<ArrangeItem> cellsorder(cellw * cellh, ArrangeItem());
     for (size_t j = 0; j < cellh; ++ j) {
@@ -176,7 +176,7 @@ arrange(size_t total_parts, const Vec2d &part_size, coordf_t dist, const Boundin
     // use actual part size (the largest) plus separation distance (half on each side) in spacing algorithm
     part(0) += dist;
     part(1) += dist;
-
+    
     Vec2d area(Vec2d::Zero());
     if (bb != NULL && bb->defined) {
         area = bb->size();
@@ -185,46 +185,46 @@ arrange(size_t total_parts, const Vec2d &part_size, coordf_t dist, const Boundin
         area(0) = part(0) * total_parts;
         area(1) = part(1) * total_parts;
     }
-
+    
     // this is how many cells we have available into which to put parts
     size_t cellw = floor((area(0) + dist) / part(0));
     size_t cellh = floor((area(1) + dist) / part(1));
     if (total_parts > (cellw * cellh))
         return false;
-
+    
     // total space used by cells
     Vec2d cells(cellw * part(0), cellh * part(1));
-
+    
     // bounding box of total space used by cells
     BoundingBoxf cells_bb;
     cells_bb.merge(Vec2d(0,0)); // min
     cells_bb.merge(cells);  // max
-
+    
     // center bounding box to area
     cells_bb.translate(
         (area(0) - cells(0)) / 2,
         (area(1) - cells(1)) / 2
     );
-
+    
     // list of cells, sorted by distance from center
     std::vector<ArrangeItemIndex> cellsorder;
-
+    
     // work out distance for all cells, sort into list
     for (size_t i = 0; i <= cellw-1; ++i) {
         for (size_t j = 0; j <= cellh-1; ++j) {
             coordf_t cx = linint(i + 0.5, 0, cellw, cells_bb.min(0), cells_bb.max(0));
             coordf_t cy = linint(j + 0.5, 0, cellh, cells_bb.min(1), cells_bb.max(1));
-
+            
             coordf_t xd = fabs((area(0) / 2) - cx);
             coordf_t yd = fabs((area(1) / 2) - cy);
-
+            
             ArrangeItem c;
             c.pos(0) = cx;
             c.pos(1) = cy;
             c.index_x = i;
             c.index_y = j;
             c.dist = xd * xd + yd * yd - fabs((cellw / 2) - (i + 0.5));
-
+            
             // binary insertion sort
             {
                 coordf_t index = c.dist;
@@ -233,7 +233,7 @@ arrange(size_t total_parts, const Vec2d &part_size, coordf_t dist, const Boundin
                 while (low < high) {
                     size_t mid = (low + ((high - low) / 2)) | 0;
                     coordf_t midval = cellsorder[mid].index;
-
+                    
                     if (midval < index) {
                         low = mid + 1;
                     } else if (midval > index) {
@@ -248,7 +248,7 @@ arrange(size_t total_parts, const Vec2d &part_size, coordf_t dist, const Boundin
             ENDSORT: ;
         }
     }
-
+    
     // the extents of cells actually used by objects
     coordf_t lx = 0;
     coordf_t ty = 0;
@@ -276,17 +276,17 @@ arrange(size_t total_parts, const Vec2d &part_size, coordf_t dist, const Boundin
         cellsorder.erase(cellsorder.begin());
         coordf_t cx = c.item.index_x - lx;
         coordf_t cy = c.item.index_y - ty;
-
+        
         positions.push_back(Vec2d(cx * part(0), cy * part(1)));
     }
-
+    
     if (bb != NULL && bb->defined) {
         for (Pointfs::iterator p = positions.begin(); p != positions.end(); ++p) {
             p->x() += bb->min(0);
             p->y() += bb->min(1);
         }
     }
-
+    
     return true;
 }
 #endif
@@ -295,9 +295,9 @@ arrange(size_t total_parts, const Vec2d &part_size, coordf_t dist, const Boundin
 template<typename T>
 T dist(const boost::polygon::point_data<T> &p1,const boost::polygon::point_data<T> &p2)
 {
-    T dx = p2(0) - p1(0);
-    T dy = p2(1) - p1(1);
-    return sqrt(dx*dx+dy*dy);
+	T dx = p2(0) - p1(0);
+	T dy = p2(1) - p1(1);
+	return sqrt(dx*dx+dy*dy);
 }
 
 // Find a foot point of "px" on a segment "seg".
@@ -448,7 +448,7 @@ static bool contains_skew(const Transform3d& trafo)
 
     if (scale.isDiagonal())
       return false;
-
+    
     if (scale.determinant() >= 0.0)
       return true;
 
@@ -700,7 +700,7 @@ TransformationSVD::TransformationSVD(const Transform3d& trafo)
                std::abs(transformed_axes[1].dot(transformed_axes[2])) > EPSILON ||
                std::abs(transformed_axes[2].dot(transformed_axes[0])) > EPSILON;
 
-        // This following old code does not work under all conditions. The v matrix can become non diagonal (see SPE-1492)
+        // This following old code does not work under all conditions. The v matrix can become non diagonal (see SPE-1492) 
 //        skew = ! rotation_90_degrees;
     } else
         skew = false;

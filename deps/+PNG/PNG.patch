@@ -4,12 +4,12 @@ Common subdirectories: ../libpng-1.6.35-orig/intel and ./intel
 Common subdirectories: ../libpng-1.6.35-orig/mips and ./mips
 Only in ./: PNG.patch
 diff -u ../libpng-1.6.35-orig/pngrutil.c ./pngrutil.c
---- ../libpng-1.6.35-orig/pngrutil.c    2018-07-15 20:58:00.000000000 +0200
-+++ ./pngrutil.c    2021-03-24 15:59:38.687108444 +0100
+--- ../libpng-1.6.35-orig/pngrutil.c	2018-07-15 20:58:00.000000000 +0200
++++ ./pngrutil.c	2021-03-24 15:59:38.687108444 +0100
 @@ -422,13 +422,6 @@
              png_ptr->flags |= PNG_FLAG_ZSTREAM_INITIALIZED;
        }
-
+ 
 -#if ZLIB_VERNUM >= 0x1290 && \
 -   defined(PNG_SET_OPTION_SUPPORTED) && defined(PNG_IGNORE_ADLER32)
 -      if (((png_ptr->options >> PNG_IGNORE_ADLER32) & 3) == PNG_OPTION_ON)
@@ -19,7 +19,7 @@ diff -u ../libpng-1.6.35-orig/pngrutil.c ./pngrutil.c
 -
        if (ret == Z_OK)
           png_ptr->zowner = owner;
-
+ 
 Common subdirectories: ../libpng-1.6.35-orig/powerpc and ./powerpc
 Common subdirectories: ../libpng-1.6.35-orig/projects and ./projects
 Common subdirectories: ../libpng-1.6.35-orig/scripts and ./scripts

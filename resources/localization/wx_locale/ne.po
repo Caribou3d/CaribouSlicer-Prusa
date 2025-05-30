@@ -501,8 +501,7 @@ msgstr "&सञ्जाल "
 msgid "&New"
 msgstr "&नया"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&अघिल्लो"
 
@@ -576,8 +575,7 @@ msgstr "&अवस्था मुद्रा:"
 msgid "&Preferences"
 msgstr "&प्राथमिकताहरू"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&पछिल्लो"
 
@@ -8933,8 +8931,8 @@ msgstr "~"
 #~ msgstr "मिति खोज्नाले मान पाइ एन ; मान को किसिम: "
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

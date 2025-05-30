@@ -81,7 +81,7 @@ struct Node
     float Rmin = 0.f;
 
     // Tracking the weight of each junction, which is essentially the sum of
-    // the lengths of all branches emanating from this junction.
+    // the lenghts of all branches emanating from this junction.
     float weight = 0.f;
 
     Node(const Vec3f &p, float r_min = .0f) : pos{p}, Rmin{r_min}, weight{0.f}

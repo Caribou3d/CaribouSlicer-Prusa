@@ -49,10 +49,11 @@ const char* surface_type_to_color_name(const SurfaceType surface_type)
         case stTop:             return "rgb(255,0,0)"; // "red";
         case stBottom:          return "rgb(0,255,0)"; // "green";
         case stBottomBridge:    return "rgb(0,0,255)"; // "blue";
-        case stInternal:        return "rgb(255,255,128)"; // yellow
+        case stInternal:        return "rgb(255,255,128)"; // yellow 
         case stInternalSolid:   return "rgb(255,0,255)"; // magenta
         case stInternalBridge:  return "rgb(0,255,255)";
         case stInternalVoid:    return "rgb(128,128,128)";
+        case stSolidOverBridge: return "rgb(255,128,0)"; // orange
         case stPerimeter:       return "rgb(128,0,0)"; // maroon
         default:                return "rgb(64,64,64)";
     };
@@ -60,7 +61,7 @@ const char* surface_type_to_color_name(const SurfaceType surface_type)
 
 Point export_surface_type_legend_to_svg_box_size()
 {
-    return Point(scale_(1.+10.*8.), scale_(3.));
+    return Point(scale_(1.+10.*8.), scale_(3.)); 
 }
 
 void export_surface_type_legend_to_svg(SVG &svg, const Point &pos)
@@ -89,6 +90,8 @@ void export_surface_type_legend_to_svg(SVG &svg, const Point &pos)
     svg.draw_legend(Point(pos_x, pos_y), "internal bridge", surface_type_to_color_name(stInternalBridge));
     pos_x += step_x;
     svg.draw_legend(Point(pos_x, pos_y), "internal void"  , surface_type_to_color_name(stInternalVoid));
+    pos_x += step_x;
+    svg.draw_legend(Point(pos_x, pos_y), "over bridge"    , surface_type_to_color_name(stSolidOverBridge));
 }
 
 bool export_to_svg(const char *path, const Surfaces &surfaces, const float transparency)

@@ -58,7 +58,7 @@ static void update_bounding_box(const indexed_triangle_set &its, TriangleMeshSta
     BoundingBoxf3 bbox      = Slic3r::bounding_box(its);
     out.min                 = bbox.min.cast<float>();
     out.max                 = bbox.max.cast<float>();
-    out.size                = out.max - out.min;
+    out.size                = out.max - out.min;    
 }
 
 static void fill_initial_stats(const indexed_triangle_set &its, TriangleMeshStats &out)
@@ -113,7 +113,7 @@ static void trianglemesh_repair_on_import(stl_file &stl)
     stl.stats.facets_w_1_bad_edge = (stl.stats.connected_facets_2_edge - stl.stats.connected_facets_3_edge);
     stl.stats.facets_w_2_bad_edge = (stl.stats.connected_facets_1_edge - stl.stats.connected_facets_2_edge);
     stl.stats.facets_w_3_bad_edge = (stl.stats.number_of_facets - stl.stats.connected_facets_1_edge);
-
+    
     // checking nearby
     //int last_edges_fixed = 0;
     float tolerance = (float)stl.stats.shortest_edge;
@@ -138,7 +138,7 @@ static void trianglemesh_repair_on_import(stl_file &stl)
         }
     }
     assert(stl_validate(&stl));
-
+    
     // remove_unconnected
     if (stl.stats.connected_facets_3_edge < (int)stl.stats.number_of_facets) {
 #ifdef SLIC3R_TRACE_REPAIR
@@ -147,7 +147,7 @@ static void trianglemesh_repair_on_import(stl_file &stl)
         stl_remove_unconnected_facets(&stl);
         assert(stl_validate(&stl));
     }
-
+    
     // fill_holes
 #if 0
     // Don't fill holes, the current algorithm does more harm than good on complex holes.
@@ -174,7 +174,7 @@ static void trianglemesh_repair_on_import(stl_file &stl)
 #endif /* SLIC3R_TRACE_REPAIR */
     stl_fix_normal_values(&stl);
     assert(stl_validate(&stl));
-
+    
     // always calculate the volume and reverse all normals if volume is negative
 #ifdef SLIC3R_TRACE_REPAIR
     BOOST_LOG_TRIVIAL(trace) << "\tstl_calculate_volume";
@@ -182,7 +182,7 @@ static void trianglemesh_repair_on_import(stl_file &stl)
     // If the volume is negative, all the facets are flipped and added to stats.facets_reversed.
     stl_calculate_volume(&stl);
     assert(stl_validate(&stl));
-
+    
     // neighbors
 #ifdef SLIC3R_TRACE_REPAIR
     BOOST_LOG_TRIVIAL(trace) << "\tstl_verify_neighbors";
@@ -216,7 +216,7 @@ void TriangleMesh::from_facets(std::vector<stl_facet> &&facets, bool repair)
 }
 
 bool TriangleMesh::ReadSTLFile(const char* input_file, bool repair)
-{
+{ 
     stl_file stl;
     if (! stl_open(&stl, input_file))
         return false;
@@ -247,12 +247,12 @@ bool TriangleMesh::ReadSTLFile(const char* input_file, bool repair)
 }
 
 bool TriangleMesh::write_ascii(const char* output_file)
-{
+{ 
     return its_write_stl_ascii(output_file, "", this->its);
 }
 
 bool TriangleMesh::write_binary(const char* output_file)
-{
+{ 
     return its_write_stl_binary(output_file, "", this->its);
 }
 
@@ -568,9 +568,10 @@ struct EdgeToFace {
     bool operator<(const EdgeToFace &other) const { return vertex_low < other.vertex_low || (vertex_low == other.vertex_low && vertex_high < other.vertex_high); }
 };
 
-template<typename FaceFilter, typename ThrowOnCancelCallback>
-static std::vector<EdgeToFace> create_edge_map(
-    const indexed_triangle_set &its, FaceFilter face_filter, ThrowOnCancelCallback throw_on_cancel)
+template<AdditionalMeshInfo mesh_info = AdditionalMeshInfo::None, typename FaceFilter, typename ThrowOnCancelCallback>
+static std::vector<EdgeToFace> create_edge_map(const typename IndexedTriangleSetType<mesh_info>::type &its,
+                                               FaceFilter                                              face_filter,
+                                               ThrowOnCancelCallback                                   throw_on_cancel)
 {
     std::vector<EdgeToFace> edges_map;
     edges_map.reserve(its.indices.size() * 3);
@@ -599,12 +600,14 @@ static std::vector<EdgeToFace> create_edge_map(
 
 // Map from a face edge to a unique edge identifier or -1 if no neighbor exists.
 // Two neighbor faces share a unique edge identifier even if they are flipped.
-template<typename FaceFilter, typename ThrowOnCancelCallback>
-static inline std::vector<Vec3i> its_face_edge_ids_impl(const indexed_triangle_set &its, FaceFilter face_filter, ThrowOnCancelCallback throw_on_cancel)
+template<AdditionalMeshInfo mesh_info = AdditionalMeshInfo::None, typename FaceFilter, typename ThrowOnCancelCallback>
+static inline std::vector<Vec3i> its_face_edge_ids_impl(const typename IndexedTriangleSetType<mesh_info>::type &its,
+                                                        FaceFilter                                              face_filter,
+                                                        ThrowOnCancelCallback                                   throw_on_cancel)
 {
     std::vector<Vec3i> out(its.indices.size(), Vec3i(-1, -1, -1));
 
-    std::vector<EdgeToFace> edges_map = create_edge_map(its, face_filter, throw_on_cancel);
+    std::vector<EdgeToFace> edges_map = create_edge_map<mesh_info>(its, face_filter, throw_on_cancel);
 
     // Assign a unique common edge id to touching triangle edges.
     int num_edges = 0;
@@ -650,9 +653,16 @@ static inline std::vector<Vec3i> its_face_edge_ids_impl(const indexed_triangle_s
     return out;
 }
 
-std::vector<Vec3i> its_face_edge_ids(const indexed_triangle_set &its)
+// Explicit template instantiation.
+template std::vector<Vec3i> its_face_edge_ids<AdditionalMeshInfo::None>(const IndexedTriangleSetType<AdditionalMeshInfo::None>::type &);
+template std::vector<Vec3i> its_face_edge_ids<AdditionalMeshInfo::Color>(const IndexedTriangleSetType<AdditionalMeshInfo::Color>::type &);
+template std::vector<Vec3i> its_face_edge_ids<AdditionalMeshInfo::None>(const IndexedTriangleSetType<AdditionalMeshInfo::None>::type &, const std::vector<char> &);
+template std::vector<Vec3i> its_face_edge_ids<AdditionalMeshInfo::Color>(const IndexedTriangleSetType<AdditionalMeshInfo::Color>::type &, const std::vector<char> &);
+
+template<AdditionalMeshInfo mesh_info>
+std::vector<Vec3i> its_face_edge_ids(const typename IndexedTriangleSetType<mesh_info>::type &its)
 {
-    return its_face_edge_ids_impl(its, [](const uint32_t){ return true; }, [](){});
+    return its_face_edge_ids_impl<mesh_info>(its, [](const uint32_t){ return true; }, [](){});
 }
 
 std::vector<Vec3i> its_face_edge_ids(const indexed_triangle_set &its, std::function<void()> throw_on_cancel_callback)
@@ -660,9 +670,10 @@ std::vector<Vec3i> its_face_edge_ids(const indexed_triangle_set &its, std::funct
     return its_face_edge_ids_impl(its, [](const uint32_t){ return true; }, throw_on_cancel_callback);
 }
 
-std::vector<Vec3i> its_face_edge_ids(const indexed_triangle_set &its, const std::vector<char> &face_mask)
+template<AdditionalMeshInfo mesh_info>
+std::vector<Vec3i> its_face_edge_ids(const typename IndexedTriangleSetType<mesh_info>::type &its, const std::vector<char> &face_mask)
 {
-    return its_face_edge_ids_impl(its, [&face_mask](const uint32_t idx){ return face_mask[idx]; }, [](){});
+    return its_face_edge_ids_impl<mesh_info>(its, [&face_mask](const uint32_t idx){ return face_mask[idx]; }, [](){});
 }
 
 // Having the face neighbors available, assign unique edge IDs to face edges for chaining of polygons over slices.
@@ -985,7 +996,7 @@ indexed_triangle_set its_make_prism(float width, float length, float height)
     };
 }
 
-// Generate the mesh for a cylinder and return it, using
+// Generate the mesh for a cylinder and return it, using 
 // the generated angle to calculate the top mesh triangles.
 // Default is 360 sides, angle fa is in radians.
 indexed_triangle_set its_make_cylinder(double r, double h, double fa)
@@ -1123,7 +1134,7 @@ indexed_triangle_set its_make_pyramid(float base, float height)
 }
 
 // Generates mesh for a sphere centered about the origin, using the generated angle
-// to determine the granularity.
+// to determine the granularity. 
 // Default angle is 1 degree.
 indexed_triangle_set its_make_sphere(double radius, double fa)
 {
@@ -1158,7 +1169,7 @@ indexed_triangle_set its_make_sphere(double radius, double fa)
     }
     vertices[11] = stl_vertex(0, 0, -radius); // the last bottom vertex at (0, 0, -r)
 
-
+    
     // We have a beautiful icosahedron. Now subdivide the triangles.
     std::vector<Vec3i> neighbors = its_face_neighbors(mesh); // This is cheap, the mesh is small.
 
@@ -1204,7 +1215,7 @@ indexed_triangle_set its_make_sphere(double radius, double fa)
                     // Save information about what we did.
                     int j = -1;
                     while (divided_triangles[i][++j].neighbor != -1);
-
+                    
                     divided_triangles[i][j] = { edge_neighbor, int(vertices.size()-1), edge_children[n] };
                     new_neighbors_per_edge[n] = std::make_pair(-1,-1);
                 } else {
@@ -1587,7 +1598,7 @@ float its_average_edge_length(const indexed_triangle_set &its)
     double edge_length = 0.f;
     for (size_t i = 0; i < its.indices.size(); ++ i) {
         const its_triangle v = its_triangle_vertices(its, i);
-        edge_length += (v[1] - v[0]).cast<double>().norm() +
+        edge_length += (v[1] - v[0]).cast<double>().norm() + 
                        (v[2] - v[0]).cast<double>().norm() +
                        (v[1] - v[2]).cast<double>().norm();
     }
@@ -1684,7 +1695,7 @@ std::vector<Vec3i> its_face_neighbors_par(const indexed_triangle_set &its)
     return create_face_neighbors_index(ex_tbb, its);
 }
 
-std::vector<Vec3f> its_face_normals(const indexed_triangle_set &its)
+std::vector<Vec3f> its_face_normals(const indexed_triangle_set &its) 
 {
     std::vector<Vec3f> normals;
     normals.reserve(its.indices.size());

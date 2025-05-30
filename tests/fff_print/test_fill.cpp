@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <numeric>
 #include <sstream>
@@ -205,7 +205,6 @@ SCENARIO("Infill does not exceed perimeters", "[Fill]")
             { "fill_pattern",           pattern },
             { "top_fill_pattern",       pattern },
             { "bottom_fill_pattern",    pattern },
-            { "solid_fill_pattern",     pattern },
             { "perimeters",             1 },
             { "skirts",                 0 },
             { "fill_density",           0.2 },

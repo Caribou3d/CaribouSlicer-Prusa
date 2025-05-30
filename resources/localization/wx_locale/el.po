@@ -523,8 +523,7 @@ msgstr "&Νέο"
 msgid "&New"
 msgstr "&Νέο"
 
-#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100
-#: ../src/msw/mdi.cpp:180
+#: ../src/aui/tabmdi.cpp:111 ../src/generic/mdig.cpp:100 ../src/msw/mdi.cpp:180
 msgid "&Next"
 msgstr "&Επόμενο"
 
@@ -601,8 +600,7 @@ msgstr "Ερώτημα"
 msgid "&Preferences"
 msgstr "&Προτιμήσεις"
 
-#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101
-#: ../src/msw/mdi.cpp:181
+#: ../src/aui/tabmdi.cpp:112 ../src/generic/mdig.cpp:101 ../src/msw/mdi.cpp:181
 msgid "&Previous"
 msgstr "&Προηγούμενο"
 
@@ -9428,8 +9426,8 @@ msgstr ""
 #~ msgstr "Δεν ήταν δυνατή η εκκίνηση της εκτύπωσης."
 
 #~ msgid ""
-#~ "Do you want to overwrite the command used to %s files with extension \"%s"
-#~ "\" ?\n"
+#~ "Do you want to overwrite the command used to %s files with extension "
+#~ "\"%s\" ?\n"
 #~ "Current value is \n"
 #~ "%s, \n"
 #~ "New value is \n"

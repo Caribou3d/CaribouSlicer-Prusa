@@ -39,7 +39,7 @@ public:
 
 protected:
     // Fill by single directional lines, interconnect the lines along perimeters.
-    bool fill_surface_by_lines(const Surface *surface, const FillParams &params, float angleBase, float pattern_shift, Polylines &polylines_out);
+	bool fill_surface_by_lines(const Surface *surface, const FillParams &params, float angleBase, float pattern_shift, Polylines &polylines_out);
 
 
     // Fill by multiple sweeps of differing directions.
@@ -70,7 +70,7 @@ public:
     Fill* clone() const override { return new FillMonotonic(*this); }
     ~FillMonotonic() override = default;
     Polylines fill_surface(const Surface *surface, const FillParams &params) override;
-    bool no_sort() const override { return true; }
+	bool no_sort() const override { return true; }
 };
 
 class FillMonotonicLines : public FillRectilinear
@@ -91,7 +91,7 @@ public:
     bool is_self_crossing() override { return true; }
 
 protected:
-    // The grid fill will keep the angle constant between the layers, see the implementation of Slic3r::Fill.
+	// The grid fill will keep the angle constant between the layers, see the implementation of Slic3r::Fill.
     float _layer_angle(size_t idx) const override { return 0.f; }
 };
 
@@ -104,7 +104,7 @@ public:
     bool is_self_crossing() override { return true; }
 
 protected:
-    // The grid fill will keep the angle constant between the layers, see the implementation of Slic3r::Fill.
+	// The grid fill will keep the angle constant between the layers, see the implementation of Slic3r::Fill.
     float _layer_angle(size_t idx) const override { return 0.f; }
 };
 
@@ -130,7 +130,7 @@ public:
     bool is_self_crossing() override { return true; }
 
 protected:
-    // The grid fill will keep the angle constant between the layers, see the implementation of Slic3r::Fill.
+	// The grid fill will keep the angle constant between the layers, see the implementation of Slic3r::Fill.
     float _layer_angle(size_t idx) const override { return 0.f; }
 };
 

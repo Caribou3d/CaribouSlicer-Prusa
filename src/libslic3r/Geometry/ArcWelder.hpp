@@ -30,7 +30,7 @@ namespace Slic3r { namespace Geometry { namespace ArcWelder {
 template<typename Derived, typename Derived2, typename Float>
 inline Eigen::Matrix<Float, 2, 1, Eigen::DontAlign> arc_center(
     const Eigen::MatrixBase<Derived>   &start_pos,
-    const Eigen::MatrixBase<Derived2>  &end_pos,
+    const Eigen::MatrixBase<Derived2>  &end_pos, 
     const Float                         radius,
     const bool                          is_ccw)
 {
@@ -91,7 +91,7 @@ inline Eigen::Matrix<Float, 2, 1, Eigen::DontAlign> arc_middle_point(
 template<typename Derived, typename Derived2>
 inline typename Derived::Scalar arc_angle(
     const Eigen::MatrixBase<Derived>   &start_pos,
-    const Eigen::MatrixBase<Derived2>  &end_pos,
+    const Eigen::MatrixBase<Derived2>  &end_pos, 
     const typename Derived::Scalar      radius)
 {
     static_assert(Derived::IsVectorAtCompileTime && int(Derived::SizeAtCompileTime) == 2, "arc_angle(): first parameter is not a 2D vector");
@@ -348,7 +348,7 @@ inline bool inside_arc_wedge(
         std::is_same<typename Derived::Scalar, typename Derived3::Scalar>::value &&
         std::is_same<typename Derived::Scalar, Float>::value, "inside_arc_wedge(): All vectors + radius must be of the same type.");
     return inside_arc_wedge(start_pt, end_pt,
-        arc_center(start_pt, end_pt, radius, ccw),
+        arc_center(start_pt, end_pt, radius, ccw), 
         radius > 0, ccw, query_pt);
 }
 
@@ -366,7 +366,7 @@ size_t arc_discretization_steps(const FloatType radius, const FloatType angle, c
     return d < EPSILON ?
         // Radius smaller than deviation.
         (   // Acute angle: a single segment interpolates the arc with sufficient accuracy.
-            angle < M_PI ||
+            angle < M_PI || 
             // Obtuse angle: Test whether the furthest point (center) of an arc is closer than deviation to the center of a line segment.
             radius * (FloatType(1.) + cos(M_PI - FloatType(.5) * angle)) < deviation ?
             // Single segment is sufficient
@@ -406,7 +406,7 @@ enum class Orientation : unsigned char {
 
 // Returns orientation of a polyline with regard to the center.
 // Successive points are expected to take less than a PI angle step.
-// Returns Orientation::Unknown if the orientation with regard to the center
+// Returns Orientation::Unknown if the orientation with regard to the center 
 // is not monotonous.
 Orientation arc_orientation(
     const Point                 &center,
@@ -423,6 +423,9 @@ struct Segment
     float       radius{ 0.f };
     // CCW or CW. Ignored for zero radius (linear segment).
     Orientation orientation{ Orientation::CCW };
+
+    float height_fraction{ 1.f };
+    float e_fraction{ 1.f };
 
     bool    linear() const { return radius == 0; }
     bool    ccw() const { return orientation == Orientation::CCW; }
@@ -441,7 +444,7 @@ using Path = Segments;
 // Convert to polyline and decimate polyline if zero fit_circle_percent_tolerance.
 // Path fitting is inspired with the arc fitting algorithm in
 //      Arc Welder: Anti-Stutter Library by Brad Hochgesang FormerLurker@pm.me
-//      https://github.com/FormerLurker/ArcWelderLib
+//      https://github.com/FormerLurker/ArcWelderLib 
 Path fit_path(const Points &points, double tolerance, double fit_circle_percent_tolerance);
 
 // Decimate polyline into a smooth path structure using Douglas-Peucker polyline decimation algorithm.

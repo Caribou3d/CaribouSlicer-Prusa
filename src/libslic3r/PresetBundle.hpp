@@ -52,8 +52,8 @@ public:
     PresetCollection            sla_prints;
     PresetCollection            filaments;
     PresetCollection            sla_materials;
-    PresetCollection&             materials(PrinterTechnology pt)       { return pt == ptFFF ? this->filaments : this->sla_materials; }
-    const PresetCollection&     materials(PrinterTechnology pt) const { return pt == ptFFF ? this->filaments : this->sla_materials; }
+	PresetCollection& 			materials(PrinterTechnology pt)       { return pt == ptFFF ? this->filaments : this->sla_materials; }
+	const PresetCollection& 	materials(PrinterTechnology pt) const { return pt == ptFFF ? this->filaments : this->sla_materials; }
     PrinterPresetCollection     printers;
     PhysicalPrinterCollection   physical_printers;
 
@@ -118,7 +118,7 @@ public:
     DynamicPrintConfig          full_config_secure() const;
 
     // Load user configuration and store it into the user profiles.
-    // This method is called by the Configuration Assistent.
+    // This method is called by the configuration wizard.
     void                        load_config_from_wizard(const std::string &name, DynamicPrintConfig config)
         { this->load_config_file_config(name, false, std::move(config)); }
 
@@ -206,9 +206,9 @@ private:
     // Merge one vendor's presets with the other vendor's presets, report duplicates.
     std::vector<std::string>    merge_presets(PresetBundle &&other);
     // Update renamed_from and alias maps of system profiles.
-    void                         update_system_maps();
+    void 						update_system_maps();
     // Update alias maps
-    void                         update_alias_maps();
+    void 						update_alias_maps();
 
     // Set the is_visible flag for filaments and sla materials,
     // apply defaults based on enabled printers when no filaments/materials are installed.

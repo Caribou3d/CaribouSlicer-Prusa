@@ -50,7 +50,7 @@ static void apply_tolerance(ModelVolume* vol)
         rot_norm.normalize();
 
     double z_offset = 0.5 * static_cast<double>(cut_info.height_tolerance);
-    if (cut_info.connector_type == CutConnectorType::Plug ||
+    if (cut_info.connector_type == CutConnectorType::Plug || 
         cut_info.connector_type == CutConnectorType::Snap)
         z_offset -= 0.05; // add small Z offset to better preview
 
@@ -215,7 +215,7 @@ static void process_solid_part_cut(ModelVolume* volume, const Transform3d& insta
         add_cut_volume(lower_mesh, lower, volume, cut_matrix);
 }
 
-static void reset_instance_transformation(ModelObject* object, size_t src_instance_idx,
+static void reset_instance_transformation(ModelObject* object, size_t src_instance_idx, 
                                           const Transform3d& cut_matrix = Transform3d::Identity(),
                                           bool place_on_cut = false, bool flip = false)
 {
@@ -224,7 +224,7 @@ static void reset_instance_transformation(ModelObject* object, size_t src_instan
     for (size_t i = 0; i < object->instances.size(); ++i) {
         auto& obj_instance = object->instances[i];
         const double rot_z = obj_instance->get_rotation().z();
-
+        
         Transformation inst_trafo = Transformation(obj_instance->get_transformation().get_matrix_no_scaling_factor());
         // add respect to mirroring
         if (obj_instance->is_left_handed())
@@ -486,7 +486,7 @@ const ModelObjectPtrs& Cut::perform_by_contour(std::vector<Part> parts, int dowe
         // Now merge all model parts together:
         merge_solid_parts_inside_object(cut_object_ptrs);
 
-        // replace initial objects in model with cut object
+        // replace initial objects in model with cut object 
         finalize(cut_object_ptrs);
     }
     else if (volumes.size() > cut_parts_cnt) {

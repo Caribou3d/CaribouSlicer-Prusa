@@ -137,9 +137,9 @@ inline bool segment_segment_intersection(const Vec2d &p1, const Vec2d &v1, const
 }
 
 inline bool segments_intersect(
-    const Slic3r::Point &ip1, const Slic3r::Point &ip2,
-    const Slic3r::Point &jp1, const Slic3r::Point &jp2)
-{
+	const Slic3r::Point &ip1, const Slic3r::Point &ip2, 
+	const Slic3r::Point &jp1, const Slic3r::Point &jp2)
+{    
     assert(ip1 != ip2);
     assert(jp1 != jp2);
 
@@ -275,11 +275,11 @@ inline bool liang_barsky_line_clipping_interval(
 
 template<typename T>
 inline bool liang_barsky_line_clipping(
-    // Start and end points of the source line, result will be stored there as well.
-    Eigen::Matrix<T, 2, 1, Eigen::DontAlign>                         &x0,
-    Eigen::Matrix<T, 2, 1, Eigen::DontAlign>                         &x1,
-    // Bounding box to clip with.
-    const BoundingBoxBase<Eigen::Matrix<T, 2, 1, Eigen::DontAlign>> &bbox)
+	// Start and end points of the source line, result will be stored there as well.
+	Eigen::Matrix<T, 2, 1, Eigen::DontAlign> 						&x0,
+	Eigen::Matrix<T, 2, 1, Eigen::DontAlign> 						&x1,
+	// Bounding box to clip with.
+	const BoundingBoxBase<Eigen::Matrix<T, 2, 1, Eigen::DontAlign>> &bbox)
 {
     Eigen::Matrix<T, 2, 1, Eigen::DontAlign> v = x1 - x0;
     std::pair<double, double> interval;
@@ -295,18 +295,18 @@ inline bool liang_barsky_line_clipping(
 // Based on Liang-Barsky function by Daniel White @ http://www.skytopia.com/project/articles/compsci/clipping.html
 template<typename T>
 bool liang_barsky_line_clipping(
-    // Start and end points of the source line.
-    const Eigen::Matrix<T, 2, 1, Eigen::DontAlign>                     &x0src,
-    const Eigen::Matrix<T, 2, 1, Eigen::DontAlign>                     &x1src,
-    // Bounding box to clip with.
-    const BoundingBoxBase<Eigen::Matrix<T, 2, 1, Eigen::DontAlign>> &bbox,
-    // Start and end points of the clipped line.
-    Eigen::Matrix<T, 2, 1, Eigen::DontAlign>                         &x0clip,
-    Eigen::Matrix<T, 2, 1, Eigen::DontAlign>                         &x1clip)
+	// Start and end points of the source line.
+	const Eigen::Matrix<T, 2, 1, Eigen::DontAlign> 					&x0src,
+	const Eigen::Matrix<T, 2, 1, Eigen::DontAlign> 					&x1src,
+	// Bounding box to clip with.
+	const BoundingBoxBase<Eigen::Matrix<T, 2, 1, Eigen::DontAlign>> &bbox,
+	// Start and end points of the clipped line.
+	Eigen::Matrix<T, 2, 1, Eigen::DontAlign> 						&x0clip,
+	Eigen::Matrix<T, 2, 1, Eigen::DontAlign> 						&x1clip)
 {
-    x0clip = x0src;
-    x1clip = x1src;
-    return liang_barsky_line_clipping(x0clip, x1clip, bbox);
+	x0clip = x0src;
+	x1clip = x1src;
+	return liang_barsky_line_clipping(x0clip, x1clip, bbox);
 }
 
 bool directions_parallel(double angle1, double angle2, double max_diff = 0);
@@ -341,7 +341,7 @@ void simplify_polygons(const Polygons &polygons, double tolerance, Polygons* ret
 double linint(double value, double oldmin, double oldmax, double newmin, double newmax);
 bool arrange(
     // input
-    size_t num_parts, const Vec2d &part_size, coordf_t gap, const BoundingBoxf* bed_bounding_box,
+    size_t num_parts, const Vec2d &part_size, coordf_t gap, const BoundingBoxf* bed_bounding_box, 
     // output
     Pointfs &positions);
 

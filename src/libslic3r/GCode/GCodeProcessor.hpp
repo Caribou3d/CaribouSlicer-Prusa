@@ -163,6 +163,7 @@ namespace Slic3r {
         bool spiral_vase_mode;
 
         ConflictResultOpt conflict_result;
+        std::optional<std::pair<std::string, std::string>> sequential_collision_detected;
 
         void reset();
     };
@@ -543,8 +544,8 @@ namespace Slic3r {
         enum class EProducer
         {
             Unknown,
-            CaribouSlicer,
             PrusaSlicer,
+            CaribouSlicer,
             Slic3rPE,
             Slic3r,
             SuperSlicer,
@@ -622,7 +623,6 @@ namespace Slic3r {
         void process_tags(const std::string_view comment, bool producers_enabled);
         bool process_producers_tags(const std::string_view comment);
         bool process_prusaslicer_tags(const std::string_view comment);
-        bool process_caribouslicer_tags(const std::string_view comment);
         bool process_cura_tags(const std::string_view comment);
         bool process_simplify3d_tags(const std::string_view comment);
         bool process_craftware_tags(const std::string_view comment);
@@ -780,6 +780,7 @@ namespace Slic3r {
         void update_estimated_statistics();
 
         double extract_absolute_position_on_axis(Axis axis, const GCodeReader::GCodeLine& line, double area_filament_cross_section);
+
    };
 
 } /* namespace Slic3r */

@@ -41,7 +41,7 @@ protected:
     const SLAPrinterConfig & cfg() const { return m_cfg; }
 
 public:
-
+    
     AnycubicSLAArchive() = default;
     explicit AnycubicSLAArchive(const SLAPrinterConfig &cfg):
         m_cfg(cfg), m_version(ANYCUBIC_SLA_FORMAT_VERSION_1) {}

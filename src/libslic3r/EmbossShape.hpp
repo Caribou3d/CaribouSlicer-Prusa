@@ -18,7 +18,7 @@ namespace Slic3r {
 
 struct EmbossProjection{
     // Emboss depth, Size in local Z direction
-    double depth = 1.; // [in loacal mm]
+    double depth = 1.; // [in loacal mm] 
     // NOTE: User should see and modify mainly world size not local
 
     // Flag that result volume use surface cutted from source objects
@@ -42,7 +42,7 @@ struct HealedExPolygons{
 // Help structure to identify expolygons grups
 // e.g. emboss -> per glyph -> identify character
 struct ExPolygonsWithId
-{
+{ 
     // Identificator for shape
     // In text it separate letters and the name is unicode value of letter
     // Is svg it is id of path
@@ -60,7 +60,7 @@ using ExPolygonsWithIds = std::vector<ExPolygonsWithId>;
 /// <summary>
 /// Contain plane shape information to be able emboss it and edit it
 /// </summary>
-struct EmbossShape
+struct EmbossShape 
 {
     // shapes to to emboss separately over surface
     ExPolygonsWithIds shapes_with_ids;
@@ -85,7 +85,7 @@ struct EmbossShape
     std::optional<Slic3r::Transform3d> fix_3mf_tr;
 
     struct SvgFile {
-        // File(.svg) path on local computer
+        // File(.svg) path on local computer 
         // When empty can't reload from disk
         std::string path;
 
@@ -95,7 +95,7 @@ struct EmbossShape
         std::string path_in_3mf;
 
         // Loaded svg file data.
-        // !!! It is not serialized on undo/redo stack
+        // !!! It is not serialized on undo/redo stack 
         std::shared_ptr<NSVGimage> image = nullptr;
 
         // Loaded string data from file

@@ -36,13 +36,13 @@ public:
     void            reset_path() { m_path.clear(); m_offset = Point::Zero(); }
     void            set_path(const Path &path) {
         assert(path.empty() || path.size() > 1);
-        this->reset_path();
-        if (this->enabled() && path.size() > 1)
+        this->reset_path(); 
+        if (this->enabled() && path.size() > 1) 
             m_path = path;
     }
     void            set_path(Path &&path) {
         assert(path.empty() || path.size() > 1);
-        this->reset_path();
+        this->reset_path(); 
         if (this->enabled() && path.size() > 1)
             m_path = std::move(path);
     }
@@ -56,7 +56,7 @@ public:
     static double   calc_wipe_speed(const GCodeConfig &config) { return config.travel_speed.value * 0.8; }
     // Reduce retraction length a bit to avoid effective retraction speed to be greater than the configured one
     // due to rounding (TODO: test and/or better math for this).
-    static double   calc_xy_to_e_ratio(const GCodeConfig &config, unsigned int extruder_id)
+    static double   calc_xy_to_e_ratio(const GCodeConfig &config, unsigned int extruder_id) 
         { return 0.95 * floor(config.retract_speed.get_at(extruder_id) + 0.5) / calc_wipe_speed(config); }
 
 private:

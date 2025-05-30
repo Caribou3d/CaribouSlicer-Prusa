@@ -73,7 +73,7 @@ std::string Wipe::wipe(GCodeGenerator &gcodegen, bool toolchange)
     static constexpr const std::string_view wipe_retract_comment = "wipe and retract"sv;
 
     // Remaining quantized retraction length.
-    if (double retract_length = extruder.retract_to_go(toolchange ? extruder.retract_length_toolchange() : extruder.retract_length());
+    if (double retract_length = extruder.retract_to_go(toolchange ? extruder.retract_length_toolchange() : extruder.retract_length()); 
         retract_length > 0 && this->has_path()) {
         // Delayed emitting of a wipe start tag.
         bool wiped = false;

@@ -52,8 +52,8 @@ install(TARGETS ${_exported_targets}
         EXPORT ${PROJECT_NAME}Targets
 )
 
-export(EXPORT ${PROJECT_NAME}Targets
-       FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake"
+export(EXPORT ${PROJECT_NAME}Targets 
+       FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake" 
        NAMESPACE ${PROJECT_NAME}::
 )
 

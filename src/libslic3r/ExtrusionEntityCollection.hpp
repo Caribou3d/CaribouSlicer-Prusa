@@ -34,9 +34,9 @@ void filter_by_extrusion_role_in_place(ExtrusionEntitiesPtr &extrusion_entities,
 // Returned extrusion entities are shared with the source vector, they are NOT cloned, they are considered to be owned by extrusion_entities.
 inline ExtrusionEntitiesPtr filter_by_extrusion_role(const ExtrusionEntitiesPtr &extrusion_entities, ExtrusionRole role)
 {
-    ExtrusionEntitiesPtr out { extrusion_entities };
-    filter_by_extrusion_role_in_place(out, role);
-    return out;
+	ExtrusionEntitiesPtr out { extrusion_entities }; 
+	filter_by_extrusion_role_in_place(out, role);
+	return out;
 }
 #endif
 
@@ -45,7 +45,7 @@ class ExtrusionEntityCollection : public ExtrusionEntity
 public:
     ExtrusionEntity* clone() const override;
     // Create a new object, initialize it with this object using the move semantics.
-    ExtrusionEntity* clone_move() override { return new ExtrusionEntityCollection(std::move(*this)); }
+	ExtrusionEntity* clone_move() override { return new ExtrusionEntityCollection(std::move(*this)); }
 
     ExtrusionEntitiesPtr entities;     // we own these entities
     bool no_sort;
@@ -130,7 +130,7 @@ public:
     Polygons polygons_covered_by_spacing(const float scaled_epsilon = 0.f) const
         { Polygons out; this->polygons_covered_by_spacing(out, scaled_epsilon); return out; }
     size_t size() const { return entities.size(); }
-    // Recursively count paths and loops contained in this collection.
+    // Recursively count paths and loops contained in this collection. 
     // this->items_count() >= this->size()
     size_t items_count() const;
     /// Returns a flattened copy of this ExtrusionEntityCollection. That is, all of the items in its entities vector are not collections.
@@ -158,7 +158,7 @@ public:
 
     double length() const override {
         throw Slic3r::RuntimeError("Calling length() on a ExtrusionEntityCollection");
-        return 0.;
+        return 0.;        
     }
 };
 

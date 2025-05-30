@@ -43,7 +43,7 @@ bool RetractWhenCrossingPerimeters::travel_inside_internal_regions(const Layer &
     AABBTree::BoundingBox bbox_travel_eigen{ bbox_travel.min, bbox_travel.max };
     int result = -1;
     bbox_travel.offset(SCALED_EPSILON);
-    AABBTreeIndirect::traverse(m_aabbtree_internal_islands,
+    AABBTreeIndirect::traverse(m_aabbtree_internal_islands, 
         [&bbox_travel_eigen](const AABBTree::Node &node) {
             return bbox_travel_eigen.intersects(node.bbox);
         },

@@ -43,7 +43,7 @@ static void start_new_slicer_or_gcodeviewer(const NewSlicerInstanceType instance
     wxString path;
     wxFileName::SplitPath(wxStandardPaths::Get().GetExecutablePath(), &path, nullptr, nullptr, wxPATH_NATIVE);
     path += "\\";
-    path += (instance_type == NewSlicerInstanceType::Slicer) ? "caribou-slicer.exe" : "caribou-gcodeviewer.exe";
+    path += (instance_type == NewSlicerInstanceType::Slicer) ? "caribouslicer.exe" : "caribougcodeviewer.exe";
     std::vector<const wchar_t*> args;
     args.reserve(4);
     args.emplace_back(path.wc_str());
@@ -118,7 +118,7 @@ static void start_new_slicer_or_gcodeviewer(const NewSlicerInstanceType instance
         std::string my_path;
         if (args.empty()) {
             // Binary path was not set to the AppImage in the Linux specific block above, call the application directly.
-            my_path = (bin_path.parent_path() / ((instance_type == NewSlicerInstanceType::Slicer) ? "CaribouSlicer" : "caribou-gcodeviewer")).string();
+            my_path = (bin_path.parent_path() / ((instance_type == NewSlicerInstanceType::Slicer) ? "CaribouSlicer" : "CaribouGcodeviewer")).string();
             args.emplace_back(my_path.c_str());
         }
         std::string to_open;

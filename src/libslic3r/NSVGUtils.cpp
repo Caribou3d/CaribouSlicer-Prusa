@@ -19,7 +19,7 @@
 #include "libslic3r/Polygon.hpp"
 #include "libslic3r/Polyline.hpp"
 
-namespace {
+namespace {    
 using namespace Slic3r; // Polygon
 // see function nsvg__lineTo(NSVGparser* p, float x, float y)
 bool is_line(const float *p, float precision = 1e-4f);
@@ -44,7 +44,7 @@ ExPolygonsWithIds create_shape_with_ids(const NSVGimage &image, const NSVGLinePa
             continue;
 
         bool is_fill_used = shape.fill.type != NSVG_PAINT_NONE;
-        bool is_stroke_used =
+        bool is_stroke_used = 
             shape.stroke.type != NSVG_PAINT_NONE &&
             shape.strokeWidth > 1e-5f;
 
@@ -57,7 +57,7 @@ ExPolygonsWithIds create_shape_with_ids(const NSVGimage &image, const NSVGLinePa
             unsigned unique_id = static_cast<unsigned>(2 * shape_id);
             HealedExPolygons expoly = fill_to_expolygons(lines_path, shape, param);
             result.push_back({unique_id, expoly.expolygons, expoly.is_healed});
-        }
+        }        
         if (is_stroke_used) {
             unsigned unique_id = static_cast<unsigned>(2 * shape_id + 1);
             HealedExPolygons expoly = stroke_to_expolygons(lines_path, shape, param);
@@ -82,7 +82,7 @@ Polygons to_polygons(const NSVGimage &image, const NSVGLineParams &param)
         const LinesPath lines_path = linearize_path(shape->paths, param);
         polygons_append(result, lines_path.polygons);
         // close polyline to create polygon
-        polygons_append(result, to_polygons(lines_path.polylines));
+        polygons_append(result, to_polygons(lines_path.polylines));        
     }
     return result;
 }
@@ -162,7 +162,7 @@ size_t get_shapes_count(const NSVGimage &image)
 //void save(const NSVGimage &image, std::ostream &data)
 //{
 //    data << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
-//
+//    
 //    // tl .. top left
 //    Vec2f tl(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
 //    // br .. bottom right
@@ -181,7 +181,7 @@ size_t get_shapes_count(const NSVGimage &image)
 //         << "width=\"" << size.x() << "mm\" "
 //         << "height=\"" << size.y() << "mm\" "
 //         << "viewBox=\"0 0 " << size.x() << " " << size.y() << "\" >\n";
-//    data << "<!-- Created with CaribouSlicer (https://www.prusa3d.com/CaribouSlicer/) -->\n";
+//    data << "<!-- Created with PrusaSlicer (https://www.prusa3d.com/prusaslicer/) -->\n";
 //
 //    std::array<char, 128> buffer;
 //    auto write_point = [&tl, &buffer](std::string &d, const float *p) {
@@ -190,7 +190,7 @@ size_t get_shapes_count(const NSVGimage &image)
 //        auto  to_string = [&buffer](float f) -> std::string {
 //            auto [ptr, ec] = std::to_chars(buffer.data(), buffer.data() + buffer.size(), f);
 //            if (ec != std::errc{})
-//                return "0";
+//                return "0";            
 //            return std::string(buffer.data(), ptr);
 //        };
 //        d += to_string(x) + "," + to_string(y) + " ";
@@ -251,7 +251,7 @@ size_t get_shapes_count(const NSVGimage &image)
 //    data << "</svg>\n";
 //}
 //
-//bool save(const NSVGimage &image, const std::string &svg_file_path)
+//bool save(const NSVGimage &image, const std::string &svg_file_path) 
 //{
 //    std::ofstream file{svg_file_path};
 //    if (!file.is_open())
@@ -270,7 +270,7 @@ bool need_flattening(float tessTol, const Vec2f &p1, const Vec2f &p2, const Vec2
     // f .. first
     // s .. second
     auto det = [](const Vec2f &f, const Vec2f &s) {
-        return std::fabs(f.x() * s.y() - f.y() * s.x());
+        return std::fabs(f.x() * s.y() - f.y() * s.x()); 
     };
 
     Vec2f pd  = (p4 - p1);
@@ -292,9 +292,9 @@ bool is_line(const float *p, float precision){
     float dx_3 = (p[6] - p[0]) / 3.f;
     float dy_3 = (p[7] - p[1]) / 3.f;
 
-    return
-        is_approx(p[2], p[0] + dx_3, precision) &&
-        is_approx(p[4], p[6] - dx_3, precision) &&
+    return 
+        is_approx(p[2], p[0] + dx_3, precision) && 
+        is_approx(p[4], p[6] - dx_3, precision) && 
         is_approx(p[3], p[1] + dy_3, precision) &&
         is_approx(p[5], p[7] - dy_3, precision);
 }
@@ -323,7 +323,7 @@ void flatten_cubic_bez(Points &points, float tessTol, const Vec2f& p1, const Vec
     --level;
     if (level == 0)
         return;
-
+    
     Vec2f p12  = (p1 + p2) * 0.5f;
     Vec2f p23  = (p2 + p3) * 0.5f;
     Vec2f p34  = (p3 + p4) * 0.5f;
@@ -361,12 +361,12 @@ LinesPath linearize_path(NSVGpath *first_path, const NSVGLineParams &param)
             Vec2f p2(p[2], p[3]);
             Vec2f p3(p[4], p[5]);
             Vec2f p4(p[6], p[7]);
-            flatten_cubic_bez(points, param.tesselation_tolerance,
-                p1 * param.scale, p2 * param.scale, p3 * param.scale, p4 * param.scale,
+            flatten_cubic_bez(points, param.tesselation_tolerance, 
+                p1 * param.scale, p2 * param.scale, p3 * param.scale, p4 * param.scale, 
                 param.max_level);
         }
         assert(!points.empty());
-        if (points.empty())
+        if (points.empty()) 
             continue;
 
         if (param.is_y_negative)
@@ -424,7 +424,7 @@ struct DashesParam{
         assert(dash_count <= max_dash_array_size); // limitation of nanosvg strokeDashArray
         for (size_t i = 0; i < dash_count; ++i)
             dash_array[i] = static_cast<float>(shape.strokeDashArray[i] * scale);
-
+        
         // Figure out dash offset.
         float all_dash_length = 0;
         for (unsigned char j = 0; j < dash_count; ++j)
@@ -452,8 +452,8 @@ Polylines to_dashes(const Polyline &polyline, const DashesParam& param)
 {
     Polylines dashes;
     Polyline dash; // cache for one dash in dashed line
-    Point prev_point;
-
+    Point prev_point;        
+    
     bool is_line = param.is_line;
     unsigned char dash_index = param.dash_index;
     float dash_length = param.dash_length; // current rest of dash distance
@@ -471,7 +471,7 @@ Polylines to_dashes(const Polyline &polyline, const DashesParam& param)
             float d = dash_length / line_segment_length;
             Point move_point   = diff * d;
             Point intermediate = prev_point + move_point;
-
+            
             // add Dash in stroke
             if (is_line) {
                 if (dash.empty()) {
@@ -545,7 +545,7 @@ HealedExPolygons stroke_to_expolygons(const LinesPath &lines_path, const NSVGsha
         result = offset(dashes, stroke_width / 2, join_type, mitter, end_type);
     } else {
         result = contour_to_polygons(lines_path.polygons, stroke_width, join_type, mitter);
-        polygons_append(result, offset(lines_path.polylines, stroke_width / 2, join_type, mitter, end_type));
+        polygons_append(result, offset(lines_path.polylines, stroke_width / 2, join_type, mitter, end_type));    
     }
 
     bool is_non_zero = true;

@@ -56,7 +56,7 @@ public:
     // If set to false, a default epsilon is used, which works for "reasonable" meshes.
     explicit AABBMesh(const indexed_triangle_set &tmesh, bool calculate_epsilon = false);
     explicit AABBMesh(const TriangleMesh &mesh, bool calculate_epsilon = false);
-
+    
     AABBMesh(const AABBMesh& other);
     AABBMesh& operator=(const AABBMesh&);
 
@@ -80,16 +80,16 @@ public:
         Vec3d m_source = Vec3d::Zero();
         Vec3d m_normal = Vec3d::Zero();
         friend class AABBMesh;
-
+        
         // A valid object of this class can only be obtained from
         // IndexedMesh::query_ray_hit method.
         explicit inline hit_result(const AABBMesh& em): m_mesh(&em) {}
     public:
         // This denotes no hit on the mesh.
         static inline constexpr double infty() { return std::numeric_limits<double>::infinity(); }
-
+        
         explicit inline hit_result(double val = infty()) : m_t(val) {}
-
+        
         inline double distance() const { return m_t; }
         inline const Vec3d& direction() const { return m_dir; }
         inline const Vec3d& source() const { return m_source; }
@@ -125,7 +125,7 @@ public:
 
     // Casting a ray on the mesh, returns the distance where the hit occures.
     hit_result query_ray_hit(const Vec3d &s, const Vec3d &dir) const;
-
+    
     // Casts a ray on the mesh and returns all hits
     std::vector<hit_result> query_ray_hits(const Vec3d &s, const Vec3d &dir) const;
 

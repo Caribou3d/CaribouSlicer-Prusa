@@ -99,17 +99,17 @@ public:
     unsigned int perimeter_extruder(const PrintRegion &region) const;
     unsigned int infill_extruder(const PrintRegion &region) const;
     unsigned int solid_infill_extruder(const PrintRegion &region) const;
-    // Returns a zero based extruder this eec should be printed with, according to PrintRegion config or extruder_override if overriden.
-    unsigned int extruder(const ExtrusionEntityCollection &extrusions, const PrintRegion &region) const;
+	// Returns a zero based extruder this eec should be printed with, according to PrintRegion config or extruder_override if overriden.
+	unsigned int extruder(const ExtrusionEntityCollection &extrusions, const PrintRegion &region) const;
 
-    coordf_t                     print_z    = 0.;
-    bool                         has_object = false;
-    bool                        has_support = false;
+    coordf_t 					print_z	= 0.;
+    bool 						has_object = false;
+    bool						has_support = false;
     // Zero based extruder IDs, ordered to minimize tool switches.
-    std::vector<unsigned int>     extruders;
+    std::vector<unsigned int> 	extruders;
     // If per layer extruder switches are inserted by the G-code preview slider, this value contains the new (1 based) extruder, with which the whole object layer is being printed with.
     // If not overriden, it is set to 0.
-    unsigned int                 extruder_override = 0;
+    unsigned int 				extruder_override = 0;
     // For multi-extruder printers, when there is a color change, this contains an extruder (1 based) on which the color change will be performed.
     // Otherwise, it is set to 0.
     unsigned int                extruder_needed_for_color_changer = 0;
@@ -119,11 +119,11 @@ public:
     // Will there be anything extruded on this layer for the wipe tower?
     // Due to the support layers possibly interleaving the object layers,
     // wipe tower will be disabled for some support only layers.
-    bool                         has_wipe_tower = false;
+    bool 						has_wipe_tower = false;
     // Number of wipe tower partitions to support the required number of tool switches
     // and to support the wipe tower partitions above this one.
     size_t                      wipe_tower_partitions = 0;
-    coordf_t                     wipe_tower_layer_height = 0.;
+    coordf_t 					wipe_tower_layer_height = 0.;
     // Custom G-code (color change, extruder switch, pause) to be performed before this layer starts to print.
     const CustomGCode::Item    *custom_gcode = nullptr;
 
@@ -152,44 +152,44 @@ public:
     // (print.config.complete_objects is false).
     ToolOrdering(const Print &print, unsigned int first_extruder, bool prime_multi_material = false);
 
-    void                 clear() { m_layer_tools.clear(); }
+    void 				clear() { m_layer_tools.clear(); }
 
     // Only valid for non-sequential print:
-    // Assign a pointer to a custom G-code to the respective ToolOrdering::LayerTools.
-    // Ignore color changes, which are performed on a layer and for such an extruder, that the extruder will not be printing above that layer.
-    // If multiple events are planned over a span of a single layer, use the last one.
-    void                 assign_custom_gcodes(const Print &print);
+	// Assign a pointer to a custom G-code to the respective ToolOrdering::LayerTools.
+	// Ignore color changes, which are performed on a layer and for such an extruder, that the extruder will not be printing above that layer.
+	// If multiple events are planned over a span of a single layer, use the last one.
+	void 				assign_custom_gcodes(const Print &print);
 
     // Get the first extruder printing, including the extruder priming areas, returns -1 if there is no layer printed.
-    unsigned int           first_extruder() const { return m_first_printing_extruder; }
+    unsigned int   		first_extruder() const { return m_first_printing_extruder; }
 
     // Get the first extruder printing the layer_tools, returns -1 if there is no layer printed.
-    unsigned int           last_extruder() const { return m_last_printing_extruder; }
+    unsigned int   		last_extruder() const { return m_last_printing_extruder; }
 
     // For a multi-material print, the printing extruders are ordered in the order they shall be primed.
     const std::vector<unsigned int>& all_extruders() const { return m_all_printing_extruders; }
 
     // Find LayerTools with the closest print_z.
-    const LayerTools&    tools_for_layer(coordf_t print_z) const;
-    LayerTools&            tools_for_layer(coordf_t print_z) { return const_cast<LayerTools&>(std::as_const(*this).tools_for_layer(print_z)); }
+    const LayerTools&	tools_for_layer(coordf_t print_z) const;
+    LayerTools&			tools_for_layer(coordf_t print_z) { return const_cast<LayerTools&>(std::as_const(*this).tools_for_layer(print_z)); }
 
     const LayerTools&   front()       const { return m_layer_tools.front(); }
     const LayerTools&   back()        const { return m_layer_tools.back(); }
     std::vector<LayerTools>::const_iterator begin() const { return m_layer_tools.begin(); }
     std::vector<LayerTools>::const_iterator end()   const { return m_layer_tools.end(); }
-    bool                 empty()       const { return m_layer_tools.empty(); }
+    bool 				empty()       const { return m_layer_tools.empty(); }
     std::vector<LayerTools>& layer_tools() { return m_layer_tools; }
-    bool                 has_wipe_tower() const { return ! m_layer_tools.empty() && m_first_printing_extruder != (unsigned int)-1 && m_layer_tools.front().wipe_tower_partitions > 0; }
+    bool 				has_wipe_tower() const { return ! m_layer_tools.empty() && m_first_printing_extruder != (unsigned int)-1 && m_layer_tools.front().wipe_tower_partitions > 0; }
     int                 toolchanges_count() const;
 
 private:
-    void                initialize_layers(std::vector<coordf_t> &zs);
-    void                 collect_extruders(const PrintObject &object, const std::vector<std::pair<double, unsigned int>> &per_layer_extruder_switches, const std::vector<std::pair<double, unsigned int>> &per_layer_color_changes);
-    void                reorder_extruders(unsigned int last_extruder_id);
-    void                 fill_wipe_tower_partitions(const PrintConfig &config, coordf_t object_bottom_z, coordf_t max_layer_height);
+    void				initialize_layers(std::vector<coordf_t> &zs);
+    void 				collect_extruders(const PrintObject &object, const std::vector<std::pair<double, unsigned int>> &per_layer_extruder_switches, const std::vector<std::pair<double, unsigned int>> &per_layer_color_changes);
+    void				reorder_extruders(unsigned int last_extruder_id);
+    void 				fill_wipe_tower_partitions(const PrintConfig &config, coordf_t object_bottom_z, coordf_t max_layer_height);
     bool                insert_wipe_tower_extruder();
     void                mark_skirt_layers(const PrintConfig &config, coordf_t max_layer_height);
-    void                 collect_extruder_statistics(bool prime_multi_material);
+    void 				collect_extruder_statistics(bool prime_multi_material);
 
     std::vector<LayerTools>    m_layer_tools;
     // First printing extruder, including the multi-material priming sequence.

@@ -190,6 +190,10 @@ template<class L> bool intersection(const L &l1, const L &l2, Vec<Dim<L>, Scalar
     return false; // not intersecting
 }
 
+inline Point midpoint(const Point &a, const Point &b) {
+    return (a + b) / 2;
+}
+
 } // namespace line_alg
 
 class Line
@@ -204,7 +208,7 @@ public:
     void   rotate(double angle, const Point &center) { this->a.rotate(angle, center); this->b.rotate(angle, center); }
     void   reverse() { std::swap(this->a, this->b); }
     double length() const { return (b.cast<double>() - a.cast<double>()).norm(); }
-    Point  midpoint() const { return (this->a + this->b) / 2; }
+    Point  midpoint() const { return line_alg::midpoint(this->a, this->b); }
     bool   intersection_infinite(const Line &other, Point* point) const;
     bool   operator==(const Line &rhs) const { return this->a == rhs.a && this->b == rhs.b; }
     double distance_to_squared(const Point &point) const { return distance_to_squared(point, this->a, this->b); }
@@ -212,6 +216,7 @@ public:
     double distance_to(const Point &point) const { return distance_to(point, this->a, this->b); }
     double distance_to_infinite_squared(const Point &point, Point *closest_point) const { return line_alg::distance_to_infinite_squared(*this, point, closest_point); }
     double perp_distance_to(const Point &point) const;
+    double perp_signed_distance_to(const Point &point) const;
     bool   parallel_to(double angle) const;
     bool   parallel_to(const Line& line) const;
     bool   perpendicular_to(double angle) const;
@@ -223,7 +228,7 @@ public:
     Vector normal() const { return Vector((this->b(1) - this->a(1)), -(this->b(0) - this->a(0))); }
     bool   intersection(const Line& line, Point* intersection) const;
     // Clip a line with a bounding box. Returns false if the line is completely outside of the bounding box.
-    bool   clip_with_bbox(const BoundingBox &bbox);
+	bool   clip_with_bbox(const BoundingBox &bbox);
     // Extend the line from both sides by an offset.
     void   extend(double offset);
 
@@ -329,7 +334,7 @@ namespace boost { namespace polygon {
     struct segment_traits<Slic3r::Line> {
         typedef coord_t coordinate_type;
         typedef Slic3r::Point point_type;
-
+    
         static inline point_type get(const Slic3r::Line& line, direction_1d dir) {
             return dir.to_int() ? line.b : line.a;
         }

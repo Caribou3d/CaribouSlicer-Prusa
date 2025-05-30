@@ -110,14 +110,14 @@ private:
 
     struct GCodeLine
     {
-        GCodeLine() :
+        GCodeLine() : 
             type(GCODELINETYPE_INVALID),
             raw_length(0),
             modified(false),
-            extruder_id(0),
-            volumetric_extrusion_rate(0.f),
-            volumetric_extrusion_rate_start(0.f),
-            volumetric_extrusion_rate_end(0.f)
+            extruder_id(0), 
+            volumetric_extrusion_rate(0.f), 
+            volumetric_extrusion_rate_start(0.f), 
+            volumetric_extrusion_rate_end(0.f) 
             {}
 
         bool        moving_xy()     const { return fabs(pos_end[0] - pos_start[0]) > 0.f || fabs(pos_end[1] - pos_start[1]) > 0.f; }
@@ -178,8 +178,8 @@ private:
 
         bool        adjustable_flow       = false;
 
-        bool        extrude_set_speed_tag = false;
-        bool        extrude_end_tag       = false;
+        void        update_end_position(const float *position_end, const bool *position_provided_original);
+        void        update_end_position(const float *position_start, const float *position_end, float t, const bool *position_provided_original);
     };
 
     using GCodeLines = std::vector<GCodeLine>;

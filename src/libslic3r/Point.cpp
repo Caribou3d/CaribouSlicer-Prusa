@@ -98,7 +98,7 @@ Points collect_duplicates(Points pts /* Copy */)
 
 template<bool IncludeBoundary>
 BoundingBox get_extents(const Points &pts)
-{
+{ 
     BoundingBox out;
     BoundingBox::construct<IncludeBoundary>(out, pts.begin(), pts.end());
     return out;

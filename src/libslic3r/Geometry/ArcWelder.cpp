@@ -21,7 +21,7 @@
 // GNU Affero General Public License for more details.
 //
 //
-// You can contact the author at the following email address:
+// You can contact the author at the following email address: 
 // FormerLurker@pm.me
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,8 +98,6 @@ static bool foot_pt_on_segment(const Point &p1, const Point &p2, const Point &pt
 static inline bool circle_approximation_sufficient(const Circle &circle, const Points::const_iterator begin, const Points::const_iterator end, const double tolerance)
 {
     // The circle was calculated from the 1st and last point of the point sequence, thus the fitting of those points does not need to be evaluated.
-    assert(std::abs((*begin - circle.center).cast<double>().norm() - circle.radius) < SCALED_EPSILON);
-    assert(std::abs((*std::prev(end) - circle.center).cast<double>().norm() - circle.radius) < SCALED_EPSILON);
     assert(end - begin >= 3);
 
     // Test the 1st point.
@@ -251,17 +249,17 @@ static std::optional<Circle> try_create_circle(const Points::const_iterator begi
             } else
                 out.reset();
         }
-    } else {
+    } else {        
         std::optional<Circle> circle;
         {
             // Try to fit a circle to first, middle and last point.
-            auto mid = begin + (end - begin) / 2;
+            auto mid = begin + (end - begin) / 2;    
             circle = try_create_circle(*begin, *mid, *std::prev(end), max_radius);
             if (// Use twice the tolerance for fitting the initial circle.
                 // Early exit if such approximation is grossly inaccurate, thus the tolerance could not be achieved.
                 circle && ! circle_approximation_sufficient(*circle, begin, end, tolerance * 2))
                 circle.reset();
-        }
+        } 
         if (! circle) {
             // Find an intersection point of the polyline to be fitted with the bisector of the arc chord.
             // At such a point the distance of a polyline to an arc wrt. the circle center (or circle radius) will have a largest gradient
@@ -290,7 +288,7 @@ static std::optional<Circle> try_create_circle(const Points::const_iterator begi
                         Vec2d p = c.cast<double>() + vd * double(d) / ld;
                         point_on_bisector = p.cast<coord_t>();
                         break;
-                    }
+                    } 
                     if (sideness == 0) {
                         // this_point is on the bisector.
                         assert(prev_side != 0);
@@ -316,7 +314,7 @@ static std::optional<Circle> try_create_circle(const Points::const_iterator begi
             boost::container::small_vector<Vec2d, 16> fpts;
             Vec2d first_point = begin->cast<double>();
             Vec2d last_point  = std::prev(end)->cast<double>();
-            Vec2d prev_point  = first_point;
+            Vec2d prev_point  = first_point;            
             for (auto it = std::next(begin); it != std::prev(end); ++ it) {
                 Vec2d this_point = it->cast<double>();
                 fpts.emplace_back(0.5 * (prev_point + this_point));
@@ -348,7 +346,7 @@ static std::optional<Circle> try_create_circle(const Points::const_iterator begi
             double least_deviation = std::numeric_limits<double>::max();
             double current_deviation;
             for (auto it = std::next(begin); std::next(it) != end; ++ it)
-                if (std::optional<Circle> circle = try_create_circle(*begin, *it, *std::prev(end), max_radius);
+                if (std::optional<Circle> circle = try_create_circle(*begin, *it, *std::prev(end), max_radius); 
                     circle && get_deviation_sum_squared(*circle, begin, end, tolerance, current_deviation)) {
                     if (current_deviation < least_deviation) {
                         out = circle;
@@ -399,7 +397,7 @@ Orientation arc_orientation(
             vprev = v;
         }
     }
-    return arc_dir == 0 ?
+    return arc_dir == 0 ? 
         // All points are radial wrt. the center, this is unexpected.
         Orientation::Unknown :
         // Arc is valid, either CCW or CW.
@@ -502,7 +500,7 @@ Path fit_path(const Points &src_in, double tolerance, double fit_circle_percent_
     if (tolerance <= 0 || src_in.size() <= 2) {
         // No simplification, just convert.
         std::transform(src_in.begin(), src_in.end(), std::back_inserter(out), [](const Point &p) -> Segment { return { p }; });
-    } else if (double tolerance_fine = std::max(0.03 * tolerance, scaled<double>(0.000060));
+    } else if (double tolerance_fine = std::max(0.03 * tolerance, scaled<double>(0.000060)); 
         fit_circle_percent_tolerance <= 0 || tolerance_fine > 0.5 * tolerance) {
         // Convert and simplify to a polyline.
         std::transform(src_in.begin(), src_in.end(), std::back_inserter(out), [](const Point &p) -> Segment { return { p }; });
@@ -741,10 +739,17 @@ double clip_end(Path &path, double distance)
                 // Rotate the segment end point in reverse towards the start point.
                 if (last.ccw())
                     angle *= -1.;
-                path.push_back({
-                    last.point.rotated(angle * (distance / len),
-                        arc_center(path.back().point.cast<double>(), last.point.cast<double>(), double(last.radius), last.ccw()).cast<coord_t>()),
-                    last.radius, last.orientation });
+
+                const double rotate_by_angle = angle * (distance / len);
+
+                // When we are clipping the arc with a negative radius (we are taking the longer angle here),
+                // we have to check if we still need to take the longer angle after clipping.
+                // Otherwise, we must flip the radius sign to take the shorter angle.
+                const bool flip_radius_sign = last.radius < 0 && std::abs(angle) > M_PI && std::abs(angle - rotate_by_angle) <= M_PI;
+
+                path.push_back({last.point.rotated(rotate_by_angle, arc_center(path.back().point.cast<double>(), last.point.cast<double>(), double(last.radius), last.ccw()).cast<coord_t>()),
+                                (flip_radius_sign ? -last.radius : last.radius), last.orientation});
+
                 // Length to go is zero.
                 return 0;
             }

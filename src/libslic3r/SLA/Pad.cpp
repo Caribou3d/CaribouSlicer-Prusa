@@ -40,7 +40,7 @@ indexed_triangle_set walls(
     indexed_triangle_set w;
     triangulate_wall(w.vertices, w.indices, lower, upper, lower_z_mm,
                      upper_z_mm);
-
+    
     return w;
 }
 
@@ -190,7 +190,7 @@ PadSkeleton divide_blueprint(const ExPolygons &bp)
 
         ret.outer.emplace_back(poly);
     }
-
+    
     return ret;
 }
 
@@ -273,7 +273,7 @@ public:
         ExPolygons fullpad = diff_ex(fullcvh, model_bp_sticks);
 
         PadSkeleton divided = divide_blueprint(fullpad);
-
+        
         remove_redundant_parts(divided.outer);
         remove_redundant_parts(divided.inner);
 
@@ -399,7 +399,7 @@ indexed_triangle_set create_outer_pad_geometry(const ExPolygons & skeleton,
 
         if (bottom_poly.empty()) continue;
         thr();
-
+        
         double z_min = -cfg.height, z_max = 0;
         its_merge(ret, walls(top_poly.contour, bottom_poly.contour, z_max, z_min));
 
@@ -408,7 +408,7 @@ indexed_triangle_set create_outer_pad_geometry(const ExPolygons & skeleton,
 
         for (auto &h : bottom_poly.holes)
             its_merge(ret, straight_walls(h, z_max, z_min));
-
+        
         its_merge(ret, triangulate_expolygon_3d(bottom_poly, z_min, NORMALS_DOWN));
         its_merge(ret, triangulate_expolygon_3d(top_poly, NORMALS_UP));
     }
@@ -429,7 +429,7 @@ indexed_triangle_set create_inner_pad_geometry(const ExPolygons & skeleton,
 
         for (auto &h : pad_part.holes)
             its_merge(ret, straight_walls(h, z_max, z_min));
-
+    
         its_merge(ret, triangulate_expolygon_3d(pad_part, z_min, NORMALS_DOWN));
         its_merge(ret, triangulate_expolygon_3d(pad_part, z_max, NORMALS_UP));
     }

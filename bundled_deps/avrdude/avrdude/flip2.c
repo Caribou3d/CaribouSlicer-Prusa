@@ -77,7 +77,7 @@ struct flip2
 
 #define FLIP2_STATUS_OK 0x0000
 #define FLIP2_STATUS_STALL 0x0F0A
-#define FLIP2_STATUS_MEM_UNKNOWN 0x030A
+#define FLIP2_STATUS_MEM_UKNOWN 0x030A
 #define FLIP2_STATUS_MEM_PROTECTED 0x0300
 #define FLIP2_STATUS_OUTOFRANGE 0x080A
 #define FLIP2_STATUS_BLANK_FAIL 0x0500
@@ -876,7 +876,7 @@ const char * flip2_status_str(const struct dfu_status *status)
   switch (selector) {
     case FLIP2_STATUS_OK: return "OK";
     case FLIP2_STATUS_STALL: return "STALL";
-    case FLIP2_STATUS_MEM_UNKNOWN: return "MEM_UNKNOWN";
+    case FLIP2_STATUS_MEM_UKNOWN: return "MEM_UKNOWN";
     case FLIP2_STATUS_MEM_PROTECTED: return "MEM_PROTECTED";
     case FLIP2_STATUS_OUTOFRANGE: return "OUTOFRANGE";
     case FLIP2_STATUS_BLANK_FAIL: return "BLANK_FAIL";

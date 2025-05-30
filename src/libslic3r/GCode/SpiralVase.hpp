@@ -44,12 +44,12 @@ public:
 
 private:
     const PrintConfig  &m_config;
-    GCodeReader         m_reader;
+    GCodeReader 		m_reader;
     float               m_max_xy_smoothing = 0.f;
 
-    bool                 m_enabled = false;
+    bool 				m_enabled = false;
     // First spiral vase layer. Layer height has to be ramped up from zero to the target layer height.
-    bool                 m_transition_layer = false;
+    bool 				m_transition_layer = false;
     // Whether to interpolate XY coordinates with the previous layer. Results in no seam at layer changes
     bool                m_smooth_spiral = true;
     std::vector<Vec2f>  m_previous_layer;

@@ -7,6 +7,6 @@ namespace Slic3r {
 class Model;
 bool load_printRequest(const char* input_file, Model* model);
 
-} //namespace Slic3r
+} //namespace Slic3r 
 
 #endif
