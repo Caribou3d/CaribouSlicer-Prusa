@@ -535,11 +535,11 @@ void PreferencesDialog::build()
 			//  "If disabled, the descriptions of configuration parameters in settings tabs will work as hyperlinks."),
 			app_config->get_bool("suppress_hyperlinks"));
 */
-		append_bool_option(m_optgroup_gui, "color_mapinulation_panel",
+		append_bool_option(m_optgroup_gui, "color_manipulation_panel",
 			L("Use colors for axes values in Manipulation panel"),
 			L("If enabled, the axes names and axes values will be colorized according to the axes colors. "
 			  "If disabled, old UI will be used."),
-			app_config->get_bool("color_mapinulation_panel"));
+			app_config->get_bool("color_manipulation_panel"));
 
 		append_bool_option(m_optgroup_gui, "order_volumes",
 			L("Order object volumes by types"),

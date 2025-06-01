@@ -153,8 +153,8 @@ void AppConfig::set_defaults()
         if (get("default_action_on_new_project").empty())
             set("default_action_on_new_project", "none");       // , "keep(transfer)", "discard" or "save"
 
-        if (get("color_mapinulation_panel").empty())
-            set("color_mapinulation_panel", "0");
+        if (get("color_manipulation_panel").empty())
+            set("color_manipulation_panel", "1");
 
         if (get("order_volumes").empty())
             set("order_volumes", "1");
