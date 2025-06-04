@@ -156,6 +156,7 @@ void Downloader::start_download(const std::string& full_url)
 {
 	assert(m_initialized);
 
+    BOOST_LOG_TRIVIAL(info) << "downloader";
     std::string escaped_url = unescape_url(full_url);
     if (boost::starts_with(escaped_url, "prusaslicer://open?file=")) {
         escaped_url = escaped_url.substr(24);

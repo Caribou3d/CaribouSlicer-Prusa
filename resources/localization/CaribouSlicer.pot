@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 17:27+0200\n"
+"POT-Creation-Date: 2025-06-05 00:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3320,7 +3320,7 @@ msgstr ""
 
 #: src/libslic3r/PrintConfig.cpp:2457 src/libslic3r/PrintConfig.cpp:2482
 #: src/libslic3r/PrintConfig.cpp:2496 src/libslic3r/PrintConfig.cpp:2506
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:119
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:118
 msgid "Perimeters"
 msgstr ""
 
@@ -7718,9 +7718,9 @@ msgstr ""
 #: src/slic3r/GUI/ConfigWizard.cpp:3786 src/slic3r/GUI/GUI.cpp:131
 #: src/slic3r/GUI/GUI_App.cpp:3904 src/slic3r/GUI/GUI_Preview.cpp:505
 #: src/slic3r/GUI/Plater.cpp:4690 src/slic3r/GUI/Plater.cpp:4768
-#: src/slic3r/GUI/UpdateDialogs.cpp:218 src/slic3r/GUI/UpdateDialogs.cpp:226
-#: src/slic3r/GUI/UpdateDialogs.cpp:231 src/slic3r/GUI/UpdateDialogs.cpp:236
-#: src/slic3r/GUI/UpdateDialogs.cpp:243 src/slic3r/GUI/UpdateDialogs.cpp:248
+#: src/slic3r/GUI/UpdateDialogs.cpp:215 src/slic3r/GUI/UpdateDialogs.cpp:223
+#: src/slic3r/GUI/UpdateDialogs.cpp:228 src/slic3r/GUI/UpdateDialogs.cpp:233
+#: src/slic3r/GUI/UpdateDialogs.cpp:240 src/slic3r/GUI/UpdateDialogs.cpp:245
 msgid "Notice"
 msgstr ""
 
@@ -8163,7 +8163,7 @@ msgid "&Finish"
 msgstr ""
 
 #: src/slic3r/GUI/ConfigWizard.cpp:3967
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:767
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:769
 #: src/slic3r/GUI/FileArchiveDialog.cpp:281
 #: src/slic3r/GUI/FileArchiveDialog.cpp:290
 #: src/slic3r/GUI/FirmwareDialog.cpp:157
@@ -8234,52 +8234,52 @@ msgstr ""
 msgid "Performing desktop integration failed - Could not find executable."
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:407
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:408
 msgid ""
 "Performing desktop integration failed because the application directory was "
 "not found."
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:447
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:448
 msgid ""
 "Performing desktop integration failed - could not create Gcodeviewer desktop "
 "file. CaribouSlicer desktop file was probably created successfully."
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:497
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:498
 msgid ""
 "Performing downloader desktop integration failed - boost::filesystem::"
 "canonical did not return appimage path."
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:509
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:510
 msgid ""
 "Performing downloader desktop integration failed - Could not find executable."
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:627
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:629
 msgid ""
 "Performing downloader desktop integration failed because the application "
 "directory was not found."
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:736
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:738
 #: src/slic3r/GUI/GUI_App.cpp:2809
 msgid "Desktop Integration"
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:743
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:745
 msgid ""
 "Desktop Integration sets this binary to be searchable by the system.\n"
 "\n"
 "Press \"Perform\" to proceed."
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:757
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:759
 msgid "Perform"
 msgstr ""
 
-#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:763
+#: src/slic3r/GUI/DesktopIntegrationDialog.cpp:765
 #: src/slic3r/GUI/GLCanvas3D.cpp:5513 src/slic3r/GUI/KBShortcutsDialog.cpp:111
 #: src/slic3r/GUI/MainFrame.cpp:1629
 msgid "Undo"
@@ -8632,20 +8632,20 @@ msgstr ""
 msgid "Edit tick mark - Right click"
 msgstr ""
 
-#: src/slic3r/GUI/Downloader.cpp:172
+#: src/slic3r/GUI/Downloader.cpp:173
 #, possible-boost-format
 msgid ""
 "Download won't start. Download URL doesn't point to allowed subdomains : %1%"
 msgstr ""
 
-#: src/slic3r/GUI/Downloader.cpp:193
+#: src/slic3r/GUI/Downloader.cpp:194
 #, possible-boost-format
 msgid ""
 "Download won't start. Download URL doesn't point to https://printables.com : "
 "%1%"
 msgstr ""
 
-#: src/slic3r/GUI/Downloader.cpp:227
+#: src/slic3r/GUI/Downloader.cpp:228
 msgid "The download has failed"
 msgstr ""
 
@@ -8970,14 +8970,14 @@ msgstr ""
 msgid "Cancelling..."
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:127
-msgid "Layers Top"
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:126
+msgid "Layers Bottom"
 msgstr ""
 
-#. TRN Main menu: View->Bottom
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:133
-#: src/slic3r/GUI/MainFrame.cpp:1425
-msgid "Bottom"
+#. TRN Main menu: View->Top
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:132
+#: src/slic3r/GUI/MainFrame.cpp:1422
+msgid "Top"
 msgstr ""
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:144
@@ -11672,7 +11672,7 @@ msgid "Paste"
 msgstr ""
 
 #: src/slic3r/GUI/GLCanvas3D.cpp:5391 src/slic3r/GUI/GUI_Factories.cpp:1395
-#: src/slic3r/GUI/GUI_Factories.cpp:1420 src/slic3r/GUI/GUI_Factories.cpp:1432
+#: src/slic3r/GUI/GUI_Factories.cpp:1419 src/slic3r/GUI/GUI_Factories.cpp:1430
 msgid "Add instance"
 msgstr ""
 
@@ -11808,11 +11808,11 @@ msgid "Jump to"
 msgstr ""
 
 #: src/slic3r/GUI/GLCanvas3D.cpp:7456
-#: src/slic3r/GUI/NotificationManager.cpp:2184
-#: src/slic3r/GUI/NotificationManager.cpp:2191
-#: src/slic3r/GUI/NotificationManager.cpp:2207
-#: src/slic3r/GUI/NotificationManager.cpp:2213
-#: src/slic3r/GUI/NotificationManager.cpp:2284
+#: src/slic3r/GUI/NotificationManager.cpp:2186
+#: src/slic3r/GUI/NotificationManager.cpp:2193
+#: src/slic3r/GUI/NotificationManager.cpp:2209
+#: src/slic3r/GUI/NotificationManager.cpp:2215
+#: src/slic3r/GUI/NotificationManager.cpp:2286
 msgid "ERROR:"
 msgstr ""
 
@@ -12321,7 +12321,7 @@ msgid "Please check your object list before preset changing."
 msgstr ""
 
 #. TRN: Progress dialog title
-#: src/slic3r/GUI/GUI_App.cpp:3447 src/slic3r/GUI/UpdateDialogs.cpp:284
+#: src/slic3r/GUI/GUI_App.cpp:3447 src/slic3r/GUI/UpdateDialogs.cpp:281
 msgid "Opening Configuration Wizard"
 msgstr ""
 
@@ -14317,13 +14317,13 @@ msgstr ""
 msgid "Iso View"
 msgstr ""
 
-#. TRN Main menu: View->Top
-#: src/slic3r/GUI/MainFrame.cpp:1422
-msgid "Top"
-msgstr ""
-
 #: src/slic3r/GUI/MainFrame.cpp:1422
 msgid "Top View"
+msgstr ""
+
+#. TRN Main menu: View->Bottom
+#: src/slic3r/GUI/MainFrame.cpp:1425
+msgid "Bottom"
 msgstr ""
 
 #: src/slic3r/GUI/MainFrame.cpp:1425
@@ -14588,8 +14588,8 @@ msgstr ""
 msgid "E&xit"
 msgstr ""
 
-#: src/slic3r/GUI/MainFrame.cpp:1595 src/slic3r/GUI/UpdateDialogs.cpp:411
-#: src/slic3r/GUI/UpdateDialogs.cpp:458
+#: src/slic3r/GUI/MainFrame.cpp:1595 src/slic3r/GUI/UpdateDialogs.cpp:408
+#: src/slic3r/GUI/UpdateDialogs.cpp:455
 #, possible-c-format, possible-boost-format
 msgid "Exit %s"
 msgstr ""
@@ -15042,129 +15042,129 @@ msgstr ""
 msgid "here."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:785
+#: src/slic3r/GUI/NotificationManager.cpp:786
 msgid "Open Folder."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:823
+#: src/slic3r/GUI/NotificationManager.cpp:824
 msgid "Eject drive"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:881
+#: src/slic3r/GUI/NotificationManager.cpp:882
 msgid "Ejecting."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1065
-#: src/slic3r/GUI/NotificationManager.cpp:1327
-#: src/slic3r/GUI/NotificationManager.cpp:1554
+#: src/slic3r/GUI/NotificationManager.cpp:1067
+#: src/slic3r/GUI/NotificationManager.cpp:1329
+#: src/slic3r/GUI/NotificationManager.cpp:1556
 msgid "ERROR"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1111
+#: src/slic3r/GUI/NotificationManager.cpp:1113
 msgid "Open Printables project page"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1329
+#: src/slic3r/GUI/NotificationManager.cpp:1331
 msgid "COMPLETED"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1421
-#: src/slic3r/GUI/NotificationManager.cpp:1450
+#: src/slic3r/GUI/NotificationManager.cpp:1423
+#: src/slic3r/GUI/NotificationManager.cpp:1452
 msgid "UPLOADED"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1549
+#: src/slic3r/GUI/NotificationManager.cpp:1551
 msgid "RESOLVING ADDRESS"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1559
+#: src/slic3r/GUI/NotificationManager.cpp:1561
 msgid "CANCELED"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1620
+#: src/slic3r/GUI/NotificationManager.cpp:1622
 msgid "Cancel upload"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1729
+#: src/slic3r/GUI/NotificationManager.cpp:1731
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with custom supports."
 msgid_plural "%1$d objects were loaded with custom supports."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1730
+#: src/slic3r/GUI/NotificationManager.cpp:1732
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with custom seam."
 msgid_plural "%1$d objects were loaded with custom seam."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1731
+#: src/slic3r/GUI/NotificationManager.cpp:1733
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with multimaterial painting."
 msgid_plural "%1$d objects were loaded with multimaterial painting."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1732
+#: src/slic3r/GUI/NotificationManager.cpp:1734
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with variable layer height."
 msgid_plural "%1$d objects were loaded with variable layer height."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1733
+#: src/slic3r/GUI/NotificationManager.cpp:1735
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with partial sinking."
 msgid_plural "%1$d objects were loaded with partial sinking."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1734
+#: src/slic3r/GUI/NotificationManager.cpp:1736
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded as a part of cut object."
 msgid_plural "%1$d objects were loaded as parts of cut object"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1735
+#: src/slic3r/GUI/NotificationManager.cpp:1737
 #, possible-c-format, possible-boost-format
 msgid "%1$d object was loaded with fuzzy skin painting."
 msgid_plural "%1$d objects were loaded with fuzzy skin painting."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1848
+#: src/slic3r/GUI/NotificationManager.cpp:1850
 msgid "Slicing finished."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1848
+#: src/slic3r/GUI/NotificationManager.cpp:1850
 msgid "Export G-Code."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:1848
+#: src/slic3r/GUI/NotificationManager.cpp:1850
 msgid "Export."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:2196
-#: src/slic3r/GUI/NotificationManager.cpp:2223
-#: src/slic3r/GUI/NotificationManager.cpp:2231
-#: src/slic3r/GUI/NotificationManager.cpp:2242 src/slic3r/GUI/Plater.cpp:2261
+#: src/slic3r/GUI/NotificationManager.cpp:2198
+#: src/slic3r/GUI/NotificationManager.cpp:2225
+#: src/slic3r/GUI/NotificationManager.cpp:2233
+#: src/slic3r/GUI/NotificationManager.cpp:2244 src/slic3r/GUI/Plater.cpp:2261
 msgid "WARNING:"
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:2357
+#: src/slic3r/GUI/NotificationManager.cpp:2359
 msgid "Exporting finished."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:2365
+#: src/slic3r/GUI/NotificationManager.cpp:2367
 msgid "Bulk export finished."
 msgstr ""
 
-#: src/slic3r/GUI/NotificationManager.cpp:2554
-#: src/slic3r/GUI/NotificationManager.cpp:2567
-#: src/slic3r/GUI/NotificationManager.cpp:2639
-#: src/slic3r/GUI/UpdateDialogs.cpp:207
+#: src/slic3r/GUI/NotificationManager.cpp:2556
+#: src/slic3r/GUI/NotificationManager.cpp:2569
+#: src/slic3r/GUI/NotificationManager.cpp:2641
+#: src/slic3r/GUI/UpdateDialogs.cpp:204
 msgid "Download"
 msgstr ""
 
@@ -15877,7 +15877,7 @@ msgid "The selected file is already in ASCII format."
 msgstr ""
 
 #: src/slic3r/GUI/Plater.cpp:4690 src/slic3r/GUI/Plater.cpp:4768
-#: src/slic3r/GUI/UpdateDialogs.cpp:243
+#: src/slic3r/GUI/UpdateDialogs.cpp:240
 #, possible-boost-format
 msgid "File %1% already exists. Do you wish to overwrite it?"
 msgstr ""
@@ -17625,10 +17625,6 @@ msgstr ""
 msgid "Sequential printing"
 msgstr ""
 
-#: src/slic3r/GUI/Tab.cpp:1582
-msgid "Extruder clearance"
-msgstr ""
-
 #: src/slic3r/GUI/Tab.cpp:1594
 msgid "Modifications"
 msgstr ""
@@ -18588,8 +18584,8 @@ msgstr ""
 msgid "Changelog & Download"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:68 src/slic3r/GUI/UpdateDialogs.cpp:330
-#: src/slic3r/GUI/UpdateDialogs.cpp:402
+#: src/slic3r/GUI/UpdateDialogs.cpp:68 src/slic3r/GUI/UpdateDialogs.cpp:327
+#: src/slic3r/GUI/UpdateDialogs.cpp:399
 msgid "Open changelog page"
 msgstr ""
 
@@ -18618,73 +18614,73 @@ msgid ""
 "variant of CaribouSlicer you want to download."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:134
+#: src/slic3r/GUI/UpdateDialogs.cpp:131
 msgid "Next"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:152
+#: src/slic3r/GUI/UpdateDialogs.cpp:149
 msgid "App Update download"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:152
+#: src/slic3r/GUI/UpdateDialogs.cpp:149
 #, possible-boost-format
 msgid "New version of %1% is available."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:155
+#: src/slic3r/GUI/UpdateDialogs.cpp:152
 msgid "New version"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:160
+#: src/slic3r/GUI/UpdateDialogs.cpp:157
 msgid "Run installer after download. (Otherwise file explorer will be opened)"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:165
+#: src/slic3r/GUI/UpdateDialogs.cpp:162
 msgid "Target directory"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:172 src/slic3r/GUI/UpdateDialogs.cpp:190
+#: src/slic3r/GUI/UpdateDialogs.cpp:169 src/slic3r/GUI/UpdateDialogs.cpp:187
 msgid "Select directory"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:218
+#: src/slic3r/GUI/UpdateDialogs.cpp:215
 msgid "Directory path is empty."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:226
+#: src/slic3r/GUI/UpdateDialogs.cpp:223
 msgid "Directory path is incorrect."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:231
+#: src/slic3r/GUI/UpdateDialogs.cpp:228
 #, possible-boost-format
 msgid "Directory %1% doesn't exists. Do you wish to create it?"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:236
+#: src/slic3r/GUI/UpdateDialogs.cpp:233
 msgid "Failed to create directory."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:248
+#: src/slic3r/GUI/UpdateDialogs.cpp:245
 #, possible-boost-format
 msgid "Download path is %1%. Do you wish to continue?"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:284 src/slic3r/GUI/UpdateDialogs.cpp:472
+#: src/slic3r/GUI/UpdateDialogs.cpp:281 src/slic3r/GUI/UpdateDialogs.cpp:469
 msgid "Configuration update"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:285
+#: src/slic3r/GUI/UpdateDialogs.cpp:282
 msgid ""
 "CaribouSlicer is not using the newest configuration available.\n"
 "Configuration Wizard may not offer the latest printers, filaments and SLA "
 "materials to be installed."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:287
+#: src/slic3r/GUI/UpdateDialogs.cpp:284
 msgid "Configuration update is available"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:290
+#: src/slic3r/GUI/UpdateDialogs.cpp:287
 msgid ""
 "Would you like to install it?\n"
 "\n"
@@ -18694,42 +18690,42 @@ msgid ""
 "Updated configuration bundles:"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:311 src/slic3r/GUI/UpdateDialogs.cpp:385
+#: src/slic3r/GUI/UpdateDialogs.cpp:308 src/slic3r/GUI/UpdateDialogs.cpp:382
 msgid "Comment:"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:318 src/slic3r/GUI/UpdateDialogs.cpp:392
+#: src/slic3r/GUI/UpdateDialogs.cpp:315 src/slic3r/GUI/UpdateDialogs.cpp:389
 msgid "New printer"
 msgid_plural "New printers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:340
+#: src/slic3r/GUI/UpdateDialogs.cpp:337
 msgid "Install"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:341
+#: src/slic3r/GUI/UpdateDialogs.cpp:338
 msgid "Don't install"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:345
+#: src/slic3r/GUI/UpdateDialogs.cpp:342
 msgid "Yes"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:346
+#: src/slic3r/GUI/UpdateDialogs.cpp:343
 msgid "No"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:361 src/slic3r/GUI/UpdateDialogs.cpp:423
+#: src/slic3r/GUI/UpdateDialogs.cpp:358 src/slic3r/GUI/UpdateDialogs.cpp:420
 #, possible-c-format, possible-boost-format
 msgid "%s incompatibility"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:361
+#: src/slic3r/GUI/UpdateDialogs.cpp:358
 msgid "You must install a configuration update."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:364
+#: src/slic3r/GUI/UpdateDialogs.cpp:361
 #, possible-c-format, possible-boost-format
 msgid ""
 "%s will now start updates. Otherwise it won't be able to start.\n"
@@ -18740,12 +18736,12 @@ msgid ""
 "Updated configuration bundles:"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:424
+#: src/slic3r/GUI/UpdateDialogs.cpp:421
 #, possible-c-format, possible-boost-format
 msgid "%s configuration is incompatible"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:427
+#: src/slic3r/GUI/UpdateDialogs.cpp:424
 #, possible-c-format, possible-boost-format
 msgid ""
 "This version of %s is not compatible with currently installed configuration "
@@ -18758,20 +18754,20 @@ msgid ""
 "existing configuration before installing files compatible with this %s."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:436
+#: src/slic3r/GUI/UpdateDialogs.cpp:433
 #, possible-c-format, possible-boost-format
 msgid "This %s version: %s"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:441
+#: src/slic3r/GUI/UpdateDialogs.cpp:438
 msgid "Incompatible bundles:"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:457
+#: src/slic3r/GUI/UpdateDialogs.cpp:454
 msgid "Re-configure"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:475
+#: src/slic3r/GUI/UpdateDialogs.cpp:472
 #, possible-c-format, possible-boost-format
 msgid ""
 "%s now uses an updated configuration structure.\n"
@@ -18787,35 +18783,35 @@ msgid ""
 "choose whether to enable automatic preset updates."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:490
+#: src/slic3r/GUI/UpdateDialogs.cpp:487
 msgid "For more information please visit our wiki page:"
 msgstr ""
 
 #. TRN %s = CaribouSlicer
-#: src/slic3r/GUI/UpdateDialogs.cpp:494
+#: src/slic3r/GUI/UpdateDialogs.cpp:491
 #, possible-c-format, possible-boost-format
 msgid "%s 1.40 configuration update"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:508
+#: src/slic3r/GUI/UpdateDialogs.cpp:505
 msgid "Configuration updates"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:508 src/slic3r/GUI/UpdateDialogs.cpp:528
+#: src/slic3r/GUI/UpdateDialogs.cpp:505 src/slic3r/GUI/UpdateDialogs.cpp:525
 msgid "No updates available"
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:513
+#: src/slic3r/GUI/UpdateDialogs.cpp:510
 #, possible-c-format, possible-boost-format
 msgid "%s has no configuration updates available."
 msgstr ""
 
-#: src/slic3r/GUI/UpdateDialogs.cpp:528
+#: src/slic3r/GUI/UpdateDialogs.cpp:525
 msgid "App update"
 msgstr ""
 
 #. TRN %1% is CaribouSlicer
-#: src/slic3r/GUI/UpdateDialogs.cpp:531
+#: src/slic3r/GUI/UpdateDialogs.cpp:528
 #, possible-boost-format
 msgid "Your %1% is up to date."
 msgstr ""

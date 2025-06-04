@@ -122,17 +122,18 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     m_og_fff->append_line(line);
 
     line = Line { "", "" };
-    option = m_og_fff->get_option("top_solid_layers");
-    option.opt.label = L("Layers Top");
+    option = m_og_fff->get_option("bottom_solid_layers");
+    option.opt.label = L("Layers Bottom");
     option.opt.width = 8;
     option.opt.sidetext = "   ";
     line.append_option(option);
 
-    option = m_og_fff->get_option("bottom_solid_layers");
-    option.opt.label = L("Bottom");
+    option = m_og_fff->get_option("top_solid_layers");
+    option.opt.label = L("Top");
     option.opt.width = 8;
     option.opt.sidetext = "   ";
     line.append_option(option);
+
     m_og_fff->append_line(line);
 
     line = Line { "", "" };

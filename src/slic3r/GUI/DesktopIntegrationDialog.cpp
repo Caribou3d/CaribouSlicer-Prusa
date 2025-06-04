@@ -282,6 +282,7 @@ void DesktopIntegrationDialog::perform_desktop_integration()
     std::vector<std::string>target_candidates;
     resolve_path_from_var("XDG_DATA_HOME", target_candidates);
     resolve_path_from_var("XDG_DATA_DIRS", target_candidates);
+    resolve_path_from_var("XDG_CONFIG_HOME", target_candidates);
 
     AppConfig *app_config = wxGetApp().app_config;
     // suffix string to create different desktop file for alpha, beta.
@@ -360,7 +361,7 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         "Categories=Graphics;3DGraphics;Engineering;\n"
         "Keywords=3D;Printing;Slicer;slice;3D;printer;convert;gcode;stl;obj;amf;SLA\n"
         "StartupNotify=false\n"
-        "StartupWMClass=prusa-slicer\n", name_suffix, version_suffix, excutable_path);
+        "StartupWMClass=caribou-slicer\n", name_suffix, version_suffix, excutable_path);
 
     bool candidate_found = false;
     for (size_t i = 0; i < target_candidates.size(); ++i) {
@@ -416,8 +417,8 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         // Icon
         if (!target_dir_icons.empty())
         {
-            std::string icon_path = GUI::format("%1%/icons/CaribouSlicer-gcodeviewer_192px.png",resources_dir());
-            std::string dest_path = GUI::format("%1%/icons/%2%CaribouSlicer-gcodeviewer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
+            std::string icon_path = GUI::format("%1%/icons/CaribouGcodeviewer_192px.png",resources_dir());
+            std::string dest_path = GUI::format("%1%/icons/%2%CaribouGcodeviewer%3%.png", target_dir_icons, icon_theme_path, version_suffix);
             if (copy_icon(icon_path, dest_path))
                 // save path to icon
                 app_config->set("desktop_integration_icon_viewer_path", dest_path);
@@ -428,9 +429,9 @@ void DesktopIntegrationDialog::perform_desktop_integration()
         // Desktop file
         std::string desktop_file_viewer = GUI::format(
             "[Desktop Entry]\n"
-            "Name=Prusa Gcode Viewer%1%\n"
+            "Name=Caribou Gcode Viewer%1%\n"
             "GenericName=3D Printing Software\n"
-            "Icon=CaribouSlicer-gcodeviewer%2%\n"
+            "Icon=CaribouGcodeviewer%2%\n"
             "Exec=\"%3%\" --gcodeviewer %%F\n"
             "Terminal=false\n"
             "Type=Application\n"
@@ -438,7 +439,7 @@ void DesktopIntegrationDialog::perform_desktop_integration()
             "Categories=Graphics;3DGraphics;\n"
             "Keywords=3D;Printing;Slicer;\n"
             "StartupNotify=false\n", name_suffix, version_suffix, excutable_path);
-        std::string desktop_path = GUI::format("%1%/applications/CaribouSlicerGcodeViewer%2%.desktop", target_dir_desktop, version_suffix);
+        std::string desktop_path = GUI::format("%1%/applications/CaribouGcodeviewer%2%.desktop", target_dir_desktop, version_suffix);
         if (create_desktop_file(desktop_path, desktop_file_viewer))
             // save path to desktop file
             app_config->set("desktop_integration_app_viewer_path", desktop_path);
@@ -524,6 +525,7 @@ void DesktopIntegrationDialog::perform_downloader_desktop_integration()
     std::vector<std::string>target_candidates;
     resolve_path_from_var("XDG_DATA_HOME", target_candidates);
     resolve_path_from_var("XDG_DATA_DIRS", target_candidates);
+    resolve_path_from_var("XDG_CONFIG_HOME", target_candidates);
 
     AppConfig* app_config = wxGetApp().app_config;
     // suffix string to create different desktop file for alpha, beta.
@@ -533,12 +535,12 @@ void DesktopIntegrationDialog::perform_downloader_desktop_integration()
     std::string version(SLIC3R_VERSION);
     if (version.find("alpha") != std::string::npos)
     {
-        version_suffix = "_alpha";
+        version_suffix = "-alpha";
         name_suffix = " - alpha";
     }
     else if (version.find("beta") != std::string::npos)
     {
-        version_suffix = "_beta";
+        version_suffix = "-beta";
         name_suffix = " - beta";
     }
 
