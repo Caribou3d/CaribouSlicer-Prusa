@@ -2018,6 +2018,7 @@ bool GCodeProcessor::process_producers_tags(const std::string_view comment)
     case EProducer::Slic3rPE:
     case EProducer::Slic3r:
     case EProducer::SuperSlicer:
+    case EProducer::CaribouSlicer: { return process_caribouslicer_tags(comment); }
     case EProducer::PrusaSlicer: { return process_prusaslicer_tags(comment); }
     case EProducer::Cura:        { return process_cura_tags(comment); }
     case EProducer::Simplify3D:  { return process_simplify3d_tags(comment); }
@@ -2028,6 +2029,12 @@ bool GCodeProcessor::process_producers_tags(const std::string_view comment)
     default:                     { return false; }
     }
 }
+
+bool GCodeProcessor::process_caribouslicer_tags(const std::string_view comment)
+{
+    return false;
+}
+
 
 bool GCodeProcessor::process_prusaslicer_tags(const std::string_view comment)
 {
