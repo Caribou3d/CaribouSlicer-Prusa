@@ -124,7 +124,7 @@ WebViewPanel::WebViewPanel(wxWindow *parent, const wxString& default_url, const 
 #endif
 
     SetSizer(topsizer);
-    
+
     Bind(wxEVT_SHOW, &WebViewPanel::on_show, this);
     Bind(wxEVT_IDLE, &WebViewPanel::on_idle, this);
 
@@ -176,14 +176,14 @@ void WebViewPanel::late_create()
 {
     m_do_late_webview_create = false;
     m_browser = WebView::webview_new();
-   
+
     if (!m_browser) {
         wxStaticText* text = new wxStaticText(this, wxID_ANY, _L("Failed to load a web browser."));
         topsizer->Add(text, 0, wxALIGN_LEFT | wxBOTTOM, 10);
         return;
     }
     WebView::webview_create(m_browser,this, GUI::format_wxstr("file://%1%/web/%2%.html", boost::filesystem::path(resources_dir()).generic_string(), m_loading_html), m_script_message_hadler_names);
- 
+
     if (Utils::ServiceConfig::instance().webdev_enabled()) {
         m_browser->EnableContextMenu();
         m_browser->EnableAccessToDevTools();
@@ -211,7 +211,7 @@ void WebViewPanel::load_error_page()
     }
 
     m_browser->Stop();
-    m_load_error_page = true;    
+    m_load_error_page = true;
 }
 
 void WebViewPanel::on_show(wxShowEvent& evt)
@@ -261,7 +261,7 @@ void WebViewPanel::on_idle(wxIdleEvent& WXUNUSED(evt))
         if (m_load_default_url_on_next_error) {
             m_load_default_url_on_next_error = false;
             load_default_url();
-        } else { 
+        } else {
             load_url(GUI::format_wxstr("file://%1%/web/%2%.html", boost::filesystem::path(resources_dir()).generic_string(), m_error_html));
             // This is a fix of broken message handling after error.
             // F.e. if there is an error but we do AddUserScript & Reload, the handling will break.
@@ -269,10 +269,10 @@ void WebViewPanel::on_idle(wxIdleEvent& WXUNUSED(evt))
             if (!m_script_message_hadler_names.empty()) {
                 m_browser->RemoveScriptMessageHandler(Slic3r::GUI::from_u8(m_script_message_hadler_names.front()));
                 m_browser->AddScriptMessageHandler(Slic3r::GUI::from_u8(m_script_message_hadler_names.front()));
-            } 
+            }
         }
     }
-    
+
 #ifdef DEBUG_URL_PANEL
     m_button_stop->Enable(m_browser->IsBusy());
 #endif
@@ -358,7 +358,7 @@ void WebViewPanel::on_script_message(wxWebViewEvent& evt)
     BOOST_LOG_TRIVIAL(error) << "unhandled script message: " << evt.GetString();
 }
 
-void WebViewPanel::on_navigation_request(wxWebViewEvent &evt) 
+void WebViewPanel::on_navigation_request(wxWebViewEvent &evt)
 {
 }
 
@@ -565,7 +565,7 @@ void WebViewPanel::do_reload()
 {
     if (!m_browser) {
         return;
-    }   
+    }
     // IsBusy on Linux very often returns true due to loading about:blank after loading requested url.
 #ifndef __linux__
     if (m_browser->IsBusy()) {
@@ -615,7 +615,7 @@ void WebViewPanel::define_css()
 
 ConnectWebViewPanel::ConnectWebViewPanel(wxWindow* parent)
     : WebViewPanel(parent, GUI::from_u8(Utils::ServiceConfig::instance().connect_url()), { "_prusaSlicer" }, "connect_loading", "connect_error", false)
-{  
+{
     auto* plater = wxGetApp().plater();
     plater->Bind(EVT_UA_LOGGEDOUT, &ConnectWebViewPanel::on_user_logged_out, this);
     plater->Bind(EVT_UA_ID_USER_SUCCESS, &ConnectWebViewPanel::on_user_token, this);
@@ -633,7 +633,7 @@ void ConnectWebViewPanel::late_create()
     if (!m_browser) {
         return;
     }
-    
+
     // This code used to be inside plater->Bind(EVT_UA_ID_USER_SUCCESS, &ConnectWebViewPanel::on_user_token, this)
     auto access_token = wxGetApp().plater()->get_user_account()->get_access_token();
     assert(!access_token.empty());
@@ -837,7 +837,7 @@ void ConnectWebViewPanel::on_script_message(wxWebViewEvent& evt)
     BOOST_LOG_TRIVIAL(debug) << "received message from Prusa Connect FE: " << evt.GetString();
     handle_message(into_u8(evt.GetString()));
 }
-void ConnectWebViewPanel::on_navigation_request(wxWebViewEvent &evt) 
+void ConnectWebViewPanel::on_navigation_request(wxWebViewEvent &evt)
 {
 #ifdef DEBUG_URL_PANEL
     m_url->SetValue(evt.GetURL());
@@ -883,7 +883,7 @@ void ConnectWebViewPanel::on_connect_action_error(const std::string &message_dat
 void ConnectWebViewPanel::on_reload_event(const std::string& message_data)
 {
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__;
-    // Event from our error page button or keyboard shortcut 
+    // Event from our error page button or keyboard shortcut
     m_styles_defined = false;
     try {
         std::stringstream ss(message_data);
@@ -955,13 +955,13 @@ void ConnectWebViewPanel::on_connect_action_print(const std::string& message_dat
 
 void ConnectWebViewPanel::define_css()
 {
-    
+
     if (m_styles_defined) {
         return;
     }
     m_styles_defined = true;
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__;
-#if defined(__APPLE__) 
+#if defined(__APPLE__)
     // WebView on Windows does read keyboard shortcuts
     // Thus doing f.e. Reload twice would make the oparation to fail
     std::string script = R"(
@@ -1108,13 +1108,13 @@ void PrinterWebViewPanel::send_credentials()
 
 void PrinterWebViewPanel::define_css()
 {
-    
+
     if (m_styles_defined) {
         return;
     }
     m_styles_defined = true;
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__;
-#if defined(__APPLE__) 
+#if defined(__APPLE__)
     // WebView on Windows does read keyboard shortcuts
     // Thus doing f.e. Reload twice would make the oparation to fail
     std::string script = R"(
@@ -1137,7 +1137,7 @@ void PrinterWebViewPanel::define_css()
 
 void PrinterWebViewPanel::on_reload_event(const std::string& message_data)
 {
-    // Event from our error page button or keyboard shortcut 
+    // Event from our error page button or keyboard shortcut
     m_styles_defined = false;
     try {
         std::stringstream ss(message_data);
@@ -1157,7 +1157,7 @@ void PrinterWebViewPanel::on_reload_event(const std::string& message_data)
 
 PrintablesWebViewPanel::PrintablesWebViewPanel(wxWindow* parent)
     : WebViewPanel(parent, GUI::from_u8(Utils::ServiceConfig::instance().printables_url()), { "ExternalApp" }, "other_loading", "other_error", false)
-{  
+{
     m_events["accessTokenExpired"] = std::bind(&PrintablesWebViewPanel::on_printables_event_access_token_expired, this, std::placeholders::_1);
     m_events["printGcode"] = std::bind(&PrintablesWebViewPanel::on_printables_event_print_gcode, this, std::placeholders::_1);
     m_events["downloadFile"] = std::bind(&PrintablesWebViewPanel::on_printables_event_download_file, this, std::placeholders::_1);
@@ -1199,7 +1199,7 @@ void PrintablesWebViewPanel::handle_message(const std::string& message)
 
 void PrintablesWebViewPanel::on_navigation_request(wxWebViewEvent &evt)
 {
-    const wxString url = evt.GetURL();   
+    const wxString url = evt.GetURL();
     if (url.StartsWith(m_default_url)) {
         m_reached_default_url = true;
         if (url == m_browser->GetCurrentURL()) {
@@ -1245,10 +1245,10 @@ void PrintablesWebViewPanel::on_loaded(wxWebViewEvent& evt)
 std::string PrintablesWebViewPanel::get_url_lang_theme(const wxString& url) const
 {
     // situations and reaction:
-    // 1) url is just a path (no query no fragment) -> query with lang and theme is added 
-    // 2) url has query that contains lang and theme -> query and lang values are modified 
-    // 3) url has query with just one of lang or theme -> query is modified and missing value is added 
-    // 4) url has query of query and fragment without lang and theme -> query with lang and theme is added to the end of query 
+    // 1) url is just a path (no query no fragment) -> query with lang and theme is added
+    // 2) url has query that contains lang and theme -> query and lang values are modified
+    // 3) url has query with just one of lang or theme -> query is modified and missing value is added
+    // 4) url has query of query and fragment without lang and theme -> query with lang and theme is added to the end of query
 
     std::string url_string = into_u8(url);
     std::string theme = wxGetApp().dark_mode() ? "dark" : "light";
@@ -1269,7 +1269,7 @@ std::string PrintablesWebViewPanel::get_url_lang_theme(const wxString& url) cons
         url_string = std::regex_replace(url_string, theme_regex, "$1" + theme);
         theme_found = true;
     }
-    if (lang_found && theme_found) 
+    if (lang_found && theme_found)
         return url_string;
 
     // missing params string
@@ -1279,16 +1279,16 @@ std::string PrintablesWebViewPanel::get_url_lang_theme(const wxString& url) cons
 
     // Regex to capture query and optional fragment
     std::regex query_regex(R"((\?.*?)(#.*)?$)");
-    
+
     if (std::regex_search(url_string, query_regex)) {
         // Append params before the fragment (if it exists)
         return std::regex_replace(url_string, query_regex, "$1&" + new_params + "$2");
-    } 
+    }
     std::regex fragment_regex(R"(#.*$)");
     if (std::regex_search(url_string, fragment_regex)) {
         // Add params before the fragment
         return std::regex_replace(url_string, fragment_regex, "?" + new_params + "$&");
-    } 
+    }
 
     return url_string + "?" + new_params;
 }
@@ -1315,21 +1315,21 @@ void PrintablesWebViewPanel::logout(const std::string& override_url/* = std::str
         return;
     }
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__;
-    hide_loading_overlay(); 
+    hide_loading_overlay();
     m_styles_defined = false;
     delete_cookies(m_browser, Utils::ServiceConfig::instance().printables_url());
     m_browser->RunScript("localStorage.clear();");
 
-    std::string next_url = override_url.empty() 
-        ? get_url_lang_theme(m_browser->GetCurrentURL()) 
+    std::string next_url = override_url.empty()
+        ? get_url_lang_theme(m_browser->GetCurrentURL())
         : get_url_lang_theme(from_u8(override_url));
 #ifdef _WIN32
     load_url(GUI::from_u8(next_url));
 #else
     // We cannot do simple reload here, it would keep the access token in the header
     load_request(m_browser, next_url, std::string());
-#endif // 
-       
+#endif //
+
 }
 void PrintablesWebViewPanel::login(const std::string& access_token, const std::string& override_url/* = std::string()*/)
 {
@@ -1351,12 +1351,12 @@ void PrintablesWebViewPanel::login(const std::string& access_token, const std::s
         "}));"
         , access_token);
     run_script(script);
-    
+
     if ( override_url.empty()) {
         run_script("window.location.reload();");
     } else {
         load_url(GUI::from_u8(get_url_lang_theme(from_u8(override_url))));
-    } 
+    }
 }
 
 void PrintablesWebViewPanel::load_default_url()
@@ -1377,7 +1377,7 @@ void PrintablesWebViewPanel::load_default_url()
         return;
     }
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__ << " login";
-    
+
     // add token to first request
 #ifdef _WIN32
     add_request_authorization(m_browser, m_default_url, access_token);
@@ -1385,7 +1385,7 @@ void PrintablesWebViewPanel::load_default_url()
     load_url(GUI::from_u8(actual_default_url));
 #else
     load_request(m_browser, actual_default_url, access_token);
-#endif  
+#endif
 }
 
 void PrintablesWebViewPanel::send_refreshed_token(const std::string& access_token)
@@ -1438,13 +1438,13 @@ void PrintablesWebViewPanel::on_printables_event_access_token_expired(const std:
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__;
     m_refreshing_token = true;
     show_loading_overlay();
-   
+
     wxGetApp().plater()->get_user_account()->request_refresh();
 }
 
 void PrintablesWebViewPanel::on_reload_event(const std::string& message_data)
 {
-    // Event from our error page button or keyboard shortcut 
+    // Event from our error page button or keyboard shortcut
     m_styles_defined = false;
     try {
         std::stringstream ss(message_data);
@@ -1497,7 +1497,7 @@ void PrintablesWebViewPanel::on_printables_event_print_gcode(const std::string& 
     } catch (const std::exception &e) {
         BOOST_LOG_TRIVIAL(error) << "Could not parse printables message. " << e.what();
         return;
-    }  
+    }
     assert(!download_url.empty() && !model_url.empty());
     wxCommandEvent* evt = new wxCommandEvent(EVT_PRINTABLES_CONNECT_PRINT);
     evt->SetString(from_u8(Utils::ServiceConfig::instance().connect_printables_print_url()  +"?url="  + escape_url(download_url)));
@@ -1522,12 +1522,12 @@ void PrintablesWebViewPanel::on_printables_event_download_file(const std::string
     } catch (const std::exception &e) {
         BOOST_LOG_TRIVIAL(error) << "Could not parse printables message. " << e.what();
         return;
-    }  
+    }
     assert(!download_url.empty() && !model_url.empty());
     boost::filesystem::path url_path(download_url);
     show_download_notification(url_path.filename().string());
 
-    wxGetApp().printables_download_request(download_url, model_url); 
+    wxGetApp().printables_download_request(download_url, model_url);
 }
 void PrintablesWebViewPanel::on_printables_event_slice_file(const std::string& message_data)
 {
@@ -1548,9 +1548,9 @@ void PrintablesWebViewPanel::on_printables_event_slice_file(const std::string& m
     } catch (const std::exception &e) {
         BOOST_LOG_TRIVIAL(error) << "Could not parse printables message. " << e.what();
         return;
-    }  
+    }
     assert(!download_url.empty() && !model_url.empty());
-    
+
     wxGetApp().printables_slice_request(download_url, model_url);
 }
 
@@ -1573,12 +1573,12 @@ void PrintablesWebViewPanel::on_printables_event_open_url(const std::string& mes
     } catch (const std::exception &e) {
         BOOST_LOG_TRIVIAL(error) << "Could not parse Printables message. " << e.what();
         return;
-    }    
+    }
 }
 
 void PrintablesWebViewPanel::define_css()
 {
-    
+
     if (m_styles_defined) {
         return;
     }
@@ -1631,7 +1631,7 @@ void PrintablesWebViewPanel::define_css()
             justify-content: space-between;
             align-items: center;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
-            min-width: 350px; 
+            min-width: 350px;
             max-width: 350px;
             min-height: 50px;
         }
@@ -1657,7 +1657,7 @@ void PrintablesWebViewPanel::define_css()
             font-size: 16px;
             line-height: 16px;
             cursor: pointer;
-            padding-top: 1px; 
+            padding-top: 1px;
         }
         .notification-popup .close-button:hover {
             background-color: #ffa500; /* Orange background on hover */
@@ -1669,8 +1669,8 @@ void PrintablesWebViewPanel::define_css()
             font-weight: bold;
         }
         `;
-        document.head.appendChild(style); 
-    
+        document.head.appendChild(style);
+
         // Capture click on hypertext
         // Rewritten from mobileApp code
         (function() {
@@ -1697,7 +1697,7 @@ void PrintablesWebViewPanel::define_css()
             }
         })();
     )";
-#if defined(__APPLE__) 
+#if defined(__APPLE__)
     // WebView on Windows does read keyboard shortcuts
     // Thus doing f.e. Reload twice would make the oparation to fail
     script += R"(
@@ -1734,11 +1734,11 @@ void PrintablesWebViewPanel::show_download_notification(const std::string& filen
         const body = document.getElementsByTagName('body')[0];
         const notifDiv = document.createElement('div');
         notifDiv.innerHTML = `
-                    <div>
-                    <b>PrusaSlicer: </b>${decodeURIComponent('%1%')}
-                    <br>${decodeURIComponent('%2%')}
-                    </div>
-                `;
+            <div>
+            <span style="font-weight: bold; color: #1A8517;">CaribouSlicer:</span> ${decodeURIComponent('%1%')}
+            <br>${decodeURIComponent('%2%')}
+            </div>
+        `;
         notifDiv.className = 'notification-popup';
         notifDiv.id = 'slicer-notification';
         body.appendChild(notifDiv);
