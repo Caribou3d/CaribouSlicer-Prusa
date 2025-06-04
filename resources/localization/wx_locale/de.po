@@ -7230,11 +7230,11 @@ msgstr "Minihilfe-Text"
 #: ../src/richtext/richtextsizepage.cpp:286
 #: ../src/richtext/richtextsizepage.cpp:290 ../src/common/stockitem.cpp:200
 msgid "Top"
-msgstr "Oben"
+msgstr "oben"
 
 #: ../src/generic/prntdlgg.cpp:881
 msgid "Top margin (mm):"
-msgstr "Oberer Rand (mm):"
+msgstr "oberer Rand (mm):"
 
 #: ../src/generic/aboutdlgg.cpp:79
 msgid "Translations by "

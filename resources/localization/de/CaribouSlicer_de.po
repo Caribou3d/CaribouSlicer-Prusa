@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-04 23:58+0200\n"
+"POT-Creation-Date: 2025-06-05 00:45+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1620,20 +1620,26 @@ msgstr ""
 "volumetrische Geschwindigkeit überschreiten werden."
 
 #: src/libslic3r/PrintConfig.cpp:766 src/libslic3r/PrintConfig.cpp:813
+#, fuzzy, c-format, boost-format
 #| msgid "speed for 0% overlap (bridge)"
 msgid "speed for 0% overlap (bridge)"
 msgstr "Geschwindigkeit für 0% Überhang (Brücke)"
 
 #: src/libslic3r/PrintConfig.cpp:775 src/libslic3r/PrintConfig.cpp:822
+#, fuzzy, c-format, boost-format
 #| msgid "speed for 25% overlap"
 msgid "speed for 25% overlap"
 msgstr "Geschwindigkeit für 25% Überlappung"
 
 #: src/libslic3r/PrintConfig.cpp:784 src/libslic3r/PrintConfig.cpp:831
+#, fuzzy, c-format, boost-format
+#| msgid "speed for 50% overlap"
 msgid "speed for 50% overlap"
 msgstr "Geschwindigkeit für 50% Überlappung"
 
 #: src/libslic3r/PrintConfig.cpp:793 src/libslic3r/PrintConfig.cpp:840
+#, fuzzy, c-format, boost-format
+#| msgid "speed for 75% overlap"
 msgid "speed for 75% overlap"
 msgstr "Geschwindigkeit für 75% Überlappung"
 
@@ -2059,6 +2065,7 @@ msgid "Extra perimeters if needed"
 msgstr "Extra Perimeter wenn notwendig"
 
 #: src/libslic3r/PrintConfig.cpp:1106
+#, fuzzy, c-format, boost-format
 #| msgid ""
 #| "Add more perimeters when needed for avoiding gaps in sloping walls. "
 #| "Slic3r keeps adding perimeters, until more than 70% of the loop "
@@ -3695,6 +3702,13 @@ msgid "This setting represents the maximum speed of your fan."
 msgstr "Diese Einstellung bestimmt die maximale Geschwindigkeit Ihres Lüfters."
 
 #: src/libslic3r/PrintConfig.cpp:2275
+#, fuzzy, c-format, boost-format
+#| msgid ""
+#| "This is the highest printable layer height for this extruder, used to cap "
+#| "the variable layer height and support layer height. Maximum recommended "
+#| "layer height is 75% of the extrusion width to achieve reasonable inter-"
+#| "layer adhesion. If set to 0, layer height is limited to 75% of the nozzle "
+#| "diameter."
 msgid ""
 "This is the highest printable layer height for this extruder, used to cap "
 "the variable layer height and support layer height. Maximum recommended "
@@ -4450,7 +4464,7 @@ msgstr "Wo die Scarf-Fugen Naht platziert wird."
 #. TRN: Drop-down option for 'Scarf joint placement' parameter.
 #: src/libslic3r/PrintConfig.cpp:2819
 msgid "Nowhere"
-msgstr "Nirgendwo"
+msgstr "nirgendwo"
 
 #. TRN: Drop-down option for 'Scarf joint placement' parameter.
 #: src/libslic3r/PrintConfig.cpp:2821
@@ -4460,7 +4474,7 @@ msgstr "Konturen"
 #: src/libslic3r/PrintConfig.cpp:2822
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:149
 msgid "Everywhere"
-msgstr "Überall"
+msgstr "überall"
 
 #: src/libslic3r/PrintConfig.cpp:2826
 msgid "Scarf joint only on smooth perimeters"
@@ -5491,7 +5505,7 @@ msgstr ""
 #: src/libslic3r/PrintConfig.cpp:3604 src/libslic3r/PrintConfig.cpp:3612
 msgctxt "Layers"
 msgid "Top"
-msgstr "Oben"
+msgstr "oben"
 
 #: src/libslic3r/PrintConfig.cpp:3606
 msgid "Number of solid layers to generate on top surfaces."
@@ -8708,11 +8722,14 @@ msgstr ""
 "Lagerschlitz an der Oberseite. Besser, um die Maßhaltigkeit zu überprüfen."
 
 #: src/slic3r/GUI/CalibrationFlowDialog.cpp:31
+#, fuzzy, c-format, boost-format
 #| msgid "Generate 10% intervals around current value"
 msgid "Generate 10% intervals around current value"
 msgstr "Generiere 10%% Intervalle um den aktuellen Wert"
 
 #: src/slic3r/GUI/CalibrationFlowDialog.cpp:34
+#, fuzzy, c-format, boost-format
+#| msgid "Generate 2% intervals below current value"
 msgid "Generate 2% intervals below current value"
 msgstr "Erzeuge 2% Intervalle unter dem aktuellen Wert"
 
@@ -8828,6 +8845,7 @@ msgstr ""
 "Die Höhe der ersten Schicht wird auf 0,01 zurückgesetzt."
 
 #: src/slic3r/GUI/ConfigManipulation.cpp:144
+#, fuzzy, c-format, boost-format
 #| msgid ""
 #| "The Spiral Vase mode requires:\n"
 #| "- one perimeter\n"
@@ -10579,10 +10597,8 @@ msgid "Cancelling..."
 msgstr "Abbrechen..."
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:126
-#, fuzzy
-#| msgid "Layers Top"
 msgid "Layers Bottom"
-msgstr "Schichten oben"
+msgstr "Schichten unten"
 
 #. TRN Main menu: View->Top
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:132
@@ -11813,7 +11829,7 @@ msgstr "Rechts"
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2864
 msgctxt "Alignment"
 msgid "Top"
-msgstr "Oben"
+msgstr "oben"
 
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2865
 msgctxt "Alignment"
@@ -19181,7 +19197,7 @@ msgstr "Die Mindeststärke der Oberschale beträgt %1% mm."
 
 #: src/slic3r/GUI/PresetHints.cpp:293
 msgid "Top is open."
-msgstr "Oben ist offen."
+msgstr "oben ist offen."
 
 #: src/slic3r/GUI/PresetHints.cpp:306
 #, boost-format
