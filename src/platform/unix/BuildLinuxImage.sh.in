@@ -68,9 +68,10 @@ then
     find package/resources/localization -type f \( -name "P*.mo" -o -name "*.txt" -o -name "P*.pot" \) -delete
 
     # create bin
-    echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_APP_CMD@" "$@"' > package/@SLIC3R_APP_CMD@
+    echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\n[ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME="$HOME/.config"\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_APP_CMD@" "$@"' > package/@SLIC3R_APP_CMD@
+
     chmod ug+x package/@SLIC3R_APP_CMD@
-    echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_VIEWER_CMD@" "$@"' > package/@SLIC3R_VIEWER_CMD@
+    echo -e '#!/bin/bash\nDIR=$(readlink -f "$0" | xargs dirname)\n[ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME="$HOME/.config"\nexport LD_LIBRARY_PATH="$DIR/bin"\nexec "$DIR/bin/@SLIC3R_VIEWER_CMD@" "$@"' > package/@SLIC3R_VIEWER_CMD@
     chmod ug+x package/@SLIC3R_VIEWER_CMD@
     pushd package > /dev/null
 

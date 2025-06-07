@@ -314,6 +314,13 @@ void DesktopIntegrationDialog::perform_desktop_integration()
 
     // slicer icon
     // iterate thru target_candidates to find icons folder
+
+	BOOST_LOG_TRIVIAL(error) << "target_candidates_size " << target_candidates.size();
+
+	for (size_t i = 0; i < target_candidates.size(); ++i) {
+	BOOST_LOG_TRIVIAL(error) << "target_candidates " << i << ": " << target_candidates[i];
+}
+
     for (size_t i = 0; i < target_candidates.size(); ++i) {
         // Copy icon CaribouSlicer.png from resources_dir()/icons to target_dir_icons/icons/
         if (contains_path_dir(target_candidates[i], "icons")) {
