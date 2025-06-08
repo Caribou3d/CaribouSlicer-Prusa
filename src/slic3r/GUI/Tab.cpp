@@ -1078,6 +1078,18 @@ static wxString pad_combo_value_for_config(const DynamicPrintConfig &config)
     return config.opt_bool("pad_enable") ? (config.opt_bool("pad_around_object") ? _("Around object") : _("Below object")) : _("None");
 }
 
+static wxString style_combo_value_for_config(const DynamicPrintConfig &config)
+{
+    auto style = config.opt_enum<SupportMaterialStyle>("support_material_style");
+    switch (style) {
+        case smsGrid:       return _("Grid");
+        case smsSnug:       return _("Snug");
+        case smsOrganic:    return _("Organic");
+        default:            return _("Default");
+    }
+}
+
+
 void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
 {
     if (wxGetApp().plater() == nullptr) {
@@ -1141,6 +1153,11 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
             Field * fld = pg->get_field(opt_key); /// !!! ysFIXME ????
             if (fld) fld->set_value(value, false);
         }
+    }
+
+    if (opt_key == "support_material_style")
+    {
+        og_freq_chng_params->set_value("support_style", style_combo_value_for_config(*m_config));
     }
 
     if (is_fff ?

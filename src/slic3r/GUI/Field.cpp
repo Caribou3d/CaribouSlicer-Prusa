@@ -1317,7 +1317,7 @@ boost::any& Choice::get_value()
     wxString ret_str = field->GetValue();
 
     // options from right panel
-    std::vector <std::string> right_panel_options{ "support", "pad", "scale_unit" };
+    std::vector <std::string> right_panel_options{ "support", "pad", "scale_unit","support_style"};
     for (auto rp_option: right_panel_options)
         if (m_opt_id == rp_option)
             return m_value = boost::any(ret_str);

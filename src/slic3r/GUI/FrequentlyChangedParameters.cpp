@@ -36,6 +36,10 @@
 
 #include "WipeTowerDialog.hpp"
 
+#include <boost/nowide/fstream.hpp> // IWYU pragma: keep
+#include <boost/nowide/convert.hpp>
+#include <boost/log/trivial.hpp>
+
 using Slic3r::Preset;
 using Slic3r::GUI::format_wxstr;
 
@@ -57,6 +61,9 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_fff->on_change = [config, this](t_config_option_key opt_key, boost::any value) {
         Tab* tab_print = wxGetApp().get_tab(Preset::TYPE_PRINT);
+
+        BOOST_LOG_TRIVIAL(error) << "opt_key: " << opt_key;
+
         if (!tab_print) return;
 
         if ((opt_key == "perimeters" )
@@ -85,6 +92,20 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
                 }
                 new_conf.set_key_value("brim_width", new ConfigOptionFloat(new_val));
             }
+            // ---- START: New code block for the "Style" dropdown ----
+            else if (opt_key == "support_style")
+            {
+                const wxString& selection = boost::any_cast<wxString>(value);
+
+                // Use smsGrid as the safe default value.
+                SupportMaterialStyle style_enum_value = smsGrid; // <--- CORRECTED LINE
+                if (selection == _("Snug"))         style_enum_value = smsSnug;
+                else if (selection == _("Organic"))    style_enum_value = smsOrganic;
+                // Note: The "Grid" option is now covered by the default.
+
+                new_conf.set_key_value("support_material_style", new ConfigOptionEnum<SupportMaterialStyle>(style_enum_value));
+            }
+            // ---- END: New code block ----
             else {
                 assert(opt_key == "support");
                 const wxString& selection = boost::any_cast<wxString>(value);
@@ -136,8 +157,20 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_fff->append_line(line);
 
-    line = Line { "", "" };
 
+    /* Not a best solution, but
+     * Temporary workaround for right border alignment
+     */
+    auto empty_widget = [this] (wxWindow* parent) {
+        auto sizer = new wxBoxSizer(wxHORIZONTAL);
+        auto btn = new ScalableButton(parent, wxID_ANY, "mirroring_transparent", wxEmptyString,
+            wxDefaultSize, wxDefaultPosition, wxBU_EXACTFIT | wxNO_BORDER | wxTRANSPARENT_WINDOW);
+        sizer->Add(btn, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, int(0.3 * wxGetApp().em_unit()));
+        m_empty_buttons.push_back(btn);
+        return sizer;
+    };
+
+    line = Line { "", "" };
     ConfigOptionDef support_def;
     support_def.label = L("Supports");
     support_def.type = coStrings;
@@ -152,21 +185,27 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     option = Option(support_def, "support");
     option.opt.full_width = true;
     line.append_option(option);
-
-    /* Not a best solution, but
-     * Temporary workaround for right border alignment
-     */
-    auto empty_widget = [this] (wxWindow* parent) {
-        auto sizer = new wxBoxSizer(wxHORIZONTAL);
-        auto btn = new ScalableButton(parent, wxID_ANY, "mirroring_transparent", wxEmptyString,
-            wxDefaultSize, wxDefaultPosition, wxBU_EXACTFIT | wxNO_BORDER | wxTRANSPARENT_WINDOW);
-        sizer->Add(btn, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, int(0.3 * wxGetApp().em_unit()));
-        m_empty_buttons.push_back(btn);
-        return sizer;
-    };
     line.append_widget(empty_widget);
-
     m_og_fff->append_line(line);
+
+
+    line = Line { "", "" };
+    ConfigOptionDef style_def;
+    style_def.label = L("Style");
+    style_def.type = coStrings;
+    style_def.tooltip = L("Select the support material style (Grid, Snug, Organic)");
+    style_def.set_enum_labels(ConfigOptionDef::GUIType::select_close, { L("Grid"), L("Snug"), L("Organic") });
+    style_def.set_default_value(new ConfigOptionStrings{ "Grid" });
+    option = Option(style_def, "support_style"); // Use the working "support" key
+    option.opt.full_width = true;
+    line.append_option(option);
+    line.append_widget(empty_widget);
+    m_og_fff->append_line(line);
+
+
+
+
+
 
     line = Line { "", "" };
 
@@ -246,12 +285,16 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     line.append_option(option);
     m_og_fff->append_line(line);
 
-
-
     m_og_fff->activate();
 
     Choice* choice = dynamic_cast<Choice*>(m_og_fff->get_field("support"));
-    choice->suppress_scroll();
+    if (choice)
+        choice->suppress_scroll();
+
+    // Add this for your new "Style" dropdown
+    choice = dynamic_cast<Choice*>(m_og_fff->get_field("support_style"));
+    if (choice)
+        choice->suppress_scroll();
 
     // Frequently changed parameters for SLA_technology
 
@@ -366,14 +409,30 @@ void FreqChangedParams::Show(bool is_fff) const
     m_og_fff->Show(is_fff);
     m_og_sla->Show(!is_fff);
 
-    // correct showing of the FreqChangedParams sizer when m_wiping_dialog_button is hidden
+    // This is the initialization fix from the previous step
+    if (is_fff) {
+        DynamicPrintConfig* config = &wxGetApp().preset_bundle->prints.get_edited_preset().config;
+
+        wxString style_value;
+        auto style_enum = config->opt_enum<SupportMaterialStyle>("support_material_style");
+        switch (style_enum) {
+            case smsGrid:       style_value = _("Grid"); break;
+            case smsSnug:       style_value = _("Snug"); break;
+            case smsOrganic:    style_value = _("Organic"); break;
+            default:            style_value = _("Default"); break;
+        }
+
+        m_og_fff->set_value("support_style", style_value);
+    }
+
     if (is_fff && !is_wdb_shown)
         m_wiping_dialog_button->Hide();
-}
+
+} // <--- THIS IS THE MISSING BRACE. Add it here.
 
 ConfigOptionsGroup* FreqChangedParams::get_og(bool is_fff)
 {
     return is_fff ? m_og_fff.get() : m_og_sla.get();
 }
 
-}}    // namespace Slic3r::GUI
+}}  // namespace Slic3r::GUI
