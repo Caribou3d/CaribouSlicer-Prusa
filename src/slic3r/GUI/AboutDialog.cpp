@@ -287,7 +287,7 @@ AboutDialog::AboutDialog()
             "<html>"
             "<body bgcolor= %1% link= %2%>"
             "<font color=%3%>"
-            "%4% &copy; 2025  Caribou3d Research & Development. <br />"
+            "%4% &copy; 2023-2025 Caribou3d Research & Development. <br />"
             "%5% &copy; 2016-2025 Prusa Research. <br />"
             "%6% &copy; 2011-2018 Alessandro Ranellucci. <br />"
             "<a href=\"http://slic3r.org/\">Slic3r</a> %7% "
