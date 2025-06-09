@@ -51,9 +51,7 @@ wxDEFINE_EVENT(EVT_SCHEDULE_BACKGROUND_PROCESS,     SimpleEvent);
 
 FreqChangedParams::FreqChangedParams(wxWindow* parent)
 {
-    DynamicPrintConfig*    config = &wxGetApp().preset_bundle->prints.get_edited_preset().config;
-
-    // Frequently changed parameters for FFF_technology
+    DynamicPrintConfig* config = &wxGetApp().preset_bundle->prints.get_edited_preset().config;
 
     m_og_fff = std::make_shared<ConfigOptionsGroup>(parent, "");
     m_og_fff->set_config(config);
@@ -61,15 +59,10 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_fff->on_change = [config, this](t_config_option_key opt_key, boost::any value) {
         Tab* tab_print = wxGetApp().get_tab(Preset::TYPE_PRINT);
-
-        BOOST_LOG_TRIVIAL(error) << "opt_key: " << opt_key;
-
         if (!tab_print) return;
 
-        if ((opt_key == "perimeters" )
-            || (opt_key == "top_solid_layers") || (opt_key == "bottom_solid_layers" )
-            || (opt_key == "fill_density")
-            || (opt_key == "skirts") || (opt_key == "skirt_height")) {
+        if ((opt_key == "perimeters") || (opt_key == "top_solid_layers") || (opt_key == "bottom_solid_layers") ||
+            (opt_key == "fill_density") || (opt_key == "skirts") || (opt_key == "skirt_height")) {
             tab_print->update_dirty();
             tab_print->reload_config();
             tab_print->update();
@@ -77,58 +70,64 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
         else
         {
             DynamicPrintConfig new_conf = *config;
+            bool config_changed = false;
+
             if (opt_key == "brim") {
                 double new_val;
                 double brim_width = config->opt_float("brim_width");
-                if (boost::any_cast<bool>(value) == true)
-                {
-                    new_val = m_brim_width == 0.0 ? 5 :
-                        m_brim_width < 0.0 ? m_brim_width * (-1) :
-                        m_brim_width;
-                }
-                else {
+                if (boost::any_cast<bool>(value) == true) {
+                    new_val = m_brim_width == 0.0 ? 5 : m_brim_width < 0.0 ? m_brim_width * (-1) : m_brim_width;
+                } else {
                     m_brim_width = brim_width * (-1);
                     new_val = 0;
                 }
                 new_conf.set_key_value("brim_width", new ConfigOptionFloat(new_val));
+                config_changed = true;
             }
-            // ---- START: New code block for the "Style" dropdown ----
-            else if (opt_key == "support_style")
-            {
+            else if (opt_key == "support_style") {
                 const wxString& selection = boost::any_cast<wxString>(value);
-
-                // Use smsGrid as the safe default value.
-                SupportMaterialStyle style_enum_value = smsGrid; // <--- CORRECTED LINE
-                if (selection == _("Snug"))         style_enum_value = smsSnug;
-                else if (selection == _("Organic"))    style_enum_value = smsOrganic;
-                // Note: The "Grid" option is now covered by the default.
-
+                SupportMaterialStyle style_enum_value = smsGrid;
+                if (selection == _("Snug")) style_enum_value = smsSnug;
+                else if (selection == _("Organic")) style_enum_value = smsOrganic;
                 new_conf.set_key_value("support_material_style", new ConfigOptionEnum<SupportMaterialStyle>(style_enum_value));
+                config_changed = true;
             }
-            // ---- END: New code block ----
-            else {
-                assert(opt_key == "support");
+            else if (opt_key == "auto_support_proxy") {
+                new_conf.set_key_value("support_material_auto", new ConfigOptionBool(boost::any_cast<bool>(value)));
+                config_changed = true;
+            }
+            else if (opt_key == "support") {
                 const wxString& selection = boost::any_cast<wxString>(value);
                 PrinterTechnology printer_technology = wxGetApp().preset_bundle->printers.get_edited_preset().printer_technology();
-
-                auto support_material = selection == _("None") ? false : true;
+                auto support_material = selection != _("None");
                 new_conf.set_key_value("support_material", new ConfigOptionBool(support_material));
 
                 if (selection == _("Everywhere")) {
                     new_conf.set_key_value("support_material_buildplate_only", new ConfigOptionBool(false));
-                    if (printer_technology == ptFFF)
-                        new_conf.set_key_value("support_material_auto", new ConfigOptionBool(true));
+                    if (printer_technology == ptFFF) new_conf.set_key_value("support_material_auto", new ConfigOptionBool(true));
                 } else if (selection == _("Support on build plate only")) {
                     new_conf.set_key_value("support_material_buildplate_only", new ConfigOptionBool(true));
-                    if (printer_technology == ptFFF)
-                        new_conf.set_key_value("support_material_auto", new ConfigOptionBool(true));
+                    if (printer_technology == ptFFF) new_conf.set_key_value("support_material_auto", new ConfigOptionBool(true));
                 } else if (selection == _("For support enforcers only")) {
-                    assert(printer_technology == ptFFF);
                     new_conf.set_key_value("support_material_buildplate_only", new ConfigOptionBool(false));
                     new_conf.set_key_value("support_material_auto", new ConfigOptionBool(false));
                 }
+                config_changed = true;
+
+                const bool supports_are_enabled = new_conf.opt_bool("support_material") || (new_conf.opt_int("raft_layers") > 0);
+
+                if (Field* style_field = m_og_fff->get_field("support_style")) {
+                    style_field->toggle(supports_are_enabled);
+                }
+                if (Field* auto_field = m_og_fff->get_field("auto_support_proxy")) {
+                    auto_field->toggle(supports_are_enabled);
+                }
+
             }
-            tab_print->load_config(new_conf);
+
+            if (config_changed) {
+                tab_print->load_config(new_conf);
+            }
         }
     };
 
@@ -175,36 +174,35 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     support_def.label = L("Supports");
     support_def.type = coStrings;
     support_def.tooltip = L("Select what kind of support do you need");
-    support_def.set_enum_labels(ConfigOptionDef::GUIType::select_close, {
-        L("None"),
-        L("Support on build plate only"),
-        L("For support enforcers only"),
-        L("Everywhere")
-    });
+    support_def.set_enum_labels(ConfigOptionDef::GUIType::select_close, { L("None"), L("Support on build plate only"), L("For support enforcers only"), L("Everywhere") });
     support_def.set_default_value(new ConfigOptionStrings{ "None" });
     option = Option(support_def, "support");
-    option.opt.full_width = true;
+    line.append_option(option);
+
+    // Create the "Auto" checkbox as a proxy control.
+    ConfigOptionDef auto_def;
+    auto_def.label = into_u8(_L("Auto"));
+    auto_def.type = coBool;
+    auto_def.tooltip = L("Enable automatic support generation");
+    auto_def.set_default_value(new ConfigOptionBool{true});
+    option = Option(auto_def, "auto_support_proxy");
     line.append_option(option);
     line.append_widget(empty_widget);
     m_og_fff->append_line(line);
 
-
-    line = Line { "", "" };
+    // Create the "Style" dropdown.
+    line = Line{ "", "" };
     ConfigOptionDef style_def;
-    style_def.label = L("Style");
+    style_def.label = L("Support Style");
     style_def.type = coStrings;
-    style_def.tooltip = L("Select the support material style (Grid, Snug, Organic)");
+    style_def.tooltip = L("Select the support material style");
     style_def.set_enum_labels(ConfigOptionDef::GUIType::select_close, { L("Grid"), L("Snug"), L("Organic") });
     style_def.set_default_value(new ConfigOptionStrings{ "Grid" });
-    option = Option(style_def, "support_style"); // Use the working "support" key
+    option = Option(style_def, "support_style");
     option.opt.full_width = true;
     line.append_option(option);
     line.append_widget(empty_widget);
     m_og_fff->append_line(line);
-
-
-
-
 
 
     line = Line { "", "" };
@@ -287,13 +285,9 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
 
     m_og_fff->activate();
 
-    Choice* choice = dynamic_cast<Choice*>(m_og_fff->get_field("support"));
-    if (choice)
+    if (auto* choice = dynamic_cast<Choice*>(m_og_fff->get_field("support")))
         choice->suppress_scroll();
-
-    // Add this for your new "Style" dropdown
-    choice = dynamic_cast<Choice*>(m_og_fff->get_field("support_style"));
-    if (choice)
+    if (auto* choice = dynamic_cast<Choice*>(m_og_fff->get_field("support_style")))
         choice->suppress_scroll();
 
     // Frequently changed parameters for SLA_technology
@@ -376,10 +370,14 @@ FreqChangedParams::FreqChangedParams(wxWindow* parent)
     m_og_sla->append_line(line);
 
     m_og_sla->activate();
-    choice = dynamic_cast<Choice*>(m_og_sla->get_field("support"));
-    choice->suppress_scroll();
+    // Add "Choice*" here to declare the variable.
+    Choice* choice = dynamic_cast<Choice*>(m_og_sla->get_field("support"));
+    if (choice) // Also adding a safety check
+        choice->suppress_scroll();
+
     choice = dynamic_cast<Choice*>(m_og_sla->get_field("pad"));
-    choice->suppress_scroll();
+    if (choice) // Also adding a safety check
+        choice->suppress_scroll();
 
     m_sizer = new wxBoxSizer(wxVERTICAL);
     m_sizer->Add(m_og_fff->sizer, 0, wxEXPAND);
@@ -405,30 +403,40 @@ void FreqChangedParams::sys_color_changed()
 
 void FreqChangedParams::Show(bool is_fff) const
 {
-    const bool is_wdb_shown = m_wiping_dialog_button->IsShown();
+    const bool is_wdb_shown = m_wiping_dialog_button ? m_wiping_dialog_button->IsShown() : false;
     m_og_fff->Show(is_fff);
     m_og_sla->Show(!is_fff);
 
-    // This is the initialization fix from the previous step
     if (is_fff) {
         DynamicPrintConfig* config = &wxGetApp().preset_bundle->prints.get_edited_preset().config;
 
+        // Synchronize Style Dropdown
         wxString style_value;
         auto style_enum = config->opt_enum<SupportMaterialStyle>("support_material_style");
         switch (style_enum) {
             case smsGrid:       style_value = _("Grid"); break;
             case smsSnug:       style_value = _("Snug"); break;
             case smsOrganic:    style_value = _("Organic"); break;
-            default:            style_value = _("Default"); break;
+            default:            style_value = _("Grid"); break;
         }
-
         m_og_fff->set_value("support_style", style_value);
+
+        // Synchronize Auto Checkbox
+        m_og_fff->set_value("auto_support_proxy", config->opt_bool("support_material_auto"));
+
+        // Synchronize Enabled/Disabled States
+        const bool supports_are_enabled = config->opt_bool("support_material") || (config->opt_int("raft_layers") > 0);
+        if (Field* style_field = m_og_fff->get_field("support_style"))
+            style_field->toggle(supports_are_enabled);
+        if (Field* auto_field = m_og_fff->get_field("auto_support_proxy"))
+            auto_field->toggle(supports_are_enabled);
     }
 
-    if (is_fff && !is_wdb_shown)
+    if (is_fff && m_wiping_dialog_button && !is_wdb_shown)
         m_wiping_dialog_button->Hide();
 
-} // <--- THIS IS THE MISSING BRACE. Add it here.
+    m_og_fff->sizer->Layout();
+}
 
 ConfigOptionsGroup* FreqChangedParams::get_og(bool is_fff)
 {

@@ -1085,103 +1085,68 @@ static wxString style_combo_value_for_config(const DynamicPrintConfig &config)
         case smsGrid:       return _("Grid");
         case smsSnug:       return _("Snug");
         case smsOrganic:    return _("Organic");
-        default:            return _("Default");
+        default:            return _("Grid");
     }
 }
 
 
 void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
 {
-    if (wxGetApp().plater() == nullptr) {
-        return;
-    }
+    if (wxGetApp().plater() == nullptr) return;
 
-    if (opt_key == "compatible_prints")
-        this->compatible_widget_reload(m_compatible_prints);
-    if (opt_key == "compatible_printers")
-        this->compatible_widget_reload(m_compatible_printers);
+    if (opt_key == "compatible_prints") this->compatible_widget_reload(m_compatible_prints);
+    if (opt_key == "compatible_printers") this->compatible_widget_reload(m_compatible_printers);
 
     const bool is_fff = supports_printer_technology(ptFFF);
     ConfigOptionsGroup* og_freq_chng_params = wxGetApp().sidebar().og_freq_chng_params(is_fff);
+    if (!og_freq_chng_params) return;
 
     if (opt_key == "perimeters")
-    {
-        int val = m_config->opt_int("perimeters");
-        og_freq_chng_params->set_value("perimeters", val);
-    }
-
-    if (opt_key == "top_solid_layers")
-    {
-        int val = m_config->opt_int("top_solid_layers");
-        og_freq_chng_params->set_value("top_solid_layers", val);
-    }
-
-    if (opt_key == "bottom_solid_layers")
-    {
-        int val = m_config->opt_int("bottom_solid_layers");
-        og_freq_chng_params->set_value("bottom_solid_layers", val);
-    }
-
-    if (opt_key == "fill_density" || opt_key == "pad_enable")
-    {
-        boost::any val = og_freq_chng_params->get_config_value(*m_config, opt_key);
-        og_freq_chng_params->set_value(opt_key, val);
-    }
-
-    if (opt_key == "brim_width")
-    {
-        bool val = m_config->opt_float("brim_width") > 0.0 ? true : false;
-        og_freq_chng_params->set_value("brim", val);
-    }
-
-
-    if (opt_key == "skirts")
-    {
-        int val = m_config->opt_int("skirts");
-        og_freq_chng_params->set_value("skirts", val);
-    }
-
-    if (opt_key == "skirt_height")
-    {
-        int val = m_config->opt_int("skirt_height");
-        og_freq_chng_params->set_value("skirt_height", val);
-    }
-
-
-    if (opt_key == "pad_around_object") {
-        for (PageShp &pg : m_pages) {
-            Field * fld = pg->get_field(opt_key); /// !!! ysFIXME ????
-            if (fld) fld->set_value(value, false);
-        }
-    }
-
-    if (opt_key == "support_material_style")
-    {
+        og_freq_chng_params->set_value("perimeters", m_config->opt_int("perimeters"));
+    else if (opt_key == "top_solid_layers")
+        og_freq_chng_params->set_value("top_solid_layers", m_config->opt_int("top_solid_layers"));
+    else if (opt_key == "bottom_solid_layers")
+        og_freq_chng_params->set_value("bottom_solid_layers", m_config->opt_int("bottom_solid_layers"));
+    else if (opt_key == "fill_density" || opt_key == "pad_enable")
+        og_freq_chng_params->set_value(opt_key, og_freq_chng_params->get_config_value(*m_config, opt_key));
+    else if (opt_key == "brim_width")
+        og_freq_chng_params->set_value("brim", bool(m_config->opt_float("brim_width") > 0.0));
+    else if (opt_key == "skirts")
+        og_freq_chng_params->set_value("skirts", m_config->opt_int("skirts"));
+    else if (opt_key == "skirt_height")
+        og_freq_chng_params->set_value("skirt_height", m_config->opt_int("skirt_height"));
+    else if (opt_key == "support_material_style")
         og_freq_chng_params->set_value("support_style", style_combo_value_for_config(*m_config));
-    }
+    else if (opt_key == "support_material_auto")
+        og_freq_chng_params->set_value("auto_support_proxy", m_config->opt_bool("support_material_auto"));
 
     if (is_fff ?
-            (opt_key == "support_material" || opt_key == "support_material_auto" || opt_key == "support_material_buildplate_only") :
-            (opt_key == "supports_enable"  || opt_key == "support_tree_type" || opt_key == get_sla_suptree_prefix(*m_config) + "support_buildplate_only" || opt_key == "support_enforcers_only"))
+        (opt_key == "support_material" || opt_key == "support_material_auto" || opt_key == "support_material_buildplate_only") :
+        (opt_key == "supports_enable" || opt_key == "support_tree_type" || opt_key == get_sla_suptree_prefix(*m_config) + "support_buildplate_only" || opt_key == "support_enforcers_only"))
+    {
         og_freq_chng_params->set_value("support", support_combo_value_for_config(*m_config, is_fff));
+    }
 
-    if (! is_fff && (opt_key == "pad_enable" || opt_key == "pad_around_object"))
+    if (!is_fff && (opt_key == "pad_enable" || opt_key == "pad_around_object"))
         og_freq_chng_params->set_value("pad", pad_combo_value_for_config(*m_config));
 
+    if (is_fff && (opt_key == "support_material" || opt_key == "raft_layers")) {
+        const bool enabled = m_config->opt_bool("support_material") || (m_config->opt_int("raft_layers") > 0);
+        if (Field* style_field = og_freq_chng_params->get_field("support_style"))
+            style_field->toggle(enabled);
+        if (Field* auto_field = og_freq_chng_params->get_field("auto_support_proxy"))
+            auto_field->toggle(enabled);
+        og_freq_chng_params->sizer->Layout();
+    }
 
-
-    if (opt_key == "wipe_tower" || opt_key == "single_extruder_multi_material" || opt_key == "extruders_count" )
+    if (opt_key == "wipe_tower" || opt_key == "single_extruder_multi_material" || opt_key == "extruders_count")
         update_wiping_button_visibility();
 
     if (opt_key == "extruders_count")
         wxGetApp().sidebar().set_extruders_count(boost::any_cast<size_t>(value));
 
-    if (m_postpone_update_ui) {
-        // It means that not all values are rolled to the system/last saved values jet.
-        // And call of the update() can causes a redundant check of the config values,
-        // see https://github.com/prusa3d/PrusaSlicer/issues/7146
+    if (m_postpone_update_ui)
         return;
-    }
 
     update();
 }
@@ -1453,7 +1418,6 @@ void Tab::update_frequently_changed_parameters()
         og_freq_chng_params->set_value("pad", pad_combo_value_for_config(*m_config));
 
     const std::string updated_value_key = is_fff ? "fill_density" : "pad_enable";
-
     const boost::any val = og_freq_chng_params->get_config_value(*m_config, updated_value_key);
     og_freq_chng_params->set_value(updated_value_key, val);
 
@@ -1465,9 +1429,22 @@ void Tab::update_frequently_changed_parameters()
         og_freq_chng_params->set_value("brim", bool(m_config->opt_float("brim_width") > 0.0));
         og_freq_chng_params->set_value("skirts", m_config->opt_int("skirts"));
         og_freq_chng_params->set_value("skirt_height", m_config->opt_int("skirt_height"));
+
+        // Sync new controls
+        og_freq_chng_params->set_value("support_style", style_combo_value_for_config(*m_config));
+        og_freq_chng_params->set_value("auto_support_proxy", m_config->opt_bool("support_material_auto"));
+
+        const bool supports_are_enabled = m_config->opt_bool("support_material") || (m_config->opt_int("raft_layers") > 0);
+        if (Field* style_field = og_freq_chng_params->get_field("support_style"))
+            style_field->toggle(supports_are_enabled);
+        if (Field* auto_field = og_freq_chng_params->get_field("auto_support_proxy"))
+            auto_field->toggle(supports_are_enabled);
+
+        og_freq_chng_params->sizer->Layout();
         update_wiping_button_visibility();
     }
 }
+
 
 void TabPrint::build()
 {
