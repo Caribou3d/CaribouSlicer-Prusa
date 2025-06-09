@@ -2,7 +2,7 @@
 
 set -e
 
-new_version="2.1.4"
+new_version="2.9.6"
 latest_dir="01_Latest_Version_$new_version"
 
 if [ -d "$latest_dir" ]; then
