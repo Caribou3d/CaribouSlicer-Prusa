@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-09 21:30+0200\n"
+"POT-Creation-Date: 2025-06-09 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4336,9 +4336,9 @@ msgstr ""
 msgid "Speed for printing support material."
 msgstr ""
 
-#: src/libslic3r/PrintConfig.cpp:3391 src/slic3r/GUI/Gizmos/GLGizmoCut.cpp:240
-#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2276
-msgid "Style"
+#: src/libslic3r/PrintConfig.cpp:3391
+#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:196
+msgid "Support Style"
 msgstr ""
 
 #: src/libslic3r/PrintConfig.cpp:3393
@@ -9000,10 +9000,6 @@ msgstr ""
 msgid "Enable automatic support generation"
 msgstr ""
 
-#: src/slic3r/GUI/FrequentlyChangedParameters.cpp:196
-msgid "Support Style"
-msgstr ""
-
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:198
 msgid "Select the support material style"
 msgstr ""
@@ -9474,6 +9470,11 @@ msgstr ""
 #: src/slic3r/GUI/Gizmos/GLGizmoCut.cpp:238
 #: src/slic3r/GUI/ObjectDataViewModel.cpp:73
 msgid "Connectors"
+msgstr ""
+
+#: src/slic3r/GUI/Gizmos/GLGizmoCut.cpp:240
+#: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2276
+msgid "Style"
 msgstr ""
 
 #. TRN - Input label. Be short as possible

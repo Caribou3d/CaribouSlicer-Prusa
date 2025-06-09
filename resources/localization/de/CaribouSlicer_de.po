@@ -2778,7 +2778,7 @@ msgstr "Adaptiv kubisch"
 
 #: src/libslic3r/PrintConfig.cpp:1575
 msgid "Support Cubic"
-msgstr "Stütz kubisch"
+msgstr "Stützen kubisch"
 
 #: src/libslic3r/PrintConfig.cpp:1576
 msgid "Lightning"
@@ -5224,7 +5224,7 @@ msgstr "Druckgeschwindigkeit des Stützmaterials."
 #: src/libslic3r/PrintConfig.cpp:3391 src/slic3r/GUI/Gizmos/GLGizmoCut.cpp:240
 #: src/slic3r/GUI/Gizmos/GLGizmoEmboss.cpp:2276
 msgid "Style"
-msgstr "Typ"
+msgstr "Stützen-Typ"
 
 #: src/libslic3r/PrintConfig.cpp:3393
 msgid ""
@@ -10630,7 +10630,7 @@ msgstr "Aktiviert Generierung von Stützmaterial."
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:196
 msgid "Support Style"
-msgstr "Stützen Typ"
+msgstr "Stützen-Typ"
 
 #: src/slic3r/GUI/FrequentlyChangedParameters.cpp:198
 #, fuzzy

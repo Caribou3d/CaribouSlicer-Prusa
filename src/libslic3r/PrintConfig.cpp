@@ -3388,7 +3388,7 @@ void PrintConfigDef::init_fff_params()
     def->set_default_value(new ConfigOptionFloat(60));
 
     def = this->add("support_material_style", coEnum);
-    def->label = L("Style");
+    def->label = L("Support Style");
     def->category = L("Support material");
     def->tooltip = L("Style and shape of the support towers. Projecting the supports into a regular grid "
                      "will create more stable supports, while snug support towers will save material and reduce "
@@ -3398,7 +3398,7 @@ void PrintConfigDef::init_fff_params()
         { "snug", L("Snug") },
         { "organic", L("Organic") }
     });
-    def->mode = comAdvanced;
+    def->mode = comSimple;
     def->set_default_value(new ConfigOptionEnum<SupportMaterialStyle>(smsGrid));
 
     def = this->add("support_material_synchronize_layers", coBool);
