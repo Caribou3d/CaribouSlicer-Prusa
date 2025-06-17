@@ -1456,7 +1456,6 @@ void TabPrint::build()
     auto page = add_options_page(L("Layers and perimeters"), "layers");
         std::string category_path = "layers-and-perimeters_1748#";
 
-
         auto optgroup = page->new_optgroup(L("Horizontal shells"));
         Line line = { L("Solid layers"), "" };
         line.label_path = category_path + "solid-layers-top-bottom";
@@ -1469,27 +1468,22 @@ void TabPrint::build()
         optgroup->append_line(line);
 		line = { "", "" };
 	    line.full_width = 1;
+        line.label_path = category_path + "recommended-thin-wall-thickness";
 	    line.widget = [this](wxWindow* parent) {
 	        return description_line_widget(parent, &m_top_bottom_shell_thickness_explanation);
 	    };
 	    optgroup->append_line(line);
 
-
-
-
-
         optgroup = page->new_optgroup(L("Vertical shells"));
         optgroup->append_single_option_line("perimeters", category_path + "perimeters");
-
         line = { "", "" };
         line.full_width = 1;
-        line.label_path = category_path + "recommended-thin-wall-thickness";
         line.widget = [this](wxWindow* parent) {
             return description_line_widget(parent, &m_recommended_thin_wall_thickness_description_line);
         };
+        optgroup->append_line(line);
 
         optgroup->append_single_option_line("spiral_vase", category_path + "spiral-vase");
-
         line = { "", "" };
         line.full_width = 1;
     	line = { L("Print order"), "" };
@@ -1857,8 +1851,6 @@ void TabPrint::update_description_lines()
 
     if (m_preset_bundle->printers.get_selected_preset().printer_technology() == ptSLA)
         return;
-
-    BOOST_LOG_TRIVIAL(error) << "update: " << m_active_page->title() << " " << m_recommended_thin_wall_thickness_description_line << " " <<  m_top_bottom_shell_thickness_explanation;
 
     if (m_active_page && m_active_page->title() == "Layers and perimeters" &&
         m_recommended_thin_wall_thickness_description_line && m_top_bottom_shell_thickness_explanation)

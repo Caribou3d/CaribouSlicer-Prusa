@@ -1,4 +1,5 @@
 min_slic3r_version = 2.9.1-alpha0
+0.6.7 set default infill_overlap to 20%
 0.6.6 set machine_limits_usage=time_estimate_only for Klipper and M
 0.6.5 set default skirt width=2, skirt height=1
 0.6.4 added older versions for compatibility
