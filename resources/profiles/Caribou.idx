@@ -1,4 +1,5 @@
 min_slic3r_version = 2.9.1-alpha0
+0.7.0 some typos corrected, sync with CaribouSlicer-PrusaSlicer profiles
 0.6.7 set default infill_overlap to 20%
 0.6.6 set machine_limits_usage=time_estimate_only for Klipper and M
 0.6.5 set default skirt width=2, skirt height=1
@@ -26,12 +27,12 @@ min_slic3r_version = 2.7.2
 0.1.7 added Caribou Klipper family
 0.1.6 corrected retract_lift_below
 0.1.5 corrected max layer height, added inherits for bigger nozzles
-0.1.1 corrceted inherit for ESUN ABS
+0.1.1 corrected inherit for ESUN ABS
 0.1.0 changed fan settings for PETG and XPETG matt
 0.0.8 changed thumbnail size for Duet
 0.0.7 updated profile for Caribou parts, changed thumbnail color, added ESUN ABS
 0.0.6 updated pictures
-0.0.5 added Esun ABS, generate thumnails
+0.0.5 added Esun ABS, generate thumbnails
 0.0.4 changed default fan speed and flow rate for some filaments
 0.0.3 changed bridge_flow_ratio from % to absolute; updated start gcode
 0.0.2 updated start scripts
