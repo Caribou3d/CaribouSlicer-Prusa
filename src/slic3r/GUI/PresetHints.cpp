@@ -216,10 +216,10 @@ std::string PresetHints::recommended_thin_wall_thickness(const PresetBundle &pre
     float   nozzle_diameter                     = float(printer_config.opt_float("nozzle_diameter", 0));
 
     std::string out;
-    if (layer_height <= 0.f) {
-        out += _u8L("Recommended object thin wall thickness: Not available due to invalid layer height.");
-        return out;
-    }
+	if (layer_height <= 0.f) {
+		out += _u8L("Recommended object thin wall thickness: Not available due to invalid layer height.");
+		return out;
+	}
 
     if (num_perimeters > 0) {
         int num_lines = std::min(num_perimeters * 2, 10);
@@ -234,20 +234,19 @@ std::string PresetHints::recommended_thin_wall_thickness(const PresetBundle &pre
                 frPerimeter,
                 *print_config.opt<ConfigOptionFloatOrPercent>("perimeter_extrusion_width"),
                 nozzle_diameter, layer_height);
-            double width = external_perimeter_flow.width() + external_perimeter_flow.spacing();
-            for (int i = 2; i <= num_lines; thin_walls ? ++ i : i += 2) {
-                if (i > 2)
-                    out += ", ";
-                out += (boost::format(_u8L("%d lines: %.2f mm")) % i %  width).str() + " ";
-                width += perimeter_flow.spacing() * (thin_walls ? 1.f : 2.f);
-            }
-        } catch (const FlowErrorNegativeSpacing &) {
+	        double width = external_perimeter_flow.width() + external_perimeter_flow.spacing();
+	        for (int i = 2; i <= num_lines; thin_walls ? ++ i : i += 2) {
+	            if (i > 2)
+	                out += ", ";
+	            out += (boost::format(_u8L("%d lines: %.2f mm")) % i %  width).str() + " ";
+	            width += perimeter_flow.spacing() * (thin_walls ? 1.f : 2.f);
+	        }
+	    } catch (const FlowErrorNegativeSpacing &) {
             out = _u8L("Recommended object thin wall thickness: Not available due to excessively small extrusion width.");
         }
     }
     return out;
 }
-
 
 // Produce a textual explanation of the combined effects of the top/bottom_solid_layers
 // versus top/bottom_min_shell_thickness. Which of the two values wins depends

@@ -57,6 +57,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/exception/diagnostic_information.hpp>
 
+#include <boost/log/trivial.hpp>
+
 #include "wxExtensions.hpp"
 #include "PresetComboBoxes.hpp"
 #include <wx/wupdlock.h>
@@ -1464,37 +1466,34 @@ void TabPrint::build()
     auto page = add_options_page(L("Layers and perimeters"), "layers");
         std::string category_path = "layers-and-perimeters_1748#";
 
-
         auto optgroup = page->new_optgroup(L("Horizontal shells"));
         Line line = { L("Solid layers"), "" };
         line.label_path = category_path + "solid-layers-top-bottom";
         line.append_option(optgroup->get_option("top_solid_layers"));
         line.append_option(optgroup->get_option("bottom_solid_layers"));
         optgroup->append_line(line);
-        line = { L("Minimum shell thickness"), "" };
+    	line = { L("Minimum shell thickness"), "" };
         line.append_option(optgroup->get_option("top_solid_min_thickness"));
         line.append_option(optgroup->get_option("bottom_solid_min_thickness"));
         optgroup->append_line(line);
-        line = { "", "" };
-        line.full_width = 1;
-        line.widget = [this](wxWindow* parent) {
-            return description_line_widget(parent, &m_top_bottom_shell_thickness_explanation);
-        };
-        optgroup->append_line(line);
-
+		line = { "", "" };
+	    line.full_width = 1;
+        line.label_path = category_path + "recommended-thin-wall-thickness";
+	    line.widget = [this](wxWindow* parent) {
+	        return description_line_widget(parent, &m_top_bottom_shell_thickness_explanation);
+	    };
+	    optgroup->append_line(line);
 
         optgroup = page->new_optgroup(L("Vertical shells"));
         optgroup->append_single_option_line("perimeters", category_path + "perimeters");
-
         line = { "", "" };
         line.full_width = 1;
-        line.label_path = category_path + "recommended-thin-wall-thickness";
         line.widget = [this](wxWindow* parent) {
             return description_line_widget(parent, &m_recommended_thin_wall_thickness_description_line);
         };
+        optgroup->append_line(line);
 
         optgroup->append_single_option_line("spiral_vase", category_path + "spiral-vase");
-
         line = { "", "" };
         line.full_width = 1;
     	line = { L("Print order"), "" };
@@ -1549,10 +1548,6 @@ void TabPrint::build()
         optgroup->append_single_option_line("scarf_seam_max_segment_length", scarf_seam_path + "max-scarf-joint-segment-length");
         optgroup->append_single_option_line("scarf_seam_on_inner_perimeters", scarf_seam_path + "scarf-joint-on-inner-perimeters");
 
-        optgroup->append_single_option_line("external_perimeters_first", category_path + "external-perimeters-first");
-        optgroup->append_single_option_line("gap_fill_enabled", category_path + "fill-gaps");
-        optgroup->append_single_option_line("perimeter_generator");
-
         optgroup = page->new_optgroup(L("Ironing"));
         category_path = "ironing_177488#";
         optgroup->append_single_option_line("ironing", category_path);
@@ -1587,9 +1582,17 @@ void TabPrint::build()
 
         optgroup = page->new_optgroup(L("Sequential printing"));
         optgroup->append_single_option_line("complete_objects", "sequential-printing_124589");
-//        line = { L("Extruder clearance"), "" };
-//        line.append_option(optgroup->get_option("extruder_clearance_radius"));
-//        line.append_option(optgroup->get_option("extruder_clearance_height"));
+
+        line = Line{ "", "" };
+        line.full_width = 1;
+        line.widget = [this](wxWindow* parent) {
+            ogStaticText* stat_text; // Let the pointer die, we don't need it and the parent will free it.
+            wxSizer* sizer = description_line_widget(parent, &stat_text);
+            stat_text->SetText(_L("Note: When using this option, the Arrange function automatically "
+              "accounts for the printer geometry to prevent collisions. Extruder geometry is built-in for most "
+              "Prusa printers, the others use generic model defined by values in Printer Settings."));
+            return sizer;
+        };
         optgroup->append_line(line);
 
         optgroup = page->new_optgroup(L("Slicing"));
@@ -1840,21 +1843,6 @@ void TabPrint::build()
         };
 
     page = add_options_page(L("Output options"), "output+page_white");
-        optgroup = page->new_optgroup(L("Sequential printing"));
-        optgroup->append_single_option_line("complete_objects", "sequential-printing_124589");
-
-        line = Line{ "", "" };
-        line.full_width = 1;
-        line.widget = [this](wxWindow* parent) {
-            ogStaticText* stat_text; // Let the pointer die, we don't need it and the parent will free it.
-            wxSizer* sizer = description_line_widget(parent, &stat_text);
-            stat_text->SetText(_L("Note: When using this option, the Arrange function automatically "
-              "accounts for the printer geometry to prevent collisions. Extruder geometry is built-in for most "
-              "Prusa printers, the others use generic model defined by values in Printer Settings."));
-            return sizer;
-        };
-        optgroup->append_line(line);
-
 
         optgroup = page->new_optgroup(L("Output file"));
         optgroup->append_single_option_line("gcode_comments");
@@ -1938,6 +1926,7 @@ void TabPrint::update_description_lines()
         }
     }
 }
+
 
 void TabPrint::toggle_options()
 {

@@ -1,3 +1,0 @@
-min_slic3r_version = 2.9.2
-2.1.1 removed L1 because of missing bed
-2.1.0 updated CaribouSlicer-Prusa 2.9.5
