@@ -1,17 +1,15 @@
 
-# Building CaribouSlicer on Mac OS
+# Building CaribouSlicer on macOS
 
-To build CaribouSlicer on Mac OS, you will need the following software:
+To build PrusaSlicer on macOS, you will need Xcode, which is available through Apple's App Store. In addition, you will need couple of other tools, all of which are available through [brew](https://brew.sh/): use
 
-- XCode
-- CMake
-- git
-- gettext
-- zlib
-- m4
+```
+brew update
+brew install automake cmake git gettext libtool texinfo m4 zlib
+brew upgrade
+```
 
-XCode is available through Apple's App Store, the other three tools are available on
-[brew](https://brew.sh/) (use `brew install cmake git gettext zlib m4` to install them).
+to install them.
 
 It may help to skim over this document's [Troubleshooting](#troubleshooting)](#troubleshooting) first, as you may find helpful workarounds documented there.
 
@@ -33,8 +31,6 @@ You can also customize the bundle output path using the `-DDESTDIR=<some path>` 
 **Warning**: Once the dependency bundle is installed in a destdir, the destdir cannot be moved elsewhere.
 (This is because wxWidgets hardcodes the installation path.)
 
-FIXME The Cereal serialization library needs a tiny patch on some old OSX clang installations
-https://github.com/USCiLab/cereal/issues/339#issuecomment-246166717
 
 
 ### Building CaribouSlicer
@@ -56,7 +52,7 @@ To start the build, use
 
 where `N` is the number of CPU cores, so, for example `make -j4` for a 4-core machine.
 
-Alternatively, if you would like to use XCode GUI, modify the `cmake` command to include the `-GXcode` option:
+Alternatively, if you would like to use Xcode GUI, modify the `cmake` command to include the `-GXcode` option:
 
     cmake .. -GXcode -DCMAKE_PREFIX_PATH="$PWD/../deps/build/destdir/usr/local"
 
@@ -85,7 +81,7 @@ Any of these unit tests can be run directly e.g.
 
     `./fff_print/fff_print_tests`
 
-### Note on Mac OS X SDKs
+### Note on macOS SDKs
 
 By default CaribouSlicer builds against whichever SDK is the default on the current system.
 
@@ -100,7 +96,7 @@ on both the dependencies bundle as well as CaribouSlicer itself.
 
 Official macOS CaribouSlicer builds are currently (as of CaribouSlicer 2.5) built against SDK 10.12 to ensure compatibility with older Macs.
 
-_Warning:_ XCode may be set such that it rejects SDKs bellow some version (silently, more or less).
+_Warning:_ Xcode may be set such that it rejects SDKs bellow some version (silently, more or less).
 This is set in the property list file
 
     /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
@@ -120,11 +116,11 @@ If you install the CMake application from [universal DMG](https://github.com/Kit
 
 ### Running `cmake -GXCode` fails with `No CMAKE_CXX_COMPILER could be found.`
 
-- If XCode command line tools wasn't already installed, run:
+- If Xcode command line tools wasn't already installed, run:
     ```
      sudo xcode-select --install
     ```
-- If XCode command line tools are already installed, run:
+- If Xcode command line tools are already installed, run:
     ```
     sudo xcode-select --reset
     ```
@@ -139,9 +135,9 @@ _e.g._ `echo 'export PATH="/opt/homebrew/opt/m4/bin:$PATH"' >> ~/.bash_profile`
 
 If you see a message similar this, you can fix it by adding an argument like this `-DCMAKE_OSX_DEPLOYMENT_TARGET=14.5` to the `cmake` command. Ensure that you give it the macOS version that you are building for.
 
-# TL; DR
+# TL;DR
 
-Works on a fresh installation of MacOS Catalina 10.15.6
+Works on a fresh installation of macOS Sequoia 15.5
 
 - Install [brew](https://brew.sh/):
 - Open Terminal
@@ -150,7 +146,7 @@ Works on a fresh installation of MacOS Catalina 10.15.6
 
 ```
 brew update
-brew install cmake git gettext
+brew install automake cmake git gettext libtool texinfo m4 zlib
 brew upgrade
 git clone https://github.com/prusa3d/CaribouSlicer/
 cd CaribouSlicer/deps
