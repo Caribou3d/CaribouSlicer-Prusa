@@ -10,7 +10,7 @@
 # 20 Nov 2023, wschadow, branding and minor changes
 #
 
-APPIMAGETOOLURL="https://github.com/AppImage/AppImageKit/releases/latest/download/appimagetool-x86_64.AppImage"
+APPIMAGETOOLURL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
 
 
 APP_IMAGE="@SLIC3R_APP_KEY@_ubu64.AppImage"
