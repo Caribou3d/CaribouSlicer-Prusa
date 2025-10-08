@@ -1293,7 +1293,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
     int answer_convert_from_meters          = wxOK_DEFAULT;
     int answer_convert_from_imperial_units  = wxOK_DEFAULT;
     int answer_consider_as_multi_part_objects = wxOK_DEFAULT;
-    bool apply_step_import_parameters_to_all   { false }; 
+    bool apply_step_import_parameters_to_all   { false };
 
     bool in_temp = false;
     const fs::path temp_path = wxStandardPaths::Get().GetTempDir().utf8_str().data();
@@ -1312,7 +1312,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
         const boost::filesystem::path filename = path.filename();
 
         const bool type_step = std::regex_match(path.string(), pattern_step);
-        if (type_step && !apply_step_import_parameters_to_all && 
+        if (type_step && !apply_step_import_parameters_to_all &&
             wxGetApp().app_config->get_bool("show_step_import_parameters")) {
 
             double linear_precision = string_to_double_decimal_point(wxGetApp().app_config->get("linear_precision"));
@@ -1380,7 +1380,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
                 if (type_step) {
                     double linear_precision = string_to_double_decimal_point(wxGetApp().app_config->get("linear_precision"));
                     double angle_precision = string_to_double_decimal_point(wxGetApp().app_config->get("angle_precision"));
-                    model = FileReader::load_model(path.string(), FileReader::LoadAttributes{}, &load_stats, 
+                    model = FileReader::load_model(path.string(), FileReader::LoadAttributes{}, &load_stats,
                                                    std::make_pair(linear_precision, angle_precision));
                 }
                 else
